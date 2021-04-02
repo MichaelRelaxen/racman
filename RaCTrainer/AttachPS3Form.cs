@@ -53,11 +53,13 @@ namespace racman
             if (game == "NPEA00385")
             {
                 RAC1Form rac1 = new RAC1Form();
+                rac1.TopMost = true;
                 rac1.ShowDialog();
             }
             else if (game == "NPEA00387")
             {
                 RAC3Form rac3 = new RAC3Form();
+                rac3.TopMost = true;
                 rac3.ShowDialog();
             }
             else
