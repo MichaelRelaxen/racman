@@ -54,6 +54,7 @@ namespace racman
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RAC4Form";
             this.Text = "Ratchet: Deadlocked (PAL) - NPEA00423";
+            this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RAC4Form_FormClosing);
             this.Load += new System.EventHandler(this.RAC4Form_Load);
             this.ResumeLayout(false);
