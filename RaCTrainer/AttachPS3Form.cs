@@ -62,6 +62,12 @@ namespace racman
                 rac3.TopMost = true;
                 rac3.ShowDialog();
             }
+            else if (game == "NPEA00423")
+            {
+                RAC4Form rac4 = new RAC4Form();
+                rac4.TopMost = true;
+                rac4.ShowDialog();
+            }
             else
             {
                 MessageBox.Show("Game isn't running or isn't supported yet.");
