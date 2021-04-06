@@ -31,6 +31,8 @@ namespace racman
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RAC4Form));
             this.writetext = new System.Windows.Forms.CheckBox();
+            this.wrcheckbox = new System.Windows.Forms.CheckBox();
+            this.levelinfo = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // writetext
@@ -45,11 +47,34 @@ namespace racman
             this.writetext.UseVisualStyleBackColor = true;
             this.writetext.CheckedChanged += new System.EventHandler(this.writetext_CheckedChanged);
             // 
+            // wrcheckbox
+            // 
+            this.wrcheckbox.AutoSize = true;
+            this.wrcheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.wrcheckbox.Location = new System.Drawing.Point(12, 53);
+            this.wrcheckbox.Name = "wrcheckbox";
+            this.wrcheckbox.Size = new System.Drawing.Size(113, 28);
+            this.wrcheckbox.TabIndex = 2;
+            this.wrcheckbox.Text = "Show WR";
+            this.wrcheckbox.UseVisualStyleBackColor = true;
+            // 
+            // levelinfo
+            // 
+            this.levelinfo.AutoSize = true;
+            this.levelinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.levelinfo.Location = new System.Drawing.Point(169, 20);
+            this.levelinfo.Name = "levelinfo";
+            this.levelinfo.Size = new System.Drawing.Size(15, 24);
+            this.levelinfo.TabIndex = 1;
+            this.levelinfo.Text = " ";
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(391, 67);
+            this.ClientSize = new System.Drawing.Size(629, 136);
+            this.Controls.Add(this.wrcheckbox);
+            this.Controls.Add(this.levelinfo);
             this.Controls.Add(this.writetext);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RAC4Form";
@@ -65,5 +90,7 @@ namespace racman
         #endregion
 
         private System.Windows.Forms.CheckBox writetext;
+        private System.Windows.Forms.CheckBox wrcheckbox;
+        private System.Windows.Forms.Label levelinfo;
     }
 }

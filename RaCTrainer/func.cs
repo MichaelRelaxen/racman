@@ -18,6 +18,15 @@ namespace racman
                              .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
                              .ToArray();
         }
+        public static byte[] FromHex(string hex)
+        {
+            byte[] raw = new byte[hex.Length / 2];
+            for (int i = 0; i < raw.Length; i++)
+            {
+                raw[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
+            }
+            return raw;
+        }
         public static string ByteArrayToString(byte[] array)
         {
             return BitConverter.ToString(array).Replace("-", string.Empty);
