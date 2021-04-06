@@ -31,7 +31,7 @@ namespace racman
             while (writetext.Checked)
             {
                 Application.DoEvents();
-                int frames = Convert.ToInt32(func.ReadMemory(ip, pid, 0x9D2584, 4), 16)+1;
+                int frames = Convert.ToInt32(func.ReadMemory(ip, pid, 0xB3C59C, 4), 16);
                 TimeSpan t = TimeSpan.FromMilliseconds(frames * 1000/60);
                 writetext.Text = string.Format("{0:D2}:{1:D2}.{2:D3}", t.Minutes, t.Seconds, t.Milliseconds);
 
