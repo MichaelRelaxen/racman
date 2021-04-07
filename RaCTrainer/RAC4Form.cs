@@ -27,22 +27,18 @@ namespace racman
         private string Challenge;
         private string WorldRecord;
         private string tb;
+
         private void RAC4Form_Load(object sender, EventArgs e)
         {
             leaderboard = func.get_data("https://www.speedrun.com/rac4/individual_levels");
-        }
-
-        private string GetWorldRecord(string challenge) //scuffed because i couldnt work the api out :/ whatever
-        {
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-
             doc.LoadHtml(leaderboard);
 
             var headers = doc.DocumentNode.SelectNodes("//tr/th");
             DataTable table = new DataTable();
             foreach (HtmlNode header in headers)
-                table.Columns.Add(header.InnerText); 
-                                                     
+                table.Columns.Add(header.InnerText);
+
             foreach (var row in doc.DocumentNode.SelectNodes("//tr[td]"))
                 table.Rows.Add(row.SelectNodes("td").Select(td => td.InnerText).ToArray());
 
@@ -54,6 +50,10 @@ namespace racman
                     tb = tb.Replace("&#039;", "'").Replace("\t", "").Replace("\n", "-");
                 }
             }
+        }
+        private string GetWorldRecord(string challenge) //scuffed because i couldnt work the api out :/ whatever
+        {
+
             try
             {
                 var ChIndex = tb.IndexOf(challenge);
@@ -76,14 +76,13 @@ namespace racman
 
                 writetext.Text = string.Format("{0:D2}:{1:D2}.{2:D3}", t.Minutes, t.Seconds, t.Milliseconds);
 
-                Thread.Sleep(200);
-                if (frames <= 100)
+                if (frames < 20)
                 {
                     levelinfo.Text = Encoding.ASCII.GetString(func.FromHex(func.ReadMemory(ip, pid, SaveInfo, 64).Split(new string[] { "0A" }, StringSplitOptions.None).First())); // lmfao
                     Challenge = levelinfo.Text.Split(new string[] { " -" }, StringSplitOptions.None).First().TrimEnd();
-                    if (wrcheckbox.Checked) { wrcheckbox.Text = $"WR: {GetWorldRecord(Challenge)}"; }
-                    
+                    wrtext.Text = $"WR: {GetWorldRecord(Challenge)}";
                 }
+                Thread.Sleep(200);
             }
         }
         private void RAC4Form_FormClosing(object sender, FormClosingEventArgs e)

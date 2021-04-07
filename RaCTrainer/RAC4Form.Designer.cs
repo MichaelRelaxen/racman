@@ -31,8 +31,8 @@ namespace racman
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RAC4Form));
             this.writetext = new System.Windows.Forms.CheckBox();
-            this.wrcheckbox = new System.Windows.Forms.CheckBox();
             this.levelinfo = new System.Windows.Forms.Label();
+            this.wrtext = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // writetext
@@ -47,33 +47,32 @@ namespace racman
             this.writetext.UseVisualStyleBackColor = true;
             this.writetext.CheckedChanged += new System.EventHandler(this.writetext_CheckedChanged);
             // 
-            // wrcheckbox
-            // 
-            this.wrcheckbox.AutoSize = true;
-            this.wrcheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wrcheckbox.Location = new System.Drawing.Point(12, 53);
-            this.wrcheckbox.Name = "wrcheckbox";
-            this.wrcheckbox.Size = new System.Drawing.Size(113, 28);
-            this.wrcheckbox.TabIndex = 2;
-            this.wrcheckbox.Text = "Show WR";
-            this.wrcheckbox.UseVisualStyleBackColor = true;
-            // 
             // levelinfo
             // 
             this.levelinfo.AutoSize = true;
-            this.levelinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.levelinfo.Location = new System.Drawing.Point(169, 20);
+            this.levelinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.levelinfo.Location = new System.Drawing.Point(35, 50);
             this.levelinfo.Name = "levelinfo";
-            this.levelinfo.Size = new System.Drawing.Size(15, 24);
+            this.levelinfo.Size = new System.Drawing.Size(138, 20);
             this.levelinfo.TabIndex = 1;
-            this.levelinfo.Text = " ";
+            this.levelinfo.Text = "Challenge - Planet";
+            // 
+            // wrtext
+            // 
+            this.wrtext.AutoSize = true;
+            this.wrtext.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.wrtext.Location = new System.Drawing.Point(35, 77);
+            this.wrtext.Name = "wrtext";
+            this.wrtext.Size = new System.Drawing.Size(44, 20);
+            this.wrtext.TabIndex = 2;
+            this.wrtext.Text = "WR: ";
             // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 136);
-            this.Controls.Add(this.wrcheckbox);
+            this.Controls.Add(this.wrtext);
             this.Controls.Add(this.levelinfo);
             this.Controls.Add(this.writetext);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -90,7 +89,7 @@ namespace racman
         #endregion
 
         private System.Windows.Forms.CheckBox writetext;
-        private System.Windows.Forms.CheckBox wrcheckbox;
         private System.Windows.Forms.Label levelinfo;
+        private System.Windows.Forms.Label wrtext;
     }
 }
