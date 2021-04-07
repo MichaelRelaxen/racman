@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
-using HtmlAgilityPack;
 
 namespace racman
 {
@@ -23,42 +17,23 @@ namespace racman
         public static uint SaveInfo = 0x11B1BD8;
         public static uint FrameCounter = 0xB3C59C;
 
-        private string leaderboard;
         private string Challenge;
-        private string WorldRecord;
         private string tb;
 
         private void RAC4Form_Load(object sender, EventArgs e)
         {
-            leaderboard = func.get_data("https://www.speedrun.com/rac4/individual_levels");
-            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
-            doc.LoadHtml(leaderboard);
-
-            var headers = doc.DocumentNode.SelectNodes("//tr/th");
-            DataTable table = new DataTable();
-            foreach (HtmlNode header in headers)
-                table.Columns.Add(header.InnerText);
-
-            foreach (var row in doc.DocumentNode.SelectNodes("//tr[td]"))
-                table.Rows.Add(row.SelectNodes("td").Select(td => td.InnerText).ToArray());
-
-            foreach (DataRow dataRow in table.Rows)
-            {
-                foreach (var item in dataRow.ItemArray)
-                {
-                    tb += item;
-                    tb = tb.Replace("&#039;", "'").Replace("\t", "").Replace("\n", "-");
-                }
-            }
+            tb = func.get_data("https://www.speedrun.com/rac4/individual_levels");
         }
+
         private string GetWorldRecord(string challenge) //scuffed because i couldnt work the api out :/ whatever
         {
 
             try
             {
-                var ChIndex = tb.IndexOf(challenge);
-                WorldRecord = tb.Substring(ChIndex + challenge.Length + 1, 6);
-                return WorldRecord;
+                var ChIndex = tb.IndexOf($"{challenge}</a>");
+                var a = tb.Substring(ChIndex + challenge.Length, 512);
+
+                return a.Substring(a.IndexOf("<span class=\"nobr\">") + 19).Replace("<small>", string.Empty).Replace("</small>", string.Empty).Substring(0,6);
             }
             catch
             {
