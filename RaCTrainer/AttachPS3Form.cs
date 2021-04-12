@@ -21,7 +21,11 @@ namespace racman
 
             if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
             {
-                ip = File.ReadAllText(Environment.CurrentDirectory + @"\config.txt");
+                ip = func.GetConfigData("config.txt", "ip");//ip = File.ReadAllText(Environment.CurrentDirectory + @"\config.txt");
+            }
+            else
+            {
+                File.Create("config.txt");
             }
             IPTextBox.Text = ip;
         }
@@ -39,7 +43,8 @@ namespace racman
         private void attachButton_Click(object sender, EventArgs e)
         {
             ip = IPTextBox.Text;
-            File.WriteAllText(Environment.CurrentDirectory + @"\config.txt", ip);
+            //File.WriteAllText(Environment.CurrentDirectory + @"\config.txt", ip);
+            func.ChangeFileLines("config.txt", Convert.ToString(ip), "ip");
             try
             {
                 game = func.current_game(ip);
