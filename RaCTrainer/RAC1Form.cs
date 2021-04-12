@@ -2,8 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
+
 namespace racman
 {
+
     public partial class RAC1Form : Form
     {
         public RAC1Form()
@@ -12,49 +15,76 @@ namespace racman
             comboBox2.Text = "1";
             comboBox3.Text = "Veldin";
 
+            textBox1.KeyDown += TextBox1_KeyDown;
+            comboBox2.SelectedIndexChanged += ComboBox2_SelectedIndexChanged;
+
             if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
             {
-                ip = File.ReadAllText(Environment.CurrentDirectory + @"\config.txt");
+                ip = func.GetConfigData("config.txt","ip");
             }
+
+            saved_pos = new string[3];
+
+
+            for(int i = 0; i < 3; i++)
+            {
+                string savedPosTest = func.GetConfigData("config.txt", "savedPos" + Convert.ToString(i));
+                if (savedPosTest != "")
+                {
+                    saved_pos[i] = savedPosTest;
+                }
+            }
+
+
+
         }
 
 
+
+        private void TextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                try{
+                    uint bolts = UInt32.Parse(textBox1.Text);
+                    func.WriteMemory(ip, pid, rac1.BoltCount, bolts.ToString("X8"));
+                }
+                catch{
+                    MessageBox.Show("Please enter a number", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+            }
+        }
+
+        public Form UnlocksWindow; 
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
 
-        public static string saved_pos1;
-        public static string saved_pos2;
-        public static string saved_pos3;
+
+        public int saved_pos_index = 1;
+        public static string[] saved_pos;
+
+
+
+        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            saved_pos_index = comboBox2.SelectedIndex;
+        }
 
         private void button1_Click(object sender, EventArgs e)
-        {
-            if (comboBox2.Text == "1")
-            {
-                saved_pos1 = func.ReadMemory(ip, pid, rac1.Coordinates, 30);
-            }
-            if (comboBox2.Text == "2")
-            {
-                saved_pos2 = func.ReadMemory(ip, pid, rac1.Coordinates, 30);
-            }
-            if (comboBox2.Text == "3")
-            {
-                saved_pos3 = func.ReadMemory(ip, pid, rac1.Coordinates, 30);
-            }
+        { 
+            saved_pos[saved_pos_index] = func.ReadMemory(ip, pid, rac1.Coordinates, 30);
+            func.ChangeFileLines("config.txt", saved_pos[saved_pos_index], "savedPos" + Convert.ToString(saved_pos_index));
         }
+
         private void button2_Click(object sender, EventArgs e)
         {
-            if (comboBox2.Text == "1")
+            if (func.GetConfigData("config.txt", "savedPos" + Convert.ToString(saved_pos_index)) != "")
             {
-                func.WriteMemory(ip, pid, rac1.Coordinates, saved_pos1);
+                func.WriteMemory(ip, pid, rac1.Coordinates, saved_pos[saved_pos_index]);
             }
-            if (comboBox2.Text == "2")
-            {
-                func.WriteMemory(ip, pid, rac1.Coordinates, saved_pos2);
-            }
-            if (comboBox2.Text == "3")
-            {
-                func.WriteMemory(ip, pid, rac1.Coordinates, saved_pos3);
-            }
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -116,19 +146,19 @@ namespace racman
         {
             this.KeyPreview = true;
 
-            ToolTip tt1 = new ToolTip(); tt1.SetToolTip(savepos, "Hotkey: Q");
-            ToolTip tt2 = new ToolTip(); tt1.SetToolTip(loadpos, "Hotkey: W");
+            ToolTip tt1 = new ToolTip(); tt1.SetToolTip(savepos, "Hotkey: Shift");
+            ToolTip tt2 = new ToolTip(); tt1.SetToolTip(loadpos, "Hotkey: Space");
             ToolTip tt3 = new ToolTip(); tt1.SetToolTip(killyourself, "Hotkey: E");
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Q)
+             if (e.KeyCode == Keys.ShiftKey)
             {
                 savepos.PerformClick();
             }
 
-            if (e.KeyCode == Keys.W)
+            if (e.KeyCode == Keys.Space)
             {
                 loadpos.PerformClick();
             }
@@ -136,6 +166,19 @@ namespace racman
             if (e.KeyCode == Keys.E)
             {
                 killyourself.PerformClick();
+            }
+
+            if(e.KeyCode == Keys.D1)
+            {
+                saved_pos_index = 0;
+            }
+            if (e.KeyCode == Keys.D2)
+            {
+                saved_pos_index = 1;
+            }
+            if (e.KeyCode == Keys.D3)
+            {
+                saved_pos_index = 2;
             }
         }
 
@@ -166,10 +209,10 @@ namespace racman
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            uint bolts = UInt32.Parse(textBox1.Text);
-            func.WriteMemory(ip, pid, rac1.BoltCount, bolts.ToString("X8"));
+            
         }
 
+        
         private void label5_Click(object sender, EventArgs e)
         {
 
@@ -183,6 +226,39 @@ namespace racman
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            func.WriteMemory(ip, pid, rac1.Health, "00000003");
+        }
+
+        private void infHealth_Checkbox_Changed(object sender, EventArgs e)
+        {
+            if (infHealth.Checked)
+            {
+                func.WriteMemory(ip, pid, rac1.Health, "11111111");
+            }
+            else
+            {
+                func.WriteMemory(ip, pid, rac1.Health, "00000004");
+            }
+        }
+
+        private void unlocksWindowButton_Click(object sender, EventArgs e)
+        {
+            if(UnlocksWindow == null)
+            {
+                UnlocksWindow = new UnlocksWindow();
+                UnlocksWindow.FormClosed += UnlocksWindow_FormClosed;
+                UnlocksWindow.Show();
+            }
+
+        }
+
+        private void UnlocksWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            UnlocksWindow = null;
         }
     }
 }

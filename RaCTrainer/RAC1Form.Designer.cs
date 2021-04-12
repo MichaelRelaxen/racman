@@ -48,6 +48,8 @@ namespace racman
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.unlocksWindowButton = new System.Windows.Forms.Button();
+            this.infHealth = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -247,12 +249,35 @@ namespace racman
             this.label8.Text = "Bolt Count:";
             this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
+            // unlocksWindowButton
+            // 
+            this.unlocksWindowButton.Location = new System.Drawing.Point(227, 180);
+            this.unlocksWindowButton.Name = "unlocksWindowButton";
+            this.unlocksWindowButton.Size = new System.Drawing.Size(75, 23);
+            this.unlocksWindowButton.TabIndex = 72;
+            this.unlocksWindowButton.Text = "Unlocks";
+            this.unlocksWindowButton.UseVisualStyleBackColor = true;
+            this.unlocksWindowButton.Click += new System.EventHandler(this.unlocksWindowButton_Click);
+            // 
+            // infHealth
+            // 
+            this.infHealth.AutoSize = true;
+            this.infHealth.Location = new System.Drawing.Point(227, 152);
+            this.infHealth.Name = "infHealth";
+            this.infHealth.Size = new System.Drawing.Size(91, 17);
+            this.infHealth.TabIndex = 70;
+            this.infHealth.Text = "Infinite Health";
+            this.infHealth.UseVisualStyleBackColor = true;
+            this.infHealth.CheckedChanged += new System.EventHandler(this.infHealth_Checkbox_Changed);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(375, 195);
+            this.ClientSize = new System.Drawing.Size(380, 231);
+            this.Controls.Add(this.unlocksWindowButton);
+            this.Controls.Add(this.infHealth);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label3);
@@ -305,6 +330,8 @@ namespace racman
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button unlocksWindowButton;
+        private System.Windows.Forms.CheckBox infHealth;
     }
 }
 

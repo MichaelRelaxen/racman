@@ -10,6 +10,7 @@ namespace racman
     {
         public static uint BoltCount = 0x969CA0;
         public static uint GhostRatchet = 0x969EAC;
+        public static uint Health = 0x96BF88;
         public static uint Coordinates = 0x969D60;
         public static uint CurrentPlanet = 0x969C70;
         public static uint LoadPlanet = 0xA10700; //destination planet at 0xEE9314 for example set 0000000100000002 to load florana

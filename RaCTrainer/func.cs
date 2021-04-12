@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.IO;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace racman
 {
@@ -91,6 +92,72 @@ namespace racman
             catch
             {
             }
+        }
+
+        public static void WriteMemory_SingleByte(string ip, int pid, uint offset, string val/*byte[] memory*/)
+        {
+            string addr = Convert.ToString(offset, 16);
+
+            get_data($"http://{ip}/setmem.ps3mapi?proc={pid}$addr={addr}&val={val}&len={1}");
+        }
+
+        public static void ChangeFileLines(string filename, string contents, string keyword)
+        {
+            string[] data = File.ReadAllLines("config.txt");
+            bool found = false;
+
+            for(int i = 0; i < data.Length; i++)
+            {
+                if (Regex.Match(data[i], @"^([\w\-]+)").Value == keyword)
+                {
+                    keyword += " = " + contents;
+                    data[i] = keyword;
+                    found = true;
+                }
+            }
+
+
+            if (!found)
+            {
+                string[] new_data;
+                new_data = new string[data.Length + 1];
+
+
+                for(int i = 0; i < data.Length; i++)
+                {
+                    new_data[i] = data[i];
+                }
+                new_data[data.Length] = keyword + " = " + contents;
+                File.WriteAllLines("config.txt", new_data);
+            }
+            else
+            {
+                File.WriteAllLines("config.txt", data);
+            }
+
+            
+        }
+
+        public static string GetConfigData(string filename, string keyword)
+        {
+            string[] data = File.ReadAllLines("config.txt");
+
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (Regex.Match(data[i], @"^([\w\-]+)").Value == keyword)
+                {
+
+                    int startPos = data[i].IndexOf("=") + 2;
+                    return data[i].Substring(startPos, data[i].Length - startPos);
+                    
+                }
+                
+            }
+
+            return "";
+
+            
         }
     }
 }
