@@ -65,5 +65,25 @@ namespace racman
         {
 
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e) //check/uncheck all button, forgot to name it
+        {
+            if(checkBox1.Checked)
+            {
+                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + 2,String.Concat(Enumerable.Repeat("01", 34)));
+                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                {
+                    checkedListBox1.SetItemChecked(i, true);
+                }
+            }
+            else
+            {
+                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + 2, String.Concat(Enumerable.Repeat("00", 34)));
+                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                {
+                    checkedListBox1.SetItemChecked(i, false);
+                }
+            }
+        }
     }
 }
