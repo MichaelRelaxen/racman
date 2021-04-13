@@ -4,6 +4,7 @@ using System.Net;
 using System.IO;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace racman
 {
@@ -158,6 +159,14 @@ namespace racman
             return "";
 
             
+        }
+        public static IEnumerable<string> SplitByN(string str, int n)
+        {
+            while (str.Length > 0)
+            {
+                yield return new string(str.Take(n).ToArray());
+                str = new string(str.Skip(n).ToArray());
+            }
         }
     }
 }

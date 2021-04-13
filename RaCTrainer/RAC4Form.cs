@@ -25,7 +25,7 @@ namespace racman
             tb = func.get_data("https://www.speedrun.com/rac4/individual_levels");
         }
 
-        private string GetWorldRecord(string challenge) //scuffed because i couldnt work the api out :/ whatever
+        private string GetWorldRecord(string challenge)
         {
 
             try
