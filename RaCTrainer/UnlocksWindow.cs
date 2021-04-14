@@ -11,16 +11,16 @@ namespace racman
         public UnlocksWindow()
         {
             InitializeComponent();
-            checkedListBox1.ItemCheck += CheckedListBox1_ItemCheck;
+            itemsCheckList.ItemCheck += itemsCheckList_ItemCheck;
 
             string[] checkedItems = func.SplitByN(func.ReadMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable+2, 34), 2).ToArray();
             for (int i = 0; i < checkedItems.Length; i++)
             {
-                checkedListBox1.SetItemChecked(i, Convert.ToBoolean(Int32.Parse(checkedItems[i])));
+                itemsCheckList.SetItemChecked(i, Convert.ToBoolean(Int32.Parse(checkedItems[i])));
             }
         }
 
-        private void CheckedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        private void itemsCheckList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
 
             if (e.Index < 34)
@@ -56,7 +56,7 @@ namespace racman
 
         }
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void itemsCheckList_SelectedIndexChanged(object sender, EventArgs e)
         {
             
         }
@@ -71,17 +71,17 @@ namespace racman
             if(checkBox1.Checked)
             {
                 func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + 2,String.Concat(Enumerable.Repeat("01", 34)));
-                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                for (int i = 0; i < itemsCheckList.Items.Count; i++)
                 {
-                    checkedListBox1.SetItemChecked(i, true);
+                    itemsCheckList.SetItemChecked(i, true);
                 }
             }
             else
             {
                 func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + 2, String.Concat(Enumerable.Repeat("00", 34)));
-                for (int i = 0; i < checkedListBox1.Items.Count; i++)
+                for (int i = 0; i < itemsCheckList.Items.Count; i++)
                 {
-                    checkedListBox1.SetItemChecked(i, false);
+                    itemsCheckList.SetItemChecked(i, false);
                 }
             }
         }

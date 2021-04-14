@@ -36,7 +36,7 @@ namespace racman
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.itemsCheckList = new System.Windows.Forms.CheckedListBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
@@ -96,10 +96,10 @@ namespace racman
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 63;
             // 
-            // checkedListBox1
+            // itemsCheckList
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
+            this.itemsCheckList.FormattingEnabled = true;
+            this.itemsCheckList.Items.AddRange(new object[] {
             "Heli-Pack",
             "Thruster-Pack",
             "Hydro-Pack",
@@ -134,11 +134,11 @@ namespace racman
             "Map-O-Matic",
             "Bolt Grabber",
             "Persuader"});
-            this.checkedListBox1.Location = new System.Drawing.Point(12, 14);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(254, 514);
-            this.checkedListBox1.TabIndex = 65;
-            this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
+            this.itemsCheckList.Location = new System.Drawing.Point(12, 14);
+            this.itemsCheckList.Name = "itemsCheckList";
+            this.itemsCheckList.Size = new System.Drawing.Size(254, 514);
+            this.itemsCheckList.TabIndex = 65;
+            this.itemsCheckList.SelectedIndexChanged += new System.EventHandler(this.itemsCheckList_SelectedIndexChanged);
             // 
             // checkBox1
             // 
@@ -158,7 +158,7 @@ namespace racman
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(278, 566);
             this.Controls.Add(this.checkBox1);
-            this.Controls.Add(this.checkedListBox1);
+            this.Controls.Add(this.itemsCheckList);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label10);
@@ -185,7 +185,7 @@ namespace racman
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox itemsCheckList;
         private System.Windows.Forms.CheckBox checkBox1;
     }
 }

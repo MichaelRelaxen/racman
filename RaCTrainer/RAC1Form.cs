@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NonInvasiveKeyboardHookLibrary;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -12,41 +13,49 @@ namespace racman
         public RAC1Form()
         {
             InitializeComponent();
-            comboBox2.Text = "1";
-            comboBox3.Text = "Veldin";
+            positions_comboBox.Text = "1";
+            planets_comboBox.Text = "Veldin";
 
-            textBox1.KeyDown += TextBox1_KeyDown;
-            comboBox2.SelectedIndexChanged += ComboBox2_SelectedIndexChanged;
+            bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
+            positions_comboBox.SelectedIndexChanged += positions_ComboBox_SelectedIndexChanged;
 
             if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
             {
                 ip = func.GetConfigData("config.txt","ip");
             }
 
-            saved_pos = new string[3];
-
-
-            for(int i = 0; i < 3; i++)
-            {
-                string savedPosTest = func.GetConfigData("config.txt", "savedPos" + Convert.ToString(i));
-                if (savedPosTest != "")
-                {
-                    saved_pos[i] = savedPosTest;
-                }
-            }
-
+            planets_list = new string[] {
+                "Veldin",
+                "Novalis",
+                "Aridia",
+                "Kerwan",
+                "Eudora",
+                "Rilgar",
+                "Blarg",
+                "Umbris",
+                "Batalia",
+                "Gaspar",
+                "Orxon",
+                "Pokitaru",
+                "Hoven",
+                "Gemlik",
+                "Oltanis",
+                "Quartu",
+                "Kalebo3",
+                "Fleet",
+                "Veldin2"
+            };
 
 
         }
 
 
-
-        private void TextBox1_KeyDown(object sender, KeyEventArgs e)
+        private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)
             {
                 try{
-                    uint bolts = UInt32.Parse(textBox1.Text);
+                    uint bolts = UInt32.Parse(bolts_textBox.Text);
                     func.WriteMemory(ip, pid, rac1.BoltCount, bolts.ToString("X8"));
                 }
                 catch{
@@ -63,57 +72,36 @@ namespace racman
 
 
         public int saved_pos_index = 1;
-        public static string[] saved_pos;
+        public string current_planet;
+        public string[] planets_list;
 
 
 
-        private void ComboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void positions_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            saved_pos_index = comboBox2.SelectedIndex;
+            saved_pos_index = positions_comboBox.SelectedIndex;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void savePosButton_Click(object sender, EventArgs e)
         { 
-            saved_pos[saved_pos_index] = func.ReadMemory(ip, pid, rac1.Coordinates, 30);
-            func.ChangeFileLines("config.txt", saved_pos[saved_pos_index], "savedPos" + Convert.ToString(saved_pos_index));
+            string position = func.ReadMemory(ip, pid, rac1.Coordinates, 30);
+            func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void loadPosButton_Click(object sender, EventArgs e)
         {
-            if (func.GetConfigData("config.txt", "savedPos" + Convert.ToString(saved_pos_index)) != "")
+            string position = func.GetConfigData("config.txt", planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
+            if (position != "")
             {
-                func.WriteMemory(ip, pid, rac1.Coordinates, saved_pos[saved_pos_index]);
+                func.WriteMemory(ip, pid, rac1.Coordinates, position);
             }
             
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void ghostrac_Click(object sender, EventArgs e)
         {
             func.WriteMemory(ip, pid, rac1.GhostRatchet, "2710");
-        }
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void killyourself_Click(object sender, EventArgs e)
@@ -121,24 +109,14 @@ namespace racman
             func.WriteMemory(ip, pid, rac1.Coordinates + 8, "C2480000");
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
-
-        }
-
-        private void checkBox43_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            int x = comboBox3.SelectedIndex; string planet = x.ToString("X2");
+            int x = planets_comboBox.SelectedIndex; string planet = x.ToString("X2");
             func.WriteMemory(ip, pid, rac1.LoadPlanet, $"00000001000000{planet}");
         }
 
@@ -151,6 +129,8 @@ namespace racman
             ToolTip tt3 = new ToolTip(); tt1.SetToolTip(killyourself, "Hotkey: E");
         }
 
+
+        //Method that checks if keys are being pressed
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
              if (e.KeyCode == Keys.ShiftKey)
@@ -180,20 +160,25 @@ namespace racman
             {
                 saved_pos_index = 2;
             }
+
+            if (e.KeyCode == Keys.G)
+            {
+                currentPlanetView();
+            }
         }
 
-        private void tbsreset_Click(object sender, EventArgs e)
+        private void gbsreset_Click(object sender, EventArgs e)
         {
             string reset = String.Concat(Enumerable.Repeat("00", 128));
-            func.WriteMemory(ip, pid, rac1.TitaniumBoltsStart, reset);
-            func.WriteMemory(ip, pid, rac1.TitaniumBoltsStart + 128, reset);
+            func.WriteMemory(ip, pid, rac1.GoldBoltsStart, reset);
+            func.WriteMemory(ip, pid, rac1.GoldBoltsStart + 128, reset);
         }
 
-        private void button7_Click(object sender, EventArgs e)
+        private void unlockGoldBoltsButton_Click(object sender, EventArgs e)
         {
             string unlock = String.Concat(Enumerable.Repeat("01", 128));
-            func.WriteMemory(ip, pid, rac1.TitaniumBoltsStart, unlock);
-            func.WriteMemory(ip, pid, rac1.TitaniumBoltsStart + 128, unlock);
+            func.WriteMemory(ip, pid, rac1.GoldBoltsStart, unlock);
+            func.WriteMemory(ip, pid, rac1.GoldBoltsStart + 128, unlock);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -207,7 +192,7 @@ namespace racman
             func.WriteMemory(ip, pid, 0xDA527C + 420, refill);
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void bolts_textBox_TextChanged(object sender, EventArgs e)
         {
             
         }
@@ -259,6 +244,18 @@ namespace racman
         private void UnlocksWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             UnlocksWindow = null;
+        }
+
+        private void currentPlanetView()
+        {
+            string planet = func.ReadMemory(ip,pid,rac1.CurrentPlanet,30);
+        }
+
+        public static int getCurrentPlanetIndex()
+        {
+            string planet = func.ReadMemory(ip, pid, rac1.CurrentPlanet, 4);
+            int index = Int32.Parse(planet, System.Globalization.NumberStyles.HexNumber);
+            return index;
         }
     }
 }

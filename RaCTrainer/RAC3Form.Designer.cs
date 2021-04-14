@@ -37,12 +37,12 @@ namespace racman
             this.killyourself = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.loadpos = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.loadPlanetButton = new System.Windows.Forms.Button();
             this.savepos = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.planets_comboBox = new System.Windows.Forms.ComboBox();
             this.button6 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
@@ -137,15 +137,15 @@ namespace racman
             this.loadpos.UseVisualStyleBackColor = true;
             this.loadpos.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button1
+            // loadPlanetButton
             // 
-            this.button1.Location = new System.Drawing.Point(136, 130);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Load";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.loadPlanetButton.Location = new System.Drawing.Point(136, 130);
+            this.loadPlanetButton.Name = "loadPlanetButton";
+            this.loadPlanetButton.Size = new System.Drawing.Size(75, 23);
+            this.loadPlanetButton.TabIndex = 14;
+            this.loadPlanetButton.Text = "Load";
+            this.loadPlanetButton.UseVisualStyleBackColor = true;
+            this.loadPlanetButton.Click += new System.EventHandler(this.loadPlanetButton_Click_1);
             // 
             // savepos
             // 
@@ -155,7 +155,7 @@ namespace racman
             this.savepos.TabIndex = 0;
             this.savepos.Text = "Save Position";
             this.savepos.UseVisualStyleBackColor = true;
-            this.savepos.Click += new System.EventHandler(this.button1_Click);
+            this.savepos.Click += new System.EventHandler(this.loadPlanetButton_Click);
             // 
             // label7
             // 
@@ -189,10 +189,10 @@ namespace racman
             this.comboBox2.TabIndex = 27;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
-            // comboBox3
+            // planets_comboBox
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
+            this.planets_comboBox.FormattingEnabled = true;
+            this.planets_comboBox.Items.AddRange(new object[] {
             "Veldin",
             "Florana",
             "Starship Phoenix",
@@ -229,11 +229,11 @@ namespace racman
             "Vid Comic 3",
             "Vid Comic 5",
             "Vid Comic 1 Special Edition"});
-            this.comboBox3.Location = new System.Drawing.Point(18, 132);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(112, 21);
-            this.comboBox3.TabIndex = 28;
-            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            this.planets_comboBox.Location = new System.Drawing.Point(18, 132);
+            this.planets_comboBox.Name = "planets_comboBox";
+            this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
+            this.planets_comboBox.TabIndex = 28;
+            this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
             // 
             // button6
             // 
@@ -475,7 +475,7 @@ namespace racman
             this.ebootSwap.Name = "ebootSwap";
             this.ebootSwap.Size = new System.Drawing.Size(135, 21);
             this.ebootSwap.TabIndex = 71;
-            this.ebootSwap.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
+            this.ebootSwap.SelectedIndexChanged += new System.EventHandler(this.eboots_combobox_SelectedIndexChanged_1);
             // 
             // label13
             // 
@@ -520,7 +520,7 @@ namespace racman
             this.Controls.Add(this.vc4);
             this.Controls.Add(this.loadpos);
             this.Controls.Add(this.vc3);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.loadPlanetButton);
             this.Controls.Add(this.vc2);
             this.Controls.Add(this.savepos);
             this.Controls.Add(this.vc1);
@@ -531,7 +531,7 @@ namespace racman
             this.Controls.Add(this.label9);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.comboBox3);
+            this.Controls.Add(this.planets_comboBox);
             this.Controls.Add(this.numericUpDown22);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.button9);
@@ -563,12 +563,12 @@ namespace racman
         private System.Windows.Forms.Button killyourself;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button loadpos;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button loadPlanetButton;
         private System.Windows.Forms.Button savepos;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox planets_comboBox;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button7;

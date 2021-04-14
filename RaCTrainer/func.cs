@@ -168,5 +168,6 @@ namespace racman
                 str = new string(str.Skip(n).ToArray());
             }
         }
+
     }
 }

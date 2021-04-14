@@ -13,7 +13,7 @@ namespace racman
         {
             InitializeComponent();
             comboBox2.Text = "1";
-            comboBox3.Text = "Veldin";
+            planets_comboBox.Text = "Veldin";
 
             if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
             {
@@ -40,7 +40,7 @@ namespace racman
 
         public static string[] EBOOTs;
 
-        private void button1_Click(object sender, EventArgs e)
+        private void loadPlanetButton_Click(object sender, EventArgs e)
         {
             if (comboBox2.Text == "1")
             {
@@ -71,7 +71,7 @@ namespace racman
             }
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void eboots_combobox_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
 
@@ -85,10 +85,6 @@ namespace racman
             func.WriteMemory(ip, pid, rac3.GhostRatchet, "2710");
         }
 
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void label4_Click(object sender, EventArgs e)
         {
@@ -109,7 +105,7 @@ namespace racman
 
         }
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
@@ -125,9 +121,9 @@ namespace racman
             func.WriteMemory(ip, pid, rac3.KlunkTuning2, "03");
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
-            int x = comboBox3.SelectedIndex + 1; string planet = x.ToString("X2");
+            int x = planets_comboBox.SelectedIndex + 1; string planet = x.ToString("X2");
             func.WriteMemory(ip, pid, rac3.LoadPlanet, $"00000001000000{planet}");
         }
 
@@ -330,7 +326,7 @@ namespace racman
             Application.Exit();
         }
 
-        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void eboots_combobox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             currentlyDoing.Text = "uploading...";
             string SwapText = ebootSwap.Text;  

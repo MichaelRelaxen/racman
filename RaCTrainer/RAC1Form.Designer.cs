@@ -31,20 +31,20 @@ namespace racman
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button5 = new System.Windows.Forms.Button();
-            this.tbsreset = new System.Windows.Forms.Button();
+            this.gbsreset = new System.Windows.Forms.Button();
             this.ghostrac = new System.Windows.Forms.Button();
             this.killyourself = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.loadpos = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.loadPlanetButton = new System.Windows.Forms.Button();
             this.savepos = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.button7 = new System.Windows.Forms.Button();
+            this.positions_comboBox = new System.Windows.Forms.ComboBox();
+            this.planets_comboBox = new System.Windows.Forms.ComboBox();
+            this.unlockGoldBoltsButton = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.bolts_textBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -68,15 +68,15 @@ namespace racman
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 0;
             // 
-            // tbsreset
+            // goldboltsreset
             // 
-            this.tbsreset.Location = new System.Drawing.Point(227, 80);
-            this.tbsreset.Name = "tbsreset";
-            this.tbsreset.Size = new System.Drawing.Size(135, 23);
-            this.tbsreset.TabIndex = 11;
-            this.tbsreset.Text = "Reset All Titanium Bolts";
-            this.tbsreset.UseVisualStyleBackColor = true;
-            this.tbsreset.Click += new System.EventHandler(this.tbsreset_Click);
+            this.gbsreset.Location = new System.Drawing.Point(227, 80);
+            this.gbsreset.Name = "gbsreset";
+            this.gbsreset.Size = new System.Drawing.Size(135, 23);
+            this.gbsreset.TabIndex = 11;
+            this.gbsreset.Text = "Reset All Gold Bolts";
+            this.gbsreset.UseVisualStyleBackColor = true;
+            this.gbsreset.Click += new System.EventHandler(this.gbsreset_Click);
             // 
             // ghostrac
             // 
@@ -115,17 +115,17 @@ namespace racman
             this.loadpos.TabIndex = 1;
             this.loadpos.Text = "Load Position";
             this.loadpos.UseVisualStyleBackColor = true;
-            this.loadpos.Click += new System.EventHandler(this.button2_Click);
+            this.loadpos.Click += new System.EventHandler(this.loadPosButton_Click);
             // 
-            // button1
+            // loadPlanetButton
             // 
-            this.button1.Location = new System.Drawing.Point(133, 130);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Load";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.loadPlanetButton.Location = new System.Drawing.Point(133, 130);
+            this.loadPlanetButton.Name = "loadPlanetButton";
+            this.loadPlanetButton.Size = new System.Drawing.Size(75, 23);
+            this.loadPlanetButton.TabIndex = 14;
+            this.loadPlanetButton.Text = "Load";
+            this.loadPlanetButton.UseVisualStyleBackColor = true;
+            this.loadPlanetButton.Click += new System.EventHandler(this.loadPlanetButton_Click_1);
             // 
             // savepos
             // 
@@ -135,7 +135,7 @@ namespace racman
             this.savepos.TabIndex = 0;
             this.savepos.Text = "Save Position";
             this.savepos.UseVisualStyleBackColor = true;
-            this.savepos.Click += new System.EventHandler(this.button1_Click);
+            this.savepos.Click += new System.EventHandler(this.savePosButton_Click);
             // 
             // label7
             // 
@@ -145,24 +145,23 @@ namespace racman
             this.label7.Size = new System.Drawing.Size(0, 13);
             this.label7.TabIndex = 21;
             // 
-            // comboBox2
+            // Positions Combo Box
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.positions_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.positions_comboBox.FormattingEnabled = true;
+            this.positions_comboBox.Items.AddRange(new object[] {
             "1",
             "2",
             "3"});
-            this.comboBox2.Location = new System.Drawing.Point(133, 25);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(75, 21);
-            this.comboBox2.TabIndex = 27;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            this.positions_comboBox.Location = new System.Drawing.Point(133, 25);
+            this.positions_comboBox.Name = "Positions Combo Box";
+            this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
+            this.positions_comboBox.TabIndex = 27;
             // 
-            // comboBox3
+            // planets_comboBox
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
+            this.planets_comboBox.FormattingEnabled = true;
+            this.planets_comboBox.Items.AddRange(new object[] {
             "Veldin",
             "Novalis",
             "Aridia",
@@ -182,21 +181,21 @@ namespace racman
             "Kalebo III",
             "Fleet",
             "Veldin 2"});
-            this.comboBox3.Location = new System.Drawing.Point(15, 132);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(112, 21);
-            this.comboBox3.TabIndex = 28;
-            this.comboBox3.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
+            this.planets_comboBox.Location = new System.Drawing.Point(15, 132);
+            this.planets_comboBox.Name = "Planets Combo Box";
+            this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
+            this.planets_comboBox.TabIndex = 28;
+            this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
             // 
-            // button7
+            // unlockGoldBoltsButton
             // 
-            this.button7.Location = new System.Drawing.Point(228, 51);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(135, 23);
-            this.button7.TabIndex = 31;
-            this.button7.Text = "Unlock All Titanium Bolts";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.unlockGoldBoltsButton.Location = new System.Drawing.Point(228, 51);
+            this.unlockGoldBoltsButton.Name = "unlockGoldBoltsButton";
+            this.unlockGoldBoltsButton.Size = new System.Drawing.Size(135, 23);
+            this.unlockGoldBoltsButton.TabIndex = 31;
+            this.unlockGoldBoltsButton.Text = "Unlock All Gold  Bolts";
+            this.unlockGoldBoltsButton.UseVisualStyleBackColor = true;
+            this.unlockGoldBoltsButton.Click += new System.EventHandler(this.unlockGoldBoltsButton_Click);
             // 
             // label9
             // 
@@ -214,13 +213,13 @@ namespace racman
             this.label10.Size = new System.Drawing.Size(0, 13);
             this.label10.TabIndex = 41;
             // 
-            // textBox1
+            // Bolts Text Box
             // 
-            this.textBox1.Location = new System.Drawing.Point(228, 25);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(135, 20);
-            this.textBox1.TabIndex = 62;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.bolts_textBox.Location = new System.Drawing.Point(228, 25);
+            this.bolts_textBox.Name = "bolts_textBox";
+            this.bolts_textBox.Size = new System.Drawing.Size(135, 20);
+            this.bolts_textBox.TabIndex = 62;
+            this.bolts_textBox.TextChanged += new System.EventHandler(this.bolts_textBox_TextChanged);
             // 
             // label3
             // 
@@ -281,20 +280,20 @@ namespace racman
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.tbsreset);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.gbsreset);
+            this.Controls.Add(this.bolts_textBox);
             this.Controls.Add(this.ghostrac);
             this.Controls.Add(this.killyourself);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.loadpos);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.loadPlanetButton);
             this.Controls.Add(this.savepos);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.button7);
+            this.Controls.Add(this.positions_comboBox);
+            this.Controls.Add(this.planets_comboBox);
+            this.Controls.Add(this.unlockGoldBoltsButton);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -313,20 +312,20 @@ namespace racman
         #endregion
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button tbsreset;
+        private System.Windows.Forms.Button gbsreset;
         private System.Windows.Forms.Button ghostrac;
         private System.Windows.Forms.Button killyourself;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button loadpos;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button loadPlanetButton;
         private System.Windows.Forms.Button savepos;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.ComboBox positions_comboBox;
+        private System.Windows.Forms.ComboBox planets_comboBox;
+        private System.Windows.Forms.Button unlockGoldBoltsButton;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox bolts_textBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label8;
