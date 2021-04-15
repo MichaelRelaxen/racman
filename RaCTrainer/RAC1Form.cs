@@ -160,11 +160,6 @@ namespace racman
             {
                 saved_pos_index = 2;
             }
-
-            if (e.KeyCode == Keys.G)
-            {
-                currentPlanetView();
-            }
         }
 
         private void gbsreset_Click(object sender, EventArgs e)

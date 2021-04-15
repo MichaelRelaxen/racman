@@ -41,7 +41,7 @@ namespace racman
             this.savepos = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.positions_ComboBox = new System.Windows.Forms.ComboBox();
             this.planets_comboBox = new System.Windows.Forms.ComboBox();
             this.button6 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -135,7 +135,7 @@ namespace racman
             this.loadpos.TabIndex = 1;
             this.loadpos.Text = "Load Position";
             this.loadpos.UseVisualStyleBackColor = true;
-            this.loadpos.Click += new System.EventHandler(this.button2_Click);
+            this.loadpos.Click += new System.EventHandler(this.loadPosButton_Click);
             // 
             // loadPlanetButton
             // 
@@ -145,7 +145,7 @@ namespace racman
             this.loadPlanetButton.TabIndex = 14;
             this.loadPlanetButton.Text = "Load";
             this.loadPlanetButton.UseVisualStyleBackColor = true;
-            this.loadPlanetButton.Click += new System.EventHandler(this.loadPlanetButton_Click_1);
+            this.loadPlanetButton.Click += new System.EventHandler(this.loadPlanetButton_Click);
             // 
             // savepos
             // 
@@ -155,7 +155,7 @@ namespace racman
             this.savepos.TabIndex = 0;
             this.savepos.Text = "Save Position";
             this.savepos.UseVisualStyleBackColor = true;
-            this.savepos.Click += new System.EventHandler(this.loadPlanetButton_Click);
+            this.savepos.Click += new System.EventHandler(this.savePosButton_Click);
             // 
             // label7
             // 
@@ -175,19 +175,19 @@ namespace racman
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
-            // comboBox2
+            // positions_ComboBox
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.positions_ComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.positions_ComboBox.FormattingEnabled = true;
+            this.positions_ComboBox.Items.AddRange(new object[] {
             "1",
             "2",
             "3"});
-            this.comboBox2.Location = new System.Drawing.Point(136, 25);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(75, 21);
-            this.comboBox2.TabIndex = 27;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            this.positions_ComboBox.Location = new System.Drawing.Point(136, 25);
+            this.positions_ComboBox.Name = "positions_ComboBox";
+            this.positions_ComboBox.Size = new System.Drawing.Size(75, 21);
+            this.positions_ComboBox.TabIndex = 27;
+            this.positions_ComboBox.SelectedIndexChanged += new System.EventHandler(this.positions_ComboBox_SelectedIndexChanged);
             // 
             // planets_comboBox
             // 
@@ -529,7 +529,7 @@ namespace racman
             this.Controls.Add(this.comboBox4);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.positions_ComboBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.planets_comboBox);
             this.Controls.Add(this.numericUpDown22);
@@ -567,7 +567,7 @@ namespace racman
         private System.Windows.Forms.Button savepos;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox positions_ComboBox;
         private System.Windows.Forms.ComboBox planets_comboBox;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button3;

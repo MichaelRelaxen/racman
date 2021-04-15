@@ -12,13 +12,52 @@ namespace racman
         public RAC3Form()
         {
             InitializeComponent();
-            comboBox2.Text = "1";
+            positions_ComboBox.Text = "1";
             planets_comboBox.Text = "Veldin";
 
             if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
             {
-                ip = File.ReadAllText(Environment.CurrentDirectory + @"\config.txt");
+                ip = func.GetConfigData("config.txt", "ip");
             }
+
+            planets_list = new string[] {
+            "Rac3Veldin",
+            "Florana",
+            "StarshipPhoenix",
+            "Marcadia",
+            "Daxx",
+            "PhoenixRescue",
+            "AnnihilationNation",
+            "Aquatos",
+            "Tyhrranosis",
+            "ZeldrinStarport",
+            "ObaniGemini",
+            "BlackwaterCity",
+            "Holostar",
+            "Koros",
+            "Unknown",
+            "Metropolis",
+            "Crash Site",
+            "Aridia",
+            "QwarksHideout",
+            "LaunchSite",
+            "ObaniDraco",
+            "CommandCenter",
+            "Holostar2",
+            "InsomniacMuseum",
+            "Unknown2",
+            "MetropolisRangers",
+            "AquatosClank",
+            "AquatosSewers",
+            "TyhrranosisRangers",
+            "VidComic6",
+            "VidComic1",
+            "VidComic4",
+            "VidComic2",
+            "VidComic3",
+            "VidComic5",
+            "VidComic1SpecialEdition"
+            };
 
             Directory.CreateDirectory(func.ebootPath);
 
@@ -34,41 +73,25 @@ namespace racman
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
 
-        public static string saved_pos1;
-        public static string saved_pos2;
-        public static string saved_pos3;
+        string[] planets_list;
+
+        public int saved_pos_index = 1;
+        public string current_planet;
 
         public static string[] EBOOTs;
 
-        private void loadPlanetButton_Click(object sender, EventArgs e)
+        private void loadPosButton_Click(object sender, EventArgs e)
         {
-            if (comboBox2.Text == "1")
+            string position = func.GetConfigData("config.txt", planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
+            if (position != "")
             {
-                saved_pos1 = func.ReadMemory(ip, pid, rac3.Coordinates, 30);
-            }
-            if (comboBox2.Text == "2")
-            {
-                saved_pos2 = func.ReadMemory(ip, pid, rac3.Coordinates, 30);
-            }
-            if (comboBox2.Text == "3")
-            {
-                saved_pos3 = func.ReadMemory(ip, pid, rac3.Coordinates, 30);
+                func.WriteMemory(ip, pid, rac3.Coordinates, position);
             }
         }
-        private void button2_Click(object sender, EventArgs e)
+        private void savePosButton_Click(object sender, EventArgs e)
         {
-            if (comboBox2.Text == "1")
-            {
-                func.WriteMemory(ip, pid, rac3.Coordinates, saved_pos1);
-            }
-            if (comboBox2.Text == "2")
-            {
-                func.WriteMemory(ip, pid, rac3.Coordinates, saved_pos2);
-            }
-            if (comboBox2.Text == "3")
-            {
-                func.WriteMemory(ip, pid, rac3.Coordinates, saved_pos3);
-            }
+            string position = func.ReadMemory(ip, pid, rac3.Coordinates, 30);
+            func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
         }
 
         private void eboots_combobox_SelectedIndexChanged(object sender, EventArgs e)
@@ -100,9 +123,9 @@ namespace racman
             func.WriteMemory(ip, pid, rac3.Coordinates + 8, "C2480000");
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void positions_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            saved_pos_index = positions_ComboBox.SelectedIndex;
         }
 
         private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -121,7 +144,7 @@ namespace racman
             func.WriteMemory(ip, pid, rac3.KlunkTuning2, "03");
         }
 
-        private void loadPlanetButton_Click_1(object sender, EventArgs e)
+        private void loadPlanetButton_Click(object sender, EventArgs e)
         {
             int x = planets_comboBox.SelectedIndex + 1; string planet = x.ToString("X2");
             func.WriteMemory(ip, pid, rac3.LoadPlanet, $"00000001000000{planet}");
@@ -131,20 +154,20 @@ namespace racman
         {
             this.KeyPreview = true;
 
-            ToolTip tt1 = new ToolTip(); tt1.SetToolTip(savepos, "Hotkey: Q");
-            ToolTip tt2 = new ToolTip(); tt1.SetToolTip(loadpos, "Hotkey: W");
+            ToolTip tt1 = new ToolTip(); tt1.SetToolTip(savepos, "Hotkey: Shift");
+            ToolTip tt2 = new ToolTip(); tt1.SetToolTip(loadpos, "Hotkey: Space");
             ToolTip tt3 = new ToolTip(); tt1.SetToolTip(killyourself, "Hotkey: E");
             ToolTip tt4 = new ToolTip(); tt1.SetToolTip(ebootSwap, "Put EBOOTs into the EBOOT folder.");
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Q)
+            if (e.KeyCode == Keys.ShiftKey)
             {
                 savepos.PerformClick();
             }
 
-            if (e.KeyCode == Keys.W)
+            if (e.KeyCode == Keys.Space)
             {
                 loadpos.PerformClick();
             }
@@ -152,6 +175,19 @@ namespace racman
             if (e.KeyCode == Keys.E)
             {
                 killyourself.PerformClick();
+            }
+
+            if (e.KeyCode == Keys.D1)
+            {
+                saved_pos_index = 0;
+            }
+            if (e.KeyCode == Keys.D2)
+            {
+                saved_pos_index = 1;
+            }
+            if (e.KeyCode == Keys.D3)
+            {
+                saved_pos_index = 2;
             }
         }
 
@@ -339,6 +375,13 @@ namespace racman
         private void label13_Click(object sender, EventArgs e)
         {
 
+        }
+
+        public static int getCurrentPlanetIndex()
+        {
+            string planet = func.ReadMemory(ip, pid, rac3.CurrentPlanet, 4);
+            int index = Int32.Parse(planet, System.Globalization.NumberStyles.HexNumber) - 1;
+            return index;
         }
     }
 }
