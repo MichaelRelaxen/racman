@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.IO;
-using System.Threading;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 
 namespace racman
 {
@@ -60,12 +59,15 @@ namespace racman
                 int processDec = Convert.ToInt32(processHex, 16);
                 return processDec;
             }
-            else return 0;
+            else
+            {
+                return 0;
+            }
         }
         public static string current_game(string ip)
         {
             string Output = get_data($"http://{ip}/cpursx.ps3?/sman.ps3");
-            int gamePos = Output.IndexOf("target=\"_blank\">")+16;
+            int gamePos = Output.IndexOf("target=\"_blank\">") + 16;
             return Output.Substring(gamePos, 9);
         }
         public static void WriteMemory(string ip, int pid, uint offset, string val/*byte[] memory*/)
@@ -107,7 +109,7 @@ namespace racman
             string[] data = File.ReadAllLines("config.txt");
             bool found = false;
 
-            for(int i = 0; i < data.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
                 if (Regex.Match(data[i], @"^([\w\-]+)").Value == keyword)
                 {
@@ -124,7 +126,7 @@ namespace racman
                 new_data = new string[data.Length + 1];
 
 
-                for(int i = 0; i < data.Length; i++)
+                for (int i = 0; i < data.Length; i++)
                 {
                     new_data[i] = data[i];
                 }
@@ -136,7 +138,7 @@ namespace racman
                 File.WriteAllLines("config.txt", data);
             }
 
-            
+
         }
 
         public static string GetConfigData(string filename, string keyword)
@@ -151,14 +153,14 @@ namespace racman
 
                     int startPos = data[i].IndexOf("=") + 2;
                     return data[i].Substring(startPos, data[i].Length - startPos);
-                    
+
                 }
-                
+
             }
 
             return "";
 
-            
+
         }
         public static IEnumerable<string> SplitByN(string str, int n)
         {

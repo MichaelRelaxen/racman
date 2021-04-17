@@ -1,7 +1,5 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 namespace racman
 {
@@ -13,10 +11,10 @@ namespace racman
             InitializeComponent();
             itemsCheckList.ItemCheck += itemsCheckList_ItemCheck;
 
-            string[] checkedItems = func.SplitByN(func.ReadMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable+2, 34), 2).ToArray();
+            string[] checkedItems = func.SplitByN(func.ReadMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + 2, 34), 2).ToArray();
             for (int i = 0; i < checkedItems.Length; i++)
             {
-                itemsCheckList.SetItemChecked(i, Convert.ToBoolean(Int32.Parse(checkedItems[i])));
+                itemsCheckList.SetItemChecked(i, Convert.ToBoolean(int.Parse(checkedItems[i])));
             }
         }
 
@@ -31,13 +29,15 @@ namespace racman
                         func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + (uint)e.Index + 2, "01");
                     }
                 }
-                else{
+                else
+                {
                     func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + (uint)e.Index + 2, "00");
                 }
             }
 
 
-            else{
+            else
+            {
                 if (e.NewValue == CheckState.Checked)
                 {
                     {
@@ -45,7 +45,8 @@ namespace racman
                     }
                 }
 
-                else{
+                else
+                {
                     func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + (uint)e.Index + 2, "00000000");
                 }
             }
@@ -58,7 +59,7 @@ namespace racman
 
         private void itemsCheckList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void UnlocksWindow_Load(object sender, EventArgs e)
@@ -68,9 +69,9 @@ namespace racman
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e) //check/uncheck all button, forgot to name it
         {
-            if(checkBox1.Checked)
+            if (checkBox1.Checked)
             {
-                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + 2,String.Concat(Enumerable.Repeat("01", 34)));
+                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + 2, string.Concat(Enumerable.Repeat("01", 34)));
                 for (int i = 0; i < itemsCheckList.Items.Count; i++)
                 {
                     itemsCheckList.SetItemChecked(i, true);
@@ -78,7 +79,7 @@ namespace racman
             }
             else
             {
-                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + 2, String.Concat(Enumerable.Repeat("00", 34)));
+                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.UnlockTable + 2, string.Concat(Enumerable.Repeat("00", 34)));
                 for (int i = 0; i < itemsCheckList.Items.Count; i++)
                 {
                     itemsCheckList.SetItemChecked(i, false);

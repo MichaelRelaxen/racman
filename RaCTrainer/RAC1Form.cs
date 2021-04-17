@@ -1,9 +1,7 @@
-﻿using NonInvasiveKeyboardHookLibrary;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace racman
 {
@@ -21,7 +19,7 @@ namespace racman
 
             if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
             {
-                ip = func.GetConfigData("config.txt","ip");
+                ip = func.GetConfigData("config.txt", "ip");
             }
 
             planets_list = new string[] {
@@ -46,27 +44,30 @@ namespace racman
                 "Veldin2"
             };
 
-
+            goodiesCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.GoodiesMenu, 1)));
+            drekSkipCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.DrekSkip, 1)));
         }
 
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
-                try{
-                    uint bolts = UInt32.Parse(bolts_textBox.Text);
+                try
+                {
+                    uint bolts = uint.Parse(bolts_textBox.Text);
                     func.WriteMemory(ip, pid, rac1.BoltCount, bolts.ToString("X8"));
                 }
-                catch{
+                catch
+                {
                     MessageBox.Show("Please enter a number", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
+
             }
         }
 
-        public Form UnlocksWindow; 
+        public Form UnlocksWindow;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
 
@@ -83,7 +84,7 @@ namespace racman
         }
 
         private void savePosButton_Click(object sender, EventArgs e)
-        { 
+        {
             string position = func.ReadMemory(ip, pid, rac1.Coordinates, 30);
             func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
         }
@@ -95,7 +96,7 @@ namespace racman
             {
                 func.WriteMemory(ip, pid, rac1.Coordinates, position);
             }
-            
+
         }
 
 
@@ -122,18 +123,19 @@ namespace racman
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.KeyPreview = true;
+            KeyPreview = true;
 
             ToolTip tt1 = new ToolTip(); tt1.SetToolTip(savepos, "Hotkey: Shift");
             ToolTip tt2 = new ToolTip(); tt1.SetToolTip(loadpos, "Hotkey: Space");
             ToolTip tt3 = new ToolTip(); tt1.SetToolTip(killyourself, "Hotkey: E");
+
         }
 
 
         //Method that checks if keys are being pressed
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-             if (e.KeyCode == Keys.ShiftKey)
+            if (e.KeyCode == Keys.ShiftKey)
             {
                 savepos.PerformClick();
             }
@@ -148,7 +150,7 @@ namespace racman
                 killyourself.PerformClick();
             }
 
-            if(e.KeyCode == Keys.D1)
+            if (e.KeyCode == Keys.D1)
             {
                 saved_pos_index = 0;
             }
@@ -164,21 +166,21 @@ namespace racman
 
         private void gbsreset_Click(object sender, EventArgs e)
         {
-            string reset = String.Concat(Enumerable.Repeat("00", 128));
+            string reset = string.Concat(Enumerable.Repeat("00", 128));
             func.WriteMemory(ip, pid, rac1.GoldBoltsStart, reset);
             func.WriteMemory(ip, pid, rac1.GoldBoltsStart + 128, reset);
         }
 
         private void unlockGoldBoltsButton_Click(object sender, EventArgs e)
         {
-            string unlock = String.Concat(Enumerable.Repeat("01", 128));
+            string unlock = string.Concat(Enumerable.Repeat("01", 128));
             func.WriteMemory(ip, pid, rac1.GoldBoltsStart, unlock);
             func.WriteMemory(ip, pid, rac1.GoldBoltsStart + 128, unlock);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string refill = String.Concat(Enumerable.Repeat("000001A4", 32));
+            string refill = string.Concat(Enumerable.Repeat("000001A4", 32));
 
             func.WriteMemory(ip, pid, 0xDA527C, refill);
             func.WriteMemory(ip, pid, 0xDA527C + 128, refill);
@@ -189,10 +191,10 @@ namespace racman
 
         private void bolts_textBox_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
-        
+
         private void label5_Click(object sender, EventArgs e)
         {
 
@@ -227,7 +229,7 @@ namespace racman
 
         private void unlocksWindowButton_Click(object sender, EventArgs e)
         {
-            if(UnlocksWindow == null)
+            if (UnlocksWindow == null)
             {
                 UnlocksWindow = new UnlocksWindow();
                 UnlocksWindow.FormClosed += UnlocksWindow_FormClosed;
@@ -243,14 +245,37 @@ namespace racman
 
         private void currentPlanetView()
         {
-            string planet = func.ReadMemory(ip,pid,rac1.CurrentPlanet,30);
+            string planet = func.ReadMemory(ip, pid, rac1.CurrentPlanet, 30);
         }
 
         public static int getCurrentPlanetIndex()
         {
             string planet = func.ReadMemory(ip, pid, rac1.CurrentPlanet, 4);
-            int index = Int32.Parse(planet, System.Globalization.NumberStyles.HexNumber);
+            int index = int.Parse(planet, System.Globalization.NumberStyles.HexNumber);
             return index;
+        }
+        private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (drekSkipCheck.Checked)
+            {
+                func.WriteMemory(ip, pid, rac1.DrekSkip, "01");
+            }
+            else
+            {
+                func.WriteMemory(ip, pid, rac1.DrekSkip, "00");
+            }
+        }
+        private void goodiesCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            //Would want to make it so it can check the byte in memory first then go off of that... a button might be better
+            if (goodiesCheck.Checked)
+            {
+                func.WriteMemory(ip, pid, rac1.GoodiesMenu, "01");
+            }
+            else
+            {
+                func.WriteMemory(ip, pid, rac1.GoodiesMenu, "00");
+            }
         }
     }
 }

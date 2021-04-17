@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using System.Threading;
-using System.Collections;
+using System.Windows.Forms;
 
 namespace racman
 {
@@ -72,8 +71,7 @@ namespace racman
 
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
-
-        string[] planets_list;
+        readonly string[] planets_list;
 
         public int saved_pos_index = 1;
         public string current_planet;
@@ -152,7 +150,7 @@ namespace racman
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.KeyPreview = true;
+            KeyPreview = true;
 
             ToolTip tt1 = new ToolTip(); tt1.SetToolTip(savepos, "Hotkey: Shift");
             ToolTip tt2 = new ToolTip(); tt1.SetToolTip(loadpos, "Hotkey: Space");
@@ -201,33 +199,33 @@ namespace racman
 
         private void tbsreset_Click(object sender, EventArgs e)
         {
-            string reset = String.Concat(Enumerable.Repeat("00", 128));
+            string reset = string.Concat(Enumerable.Repeat("00", 128));
             func.WriteMemory(ip, pid, rac3.TitaniumBoltsStart, reset);
             func.WriteMemory(ip, pid, rac3.TitaniumBoltsStart + 128, reset);
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            string unlock = String.Concat(Enumerable.Repeat("01", 128));
+            string unlock = string.Concat(Enumerable.Repeat("01", 128));
             func.WriteMemory(ip, pid, rac3.TitaniumBoltsStart, unlock);
             func.WriteMemory(ip, pid, rac3.TitaniumBoltsStart + 128, unlock);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string unlock = String.Concat(Enumerable.Repeat("01", 30));
+            string unlock = string.Concat(Enumerable.Repeat("01", 30));
             func.WriteMemory(ip, pid, rac3.SkillPointsStart, unlock);
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            string reset = String.Concat(Enumerable.Repeat("00", 30));
+            string reset = string.Concat(Enumerable.Repeat("00", 30));
             func.WriteMemory(ip, pid, rac3.SkillPointsStart, reset);
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            string refill = String.Concat(Enumerable.Repeat("000001A4", 32));
+            string refill = string.Concat(Enumerable.Repeat("000001A4", 32));
 
             func.WriteMemory(ip, pid, 0xDA527C, refill);
             func.WriteMemory(ip, pid, 0xDA527C + 128, refill);
@@ -240,7 +238,7 @@ namespace racman
         {
             try
             {
-                uint bolts = UInt32.Parse(textBox1.Text);
+                uint bolts = uint.Parse(textBox1.Text);
                 func.WriteMemory(ip, pid, rac3.BoltCount, bolts.ToString("X8"));
             }
             catch
@@ -365,7 +363,7 @@ namespace racman
         private void eboots_combobox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             currentlyDoing.Text = "uploading...";
-            string SwapText = ebootSwap.Text;  
+            string SwapText = ebootSwap.Text;
             string path = Environment.CurrentDirectory + $@"\EBOOTs\{SwapText}";
 
             func.UploadFile(ip, path);
@@ -380,7 +378,7 @@ namespace racman
         public static int getCurrentPlanetIndex()
         {
             string planet = func.ReadMemory(ip, pid, rac3.CurrentPlanet, 4);
-            int index = Int32.Parse(planet, System.Globalization.NumberStyles.HexNumber) - 1;
+            int index = int.Parse(planet, System.Globalization.NumberStyles.HexNumber) - 1;
             return index;
         }
     }
