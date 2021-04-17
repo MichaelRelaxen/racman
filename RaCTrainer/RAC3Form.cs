@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace racman
 {
@@ -144,11 +146,6 @@ namespace racman
         }
 
         private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox43_CheckedChanged(object sender, EventArgs e)
         {
 
         }
@@ -324,16 +321,7 @@ namespace racman
                 func.WriteMemory(ip, pid, rac3.VidComics + 4, "00");
             }
         }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            while (coordscb.Checked == true)
-            {
-                ShowCoordinates();
-                Application.DoEvents();
-            }
-        }
-        private void ShowCoordinates()
+        private void ShowCoordinates(object sender, EventArgs e)
         {
             string result = func.ReadMemory(ip, pid, 0xDA2870, 12);
 
@@ -342,18 +330,25 @@ namespace racman
             float z = func.HexToFloat(result.Substring(16, 8));
 
             label4.Text = $"X: {x}\nY: {y}\nZ: {z}\n";
-            Thread.Sleep(250);
         }
-
-        private void label5_Click(object sender, EventArgs e)
+        private Timer timer = new Timer();
+        public void Init_timer()
         {
-
+            timer.Interval = 250;
+            timer.Tick += new EventHandler(ShowCoordinates);
+            timer.Enabled = true;
         }
 
-        private void label8_Click(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (coordscb.Checked)
+            {
+                Init_timer();
+            }
+            if (!coordscb.Checked)
+                timer.Enabled = false;
         }
+
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -372,11 +367,6 @@ namespace racman
 
             func.UploadFile(ip, path);
             MessageBox.Show("EBOOT successfully swapped to " + path); currentlyDoing.Text = null;
-        }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
         }
 
         public static int getCurrentPlanetIndex()

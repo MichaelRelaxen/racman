@@ -401,7 +401,6 @@ namespace racman
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(135, 20);
             this.textBox1.TabIndex = 62;
-           
             // 
             // label3
             // 
@@ -448,7 +447,6 @@ namespace racman
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 68;
             this.label8.Text = "Bolt Count:";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label11
             // 
@@ -485,7 +483,6 @@ namespace racman
             this.label13.Size = new System.Drawing.Size(74, 13);
             this.label13.TabIndex = 72;
             this.label13.Text = "Swap EBOOT";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // currentlyDoing
             // 
