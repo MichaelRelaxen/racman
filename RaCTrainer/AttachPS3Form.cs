@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace racman
 {
@@ -9,6 +10,8 @@ namespace racman
         public AttachPS3Form()
         {
             InitializeComponent();
+
+            currentVerLabel.Text = "v" + Assembly.GetEntryAssembly().GetName().Version;
 
             if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
             {
@@ -79,6 +82,11 @@ namespace racman
             {
                 MessageBox.Show("Game isn't running or isn't supported yet.");
             }
+        }
+
+        private void currentVerLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

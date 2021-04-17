@@ -66,9 +66,10 @@ namespace racman
             this.currentVerLabel.AutoSize = true;
             this.currentVerLabel.Location = new System.Drawing.Point(12, 104);
             this.currentVerLabel.Name = "currentVerLabel";
-            this.currentVerLabel.Size = new System.Drawing.Size(22, 13);
+            this.currentVerLabel.Size = new System.Drawing.Size(41, 13);
             this.currentVerLabel.TabIndex = 3;
-            this.currentVerLabel.Text = "sss";
+            this.currentVerLabel.Text = "gaming";
+            this.currentVerLabel.Click += new System.EventHandler(this.currentVerLabel_Click);
             // 
             // AttachPS3Form
             // 

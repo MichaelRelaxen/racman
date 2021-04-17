@@ -7,9 +7,6 @@ namespace racman
     static class Program
     {
 
-        
-
-
         //public static string currentVersion = "a.0.3"; // change this for each release
         //public static string latestVersion;
 
