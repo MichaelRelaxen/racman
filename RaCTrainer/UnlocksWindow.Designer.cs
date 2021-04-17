@@ -168,7 +168,9 @@ namespace racman
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "UnlocksWindow";
-            this.Text = "Ratchet & Clank 1 - NPEA00385 (PAL)";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Unlocks Window";
             this.Load += new System.EventHandler(this.UnlocksWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);

@@ -28,6 +28,8 @@ namespace racman
                 File.Create("config.txt");
             }
             IPTextBox.Text = ip;
+
+            currentVerLabel.Text = Program.currentVersion;
         }
 
         public static string ip;
@@ -55,20 +57,23 @@ namespace racman
                 MessageBox.Show("invalid ip/web exception.");
             }
 
-            if (game == "NPEA00385")
+            if (game == "NPEA00385") // I'm sure there's a way better way of doing this.
             {
+                this.Hide();
                 RAC1Form rac1 = new RAC1Form();
                 rac1.TopMost = true;
                 rac1.ShowDialog();
             }
             else if (game == "NPEA00387")
             {
+                this.Hide();
                 RAC3Form rac3 = new RAC3Form();
                 rac3.TopMost = true;
                 rac3.ShowDialog();
             }
             else if (game == "NPEA00423")
             {
+                this.Hide();
                 RAC4Form rac4 = new RAC4Form();
                 rac4.TopMost = true;
                 rac4.ShowDialog();
