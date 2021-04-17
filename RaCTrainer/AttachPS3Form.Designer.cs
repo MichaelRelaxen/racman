@@ -32,18 +32,19 @@ namespace racman
             this.IPTextBox = new System.Windows.Forms.TextBox();
             this.attachButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.currentVerLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // IPTextBox
             // 
-            this.IPTextBox.Location = new System.Drawing.Point(15, 25);
+            this.IPTextBox.Location = new System.Drawing.Point(57, 58);
             this.IPTextBox.Name = "IPTextBox";
             this.IPTextBox.Size = new System.Drawing.Size(100, 20);
             this.IPTextBox.TabIndex = 0;
             // 
             // attachButton
             // 
-            this.attachButton.Location = new System.Drawing.Point(121, 23);
+            this.attachButton.Location = new System.Drawing.Point(163, 56);
             this.attachButton.Name = "attachButton";
             this.attachButton.Size = new System.Drawing.Size(75, 23);
             this.attachButton.TabIndex = 1;
@@ -54,21 +55,34 @@ namespace racman
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(54, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(61, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "IP Address:";
             // 
+            // currentVerLabel
+            // 
+            this.currentVerLabel.AutoSize = true;
+            this.currentVerLabel.Location = new System.Drawing.Point(12, 104);
+            this.currentVerLabel.Name = "currentVerLabel";
+            this.currentVerLabel.Size = new System.Drawing.Size(22, 13);
+            this.currentVerLabel.TabIndex = 3;
+            this.currentVerLabel.Text = "sss";
+            // 
             // AttachPS3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(220, 67);
+            this.ClientSize = new System.Drawing.Size(303, 126);
+            this.Controls.Add(this.currentVerLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.attachButton);
             this.Controls.Add(this.IPTextBox);
+            this.MaximizeBox = false;
             this.Name = "AttachPS3Form";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Attach to Webman";
             this.Load += new System.EventHandler(this.AttachPS3Form_Load);
             this.ResumeLayout(false);
@@ -81,5 +95,6 @@ namespace racman
         private System.Windows.Forms.TextBox IPTextBox;
         private System.Windows.Forms.Button attachButton;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label currentVerLabel;
     }
 }

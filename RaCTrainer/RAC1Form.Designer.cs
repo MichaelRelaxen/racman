@@ -68,7 +68,7 @@ namespace racman
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 0;
             // 
-            // goldboltsreset
+            // gbsreset
             // 
             this.gbsreset.Location = new System.Drawing.Point(227, 80);
             this.gbsreset.Name = "gbsreset";
@@ -145,7 +145,7 @@ namespace racman
             this.label7.Size = new System.Drawing.Size(0, 13);
             this.label7.TabIndex = 21;
             // 
-            // Positions Combo Box
+            // positions_comboBox
             // 
             this.positions_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.positions_comboBox.FormattingEnabled = true;
@@ -154,7 +154,7 @@ namespace racman
             "2",
             "3"});
             this.positions_comboBox.Location = new System.Drawing.Point(133, 25);
-            this.positions_comboBox.Name = "Positions Combo Box";
+            this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
             this.positions_comboBox.TabIndex = 27;
             // 
@@ -182,7 +182,7 @@ namespace racman
             "Fleet",
             "Veldin 2"});
             this.planets_comboBox.Location = new System.Drawing.Point(15, 132);
-            this.planets_comboBox.Name = "Planets Combo Box";
+            this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
             this.planets_comboBox.TabIndex = 28;
             this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
@@ -213,7 +213,7 @@ namespace racman
             this.label10.Size = new System.Drawing.Size(0, 13);
             this.label10.TabIndex = 41;
             // 
-            // Bolts Text Box
+            // bolts_textBox
             // 
             this.bolts_textBox.Location = new System.Drawing.Point(228, 25);
             this.bolts_textBox.Name = "bolts_textBox";
@@ -298,6 +298,7 @@ namespace racman
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "RAC1Form";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ratchet & Clank 1 - NPEA00385 (PAL)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
