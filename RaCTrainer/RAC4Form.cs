@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace racman
 {
@@ -30,10 +30,10 @@ namespace racman
 
             try
             {
-                var ChIndex = tb.IndexOf($"{challenge}</a>");
-                var a = tb.Substring(ChIndex + challenge.Length, 512);
+                int ChIndex = tb.IndexOf($"{challenge}</a>");
+                string a = tb.Substring(ChIndex + challenge.Length, 512);
 
-                return a.Substring(a.IndexOf("<span class=\"nobr\">") + 19).Replace("<small>", string.Empty).Replace("</small>", string.Empty).Substring(0,6);
+                return a.Substring(a.IndexOf("<span class=\"nobr\">") + 19).Replace("<small>", string.Empty).Replace("</small>", string.Empty).Substring(0, 6);
             }
             catch
             {
@@ -47,7 +47,7 @@ namespace racman
             {
                 Application.DoEvents();
                 int frames = Convert.ToInt32(func.ReadMemory(ip, pid, FrameCounter, 4), 16);
-                TimeSpan t = TimeSpan.FromMilliseconds(frames * 1000/60);
+                TimeSpan t = TimeSpan.FromMilliseconds(frames * 1000 / 60);
 
                 writetext.Text = string.Format("{0:D2}:{1:D2}.{2:D3}", t.Minutes, t.Seconds, t.Milliseconds);
 

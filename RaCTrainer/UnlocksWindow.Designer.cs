@@ -98,6 +98,7 @@ namespace racman
             // 
             // itemsCheckList
             // 
+            this.itemsCheckList.CheckOnClick = true;
             this.itemsCheckList.FormattingEnabled = true;
             this.itemsCheckList.Items.AddRange(new object[] {
             "Heli-Pack",
@@ -171,6 +172,7 @@ namespace racman
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Unlocks Window";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.UnlocksWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);

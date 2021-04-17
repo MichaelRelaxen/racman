@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
-using System.Collections;
 
 namespace racman
 {
@@ -59,23 +50,29 @@ namespace racman
 
             if (game == "NPEA00385") // I'm sure there's a way better way of doing this.
             {
-                this.Hide();
-                RAC1Form rac1 = new RAC1Form();
-                rac1.TopMost = true;
+                Hide();
+                RAC1Form rac1 = new RAC1Form
+                {
+                    TopMost = true
+                };
                 rac1.ShowDialog();
             }
             else if (game == "NPEA00387")
             {
-                this.Hide();
-                RAC3Form rac3 = new RAC3Form();
-                rac3.TopMost = true;
+                Hide();
+                RAC3Form rac3 = new RAC3Form
+                {
+                    TopMost = true
+                };
                 rac3.ShowDialog();
             }
             else if (game == "NPEA00423")
             {
-                this.Hide();
-                RAC4Form rac4 = new RAC4Form();
-                rac4.TopMost = true;
+                Hide();
+                RAC4Form rac4 = new RAC4Form
+                {
+                    TopMost = true
+                };
                 rac4.ShowDialog();
             }
             else

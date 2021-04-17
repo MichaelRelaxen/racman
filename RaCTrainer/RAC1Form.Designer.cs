@@ -50,6 +50,8 @@ namespace racman
             this.label8 = new System.Windows.Forms.Label();
             this.unlocksWindowButton = new System.Windows.Forms.Button();
             this.infHealth = new System.Windows.Forms.CheckBox();
+            this.drekSkipCheck = new System.Windows.Forms.CheckBox();
+            this.goodiesCheck = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -250,7 +252,7 @@ namespace racman
             // 
             // unlocksWindowButton
             // 
-            this.unlocksWindowButton.Location = new System.Drawing.Point(227, 180);
+            this.unlocksWindowButton.Location = new System.Drawing.Point(257, 175);
             this.unlocksWindowButton.Name = "unlocksWindowButton";
             this.unlocksWindowButton.Size = new System.Drawing.Size(75, 23);
             this.unlocksWindowButton.TabIndex = 72;
@@ -261,7 +263,7 @@ namespace racman
             // infHealth
             // 
             this.infHealth.AutoSize = true;
-            this.infHealth.Location = new System.Drawing.Point(227, 152);
+            this.infHealth.Location = new System.Drawing.Point(15, 159);
             this.infHealth.Name = "infHealth";
             this.infHealth.Size = new System.Drawing.Size(91, 17);
             this.infHealth.TabIndex = 70;
@@ -269,12 +271,36 @@ namespace racman
             this.infHealth.UseVisualStyleBackColor = true;
             this.infHealth.CheckedChanged += new System.EventHandler(this.infHealth_Checkbox_Changed);
             // 
+            // drekSkipCheck
+            // 
+            this.drekSkipCheck.AutoSize = true;
+            this.drekSkipCheck.Location = new System.Drawing.Point(15, 181);
+            this.drekSkipCheck.Name = "drekSkipCheck";
+            this.drekSkipCheck.Size = new System.Drawing.Size(73, 17);
+            this.drekSkipCheck.TabIndex = 73;
+            this.drekSkipCheck.Text = "Drek Skip";
+            this.drekSkipCheck.UseVisualStyleBackColor = true;
+            this.drekSkipCheck.CheckedChanged += new System.EventHandler(this.drekSkipCheck_CheckedChanged);
+            // 
+            // goodiesCheck
+            // 
+            this.goodiesCheck.AutoSize = true;
+            this.goodiesCheck.Location = new System.Drawing.Point(15, 204);
+            this.goodiesCheck.Name = "goodiesCheck";
+            this.goodiesCheck.Size = new System.Drawing.Size(95, 17);
+            this.goodiesCheck.TabIndex = 74;
+            this.goodiesCheck.Text = "Goodies Menu";
+            this.goodiesCheck.UseVisualStyleBackColor = true;
+            this.goodiesCheck.CheckedChanged += new System.EventHandler(this.goodiesCheck_CheckedChanged);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(380, 231);
+            this.Controls.Add(this.goodiesCheck);
+            this.Controls.Add(this.drekSkipCheck);
             this.Controls.Add(this.unlocksWindowButton);
             this.Controls.Add(this.infHealth);
             this.Controls.Add(this.label8);
@@ -332,6 +358,8 @@ namespace racman
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button unlocksWindowButton;
         private System.Windows.Forms.CheckBox infHealth;
+        private System.Windows.Forms.CheckBox drekSkipCheck;
+        private System.Windows.Forms.CheckBox goodiesCheck;
     }
 }
 
