@@ -19,11 +19,12 @@ namespace racman
             }
             else
             {
-                File.Create("config.txt");
+                var config = File.Create("config.txt");
+                config.Close();
             }
             IPTextBox.Text = ip;
 
-            //currentVerLabel.Text = Program.currentVersion;
+            
         }
 
         public static string ip;
@@ -39,7 +40,6 @@ namespace racman
         private void attachButton_Click(object sender, EventArgs e)
         {
             ip = IPTextBox.Text;
-            //File.WriteAllText(Environment.CurrentDirectory + @"\config.txt", ip);
             func.ChangeFileLines("config.txt", Convert.ToString(ip), "ip");
             try
             {

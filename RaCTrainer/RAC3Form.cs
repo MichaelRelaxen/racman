@@ -18,6 +18,7 @@ namespace racman
             {
                 ip = func.GetConfigData("config.txt", "ip");
             }
+            textBox1.KeyDown += TextBox1_KeyDown;
 
             planets_list = new string[] {
             "Rac3Veldin",
@@ -68,6 +69,22 @@ namespace racman
             }
         }
 
+        private void TextBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    uint bolts = uint.Parse(textBox1.Text);
+                    func.WriteMemory(ip, pid, rac3.BoltCount, bolts.ToString("X8"));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
 
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
@@ -234,19 +251,6 @@ namespace racman
             func.WriteMemory(ip, pid, 0xDA527C + 420, refill);
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                uint bolts = uint.Parse(textBox1.Text);
-                func.WriteMemory(ip, pid, rac3.BoltCount, bolts.ToString("X8"));
-            }
-            catch
-            {
-
-            }
-
-        }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
