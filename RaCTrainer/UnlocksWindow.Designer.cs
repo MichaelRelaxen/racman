@@ -38,6 +38,12 @@ namespace racman
             this.label3 = new System.Windows.Forms.Label();
             this.itemsCheckList = new System.Windows.Forms.CheckedListBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.gwCheckBox = new System.Windows.Forms.CheckBox();
+            this.gwCheckList = new System.Windows.Forms.CheckedListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +65,7 @@ namespace racman
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 135);
+            this.label2.Location = new System.Drawing.Point(12, 151);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 13;
@@ -67,7 +73,7 @@ namespace racman
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, -2);
+            this.label7.Location = new System.Drawing.Point(12, 19);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(0, 13);
             this.label7.TabIndex = 21;
@@ -75,7 +81,7 @@ namespace racman
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(214, 7);
+            this.label9.Location = new System.Drawing.Point(214, 15);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(0, 13);
             this.label9.TabIndex = 39;
@@ -83,7 +89,7 @@ namespace racman
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(213, 47);
+            this.label10.Location = new System.Drawing.Point(213, 55);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(0, 13);
             this.label10.TabIndex = 41;
@@ -91,7 +97,7 @@ namespace racman
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(226, 185);
+            this.label3.Location = new System.Drawing.Point(226, 193);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 63;
@@ -135,16 +141,15 @@ namespace racman
             "Map-O-Matic",
             "Bolt Grabber",
             "Persuader"});
-            this.itemsCheckList.Location = new System.Drawing.Point(12, 14);
+            this.itemsCheckList.Location = new System.Drawing.Point(12, 22);
             this.itemsCheckList.Name = "itemsCheckList";
-            this.itemsCheckList.Size = new System.Drawing.Size(254, 514);
+            this.itemsCheckList.Size = new System.Drawing.Size(152, 514);
             this.itemsCheckList.TabIndex = 65;
-            this.itemsCheckList.SelectedIndexChanged += new System.EventHandler(this.itemsCheckList_SelectedIndexChanged);
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(12, 535);
+            this.checkBox1.Location = new System.Drawing.Point(12, 543);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(120, 17);
             this.checkBox1.TabIndex = 66;
@@ -152,12 +157,108 @@ namespace racman
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // gwCheckBox
+            // 
+            this.gwCheckBox.AutoSize = true;
+            this.gwCheckBox.Location = new System.Drawing.Point(170, 543);
+            this.gwCheckBox.Name = "gwCheckBox";
+            this.gwCheckBox.Size = new System.Drawing.Size(120, 17);
+            this.gwCheckBox.TabIndex = 71;
+            this.gwCheckBox.Text = "Check/Uncheck All";
+            this.gwCheckBox.UseVisualStyleBackColor = true;
+            this.gwCheckBox.CheckedChanged += new System.EventHandler(this.gwCheckBox_CheckedChanged);
+            // 
+            // gwCheckList
+            // 
+            this.gwCheckList.CheckOnClick = true;
+            this.gwCheckList.FormattingEnabled = true;
+            this.gwCheckList.Items.AddRange(new object[] {
+            "Heli-Pack",
+            "Thruster-Pack",
+            "Hydro-Pack",
+            "Sonic Summoner",
+            "O2 Mask",
+            "Pilots Helmet",
+            "Wrench",
+            "Suck Cannon",
+            "Bomb Glove",
+            "Devastator",
+            "Swingshot",
+            "Visibomb",
+            "Taunter",
+            "Blaster",
+            "Pyrocitor",
+            "Mine Glove",
+            "Walloper",
+            "Tesla Claw",
+            "Glove of Doom",
+            "Morph-O-Ray",
+            "Hydrodisplacer",
+            "RYNO",
+            "Drone Device",
+            "Decoy Glove",
+            "Trespasser",
+            "Metal Detector",
+            "Magneboots",
+            "Grindboots",
+            "Hoverboard",
+            "Hologuise",
+            "PDA",
+            "Map-O-Matic",
+            "Bolt Grabber",
+            "Persuader"});
+            this.gwCheckList.Location = new System.Drawing.Point(170, 22);
+            this.gwCheckList.Name = "gwCheckList";
+            this.gwCheckList.Size = new System.Drawing.Size(152, 514);
+            this.gwCheckList.TabIndex = 70;
+            this.gwCheckList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.gwCheckList_ItemCheck);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(170, 143);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 13);
+            this.label1.TabIndex = 67;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(167, 6);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(81, 13);
+            this.label4.TabIndex = 69;
+            this.label4.Text = "Gold Weapons:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(170, 11);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(0, 13);
+            this.label5.TabIndex = 68;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 6);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(72, 13);
+            this.label6.TabIndex = 72;
+            this.label6.Text = "Item Unlocks:";
+            // 
             // UnlocksWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(278, 566);
+            this.ClientSize = new System.Drawing.Size(333, 576);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.gwCheckBox);
+            this.Controls.Add(this.gwCheckList);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.itemsCheckList);
             this.Controls.Add(this.label3);
@@ -191,6 +292,12 @@ namespace racman
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckedListBox itemsCheckList;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox gwCheckBox;
+        private System.Windows.Forms.CheckedListBox gwCheckList;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 

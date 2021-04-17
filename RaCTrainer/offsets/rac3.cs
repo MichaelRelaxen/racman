@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace racman
+﻿namespace racman
 {
     class rac3
     {
@@ -26,15 +20,6 @@ namespace racman
         public static uint TitaniumBoltsStart = 0xECE53D; // end ECE667
         public static uint SkillPointsStart = 0xDA521d;
         public static uint UnlockTable = 0xDA5710; // find start - currently starts at lockstrafe etc.
-        /* 
-         * QE Value
-         * Titanium Bolts range
-         * Render All
-         * Air Walk
-         * RapidFire
-         * 
-         * DA51F9 
-         */
 
 
 
