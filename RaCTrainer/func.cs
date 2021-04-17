@@ -170,6 +170,10 @@ namespace racman
                 str = new string(str.Skip(n).ToArray());
             }
         }
+        public static string strarr(string swag, int length) // i dont know what to name it
+        {
+            return string.Concat(Enumerable.Repeat(swag, length));
+        }
 
     }
 }

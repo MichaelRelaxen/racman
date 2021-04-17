@@ -1,7 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
+
 
 namespace racman
 {
@@ -16,11 +19,6 @@ namespace racman
 
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
             positions_comboBox.SelectedIndexChanged += positions_ComboBox_SelectedIndexChanged;
-
-            if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
-            {
-                ip = func.GetConfigData("config.txt", "ip");
-            }
 
             planets_list = new string[] {
                 "Veldin",
@@ -44,8 +42,8 @@ namespace racman
                 "Veldin2"
             };
 
-            goodiesCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.GoodiesMenu, 1)));
-            drekSkipCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.DrekSkip, 1)));
+            goodiesCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.goodies_menu, 1)));
+            drekSkipCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.drek_skip, 1)));
         }
 
 
@@ -56,7 +54,7 @@ namespace racman
                 try
                 {
                     uint bolts = uint.Parse(bolts_textBox.Text);
-                    func.WriteMemory(ip, pid, rac1.BoltCount, bolts.ToString("X8"));
+                    func.WriteMemory(ip, pid, rac1.bolt_count, bolts.ToString("X8"));
                 }
                 catch
                 {
@@ -85,7 +83,7 @@ namespace racman
 
         private void savePosButton_Click(object sender, EventArgs e)
         {
-            string position = func.ReadMemory(ip, pid, rac1.Coordinates, 30);
+            string position = func.ReadMemory(ip, pid, rac1.player_coords, 30);
             func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
         }
 
@@ -94,7 +92,7 @@ namespace racman
             string position = func.GetConfigData("config.txt", planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
             if (position != "")
             {
-                func.WriteMemory(ip, pid, rac1.Coordinates, position);
+                func.WriteMemory(ip, pid, rac1.player_coords, position);
             }
 
         }
@@ -102,12 +100,14 @@ namespace racman
 
         private void ghostrac_Click(object sender, EventArgs e)
         {
-            func.WriteMemory(ip, pid, rac1.GhostRatchet, "2710");
+            func.WriteMemory(ip, pid, rac1.ghost_timer, "2710");
         }
 
         private void killyourself_Click(object sender, EventArgs e)
         {
-            func.WriteMemory(ip, pid, rac1.Coordinates + 8, "C2480000");
+            func.WriteMemory(ip, pid, rac1.player_coords + 8, "C2480000");
+            /*if (lflagresetCb.Checked)
+                ResetLevelFlags((uint)planets_comboBox.SelectedIndex);*/
         }
 
         private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -118,7 +118,11 @@ namespace racman
         private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
             int x = planets_comboBox.SelectedIndex; string planet = x.ToString("X2");
-            func.WriteMemory(ip, pid, rac1.LoadPlanet, $"00000001000000{planet}");
+            if(lflagresetCb.Checked)
+                ResetLevelFlags((uint)x);
+            func.WriteMemory(ip, pid, rac1.load_planet, $"00000001000000{planet}");
+            Thread.Sleep(1000); // lazy
+            func.WriteMemory(ip, pid, 0x9645C4, "0000001A0000000400000002"); // Force fast load
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -167,26 +171,15 @@ namespace racman
         private void gbsreset_Click(object sender, EventArgs e)
         {
             string reset = string.Concat(Enumerable.Repeat("00", 128));
-            func.WriteMemory(ip, pid, rac1.GoldBoltsStart, reset);
-            func.WriteMemory(ip, pid, rac1.GoldBoltsStart + 128, reset);
+            func.WriteMemory(ip, pid, rac1.gold_bolts_array, reset);
+            func.WriteMemory(ip, pid, rac1.gold_bolts_array + 128, reset);
         }
 
         private void unlockGoldBoltsButton_Click(object sender, EventArgs e)
         {
             string unlock = string.Concat(Enumerable.Repeat("01", 128));
-            func.WriteMemory(ip, pid, rac1.GoldBoltsStart, unlock);
-            func.WriteMemory(ip, pid, rac1.GoldBoltsStart + 128, unlock);
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            string refill = string.Concat(Enumerable.Repeat("000001A4", 32));
-
-            func.WriteMemory(ip, pid, 0xDA527C, refill);
-            func.WriteMemory(ip, pid, 0xDA527C + 128, refill);
-            func.WriteMemory(ip, pid, 0xDA527C + 256, refill);
-            func.WriteMemory(ip, pid, 0xDA527C + 384, refill);
-            func.WriteMemory(ip, pid, 0xDA527C + 420, refill);
+            func.WriteMemory(ip, pid, rac1.gold_bolts_array, unlock);
+            func.WriteMemory(ip, pid, rac1.gold_bolts_array + 128, unlock);
         }
 
         private void bolts_textBox_TextChanged(object sender, EventArgs e)
@@ -212,18 +205,18 @@ namespace racman
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            func.WriteMemory(ip, pid, rac1.Health, "00000003");
+            func.WriteMemory(ip, pid, rac1.player_health, "00000003");
         }
 
         private void infHealth_Checkbox_Changed(object sender, EventArgs e)
         {
             if (infHealth.Checked)
             {
-                func.WriteMemory(ip, pid, rac1.Health, "11111111");
+                func.WriteMemory(ip, pid, rac1.player_health, "11111111");
             }
             else
             {
-                func.WriteMemory(ip, pid, rac1.Health, "00000004");
+                func.WriteMemory(ip, pid, rac1.player_health, "00000004");
             }
         }
 
@@ -245,24 +238,23 @@ namespace racman
 
         private void currentPlanetView()
         {
-            string planet = func.ReadMemory(ip, pid, rac1.CurrentPlanet, 30);
+            string planet = func.ReadMemory(ip, pid, rac1.current_planet, 30);
         }
 
         public static int getCurrentPlanetIndex()
         {
-            string planet = func.ReadMemory(ip, pid, rac1.CurrentPlanet, 4);
-            int index = int.Parse(planet, System.Globalization.NumberStyles.HexNumber);
-            return index;
+            string planet = func.ReadMemory(ip, pid, rac1.current_planet, 4);
+            return int.Parse(planet, System.Globalization.NumberStyles.HexNumber);
         }
         private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (drekSkipCheck.Checked)
             {
-                func.WriteMemory(ip, pid, rac1.DrekSkip, "01");
+                func.WriteMemory(ip, pid, rac1.drek_skip, "01");
             }
             else
             {
-                func.WriteMemory(ip, pid, rac1.DrekSkip, "00");
+                func.WriteMemory(ip, pid, rac1.drek_skip, "00");
             }
         }
         private void goodiesCheck_CheckedChanged(object sender, EventArgs e)
@@ -270,12 +262,43 @@ namespace racman
             //Would want to make it so it can check the byte in memory first then go off of that... a button might be better
             if (goodiesCheck.Checked)
             {
-                func.WriteMemory(ip, pid, rac1.GoodiesMenu, "01");
+                func.WriteMemory(ip, pid, rac1.goodies_menu, "01");
             }
             else
             {
-                func.WriteMemory(ip, pid, rac1.GoodiesMenu, "00");
+                func.WriteMemory(ip, pid, rac1.goodies_menu, "00");
             }
         }
+        private void ResetLevelFlags(uint planetIndex)
+        {
+            //thank you dtu!
+            func.WriteMemory(ip, pid, rac1.level_flags + 0x10 * planetIndex, string.Concat(Enumerable.Repeat("00", 0x10)));
+            func.WriteMemory(ip, pid, rac1.misc_level_flags + 0x100 * planetIndex, string.Concat(Enumerable.Repeat("00", 0x100)));
+            func.WriteMemory(ip, pid, rac1.infobot_flags, func.strarr("00", 0x20));
+            func.WriteMemory(ip, pid, rac1.watched_ilms_array, func.strarr("00", 0x100));
+
+            if(planetIndex == 3) // Kerwan
+            {
+                func.WriteMemory(ip, pid, 0x96C378, func.strarr("00", 0xF0));
+                func.WriteMemory(ip, pid, rac1.unlock_array + 2, "00");
+            }
+            if(planetIndex == 4) // Eudora
+            {
+                func.WriteMemory(ip, pid, 0x96C468, func.strarr("00", 0x40));
+            }
+            if(planetIndex == 5) // Rilgar
+            {
+                func.WriteMemory(ip, pid, 0x96C498, func.strarr("00", 0xA0));
+            }
+            if(planetIndex == 8) // Batalia
+            {
+                func.WriteMemory(ip, pid, 0x96C5A8, func.strarr("00", 0x40));
+            }
+            if(planetIndex == 9) // Gaspar
+            {
+                func.WriteMemory(ip, pid, 0x96C5E8, func.strarr("00", 0x20));
+            }
+        }
+
     }
 }

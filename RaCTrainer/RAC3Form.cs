@@ -15,11 +15,6 @@ namespace racman
             InitializeComponent();
             positions_ComboBox.Text = "1";
             planets_comboBox.Text = "Veldin";
-
-            if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
-            {
-                ip = func.GetConfigData("config.txt", "ip");
-            }
             textBox1.KeyDown += TextBox1_KeyDown;
 
             planets_list = new string[] {

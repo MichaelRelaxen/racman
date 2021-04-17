@@ -52,6 +52,7 @@ namespace racman
             this.infHealth = new System.Windows.Forms.CheckBox();
             this.drekSkipCheck = new System.Windows.Forms.CheckBox();
             this.goodiesCheck = new System.Windows.Forms.CheckBox();
+            this.lflagresetCb = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
@@ -293,12 +294,23 @@ namespace racman
             this.goodiesCheck.UseVisualStyleBackColor = true;
             this.goodiesCheck.CheckedChanged += new System.EventHandler(this.goodiesCheck_CheckedChanged);
             // 
+            // lflagresetCb
+            // 
+            this.lflagresetCb.AutoSize = true;
+            this.lflagresetCb.Location = new System.Drawing.Point(133, 159);
+            this.lflagresetCb.Name = "lflagresetCb";
+            this.lflagresetCb.Size = new System.Drawing.Size(104, 17);
+            this.lflagresetCb.TabIndex = 75;
+            this.lflagresetCb.Text = "Reset level flags";
+            this.lflagresetCb.UseVisualStyleBackColor = true;
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(380, 231);
+            this.Controls.Add(this.lflagresetCb);
             this.Controls.Add(this.goodiesCheck);
             this.Controls.Add(this.drekSkipCheck);
             this.Controls.Add(this.unlocksWindowButton);
@@ -360,6 +372,7 @@ namespace racman
         private System.Windows.Forms.CheckBox infHealth;
         private System.Windows.Forms.CheckBox drekSkipCheck;
         private System.Windows.Forms.CheckBox goodiesCheck;
+        private System.Windows.Forms.CheckBox lflagresetCb;
     }
 }
 
