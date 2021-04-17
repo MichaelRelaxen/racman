@@ -33,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NonInvasiveKeyboardHookLibrary, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\NonInvasiveKeyboardHookLibrary.2.1.0\lib\net452\NonInvasiveKeyboardHookLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -84,6 +81,7 @@
     <Compile Include="RAC4Form.Designer.cs">
       <DependentUpon>RAC4Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Updater.cs" />
     <EmbeddedResource Include="AttachPS3Form.resx">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -104,7 +102,6 @@
     <EmbeddedResource Include="RAC4Form.resx">
       <DependentUpon>RAC4Form.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -125,6 +122,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ZZupdater0.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

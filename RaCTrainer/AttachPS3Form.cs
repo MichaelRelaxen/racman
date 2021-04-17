@@ -20,7 +20,7 @@ namespace racman
             }
             IPTextBox.Text = ip;
 
-            currentVerLabel.Text = Program.currentVersion;
+            //currentVerLabel.Text = Program.currentVersion;
         }
 
         public static string ip;
