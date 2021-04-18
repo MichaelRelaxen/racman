@@ -56,13 +56,22 @@ namespace racman
                     levelinfo.Text = Encoding.ASCII.GetString(func.FromHex(func.ReadMemory(ip, pid, SaveInfo, 64).Split(new string[] { "0A" }, StringSplitOptions.None).First())); // lmfao
                     Challenge = levelinfo.Text.Split(new string[] { " -" }, StringSplitOptions.None).First().TrimEnd();
                     wrtext.Text = $"WR: {GetWorldRecord(Challenge)}";
+
+                    if(ghostcheck.Checked)
+                        func.WriteMemory(ip, pid, 0x10D47D0, "3500");
                 }
                 Thread.Sleep(200);
             }
         }
         private void RAC4Form_FormClosing(object sender, FormClosingEventArgs e)
         {
-            writetext.Checked = !writetext.Checked;
+            writetext.Checked = false;
+            Application.Exit();
+        }
+
+        private void ghostcheck_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

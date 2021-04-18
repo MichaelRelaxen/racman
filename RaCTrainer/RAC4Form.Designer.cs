@@ -33,6 +33,7 @@ namespace racman
             this.writetext = new System.Windows.Forms.CheckBox();
             this.levelinfo = new System.Windows.Forms.Label();
             this.wrtext = new System.Windows.Forms.Label();
+            this.ghostcheck = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // writetext
@@ -67,11 +68,23 @@ namespace racman
             this.wrtext.TabIndex = 2;
             this.wrtext.Text = "WR: ";
             // 
+            // ghostcheck
+            // 
+            this.ghostcheck.AutoSize = true;
+            this.ghostcheck.Location = new System.Drawing.Point(12, 107);
+            this.ghostcheck.Name = "ghostcheck";
+            this.ghostcheck.Size = new System.Drawing.Size(95, 17);
+            this.ghostcheck.TabIndex = 3;
+            this.ghostcheck.Text = "Ghost Ratchet";
+            this.ghostcheck.UseVisualStyleBackColor = true;
+            this.ghostcheck.CheckedChanged += new System.EventHandler(this.ghostcheck_CheckedChanged);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 136);
+            this.Controls.Add(this.ghostcheck);
             this.Controls.Add(this.wrtext);
             this.Controls.Add(this.levelinfo);
             this.Controls.Add(this.writetext);
@@ -92,5 +105,6 @@ namespace racman
         private System.Windows.Forms.CheckBox writetext;
         private System.Windows.Forms.Label levelinfo;
         private System.Windows.Forms.Label wrtext;
+        private System.Windows.Forms.CheckBox ghostcheck;
     }
 }

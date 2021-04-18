@@ -73,7 +73,7 @@ namespace racman
                 try
                 {
                     uint bolts = uint.Parse(textBox1.Text);
-                    func.WriteMemory(ip, pid, rac3.BoltCount, bolts.ToString("X8"));
+                    func.WriteMemory(ip, pid, rac3.bolt_count, bolts.ToString("X8"));
                 }
                 catch
                 {
@@ -97,12 +97,12 @@ namespace racman
             string position = func.GetConfigData("config.txt", planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
             if (position != "")
             {
-                func.WriteMemory(ip, pid, rac3.Coordinates, position);
+                func.WriteMemory(ip, pid, rac3.player_coords, position);
             }
         }
         private void savePosButton_Click(object sender, EventArgs e)
         {
-            string position = func.ReadMemory(ip, pid, rac3.Coordinates, 30);
+            string position = func.ReadMemory(ip, pid, rac3.player_coords, 30);
             func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
         }
 
@@ -117,7 +117,7 @@ namespace racman
 
         private void ghostrac_Click(object sender, EventArgs e)
         {
-            func.WriteMemory(ip, pid, rac3.GhostRatchet, "2710");
+            func.WriteMemory(ip, pid, rac3.ghost_timer, "2710");
         }
 
 
@@ -132,7 +132,7 @@ namespace racman
 
         private void killyourself_Click(object sender, EventArgs e)
         {
-            func.WriteMemory(ip, pid, rac3.Coordinates + 8, "C2480000");
+            func.WriteMemory(ip, pid, rac3.player_coords + 8, "C2480000");
         }
 
         private void positions_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -147,14 +147,15 @@ namespace racman
 
         private void button6_Click(object sender, EventArgs e)
         {
-            func.WriteMemory(ip, pid, rac3.KlunkTuning, "07");
-            func.WriteMemory(ip, pid, rac3.KlunkTuning2, "03");
+            func.WriteMemory(ip, pid, rac3.klunk_tuning_var1, "07");
+            func.WriteMemory(ip, pid, rac3.klunk_tuning_var2, "03");
         }
 
         private void loadPlanetButton_Click(object sender, EventArgs e)
         {
             int x = planets_comboBox.SelectedIndex + 1; string planet = x.ToString("X2");
-            func.WriteMemory(ip, pid, rac3.LoadPlanet, $"00000001000000{planet}");
+            func.WriteMemory(ip, pid, rac3.force_load_planet, $"00000001000000{planet}");
+            func.WriteMemory(ip, pid, rac3.fast_load, "00000003");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -202,34 +203,34 @@ namespace racman
         private void button9_Click(object sender, EventArgs e)
         {
             qsbool = !qsbool;
-            if (qsbool == true) { func.WriteMemory(ip, pid, rac3.QuickSelectPause, "01"); }
-            if (qsbool == false) { func.WriteMemory(ip, pid, rac3.QuickSelectPause, "00"); }
+            if (qsbool == true) { func.WriteMemory(ip, pid, rac3.quick_select_pause, "01"); }
+            if (qsbool == false) { func.WriteMemory(ip, pid, rac3.quick_select_pause, "00"); }
         }
 
         private void tbsreset_Click(object sender, EventArgs e)
         {
             string reset = string.Concat(Enumerable.Repeat("00", 128));
-            func.WriteMemory(ip, pid, rac3.TitaniumBoltsStart, reset);
-            func.WriteMemory(ip, pid, rac3.TitaniumBoltsStart + 128, reset);
+            func.WriteMemory(ip, pid, rac3.titanium_bolts_array, reset);
+            func.WriteMemory(ip, pid, rac3.titanium_bolts_array + 128, reset);
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
             string unlock = string.Concat(Enumerable.Repeat("01", 128));
-            func.WriteMemory(ip, pid, rac3.TitaniumBoltsStart, unlock);
-            func.WriteMemory(ip, pid, rac3.TitaniumBoltsStart + 128, unlock);
+            func.WriteMemory(ip, pid, rac3.titanium_bolts_array, unlock);
+            func.WriteMemory(ip, pid, rac3.titanium_bolts_array + 128, unlock);
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             string unlock = string.Concat(Enumerable.Repeat("01", 30));
-            func.WriteMemory(ip, pid, rac3.SkillPointsStart, unlock);
+            func.WriteMemory(ip, pid, rac3.skill_points_array, unlock);
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
             string reset = string.Concat(Enumerable.Repeat("00", 30));
-            func.WriteMemory(ip, pid, rac3.SkillPointsStart, reset);
+            func.WriteMemory(ip, pid, rac3.skill_points_array, reset);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -247,24 +248,24 @@ namespace racman
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
             string armor = comboBox4.SelectedIndex.ToString("X4");
-            func.WriteMemory(ip, pid, rac3.CurrentArmor, armor);
+            func.WriteMemory(ip, pid, rac3.current_armor, armor);
         }
 
         private void numericUpDown22_ValueChanged(object sender, EventArgs e)
         {
             string chmod = Convert.ToInt32(numericUpDown22.Value).ToString("X4");
-            func.WriteMemory(ip, pid, rac3.ChallengeMode, chmod);
+            func.WriteMemory(ip, pid, rac3.challenge_mode, chmod);
         }
 
         private void checkBox41_CheckedChanged(object sender, EventArgs e)
         {
             if (vc1.Checked)
             {
-                func.WriteMemory(ip, pid, rac3.VidComics, "01");
+                func.WriteMemory(ip, pid, rac3.vid_comics, "01");
             }
             else
             {
-                func.WriteMemory(ip, pid, rac3.VidComics, "00");
+                func.WriteMemory(ip, pid, rac3.vid_comics, "00");
             }
         }
 
@@ -272,11 +273,11 @@ namespace racman
         {
             if (vc2.Checked)
             {
-                func.WriteMemory(ip, pid, rac3.VidComics + 1, "01");
+                func.WriteMemory(ip, pid, rac3.vid_comics + 1, "01");
             }
             else
             {
-                func.WriteMemory(ip, pid, rac3.VidComics + 1, "00");
+                func.WriteMemory(ip, pid, rac3.vid_comics + 1, "00");
             }
         }
 
@@ -285,11 +286,11 @@ namespace racman
 
             if (vc3.Checked)
             {
-                func.WriteMemory(ip, pid, rac3.VidComics + 2, "01");
+                func.WriteMemory(ip, pid, rac3.vid_comics + 2, "01");
             }
             else
             {
-                func.WriteMemory(ip, pid, rac3.VidComics + 2, "00");
+                func.WriteMemory(ip, pid, rac3.vid_comics + 2, "00");
             }
         }
 
@@ -297,11 +298,11 @@ namespace racman
         {
             if (vc4.Checked)
             {
-                func.WriteMemory(ip, pid, rac3.VidComics + 3, "01");
+                func.WriteMemory(ip, pid, rac3.vid_comics + 3, "01");
             }
             else
             {
-                func.WriteMemory(ip, pid, rac3.VidComics + 3, "00");
+                func.WriteMemory(ip, pid, rac3.vid_comics + 3, "00");
             }
         }
 
@@ -309,11 +310,11 @@ namespace racman
         {
             if (vc5.Checked)
             {
-                func.WriteMemory(ip, pid, rac3.VidComics + 4, "01");
+                func.WriteMemory(ip, pid, rac3.vid_comics + 4, "01");
             }
             else
             {
-                func.WriteMemory(ip, pid, rac3.VidComics + 4, "00");
+                func.WriteMemory(ip, pid, rac3.vid_comics + 4, "00");
             }
         }
         private void ShowCoordinates(object sender, EventArgs e)
@@ -366,7 +367,7 @@ namespace racman
 
         public static int getCurrentPlanetIndex()
         {
-            string planet = func.ReadMemory(ip, pid, rac3.CurrentPlanet, 4);
+            string planet = func.ReadMemory(ip, pid, rac3.current_planet, 4);
             int index = int.Parse(planet, System.Globalization.NumberStyles.HexNumber) - 1;
             return index;
         }

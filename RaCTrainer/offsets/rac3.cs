@@ -2,27 +2,67 @@
 {
     class rac3
     {
-        public static uint ItemTable = 0xc1e43c;
-        public static uint BoltCount = 0xc1e4dc;
-        public static uint HealthEXP = 0xc1e510;
-        public static uint VidComics = 0xda650b;
-        public static uint CurrentArmor = 0xc1e51c;
-        public static uint ChallengeMode = 0xC1E50D;
-        public static uint GhostRatchet = 0xDA29E0;
-        public static uint Coordinates = 0xDA2870;
-        public static uint AmmoTable = 0xDA5240;
-        public static uint CurrentPlanet = 0xC1E438;
-        public static uint LoadPlanet = 0xEE9310; //destination planet at 0xEE9314 for example set 0000000100000002 to load florana
-        public static uint KlunkTuning = 0xC9165C; // set to 7 for tuning
-        public static uint KlunkTuning2 = 0xC36BCC; // set to 3
-        public static uint State = 0xDA4DB4;
-        public static uint QuickSelectPause = 0xC1E652;
-        public static uint TitaniumBoltsStart = 0xECE53D; // end ECE667
-        public static uint SkillPointsStart = 0xDA521d;
-        public static uint UnlockTable = 0xDA5710; // find start - currently starts at lockstrafe etc.
+        ///////////// Player /////////////
 
+        // Player's current coordinates. We typically copy 0x1E at a time for saving/loading positions.
+        public static uint player_coords = 0xDA2870;
 
+        // Player's current bolt count.
+        public static uint bolt_count = 0xc1e4dc;
 
+        // Player's current health EXP.
+        public static uint health_exp = 0xc1e510;
 
+        // Player's current state.
+        public static uint player_state = 0xDA4DB4;
+
+        // Player's currently used armor. 
+        public static uint current_armor = 0xc1e51c;
+
+        // Current challenge mode.
+        public static uint challenge_mode = 0xC1E50D;
+
+        // Frames until "Ghost Ratchet" runs out.
+        public static uint ghost_timer = 0xDA29E0;
+
+        // Currently loaded planet.
+        public static uint current_planet = 0xC1E438;
+
+        ///////////// Misc. /////////////
+
+        // First variable for Klunk Tuning, set to 7.
+        public static uint klunk_tuning_var1 = 0xC9165C;
+
+        // Second variable for Klunk Tuning, set to 3.
+        public static uint klunk_tuning_var2 = 0xC36BCC;
+
+        // Should load + planet to load. For example set 0000000100000002 to load Florana. Found by doesthisusername
+        public static uint force_load_planet = 0xEE9310;
+
+        // Current load screen. Can force to second loading screen by setting to 00000003
+        public static uint fast_load = 0x134EBD4;
+
+        // Bool which toggles if quick select is on or not.
+        public static uint quick_select_pause = 0xC1E652;
+
+        ///////////// Arrays /////////////
+
+        // Array of whether or not you've collected titanium bolts. 8 per planet.
+        public static uint titanium_bolts_array = 0xECE53D;
+
+        // Array of skill points.
+        public static uint skill_points_array = 0xDA521d;
+
+        // Array of unlockable items. Follows same structure as item array. Currently starts at lock strafe cuz im lazy but ill get around to this later.
+        public static uint unlock_array = 0xDA5710;
+
+        // Array of items.
+        public static uint item_array = 0xc1e43c;
+
+        // Array of ammo on weapons. Follows same structure as item array.
+        public static uint ammo_array = 0xDA5240;
+
+        // Currently unlocked vid comics. Follows 1, 4, 3, 2, 5 in order.
+        public static uint vid_comics = 0xda650b;
     }
 }

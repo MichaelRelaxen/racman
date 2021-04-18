@@ -121,6 +121,7 @@ namespace racman
             if(lflagresetCb.Checked)
                 ResetLevelFlags((uint)x);
             func.WriteMemory(ip, pid, rac1.load_planet, $"00000001000000{planet}");
+
             Thread.Sleep(1000); // lazy
             func.WriteMemory(ip, pid, 0x9645C4, "0000001A0000000400000002"); // Force fast load
         }
@@ -235,12 +236,6 @@ namespace racman
         {
             UnlocksWindow = null;
         }
-
-        private void currentPlanetView()
-        {
-            string planet = func.ReadMemory(ip, pid, rac1.current_planet, 30);
-        }
-
         public static int getCurrentPlanetIndex()
         {
             string planet = func.ReadMemory(ip, pid, rac1.current_planet, 4);
@@ -259,7 +254,6 @@ namespace racman
         }
         private void goodiesCheck_CheckedChanged(object sender, EventArgs e)
         {
-            //Would want to make it so it can check the byte in memory first then go off of that... a button might be better
             if (goodiesCheck.Checked)
             {
                 func.WriteMemory(ip, pid, rac1.goodies_menu, "01");
@@ -277,18 +271,26 @@ namespace racman
             func.WriteMemory(ip, pid, rac1.infobot_flags, func.strarr("00", 0x20));
             func.WriteMemory(ip, pid, rac1.watched_ilms_array, func.strarr("00", 0x100));
 
+            
+            // Gadget unlocks and more misc level flags
             if(planetIndex == 3) // Kerwan
             {
                 func.WriteMemory(ip, pid, 0x96C378, func.strarr("00", 0xF0));
-                func.WriteMemory(ip, pid, rac1.unlock_array + 2, "00");
+                func.WriteMemory(ip, pid, rac1.unlock_array + 2, "00"); // Heli-Pack
+                func.WriteMemory(ip, pid, rac1.unlock_array + 12, "00"); // Swingshot
             }
             if(planetIndex == 4) // Eudora
             {
                 func.WriteMemory(ip, pid, 0x96C468, func.strarr("00", 0x40));
+                func.WriteMemory(ip, pid, rac1.unlock_array + 9, "00"); // Suck Cannon
             }
             if(planetIndex == 5) // Rilgar
             {
-                func.WriteMemory(ip, pid, 0x96C498, func.strarr("00", 0xA0));
+                func.WriteMemory(ip, pid, 0x96C498, func.strarr("00", 0xA0)); 
+            }
+            if(planetIndex == 6) // Blarg Station
+            {
+                func.WriteMemory(ip, pid, rac1.unlock_array + 29, "00");
             }
             if(planetIndex == 8) // Batalia
             {
@@ -297,6 +299,16 @@ namespace racman
             if(planetIndex == 9) // Gaspar
             {
                 func.WriteMemory(ip, pid, 0x96C5E8, func.strarr("00", 0x20));
+                func.WriteMemory(ip, pid, rac1.unlock_array + 7, "00"); // Pilot's Helmet
+            }
+            if(planetIndex == 10) // Orxon
+            {
+                func.WriteMemory(ip, pid, rac1.unlock_array + 28, "00"); // Magneboots
+            }
+            if(planetIndex == 11) // Pokitaru
+            {
+                func.WriteMemory(ip, pid, rac1.unlock_array + 3, "00"); // Thruster-Pack
+                func.WriteMemory(ip, pid, rac1.unlock_array + 6, "00"); // O2 Mask
             }
         }
 
