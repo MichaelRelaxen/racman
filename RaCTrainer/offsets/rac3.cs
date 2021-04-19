@@ -42,6 +42,9 @@
         // Current load screen. Can force to second loading screen by setting to 00000003
         public static uint fast_load = 0x134EBD4;
 
+        // Load screen thing idk set to 0x100
+        public static uint fast_load2 = 0x134EE70;
+
         // Bool which toggles if quick select is on or not.
         public static uint quick_select_pause = 0xC1E652;
 

@@ -155,7 +155,19 @@ namespace racman
         {
             int x = planets_comboBox.SelectedIndex + 1; string planet = x.ToString("X2");
             func.WriteMemory(ip, pid, rac3.force_load_planet, $"00000001000000{planet}");
-            func.WriteMemory(ip, pid, rac3.fast_load, "00000003");
+
+            FastLoads();
+
+        }
+
+        private void FastLoads()
+        {
+            int x = planets_comboBox.SelectedIndex + 1; string planet = x.ToString("X2");
+
+            func.WriteMemory(ip, pid, rac3.fast_load, "00000003"); // Force third load screen
+            Thread.Sleep(200);
+            if (x != 26 || x != 20 || x != 29) // Launch Site, Metro Rangers, Tyhrranosis Rangers
+                func.WriteMemory(ip, pid, rac3.fast_load2, "0101"); // Make load one seg
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -370,6 +382,11 @@ namespace racman
             string planet = func.ReadMemory(ip, pid, rac3.current_planet, 4);
             int index = int.Parse(planet, System.Globalization.NumberStyles.HexNumber) - 1;
             return index;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FastLoads();
         }
     }
 }

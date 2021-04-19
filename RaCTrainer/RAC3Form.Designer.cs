@@ -69,6 +69,7 @@ namespace racman
             this.ebootSwap = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.currentlyDoing = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).BeginInit();
@@ -492,12 +493,23 @@ namespace racman
             this.currentlyDoing.Size = new System.Drawing.Size(0, 13);
             this.currentlyDoing.TabIndex = 73;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(18, 286);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(112, 23);
+            this.button1.TabIndex = 74;
+            this.button1.Text = "Force fast load";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // RAC3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(512, 325);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.currentlyDoing);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.ebootSwap);
@@ -593,6 +605,7 @@ namespace racman
         private System.Windows.Forms.ComboBox ebootSwap;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label currentlyDoing;
+        private System.Windows.Forms.Button button1;
     }
 }
 
