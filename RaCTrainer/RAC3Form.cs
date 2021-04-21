@@ -64,6 +64,48 @@ namespace racman
                 string b = i.Substring(i.IndexOf("EBOOTs") + 7);
                 ebootSwap.Items.Add(b);
             }
+
+            //
+            if (func.GetConfigData("config.exe", "SaveHotkeyRac3") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.Shift), "SaveHotkeyRac3");
+            }
+            SaveHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "SaveHotkeyRac3"));
+
+            //
+            if (func.GetConfigData("config.exe", "LoadHotkeyRac3") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.Space), "LoadHotkeyRac3");
+            }
+            LoadHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "LoadHotkeyRac3"));
+
+            //
+            if (func.GetConfigData("config.exe", "DieHotkeyRac3") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.E), "DieHotkeyRac3");
+            }
+            DieHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "DieHotkeyRac3"));
+
+            //
+            if (func.GetConfigData("config.exe", "Coord1HotkeyRac3") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.D1), "Coord1HotkeyRac3");
+            }
+            Coord1Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord1HotkeyRac3"));
+
+            //
+            if (func.GetConfigData("config.exe", "Coord2HotkeyRac3") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.D2), "Coord2HotkeyRac3");
+            }
+            Coord2Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord2HotkeyRac3"));
+
+            //
+            if (func.GetConfigData("config.exe", "Coord3HotkeyRac3") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.D3), "Coord3HotkeyRac3");
+            }
+            Coord3Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord3HotkeyRac3"));
         }
 
         private void TextBox1_KeyDown(object sender, KeyEventArgs e)
@@ -85,7 +127,9 @@ namespace racman
 
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
+        public Form HotkeysMenuRac3;
         readonly string[] planets_list;
+        public static Keys LoadHotkey, SaveHotkey, Coord1Hotkey, Coord2Hotkey, Coord3Hotkey, DieHotkey;
 
         public int saved_pos_index = 1;
         public string current_planet;
@@ -182,30 +226,30 @@ namespace racman
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ShiftKey)
+            if (e.KeyCode == SaveHotkey)
             {
                 savepos.PerformClick();
             }
 
-            if (e.KeyCode == Keys.Space)
+            if (e.KeyCode == LoadHotkey)
             {
                 loadpos.PerformClick();
             }
 
-            if (e.KeyCode == Keys.E)
+            if (e.KeyCode == DieHotkey)
             {
                 killyourself.PerformClick();
             }
 
-            if (e.KeyCode == Keys.D1)
+            if (e.KeyCode == Coord1Hotkey)
             {
                 saved_pos_index = 0;
             }
-            if (e.KeyCode == Keys.D2)
+            if (e.KeyCode == Coord2Hotkey)
             {
                 saved_pos_index = 1;
             }
-            if (e.KeyCode == Keys.D3)
+            if (e.KeyCode == Coord3Hotkey)
             {
                 saved_pos_index = 2;
             }
@@ -345,6 +389,20 @@ namespace racman
             timer.Interval = 250;
             timer.Tick += new EventHandler(ShowCoordinates);
             timer.Enabled = true;
+        }
+
+        private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (HotkeysMenuRac3 == null)
+            {
+                HotkeysMenuRac3 = new HotkeysMenuRac3();
+                HotkeysMenuRac3.FormClosed += HotkeysMenu_FormClosed;
+                HotkeysMenuRac3.Show();
+            }
+        }
+        private void HotkeysMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            HotkeysMenuRac3 = null;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)

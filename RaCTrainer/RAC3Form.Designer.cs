@@ -70,9 +70,13 @@ namespace racman
             this.label13 = new System.Windows.Forms.Label();
             this.currentlyDoing = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -91,7 +95,7 @@ namespace racman
             // 
             // tbsreset
             // 
-            this.tbsreset.Location = new System.Drawing.Point(358, 91);
+            this.tbsreset.Location = new System.Drawing.Point(358, 113);
             this.tbsreset.Name = "tbsreset";
             this.tbsreset.Size = new System.Drawing.Size(135, 23);
             this.tbsreset.TabIndex = 11;
@@ -101,7 +105,7 @@ namespace racman
             // 
             // ghostrac
             // 
-            this.ghostrac.Location = new System.Drawing.Point(18, 170);
+            this.ghostrac.Location = new System.Drawing.Point(18, 192);
             this.ghostrac.Name = "ghostrac";
             this.ghostrac.Size = new System.Drawing.Size(112, 23);
             this.ghostrac.TabIndex = 8;
@@ -112,7 +116,7 @@ namespace racman
             // 
             // killyourself
             // 
-            this.killyourself.Location = new System.Drawing.Point(15, 81);
+            this.killyourself.Location = new System.Drawing.Point(15, 103);
             this.killyourself.Name = "killyourself";
             this.killyourself.Size = new System.Drawing.Size(115, 23);
             this.killyourself.TabIndex = 7;
@@ -130,7 +134,7 @@ namespace racman
             // 
             // loadpos
             // 
-            this.loadpos.Location = new System.Drawing.Point(15, 52);
+            this.loadpos.Location = new System.Drawing.Point(15, 74);
             this.loadpos.Name = "loadpos";
             this.loadpos.Size = new System.Drawing.Size(115, 23);
             this.loadpos.TabIndex = 1;
@@ -140,7 +144,7 @@ namespace racman
             // 
             // loadPlanetButton
             // 
-            this.loadPlanetButton.Location = new System.Drawing.Point(136, 130);
+            this.loadPlanetButton.Location = new System.Drawing.Point(136, 152);
             this.loadPlanetButton.Name = "loadPlanetButton";
             this.loadPlanetButton.Size = new System.Drawing.Size(75, 23);
             this.loadPlanetButton.TabIndex = 14;
@@ -150,7 +154,7 @@ namespace racman
             // 
             // savepos
             // 
-            this.savepos.Location = new System.Drawing.Point(15, 23);
+            this.savepos.Location = new System.Drawing.Point(15, 45);
             this.savepos.Name = "savepos";
             this.savepos.Size = new System.Drawing.Size(115, 23);
             this.savepos.TabIndex = 0;
@@ -168,7 +172,7 @@ namespace racman
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(18, 257);
+            this.button4.Location = new System.Drawing.Point(18, 279);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(112, 23);
             this.button4.TabIndex = 25;
@@ -184,7 +188,7 @@ namespace racman
             "1",
             "2",
             "3"});
-            this.positions_ComboBox.Location = new System.Drawing.Point(136, 25);
+            this.positions_ComboBox.Location = new System.Drawing.Point(136, 47);
             this.positions_ComboBox.Name = "positions_ComboBox";
             this.positions_ComboBox.Size = new System.Drawing.Size(75, 21);
             this.positions_ComboBox.TabIndex = 27;
@@ -230,7 +234,7 @@ namespace racman
             "Vid Comic 3",
             "Vid Comic 5",
             "Vid Comic 1 Special Edition"});
-            this.planets_comboBox.Location = new System.Drawing.Point(18, 132);
+            this.planets_comboBox.Location = new System.Drawing.Point(18, 154);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
             this.planets_comboBox.TabIndex = 28;
@@ -238,7 +242,7 @@ namespace racman
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(18, 199);
+            this.button6.Location = new System.Drawing.Point(18, 221);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(112, 23);
             this.button6.TabIndex = 29;
@@ -248,7 +252,7 @@ namespace racman
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(217, 121);
+            this.button3.Location = new System.Drawing.Point(217, 143);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(135, 23);
             this.button3.TabIndex = 30;
@@ -258,7 +262,7 @@ namespace racman
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(217, 90);
+            this.button7.Location = new System.Drawing.Point(217, 112);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(135, 23);
             this.button7.TabIndex = 31;
@@ -268,7 +272,7 @@ namespace racman
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(358, 122);
+            this.button8.Location = new System.Drawing.Point(358, 144);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(135, 23);
             this.button8.TabIndex = 32;
@@ -278,7 +282,7 @@ namespace racman
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(18, 228);
+            this.button9.Location = new System.Drawing.Point(18, 250);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(112, 23);
             this.button9.TabIndex = 33;
@@ -288,7 +292,7 @@ namespace racman
             // 
             // numericUpDown22
             // 
-            this.numericUpDown22.Location = new System.Drawing.Point(358, 23);
+            this.numericUpDown22.Location = new System.Drawing.Point(358, 45);
             this.numericUpDown22.Maximum = new decimal(new int[] {
             255,
             0,
@@ -327,7 +331,7 @@ namespace racman
             "Skin",
             "Skin",
             "Skin"});
-            this.comboBox4.Location = new System.Drawing.Point(216, 63);
+            this.comboBox4.Location = new System.Drawing.Point(216, 85);
             this.comboBox4.Name = "comboBox4";
             this.comboBox4.Size = new System.Drawing.Size(136, 21);
             this.comboBox4.TabIndex = 40;
@@ -344,7 +348,7 @@ namespace racman
             // vc1
             // 
             this.vc1.AutoSize = true;
-            this.vc1.Location = new System.Drawing.Point(145, 170);
+            this.vc1.Location = new System.Drawing.Point(145, 192);
             this.vc1.Name = "vc1";
             this.vc1.Size = new System.Drawing.Size(82, 17);
             this.vc1.TabIndex = 42;
@@ -355,7 +359,7 @@ namespace racman
             // vc2
             // 
             this.vc2.AutoSize = true;
-            this.vc2.Location = new System.Drawing.Point(145, 239);
+            this.vc2.Location = new System.Drawing.Point(145, 261);
             this.vc2.Name = "vc2";
             this.vc2.Size = new System.Drawing.Size(82, 17);
             this.vc2.TabIndex = 43;
@@ -366,7 +370,7 @@ namespace racman
             // vc3
             // 
             this.vc3.AutoSize = true;
-            this.vc3.Location = new System.Drawing.Point(145, 193);
+            this.vc3.Location = new System.Drawing.Point(145, 215);
             this.vc3.Name = "vc3";
             this.vc3.Size = new System.Drawing.Size(82, 17);
             this.vc3.TabIndex = 44;
@@ -377,7 +381,7 @@ namespace racman
             // vc4
             // 
             this.vc4.AutoSize = true;
-            this.vc4.Location = new System.Drawing.Point(145, 216);
+            this.vc4.Location = new System.Drawing.Point(145, 238);
             this.vc4.Name = "vc4";
             this.vc4.Size = new System.Drawing.Size(82, 17);
             this.vc4.TabIndex = 45;
@@ -388,7 +392,7 @@ namespace racman
             // vc5
             // 
             this.vc5.AutoSize = true;
-            this.vc5.Location = new System.Drawing.Point(145, 261);
+            this.vc5.Location = new System.Drawing.Point(145, 283);
             this.vc5.Name = "vc5";
             this.vc5.Size = new System.Drawing.Size(82, 17);
             this.vc5.TabIndex = 46;
@@ -398,7 +402,7 @@ namespace racman
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(217, 25);
+            this.textBox1.Location = new System.Drawing.Point(217, 47);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(135, 20);
             this.textBox1.TabIndex = 62;
@@ -414,7 +418,7 @@ namespace racman
             // coordscb
             // 
             this.coordscb.AutoSize = true;
-            this.coordscb.Location = new System.Drawing.Point(233, 170);
+            this.coordscb.Location = new System.Drawing.Point(233, 192);
             this.coordscb.Name = "coordscb";
             this.coordscb.Size = new System.Drawing.Size(82, 17);
             this.coordscb.TabIndex = 64;
@@ -434,7 +438,7 @@ namespace racman
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(15, 116);
+            this.label6.Location = new System.Drawing.Point(15, 138);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 67;
@@ -443,7 +447,7 @@ namespace racman
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(215, 11);
+            this.label8.Location = new System.Drawing.Point(215, 33);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 68;
@@ -452,7 +456,7 @@ namespace racman
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(355, 9);
+            this.label11.Location = new System.Drawing.Point(355, 31);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(87, 13);
             this.label11.TabIndex = 69;
@@ -461,7 +465,7 @@ namespace racman
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(215, 48);
+            this.label12.Location = new System.Drawing.Point(215, 70);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(37, 13);
             this.label12.TabIndex = 70;
@@ -470,7 +474,7 @@ namespace racman
             // ebootSwap
             // 
             this.ebootSwap.FormattingEnabled = true;
-            this.ebootSwap.Location = new System.Drawing.Point(358, 63);
+            this.ebootSwap.Location = new System.Drawing.Point(358, 85);
             this.ebootSwap.Name = "ebootSwap";
             this.ebootSwap.Size = new System.Drawing.Size(135, 21);
             this.ebootSwap.TabIndex = 71;
@@ -479,7 +483,7 @@ namespace racman
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(355, 47);
+            this.label13.Location = new System.Drawing.Point(355, 69);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(74, 13);
             this.label13.TabIndex = 72;
@@ -495,7 +499,7 @@ namespace racman
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(18, 286);
+            this.button1.Location = new System.Drawing.Point(18, 308);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(112, 23);
             this.button1.TabIndex = 74;
@@ -503,12 +507,38 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(512, 24);
+            this.menuStrip1.TabIndex = 75;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hotkeysToolStripMenuItem});
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.menuToolStripMenuItem.Text = "Menu";
+            // 
+            // hotkeysToolStripMenuItem
+            // 
+            this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hotkeysToolStripMenuItem.Text = "Hotkeys";
+            this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
+            // 
             // RAC3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(512, 325);
+            this.ClientSize = new System.Drawing.Size(512, 346);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.currentlyDoing);
             this.Controls.Add(this.label13);
@@ -547,9 +577,11 @@ namespace racman
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
+            this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "RAC3Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -560,6 +592,8 @@ namespace racman
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -606,6 +640,9 @@ namespace racman
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label currentlyDoing;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
     }
 }
 

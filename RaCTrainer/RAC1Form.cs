@@ -44,6 +44,53 @@ namespace racman
 
             goodiesCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.goodies_menu, 1)));
             drekSkipCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.drek_skip, 1)));
+
+            //
+            if(func.GetConfigData("config.exe","SaveHotkey") == ""){
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.Shift), "SaveHotkey");
+            }
+            SaveHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "SaveHotkey"));
+
+            //
+            if (func.GetConfigData("config.exe", "LoadHotkey") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.Space), "LoadHotkey");
+            }
+            LoadHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "LoadHotkey"));
+
+            //
+            if (func.GetConfigData("config.exe", "DieHotkey") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.E), "DieHotkey");
+            }
+            DieHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "DieHotkey"));
+
+            //
+            if (func.GetConfigData("config.exe", "Coord1Hotkey") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.D1), "Coord1Hotkey");
+            }
+            Coord1Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord1Hotkey"));
+
+            //
+            if (func.GetConfigData("config.exe", "Coord2Hotkey") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.D2), "Coord2Hotkey");
+            }
+            Coord2Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord2Hotkey"));
+
+            //
+            if (func.GetConfigData("config.exe", "Coord3Hotkey") == "")
+            {
+                func.ChangeFileLines("config.exe", Convert.ToString(Keys.D3), "Coord3Hotkey");
+            }
+            Coord3Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord3Hotkey"));
+
+
+
+
+
+
         }
 
 
@@ -66,9 +113,10 @@ namespace racman
         }
 
         public Form UnlocksWindow;
+        public Form HotkeysMenu;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
-
+        public static Keys LoadHotkey, SaveHotkey, Coord1Hotkey, Coord2Hotkey, Coord3Hotkey, DieHotkey;
 
         public int saved_pos_index = 1;
         public string current_planet;
@@ -110,10 +158,6 @@ namespace racman
                 ResetLevelFlags((uint)planets_comboBox.SelectedIndex);*/
         }
 
-        private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
@@ -140,30 +184,30 @@ namespace racman
         //Method that checks if keys are being pressed
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.ShiftKey)
+            if (e.KeyCode == SaveHotkey)
             {
                 savepos.PerformClick();
             }
 
-            if (e.KeyCode == Keys.Space)
+            if (e.KeyCode == LoadHotkey)
             {
                 loadpos.PerformClick();
             }
 
-            if (e.KeyCode == Keys.E)
+            if (e.KeyCode == DieHotkey)
             {
                 killyourself.PerformClick();
             }
 
-            if (e.KeyCode == Keys.D1)
+            if (e.KeyCode == Coord1Hotkey)
             {
                 saved_pos_index = 0;
             }
-            if (e.KeyCode == Keys.D2)
+            if (e.KeyCode == Coord2Hotkey)
             {
                 saved_pos_index = 1;
             }
-            if (e.KeyCode == Keys.D3)
+            if (e.KeyCode == Coord3Hotkey)
             {
                 saved_pos_index = 2;
             }
@@ -241,6 +285,12 @@ namespace racman
             string planet = func.ReadMemory(ip, pid, rac1.current_planet, 4);
             return int.Parse(planet, System.Globalization.NumberStyles.HexNumber);
         }
+
+        private void menuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (drekSkipCheck.Checked)
@@ -312,5 +362,18 @@ namespace racman
             }
         }
 
+        private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (HotkeysMenu == null)
+            {
+                HotkeysMenu = new HotkeysMenu();
+                HotkeysMenu.FormClosed += HotkeysMenu_FormClosed;
+                HotkeysMenu.Show();
+            }
+        }
+        private void HotkeysMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            HotkeysMenu = null;
+        }
     }
 }

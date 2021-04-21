@@ -53,8 +53,12 @@ namespace racman
             this.drekSkipCheck = new System.Windows.Forms.CheckBox();
             this.goodiesCheck = new System.Windows.Forms.CheckBox();
             this.lflagresetCb = new System.Windows.Forms.CheckBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -73,7 +77,7 @@ namespace racman
             // 
             // gbsreset
             // 
-            this.gbsreset.Location = new System.Drawing.Point(227, 80);
+            this.gbsreset.Location = new System.Drawing.Point(229, 102);
             this.gbsreset.Name = "gbsreset";
             this.gbsreset.Size = new System.Drawing.Size(135, 23);
             this.gbsreset.TabIndex = 11;
@@ -83,7 +87,7 @@ namespace racman
             // 
             // ghostrac
             // 
-            this.ghostrac.Location = new System.Drawing.Point(227, 109);
+            this.ghostrac.Location = new System.Drawing.Point(229, 131);
             this.ghostrac.Name = "ghostrac";
             this.ghostrac.Size = new System.Drawing.Size(135, 23);
             this.ghostrac.TabIndex = 8;
@@ -94,7 +98,7 @@ namespace racman
             // 
             // killyourself
             // 
-            this.killyourself.Location = new System.Drawing.Point(12, 81);
+            this.killyourself.Location = new System.Drawing.Point(14, 103);
             this.killyourself.Name = "killyourself";
             this.killyourself.Size = new System.Drawing.Size(115, 23);
             this.killyourself.TabIndex = 7;
@@ -112,7 +116,7 @@ namespace racman
             // 
             // loadpos
             // 
-            this.loadpos.Location = new System.Drawing.Point(12, 52);
+            this.loadpos.Location = new System.Drawing.Point(14, 74);
             this.loadpos.Name = "loadpos";
             this.loadpos.Size = new System.Drawing.Size(115, 23);
             this.loadpos.TabIndex = 1;
@@ -122,7 +126,7 @@ namespace racman
             // 
             // loadPlanetButton
             // 
-            this.loadPlanetButton.Location = new System.Drawing.Point(133, 130);
+            this.loadPlanetButton.Location = new System.Drawing.Point(135, 152);
             this.loadPlanetButton.Name = "loadPlanetButton";
             this.loadPlanetButton.Size = new System.Drawing.Size(75, 23);
             this.loadPlanetButton.TabIndex = 14;
@@ -132,7 +136,7 @@ namespace racman
             // 
             // savepos
             // 
-            this.savepos.Location = new System.Drawing.Point(12, 23);
+            this.savepos.Location = new System.Drawing.Point(14, 45);
             this.savepos.Name = "savepos";
             this.savepos.Size = new System.Drawing.Size(115, 23);
             this.savepos.TabIndex = 0;
@@ -156,7 +160,7 @@ namespace racman
             "1",
             "2",
             "3"});
-            this.positions_comboBox.Location = new System.Drawing.Point(133, 25);
+            this.positions_comboBox.Location = new System.Drawing.Point(135, 47);
             this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
             this.positions_comboBox.TabIndex = 27;
@@ -184,15 +188,14 @@ namespace racman
             "Kalebo III",
             "Fleet",
             "Veldin 2"});
-            this.planets_comboBox.Location = new System.Drawing.Point(15, 132);
+            this.planets_comboBox.Location = new System.Drawing.Point(17, 154);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
             this.planets_comboBox.TabIndex = 28;
-            this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
             // 
             // unlockGoldBoltsButton
             // 
-            this.unlockGoldBoltsButton.Location = new System.Drawing.Point(228, 51);
+            this.unlockGoldBoltsButton.Location = new System.Drawing.Point(230, 73);
             this.unlockGoldBoltsButton.Name = "unlockGoldBoltsButton";
             this.unlockGoldBoltsButton.Size = new System.Drawing.Size(135, 23);
             this.unlockGoldBoltsButton.TabIndex = 31;
@@ -218,7 +221,7 @@ namespace racman
             // 
             // bolts_textBox
             // 
-            this.bolts_textBox.Location = new System.Drawing.Point(228, 25);
+            this.bolts_textBox.Location = new System.Drawing.Point(230, 47);
             this.bolts_textBox.Name = "bolts_textBox";
             this.bolts_textBox.Size = new System.Drawing.Size(135, 20);
             this.bolts_textBox.TabIndex = 62;
@@ -235,7 +238,7 @@ namespace racman
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 116);
+            this.label6.Location = new System.Drawing.Point(14, 138);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 67;
@@ -244,7 +247,7 @@ namespace racman
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(226, 11);
+            this.label8.Location = new System.Drawing.Point(228, 33);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 68;
@@ -253,7 +256,7 @@ namespace racman
             // 
             // unlocksWindowButton
             // 
-            this.unlocksWindowButton.Location = new System.Drawing.Point(257, 175);
+            this.unlocksWindowButton.Location = new System.Drawing.Point(259, 197);
             this.unlocksWindowButton.Name = "unlocksWindowButton";
             this.unlocksWindowButton.Size = new System.Drawing.Size(75, 23);
             this.unlocksWindowButton.TabIndex = 72;
@@ -264,7 +267,7 @@ namespace racman
             // infHealth
             // 
             this.infHealth.AutoSize = true;
-            this.infHealth.Location = new System.Drawing.Point(15, 159);
+            this.infHealth.Location = new System.Drawing.Point(17, 181);
             this.infHealth.Name = "infHealth";
             this.infHealth.Size = new System.Drawing.Size(91, 17);
             this.infHealth.TabIndex = 70;
@@ -275,7 +278,7 @@ namespace racman
             // drekSkipCheck
             // 
             this.drekSkipCheck.AutoSize = true;
-            this.drekSkipCheck.Location = new System.Drawing.Point(15, 181);
+            this.drekSkipCheck.Location = new System.Drawing.Point(17, 203);
             this.drekSkipCheck.Name = "drekSkipCheck";
             this.drekSkipCheck.Size = new System.Drawing.Size(73, 17);
             this.drekSkipCheck.TabIndex = 73;
@@ -286,7 +289,7 @@ namespace racman
             // goodiesCheck
             // 
             this.goodiesCheck.AutoSize = true;
-            this.goodiesCheck.Location = new System.Drawing.Point(15, 204);
+            this.goodiesCheck.Location = new System.Drawing.Point(17, 226);
             this.goodiesCheck.Name = "goodiesCheck";
             this.goodiesCheck.Size = new System.Drawing.Size(95, 17);
             this.goodiesCheck.TabIndex = 74;
@@ -297,19 +300,47 @@ namespace racman
             // lflagresetCb
             // 
             this.lflagresetCb.AutoSize = true;
-            this.lflagresetCb.Location = new System.Drawing.Point(133, 159);
+            this.lflagresetCb.Location = new System.Drawing.Point(135, 181);
             this.lflagresetCb.Name = "lflagresetCb";
             this.lflagresetCb.Size = new System.Drawing.Size(104, 17);
             this.lflagresetCb.TabIndex = 75;
             this.lflagresetCb.Text = "Reset level flags";
             this.lflagresetCb.UseVisualStyleBackColor = true;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(417, 24);
+            this.menuStrip1.TabIndex = 76;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hotkeysToolStripMenuItem});
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.menuToolStripMenuItem.Text = "Menu";
+            this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
+            // 
+            // hotkeysToolStripMenuItem
+            // 
+            this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hotkeysToolStripMenuItem.Text = "Hotkeys";
+            this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(380, 231);
+            this.ClientSize = new System.Drawing.Size(417, 268);
             this.Controls.Add(this.lflagresetCb);
             this.Controls.Add(this.goodiesCheck);
             this.Controls.Add(this.drekSkipCheck);
@@ -332,8 +363,10 @@ namespace racman
             this.Controls.Add(this.positions_comboBox);
             this.Controls.Add(this.planets_comboBox);
             this.Controls.Add(this.unlockGoldBoltsButton);
+            this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "RAC1Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -343,6 +376,8 @@ namespace racman
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -373,6 +408,9 @@ namespace racman
         private System.Windows.Forms.CheckBox drekSkipCheck;
         private System.Windows.Forms.CheckBox goodiesCheck;
         private System.Windows.Forms.CheckBox lflagresetCb;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
     }
 }
 

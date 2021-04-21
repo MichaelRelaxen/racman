@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>ds3drip.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,7 +56,19 @@
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </Compile>
     <Compile Include="func.cs" />
+    <Compile Include="HotkeysMenuRac3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HotkeysMenuRac3.Designer.cs">
+      <DependentUpon>HotkeysMenuRac3.cs</DependentUpon>
+    </Compile>
     <Compile Include="offsets\rac1.cs" />
+    <Compile Include="HotkeysMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HotkeysMenu.Designer.cs">
+      <DependentUpon>HotkeysMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="UnlocksWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +99,12 @@
     <Compile Include="Updater.cs" />
     <EmbeddedResource Include="AttachPS3Form.resx">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HotkeysMenuRac3.resx">
+      <DependentUpon>HotkeysMenuRac3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HotkeysMenu.resx">
+      <DependentUpon>HotkeysMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UnlocksWindow.resx">
       <DependentUpon>UnlocksWindow.cs</DependentUpon>
@@ -125,6 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ZZupdater0.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ds3drip.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
