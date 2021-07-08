@@ -229,15 +229,26 @@ namespace racman
 
             if (e.KeyCode == Coord1Hotkey)
             {
-                positions_comboBox.SelectedIndex = 0;
+                if (positions_comboBox.SelectedIndex == positions_comboBox.Items.Count - 1)
+                {
+                    // get fucked
+                }
+                else
+                {
+                    positions_comboBox.SelectedIndex = positions_comboBox.SelectedIndex + 1;
+                }
+
             }
             if (e.KeyCode == Coord2Hotkey)
             {
-                positions_comboBox.SelectedIndex = 1;
-            }
-            if (e.KeyCode == Coord3Hotkey)
-            {
-                positions_comboBox.SelectedIndex = 2;
+                if (positions_comboBox.SelectedIndex == 0)
+                {
+                    // get fucked
+                }
+                else
+                {
+                    positions_comboBox.SelectedIndex = positions_comboBox.SelectedIndex - 1;
+                }
             }
         }
 

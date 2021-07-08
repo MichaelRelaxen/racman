@@ -39,11 +39,16 @@ namespace racman
             this.coords1HotkeyTextBox = new System.Windows.Forms.TextBox();
             this.coords2LabelText = new System.Windows.Forms.Label();
             this.coords2HotkeyTextBox = new System.Windows.Forms.TextBox();
-            this.coords3LabelText = new System.Windows.Forms.Label();
-            this.coords3HotkeyTextBox = new System.Windows.Forms.TextBox();
             this.saveHotkeysButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
-
+            // 
+            // loadPositionHotkeyTextBox
+            // 
+            this.loadPositionHotkeyTextBox.Location = new System.Drawing.Point(104, 50);
+            this.loadPositionHotkeyTextBox.Name = "loadPositionHotkeyTextBox";
+            this.loadPositionHotkeyTextBox.ReadOnly = true;
+            this.loadPositionHotkeyTextBox.Size = new System.Drawing.Size(100, 20);
+            this.loadPositionHotkeyTextBox.TabIndex = 7;
             // 
             // savePositionLabelText
             // 
@@ -54,17 +59,6 @@ namespace racman
             this.savePositionLabelText.TabIndex = 0;
             this.savePositionLabelText.Text = "Save Position:";
             // 
-            // savePositionHotkeyTextBox
-            // 
-            this.savePositionHotkeyTextBox.Location = new System.Drawing.Point(91, 20);
-            this.savePositionHotkeyTextBox.Name = "savePositionHotkeyTextBox";
-            this.savePositionHotkeyTextBox.ReadOnly = true;
-            this.savePositionHotkeyTextBox.Size = new System.Drawing.Size(100, 20);
-            this.savePositionHotkeyTextBox.TabIndex = 6;
-            this.savePositionHotkeyTextBox.Click += SavePositionHotkeyTextBox_Click;
-            this.savePositionHotkeyTextBox.KeyDown += SavePositionHotkeyTextBox_KeyDown;
-
-            // 
             // loadPositionLabelText
             // 
             this.loadPositionLabelText.AutoSize = true;
@@ -74,16 +68,13 @@ namespace racman
             this.loadPositionLabelText.TabIndex = 1;
             this.loadPositionLabelText.Text = "Load Position:";
             // 
-            // loadPositionHotkeyTextBox
+            // savePositionHotkeyTextBox
             // 
-            this.loadPositionHotkeyTextBox.Location = new System.Drawing.Point(91, 50);
-            this.loadPositionHotkeyTextBox.Name = "loadPositionHotkeyTextBox";
-            this.loadPositionHotkeyTextBox.ReadOnly = true;
-            this.loadPositionHotkeyTextBox.Size = new System.Drawing.Size(100, 20);
-            this.loadPositionHotkeyTextBox.TabIndex = 7;
-            this.loadPositionHotkeyTextBox.Click += LoadPositionHotkeyTextBox_Click;
-            this.loadPositionHotkeyTextBox.KeyDown += LoadPositionHotkeyTextBox_KeyDown;
-
+            this.savePositionHotkeyTextBox.Location = new System.Drawing.Point(104, 20);
+            this.savePositionHotkeyTextBox.Name = "savePositionHotkeyTextBox";
+            this.savePositionHotkeyTextBox.ReadOnly = true;
+            this.savePositionHotkeyTextBox.Size = new System.Drawing.Size(100, 20);
+            this.savePositionHotkeyTextBox.TabIndex = 6;
             // 
             // killYourselfLabelText
             // 
@@ -96,94 +87,60 @@ namespace racman
             // 
             // killYourselfHotkeyTextBox
             // 
-            this.killYourselfHotkeyTextBox.Location = new System.Drawing.Point(91, 82);
+            this.killYourselfHotkeyTextBox.Location = new System.Drawing.Point(104, 82);
             this.killYourselfHotkeyTextBox.Name = "killYourselfHotkeyTextBox";
             this.killYourselfHotkeyTextBox.ReadOnly = true;
             this.killYourselfHotkeyTextBox.Size = new System.Drawing.Size(100, 20);
             this.killYourselfHotkeyTextBox.TabIndex = 8;
-            this.killYourselfHotkeyTextBox.Click += KillYourselfHotkeyTextBox_Click;
-            this.killYourselfHotkeyTextBox.KeyDown += KillYourselfHotkeyTextBox_KeyDown;
-
-
             // 
             // coords1LabelText
             // 
             this.coords1LabelText.AutoSize = true;
             this.coords1LabelText.Location = new System.Drawing.Point(13, 115);
             this.coords1LabelText.Name = "coords1LabelText";
-            this.coords1LabelText.Size = new System.Drawing.Size(70, 13);
+            this.coords1LabelText.Size = new System.Drawing.Size(74, 13);
             this.coords1LabelText.TabIndex = 3;
-            this.coords1LabelText.Text = "Coordinate 1:";
+            this.coords1LabelText.Text = "Pos Scroll Up:";
             // 
             // coords1HotkeyTextBox
             // 
-            this.coords1HotkeyTextBox.Location = new System.Drawing.Point(91, 112);
+            this.coords1HotkeyTextBox.Location = new System.Drawing.Point(104, 112);
             this.coords1HotkeyTextBox.Name = "coords1HotkeyTextBox";
             this.coords1HotkeyTextBox.ReadOnly = true;
             this.coords1HotkeyTextBox.Size = new System.Drawing.Size(100, 20);
             this.coords1HotkeyTextBox.TabIndex = 9;
-            this.coords1HotkeyTextBox.Click += Coords1HotkeyTextBox_Click;
-            this.coords1HotkeyTextBox.KeyDown += Coords1HotkeyTextBox_KeyDown;
-
             // 
             // coords2LabelText
             // 
             this.coords2LabelText.AutoSize = true;
             this.coords2LabelText.Location = new System.Drawing.Point(13, 146);
             this.coords2LabelText.Name = "coords2LabelText";
-            this.coords2LabelText.Size = new System.Drawing.Size(70, 13);
+            this.coords2LabelText.Size = new System.Drawing.Size(88, 13);
             this.coords2LabelText.TabIndex = 4;
-            this.coords2LabelText.Text = "Coordinate 2:";
+            this.coords2LabelText.Text = "Pos Scroll Down:";
             // 
             // coords2HotkeyTextBox
             // 
-            this.coords2HotkeyTextBox.Location = new System.Drawing.Point(91, 143);
+            this.coords2HotkeyTextBox.Location = new System.Drawing.Point(104, 143);
             this.coords2HotkeyTextBox.Name = "coords2HotkeyTextBox";
             this.coords2HotkeyTextBox.ReadOnly = true;
             this.coords2HotkeyTextBox.Size = new System.Drawing.Size(100, 20);
             this.coords2HotkeyTextBox.TabIndex = 10;
-            this.coords2HotkeyTextBox.Click += Coords2HotkeyTextBox_Click;
-            this.coords2HotkeyTextBox.KeyDown += Coords2HotkeyTextBox_KeyDown;
-
-            // 
-            // coords3LabelText
-            // 
-            this.coords3LabelText.AutoSize = true;
-            this.coords3LabelText.Location = new System.Drawing.Point(13, 177);
-            this.coords3LabelText.Name = "coords3LabelText";
-            this.coords3LabelText.Size = new System.Drawing.Size(70, 13);
-            this.coords3LabelText.TabIndex = 5;
-            this.coords3LabelText.Text = "Coordinate 3:";
-            // 
-            // coords3HotkeyTextBox
-            // 
-            this.coords3HotkeyTextBox.Location = new System.Drawing.Point(91, 174);
-            this.coords3HotkeyTextBox.Name = "coords3HotkeyTextBox";
-            this.coords3HotkeyTextBox.ReadOnly = true;
-            this.coords3HotkeyTextBox.Size = new System.Drawing.Size(100, 20);
-            this.coords3HotkeyTextBox.TabIndex = 11;
-            this.coords3HotkeyTextBox.Click += Coords3HotkeyTextBox_Click;
-            this.coords3HotkeyTextBox.KeyDown += Coords3HotkeyTextBox_KeyDown;
-
             // 
             // saveHotkeysButton
             // 
-            this.saveHotkeysButton.Location = new System.Drawing.Point(170, 212);
+            this.saveHotkeysButton.Location = new System.Drawing.Point(104, 169);
             this.saveHotkeysButton.Name = "saveHotkeysButton";
-            this.saveHotkeysButton.Size = new System.Drawing.Size(75, 23);
+            this.saveHotkeysButton.Size = new System.Drawing.Size(100, 23);
             this.saveHotkeysButton.TabIndex = 12;
             this.saveHotkeysButton.Text = "Save";
             this.saveHotkeysButton.UseVisualStyleBackColor = true;
             this.saveHotkeysButton.Click += new System.EventHandler(this.SaveHotkeysButton_Click);
-
-
             // 
             // HotkeysMenu
             // 
-            this.ClientSize = new System.Drawing.Size(259, 247);
+            this.ClientSize = new System.Drawing.Size(225, 208);
             this.Controls.Add(this.saveHotkeysButton);
-            this.Controls.Add(this.coords3LabelText);
-            this.Controls.Add(this.coords3HotkeyTextBox);
             this.Controls.Add(this.coords2LabelText);
             this.Controls.Add(this.coords2HotkeyTextBox);
             this.Controls.Add(this.coords1LabelText);
@@ -196,6 +153,7 @@ namespace racman
             this.Controls.Add(this.loadPositionHotkeyTextBox);
             this.Name = "HotkeysMenu";
             this.Text = "RaC 1 Hotkeys";
+            this.Load += new System.EventHandler(this.HotkeysMenu_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -214,8 +172,6 @@ namespace racman
         private System.Windows.Forms.TextBox coords1HotkeyTextBox;
         private System.Windows.Forms.Label coords2LabelText;
         private System.Windows.Forms.TextBox coords2HotkeyTextBox;
-        private System.Windows.Forms.Label coords3LabelText;
-        private System.Windows.Forms.TextBox coords3HotkeyTextBox;
         private System.Windows.Forms.Button saveHotkeysButton;
     }
 }

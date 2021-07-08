@@ -40,11 +40,6 @@ namespace racman
             coords2HotkeyTextBox.SelectionStart = 0;
             coords2HotkeyTextBox.SelectionLength = 0; //Otherwise it highlights it for some reason
 
-            coords3HotkeyTextBox.Text = Coord3Hotkey;
-            coords3HotkeyTextBox.SelectionStart = 0;
-            coords3HotkeyTextBox.SelectionLength = 0; //Otherwise it highlights it for some reason
-
-
         }
 
         //
@@ -109,6 +104,11 @@ namespace racman
             SendKeys.Send("{TAB}");
         }
 
+        private void HotkeysMenu_Load(object sender, EventArgs e)
+        {
+
+        }
+
         //
         //Coordinate 2 Hotkey
         //
@@ -121,21 +121,6 @@ namespace racman
         {
             Coord2Hotkey = Convert.ToString(e.KeyCode);
             coords2HotkeyTextBox.Text = Coord2Hotkey;
-            SendKeys.Send("{TAB}");
-        }
-
-        //
-        //Coordinate 3 Hotkey
-        //
-        private void Coords3HotkeyTextBox_Click(object sender, EventArgs e)
-        {
-            coords3HotkeyTextBox.Text = "Enter Hotkey...";
-        }
-
-        private void Coords3HotkeyTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            Coord3Hotkey = Convert.ToString(e.KeyCode);
-            coords3HotkeyTextBox.Text = Coord3Hotkey;
             SendKeys.Send("{TAB}");
         }
 
