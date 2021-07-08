@@ -319,10 +319,11 @@ namespace racman
         {
             UnlocksWindow = null;
         }
-        public static int getCurrentPlanetIndex()
+        public int getCurrentPlanetIndex()
         {
-            string planet = func.ReadMemory(ip, pid, rac1.current_planet, 4);
-            return int.Parse(planet, System.Globalization.NumberStyles.HexNumber);
+            // string planet = func.ReadMemory(ip, pid, rac1.current_planet, 4);
+            // return int.Parse(planet, System.Globalization.NumberStyles.HexNumber);
+            return planets_comboBox.SelectedIndex;
         }
 
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
