@@ -85,14 +85,7 @@ namespace racman
                 func.ChangeFileLines("config.exe", Convert.ToString(Keys.D3), "Coord3Hotkey");
             }
             Coord3Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord3Hotkey"));
-
-
-
-
-
-
         }
-
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -121,8 +114,6 @@ namespace racman
         public int saved_pos_index = 1;
         public string current_planet;
         public string[] planets_list;
-
-
 
         private void positions_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -158,7 +149,6 @@ namespace racman
                 ResetLevelFlags((uint)planets_comboBox.SelectedIndex);*/
         }
 
-
         private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
             int x = planets_comboBox.SelectedIndex; string planet = x.ToString("X2");
@@ -179,7 +169,6 @@ namespace racman
             ToolTip tt3 = new ToolTip(); tt1.SetToolTip(killyourself, "Hotkey: E");
 
         }
-
 
         //Method that checks if keys are being pressed
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -232,7 +221,6 @@ namespace racman
 
         }
 
-
         private void label5_Click(object sender, EventArgs e)
         {
 
@@ -264,7 +252,6 @@ namespace racman
                 func.WriteMemory(ip, pid, rac1.player_health, "00000004");
             }
         }
-
         private void unlocksWindowButton_Click(object sender, EventArgs e)
         {
             if (UnlocksWindow == null)
@@ -275,7 +262,6 @@ namespace racman
             }
 
         }
-
         private void UnlocksWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             UnlocksWindow = null;
@@ -285,12 +271,10 @@ namespace racman
             string planet = func.ReadMemory(ip, pid, rac1.current_planet, 4);
             return int.Parse(planet, System.Globalization.NumberStyles.HexNumber);
         }
-
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
-
         private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (drekSkipCheck.Checked)
@@ -361,7 +345,6 @@ namespace racman
                 func.WriteMemory(ip, pid, rac1.unlock_array + 6, "00"); // O2 Mask
             }
         }
-
         private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (HotkeysMenu == null)
