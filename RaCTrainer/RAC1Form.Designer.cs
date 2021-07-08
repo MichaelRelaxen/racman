@@ -161,10 +161,6 @@ namespace racman
             // 
             this.positions_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.positions_comboBox.FormattingEnabled = true;
-            this.positions_comboBox.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3"});
             this.positions_comboBox.Location = new System.Drawing.Point(135, 47);
             this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
@@ -204,7 +200,7 @@ namespace racman
             this.unlockGoldBoltsButton.Name = "unlockGoldBoltsButton";
             this.unlockGoldBoltsButton.Size = new System.Drawing.Size(135, 23);
             this.unlockGoldBoltsButton.TabIndex = 31;
-            this.unlockGoldBoltsButton.Text = "Unlock All Gold  Bolts";
+            this.unlockGoldBoltsButton.Text = "Unlock All Gold Bolts";
             this.unlockGoldBoltsButton.UseVisualStyleBackColor = true;
             this.unlockGoldBoltsButton.Click += new System.EventHandler(this.unlockGoldBoltsButton_Click);
             // 
@@ -337,7 +333,7 @@ namespace racman
             // hotkeysToolStripMenuItem
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
@@ -385,6 +381,7 @@ namespace racman
             this.deletePlanetPosition.TabIndex = 81;
             this.deletePlanetPosition.Text = "Delete";
             this.deletePlanetPosition.UseVisualStyleBackColor = true;
+            this.deletePlanetPosition.Click += new System.EventHandler(this.deletePlanetPosition_Click);
             // 
             // RAC1Form
             // 

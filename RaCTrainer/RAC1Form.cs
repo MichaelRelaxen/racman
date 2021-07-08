@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
+using System.Collections.Generic;
 
 
 namespace racman
@@ -16,7 +17,7 @@ namespace racman
             InitializeComponent();
             positions_comboBox.Text = "1";
             planets_comboBox.Text = "Veldin";
-
+            // are you look for saved_pos_index? Just use positions_comboBox.SelectedIndex
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
             positions_comboBox.SelectedIndexChanged += positions_ComboBox_SelectedIndexChanged;
 
@@ -114,17 +115,23 @@ namespace racman
         public static int pid = AttachPS3Form.pid;
         public static Keys LoadHotkey, SaveHotkey, Coord1Hotkey, Coord2Hotkey, Coord3Hotkey, DieHotkey;
 
-        public int saved_pos_index = 1;
         public string current_planet;
         public string[] planets_list;
-        public string[] planet_positions;
-        private void loadPlanetPositions(string planet)
+        public List<string> planet_positions = new List<string>();
+        private void loadPlanetPositions()
         {
-            string planetPositions = func.GetConfigData("config.txt", planet + "PosArray");
-            for (int i = 0; i < planetPositions.Split(',').Length; i++)
+            planet_positions.Clear();
+            positions_comboBox.Items.Clear();
+            string planetPositions = func.GetConfigData("config.txt", planets_list[getCurrentPlanetIndex()] + "PosArray");
+            if (planetPositions != "")
             {
-                positions_comboBox.Items.Add(planetPositions.Split()[i]);
+                for (int i = 0; i < planetPositions.Split(',').Length - 1; i++)
+                {
+                    positions_comboBox.Items.Add(planetPositions.Split(',')[i]);
+                    planet_positions.Add(planetPositions.Split(',')[i]);
+                }
             }
+            positions_comboBox.Text = planetPositions.Split(',')[0];
         }
         private void savePlanetPositions(string planet)
         {
@@ -139,23 +146,30 @@ namespace racman
 
         private void positions_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            saved_pos_index = positions_comboBox.SelectedIndex;
+            planetPosName.Text = positions_comboBox.Text;
         }
 
         private void savePosButton_Click(object sender, EventArgs e)
         {
             string position = func.ReadMemory(ip, pid, rac1.player_coords, 30);
-            func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
+            func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + positions_comboBox.Text);
+            savePlanetPositions(planets_list[getCurrentPlanetIndex()]);
         }
 
         private void loadPosButton_Click(object sender, EventArgs e)
         {
-            string position = func.GetConfigData("config.txt", planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
-            if (position != "")
+            if (positions_comboBox.Text == "")
             {
-                func.WriteMemory(ip, pid, rac1.player_coords, position);
+                MessageBox.Show("Position is empty, bruh");
             }
-
+            else
+            {
+                string position = func.GetConfigData("config.txt", planets_list[getCurrentPlanetIndex()] + "SavedPos" + positions_comboBox.Text);
+                if (position != "")
+                {
+                    func.WriteMemory(ip, pid, rac1.player_coords, position);
+                }
+            }
         }
 
 
@@ -181,6 +195,7 @@ namespace racman
 
             Thread.Sleep(1000); // lazy
             func.WriteMemory(ip, pid, 0x9645C4, "0000001A0000000400000002"); // Force fast load
+            loadPlanetPositions();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -214,15 +229,15 @@ namespace racman
 
             if (e.KeyCode == Coord1Hotkey)
             {
-                saved_pos_index = 0;
+                positions_comboBox.SelectedIndex = 0;
             }
             if (e.KeyCode == Coord2Hotkey)
             {
-                saved_pos_index = 1;
+                positions_comboBox.SelectedIndex = 1;
             }
             if (e.KeyCode == Coord3Hotkey)
             {
-                saved_pos_index = 2;
+                positions_comboBox.SelectedIndex = 2;
             }
         }
 
@@ -321,14 +336,47 @@ namespace racman
 
         private void addPlanetPos_Click(object sender, EventArgs e)
         {
-            if (planetPosName.Text == "" || planetPosName.Text.Contains("=") || planetPosName.Text.Contains(","))
+            if (!planet_positions.Contains(planetPosName.Text))
             {
-                MessageBox.Show("lmao");
-                MessageBox.Show("Either empty string, includes equals sign or a comma, get rekt");
+                if (planetPosName.Text == "" || planetPosName.Text.Contains("=") || planetPosName.Text.Contains(",") || planetPosName.Text.Contains(" "))
+                {
+                    MessageBox.Show("lmao");
+                    MessageBox.Show("Either empty string, includes equals sign or a comma, get rekt");
+                }
+                else
+                {
+                    positions_comboBox.Items.Add(planetPosName.Text);
+                    planet_positions.Add(planetPosName.Text);
+                    positions_comboBox.Text = planetPosName.Text;
+                    savePlanetPositions(planets_list[getCurrentPlanetIndex()]);
+                }
             }
             else
             {
+                MessageBox.Show("Already added, idiot.");
+            }
+        }
 
+        private void deletePlanetPosition_Click(object sender, EventArgs e)
+        {
+            if (planet_positions.Contains(planetPosName.Text))
+            {
+                if (planetPosName.Text == "" || planetPosName.Text.Contains("=") || planetPosName.Text.Contains(",") || planetPosName.Text.Contains(" "))
+                {
+                    MessageBox.Show("lmao");
+                    MessageBox.Show("Either empty string, includes equals sign or a comma, get rekt");
+                }
+                else
+                {
+                    positions_comboBox.Items.Remove(planetPosName.Text);
+                    planet_positions.Remove(planetPosName.Text);
+                    savePlanetPositions(planets_list[getCurrentPlanetIndex()]);
+                }
+                positions_comboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                MessageBox.Show("Nothing to delete, idiot.");
             }
         }
 
