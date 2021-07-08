@@ -87,7 +87,7 @@ namespace racman
             Coord3Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord3Hotkey"));
 
         }
-
+        
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -117,8 +117,25 @@ namespace racman
         public int saved_pos_index = 1;
         public string current_planet;
         public string[] planets_list;
-
-
+        public string[] planet_positions;
+        private void loadPlanetPositions(string planet)
+        {
+            string planetPositions = func.GetConfigData("config.txt", planet + "PosArray");
+            for (int i = 0; i < planetPositions.Split(',').Length; i++)
+            {
+                positions_comboBox.Items.Add(planetPositions.Split()[i]);
+            }
+        }
+        private void savePlanetPositions(string planet)
+        {
+            string planetPosStringContents = "";
+            foreach (string item in planet_positions)
+            {
+                planetPosStringContents += item;
+                planetPosStringContents += ",";
+            }
+            func.ChangeFileLines("config.txt", planetPosStringContents, planet + "PosArray");
+        }
 
         private void positions_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -300,6 +317,19 @@ namespace racman
         private void HovenHealthForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             HovenHealthForm = null;
+        }
+
+        private void addPlanetPos_Click(object sender, EventArgs e)
+        {
+            if (planetPosName.Text == "" || planetPosName.Text.Contains("=") || planetPosName.Text.Contains(","))
+            {
+                MessageBox.Show("lmao");
+                MessageBox.Show("Either empty string, includes equals sign or a comma, get rekt");
+            }
+            else
+            {
+
+            }
         }
 
         private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
