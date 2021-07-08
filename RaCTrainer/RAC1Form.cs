@@ -229,18 +229,6 @@ namespace racman
 
             if (e.KeyCode == Coord1Hotkey)
             {
-                if (positions_comboBox.SelectedIndex == positions_comboBox.Items.Count - 1)
-                {
-                    // get fucked
-                }
-                else
-                {
-                    positions_comboBox.SelectedIndex = positions_comboBox.SelectedIndex + 1;
-                }
-
-            }
-            if (e.KeyCode == Coord2Hotkey)
-            {
                 if (positions_comboBox.SelectedIndex == 0)
                 {
                     // get fucked
@@ -249,21 +237,31 @@ namespace racman
                 {
                     positions_comboBox.SelectedIndex = positions_comboBox.SelectedIndex - 1;
                 }
+
+            }
+            if (e.KeyCode == Coord2Hotkey)
+            {
+                if (positions_comboBox.SelectedIndex == positions_comboBox.Items.Count - 1)
+                {
+                    // get fucked
+                }
+                else
+                {
+                    positions_comboBox.SelectedIndex = positions_comboBox.SelectedIndex + 1;
+                }
             }
         }
 
         private void gbsreset_Click(object sender, EventArgs e)
         {
-            string reset = string.Concat(Enumerable.Repeat("00", 128));
+            string reset = string.Concat(Enumerable.Repeat("00", 80));
             func.WriteMemory(ip, pid, rac1.gold_bolts_array, reset);
-            func.WriteMemory(ip, pid, rac1.gold_bolts_array + 128, reset);
         }
 
         private void unlockGoldBoltsButton_Click(object sender, EventArgs e)
         {
-            string unlock = string.Concat(Enumerable.Repeat("01", 128));
+            string unlock = string.Concat(Enumerable.Repeat("01", 80));
             func.WriteMemory(ip, pid, rac1.gold_bolts_array, unlock);
-            func.WriteMemory(ip, pid, rac1.gold_bolts_array + 128, unlock);
         }
 
         private void bolts_textBox_TextChanged(object sender, EventArgs e)
@@ -383,8 +381,13 @@ namespace racman
                     positions_comboBox.Items.Remove(planetPosName.Text);
                     planet_positions.Remove(planetPosName.Text);
                     savePlanetPositions(planets_list[getCurrentPlanetIndex()]);
+                    
+                    if (positions_comboBox.Items.Count != 0)
+                    {
+                        positions_comboBox.SelectedIndex = 0;
+                    }
                 }
-                positions_comboBox.SelectedIndex = 0;
+
             }
             else
             {

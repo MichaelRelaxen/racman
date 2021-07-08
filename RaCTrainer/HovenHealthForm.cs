@@ -50,7 +50,7 @@ namespace racman
                     turretCount = 0;
                     break;
                 }
-                Thread.Sleep(175); 
+                Thread.Sleep(200); 
             }
         }
 
@@ -65,7 +65,7 @@ namespace racman
                     if(turretHealth[4] > 0)
                     {
                         hpLabel.Text = $"1: {turretHealth[0]}\n2: {turretHealth[1]}\n3: {turretHealth[2]}\n4: {turretHealth[3]}\n5: {turretHealth[4]}";
-                    }// very good coding right here
+                    }
 
                     await Task.Delay(200); 
                 }
