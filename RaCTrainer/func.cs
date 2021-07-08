@@ -175,5 +175,35 @@ namespace racman
             return string.Concat(Enumerable.Repeat(swag, length));
         }
 
+        public static ushort Swap16(ushort val)
+        {
+            return (ushort)(
+                ((val & 0xFF00) >> 0x08) |
+                ((val & 0x00FF) << 0x08)
+            );
+        }
+
+        public static uint Swap32(uint val)
+        {
+            return (
+                ((val & 0xFF000000) >> 0x18) |
+                ((val & 0x00FF0000) >> 0x08) |
+                ((val & 0x0000FF00) << 0x08) |
+                ((val & 0x000000FF) << 0x18)
+            );
+        }
+
+        public static float Swap32(float val)
+        {
+            uint tmp = BitConverter.ToUInt32(BitConverter.GetBytes(val), 0);
+            return BitConverter.ToSingle(BitConverter.GetBytes(Swap32(tmp)), 0);
+        }
+
+        public static float ReadSingle(byte[] arr, int index)
+        {
+            byte[] tmp = arr.Skip(index).Take(4).Reverse().ToArray();
+            return BitConverter.ToSingle(tmp, 0);
+        }
+
     }
 }

@@ -114,6 +114,7 @@ namespace racman
 
         public Form UnlocksWindow;
         public Form HotkeysMenu;
+        public Form HovenHealthForm;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         public static Keys LoadHotkey, SaveHotkey, Coord1Hotkey, Coord2Hotkey, Coord3Hotkey, DieHotkey;
@@ -289,6 +290,21 @@ namespace racman
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void hovenHPButton_click(object sender, EventArgs e)
+        {
+            if (HovenHealthForm == null)
+            {
+                HovenHealthForm = new HovenHealthForm();
+                HovenHealthForm.FormClosed += HovenHealthForm_FormClosed;
+                HovenHealthForm.Show();
+            }
+        }
+
+        private void HovenHealthForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            HovenHealthForm = null;
         }
 
         private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
