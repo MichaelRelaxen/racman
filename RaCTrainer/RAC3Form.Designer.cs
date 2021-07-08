@@ -73,6 +73,7 @@ namespace racman
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).BeginInit();
@@ -521,7 +522,8 @@ namespace racman
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hotkeysToolStripMenuItem});
+            this.hotkeysToolStripMenuItem,
+            this.switchGameToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -532,6 +534,13 @@ namespace racman
             this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
+            // 
+            // switchGameToolStripMenuItem
+            // 
+            this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
+            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.switchGameToolStripMenuItem.Text = "Switch Game";
+            this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
             // RAC3Form
             // 
@@ -643,6 +652,7 @@ namespace racman
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem switchGameToolStripMenuItem;
     }
 }
 

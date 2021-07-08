@@ -391,6 +391,13 @@ namespace racman
             }
         }
 
+        private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormClosing -= Form1_FormClosing;
+            Program.AttachPS3Form.Show();
+            Close();
+        }
+
         private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (drekSkipCheck.Checked)
@@ -475,5 +482,6 @@ namespace racman
         {
             HotkeysMenu = null;
         }
+
     }
 }

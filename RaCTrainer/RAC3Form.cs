@@ -405,6 +405,13 @@ namespace racman
             HotkeysMenuRac3 = null;
         }
 
+        private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormClosing -= Form1_FormClosing;
+            Program.AttachPS3Form.Show();
+            Close();
+        }
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             if (coordscb.Checked)

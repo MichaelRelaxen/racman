@@ -25,8 +25,15 @@ namespace racman
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AttachPS3Form());
+            Start();
 
+        }
+
+        public static Form AttachPS3Form;
+        public static void Start()
+        {
+            AttachPS3Form = new AttachPS3Form();
+            Application.Run(AttachPS3Form);
         }
     }
 }
