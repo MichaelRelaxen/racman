@@ -86,11 +86,6 @@ namespace racman
             }
             Coord3Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord3Hotkey"));
 
-
-
-
-
-
         }
 
 
