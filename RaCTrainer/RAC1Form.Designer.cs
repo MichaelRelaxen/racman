@@ -57,6 +57,10 @@ namespace racman
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
+            this.planetPosName = new System.Windows.Forms.TextBox();
+            this.planetpos_label = new System.Windows.Forms.Label();
+            this.addPlanetPos = new System.Windows.Forms.Button();
+            this.deletePlanetPosition = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -112,7 +116,7 @@ namespace racman
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(12, 135);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 13);
+            this.label2.Size = new System.Drawing.Size(0, 15);
             this.label2.TabIndex = 13;
             // 
             // loadpos
@@ -150,17 +154,13 @@ namespace racman
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(12, -2);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(0, 13);
+            this.label7.Size = new System.Drawing.Size(0, 15);
             this.label7.TabIndex = 21;
             // 
             // positions_comboBox
             // 
             this.positions_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.positions_comboBox.FormattingEnabled = true;
-            this.positions_comboBox.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3"});
             this.positions_comboBox.Location = new System.Drawing.Point(135, 47);
             this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
@@ -200,7 +200,7 @@ namespace racman
             this.unlockGoldBoltsButton.Name = "unlockGoldBoltsButton";
             this.unlockGoldBoltsButton.Size = new System.Drawing.Size(135, 23);
             this.unlockGoldBoltsButton.TabIndex = 31;
-            this.unlockGoldBoltsButton.Text = "Unlock All Gold  Bolts";
+            this.unlockGoldBoltsButton.Text = "Unlock All Gold Bolts";
             this.unlockGoldBoltsButton.UseVisualStyleBackColor = true;
             this.unlockGoldBoltsButton.Click += new System.EventHandler(this.unlockGoldBoltsButton_Click);
             // 
@@ -209,7 +209,7 @@ namespace racman
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(214, 7);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(0, 13);
+            this.label9.Size = new System.Drawing.Size(0, 15);
             this.label9.TabIndex = 39;
             // 
             // label10
@@ -217,7 +217,7 @@ namespace racman
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(213, 47);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(0, 13);
+            this.label10.Size = new System.Drawing.Size(0, 15);
             this.label10.TabIndex = 41;
             // 
             // bolts_textBox
@@ -233,7 +233,7 @@ namespace racman
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(226, 185);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(0, 13);
+            this.label3.Size = new System.Drawing.Size(0, 15);
             this.label3.TabIndex = 63;
             // 
             // label6
@@ -241,7 +241,7 @@ namespace racman
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(14, 138);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(67, 13);
+            this.label6.Size = new System.Drawing.Size(76, 15);
             this.label6.TabIndex = 67;
             this.label6.Text = "Load Planet:";
             // 
@@ -250,7 +250,7 @@ namespace racman
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(228, 33);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.Size = new System.Drawing.Size(66, 15);
             this.label8.TabIndex = 68;
             this.label8.Text = "Bolt Count:";
             this.label8.Click += new System.EventHandler(this.label8_Click);
@@ -270,7 +270,7 @@ namespace racman
             this.infHealth.AutoSize = true;
             this.infHealth.Location = new System.Drawing.Point(17, 181);
             this.infHealth.Name = "infHealth";
-            this.infHealth.Size = new System.Drawing.Size(91, 17);
+            this.infHealth.Size = new System.Drawing.Size(104, 19);
             this.infHealth.TabIndex = 70;
             this.infHealth.Text = "Infinite Health";
             this.infHealth.UseVisualStyleBackColor = true;
@@ -281,7 +281,7 @@ namespace racman
             this.drekSkipCheck.AutoSize = true;
             this.drekSkipCheck.Location = new System.Drawing.Point(17, 203);
             this.drekSkipCheck.Name = "drekSkipCheck";
-            this.drekSkipCheck.Size = new System.Drawing.Size(73, 17);
+            this.drekSkipCheck.Size = new System.Drawing.Size(82, 19);
             this.drekSkipCheck.TabIndex = 73;
             this.drekSkipCheck.Text = "Drek Skip";
             this.drekSkipCheck.UseVisualStyleBackColor = true;
@@ -292,7 +292,7 @@ namespace racman
             this.goodiesCheck.AutoSize = true;
             this.goodiesCheck.Location = new System.Drawing.Point(17, 226);
             this.goodiesCheck.Name = "goodiesCheck";
-            this.goodiesCheck.Size = new System.Drawing.Size(95, 17);
+            this.goodiesCheck.Size = new System.Drawing.Size(110, 19);
             this.goodiesCheck.TabIndex = 74;
             this.goodiesCheck.Text = "Goodies Menu";
             this.goodiesCheck.UseVisualStyleBackColor = true;
@@ -303,7 +303,7 @@ namespace racman
             this.lflagresetCb.AutoSize = true;
             this.lflagresetCb.Location = new System.Drawing.Point(135, 181);
             this.lflagresetCb.Name = "lflagresetCb";
-            this.lflagresetCb.Size = new System.Drawing.Size(104, 17);
+            this.lflagresetCb.Size = new System.Drawing.Size(118, 19);
             this.lflagresetCb.TabIndex = 75;
             this.lflagresetCb.Text = "Reset level flags";
             this.lflagresetCb.UseVisualStyleBackColor = true;
@@ -311,11 +311,12 @@ namespace racman
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(417, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(417, 28);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -325,14 +326,14 @@ namespace racman
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.hotkeysToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(60, 24);
             this.menuToolStripMenuItem.Text = "Menu";
             this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
             // 
             // hotkeysToolStripMenuItem
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(145, 26);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
@@ -346,12 +347,52 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.hovenHPButton_click);
             // 
+            // planetPosName
+            // 
+            this.planetPosName.Location = new System.Drawing.Point(12, 301);
+            this.planetPosName.Name = "planetPosName";
+            this.planetPosName.Size = new System.Drawing.Size(100, 20);
+            this.planetPosName.TabIndex = 78;
+            // 
+            // planetpos_label
+            // 
+            this.planetpos_label.AutoSize = true;
+            this.planetpos_label.Location = new System.Drawing.Point(9, 283);
+            this.planetpos_label.Name = "planetpos_label";
+            this.planetpos_label.Size = new System.Drawing.Size(89, 15);
+            this.planetpos_label.TabIndex = 79;
+            this.planetpos_label.Text = "Planet Position";
+            // 
+            // addPlanetPos
+            // 
+            this.addPlanetPos.Location = new System.Drawing.Point(119, 301);
+            this.addPlanetPos.Name = "addPlanetPos";
+            this.addPlanetPos.Size = new System.Drawing.Size(42, 23);
+            this.addPlanetPos.TabIndex = 80;
+            this.addPlanetPos.Text = "Add";
+            this.addPlanetPos.UseVisualStyleBackColor = true;
+            this.addPlanetPos.Click += new System.EventHandler(this.addPlanetPos_Click);
+            // 
+            // deletePlanetPosition
+            // 
+            this.deletePlanetPosition.Location = new System.Drawing.Point(167, 301);
+            this.deletePlanetPosition.Name = "deletePlanetPosition";
+            this.deletePlanetPosition.Size = new System.Drawing.Size(59, 23);
+            this.deletePlanetPosition.TabIndex = 81;
+            this.deletePlanetPosition.Text = "Delete";
+            this.deletePlanetPosition.UseVisualStyleBackColor = true;
+            this.deletePlanetPosition.Click += new System.EventHandler(this.deletePlanetPosition_Click);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(417, 336);
+            this.Controls.Add(this.deletePlanetPosition);
+            this.Controls.Add(this.addPlanetPos);
+            this.Controls.Add(this.planetpos_label);
+            this.Controls.Add(this.planetPosName);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lflagresetCb);
             this.Controls.Add(this.goodiesCheck);
@@ -424,6 +465,10 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox planetPosName;
+        private System.Windows.Forms.Label planetpos_label;
+        private System.Windows.Forms.Button addPlanetPos;
+        private System.Windows.Forms.Button deletePlanetPosition;
     }
 }
 

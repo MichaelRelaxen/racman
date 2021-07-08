@@ -23,12 +23,6 @@ namespace racman
             }
 
 
-            if(func.GetConfigData("config.exe","FirstLoad") == "" && Convert.ToString(Assembly.GetEntryAssembly().GetName().Version) == "1.0.0.5")
-            {
-                MessageBox.Show("i hope u fuckin appreciate this sneep");
-                func.ChangeFileLines("config.exe", "No", "FirstLoad");
-            }
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new AttachPS3Form());

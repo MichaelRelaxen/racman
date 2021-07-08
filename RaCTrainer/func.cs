@@ -113,8 +113,8 @@ namespace racman
             {
                 if (Regex.Match(data[i], @"^([\w\-]+)").Value == keyword)
                 {
-                    keyword += " = " + contents;
-                    data[i] = keyword;
+                    //keyword += " = " + contents;
+                    data[i] = keyword + " = " + contents;
                     found = true;
                 }
             }
@@ -145,22 +145,16 @@ namespace racman
         {
             string[] data = File.ReadAllLines("config.txt");
 
-
             for (int i = 0; i < data.Length; i++)
             {
                 if (Regex.Match(data[i], @"^([\w\-]+)").Value == keyword)
                 {
-
                     int startPos = data[i].IndexOf("=") + 2;
                     return data[i].Substring(startPos, data[i].Length - startPos);
-
                 }
-
             }
 
             return "";
-
-
         }
         public static IEnumerable<string> SplitByN(string str, int n)
         {
