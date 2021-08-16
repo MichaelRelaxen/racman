@@ -34,7 +34,7 @@ namespace racman
             "Koros",
             "Unknown",
             "Metropolis",
-            "Crash Site",
+            "CrashSite",
             "Aridia",
             "QwarksHideout",
             "LaunchSite",
@@ -56,14 +56,6 @@ namespace racman
             "VidComic1SpecialEdition"
             };
 
-            Directory.CreateDirectory(func.ebootPath);
-
-            EBOOTs = Directory.GetFiles(func.ebootPath);
-            foreach (string i in EBOOTs)
-            {
-                string b = i.Substring(i.IndexOf("EBOOTs") + 7);
-                ebootSwap.Items.Add(b);
-            }
 
             //
             if (func.GetConfigData("config.exe", "SaveHotkeyRac3") == "")
@@ -134,7 +126,6 @@ namespace racman
         public int saved_pos_index = 1;
         public string current_planet;
 
-        public static string[] EBOOTs;
 
         private void loadPosButton_Click(object sender, EventArgs e)
         {
@@ -150,9 +141,6 @@ namespace racman
             func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + Convert.ToString(saved_pos_index));
         }
 
-        private void eboots_combobox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -221,7 +209,6 @@ namespace racman
             ToolTip tt1 = new ToolTip(); tt1.SetToolTip(savepos, "Hotkey: Shift");
             ToolTip tt2 = new ToolTip(); tt1.SetToolTip(loadpos, "Hotkey: Space");
             ToolTip tt3 = new ToolTip(); tt1.SetToolTip(killyourself, "Hotkey: E");
-            ToolTip tt4 = new ToolTip(); tt1.SetToolTip(ebootSwap, "Put EBOOTs into the EBOOT folder.");
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -430,16 +417,6 @@ namespace racman
                 coordscb.Checked = !coordscb.Checked;
             }
             Application.Exit();
-        }
-
-        private void eboots_combobox_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-            currentlyDoing.Text = "uploading...";
-            string SwapText = ebootSwap.Text;
-            string path = Environment.CurrentDirectory + $@"\EBOOTs\{SwapText}";
-
-            func.UploadFile(ip, path);
-            MessageBox.Show("EBOOT successfully swapped to " + path); currentlyDoing.Text = null;
         }
 
         public static int getCurrentPlanetIndex()

@@ -66,8 +66,6 @@ namespace racman
             this.label8 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.ebootSwap = new System.Windows.Forms.ComboBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.currentlyDoing = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -472,24 +470,6 @@ namespace racman
             this.label12.TabIndex = 70;
             this.label12.Text = "Armor:";
             // 
-            // ebootSwap
-            // 
-            this.ebootSwap.FormattingEnabled = true;
-            this.ebootSwap.Location = new System.Drawing.Point(358, 85);
-            this.ebootSwap.Name = "ebootSwap";
-            this.ebootSwap.Size = new System.Drawing.Size(135, 21);
-            this.ebootSwap.TabIndex = 71;
-            this.ebootSwap.SelectedIndexChanged += new System.EventHandler(this.eboots_combobox_SelectedIndexChanged_1);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(355, 69);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(74, 13);
-            this.label13.TabIndex = 72;
-            this.label13.Text = "Swap EBOOT";
-            // 
             // currentlyDoing
             // 
             this.currentlyDoing.AutoSize = true;
@@ -531,14 +511,14 @@ namespace racman
             // hotkeysToolStripMenuItem
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
             // switchGameToolStripMenuItem
             // 
             this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
-            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
@@ -550,8 +530,6 @@ namespace racman
             this.ClientSize = new System.Drawing.Size(512, 346);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.currentlyDoing);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.ebootSwap);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label8);
@@ -645,8 +623,6 @@ namespace racman
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ComboBox ebootSwap;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label currentlyDoing;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.MenuStrip menuStrip1;
