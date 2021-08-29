@@ -1,6 +1,8 @@
 ﻿
 namespace racman
 {
+    //
+
     partial class RAC3Form
     {
         /// <summary>
@@ -245,7 +247,7 @@ namespace racman
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(112, 23);
             this.button6.TabIndex = 29;
-            this.button6.Text = "Tune Klunk";
+            this.button6.Text = "Setup No QE";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
@@ -511,14 +513,14 @@ namespace racman
             // hotkeysToolStripMenuItem
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
             // switchGameToolStripMenuItem
             // 
             this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
-            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 

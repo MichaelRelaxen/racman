@@ -8,6 +8,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace racman
 {
+   
     public partial class RAC3Form : Form
     {
         public RAC3Form()
@@ -181,6 +182,7 @@ namespace racman
         {
             func.WriteMemory(ip, pid, rac3.klunk_tuning_var1, "07");
             func.WriteMemory(ip, pid, rac3.klunk_tuning_var2, "03");
+            func.WriteMemory(ip, pid, rac3.vid_comic_menu, "00000002");
         }
 
         private void loadPlanetButton_Click(object sender, EventArgs e)

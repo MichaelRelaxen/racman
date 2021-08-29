@@ -2,6 +2,8 @@
 {
     class rac3
     {
+        // IL Mode: quick select; reseting quest || No QE ready: tune klunk; vid comic menu; help desk (vr, daxx,(hideout), cc)
+
         ///////////// Player /////////////
 
         // Player's current coordinates. We typically copy 0x1E at a time for saving/loading positions.
@@ -28,6 +30,13 @@
         // Currently loaded planet.
         public static uint current_planet = 0xC1E438;
 
+        //Death count
+        public static uint death_count = 0xED7F14;
+
+        //Quick Switch Array
+        public static uint quick_switch = 0xC1E4EC;
+        
+
         ///////////// Misc. /////////////
 
         // First variable for Klunk Tuning, set to 7.
@@ -47,6 +56,9 @@
 
         // Bool which toggles if quick select is on or not.
         public static uint quick_select_pause = 0xC1E652;
+
+        // Video Comic menu (0 1 2)
+        public static uint vid_comic_menu = 0xC4F918;
 
         ///////////// Arrays /////////////
 
