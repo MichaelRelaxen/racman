@@ -1,8 +1,7 @@
 ﻿namespace racman
 {
     class rac3
-    {
-        // IL Mode: quick select; reseting quest || No QE ready: tune klunk; vid comic menu; help desk (vr, daxx,(hideout), cc)
+    {     
 
         ///////////// Player /////////////
 
@@ -59,6 +58,9 @@
 
         // Video Comic menu (0 1 2)
         public static uint vid_comic_menu = 0xC4F918;
+
+        // Command Center Thyra Button help text turn on/ turn off
+        public static uint cc_help_text = 0x148A100;
 
         ///////////// Arrays /////////////
 

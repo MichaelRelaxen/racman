@@ -183,6 +183,7 @@ namespace racman
             func.WriteMemory(ip, pid, rac3.klunk_tuning_var1, "07");
             func.WriteMemory(ip, pid, rac3.klunk_tuning_var2, "03");
             func.WriteMemory(ip, pid, rac3.vid_comic_menu, "00000002");
+            func.WriteMemory(ip, pid, rac3.cc_help_text, "00000001");
         }
 
         private void loadPlanetButton_Click(object sender, EventArgs e)
@@ -392,6 +393,21 @@ namespace racman
         private void HotkeysMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
             HotkeysMenuRac3 = null;
+        }
+
+        private void button6_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.Show("Tunes klunk, positions vid comic ingame menu to 'Ende' (end) and\n removes help desk message in command center at the thyrra button.", button6);
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        private void ghostrac_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.Show("Enables ghost ratchet.", ghostrac);
         }
 
         private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)
