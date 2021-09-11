@@ -58,6 +58,8 @@
     <Compile Include="AttachPS3Form.Designer.cs">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="IPS3API.cs" />
+    <Compile Include="WebMAN.cs" />
     <Compile Include="func.cs" />
     <Compile Include="HotkeysMenuRac3.cs">
       <SubType>Form</SubType>
@@ -78,6 +80,7 @@
     <Compile Include="HotkeysMenu.Designer.cs">
       <DependentUpon>HotkeysMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ratchetron.cs" />
     <Compile Include="UnlocksWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,4 +166,7 @@
     <Content Include="ds3drip.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>XCOPY "$(SolutionDir)SPRX\" "$(TargetDir)\SPRX\" /S /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>
