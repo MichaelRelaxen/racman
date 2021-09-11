@@ -5,7 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Collections.Generic;
-
+using System.Diagnostics;
 
 namespace racman
 {
@@ -400,6 +400,21 @@ namespace racman
             FormClosing -= Form1_FormClosing;
             Program.AttachPS3Form.Show();
             Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (!(func.api is Ratchetron))
+            {
+                MessageBox.Show("You need to be using the new API to use input display");
+                return;
+            }
+
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = Environment.CurrentDirectory + @"\bins\RatchetInputDisplay.exe";
+            startInfo.Arguments = func.api.GetIP();
+
+            Process.Start(startInfo);
         }
 
         private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)

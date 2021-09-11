@@ -74,33 +74,17 @@ namespace racman
         {
             // Check if Ratchetron is already loaded
             string slot6sprx = get_data($"http://{ip}/home.ps3mapi/sman.ps3");
-            slot6sprx = slot6sprx.Substring(slot6sprx.IndexOf("class=\"la\">6</td>") + 215, "ratchetron_server.sprx".Length);
 
-            bool ratchetronLoaded = slot6sprx == "ratchetron_server.sprx";
+            bool ratchetronLoaded = slot6sprx.Contains("ratchetron_server.sprx");
 
-            string remoteMD5Sum = get_data($"http://{ip}/md5.ps3/dev_hdd0/tmp/ratchetron_server.sprx");
-            remoteMD5Sum = remoteMD5Sum.Substring(remoteMD5Sum.IndexOf("MD5: ") + 5, 32);
-
-            var ratchetronSprx = File.OpenRead(sprxPath + @"\ratchetron_server.sprx");
-            var localMD5Sum = BitConverter.ToString(MD5.Create().ComputeHash(ratchetronSprx)).Replace("-", "").ToLowerInvariant();
-
-            if (remoteMD5Sum != localMD5Sum)
+            if (ratchetronLoaded)
             {
-                if (ratchetronLoaded)
-                {
-                    MessageBox.Show("You already have an older version of Ratchetron loaded. Please restart your PS3 to use RaCMAN.");
-                    return false;
-                }
-                else
-                {
-                    client.UploadFile($"ftp://{ip}:21/dev_hdd0/tmp/ratchetron_server.sprx", sprxPath + @"\ratchetron_server.sprx");
-                }
+                return true;
             }
-
-            if (!ratchetronLoaded)
-            {
-                get_data($"http://{ip}/vshplugin.ps3mapi?prx=%2Fdev_hdd0%2Ftmp%2Fratchetron_server.sprx&load_slot=6");
-            }
+            
+            // Always upload because fuck it
+            client.UploadFile($"ftp://{ip}:21/dev_hdd0/tmp/ratchetron_server.sprx", sprxPath + @"\ratchetron_server.sprx");
+            get_data($"http://{ip}/vshplugin.ps3mapi?prx=%2Fdev_hdd0%2Ftmp%2Fratchetron_server.sprx&load_slot=6");
 
             return true;
         }

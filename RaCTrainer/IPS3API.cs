@@ -47,5 +47,10 @@ namespace racman
         }
 
         public abstract void Notify(string message);
+
+        public virtual string GetIP()
+        {
+            return this.ip;
+        }
     }
 }
