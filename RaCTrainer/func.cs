@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace racman
 {
@@ -11,7 +13,9 @@ namespace racman
     {
         public static WebClient client = new WebClient();
         public static int pid = AttachPS3Form.pid;
+        public static IPS3API api;
         public static string ebootPath = Environment.CurrentDirectory + @"\EBOOTs";
+        public static string sprxPath = Environment.CurrentDirectory + @"\SPRX";
         public static byte[] StringToByteArray(string hex)
         {
             return Enumerable.Range(0, hex.Length)
@@ -51,39 +55,54 @@ namespace racman
         }
         public static int current_pid(string ip)
         {
-            string Output = get_data($"http://{ip}/getmem.ps3mapi?");
-            int ebootPos = Output.IndexOf("_main_EBOOT.BIN");
-            if (ebootPos != -1)
-            {
-                string processHex = Output.Substring(ebootPos - 8, 8);
-                int processDec = Convert.ToInt32(processHex, 16);
-                return processDec;
-            }
-            else
-            {
-                return 0;
-            }
+            return api.getCurrentPID();
         }
         public static string current_game(string ip)
         {
-            string Output = get_data($"http://{ip}/cpursx.ps3?/sman.ps3");
-            int gamePos = Output.IndexOf("target=\"_blank\">") + 16;
-            return Output.Substring(gamePos, 9);
+            return api.getGameTitleID();
         }
         public static void WriteMemory(string ip, int pid, uint offset, string val/*byte[] memory*/)
         {
-            string addr = Convert.ToString(offset, 16);
-            //string val = BitConverter.ToString(memory).Replace("-", string.Empty);
-            get_data($"http://{ip}/setmem.ps3mapi?proc={pid}$addr={addr}&val={val}");
+            api.WriteMemory(pid, offset, (uint)val.Length / 2, val);
         }
         public static string ReadMemory(string ip, int pid, uint offset, uint length)
         {
-            string addr = Convert.ToString(offset, 16);
-            string Output = get_data($"http://{ip}/getmem.ps3mapi?proc={pid}$addr={addr}&len={length}");
-            int resPos = Output.IndexOf("</textarea>");
+            return api.ReadMemoryStr(pid, offset, length);
+        }
 
-            string resultstring = Output.Substring(resPos - (int)length * 2, (int)length * 2);
-            return resultstring;
+        public static bool PrepareRatchetron(string ip)
+        {
+            // Check if Ratchetron is already loaded
+            string slot6sprx = get_data($"http://{ip}/home.ps3mapi/sman.ps3");
+            slot6sprx = slot6sprx.Substring(slot6sprx.IndexOf("class=\"la\">6</td>") + 215, "ratchetron_server.sprx".Length);
+
+            bool ratchetronLoaded = slot6sprx == "ratchetron_server.sprx";
+
+            string remoteMD5Sum = get_data($"http://{ip}/md5.ps3/dev_hdd0/tmp/ratchetron_server.sprx");
+            remoteMD5Sum = remoteMD5Sum.Substring(remoteMD5Sum.IndexOf("MD5: ") + 5, 32);
+
+            var ratchetronSprx = File.OpenRead(sprxPath + @"\ratchetron_server.sprx");
+            var localMD5Sum = BitConverter.ToString(MD5.Create().ComputeHash(ratchetronSprx)).Replace("-", "").ToLowerInvariant();
+
+            if (remoteMD5Sum != localMD5Sum)
+            {
+                if (ratchetronLoaded)
+                {
+                    MessageBox.Show("You already have an older version of Ratchetron loaded. Please restart your PS3 to use RaCMAN.");
+                    return false;
+                }
+                else
+                {
+                    client.UploadFile($"ftp://{ip}:21/dev_hdd0/tmp/ratchetron_server.sprx", sprxPath + @"\ratchetron_server.sprx");
+                }
+            }
+
+            if (!ratchetronLoaded)
+            {
+                get_data($"http://{ip}/vshplugin.ps3mapi?prx=%2Fdev_hdd0%2Ftmp%2Fratchetron_server.sprx&load_slot=6");
+            }
+
+            return true;
         }
 
         public static void UploadFile(string ip, string file)
@@ -99,9 +118,7 @@ namespace racman
 
         public static void WriteMemory_SingleByte(string ip, int pid, uint offset, string val/*byte[] memory*/)
         {
-            string addr = Convert.ToString(offset, 16);
-
-            get_data($"http://{ip}/setmem.ps3mapi?proc={pid}$addr={addr}&val={val}&len={1}");
+            api.WriteMemory(pid, offset, 1, val);
         }
 
         public static void ChangeFileLines(string filename, string contents, string keyword)

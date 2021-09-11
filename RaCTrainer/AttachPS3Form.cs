@@ -7,6 +7,8 @@ namespace racman
 {
     public partial class AttachPS3Form : Form
     {
+        bool useOldAPI = false;
+
         public AttachPS3Form()
         {
             InitializeComponent();
@@ -39,8 +41,27 @@ namespace racman
 
         private void attachButton_Click(object sender, EventArgs e)
         {
+            
+
             ip = IPTextBox.Text;
             func.ChangeFileLines("config.txt", Convert.ToString(ip), "ip");
+
+            func.api = this.useOldAPI ? (IPS3API)new WebMAN(ip) : (IPS3API)new Ratchetron(ip);
+
+            if (!this.useOldAPI)
+            {
+                if (!func.PrepareRatchetron(ip))
+                {
+                    return;
+                }
+            }
+
+            if (!func.api.Connect())
+            {
+                MessageBox.Show("Couldn't connect to the game.");
+                return;
+            }
+
             try
             {
                 game = func.current_game(ip);
@@ -54,6 +75,7 @@ namespace racman
             if (game == "NPEA00385") // I'm sure there's a way better way of doing this.
             {
                 Hide();
+                func.api.Notify("RaCMAN connected!");
                 RAC1Form rac1 = new RAC1Form
                 {
                     TopMost = true
@@ -63,6 +85,7 @@ namespace racman
             else if (game == "NPEA00387")
             {
                 Hide();
+                func.api.Notify("RaCMAN connected!");
                 RAC3Form rac3 = new RAC3Form
                 {
                     TopMost = true
@@ -72,6 +95,7 @@ namespace racman
             else if (game == "NPEA00423")
             {
                 Hide();
+                func.api.Notify("RaCMAN connected!");
                 RAC4Form rac4 = new RAC4Form
                 {
                     TopMost = true
@@ -87,6 +111,11 @@ namespace racman
         private void currentVerLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            this.useOldAPI = ((CheckBox)sender).Checked;
         }
     }
 }
