@@ -167,6 +167,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>XCOPY "$(SolutionDir)SPRX\" "$(TargetDir)\SPRX\" /S /Y</PostBuildEvent>
+    <PostBuildEvent>XCOPY "$(SolutionDir)SPRX\" "$(TargetDir)\SPRX\" /S /Y
+XCOPY "$(SolutionDir)bins\" "$(TargetDir)\bins\" /S /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
