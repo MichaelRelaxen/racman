@@ -111,6 +111,7 @@ namespace racman
         public Form UnlocksWindow;
         public Form HotkeysMenu;
         public Form HovenHealthForm;
+        public Form InputDisplay;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         public static Keys LoadHotkey, SaveHotkey, Coord1Hotkey, Coord2Hotkey, Coord3Hotkey, DieHotkey;
@@ -402,7 +403,7 @@ namespace racman
             Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void inputdisplay_click(object sender, EventArgs e)
         {
             if (!(func.api is Ratchetron))
             {
@@ -410,11 +411,25 @@ namespace racman
                 return;
             }
 
+            if (InputDisplay == null)
+            {
+                InputDisplay = new InputDisplay();
+                InputDisplay.FormClosed += HovenHealthForm_FormClosed;
+                InputDisplay.Show();
+            }
+            /*
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.FileName = Environment.CurrentDirectory + @"\bins\RatchetInputDisplay.exe";
             startInfo.Arguments = func.api.GetIP();
 
             Process.Start(startInfo);
+            */
+        }
+
+
+        private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            HovenHealthForm = null;
         }
 
         private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
