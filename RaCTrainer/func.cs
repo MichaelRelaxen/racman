@@ -89,17 +89,6 @@ namespace racman
             return true;
         }
 
-        public static void UploadFile(string ip, string file)
-        {
-            try
-            {
-                client.UploadFile($"ftp://{ip}:21/dev_hdd0/game/NPEA00387/USRDIR/EBOOT.BIN", file);
-            }
-            catch
-            {
-            }
-        }
-
         public static void WriteMemory_SingleByte(string ip, int pid, uint offset, string val/*byte[] memory*/)
         {
             api.WriteMemory(pid, offset, 1, val);

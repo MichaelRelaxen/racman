@@ -72,7 +72,7 @@ namespace racman
                 MessageBox.Show("invalid ip/web exception.");
             }
 
-            if (game == "NPEA00385") // I'm sure there's a way better way of doing this.
+            if (game == "NPEA00385")
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
