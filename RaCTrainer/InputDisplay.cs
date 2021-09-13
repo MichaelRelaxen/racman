@@ -77,7 +77,7 @@ namespace racman
 
 
                 /* issues:
-                 * flickering
+                 * flickering (figure out how to render everything at once instead of controller > then inputs)
                  * while loop freezes the window */
                 e.Graphics.DrawImage(sprite, 0, 0, new Rectangle(0, 0, 800, 558), units);
 
