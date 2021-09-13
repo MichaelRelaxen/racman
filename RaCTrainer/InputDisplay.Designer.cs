@@ -33,10 +33,12 @@ namespace racman
             // 
             // InputDisplay
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Purple;
-            this.ClientSize = new System.Drawing.Size(941, 594);
+            this.ClientSize = new System.Drawing.Size(1412, 914);
+            this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "InputDisplay";
             this.Text = "InputDisplay";
             this.Load += new System.EventHandler(this.InputDisplay_Load);

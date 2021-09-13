@@ -14,14 +14,47 @@ namespace racman
 {
     public partial class InputDisplay : Form
     {
+        public System.Windows.Forms.Timer timer;
+
+        float rx = 0.0f;
+        float ry = 0.0f;
+        float lx = 0.0f;
+        float ly = 0.0f;
+
+        List<buttons> mask = new List<buttons>();
+
         public InputDisplay()
         {
             InitializeComponent();
         }
         private void InputDisplay_Load(object sender, EventArgs e)
         {
+            this.UpdateButtons();
 
+            timer = new System.Windows.Forms.Timer();
+            timer.Interval = (int)16.66667;
+            timer.Tick += new EventHandler(timer_Tick);
+            timer.Start();
         }
+
+        private void UpdateButtons()
+        {
+            mask = DecodeMask(Convert.ToInt32(func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, 0x964AF0, 4), 16));
+
+            string analogs = func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, 0x964a40, 16);
+
+            rx = func.HexToFloat(analogs.Substring(0, 8));
+            ry = func.HexToFloat(analogs.Substring(8, 8));
+            lx = func.HexToFloat(analogs.Substring(16, 8));
+            ly = func.HexToFloat(analogs.Substring(24, 8));
+        }
+
+        public void timer_Tick(object sender, EventArgs e)
+        {
+            this.UpdateButtons();
+            this.Refresh();
+        }
+
         enum buttons {
             l2 = 0x1,
             r2 = 0x2,
@@ -63,19 +96,8 @@ namespace racman
 
         private void InputDisplay_Paint(object sender, PaintEventArgs e)
         {
-            while(true)
-            {
-                List<buttons> mask = DecodeMask(Convert.ToInt32(func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, 0x964ae0, 4), 16));
-
-                string analogs = func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, 0x964a40, 16);
-
-
-                float rx = func.HexToFloat(analogs.Substring(0, 8));
-                float ry = func.HexToFloat(analogs.Substring(8, 8));
-                float lx = func.HexToFloat(analogs.Substring(16, 8));
-                float ly = func.HexToFloat(analogs.Substring(24, 8));
-
-
+            
+             {
                 /* issues:
                  * flickering (figure out how to render everything at once instead of controller > then inputs)
                  * while loop freezes the window */
@@ -83,19 +105,19 @@ namespace racman
 
                 if (mask.Contains(buttons.r3))
                 {
-                    e.Graphics.DrawImage(sprite, 469 + (rx * 16), 328 + (ry * 16), new Rectangle(106, 627, 105, 105), units); // Right Stick + R3 Press
+                    e.Graphics.DrawImage(sprite, 469 + (rx * 32), 328 + (ry * 32), new Rectangle(106, 627, 105, 105), units); // Right Stick + R3 Press
                 }
                 else
                 {
-                    e.Graphics.DrawImage(sprite, 469 + (rx * 16), 328 + (ry * 16), new Rectangle(0, 627, 105, 105), units); // Right Stick
+                    e.Graphics.DrawImage(sprite, 469 + (rx * 32), 328 + (ry * 32), new Rectangle(0, 627, 105, 105), units); // Right Stick
                 }
                 if (mask.Contains(buttons.l3))
                 {
-                    e.Graphics.DrawImage(sprite, 210 + (lx * 16), 328 + (ly * 16), new Rectangle(106, 627, 105, 105), units); // Left Stick + L3 Press
+                    e.Graphics.DrawImage(sprite, 210 + (lx * 32), 328 + (ly * 32), new Rectangle(106, 627, 105, 105), units); // Left Stick + L3 Press
                 }
                 else
                 {
-                    e.Graphics.DrawImage(sprite, 210 + (lx * 16), 328 + (ly * 16), new Rectangle(0, 627, 105, 105), units); // Left Stick
+                    e.Graphics.DrawImage(sprite, 210 + (lx * 32), 328 + (ly * 32), new Rectangle(0, 627, 105, 105), units); // Left Stick
                 }
 
 
@@ -117,8 +139,6 @@ namespace racman
                 if (mask.Contains(buttons.l2)) e.Graphics.DrawImage(sprite, 99, 0, new Rectangle(460, 586, 86, 65), units);
                 if (mask.Contains(buttons.r2)) e.Graphics.DrawImage(sprite, 599, 0, new Rectangle(460, 586, 86, 65), units);
 
-
-                Thread.Sleep((int)16.66667);
             }
         }
 
