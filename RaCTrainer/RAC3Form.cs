@@ -117,7 +117,7 @@ namespace racman
                 }
             }
         }
-
+        public Form InputDisplay;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         public Form HotkeysMenuRac3;
@@ -408,6 +408,28 @@ namespace racman
         private void ghostrac_MouseHover(object sender, EventArgs e)
         {
             toolTip1.Show("Enables ghost ratchet.", ghostrac);
+        }
+
+        private void inputdisplay_Click(object sender, EventArgs e)
+        {
+            if (!(func.api is Ratchetron))
+            {
+                MessageBox.Show("You need to be using the new API to use input display");
+                return;
+            }
+
+            if (InputDisplay == null)
+            {
+                InputDisplay = new InputDisplay();
+                InputDisplay.FormClosed += InputDisplay_FormClosed;
+                InputDisplay.Show();
+            }
+        }
+
+
+        private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            InputDisplay = null;
         }
 
         private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)

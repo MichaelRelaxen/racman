@@ -34,6 +34,11 @@ namespace racman
             left = 0x8000,
         }
 
+        uint mask_offset;
+        uint analog_offset;
+
+        string gameID = AttachPS3Form.game;
+
         List<buttons> mask = new List<buttons>();
 
         float rx = 0.0f;
@@ -48,6 +53,17 @@ namespace racman
         }
         private void InputDisplay_Load(object sender, EventArgs e)
         {
+            if(gameID == "NPEA00385")
+            {
+                mask_offset = 0x964AF0;
+                analog_offset = 0x964A40;
+            }
+            if(gameID == "NPEA00387")
+            {
+                mask_offset = 0xD99370;
+                analog_offset = 0xD9954C;
+            }
+
             skinComboBox.SelectedIndex = 0;
 
             this.UpdateButtons();
@@ -77,9 +93,9 @@ namespace racman
         }
         private void UpdateButtons()
         {
-            mask = DecodeMask(Convert.ToInt32(func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, 0x964AF0, 4), 16));
+            mask = DecodeMask(Convert.ToInt32(func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, mask_offset, 4), 16));
 
-            string analogs = func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, 0x964a40, 16);
+            string analogs = func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, analog_offset, 16);
 
             rx = func.HexToFloat(analogs.Substring(0, 8));
             ry = func.HexToFloat(analogs.Substring(8, 8));

@@ -76,6 +76,7 @@ namespace racman
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.inputdisplay = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).BeginInit();
@@ -517,14 +518,14 @@ namespace racman
             // hotkeysToolStripMenuItem
             // 
             this.hotkeysToolStripMenuItem.Name = "hotkeysToolStripMenuItem";
-            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.hotkeysToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.hotkeysToolStripMenuItem.Text = "Hotkeys";
             this.hotkeysToolStripMenuItem.Click += new System.EventHandler(this.hotkeysToolStripMenuItem_Click);
             // 
             // switchGameToolStripMenuItem
             // 
             this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
-            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
+            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
@@ -532,12 +533,23 @@ namespace racman
             // 
             this.toolTip1.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
             // 
+            // inputdisplay
+            // 
+            this.inputdisplay.Location = new System.Drawing.Point(389, 311);
+            this.inputdisplay.Name = "inputdisplay";
+            this.inputdisplay.Size = new System.Drawing.Size(104, 23);
+            this.inputdisplay.TabIndex = 76;
+            this.inputdisplay.Text = "Input Display";
+            this.inputdisplay.UseVisualStyleBackColor = true;
+            this.inputdisplay.Click += new System.EventHandler(this.inputdisplay_Click);
+            // 
             // RAC3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(512, 346);
+            this.Controls.Add(this.inputdisplay);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.currentlyDoing);
             this.Controls.Add(this.label12);
@@ -640,6 +652,7 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem switchGameToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button inputdisplay;
     }
 }
 

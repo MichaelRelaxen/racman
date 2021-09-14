@@ -414,7 +414,7 @@ namespace racman
             if (InputDisplay == null)
             {
                 InputDisplay = new InputDisplay();
-                InputDisplay.FormClosed += HovenHealthForm_FormClosed;
+                InputDisplay.FormClosed += InputDisplay_FormClosed;
                 InputDisplay.Show();
             }
             /*
@@ -429,7 +429,7 @@ namespace racman
 
         private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
         {
-            HovenHealthForm = null;
+            InputDisplay = null;
         }
 
         private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
