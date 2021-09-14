@@ -11,6 +11,8 @@ namespace racman
    
     public partial class RAC3Form : Form
     {
+        public System.Windows.Forms.Timer ohkoTimer;
+
         public RAC3Form()
         {
             InitializeComponent();
@@ -430,6 +432,32 @@ namespace racman
         private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
         {
             InputDisplay = null;
+        }
+
+        private void OHKOCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            var isChecked = ((CheckBox)sender).Checked;
+
+            if (!isChecked && ohkoTimer != null)
+            {
+                ohkoTimer.Enabled = false;
+            } else
+            {
+                ohkoTimer = new System.Windows.Forms.Timer();
+                ohkoTimer.Interval = (int)16.66667;
+                ohkoTimer.Tick += new EventHandler(OHKOTimer_Tick);
+                ohkoTimer.Start();
+            }
+        }
+
+        public void OHKOTimer_Tick(object sender, EventArgs e)
+        {
+            var health = Convert.ToInt32(func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, rac3.health, 4), 16);
+
+            if (health > 1) {
+                func.api.WriteMemory(AttachPS3Form.pid, rac3.health, 4, new byte[] { 0x00, 0x00, 0x00, 0x01});
+                //func.WriteMemory(AttachPS3Form.ip, AttachPS3Form.pid, rac3.health, "01");
+            }
         }
 
         private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)

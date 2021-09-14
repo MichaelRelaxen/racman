@@ -77,6 +77,7 @@ namespace racman
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.inputdisplay = new System.Windows.Forms.Button();
+            this.OHKOCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).BeginInit();
@@ -543,12 +544,24 @@ namespace racman
             this.inputdisplay.UseVisualStyleBackColor = true;
             this.inputdisplay.Click += new System.EventHandler(this.inputdisplay_Click);
             // 
+            // OHKOCheckBox
+            // 
+            this.OHKOCheckBox.AutoSize = true;
+            this.OHKOCheckBox.Location = new System.Drawing.Point(233, 216);
+            this.OHKOCheckBox.Name = "OHKOCheckBox";
+            this.OHKOCheckBox.Size = new System.Drawing.Size(107, 17);
+            this.OHKOCheckBox.TabIndex = 77;
+            this.OHKOCheckBox.Text = "Foce One Hit KO";
+            this.OHKOCheckBox.UseVisualStyleBackColor = true;
+            this.OHKOCheckBox.CheckedChanged += new System.EventHandler(this.OHKOCheckBox_CheckedChanged);
+            // 
             // RAC3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(512, 346);
+            this.Controls.Add(this.OHKOCheckBox);
             this.Controls.Add(this.inputdisplay);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.currentlyDoing);
@@ -653,6 +666,7 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem switchGameToolStripMenuItem;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button inputdisplay;
+        private System.Windows.Forms.CheckBox OHKOCheckBox;
     }
 }
 

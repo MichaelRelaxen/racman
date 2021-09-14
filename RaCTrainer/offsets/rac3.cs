@@ -11,6 +11,9 @@
         // Player's current bolt count.
         public static uint bolt_count = 0xc1e4dc;
 
+        // Player's current health.
+        public static uint health = 0xda5040;
+
         // Player's current health EXP.
         public static uint health_exp = 0xc1e510;
 
