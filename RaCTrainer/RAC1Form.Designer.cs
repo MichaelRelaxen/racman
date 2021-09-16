@@ -59,10 +59,6 @@ namespace racman
             this.hotkeysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
-            this.planetPosName = new System.Windows.Forms.TextBox();
-            this.planetpos_label = new System.Windows.Forms.Label();
-            this.addPlanetPos = new System.Windows.Forms.Button();
-            this.deletePlanetPosition = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
@@ -164,6 +160,10 @@ namespace racman
             // 
             this.positions_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.positions_comboBox.FormattingEnabled = true;
+            this.positions_comboBox.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3"});
             this.positions_comboBox.Location = new System.Drawing.Point(135, 47);
             this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
@@ -229,7 +229,6 @@ namespace racman
             this.bolts_textBox.Name = "bolts_textBox";
             this.bolts_textBox.Size = new System.Drawing.Size(135, 20);
             this.bolts_textBox.TabIndex = 62;
-            this.bolts_textBox.TextChanged += new System.EventHandler(this.bolts_textBox_TextChanged);
             // 
             // label3
             // 
@@ -256,7 +255,6 @@ namespace racman
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 68;
             this.label8.Text = "Bolt Count:";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // unlocksWindowButton
             // 
@@ -319,7 +317,7 @@ namespace racman
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(417, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(384, 24);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -358,46 +356,10 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.hovenHPButton_click);
             // 
-            // planetPosName
-            // 
-            this.planetPosName.Location = new System.Drawing.Point(12, 301);
-            this.planetPosName.Name = "planetPosName";
-            this.planetPosName.Size = new System.Drawing.Size(100, 20);
-            this.planetPosName.TabIndex = 78;
-            // 
-            // planetpos_label
-            // 
-            this.planetpos_label.AutoSize = true;
-            this.planetpos_label.Location = new System.Drawing.Point(9, 283);
-            this.planetpos_label.Name = "planetpos_label";
-            this.planetpos_label.Size = new System.Drawing.Size(77, 13);
-            this.planetpos_label.TabIndex = 79;
-            this.planetpos_label.Text = "Planet Position";
-            // 
-            // addPlanetPos
-            // 
-            this.addPlanetPos.Location = new System.Drawing.Point(119, 301);
-            this.addPlanetPos.Name = "addPlanetPos";
-            this.addPlanetPos.Size = new System.Drawing.Size(42, 23);
-            this.addPlanetPos.TabIndex = 80;
-            this.addPlanetPos.Text = "Add";
-            this.addPlanetPos.UseVisualStyleBackColor = true;
-            this.addPlanetPos.Click += new System.EventHandler(this.addPlanetPos_Click);
-            // 
-            // deletePlanetPosition
-            // 
-            this.deletePlanetPosition.Location = new System.Drawing.Point(167, 301);
-            this.deletePlanetPosition.Name = "deletePlanetPosition";
-            this.deletePlanetPosition.Size = new System.Drawing.Size(59, 23);
-            this.deletePlanetPosition.TabIndex = 81;
-            this.deletePlanetPosition.Text = "Delete";
-            this.deletePlanetPosition.UseVisualStyleBackColor = true;
-            this.deletePlanetPosition.Click += new System.EventHandler(this.deletePlanetPosition_Click);
-            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(329, 302);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Location = new System.Drawing.Point(283, 226);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(81, 22);
             this.button2.TabIndex = 82;
@@ -410,12 +372,8 @@ namespace racman
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(417, 336);
+            this.ClientSize = new System.Drawing.Size(384, 262);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.deletePlanetPosition);
-            this.Controls.Add(this.addPlanetPos);
-            this.Controls.Add(this.planetpos_label);
-            this.Controls.Add(this.planetPosName);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lflagresetCb);
             this.Controls.Add(this.goodiesCheck);
@@ -489,10 +447,6 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hotkeysToolStripMenuItem;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox planetPosName;
-        private System.Windows.Forms.Label planetpos_label;
-        private System.Windows.Forms.Button addPlanetPos;
-        private System.Windows.Forms.Button deletePlanetPosition;
         private System.Windows.Forms.ToolStripMenuItem switchGameToolStripMenuItem;
         private System.Windows.Forms.Button button2;
     }

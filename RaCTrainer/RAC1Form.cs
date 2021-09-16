@@ -132,7 +132,15 @@ namespace racman
                     planet_positions.Add(planetPositions.Split(',')[i]);
                 }
             }
+
             positions_comboBox.Text = planetPositions.Split(',')[0];
+
+            if (positions_comboBox.Items.Count <= 0)
+            {
+                positions_comboBox.Items.AddRange(new object[] { "1", "2", "3" });
+            }
+
+            positions_comboBox.SelectedIndex = 0;
         }
         private void savePlanetPositions(string planet)
         {
@@ -147,14 +155,14 @@ namespace racman
 
         private void positions_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            planetPosName.Text = positions_comboBox.Text;
+            //planetPosName.Text = positions_comboBox.Text;
         }
 
         private void savePosButton_Click(object sender, EventArgs e)
         {
             string position = func.ReadMemory(ip, pid, rac1.player_coords, 30);
             func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + positions_comboBox.Text);
-            savePlanetPositions(planets_list[getCurrentPlanetIndex()]);
+            //savePlanetPositions(planets_list[getCurrentPlanetIndex()]);
         }
 
         private void loadPosButton_Click(object sender, EventArgs e)
@@ -196,7 +204,7 @@ namespace racman
 
             Thread.Sleep(1000); // lazy
             func.WriteMemory(ip, pid, 0x9645C4, "0000001A0000000400000002"); // Force fast load
-            loadPlanetPositions();
+            //loadPlanetPositions();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -265,22 +273,6 @@ namespace racman
             func.WriteMemory(ip, pid, rac1.gold_bolts_array, unlock);
         }
 
-        private void bolts_textBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
@@ -343,57 +335,6 @@ namespace racman
         private void HovenHealthForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             HovenHealthForm = null;
-        }
-
-        private void addPlanetPos_Click(object sender, EventArgs e)
-        {
-            if (!planet_positions.Contains(planetPosName.Text))
-            {
-                if (planetPosName.Text == "" || planetPosName.Text.Contains("=") || planetPosName.Text.Contains(",") || planetPosName.Text.Contains(" "))
-                {
-                    MessageBox.Show("lmao");
-                    MessageBox.Show("Either empty string, includes equals sign or a comma, get rekt");
-                }
-                else
-                {
-                    positions_comboBox.Items.Add(planetPosName.Text);
-                    planet_positions.Add(planetPosName.Text);
-                    positions_comboBox.Text = planetPosName.Text;
-                    savePlanetPositions(planets_list[getCurrentPlanetIndex()]);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Already added, idiot.");
-            }
-        }
-
-        private void deletePlanetPosition_Click(object sender, EventArgs e)
-        {
-            if (planet_positions.Contains(planetPosName.Text))
-            {
-                if (planetPosName.Text == "" || planetPosName.Text.Contains("=") || planetPosName.Text.Contains(",") || planetPosName.Text.Contains(" "))
-                {
-                    MessageBox.Show("lmao");
-                    MessageBox.Show("Either empty string, includes equals sign or a comma, get rekt");
-                }
-                else
-                {
-                    positions_comboBox.Items.Remove(planetPosName.Text);
-                    planet_positions.Remove(planetPosName.Text);
-                    savePlanetPositions(planets_list[getCurrentPlanetIndex()]);
-                    
-                    if (positions_comboBox.Items.Count != 0)
-                    {
-                        positions_comboBox.SelectedIndex = 0;
-                    }
-                }
-
-            }
-            else
-            {
-                MessageBox.Show("Nothing to delete, idiot.");
-            }
         }
 
         private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)
