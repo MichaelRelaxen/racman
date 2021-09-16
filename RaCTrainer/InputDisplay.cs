@@ -153,7 +153,7 @@ namespace racman
 
         private void InputDisplay_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Application.Exit();
+            timer.Enabled = false;
         }
     }
 }

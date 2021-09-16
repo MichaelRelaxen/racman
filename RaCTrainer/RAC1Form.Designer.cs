@@ -162,7 +162,14 @@ namespace racman
             this.positions_comboBox.Items.AddRange(new object[] {
             "1",
             "2",
-            "3"});
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
             this.positions_comboBox.Location = new System.Drawing.Point(135, 47);
             this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(75, 21);

@@ -192,7 +192,14 @@ namespace racman
             this.positions_ComboBox.Items.AddRange(new object[] {
             "1",
             "2",
-            "3"});
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
             this.positions_ComboBox.Location = new System.Drawing.Point(136, 47);
             this.positions_ComboBox.Name = "positions_ComboBox";
             this.positions_ComboBox.Size = new System.Drawing.Size(75, 21);
@@ -517,7 +524,7 @@ namespace racman
             // switchGameToolStripMenuItem
             // 
             this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
-            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
