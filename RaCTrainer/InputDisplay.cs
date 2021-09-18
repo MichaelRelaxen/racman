@@ -66,7 +66,24 @@ namespace racman
 
             skinComboBox.SelectedIndex = 0;
 
-            this.UpdateButtons();
+            int buttonMaskSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, mask_offset, 4, (value) =>
+            {
+                this.mask = DecodeMask(BitConverter.ToInt32(value, 0));
+            });
+
+            int analogRSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, analog_offset, 8, (value) =>
+            {
+                this.ry = BitConverter.ToSingle(value, 0);
+                this.rx = BitConverter.ToSingle(value, 4);
+            });
+
+            int analogYSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, analog_offset + 8, 8, (value) =>
+            {
+                this.ly = BitConverter.ToSingle(value, 0);
+                this.lx = BitConverter.ToSingle(value, 4);
+            });
+
+            //this.UpdateButtons();
 
             timer = new System.Windows.Forms.Timer();
             timer.Interval = (int)16.66667;
@@ -76,7 +93,7 @@ namespace racman
 
         public void timer_Tick(object sender, EventArgs e)
         {
-            this.UpdateButtons();
+            //this.UpdateButtons();
             this.Refresh();
         }
         private static List<buttons> DecodeMask(int mask)  

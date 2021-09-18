@@ -20,6 +20,7 @@ namespace racman
         }
 
         public abstract bool Connect();
+        public abstract bool Disconnect();
 
         public abstract string getGameTitleID();
         public abstract int getCurrentPID();

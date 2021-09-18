@@ -12,6 +12,14 @@ namespace racman
 
     public partial class RAC1Form : Form
     {
+        public Form UnlocksWindow;
+        public Form HotkeysMenu;
+        public Form HovenHealthForm;
+        public Form InputDisplay;
+        public static string ip = AttachPS3Form.ip;
+        public static int pid = AttachPS3Form.pid;
+        public static Keys LoadHotkey, SaveHotkey, Coord1Hotkey, Coord2Hotkey, Coord3Hotkey, DieHotkey;
+
         public RAC1Form()
         {
             InitializeComponent();
@@ -47,7 +55,7 @@ namespace racman
             drekSkipCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.drek_skip, 1)));
 
             //
-            if(func.GetConfigData("config.exe","SaveHotkey") == ""){
+            if (func.GetConfigData("config.exe", "SaveHotkey") == "") {
                 func.ChangeFileLines("config.exe", Convert.ToString(Keys.Shift), "SaveHotkey");
             }
             SaveHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "SaveHotkey"));
@@ -87,6 +95,16 @@ namespace racman
             }
             Coord3Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord3Hotkey"));
 
+            if (func.api is Ratchetron)
+            {
+                Ratchetron api = (Ratchetron)func.api;
+
+                api.OpenDataChannel();
+
+                /*int buttonMaskSubID3 = api.SubMemory(pid, 0x964AF0, 4);
+
+                Console.WriteLine($"Sub ID: {buttonMaskSubID3}");*/
+            }
         }
         
 
@@ -107,14 +125,6 @@ namespace racman
 
             }
         }
-
-        public Form UnlocksWindow;
-        public Form HotkeysMenu;
-        public Form HovenHealthForm;
-        public Form InputDisplay;
-        public static string ip = AttachPS3Form.ip;
-        public static int pid = AttachPS3Form.pid;
-        public static Keys LoadHotkey, SaveHotkey, Coord1Hotkey, Coord2Hotkey, Coord3Hotkey, DieHotkey;
 
         public string current_planet;
         public string[] planets_list;
@@ -275,6 +285,7 @@ namespace racman
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            func.api.Disconnect();
             Application.Exit();
         }
 
