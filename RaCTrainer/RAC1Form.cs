@@ -296,6 +296,19 @@ namespace racman
 
         private void infHealth_Checkbox_Changed(object sender, EventArgs e)
         {
+            if (func.api is Ratchetron)
+            {
+                Ratchetron api = (Ratchetron)func.api;
+                if (infHealth.Checked)
+                {
+                    api.FreezeMemory(pid, rac1.player_health, 8);
+                } else {
+                    api.ReleaseSubID(api.MemSubIDForAddress(rac1.player_health));
+                }
+
+                return;
+            }
+
             if (infHealth.Checked)
             {
                 func.WriteMemory(ip, pid, rac1.player_health, "11111111");

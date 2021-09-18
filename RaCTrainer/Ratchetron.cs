@@ -29,6 +29,7 @@ namespace racman
         private IPEndPoint remoteEndpoint;
 
         private Dictionary<int, Action<byte[]>> memSubCallbacks = new Dictionary<int, Action<byte[]>>();
+        private Dictionary<int, UInt32> frozenAddresses = new Dictionary<int, uint>();
 
 
         public Ratchetron(string ip): base(ip)
@@ -264,7 +265,7 @@ namespace racman
 
             this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
-            byte[] memSubIDBuf = new byte[2048];
+            byte[] memSubIDBuf = new byte[4];
 
             int n_bytes = 0;
             while (n_bytes < 4)
@@ -276,7 +277,70 @@ namespace racman
 
             this.memSubCallbacks[memSubID] = callback;
 
-            return BitConverter.ToInt32(memSubIDBuf.Take(4).Reverse().ToArray(), 0);
+            return memSubID;
+        }
+
+        public int FreezeMemory(int pid, uint address, uint size, byte[] memory)
+        {
+            var cmdBuf = new List<byte>();
+            cmdBuf.Add(0x0b);
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)address).Reverse());
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
+            cmdBuf.AddRange(new byte[] { 0x01 });
+            cmdBuf.AddRange(memory);
+
+            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+
+            byte[] memSubIDBuf = new byte[4];
+
+            int n_bytes = 0;
+            while (n_bytes < 4)
+            {
+                n_bytes += stream.Read(memSubIDBuf, 0, 4);
+            }
+
+            var memSubID = (int)BitConverter.ToInt32(memSubIDBuf.Take(4).Reverse().ToArray(), 0);
+
+            frozenAddresses[memSubID] = address;
+
+            return memSubID;
+        }
+
+        public virtual void FreezeMemory(int pid, uint address, UInt32 intValue)
+        {
+            this.FreezeMemory(pid, address, 4, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
+        }
+
+        public void ReleaseSubID(int memSubID)
+        {
+            var cmdBuf = new List<byte>();
+            cmdBuf.Add(0x0c);
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)memSubID).Reverse());
+
+            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+
+            byte[] resultBuf = new byte[1];
+
+            int n_bytes = 0;
+            while (n_bytes < 1)
+            {
+                n_bytes += stream.Read(resultBuf, 0, 1);
+            }
+
+            // we're ignoring the results because yolo
+        }
+
+        public int MemSubIDForAddress(uint address)
+        {
+            foreach(KeyValuePair<int, uint> entry in frozenAddresses)
+            {
+                if (address == entry.Value)
+                {
+                    return entry.Key;
+                }
+            }
+            return -1;
         }
     }
 }
