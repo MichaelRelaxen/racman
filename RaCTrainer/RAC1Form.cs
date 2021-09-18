@@ -13,12 +13,10 @@ namespace racman
     public partial class RAC1Form : Form
     {
         public Form UnlocksWindow;
-        public Form HotkeysMenu;
         public Form HovenHealthForm;
         public Form InputDisplay;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
-        public static Keys LoadHotkey, SaveHotkey, Coord1Hotkey, Coord2Hotkey, Coord3Hotkey, DieHotkey;
 
         public RAC1Form()
         {
@@ -53,47 +51,6 @@ namespace racman
 
             goodiesCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.goodies_menu, 1)));
             drekSkipCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.drek_skip, 1)));
-
-            //
-            if (func.GetConfigData("config.exe", "SaveHotkey") == "") {
-                func.ChangeFileLines("config.exe", Convert.ToString(Keys.Shift), "SaveHotkey");
-            }
-            SaveHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "SaveHotkey"));
-
-            //
-            if (func.GetConfigData("config.exe", "LoadHotkey") == "")
-            {
-                func.ChangeFileLines("config.exe", Convert.ToString(Keys.Space), "LoadHotkey");
-            }
-            LoadHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "LoadHotkey"));
-
-            //
-            if (func.GetConfigData("config.exe", "DieHotkey") == "")
-            {
-                func.ChangeFileLines("config.exe", Convert.ToString(Keys.E), "DieHotkey");
-            }
-            DieHotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "DieHotkey"));
-
-            //
-            if (func.GetConfigData("config.exe", "Coord1Hotkey") == "")
-            {
-                func.ChangeFileLines("config.exe", Convert.ToString(Keys.D1), "Coord1Hotkey");
-            }
-            Coord1Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord1Hotkey"));
-
-            //
-            if (func.GetConfigData("config.exe", "Coord2Hotkey") == "")
-            {
-                func.ChangeFileLines("config.exe", Convert.ToString(Keys.D2), "Coord2Hotkey");
-            }
-            Coord2Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord2Hotkey"));
-
-            //
-            if (func.GetConfigData("config.exe", "Coord3Hotkey") == "")
-            {
-                func.ChangeFileLines("config.exe", Convert.ToString(Keys.D3), "Coord3Hotkey");
-            }
-            Coord3Hotkey = (Keys)System.Enum.Parse(typeof(Keys), func.GetConfigData("config.exe", "Coord3Hotkey"));
 
             if (func.api is Ratchetron)
             {
@@ -219,56 +176,11 @@ namespace racman
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            KeyPreview = true;
-
-            ToolTip tt1 = new ToolTip(); tt1.SetToolTip(savepos, "Hotkey: Shift");
-            ToolTip tt2 = new ToolTip(); tt1.SetToolTip(loadpos, "Hotkey: Space");
-            ToolTip tt3 = new ToolTip(); tt1.SetToolTip(killyourself, "Hotkey: E");
-
         }
 
-
-        //Method that checks if keys are being pressed
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == SaveHotkey)
-            {
-                savepos.PerformClick();
-            }
 
-            if (e.KeyCode == LoadHotkey)
-            {
-                loadpos.PerformClick();
-            }
-
-            if (e.KeyCode == DieHotkey)
-            {
-                killyourself.PerformClick();
-            }
-
-            if (e.KeyCode == Coord1Hotkey)
-            {
-                if (positions_comboBox.SelectedIndex == 0)
-                {
-                    // get fucked
-                }
-                else
-                {
-                    positions_comboBox.SelectedIndex = positions_comboBox.SelectedIndex - 1;
-                }
-
-            }
-            if (e.KeyCode == Coord2Hotkey)
-            {
-                if (positions_comboBox.SelectedIndex == positions_comboBox.Items.Count - 1)
-                {
-                    // get fucked
-                }
-                else
-                {
-                    positions_comboBox.SelectedIndex = positions_comboBox.SelectedIndex + 1;
-                }
-            }
         }
 
         private void gbsreset_Click(object sender, EventArgs e)
@@ -466,20 +378,6 @@ namespace racman
                 func.WriteMemory(ip, pid, rac1.unlock_array + 3, "00"); // Thruster-Pack
                 func.WriteMemory(ip, pid, rac1.unlock_array + 6, "00"); // O2 Mask
             }
-        }
-
-        private void hotkeysToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (HotkeysMenu == null)
-            {
-                HotkeysMenu = new HotkeysMenu();
-                HotkeysMenu.FormClosed += HotkeysMenu_FormClosed;
-                HotkeysMenu.Show();
-            }
-        }
-        private void HotkeysMenu_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            HotkeysMenu = null;
         }
 
     }
