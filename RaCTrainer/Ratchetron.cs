@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace racman
 {
@@ -211,8 +212,25 @@ namespace racman
         public void OpenDataChannel()
         {
             byte[] data = new byte[1024];
-            IPEndPoint ipep = new IPEndPoint(IPAddress.Any, 0);
-            this.udpClient = new UdpClient(ipep);
+            int port = 4000;
+            bool udpStarted = false;
+            while (!udpStarted)
+            {
+                try
+                {
+                    IPEndPoint ipep = new IPEndPoint(IPAddress.Any, port);
+                    this.udpClient = new UdpClient(ipep);
+                    udpStarted = true;
+                }
+                catch (SocketException e)
+                {
+                    if (port++ > 5000)
+                    {
+                        MessageBox.Show("Tried to open data connection on all ports between 4000 and 5000, but that failed. Did you deny RaCMAN firewall access?");
+                        return;
+                    }
+                }
+            }
 
             var assignedPort = ((IPEndPoint)this.udpClient.Client.LocalEndPoint).Port;
             
