@@ -389,6 +389,7 @@ namespace racman
             {
                 coordscb.Checked = !coordscb.Checked;
             }
+            func.api.Disconnect();
             Application.Exit();
         }
 

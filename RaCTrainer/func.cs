@@ -15,7 +15,7 @@ namespace racman
         public static int pid = AttachPS3Form.pid;
         public static IPS3API api;
         public static string ebootPath = Environment.CurrentDirectory + @"\EBOOTs";
-        public static string sprxPath = Environment.CurrentDirectory + @"\SPRX";
+        public static string sprxPath = Environment.CurrentDirectory + @"\";
         public static byte[] StringToByteArray(string hex)
         {
             return Enumerable.Range(0, hex.Length)

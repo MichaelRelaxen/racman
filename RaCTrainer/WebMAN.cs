@@ -110,5 +110,10 @@ namespace racman
         {
             // Can't be bothered to implement this for webman
         }
+
+        public override bool Disconnect()
+        {
+            return true;
+        }
     }
 }
