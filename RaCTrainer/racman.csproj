@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0909BCDB-6DF1-4F1B-B2F9-67AF696E7325}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>racman</RootNamespace>
     <AssemblyName>racman</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -88,6 +88,12 @@
     </Compile>
     <Compile Include="WebMAN.cs" />
     <Compile Include="func.cs" />
+    <Compile Include="HotkeysMenuRac3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HotkeysMenuRac3.Designer.cs">
+      <DependentUpon>HotkeysMenuRac3.cs</DependentUpon>
+    </Compile>
     <Compile Include="HovenHealthForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +101,12 @@
       <DependentUpon>HovenHealthForm.cs</DependentUpon>
     </Compile>
     <Compile Include="offsets\rac1.cs" />
+    <Compile Include="HotkeysMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HotkeysMenu.Designer.cs">
+      <DependentUpon>HotkeysMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ratchetron.cs" />
     <Compile Include="UnlocksWindow.cs">
       <SubType>Form</SubType>
@@ -126,6 +138,12 @@
     <Compile Include="Updater.cs" />
     <EmbeddedResource Include="AttachPS3Form.resx">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HotkeysMenuRac3.resx">
+      <DependentUpon>HotkeysMenuRac3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HotkeysMenu.resx">
+      <DependentUpon>HotkeysMenu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HovenHealthForm.resx">
       <DependentUpon>HovenHealthForm.cs</DependentUpon>

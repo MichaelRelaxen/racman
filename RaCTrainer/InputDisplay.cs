@@ -108,7 +108,7 @@ namespace racman
             }
             return list;
         }
-        /* private void UpdateButtons()
+        private void UpdateButtons()
         {
             mask = DecodeMask(Convert.ToInt32(func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, mask_offset, 4), 16));
 
@@ -118,7 +118,7 @@ namespace racman
             ry = func.HexToFloat(analogs.Substring(8, 8));
             lx = func.HexToFloat(analogs.Substring(16, 8));
             ly = func.HexToFloat(analogs.Substring(24, 8));
-        } */ // Not needed anymore with memory subscription
+        }
 
         private Image sprite = Properties.Resources.ds3b;
         private GraphicsUnit units = GraphicsUnit.Pixel;
@@ -126,10 +126,22 @@ namespace racman
         {
             e.Graphics.DrawImage(sprite, 0, 0, new Rectangle(0, 0, 800, 558), units);
 
-            if (mask.Contains(buttons.r3)) e.Graphics.DrawImage(sprite, 469 + (rx * 32), 328 + (ry * 32), new Rectangle(106, 627, 105, 105), units); 
-            else e.Graphics.DrawImage(sprite, 469 + (rx * 32), 328 + (ry * 32), new Rectangle(0, 627, 105, 105), units); 
-            if (mask.Contains(buttons.l3)) e.Graphics.DrawImage(sprite, 210 + (lx * 32), 328 + (ly * 32), new Rectangle(106, 627, 105, 105), units); 
-            else e.Graphics.DrawImage(sprite, 210 + (lx * 32), 328 + (ly * 32), new Rectangle(0, 627, 105, 105), units); 
+            if (mask.Contains(buttons.r3))
+            {
+                e.Graphics.DrawImage(sprite, 469 + (rx * 32), 328 + (ry * 32), new Rectangle(106, 627, 105, 105), units); // Right Stick + R3 Press
+            }
+            else
+            {
+                e.Graphics.DrawImage(sprite, 469 + (rx * 32), 328 + (ry * 32), new Rectangle(0, 627, 105, 105), units); // Right Stick
+            }
+            if (mask.Contains(buttons.l3))
+            {
+                e.Graphics.DrawImage(sprite, 210 + (lx * 32), 328 + (ly * 32), new Rectangle(106, 627, 105, 105), units); // Left Stick + L3 Press
+            }
+            else
+            {
+                e.Graphics.DrawImage(sprite, 210 + (lx * 32), 328 + (ly * 32), new Rectangle(0, 627, 105, 105), units); // Left Stick
+            }
 
             if (mask.Contains(buttons.left)) e.Graphics.DrawImage(sprite, 74, 244, new Rectangle(0, 560, 52, 38), units);
             if (mask.Contains(buttons.right)) e.Graphics.DrawImage(sprite, 162, 244, new Rectangle(130, 560, 52, 38), units);
@@ -158,7 +170,7 @@ namespace racman
 
         private void InputDisplay_FormClosing(object sender, FormClosingEventArgs e)
         {
-            timer.Enabled = false;
+            Application.Exit();
         }
     }
 }
