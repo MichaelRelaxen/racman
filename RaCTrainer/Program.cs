@@ -16,7 +16,7 @@ namespace Ratchetron
         [STAThread]
         static void Main(string[] args)
         {
-            Updater.GitHubRepo = "/MichaelRelaxen/Ratchetron";
+            Updater.GitHubRepo = "/MichaelRelaxen/racman";
             if (Updater.AutoUpdate(args))
             {
                 return;
