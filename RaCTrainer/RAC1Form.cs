@@ -330,17 +330,6 @@ namespace racman
             }
         }
 
-        private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
-        {
-            if (drekSkipCheck.Checked)
-            {
-                func.WriteMemory(ip, pid, rac1.drek_skip, "01");
-            }
-            else
-            {
-                func.WriteMemory(ip, pid, rac1.drek_skip, "00");
-            }
-        }
         
         private void goodiesCheck_CheckedChanged(object sender, EventArgs e)
         {
@@ -416,7 +405,7 @@ namespace racman
                 Ratchetron api = (Ratchetron)func.api;
                 if (ghostCheckbox.Checked)
                 {
-                    api.FreezeMemory(pid, rac1.ghost_timer, 4, new byte[] { 0x00, 0x00, 0x00, 0x0a });
+                    api.FreezeMemory(pid, rac1.ghost_timer, 10);
                 }
                 else
                 {
