@@ -259,6 +259,9 @@ namespace Ratchetron
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            FreezeAmmoCheckbox.Checked = false;
+            infHealth.Checked = false;
+            FastLoadToggle.Checked = false;
             func.api.Disconnect();
             Application.Exit();
         }
