@@ -10,7 +10,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace racman
+namespace Ratchetron
 {
     class Ratchetron: IPS3API
     {

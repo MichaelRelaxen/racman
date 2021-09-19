@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace racman
+namespace Ratchetron
 {
 
     public partial class RAC1Form : Form

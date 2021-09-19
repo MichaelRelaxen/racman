@@ -6,9 +6,8 @@ using System.Threading;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
-namespace racman
+namespace Ratchetron
 {
-   
     public partial class RAC3Form : Form
     {
         public System.Windows.Forms.Timer ohkoTimer;

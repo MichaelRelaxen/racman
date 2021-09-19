@@ -7,14 +7,13 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace racman
+namespace Ratchetron
 {
     class func
     {
         public static WebClient client = new WebClient();
         public static int pid = AttachPS3Form.pid;
         public static IPS3API api;
-        public static string ebootPath = Environment.CurrentDirectory + @"\EBOOTs";
         public static string sprxPath = Environment.CurrentDirectory + @"\";
         public static byte[] StringToByteArray(string hex)
         {
@@ -73,7 +72,7 @@ namespace racman
         public static bool PrepareRatchetron(string ip)
         {
             // Check if Ratchetron is already loaded
-            string slot6sprx = get_data($"http://{ip}/home.ps3mapi/sman.ps3");
+            string slot6sprx = get_data($"http://{ip}/home.ps3mapi");
 
             bool ratchetronLoaded = slot6sprx.Contains("ratchetron_server.sprx");
 
@@ -157,36 +156,6 @@ namespace racman
         public static string strarr(string swag, int length) // i dont know what to name it
         {
             return string.Concat(Enumerable.Repeat(swag, length));
-        }
-
-        public static ushort Swap16(ushort val)
-        {
-            return (ushort)(
-                ((val & 0xFF00) >> 0x08) |
-                ((val & 0x00FF) << 0x08)
-            );
-        }
-
-        public static uint Swap32(uint val)
-        {
-            return (
-                ((val & 0xFF000000) >> 0x18) |
-                ((val & 0x00FF0000) >> 0x08) |
-                ((val & 0x0000FF00) << 0x08) |
-                ((val & 0x000000FF) << 0x18)
-            );
-        }
-
-        public static float Swap32(float val)
-        {
-            uint tmp = BitConverter.ToUInt32(BitConverter.GetBytes(val), 0);
-            return BitConverter.ToSingle(BitConverter.GetBytes(Swap32(tmp)), 0);
-        }
-
-        public static float ReadSingle(byte[] arr, int index)
-        {
-            byte[] tmp = arr.Skip(index).Take(4).Reverse().ToArray();
-            return BitConverter.ToSingle(tmp, 0);
         }
 
     }
