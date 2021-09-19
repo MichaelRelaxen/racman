@@ -18,17 +18,17 @@ namespace racman
         public Form InputDisplay;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
-
+        private static Timer ForceLoadTimer = new Timer();
+        private static Timer InputsTimer = new Timer();
         public RAC1Form()
         {
             InitializeComponent();
             positions_comboBox.Text = "1";
             planets_comboBox.Text = "Veldin";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
-            positions_comboBox.SelectedIndexChanged += positions_ComboBox_SelectedIndexChanged;
 
-            timer.Interval = 1000;
-            timer.Tick += new EventHandler(ForceFastLoad);
+            ForceLoadTimer.Interval = 1000;
+            ForceLoadTimer.Tick += new EventHandler(ForceFastLoad);
 
             planets_list = new string[] {
                 "Veldin",
@@ -60,12 +60,13 @@ namespace racman
 
                 api.OpenDataChannel();
 
-                /*int buttonMaskSubID3 = api.SubMemory(pid, 0x964AF0, 4);
+                Inputs.GetInputs();
 
-                Console.WriteLine($"Sub ID: {buttonMaskSubID3}");*/
+                InputsTimer.Interval = (int)16.66667;
+                InputsTimer.Tick += new EventHandler(CheckInputs);
+                InputsTimer.Enabled = true;
             }
         }
-
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -88,7 +89,7 @@ namespace racman
         public string current_planet;
         public string[] planets_list;
         public List<string> planet_positions = new List<string>();
-        private void loadPlanetPositions()
+        /*private void loadPlanetPositions()
         {
             planet_positions.Clear();
             positions_comboBox.Items.Clear();
@@ -120,21 +121,55 @@ namespace racman
                 planetPosStringContents += ",";
             }
             func.ChangeFileLines("config.txt", planetPosStringContents, planet + "PosArray");
-        }
-
-        private void positions_ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        }*/
+        bool check = true;
+        private void CheckInputs(object sender, EventArgs e)
         {
-            //planetPosName.Text = positions_comboBox.Text;
+
+            if (Inputs.RawInputs == 0xB && check)
+            {
+                SavePosition();
+                check = false;
+            }
+            if (Inputs.RawInputs == 0x7 && check)
+            {
+                LoadPosition();
+                check = false;
+            }
+            if (Inputs.RawInputs == 0x45 && check) 
+            {
+                KillYourself();
+                check = false;
+            }
+            if(Inputs.RawInputs == 0x00 & !check)
+            {
+                check = true;
+            }
+
         }
 
         private void savePosButton_Click(object sender, EventArgs e)
         {
+            SavePosition();
+        }
+        private void loadPosButton_Click(object sender, EventArgs e)
+        {
+            LoadPosition();
+        }
+        private void killyourself_Click(object sender, EventArgs e)
+        {
+            KillYourself();
+        }
+        private void loadPlanetButton_Click_1(object sender, EventArgs e)
+        {
+            LoadPlanet();
+        }
+        private void SavePosition()
+        {
             string position = func.ReadMemory(ip, pid, rac1.player_coords, 30);
             func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + positions_comboBox.Text);
-            //savePlanetPositions(planets_list[getCurrentPlanetIndex()]);
         }
-
-        private void loadPosButton_Click(object sender, EventArgs e)
+        private void LoadPosition()
         {
             if (positions_comboBox.Text == "")
             {
@@ -149,22 +184,11 @@ namespace racman
                 }
             }
         }
-
-
-        private void ghostrac_Click(object sender, EventArgs e)
-        {
-            func.WriteMemory(ip, pid, rac1.ghost_timer, "2710");
-        }
-
-        private void killyourself_Click(object sender, EventArgs e)
+        private void KillYourself()
         {
             func.WriteMemory(ip, pid, rac1.player_coords + 8, "C2480000");
-            /*if (lflagresetCb.Checked)
-                ResetLevelFlags((uint)planets_comboBox.SelectedIndex);*/
         }
-
-        private static Timer timer = new Timer();
-        private void loadPlanetButton_Click_1(object sender, EventArgs e)
+        private void LoadPlanet()
         {
             int x = planets_comboBox.SelectedIndex; string planet = x.ToString("X2");
 
@@ -176,18 +200,17 @@ namespace racman
 
             func.WriteMemory(ip, pid, rac1.load_planet, $"00000001000000{planet}");
 
-            timer.Enabled = true;
+            ForceLoadTimer.Enabled = true;
 
 
             //loadPlanetPositions();
         }
+
         private void ForceFastLoad(object sender, EventArgs e)
         {
             func.WriteMemory(ip, pid, 0x9645C4, "0000001A0000000400000002"); // Force fast load
-            timer.Enabled = false;
+            ForceLoadTimer.Enabled = false;
         }
-
-
         private void ResetGBs()
         {
             string reset = string.Concat(Enumerable.Repeat("00", 80));
@@ -202,7 +225,6 @@ namespace racman
         {
 
         }
-
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             func.api.Disconnect();
@@ -213,7 +235,6 @@ namespace racman
         {
             func.WriteMemory(ip, pid, rac1.player_health, "00000003");
         }
-
         private void infHealth_Checkbox_Changed(object sender, EventArgs e)
         {
             if (func.api is Ratchetron)
@@ -249,9 +270,7 @@ namespace racman
                 UnlocksWindow.FormClosed += UnlocksWindow_FormClosed;
                 UnlocksWindow.Show();
             }
-
         }
-
         private void UnlocksWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             UnlocksWindow = null;
@@ -261,12 +280,10 @@ namespace racman
              string planet = func.ReadMemory(ip, pid, rac1.current_planet, 4);
              return int.Parse(planet, System.Globalization.NumberStyles.HexNumber);
         }
-
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
-
         private void hovenHPButton_click(object sender, EventArgs e)
         {
             if (HovenHealthForm == null)
@@ -304,13 +321,10 @@ namespace racman
                 InputDisplay.Show();
             }
         }
-
-
         private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
         {
             InputDisplay = null;
         }
-
         private void goodiesCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (goodiesCheck.Checked)
@@ -385,7 +399,7 @@ namespace racman
                 Ratchetron api = (Ratchetron)func.api;
                 if (ghostCheckbox.Checked)
                 {
-                    api.FreezeMemory(pid, rac1.ghost_timer, 4, new byte[] { 0x00, 0x00, 0x00, 0x0a });
+                    api.FreezeMemory(pid, rac1.ghost_timer, 10);
                 }
                 else
                 {

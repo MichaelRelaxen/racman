@@ -58,6 +58,8 @@ namespace racman
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.resetGB_checkbox = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -201,7 +203,7 @@ namespace racman
             // 
             this.bolts_textBox.Location = new System.Drawing.Point(230, 47);
             this.bolts_textBox.Name = "bolts_textBox";
-            this.bolts_textBox.Size = new System.Drawing.Size(135, 20);
+            this.bolts_textBox.Size = new System.Drawing.Size(107, 20);
             this.bolts_textBox.TabIndex = 62;
             // 
             // label3
@@ -232,9 +234,9 @@ namespace racman
             // 
             // unlocksWindowButton
             // 
-            this.unlocksWindowButton.Location = new System.Drawing.Point(229, 103);
+            this.unlocksWindowButton.Location = new System.Drawing.Point(231, 223);
             this.unlocksWindowButton.Name = "unlocksWindowButton";
-            this.unlocksWindowButton.Size = new System.Drawing.Size(133, 23);
+            this.unlocksWindowButton.Size = new System.Drawing.Size(106, 23);
             this.unlocksWindowButton.TabIndex = 72;
             this.unlocksWindowButton.Text = "Unlocks";
             this.unlocksWindowButton.UseVisualStyleBackColor = true;
@@ -243,7 +245,7 @@ namespace racman
             // infHealth
             // 
             this.infHealth.AutoSize = true;
-            this.infHealth.Location = new System.Drawing.Point(17, 239);
+            this.infHealth.Location = new System.Drawing.Point(16, 244);
             this.infHealth.Name = "infHealth";
             this.infHealth.Size = new System.Drawing.Size(91, 17);
             this.infHealth.TabIndex = 70;
@@ -254,7 +256,7 @@ namespace racman
             // goodiesCheck
             // 
             this.goodiesCheck.AutoSize = true;
-            this.goodiesCheck.Location = new System.Drawing.Point(17, 284);
+            this.goodiesCheck.Location = new System.Drawing.Point(16, 289);
             this.goodiesCheck.Name = "goodiesCheck";
             this.goodiesCheck.Size = new System.Drawing.Size(95, 17);
             this.goodiesCheck.TabIndex = 74;
@@ -280,7 +282,7 @@ namespace racman
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(384, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(351, 24);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -297,35 +299,35 @@ namespace racman
             // switchGameToolStripMenuItem
             // 
             this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
-            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(229, 133);
+            this.button1.Location = new System.Drawing.Point(231, 278);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(133, 23);
+            this.button1.Size = new System.Drawing.Size(106, 23);
             this.button1.TabIndex = 77;
-            this.button1.Text = "hoven hp";
+            this.button1.Text = "Hoven HP";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.hovenHPButton_click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(229, 161);
+            this.button2.Location = new System.Drawing.Point(231, 251);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(133, 22);
+            this.button2.Size = new System.Drawing.Size(106, 22);
             this.button2.TabIndex = 82;
-            this.button2.Text = "Input display";
+            this.button2.Text = "Input Display";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.inputdisplay_click);
             // 
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(17, 261);
+            this.ghostCheckbox.Location = new System.Drawing.Point(16, 266);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 83;
@@ -335,9 +337,9 @@ namespace racman
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(229, 74);
+            this.button3.Location = new System.Drawing.Point(231, 74);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(133, 23);
+            this.button3.Size = new System.Drawing.Size(106, 23);
             this.button3.TabIndex = 84;
             this.button3.Text = "Turn on Drek Skip";
             this.button3.UseVisualStyleBackColor = true;
@@ -353,12 +355,32 @@ namespace racman
             this.resetGB_checkbox.Text = "Reset Gold Bolts";
             this.resetGB_checkbox.UseVisualStyleBackColor = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(228, 207);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(42, 13);
+            this.label1.TabIndex = 86;
+            this.label1.Text = "Menus:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(12, 225);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(48, 13);
+            this.label4.TabIndex = 87;
+            this.label4.Text = "Toggles:";
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(384, 315);
+            this.ClientSize = new System.Drawing.Size(351, 325);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.resetGB_checkbox);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.ghostCheckbox);
@@ -431,6 +453,8 @@ namespace racman
         private System.Windows.Forms.CheckBox ghostCheckbox;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.CheckBox resetGB_checkbox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label4;
     }
 }
 
