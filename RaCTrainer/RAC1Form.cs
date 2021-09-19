@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace racman
+namespace Ratchetron
 {
 
     public partial class RAC1Form : Form
@@ -65,9 +65,9 @@ namespace racman
                 InputsTimer.Interval = (int)16.66667;
                 InputsTimer.Tick += new EventHandler(CheckInputs);
 
-                ForceLoadTimer.Interval = (int)16.66667;
+                ForceLoadTimer.Interval = 1000;
                 ForceLoadTimer.Tick += new EventHandler(GetPlanet);
-                ForceLoadTimer.Enabled = true;
+                //ForceLoadTimer.Enabled = true;
             }
         }
 
@@ -75,7 +75,7 @@ namespace racman
 
         private void GetPlanet(object sender, EventArgs e)
         {
-            if(planetIndex == 1 || planetIndex == 0)
+            if(planetIndex == 0 || planetIndex == 1)
             {
                 FastLoadToggle.Checked = false;
             }

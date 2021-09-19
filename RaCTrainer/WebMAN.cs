@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace racman
+namespace Ratchetron
 {
     class WebMAN: IPS3API
     {

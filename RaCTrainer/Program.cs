@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using AutoUpdate;
 using System.Reflection;
 
-namespace racman
+namespace Ratchetron
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace racman
         [STAThread]
         static void Main(string[] args)
         {
-            Updater.GitHubRepo = "/MichaelRelaxen/racman";
+            Updater.GitHubRepo = "/MichaelRelaxen/Ratchetron";
             if (Updater.AutoUpdate(args))
             {
                 return;
