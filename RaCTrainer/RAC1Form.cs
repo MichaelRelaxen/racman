@@ -311,6 +311,37 @@ namespace racman
             InputDisplay = null;
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (func.api is Ratchetron)
+            {
+                Ratchetron api = (Ratchetron)func.api;
+
+                if (((CheckBox)sender).Checked)
+                {
+                    api.FreezeMemory(pid, rac1.player_health, Ratchetron.MemoryCondition.Above, 1);
+                }
+                else
+                {
+                    api.ReleaseSubID(api.MemSubIDForAddress(rac1.player_health));
+                }
+
+                return;
+            }
+        }
+
+        private void drekSkipCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (drekSkipCheck.Checked)
+            {
+                func.WriteMemory(ip, pid, rac1.drek_skip, "01");
+            }
+            else
+            {
+                func.WriteMemory(ip, pid, rac1.drek_skip, "00");
+            }
+        }
+        
         private void goodiesCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (goodiesCheck.Checked)

@@ -55,6 +55,7 @@ namespace racman
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.resetGB_checkbox = new System.Windows.Forms.CheckBox();
@@ -322,6 +323,16 @@ namespace racman
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.inputdisplay_click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(135, 203);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(80, 17);
+            this.checkBox1.TabIndex = 83;
+            this.checkBox1.Text = "One-Hit KO";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
@@ -358,6 +369,7 @@ namespace racman
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.Controls.Add(this.checkBox1);
             this.ClientSize = new System.Drawing.Size(384, 315);
             this.Controls.Add(this.resetGB_checkbox);
             this.Controls.Add(this.button3);
@@ -428,6 +440,7 @@ namespace racman
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem switchGameToolStripMenuItem;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox ghostCheckbox;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.CheckBox resetGB_checkbox;

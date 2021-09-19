@@ -30,6 +30,7 @@ namespace racman
         private IPEndPoint remoteEndpoint;
 
         private Dictionary<int, Action<byte[]>> memSubCallbacks = new Dictionary<int, Action<byte[]>>();
+        private Dictionary<int, uint> memSubTickUpdates = new Dictionary<int, uint>();
         private Dictionary<int, UInt32> frozenAddresses = new Dictionary<int, uint>();
 
 
@@ -52,9 +53,13 @@ namespace racman
                 if (connMsg[0] == 0x01)
                 {
                     this.remoteEndpoint = new IPEndPoint(IPAddress.Parse(this.ip), 0);
-                    //this.remoteEndpoint = new IPEndPoint(IPAddress.Parse("10.9.0.8"), 0);
 
                     this.connected = true;
+
+#if DEBUG
+                    this.EnableDebugMessages();
+#endif
+
                     return true;
                 }
             } catch (SocketException e)
@@ -130,6 +135,13 @@ namespace racman
             return pids;
         }
 
+        public void EnableDebugMessages()
+        {
+            byte[] cmd = { 0x0d };
+
+            stream.Write(cmd, 0, 1);
+        }
+
         public override int getCurrentPID()
         {
             return this.GetPIDList()[2];
@@ -195,9 +207,14 @@ namespace racman
                             {
                                 UInt32 memSubID = BitConverter.ToUInt32(cmdBuf.Skip(1).Take(4).Reverse().ToArray(), 0);
                                 UInt32 size = BitConverter.ToUInt32(cmdBuf.Skip(5).Take(4).Reverse().ToArray(), 0);
-                                var value = cmdBuf.Skip(9).Take((int)size).Reverse().ToArray();
+                                uint tickUpdated = BitConverter.ToUInt32(cmdBuf.Skip(9).Take(4).Reverse().ToArray(), 0);
+                                var value = cmdBuf.Skip(13).Take((int)size).Reverse().ToArray();
 
-                                this.memSubCallbacks[(int)memSubID](value);
+                                if (this.memSubTickUpdates.ContainsKey((int)memSubID) && this.memSubTickUpdates[(int)memSubID] != tickUpdated)
+                                {
+                                    this.memSubTickUpdates[(int)memSubID] = tickUpdated;
+                                    this.memSubCallbacks[(int)memSubID](value);
+                                }
 
                                 break;
                             }
@@ -266,19 +283,40 @@ namespace racman
             }
         }
 
-        public int SubMemory(int pid, uint address, uint size, Action<byte[]> callback)
+        /// <summary>
+        /// Any blasts the data channel with values all the time
+        /// Changed only sends data when the value changes
+        /// The other things do other things thanks for reading my Ted talk
+        /// </summary>
+        public enum MemoryCondition: byte
         {
-            return SubMemory(pid, address, size, new byte[size], callback);
+            Any = 1, 
+            Changed = 2,
+            Above = 3,
+            Below = 4,
+            Equal = 5,  // equal and not equal are not really useful for freezing
+            NotEqual = 6
         }
 
-        public int SubMemory(int pid, uint address, uint size, byte[] memory, Action<byte[]> callback)
+        public int SubMemory(int pid, uint address, uint size, MemoryCondition condition, Action<byte[]> callback)
+        {
+            return SubMemory(pid, address, size, condition, new byte[size], callback);
+        }
+
+        // Defaults to changed because why blast yourself with data?
+        public int SubMemory(int pid, uint address, uint size, Action<byte[]> callback)
+        {
+            return SubMemory(pid, address, size, MemoryCondition.Changed, new byte[size], callback);
+        }
+
+        public int SubMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory, Action<byte[]> callback)
         {
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0a);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)address).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
-            cmdBuf.AddRange(new byte[] { 0x01 });
+            cmdBuf.AddRange(new byte[] { (byte)condition });
             cmdBuf.AddRange(memory);
 
             this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
@@ -294,18 +332,21 @@ namespace racman
             var memSubID = (int)BitConverter.ToInt32(memSubIDBuf.Take(4).Reverse().ToArray(), 0);
 
             this.memSubCallbacks[memSubID] = callback;
+            this.memSubTickUpdates[memSubID] = 0;
+
+            Console.WriteLine($"Subscribed to address {address.ToString("X")} with subscription ID {memSubID}");
 
             return memSubID;
         }
 
-        public int FreezeMemory(int pid, uint address, uint size, byte[] memory)
+        public int FreezeMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory)
         {
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0b);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)address).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
-            cmdBuf.AddRange(new byte[] { 0x01 });
+            cmdBuf.AddRange(new byte[] { (byte)condition });
             cmdBuf.AddRange(memory);
 
             this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
@@ -320,14 +361,21 @@ namespace racman
 
             var memSubID = (int)BitConverter.ToInt32(memSubIDBuf.Take(4).Reverse().ToArray(), 0);
 
+            Console.WriteLine($"Froze address {address.ToString("X")} with subscription ID {memSubID}");
+
             frozenAddresses[memSubID] = address;
 
             return memSubID;
         }
 
+        public virtual void FreezeMemory(int pid, uint address, MemoryCondition condition, UInt32 intValue)
+        {
+            this.FreezeMemory(pid, address, 4, condition, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
+        }
+
         public virtual void FreezeMemory(int pid, uint address, UInt32 intValue)
         {
-            this.FreezeMemory(pid, address, 4, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
+            this.FreezeMemory(pid, address, 4, MemoryCondition.Any, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
         }
 
         public void ReleaseSubID(int memSubID)
@@ -345,6 +393,12 @@ namespace racman
             {
                 n_bytes += stream.Read(resultBuf, 0, 1);
             }
+
+            this.memSubCallbacks.Remove(memSubID);
+            this.memSubTickUpdates.Remove(memSubID);
+            this.frozenAddresses.Remove(memSubID);
+
+            Console.WriteLine($"Released memory subscription ID {memSubID}");
 
             // we're ignoring the results because yolo
         }
