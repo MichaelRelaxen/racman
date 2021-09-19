@@ -73,7 +73,7 @@ namespace racman
         public static bool PrepareRatchetron(string ip)
         {
             // Check if Ratchetron is already loaded
-            string slot6sprx = get_data($"http://{ip}/home.ps3mapi/sman.ps3");
+            string slot6sprx = get_data($"http://{ip}/home.ps3mapi");
 
             bool ratchetronLoaded = slot6sprx.Contains("ratchetron_server.sprx");
 
