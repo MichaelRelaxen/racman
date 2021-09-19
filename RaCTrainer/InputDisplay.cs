@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Ratchetron
@@ -14,6 +15,14 @@ namespace Ratchetron
         private void InputDisplay_Load(object sender, EventArgs e)
         {
             skinComboBox.SelectedIndex = 0;
+
+            if (Directory.Exists("skins"))
+            {
+                foreach(var file in Directory.EnumerateFiles("skins"))
+                {
+                    skinComboBox.Items.Add(file.Replace("skins\\", ""));
+                }
+            }
 
             timer = new System.Windows.Forms.Timer();
             timer.Interval = (int)16.66667;
@@ -60,6 +69,12 @@ namespace Ratchetron
         {
             if(skinComboBox.SelectedIndex == 0) sprite = Properties.Resources.ds3b;
             if(skinComboBox.SelectedIndex == 1) sprite = Properties.Resources.ds3w;
+            
+            if (skinComboBox.SelectedIndex > 1)
+            {
+                var skinName = skinComboBox.Items[skinComboBox.SelectedIndex].ToString();
+                sprite = Image.FromFile($"skins\\{skinName}");
+            }
         }
 
         private void InputDisplay_FormClosing(object sender, FormClosingEventArgs e)
