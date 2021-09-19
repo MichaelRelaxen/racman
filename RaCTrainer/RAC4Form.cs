@@ -51,6 +51,7 @@ namespace racman
         }
         private void writetext_CheckedChanged(object sender, EventArgs e)
         {
+
             if (writetext.Checked)
             {
                 Init_timer();
