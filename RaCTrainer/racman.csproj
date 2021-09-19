@@ -80,6 +80,7 @@
     <Compile Include="InputDisplay.Designer.cs">
       <DependentUpon>InputDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Inputs.cs" />
     <Compile Include="IPS3API.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
