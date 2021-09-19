@@ -20,15 +20,13 @@ namespace racman
         public static int pid = AttachPS3Form.pid;
         private static Timer ForceLoadTimer = new Timer();
         private static Timer InputsTimer = new Timer();
+
         public RAC1Form()
         {
             InitializeComponent();
             positions_comboBox.Text = "1";
             planets_comboBox.Text = "Veldin";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
-
-            ForceLoadTimer.Interval = 1000;
-            ForceLoadTimer.Tick += new EventHandler(ForceFastLoad);
 
             planets_list = new string[] {
                 "Veldin",
@@ -54,6 +52,8 @@ namespace racman
 
             goodiesCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.goodies_menu, 1)));
 
+
+
             if (func.api is Ratchetron)
             {
                 Ratchetron api = (Ratchetron)func.api;
@@ -64,9 +64,23 @@ namespace racman
 
                 InputsTimer.Interval = (int)16.66667;
                 InputsTimer.Tick += new EventHandler(CheckInputs);
-                InputsTimer.Enabled = true;
+
+                ForceLoadTimer.Interval = (int)16.66667;
+                ForceLoadTimer.Tick += new EventHandler(GetPlanet);
+                ForceLoadTimer.Enabled = true;
             }
         }
+
+        int planetIndex;
+
+        private void GetPlanet(object sender, EventArgs e)
+        {
+            if(planetIndex == 1 || planetIndex == 0)
+            {
+                FastLoadToggle.Checked = false;
+            }
+        }
+
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -122,32 +136,36 @@ namespace racman
             }
             func.ChangeFileLines("config.txt", planetPosStringContents, planet + "PosArray");
         }*/
-        bool check = true;
+        bool inputCheck = true;
         private void CheckInputs(object sender, EventArgs e)
         {
 
-            if (Inputs.RawInputs == 0xB && check)
+            if (Inputs.RawInputs == 0xB && inputCheck)
             {
                 SavePosition();
-                check = false;
+                inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x7 && check)
+            if (Inputs.RawInputs == 0x7 && inputCheck)
             {
                 LoadPosition();
-                check = false;
+                inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x45 && check) 
+            if (Inputs.RawInputs == 0x5 && inputCheck) 
             {
                 KillYourself();
-                check = false;
+                inputCheck = false;
             }
-            if(Inputs.RawInputs == 0x00 & !check)
+            if (Inputs.RawInputs == 0x600 & inputCheck)
             {
-                check = true;
+                LoadPlanet();
+                inputCheck = false;
+            }
+            if(Inputs.RawInputs == 0x00 & !inputCheck)
+            {
+                inputCheck = true;
             }
 
         }
-
         private void savePosButton_Click(object sender, EventArgs e)
         {
             SavePosition();
@@ -167,7 +185,7 @@ namespace racman
         private void SavePosition()
         {
             string position = func.ReadMemory(ip, pid, rac1.player_coords, 30);
-            func.ChangeFileLines("config.txt", position, planets_list[getCurrentPlanetIndex()] + "SavedPos" + positions_comboBox.Text);
+            func.ChangeFileLines("config.txt", position, planets_list[planetIndex] + "SavedPos" + positions_comboBox.Text);
         }
         private void LoadPosition()
         {
@@ -177,7 +195,7 @@ namespace racman
             }
             else
             {
-                string position = func.GetConfigData("config.txt", planets_list[getCurrentPlanetIndex()] + "SavedPos" + positions_comboBox.Text);
+                string position = func.GetConfigData("config.txt", planets_list[planetIndex] + "SavedPos" + positions_comboBox.Text);
                 if (position != "")
                 {
                     func.WriteMemory(ip, pid, rac1.player_coords, position);
@@ -200,15 +218,25 @@ namespace racman
 
             func.WriteMemory(ip, pid, rac1.load_planet, $"00000001000000{planet}");
 
-            ForceLoadTimer.Enabled = true;
-
-
             //loadPlanetPositions();
         }
 
-        private void ForceFastLoad(object sender, EventArgs e)
+        private void ToggleFastLoad(bool toggle)
         {
-            func.WriteMemory(ip, pid, 0x9645C4, "0000001A0000000400000002"); // Force fast load
+            if (toggle)
+            {
+                func.WriteMemory(ip, pid, 0x0DF254, "60000000");
+                func.WriteMemory(ip, pid, 0x165450, "2C03FFFF");
+            }
+            else
+            {
+                func.WriteMemory(ip, pid, 0x0DF254, "40820188");
+                func.WriteMemory(ip, pid, 0x165450, "2c030000");
+            }
+        }
+        private void ForceOkayLoad(object sender, EventArgs e)
+        {
+            func.WriteMemory(ip, pid, 0x9645C4, "0000001A0000000400000002");
             ForceLoadTimer.Enabled = false;
         }
         private void ResetGBs()
@@ -219,6 +247,10 @@ namespace racman
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            int buttonMaskSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.current_planet, 4, (value) =>
+            {
+                planetIndex = BitConverter.ToInt32(value, 0);
+            });
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -237,29 +269,10 @@ namespace racman
         }
         private void infHealth_Checkbox_Changed(object sender, EventArgs e)
         {
-            if (func.api is Ratchetron)
-            {
-                Ratchetron api = (Ratchetron)func.api;
-                if (infHealth.Checked)
-                {
-                    api.FreezeMemory(pid, rac1.player_health, 8);
-                }
-                else
-                {
-                    api.ReleaseSubID(api.MemSubIDForAddress(rac1.player_health));
-                }
-
-                return;
-            }
-
             if (infHealth.Checked)
-            {
-                func.WriteMemory(ip, pid, rac1.player_health, "11111111");
-            }
+                func.WriteMemory(ip, pid, 0x7F558, "30640000");
             else
-            {
-                func.WriteMemory(ip, pid, rac1.player_health, "00000004");
-            }
+                func.WriteMemory(ip, pid, 0x7F558, "30649CE0");
         }
 
         private void unlocksWindowButton_Click(object sender, EventArgs e)
@@ -274,11 +287,6 @@ namespace racman
         private void UnlocksWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
             UnlocksWindow = null;
-        }
-        public int getCurrentPlanetIndex()
-        {
-             string planet = func.ReadMemory(ip, pid, rac1.current_planet, 4);
-             return int.Parse(planet, System.Globalization.NumberStyles.HexNumber);
         }
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -411,6 +419,40 @@ namespace racman
         private void drekskip_Click(object sender, EventArgs e)
         {
             func.WriteMemory(ip, pid, rac1.drek_skip, "01");
+        }
+
+        private void CComboCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CComboCheckBox.Checked)
+                InputsTimer.Enabled = true;
+            else
+                InputsTimer.Enabled = false;
+        }
+
+        private void FastLoadToggle_CheckedChanged(object sender, EventArgs e)
+        {
+            if (FastLoadToggle.Checked)
+                ToggleFastLoad(true);
+            if (!FastLoadToggle.Checked)
+                ToggleFastLoad(false);
+        }
+
+        private void FreezeAmmoCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (func.api is Ratchetron)
+            {
+                Ratchetron api = (Ratchetron)func.api;
+
+                if(FreezeAmmoCheckbox.Checked)
+                {
+                    func.WriteMemory(ip, pid, 0xAA2DC, "60000000");
+                }
+                else
+                {
+                    func.WriteMemory(ip, pid, 0xAA2DC, "7D05392E");
+                }
+
+            }
         }
     }
 }

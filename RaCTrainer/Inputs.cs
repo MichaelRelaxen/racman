@@ -8,7 +8,7 @@ namespace racman
 {
     public static class Inputs
     {
-        public enum Buttons
+        public enum Buttons : uint
         {
             l2 = 0x1,
             r2 = 0x2,
