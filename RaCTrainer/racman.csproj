@@ -5,9 +5,9 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{0909BCDB-6DF1-4F1B-B2F9-67AF696E7325}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>racman</RootNamespace>
-    <AssemblyName>racman</AssemblyName>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Ratchetron</RootNamespace>
+    <AssemblyName>Ratchetron</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -86,6 +86,7 @@
     <Compile Include="InputDisplay.Designer.cs">
       <DependentUpon>InputDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="Inputs.cs" />
     <Compile Include="IPS3API.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -10,7 +10,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace racman
+namespace Ratchetron
 {
     class Ratchetron: IPS3API
     {
@@ -49,6 +49,14 @@ namespace racman
 
                 byte[] connMsg = new byte[6];
                 stream.Read(connMsg, 0, 6);
+
+                uint apiRev = BitConverter.ToUInt32(connMsg.Skip(2).Take(4).Reverse().ToArray(), 0);
+
+                if (apiRev < 2)
+                {
+                    MessageBox.Show("The Ratchetron module loaded on your PS3 is too old, you need to restart your PS3 to load the new version.");
+                    return false;
+                }
 
                 if (connMsg[0] == 0x01)
                 {
@@ -368,14 +376,14 @@ namespace racman
             return memSubID;
         }
 
-        public virtual void FreezeMemory(int pid, uint address, MemoryCondition condition, UInt32 intValue)
+        public virtual int FreezeMemory(int pid, uint address, MemoryCondition condition, UInt32 intValue)
         {
-            this.FreezeMemory(pid, address, 4, condition, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
+            return this.FreezeMemory(pid, address, 4, condition, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
         }
 
-        public virtual void FreezeMemory(int pid, uint address, UInt32 intValue)
+        public virtual int FreezeMemory(int pid, uint address, UInt32 intValue)
         {
-            this.FreezeMemory(pid, address, 4, MemoryCondition.Any, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
+            return this.FreezeMemory(pid, address, 4, MemoryCondition.Any, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
         }
 
         public void ReleaseSubID(int memSubID)

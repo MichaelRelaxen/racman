@@ -6,12 +6,11 @@ using System.Threading;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
-namespace racman
+namespace Ratchetron
 {
-   
     public partial class RAC3Form : Form
     {
-        public System.Windows.Forms.Timer ohkoTimer;
+        int ohkoMemSubID = -1;
 
         public RAC3Form()
         {
@@ -58,6 +57,15 @@ namespace racman
             "VidComic5",
             "VidComic1SpecialEdition"
             };
+
+            if (func.api is Ratchetron)
+            {
+                Ratchetron api = (Ratchetron)func.api;
+
+                api.OpenDataChannel();
+
+                Inputs.GetInputs();
+            }
         }
 
         private void TextBox1_KeyDown(object sender, KeyEventArgs e)
@@ -341,27 +349,22 @@ namespace racman
 
         private void OHKOCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            if (!(func.api is Ratchetron))
+            {
+                MessageBox.Show("You need to use the new API to use this function");
+                return;
+            }
+
+            Ratchetron api = (Ratchetron)func.api;
+
             var isChecked = ((CheckBox)sender).Checked;
 
-            if (!isChecked && ohkoTimer != null)
+            if (isChecked)
             {
-                ohkoTimer.Enabled = false;
+                ohkoMemSubID = api.FreezeMemory(AttachPS3Form.pid, rac3.health, Ratchetron.MemoryCondition.Above, 1);
             } else
             {
-                ohkoTimer = new System.Windows.Forms.Timer();
-                ohkoTimer.Interval = (int)16.66667;
-                ohkoTimer.Tick += new EventHandler(OHKOTimer_Tick);
-                ohkoTimer.Start();
-            }
-        }
-
-        public void OHKOTimer_Tick(object sender, EventArgs e)
-        {
-            var health = Convert.ToInt32(func.ReadMemory(AttachPS3Form.ip, AttachPS3Form.pid, rac3.health, 4), 16);
-
-            if (health > 1) {
-                func.api.WriteMemory(AttachPS3Form.pid, rac3.health, 4, new byte[] { 0x00, 0x00, 0x00, 0x01});
-                //func.WriteMemory(AttachPS3Form.ip, AttachPS3Form.pid, rac3.health, "01");
+                api.ReleaseSubID(ohkoMemSubID);
             }
         }
 

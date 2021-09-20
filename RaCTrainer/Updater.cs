@@ -48,8 +48,8 @@ namespace AutoUpdate
 
 			string pattern =
 					string.Concat(
-						Regex.Escape(GitHubRepo), 
-						@"\/releases\/download\/Refresh.v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+.*\.zip");
+						Regex.Escape(GitHubRepo),
+						@"\/releases\/download\/Ratchetron.v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+.*\.zip");
 
 			Regex urlMatcher = new Regex(pattern, RegexOptions.CultureInvariant | RegexOptions.Compiled);
 			var result = new Dictionary<Version, Uri>();
@@ -73,7 +73,7 @@ namespace AutoUpdate
 					if (match.Success)
 					{
 						var uri = new Uri(string.Concat("https://github.com",match.Value));
-						var vs = match.Value.LastIndexOf("/Refresh.v");
+						var vs = match.Value.LastIndexOf("/Ratchetron.v");
 						var sa = match.Value.Substring(vs+10).Split('.','/');
 						var v = new Version(int.Parse(sa[0]), int.Parse(sa[1]), int.Parse(sa[2]), int.Parse(sa[3]));
 						result.Add(v, uri);

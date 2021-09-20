@@ -1,4 +1,4 @@
-﻿namespace racman
+﻿namespace Ratchetron
 {
     class rac1
     {
