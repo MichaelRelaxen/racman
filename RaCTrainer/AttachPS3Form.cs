@@ -76,7 +76,8 @@ namespace Ratchetron
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC1Form rac1 = new RAC1Form
+                //RAC1Form rac1 = new RAC1Form
+                Form1 rac1 = new Form1
                 {
                     TopMost = true
                 };
@@ -86,7 +87,7 @@ namespace Ratchetron
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC3Form rac3 = new RAC3Form
+                Form1 rac3 = new Form1
                 {
                     TopMost = true
                 };

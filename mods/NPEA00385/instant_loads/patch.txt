@@ -1,0 +1,3 @@
+#- name: Instant loads
+
+0x969CA0: 0x04040404

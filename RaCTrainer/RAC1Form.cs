@@ -336,6 +336,26 @@ namespace Ratchetron
         {
             InputDisplay = null;
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (func.api is Ratchetron)
+            {
+                Ratchetron api = (Ratchetron)func.api;
+
+                if (((CheckBox)sender).Checked)
+                {
+                    api.FreezeMemory(pid, rac1.player_health, Ratchetron.MemoryCondition.Above, 1);
+                }
+                else
+                {
+                    api.ReleaseSubID(api.MemSubIDForAddress(rac1.player_health));
+                }
+
+                return;
+            }
+        }
+
         private void goodiesCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (goodiesCheck.Checked)
