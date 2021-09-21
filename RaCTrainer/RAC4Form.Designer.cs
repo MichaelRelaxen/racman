@@ -1,5 +1,5 @@
 ﻿
-namespace Ratchetron
+namespace racman
 {
     partial class RAC4Form
     {

@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace Ratchetron
+namespace racman
 {
     class func
     {

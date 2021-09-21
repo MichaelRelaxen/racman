@@ -3,7 +3,7 @@ using System.Windows.Forms;
 using AutoUpdate;
 using System.Reflection;
 
-namespace Ratchetron
+namespace racman
 {
     static class Program
     {

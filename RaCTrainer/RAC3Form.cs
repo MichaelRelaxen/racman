@@ -6,7 +6,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
-namespace Ratchetron
+namespace racman
 {
     public partial class RAC3Form : Form
     {

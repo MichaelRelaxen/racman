@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using Timer = System.Windows.Forms.Timer;
 
-namespace Ratchetron
+namespace racman
 {
     public partial class RAC4Form : Form
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows.Forms;
-namespace Ratchetron
+namespace racman
 {
 
     public partial class UnlocksWindow : Form

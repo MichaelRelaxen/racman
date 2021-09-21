@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 
-namespace Ratchetron
+namespace racman
 {
     public partial class AttachPS3Form : Form
     {

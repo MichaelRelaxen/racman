@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ratchetron.Properties {
+namespace racman.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

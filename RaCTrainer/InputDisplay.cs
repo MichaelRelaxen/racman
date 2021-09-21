@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Ratchetron
+namespace racman
 {
     public partial class InputDisplay : Form
     {

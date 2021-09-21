@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ratchetron
+namespace racman
 {
     public static class Inputs
     {
