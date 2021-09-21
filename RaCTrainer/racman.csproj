@@ -74,11 +74,11 @@
     <Compile Include="AttachPS3Form.Designer.cs">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="ModLoaderForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ModLoaderForm.Designer.cs">
+      <DependentUpon>ModLoaderForm.cs</DependentUpon>
     </Compile>
     <Compile Include="InputDisplay.cs">
       <SubType>Form</SubType>
@@ -134,8 +134,8 @@
     <EmbeddedResource Include="AttachPS3Form.resx">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="ModLoaderForm.resx">
+      <DependentUpon>ModLoaderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HovenHealthForm.resx">
       <DependentUpon>HovenHealthForm.cs</DependentUpon>

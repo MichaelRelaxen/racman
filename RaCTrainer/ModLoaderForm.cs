@@ -9,13 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace racman
+namespace Ratchetron
 {
-    public partial class Form1 : Form
+    public partial class ModLoaderForm : Form
     {
         static Mod[] mods;
 
-        public Form1()
+        public ModLoaderForm()
         {
             InitializeComponent();
 
@@ -146,10 +146,10 @@ namespace racman
         {
             if (e.NewValue == CheckState.Checked)
             {
-                Form1.mods[e.Index].Load();
+                ModLoaderForm.mods[e.Index].Load();
             } else
             {
-                Form1.mods[e.Index].Unload();
+                ModLoaderForm.mods[e.Index].Unload();
             }
         }
     }
@@ -197,7 +197,7 @@ namespace racman
                 List<byte> ogData = new List<byte>();
                 while (bytesRead < patchBytes.Length)
                 {
-                    bytesToWrite = patchBytes.Skip(bytesToWrite.Length).Take(1024).ToArray();
+                    bytesToWrite = patchBytes.Skip(bytesRead).Take(1024).ToArray();
 
                     Ratchetron api = (Ratchetron)func.api;
                     ogData.AddRange(api.ReadMemory(AttachPS3Form.pid, address + (uint)bytesRead, (uint)bytesToWrite.Length));
@@ -219,7 +219,7 @@ namespace racman
             }
 
             Ratchetron api = (Ratchetron)func.api;
-            api.WriteMemory(AttachPS3Form.pid, 0xe1638, 4, new byte[] { 0x42, 0x80, 0xff, 0xfc });
+            //api.WriteMemory(AttachPS3Form.pid, 0xe1638, 4, new byte[] { 0x42, 0x80, 0xff, 0xfc });
 
 
             foreach (string patch in patchLines)
@@ -249,7 +249,7 @@ namespace racman
                 byte[] bytesToWrite = new byte[] { };
                 while (bytesWritten < patchBytes.Length)
                 {
-                    bytesToWrite = patchBytes.Skip(bytesToWrite.Length).Take(1024).ToArray();
+                    bytesToWrite = patchBytes.Skip(bytesWritten).Take(1024).ToArray();
 
                     api.WriteMemory(AttachPS3Form.pid, address + (uint)bytesWritten, (uint)bytesToWrite.Length, bytesToWrite);
 
@@ -257,7 +257,7 @@ namespace racman
                 }
             }
 
-            api.WriteMemory(AttachPS3Form.pid, 0xe1638, 4, new byte[] { 0x38, 0x60, 0x00, 0x01 });
+            //api.WriteMemory(AttachPS3Form.pid, 0xe1638, 4, new byte[] { 0x38, 0x60, 0x00, 0x01 });
         }
 
         public void Unload()
@@ -268,7 +268,7 @@ namespace racman
                 byte[] bytesToWrite = new byte[] { };
                 while (bytesWritten < entry.Value.Length)
                 {
-                    bytesToWrite = entry.Value.Skip(bytesToWrite.Length).Take(1024).ToArray();
+                    bytesToWrite = entry.Value.Skip(bytesWritten).Take(1024).ToArray();
 
                     Ratchetron api = (Ratchetron)func.api;
                     api.WriteMemory(AttachPS3Form.pid, entry.Key + (uint)bytesWritten, (uint)bytesToWrite.Length, bytesToWrite);

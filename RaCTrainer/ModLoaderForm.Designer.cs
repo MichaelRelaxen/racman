@@ -1,7 +1,7 @@
 ﻿
-namespace racman
+namespace Ratchetron
 {
-    partial class Form1
+    partial class ModLoaderForm
     {
         /// <summary>
         /// Required designer variable.
@@ -58,14 +58,14 @@ namespace racman
             this.modsCheckedListBox.TabIndex = 1;
             this.modsCheckedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.modsCheckedListBox_ItemCheck);
             // 
-            // Form1
+            // ModLoaderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(645, 458);
             this.Controls.Add(this.modsCheckedListBox);
             this.Controls.Add(this.button1);
-            this.Name = "Form1";
+            this.Name = "ModLoaderForm";
             this.Text = "Mods";
             this.ResumeLayout(false);
 

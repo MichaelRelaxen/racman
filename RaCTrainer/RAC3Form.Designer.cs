@@ -77,6 +77,7 @@ namespace Ratchetron
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.inputdisplay = new System.Windows.Forms.Button();
             this.OHKOCheckBox = new System.Windows.Forms.CheckBox();
+            this.modsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown22)).BeginInit();
@@ -516,7 +517,8 @@ namespace Ratchetron
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.switchGameToolStripMenuItem});
+            this.switchGameToolStripMenuItem,
+            this.modsToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -524,7 +526,7 @@ namespace Ratchetron
             // switchGameToolStripMenuItem
             // 
             this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
-            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
@@ -552,6 +554,13 @@ namespace Ratchetron
             this.OHKOCheckBox.Text = "Foce One Hit KO";
             this.OHKOCheckBox.UseVisualStyleBackColor = true;
             this.OHKOCheckBox.CheckedChanged += new System.EventHandler(this.OHKOCheckBox_CheckedChanged);
+            // 
+            // modsToolStripMenuItem
+            // 
+            this.modsToolStripMenuItem.Name = "modsToolStripMenuItem";
+            this.modsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.modsToolStripMenuItem.Text = "Mods...";
+            this.modsToolStripMenuItem.Click += new System.EventHandler(this.modsToolStripMenuItem_Click);
             // 
             // RAC3Form
             // 
@@ -663,6 +672,7 @@ namespace Ratchetron
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Button inputdisplay;
         private System.Windows.Forms.CheckBox OHKOCheckBox;
+        private System.Windows.Forms.ToolStripMenuItem modsToolStripMenuItem;
     }
 }
 

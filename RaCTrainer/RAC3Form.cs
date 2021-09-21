@@ -407,5 +407,10 @@ namespace Ratchetron
         {
             FastLoads();
         }
+
+        private void modsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            (new ModLoaderForm()).ShowDialog();
+        }
     }
 }

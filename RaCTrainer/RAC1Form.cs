@@ -477,5 +477,16 @@ namespace Ratchetron
 
             }
         }
+
+        private void modsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ModLoaderForm.ActiveForm != null)
+            {
+                ModLoaderForm.ActiveForm.Activate();
+            } else
+            {
+                new ModLoaderForm().Show();
+            }
+        }
     }
 }
