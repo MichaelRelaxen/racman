@@ -1,11 +1,39 @@
 ﻿namespace racman
 {
-    class rac1
+    public class rac1 : IGame
     {
+        public rac1(Ratchetron api) : base(api)
+        {
+            this.boltCount = 0x969CA0;
+            this.playerCoords = 0x969D60;
+
+            this.planetsList = new string[] {
+                "Veldin",
+                "Novalis",
+                "Aridia",
+                "Kerwan",
+                "Eudora",
+                "Rilgar",
+                "Blarg",
+                "Umbris",
+                "Batalia",
+                "Gaspar",
+                "Orxon",
+                "Pokitaru",
+                "Hoven",
+                "Gemlik",
+                "Oltanis",
+                "Quartu",
+                "Kalebo3",
+                "Fleet",
+                "Veldin2"
+            };
+        }
+
         ///////////// Player /////////////
 
         // The player's current bolt count.
-        public static uint bolt_count = 0x969CA0;
+        //public static uint bolt_Count = 0x969CA0;
 
         // The player's current health.
         public static uint player_health = 0x96BF88;
@@ -62,5 +90,16 @@
 
         // Array of seen infobots. Found by doesthisusername.
         public static uint infobot_flags = 0x96CA0C;
+
+        public override void LoadPlanet()
+        {
+            throw new System.NotImplementedException();
+        }
+
+
+        public override void ToggleFastLoad()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

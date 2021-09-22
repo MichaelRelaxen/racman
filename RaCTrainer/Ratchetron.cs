@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace racman
 {
-    class Ratchetron: IPS3API
+    public class Ratchetron: IPS3API
     {
         string ip
         {
@@ -70,10 +70,10 @@ namespace racman
 
                     return true;
                 }
-            } catch (SocketException e)
+            } catch (SocketException)
             {
                 return false;
-            } catch (Exception e)
+            } catch (Exception)
             {
                 // who cares about error handling anyway?
                 return false;
@@ -227,7 +227,7 @@ namespace racman
                                 break;
                             }
                     }
-                } catch (SocketException e)
+                } catch (SocketException)
                 {
                     // Who gives a shit
                 }
@@ -247,7 +247,7 @@ namespace racman
                     this.udpClient = new UdpClient(ipep);
                     udpStarted = true;
                 }
-                catch (SocketException e)
+                catch (SocketException)
                 {
                     if (port++ > 5000)
                     {

@@ -21,8 +21,12 @@ namespace racman
         private static Timer ForceLoadTimer = new Timer();
         private static Timer InputsTimer = new Timer();
 
-        public RAC1Form()
+        public rac1 game;
+
+        public RAC1Form(rac1 game)
         {
+            this.game = game;
+
             InitializeComponent();
             positions_comboBox.Text = "1";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
@@ -88,14 +92,14 @@ namespace racman
         }
 
 
+
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 try
                 {
-                    uint bolts = uint.Parse(bolts_textBox.Text);
-                    func.WriteMemory(ip, pid, rac1.bolt_count, bolts.ToString("X8"));
+                    game.SetBoltCount(bolts_textBox.Text);
                 }
                 catch
                 {
@@ -190,27 +194,15 @@ namespace racman
         }
         private void SavePosition()
         {
-            string position = func.ReadMemory(ip, pid, rac1.player_coords, 30);
-            func.ChangeFileLines("config.txt", position, planets_list[planetIndex] + "SavedPos" + positions_comboBox.Text);
+            game.SavePosition(planetIndex, positions_comboBox.Text);
         }
         private void LoadPosition()
         {
-            if (positions_comboBox.Text == "")
-            {
-                MessageBox.Show("Position is empty, bruh");
-            }
-            else
-            {
-                string position = func.GetConfigData("config.txt", planets_list[planetIndex] + "SavedPos" + positions_comboBox.Text);
-                if (position != "")
-                {
-                    func.WriteMemory(ip, pid, rac1.player_coords, position);
-                }
-            }
+            game.LoadPosition(planetIndex, positions_comboBox.Text);
         }
         private void KillYourself()
         {
-            func.WriteMemory(ip, pid, rac1.player_coords + 8, "C2480000");
+            game.KillYourself();
         }
         private void LoadPlanet()
         {
@@ -251,91 +243,14 @@ namespace racman
             func.WriteMemory(ip, pid, rac1.gold_bolts_array, reset);
         }
 
-        static byte[] junk = new byte[] { 0x63, 0x9a, 0x4d, 0xa2, 0x66, 0x19, 0xaa, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-        System.IO.MemoryMappedFiles.MemoryMappedFile mmfFile;
-        System.IO.MemoryMappedFiles.MemoryMappedViewStream mmfStream;
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Autosplitter.InitializeAutosplitter();
 
-
-            mmfFile = System.IO.MemoryMappedFiles.MemoryMappedFile.CreateNew("racman-autosplitter", 21);
-            {
-                mmfStream = mmfFile.CreateViewStream();
-                {
-                    BinaryWriter writer = new BinaryWriter(mmfStream);
-
-                    int destinationPlanetSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.destination_planet, 4, (value) => {
-                        junk[8] = value[0];
-                        writer.Seek(0, SeekOrigin.Begin);
-                        writer.Write(junk, 0, 21);
-                    });
-
-                    int currentPlanetSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.current_planet, 4, (value) =>
-                    {
-                        planetIndex = BitConverter.ToInt32(value, 0);
-                        writer.Seek(0, SeekOrigin.Begin);
-                        junk[9] = value[0];
-
-                        writer.Write(junk, 0, 21);
-                    });
-
-                    int playerStateSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.player_state, 4, (value) =>
-                    {
-                        junk[10] = value[0];
-                        junk[11] = value[1];
-                        writer.Seek(0, SeekOrigin.Begin);
-                        writer.Write(junk, 0, 21);
-                    });
-
-                    int planetFrameCountSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, 0xA10710, 4, (value) =>
-                    {
-                        junk[12] = value[0];
-                        junk[13] = value[1];
-                        junk[14] = value[2];
-                        junk[15] = value[3];
-
-                        writer.Seek(0, SeekOrigin.Begin);
-
-                        writer.Write(junk, 0, 21);
-                    });
-
-                    int gameStateSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, 0x00A10708, 4, (value) =>
-                    {
-                        junk[16] = value[0];
-                        junk[17] = value[1];
-                        junk[18] = value[2];
-                        junk[19] = value[3];
-                        writer.Seek(0, SeekOrigin.Begin);
-                        writer.Write(junk, 0, 21);
-                    });
-
-                    int loadingScreenSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, 0x9645C8, 4, (value) =>
-                    {
-                        junk[20] = value[0];
-                        writer.Seek(0, SeekOrigin.Begin);
-                        writer.Write(junk, 0, 21);
-                    });
-
-                    int playerCoordsSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.player_coords, 8, (value) =>
-                    {
-                        Console.WriteLine($"X: {BitConverter.ToSingle(value, 0)}, Y: {BitConverter.ToSingle(value, 4)}");
-                        junk[0] = value[0];
-                        junk[1] = value[1];
-                        junk[2] = value[2];
-                        junk[3] = value[3];
-                        junk[4] = value[4];
-                        junk[5] = value[5];
-                        junk[6] = value[6];
-                        junk[7] = value[7];
-                        writer.Seek(0, SeekOrigin.Begin);
-                        writer.Write(junk, 0, 21);
-                    });
-                }
-            }
             this.Invoke(new Action(() => {
-                planets_comboBox.SelectedIndex = planetIndex;
+                planets_comboBox.SelectedIndex = Autosplitter.planetIndex;
             }));
         }
 

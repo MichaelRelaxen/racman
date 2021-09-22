@@ -27,7 +27,7 @@ namespace racman
         public abstract void WriteMemory(int pid, uint address, uint size, byte[] memory);
         public virtual void WriteMemory(int pid, uint address, UInt32 intValue)
         {
-            this.WriteMemory(pid, address, 4, BitConverter.GetBytes((UInt32)pid).Reverse().ToArray());
+            this.WriteMemory(pid, address, 4, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
         }
         public virtual void WriteMemory(int pid, uint address, uint size, string memory)
         {

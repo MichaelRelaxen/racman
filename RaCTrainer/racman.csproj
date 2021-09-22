@@ -75,6 +75,8 @@
     <Compile Include="AttachPS3Form.Designer.cs">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="Autosplitter.cs" />
+    <Compile Include="IGame.cs" />
     <Compile Include="InputDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,7 +166,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="rac-autosplitter.asl" />
+    <None Include="rac-autosplitter.asl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

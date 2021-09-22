@@ -2,6 +2,8 @@
 
 startup {
     print("Starting");
+
+    settings.Add("GBsplit",false, "Split on Gold Bolts");
 }
 
 init {
@@ -68,6 +70,10 @@ update {
         print("Game state is " + current.gameState);
     }
 
+        if (current.loadingScreen != old.loadingScreen) {
+        print("wtf load screen is " + current.loadingScreen);
+    }
+
     if (current.loadingScreen != 4 && !vars.ShouldStopTimer) {
     vars.timer.Enabled = true;
     }
@@ -102,17 +108,20 @@ split {
         return true;
     }
 
-if(current.gameState == 0 && current.planet == 18 && current.playerState == 34 && old.playerState != 34) {
-  foreach(var button in vars.buttons) {
-    var x = current.x - button.Item1;
-    var y = current.y - button.Item2;
+    if(current.gameState == 0 && current.planet == 18 && current.playerState == 34 && old.playerState != 34) {
+    foreach(var button in vars.buttons) {
+        var x = current.x - button.Item1;
+        var y = current.y - button.Item2;
     
-    if(x * x + y * y < 1.7f) {
-      return true;
+        if(x * x + y * y < 1.7f) {
+            return true;
+            }
+        }
     }
-  }
-}
 
+    if (settings["GBsplit"] && current.playerState == 114 && old.playerState != 114) {
+        return true;
+    }
 }
 
 isLoading {
