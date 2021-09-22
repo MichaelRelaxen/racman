@@ -25,7 +25,6 @@ namespace racman
         {
             InitializeComponent();
             positions_comboBox.Text = "1";
-            planets_comboBox.Text = "Veldin";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
 
             planets_list = new string[] {
@@ -54,6 +53,7 @@ namespace racman
 
 
 
+
             if (func.api is Ratchetron)
             {
                 Ratchetron api = (Ratchetron)func.api;
@@ -68,6 +68,12 @@ namespace racman
                 ForceLoadTimer.Interval = 1000;
                 ForceLoadTimer.Tick += new EventHandler(GetPlanet);
                 //ForceLoadTimer.Enabled = true;
+
+                int buttonMaskSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.current_planet, 4, (value) =>
+                {
+                    planetIndex = BitConverter.ToInt32(value, 0);
+                });
+
             }
         }
 
