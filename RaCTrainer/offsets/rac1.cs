@@ -22,6 +22,9 @@
         // Currently loaded planet.
         public static uint current_planet = 0x969C70;
 
+        // Planet we're going to.
+        public static uint destination_planet = 0xa10704;
+
 
         ///////////// Misc. /////////////
 

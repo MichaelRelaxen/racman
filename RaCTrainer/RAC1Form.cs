@@ -245,11 +245,57 @@ namespace racman
             func.WriteMemory(ip, pid, rac1.gold_bolts_array, reset);
         }
 
+        unsafe struct GoodStuff
+        {
+            fixed byte junk[20];
+
+            public GoodStuff()
+            {
+                fixed junk = new byte[] { 0x63, 0x9a, 0x4d, 0xa2, 0x66, 0x19, 0xaa, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            }
+            //fixed byt3[] junk = new byte[] { 0x63, 0x9a, 0x4d, 0xa2, 0x66, 0x19, 0xaa, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+        }
+
+        //static fixed byte[] junk = new byte[] { 0x63, 0x9a, 0x4d, 0xa2, 0x66, 0x19, 0xaa, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            int buttonMaskSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.current_planet, 4, (value) =>
+            int destinationPlanetSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.destination_planet, 4, (value) => {
+                junk[8] = value[0];
+            });
+
+            int playerStateSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.player_state, 4, (value) =>
+            {
+                junk[10] = value[0];
+                junk[11] = value[1];
+            });
+
+            int planetFrameCountSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, 0xA10710, 4, (value) =>
+            {
+
+                junk[12] = value[0];
+                junk[13] = value[1];
+                junk[14] = value[2];
+                junk[15] = value[3];
+            });
+
+            int gameStateSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, 0x00A10708, 4, (value) =>
+            {
+                junk[16] = value[0];
+                junk[17] = value[1];
+                junk[18] = value[2];
+                junk[19] = value[3];
+            });
+
+            int currentPlanetSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.current_planet, 4, (value) =>
             {
                 planetIndex = BitConverter.ToInt32(value, 0);
+
+                junk[9] = value[0];
+
+                /*this.Invoke(new Action(() => {
+                    planets_comboBox.SelectedIndex = planetIndex;
+                }));*/
             });
         }
 
