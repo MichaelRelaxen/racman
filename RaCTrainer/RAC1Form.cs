@@ -251,86 +251,69 @@ namespace racman
             func.WriteMemory(ip, pid, rac1.gold_bolts_array, reset);
         }
 
-        internal unsafe struct AutoSplitterBuffer
-        {
-            public fixed byte buffer[20];
-        }
+        static byte[] junk = new byte[] { 0x63, 0x9a, 0x4d, 0xa2, 0x66, 0x19, 0xaa, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-        internal unsafe class AutoSplitterBufferClass
-        {
-            public AutoSplitterBuffer asBuffer = default;
-
-            public unsafe void destinationPlanet(byte[] value)
-            {
-                asBuffer.buffer[8] = value[0];
-            }
-
-            public unsafe void currentPlanet(byte[] value)
-            {
-                asBuffer.buffer[9] = value[0];
-            }
-
-            public unsafe void playerState(byte[] value)
-            {
-                asBuffer.buffer[10] = value[0];
-                asBuffer.buffer[11] = value[1];
-            }
-
-            public unsafe void gameState(byte[] value)
-            {
-                asBuffer.buffer[16] = value[0];
-                asBuffer.buffer[17] = value[1];
-                asBuffer.buffer[18] = value[2];
-                asBuffer.buffer[19] = value[3];
-            }
-        }
-
-        //static fixed byte[] junk = new byte[] { 0x63, 0x9a, 0x4d, 0xa2, 0x66, 0x19, 0xaa, 0xff, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        System.IO.MemoryMappedFiles.MemoryMappedFile mmfFile;
+        System.IO.MemoryMappedFiles.MemoryMappedViewStream mmfStream;
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            unsafe { 
-            var asBufferClass = new AutoSplitterBufferClass();
-
-                fixed (byte* junk = asBufferClass.asBuffer.buffer)
+            mmfFile = System.IO.MemoryMappedFiles.MemoryMappedFile.CreateNew("racman-autosplitter", 20);
+            {
+                mmfStream = mmfFile.CreateViewStream();
                 {
-                    junk[0] = 0x63;
-                    junk[1] = 0x9a;
-                    junk[2] = 0x4d;
-                    junk[3] = 0xa2;
-                    junk[4] = 0x66;
-                    junk[5] = 0x19;
-                    junk[6] = 0xaa;
-                    junk[7] = 0xff;
-                    junk[8] = 0   ;
-                    junk[9] = 0   ;
-                    junk[10] = 0  ;
-                    junk[11] = 0  ;
-                    junk[12] = 0  ;
-                    junk[13] = 0  ;
-                    junk[14] = 0  ;
-                    junk[15] = 0  ;
-                    junk[16] = 0  ;
-                    junk[17] = 0  ;
-                    junk[18] = 0  ;
-                    junk[19] = 0;
+                    BinaryWriter writer = new BinaryWriter(mmfStream);
 
-                    int destinationPlanetSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.destination_planet, 4, asBufferClass.destinationPlanet);
 
-                    int playerStateSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.player_state, 4, asBufferClass.playerState);
+                    int destinationPlanetSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.destination_planet, 4, (value) => {
+                        junk[8] = value[0];
+                        writer.Seek(0, SeekOrigin.Begin);
+                        writer.Write(junk, 0, 20);
+                    });
 
-                    /*int planetFrameCountSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, 0xA10710, 4, (value) =>
+                    int playerStateSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.player_state, 4, (value) =>
+                    {
+                        junk[10] = value[0];
+                        junk[11] = value[1];
+                        writer.Seek(0, SeekOrigin.Begin);
+                        writer.Write(junk, 0, 20);
+                    });
+
+                    int planetFrameCountSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, 0xA10710, 4, (value) =>
                     {
 
                         junk[12] = value[0];
                         junk[13] = value[1];
                         junk[14] = value[2];
                         junk[15] = value[3];
-                    });*/
 
-                    int gameStateSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, 0x00A10708, 4, asBufferClass.gameState);
+                        writer.Seek(0, SeekOrigin.Begin);
 
-                    int currentPlanetSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.current_planet, 4, asBufferClass.currentPlanet);
+                        writer.Write(junk, 0, 20);
+                    });
+
+                    int gameStateSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, 0x00A10708, 4, (value) =>
+                    {
+                        junk[16] = value[0];
+                        junk[17] = value[1];
+                        junk[18] = value[2];
+                        junk[19] = value[3];
+                        writer.Seek(0, SeekOrigin.Begin);
+                        writer.Write(junk, 0, 20);
+                    });
+
+                    int currentPlanetSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.current_planet, 4, (value) =>
+                    {
+                        planetIndex = BitConverter.ToInt32(value, 0);
+                        writer.Seek(0, SeekOrigin.Begin);
+                        junk[9] = value[0];
+
+                        writer.Write(junk, 0, 20);
+
+                        /*this.Invoke(new Action(() => {
+                            planets_comboBox.SelectedIndex = planetIndex;
+                        }));*/
+                    });
                 }
             }
         }
