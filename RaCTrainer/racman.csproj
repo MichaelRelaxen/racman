@@ -164,6 +164,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="rac-autosplitter.asl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
