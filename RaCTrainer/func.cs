@@ -102,7 +102,6 @@ namespace racman
             {
                 if (Regex.Match(data[i], @"^([\w\-]+)").Value == keyword)
                 {
-                    //keyword += " = " + contents;
                     data[i] = keyword + " = " + contents;
                     found = true;
                 }
@@ -153,7 +152,7 @@ namespace racman
                 str = new string(str.Skip(n).ToArray());
             }
         }
-        public static string strarr(string swag, int length) // i dont know what to name it
+        public static string repeatstringidfkfuckthisshit(string swag, int length) // i dont know what to name it
         {
             return string.Concat(Enumerable.Repeat(swag, length));
         }

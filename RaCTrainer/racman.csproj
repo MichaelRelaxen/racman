@@ -177,6 +177,7 @@
     <EmbeddedResource Include="ZZupdater0.exe" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="defaultSkin.txt" />
     <Content Include="ds3drip.ico" />
     <Content Include="ds3w.png" />
     <Content Include="ds3b.png" />

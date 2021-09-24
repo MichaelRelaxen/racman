@@ -157,6 +157,7 @@ namespace racman
             this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
             this.positions_comboBox.TabIndex = 27;
+            this.positions_comboBox.SelectedIndexChanged += new System.EventHandler(this.positions_comboBox_SelectedIndexChanged);
             // 
             // planets_comboBox
             // 
@@ -185,6 +186,7 @@ namespace racman
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
             this.planets_comboBox.TabIndex = 28;
+            this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
             // 
             // label9
             // 

@@ -19,7 +19,6 @@ namespace racman
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         private static Timer ForceLoadTimer = new Timer();
-        private static Timer InputsTimer = new Timer();
 
         public rac1 game;
 
@@ -31,67 +30,14 @@ namespace racman
             positions_comboBox.Text = "1";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
 
-            planets_list = new string[] {
-                "Veldin",
-                "Novalis",
-                "Aridia",
-                "Kerwan",
-                "Eudora",
-                "Rilgar",
-                "Blarg",
-                "Umbris",
-                "Batalia",
-                "Gaspar",
-                "Orxon",
-                "Pokitaru",
-                "Hoven",
-                "Gemlik",
-                "Oltanis",
-                "Quartu",
-                "Kalebo3",
-                "Fleet",
-                "Veldin2"
-            };
-
             goodiesCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.goodies_menu, 1)));
 
+            Ratchetron api = (Ratchetron)func.api;
 
 
 
-            if (func.api is Ratchetron)
-            {
-                Ratchetron api = (Ratchetron)func.api;
-
-                api.OpenDataChannel();
-
-                Inputs.GetInputs();
-
-                InputsTimer.Interval = (int)16.66667;
-                InputsTimer.Tick += new EventHandler(CheckInputs);
-
-                ForceLoadTimer.Interval = 1000;
-                ForceLoadTimer.Tick += new EventHandler(GetPlanet);
-                //ForceLoadTimer.Enabled = true;
-
-                int buttonMaskSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, rac1.current_planet, 4, (value) =>
-                {
-                    planetIndex = BitConverter.ToInt32(value, 0);
-                });
-
-            }
+            game.SetupMemorySubs();
         }
-
-        int planetIndex;
-
-        private void GetPlanet(object sender, EventArgs e)
-        {
-            if(planetIndex == 0 || planetIndex == 1)
-            {
-                FastLoadToggle.Checked = false;
-            }
-        }
-
-
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -103,79 +49,11 @@ namespace racman
                 }
                 catch
                 {
-                    MessageBox.Show("Please enter a number", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-            }
-        }
-
-        public string current_planet;
-        public string[] planets_list;
-        public List<string> planet_positions = new List<string>();
-        /*private void loadPlanetPositions()
-        {
-            planet_positions.Clear();
-            positions_comboBox.Items.Clear();
-            string planetPositions = func.GetConfigData("config.txt", planets_list[getCurrentPlanetIndex()] + "PosArray");
-            if (planetPositions != "")
-            {
-                for (int i = 0; i < planetPositions.Split(',').Length - 1; i++)
-                {
-                    positions_comboBox.Items.Add(planetPositions.Split(',')[i]);
-                    planet_positions.Add(planetPositions.Split(',')[i]);
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-
-            positions_comboBox.Text = planetPositions.Split(',')[0];
-
-            if (positions_comboBox.Items.Count <= 0)
-            {
-                positions_comboBox.Items.AddRange(new object[] { "1", "2", "3" });
-            }
-
-            positions_comboBox.SelectedIndex = 0;
         }
-        private void savePlanetPositions(string planet)
-        {
-            string planetPosStringContents = "";
-            foreach (string item in planet_positions)
-            {
-                planetPosStringContents += item;
-                planetPosStringContents += ",";
-            }
-            func.ChangeFileLines("config.txt", planetPosStringContents, planet + "PosArray");
-        }*/
-        bool inputCheck = true;
-        private void CheckInputs(object sender, EventArgs e)
-        {
 
-            if (Inputs.RawInputs == 0xB && inputCheck)
-            {
-                SavePosition();
-                inputCheck = false;
-            }
-            if (Inputs.RawInputs == 0x7 && inputCheck)
-            {
-                LoadPosition();
-                inputCheck = false;
-            }
-            if (Inputs.RawInputs == 0x5 && inputCheck) 
-            {
-                KillYourself();
-                inputCheck = false;
-            }
-            if (Inputs.RawInputs == 0x600 & inputCheck)
-            {
-                LoadPlanet();
-                inputCheck = false;
-            }
-            if(Inputs.RawInputs == 0x00 & !inputCheck)
-            {
-                inputCheck = true;
-            }
-
-        }
         private void savePosButton_Click(object sender, EventArgs e)
         {
             SavePosition();
@@ -194,11 +72,11 @@ namespace racman
         }
         private void SavePosition()
         {
-            game.SavePosition(planetIndex, positions_comboBox.Text);
+            game.SavePosition();
         }
         private void LoadPosition()
         {
-            game.LoadPosition(planetIndex, positions_comboBox.Text);
+            game.LoadPosition();
         }
         private void KillYourself()
         {
@@ -206,51 +84,21 @@ namespace racman
         }
         private void LoadPlanet()
         {
-            int x = planets_comboBox.SelectedIndex; string planet = x.ToString("X2");
-
-            if (lflagresetCb.Checked)
-                ResetLevelFlags((uint)x);
-
-            if (resetGB_checkbox.Checked)
-                ResetGBs();
-
-            func.WriteMemory(ip, pid, rac1.load_planet, $"00000001000000{planet}");
-
-            //loadPlanetPositions();
+            game.LoadPlanet(lflagresetCb.Checked, resetGB_checkbox.Checked);
         }
 
-        private void ToggleFastLoad(bool toggle)
-        {
-            if (toggle)
-            {
-                func.WriteMemory(ip, pid, 0x0DF254, "60000000");
-                func.WriteMemory(ip, pid, 0x165450, "2C03FFFF");
-            }
-            else
-            {
-                func.WriteMemory(ip, pid, 0x0DF254, "40820188");
-                func.WriteMemory(ip, pid, 0x165450, "2c030000");
-            }
-        }
         private void ForceOkayLoad(object sender, EventArgs e)
         {
             func.WriteMemory(ip, pid, 0x9645C4, "0000001A0000000400000002");
             ForceLoadTimer.Enabled = false;
         }
-        private void ResetGBs()
-        {
-            string reset = string.Concat(Enumerable.Repeat("00", 80));
-            func.WriteMemory(ip, pid, rac1.gold_bolts_array, reset);
-        }
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
             Autosplitter.InitializeAutosplitter();
 
             this.Invoke(new Action(() => {
-                planets_comboBox.SelectedIndex = Autosplitter.planetIndex;
+                planets_comboBox.SelectedIndex = (int)game.planetIndex;
             }));
         }
 
@@ -348,61 +196,6 @@ namespace racman
                 func.WriteMemory(ip, pid, rac1.goodies_menu, "00");
             }
         }
-        private void ResetLevelFlags(uint planetIndex)
-        {
-            //thank you username!
-            func.WriteMemory(ip, pid, rac1.level_flags + 0x10 * planetIndex, string.Concat(Enumerable.Repeat("00", 0x10)));
-            func.WriteMemory(ip, pid, rac1.misc_level_flags + 0x100 * planetIndex, string.Concat(Enumerable.Repeat("00", 0x100)));
-            func.WriteMemory(ip, pid, rac1.infobot_flags, func.strarr("00", 0x20));
-            func.WriteMemory(ip, pid, rac1.watched_ilms_array, func.strarr("00", 0xc0));
-
-
-            // Gadget unlocks and more misc level flags
-            if (planetIndex == 3) // Kerwan
-            {
-                func.WriteMemory(ip, pid, 0x96C378, func.strarr("00", 0xF0));
-                func.WriteMemory(ip, pid, rac1.unlock_array + 2, "00"); // Heli-Pack
-                func.WriteMemory(ip, pid, rac1.unlock_array + 12, "00"); // Swingshot
-            }
-            if (planetIndex == 4) // Eudora
-            {
-                func.WriteMemory(ip, pid, 0x96C468, func.strarr("00", 0x40));
-                func.WriteMemory(ip, pid, rac1.unlock_array + 9, "00"); // Suck Cannon
-            }
-            if (planetIndex == 5) // Rilgar
-            {
-                func.WriteMemory(ip, pid, 0x96C498, func.strarr("00", 0xA0));
-            }
-            if (planetIndex == 6) // Blarg Station
-            {
-                func.WriteMemory(ip, pid, rac1.unlock_array + 29, "00");
-            }
-            if (planetIndex == 8) // Batalia
-            {
-                func.WriteMemory(ip, pid, 0x96C5A8, func.strarr("00", 0x40));
-            }
-            if (planetIndex == 9) // Gaspar
-            {
-                func.WriteMemory(ip, pid, 0x96C5E8, func.strarr("00", 0x20));
-                func.WriteMemory(ip, pid, rac1.unlock_array + 7, "00"); // Pilot's Helmet
-            }
-            if (planetIndex == 10) // Orxon
-            {
-                func.WriteMemory(ip, pid, rac1.unlock_array + 28, "00"); // Magneboots
-
-                if (Convert.ToInt32(func.ReadMemory(ip, pid, rac1.unlock_array + 6, 1),16) == 1)
-                {
-                    // Resetting enemies and poki infobot. Need to reset door somehow
-                    func.WriteMemory(ip, pid, rac1.level_flags + 0x10 * 10, "0000FF0000FF00000000000000000000000000000000FF");
-                    func.WriteMemory(ip, pid, rac1.infobot_flags + 11, "01");
-                }
-            }
-            if (planetIndex == 11) // Pokitaru
-            {
-                func.WriteMemory(ip, pid, rac1.unlock_array + 3, "00"); // Thruster-Pack
-                func.WriteMemory(ip, pid, rac1.unlock_array + 6, "00"); // O2 Mask
-            }
-        }
 
         private void ghostCheckbox_CheckedChanged(object sender, EventArgs e)
         {
@@ -428,17 +221,17 @@ namespace racman
         private void CComboCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (CComboCheckBox.Checked)
-                InputsTimer.Enabled = true;
+                game.InputsTimer.Enabled = true;
             else
-                InputsTimer.Enabled = false;
+                game.InputsTimer.Enabled = false;
         }
 
         private void FastLoadToggle_CheckedChanged(object sender, EventArgs e)
         {
             if (FastLoadToggle.Checked)
-                ToggleFastLoad(true);
+                game.ToggleFastLoad(true);
             if (!FastLoadToggle.Checked)
-                ToggleFastLoad(false);
+                game.ToggleFastLoad(false);
         }
 
         private void FreezeAmmoCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -457,6 +250,16 @@ namespace racman
                 }
 
             }
+        }
+
+        private void positions_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            game.selectedPositionIndex = positions_comboBox.SelectedIndex;
+        }
+
+        private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            game.planetToLoad = (uint)planets_comboBox.SelectedIndex;
         }
     }
 }

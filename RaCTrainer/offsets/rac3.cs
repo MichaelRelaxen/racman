@@ -1,7 +1,14 @@
 ﻿namespace racman
 {
     class rac3
-    {     
+    {
+
+        /*
+         *             if (gameID == "NPEA00387")
+            {
+                mask_offset = 0xD99370;
+                analog_offset = 0xD9954C;
+            }*/
 
         ///////////// Player /////////////
 

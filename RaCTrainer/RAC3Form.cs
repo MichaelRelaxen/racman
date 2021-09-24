@@ -64,7 +64,7 @@ namespace racman
 
                 api.OpenDataChannel();
 
-                Inputs.GetInputs();
+                //Inputs.GetInputs();
             }
         }
 

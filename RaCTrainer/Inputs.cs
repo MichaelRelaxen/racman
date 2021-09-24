@@ -33,9 +33,6 @@ namespace racman
         public static float lx = 0.0f;
         public static float ly = 0.0f;
 
-        static uint mask_offset;
-        static uint analog_offset;
-
         static string gameID = AttachPS3Form.game;
 
         public static int RawInputs;
@@ -52,38 +49,5 @@ namespace racman
             }
             return list;
         }
-        public static void GetInputs()
-        {
-            if (gameID == "NPEA00385")
-            {
-                mask_offset = 0x964AF0;
-                analog_offset = 0x964A40;
-            }
-            if (gameID == "NPEA00387")
-            {
-                mask_offset = 0xD99370;
-                analog_offset = 0xD9954C;
-            }
-
-            int buttonMaskSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, mask_offset, 4, (value) =>
-            {
-                RawInputs = BitConverter.ToInt32(value, 0);
-                Mask = DecodeMask(RawInputs);
-            });
-
-            int analogRSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, analog_offset, 8, (value) =>
-            {
-                ry = BitConverter.ToSingle(value, 0);
-                rx = BitConverter.ToSingle(value, 4);
-            });
-
-            int analogYSubID = ((Ratchetron)func.api).SubMemory(AttachPS3Form.pid, analog_offset + 8, 8, (value) =>
-            {
-                ly = BitConverter.ToSingle(value, 0);
-                lx = BitConverter.ToSingle(value, 4);
-            });
-        }
-
-
     }
 }

@@ -14,8 +14,8 @@ namespace racman
 
 
             // Unlocked Items
-            string[] checkedItems = func.SplitByN(func.ReadMemory(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + 2, 34), 2).ToArray();
-            for (int i = 0; i < checkedItems.Length; i++)
+            // string[] checkedItems = func.SplitByN(func.ReadMemory(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + 2, 34), 2).ToArray();
+            /*for (int i = 0; i < checkedItems.Length; i++)
             {
                 itemsCheckList.SetItemChecked(i, Convert.ToBoolean(int.Parse(checkedItems[i])));
             }
@@ -25,7 +25,7 @@ namespace racman
             for (int i = 0; i < checkedGW.Length; i++)
             {
                 gwCheckList.SetItemChecked(i, Convert.ToBoolean(int.Parse(checkedGW[i])));
-            }
+            }*/
         }
 
         private void itemsCheckList_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -36,18 +36,18 @@ namespace racman
                 if (e.NewValue == CheckState.Checked)
                 {
                     {
-                        func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + (uint)e.Index + 2, "01");
+                        // func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + (uint)e.Index + 2, "01");
                     }
                 }
                 else
                 {
-                    func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + (uint)e.Index + 2, "00");
+                    // func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + (uint)e.Index + 2, "00");
                 }
             }
         }
         private void checkBox1_CheckedChanged(object sender, EventArgs e) //check/uncheck all button, forgot to name it
         {
-            if (checkBox1.Checked)
+            /*if (checkBox1.Checked)
             {
                 func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + 2, string.Concat(Enumerable.Repeat("01", 34)));
                 for (int i = 0; i < itemsCheckList.Items.Count; i++)
@@ -62,7 +62,7 @@ namespace racman
                 {
                     itemsCheckList.SetItemChecked(i, false);
                 }
-            }
+            }*/
         }
 
         private void UnlocksWindow_Load(object sender, EventArgs e)
