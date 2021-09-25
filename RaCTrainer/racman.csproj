@@ -75,7 +75,7 @@
     <Compile Include="AttachPS3Form.Designer.cs">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Autosplitter.cs" />
+    <Compile Include="AutosplitterHelper.cs" />
     <Compile Include="IGame.cs" />
     <Compile Include="InputDisplay.cs">
       <SubType>Form</SubType>

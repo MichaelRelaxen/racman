@@ -20,21 +20,22 @@ namespace racman
         public static int pid = AttachPS3Form.pid;
         private static Timer ForceLoadTimer = new Timer();
 
+        private AutosplitterHelper autosplitterHelper;
+
         public rac1 game;
 
         public RAC1Form(rac1 game)
         {
             this.game = game;
 
+            autosplitterHelper = new AutosplitterHelper();
+            autosplitterHelper.StartAutosplitterForGame(game);
+
             InitializeComponent();
             positions_comboBox.Text = "1";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
 
-            goodiesCheck.Checked = Convert.ToBoolean(int.Parse(func.ReadMemory(ip, pid, rac1.goodies_menu, 1)));
-
-            Ratchetron api = (Ratchetron)func.api;
-
-
+            goodiesCheck.Checked = game.GoodiesMenuEnabled();
 
             game.SetupMemorySubs();
         }
@@ -45,7 +46,7 @@ namespace racman
             {
                 try
                 {
-                    game.SetBoltCount(bolts_textBox.Text);
+                    game.SetBoltCount(uint.Parse(bolts_textBox.Text));
                 }
                 catch
                 {
@@ -89,14 +90,12 @@ namespace racman
 
         private void ForceOkayLoad(object sender, EventArgs e)
         {
-            func.WriteMemory(ip, pid, 0x9645C4, "0000001A0000000400000002");
+            game.api.WriteMemory(game.pid, 0x9645C4, new byte[] { 0x00, 0x00, 0x00, 0x1a, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x02 });
             ForceLoadTimer.Enabled = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Autosplitter.InitializeAutosplitter();
-
             this.Invoke(new Action(() => {
                 planets_comboBox.SelectedIndex = (int)game.planetIndex;
             }));
@@ -111,20 +110,13 @@ namespace racman
             FreezeAmmoCheckbox.Checked = false;
             infHealth.Checked = false;
             FastLoadToggle.Checked = false;
-            func.api.Disconnect();
+            game.api.Disconnect();
             Application.Exit();
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            func.WriteMemory(ip, pid, rac1.player_health, "00000003");
-        }
         private void infHealth_Checkbox_Changed(object sender, EventArgs e)
         {
-            if (infHealth.Checked)
-                func.WriteMemory(ip, pid, 0x7F558, "30640000");
-            else
-                func.WriteMemory(ip, pid, 0x7F558, "30649CE0");
+            game.SetInfiniteHealth(infHealth.Checked);
         }
 
         private void unlocksWindowButton_Click(object sender, EventArgs e)
@@ -168,7 +160,7 @@ namespace racman
 
         private void inputdisplay_click(object sender, EventArgs e)
         {
-            if (!(func.api is Ratchetron))
+            if (!(game.api is Ratchetron))
             {
                 MessageBox.Show("You need to be using the new API to use input display");
                 return;
@@ -187,35 +179,17 @@ namespace racman
         }
         private void goodiesCheck_CheckedChanged(object sender, EventArgs e)
         {
-            if (goodiesCheck.Checked)
-            {
-                func.WriteMemory(ip, pid, rac1.goodies_menu, "01");
-            }
-            else
-            {
-                func.WriteMemory(ip, pid, rac1.goodies_menu, "00");
-            }
+            game.SetGoodies(goodiesCheck.Checked);
         }
 
         private void ghostCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (func.api is Ratchetron)
-            {
-                Ratchetron api = (Ratchetron)func.api;
-                if (ghostCheckbox.Checked)
-                {
-                    api.FreezeMemory(pid, rac1.ghost_timer, 10);
-                }
-                else
-                {
-                    api.ReleaseSubID(api.MemSubIDForAddress(rac1.ghost_timer));
-                }
-            }
+            game.SetGhostRatchet(ghostCheckbox.Checked);
         }
 
         private void drekskip_Click(object sender, EventArgs e)
         {
-            func.WriteMemory(ip, pid, rac1.drek_skip, "01");
+            game.SetDrekSkip(true);
         }
 
         private void CComboCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -228,28 +202,12 @@ namespace racman
 
         private void FastLoadToggle_CheckedChanged(object sender, EventArgs e)
         {
-            if (FastLoadToggle.Checked)
-                game.ToggleFastLoad(true);
-            if (!FastLoadToggle.Checked)
-                game.ToggleFastLoad(false);
+            game.ToggleFastLoad(FastLoadToggle.Checked);
         }
 
         private void FreezeAmmoCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (func.api is Ratchetron)
-            {
-                Ratchetron api = (Ratchetron)func.api;
-
-                if(FreezeAmmoCheckbox.Checked)
-                {
-                    func.WriteMemory(ip, pid, 0xAA2DC, "60000000");
-                }
-                else
-                {
-                    func.WriteMemory(ip, pid, 0xAA2DC, "7D05392E");
-                }
-
-            }
+            game.ToggleInfiniteAmmo(FreezeAmmoCheckbox.Checked);
         }
 
         private void positions_comboBox_SelectedIndexChanged(object sender, EventArgs e)

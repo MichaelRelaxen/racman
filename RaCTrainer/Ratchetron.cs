@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace racman
 {
-    public class Ratchetron: IPS3API
+    public class Ratchetron : IPS3API
     {
         string ip
         {
@@ -34,7 +34,7 @@ namespace racman
         private Dictionary<int, UInt32> frozenAddresses = new Dictionary<int, uint>();
 
 
-        public Ratchetron(string ip): base(ip)
+        public Ratchetron(string ip) : base(ip)
         {
             this.ip = ip;
         }
@@ -128,10 +128,10 @@ namespace racman
 
             int[] pids = new int[16];
 
-            for (int i = 0; i < 64; i+=4)
+            for (int i = 0; i < 64; i += 4)
             {
                 byte[] bytes = pidListBuf.Skip(i).Take(4).ToArray();
-             
+
                 if (BitConverter.IsLittleEndian)
                 {
                     Array.Reverse(bytes);
@@ -153,6 +153,11 @@ namespace racman
         public override int getCurrentPID()
         {
             return this.GetPIDList()[2];
+        }
+
+        public void WriteMemory(int pid, uint address, byte[] memory)
+        {
+            this.WriteMemory(pid, address, (uint)memory.Length, memory);
         }
 
         public override void WriteMemory(int pid, uint address, uint size, byte[] memory)
