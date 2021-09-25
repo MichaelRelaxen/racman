@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using AutoUpdate;
 using System.Reflection;
+
+using AutoUpdaterDotNET;
 
 namespace racman
 {
@@ -16,17 +17,13 @@ namespace racman
         [STAThread]
         static void Main(string[] args)
         {
-            Updater.GitHubRepo = "/MichaelRelaxen/racman";
-            if (Updater.AutoUpdate(args))
-            {
-                return;
-            }
-
+#if !DEBUG
+            AutoUpdater.Start("https://MichaelRelaxen.github.io/racman/update.xml");
+#endif
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Start();
-
         }
 
         public static Form AttachPS3Form;
