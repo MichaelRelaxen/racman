@@ -162,13 +162,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="autosplitters\rac3-autosplitter.asl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="rac-autosplitter.asl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="autosplitters\rac1-autosplitter.asl" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

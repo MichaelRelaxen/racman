@@ -1,95 +1,133 @@
 ﻿namespace racman
 {
-    class rac3
+    public class RaC3Addresses : IAddresses
     {
+        // Input stuff
+        public uint inputOffset => 0xD99370;
+        public uint analogOffset => 0xD9954C;
 
-        /*
-         *             if (gameID == "NPEA00387")
-            {
-                mask_offset = 0xD99370;
-                analog_offset = 0xD9954C;
-            }*/
+        // State stuff
+        public uint currentPlanet => 0xC1E438;
+        public uint destinationPlanet => 0xEE9314;
+        public uint playerState => 0xDA4DB4;
+        public uint gameState => 0xEE9334;
+        public uint loadingScreenID => 0xD99114;
+        public uint ghostTimer => 0xDA29de;
+        public uint deathCount => 0xED7F14;
+        public uint planetFrameCount => 0x1A70B30;
+        public uint marcadiaMission => 0xD3AABC;
 
-        ///////////// Player /////////////
+        // Player variables
+        public uint boltCount => 0xc1e4dc;
+        public uint healthXP => 0xc1e510;
+        public uint playerHealth => 0xda5040;
+        public uint playerCoords => 0xDA2870;
+        public uint currentArmor => 0xc1e51c;
+        public uint challengeMode => 0xC1E50D;
 
-        // Player's current coordinates. We typically copy 0x1E at a time for saving/loading positions.
-        public static uint player_coords = 0xDA2870;
+        // Arrays
+        public uint titaniumBoltsArray => 0xECE53D;
+        public uint skillPointsArray => 0xDA521d;
+        public uint itemArray => 0xc1e43c;
+        public uint ammoArray => 0xDA5240;
+        public uint vidComics => 0xda650b;
+        public uint unlockArray => 0xDA5710;
 
-        // Player's current bolt count.
-        public static uint bolt_count = 0xc1e4dc;
+        // Toggles / Menus
+        public uint quickSelectPause => 0xC1E652;
+        public uint ccHelpDesk => 0x148A100;
+        public uint vidComicMenu => 0xC4F918;
 
-        // Player's current health.
-        public static uint health = 0xda5040;
+        // Boss stuff
+        public uint klunkTuning1 => 0xC9165C;
+        public uint klunkTuning2 => 0xC36BCC;
 
-        // Player's current health EXP.
-        public static uint health_exp = 0xc1e510;
+        // Load stuff
+        public uint fastLoad1 => 0x134EBD4; // Set to "00000003" to force third load screen.
+        public uint fastLoad2 => 0x134EE70; // Set to 0x0101 to force fast load.
+        public uint loadPlanet => 0xEE9310;
 
-        // Player's current state.
-        public static uint player_state = 0xDA4DB4;
+        // Currently not implemented, probably works a bit different in RaC3 anyway.
+        public uint levelFlags => throw new System.NotImplementedException();
+        public uint miscLevelFlags => throw new System.NotImplementedException();
+        public uint infobotFlags => throw new System.NotImplementedException();
+        public uint moviesFlags => throw new System.NotImplementedException();
+    }
+    public class rac3 : IGame
+    {
+        public static RaC3Addresses addr = new RaC3Addresses();
+        public rac3(Ratchetron api) : base(api)
+        {
+            this.planetsList = new string[] {
+            "Rac3Veldin",
+            "Florana",
+            "StarshipPhoenix",
+            "Marcadia",
+            "Daxx",
+            "PhoenixRescue",
+            "AnnihilationNation",
+            "Aquatos",
+            "Tyhrranosis",
+            "ZeldrinStarport",
+            "ObaniGemini",
+            "BlackwaterCity",
+            "Holostar",
+            "Koros",
+            "Unknown",
+            "Rac3Metropolis",
+            "CrashSite",
+            "Rac3Aridia",
+            "QwarksHideout",
+            "LaunchSite",
+            "ObaniDraco",
+            "CommandCenter",
+            "Holostar2",
+            "InsomniacMuseum",
+            "Unknown2",
+            "MetropolisRangers",
+            "AquatosClank",
+            "AquatosSewers",
+            "TyhrranosisRangers",
+            "VidComic6",
+            "VidComic1",
+            "VidComic4",
+            "VidComic2",
+            "VidComic3",
+            "VidComic5",
+            "VidComic1SpecialEdition"
+            };
+        }
 
-        // Player's currently used armor. 
-        public static uint current_armor = 0xc1e51c;
 
-        // Current challenge mode.
-        public static uint challenge_mode = 0xC1E50D;
+        public override void ResetLevelFlags()
+        {
+            throw new System.NotImplementedException();
+        }
 
-        // Frames until "Ghost Ratchet" runs out.
-        public static uint ghost_timer = 0xDA29E0;
+        public override void ToggleFastLoad(bool toggle = false)
+        {
+            throw new System.NotImplementedException();
+        }
 
-        // Currently loaded planet.
-        public static uint current_planet = 0xC1E438;
+        public override void ToggleInfiniteAmmo(bool toggle = false)
+        {
+            throw new System.NotImplementedException();
+        }
 
-        //Death count
-        public static uint death_count = 0xED7F14;
+        public void SetGhostRatchet(bool enabled)
+        {
+            if (enabled)
+                api.FreezeMemory(pid, addr.ghostTimer, 0x10);
+            else
+                api.ReleaseSubID(api.MemSubIDForAddress(addr.ghostTimer));
+        }
 
-        //Quick Switch Array
-        public static uint quick_switch = 0xC1E4EC;
-        
-
-        ///////////// Misc. /////////////
-
-        // First variable for Klunk Tuning, set to 7.
-        public static uint klunk_tuning_var1 = 0xC9165C;
-
-        // Second variable for Klunk Tuning, set to 3.
-        public static uint klunk_tuning_var2 = 0xC36BCC;
-
-        // Should load + planet to load. For example set 0000000100000002 to load Florana. Found by doesthisusername
-        public static uint force_load_planet = 0xEE9310;
-
-        // Current load screen. Can force to second loading screen by setting to 00000003
-        public static uint fast_load = 0x134EBD4;
-
-        // Load screen thing idk set to 0x100
-        public static uint fast_load2 = 0x134EE70;
-
-        // Bool which toggles if quick select is on or not.
-        public static uint quick_select_pause = 0xC1E652;
-
-        // Video Comic menu (0 1 2)
-        public static uint vid_comic_menu = 0xC4F918;
-
-        // Command Center Thyra Button help text turn on/ turn off
-        public static uint cc_help_text = 0x148A100;
-
-        ///////////// Arrays /////////////
-
-        // Array of whether or not you've collected titanium bolts. 8 per planet.
-        public static uint titanium_bolts_array = 0xECE53D;
-
-        // Array of skill points.
-        public static uint skill_points_array = 0xDA521d;
-
-        // Array of unlockable items. Follows same structure as item array. Currently starts at lock strafe cuz im lazy but ill get around to this later.
-        public static uint unlock_array = 0xDA5710;
-
-        // Array of items.
-        public static uint item_array = 0xc1e43c;
-
-        // Array of ammo on weapons. Follows same structure as item array.
-        public static uint ammo_array = 0xDA5240;
-
-        // Currently unlocked vid comics. Follows 1, 4, 3, 2, 5 in order.
-        public static uint vid_comics = 0xda650b;
+        public override void SetupFile()
+        {
+            api.WriteMemory(pid, rac3.addr.klunkTuning1, 0x7);
+            api.WriteMemory(pid, rac3.addr.klunkTuning2, 0x3);
+            api.WriteMemory(pid, rac3.addr.vidComicMenu, new byte[] { 0x00, 0x00, 0x00, 0x02 });
+            api.WriteMemory(pid, rac3.addr.ccHelpDesk, new byte[] { 0x00, 0x00, 0x00, 0x01 });
+        }
     }
 }

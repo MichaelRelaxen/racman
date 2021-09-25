@@ -62,8 +62,12 @@ namespace racman
             writeLock.ReleaseMutex();
         }
 
-        private void OpenRaC1Autosplitter(rac1 game)
+        private void OpenAutosplitter(rac1 game)
         {
+            int playerCoordsSubID = game.api.SubMemory(game.pid, rac1.addr.playerCoords, 8, (value) =>
+            {
+                WriteToMemory(0, value);
+            });
             int destinationPlanetSubID = game.api.SubMemory(game.pid, rac1.addr.destinationPlanet + 3, 1, (value) => {
                 WriteToMemory(8, value);
             });
@@ -93,11 +97,6 @@ namespace racman
                 WriteToMemory(20, value);
             });
 
-            int playerCoordsSubID = game.api.SubMemory(game.pid, rac1.addr.playerCoords, 8, (value) =>
-            {
-                WriteToMemory(0, value);
-            });
-
             subscriptionIDs.AddRange(new int[] {
                 destinationPlanetSubID,
                 currentPlanetSubID,
@@ -109,13 +108,64 @@ namespace racman
             });
         }
 
+        private void OpenAutosplitter(rac3 game)
+        {
+            int destinationPlanetSubID = game.api.SubMemory(game.pid, rac3.addr.destinationPlanet + 3, 1, (value) => 
+            {
+                WriteToMemory(0, value);
+            });
+
+            int currentPlanetSubID = game.api.SubMemory(game.pid, rac3.addr.currentPlanet + 3, 1, (value) =>
+            {
+                WriteToMemory(1, value);
+            });
+
+            int playerStateSubID = game.api.SubMemory(game.pid, rac3.addr.playerState + 2, 2, (value) =>
+            {
+                WriteToMemory(2, value);
+            });
+
+            int planetFrameCountSubID = game.api.SubMemory(game.pid, rac3.addr.planetFrameCount, 4, (value) =>
+            {
+                WriteToMemory(4, value);
+            });
+
+            int gameStateSubID = game.api.SubMemory(game.pid, rac3.addr.gameState, 4, (value) =>
+            {
+                WriteToMemory(8, value);
+            });
+
+            int loadingScreenSubID = game.api.SubMemory(game.pid, rac3.addr.loadingScreenID + 3, 1, (value) =>
+            {
+                WriteToMemory(12, value);
+            });
+
+            int marcadiaMissionSubID = game.api.SubMemory(game.pid, rac3.addr.marcadiaMission + 3, 1, (value) =>
+            {
+                WriteToMemory(13, value);
+            });
+
+            subscriptionIDs.AddRange(new int[] {
+                destinationPlanetSubID,
+                currentPlanetSubID,
+                playerStateSubID,
+                planetFrameCountSubID,
+                gameStateSubID,
+                loadingScreenSubID,
+                marcadiaMissionSubID
+            });
+        }
+
         public void StartAutosplitterForGame(IGame game)
         {
             if (game is rac1)
             {
-                this.OpenRaC1Autosplitter((rac1)game);
+                this.OpenAutosplitter((rac1)game);
+            }
+            if (game is rac3)
+            {
+                this.OpenAutosplitter((rac3)game);
             }
         }
-
     }
 }

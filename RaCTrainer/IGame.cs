@@ -16,7 +16,6 @@ namespace racman
         uint analogOffset { get; }
         uint loadPlanet { get; }
         uint currentPlanet { get; }
-
         uint levelFlags { get; }
         uint miscLevelFlags { get; }
         uint infobotFlags { get; }
@@ -101,6 +100,8 @@ namespace racman
         {
             api.WriteMemory(pid, Addr().boltCount, bolts);
         }
+
+        public abstract void SetupFile();
 
         public virtual void SetupMemorySubs()
         {

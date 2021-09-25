@@ -219,5 +219,10 @@ namespace racman
         {
             game.planetToLoad = (uint)planets_comboBox.SelectedIndex;
         }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
     }
 }

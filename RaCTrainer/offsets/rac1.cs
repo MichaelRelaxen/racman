@@ -6,41 +6,23 @@ namespace racman
     public class RaC1Addresses : IAddresses
     {
         public uint boltCount => 0x969CA0;
-
         public uint playerCoords => 0x969D60;
-
         public uint inputOffset => 0x964AF0;
-
         public uint analogOffset => 0x964A40;
-
         public uint loadPlanet => 0xA10700;
-
         public uint currentPlanet => 0x969C70;
-
         public uint levelFlags => 0xA0CA84;
-
         public uint miscLevelFlags => 0xA0CD1C;
-
         public uint infobotFlags => 0x96CA0C;
-
         public uint moviesFlags => 0x96BFF0;
-
         public uint unlockArray => 0x96C140;
-
         public uint destinationPlanet => 0xa10704;
-
         public uint playerState => 0x96BD64;
-
         public uint planetFrameCount => 0xA10710;
-
         public uint gameState => 0x00A10708;
-
         public uint loadingScreenID => 0x9645C8;
-
         public uint ghostTimer => 0x969EAC;
-
         public uint drekSkip => 0xFACC7B;
-
         public uint goodiesMenu => 0x969CD3;
     }
 
@@ -250,13 +232,10 @@ namespace racman
 
         public void SetGhostRatchet(bool enabled)
         {
-            if (enabled) {
+            if (enabled)
                 ghostRatchetSubID = api.FreezeMemory(pid, rac1.addr.ghostTimer, 10);
-            }
-                else
-            {
+            else
                 api.ReleaseSubID(ghostRatchetSubID);
-            }
         }
 
         public void SetDrekSkip(bool enabled)
@@ -279,6 +258,11 @@ namespace racman
             {
                 api.WriteMemory(pid, 0xAA2DC, 4, new byte[] { 0x7d, 0x05, 0x39, 0x2e });
             }
+        }
+
+        public override void SetupFile()
+        {
+            throw new NotImplementedException();
         }
     }
 }
