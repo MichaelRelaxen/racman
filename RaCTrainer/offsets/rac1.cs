@@ -393,5 +393,10 @@ namespace racman
                 api.WriteMemory(pid, 0xAA2DC, 4, new byte[] { 0x7d, 0x05, 0x39, 0x2e });
             }
         }
+
+        public override void SetupFile()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
