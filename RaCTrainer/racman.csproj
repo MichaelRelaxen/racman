@@ -69,6 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ACITForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACITForm.Designer.cs">
+      <DependentUpon>ACITForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AttachPS3Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +91,7 @@
     </Compile>
     <Compile Include="Inputs.cs" />
     <Compile Include="IPS3API.cs" />
+    <Compile Include="offsets\acit.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -128,6 +135,9 @@
       <DependentUpon>RAC4Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Updater.cs" />
+    <EmbeddedResource Include="ACITForm.resx">
+      <DependentUpon>ACITForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AttachPS3Form.resx">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -162,6 +172,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="autosplitters\acit-autosplitter.asl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="autosplitters\rac3-autosplitter.asl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

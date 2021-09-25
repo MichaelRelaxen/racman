@@ -156,6 +156,14 @@ namespace racman
             });
         }
 
+        private void OpenAutosplitter(acit game)
+        {
+            int planetFrameCountSubID = game.api.SubMemory(game.pid, acit.addr.planetFrameCount, 4, (value) =>
+            {
+                WriteToMemory(0, value);
+            });
+        }
+
         public void StartAutosplitterForGame(IGame game)
         {
             if (game is rac1)
@@ -165,6 +173,10 @@ namespace racman
             if (game is rac3)
             {
                 this.OpenAutosplitter((rac3)game);
+            }
+            if (game is acit)
+            {
+                this.OpenAutosplitter((acit)game);
             }
         }
     }
