@@ -86,7 +86,7 @@ namespace racman
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC3Form rac3 = new RAC3Form
+                RAC3Form rac3 = new RAC3Form(new rac3((Ratchetron)func.api))
                 {
                     TopMost = true
                 };
@@ -101,6 +101,16 @@ namespace racman
                     TopMost = true
                 };
                 rac4.ShowDialog();
+            }
+            else if (game == "NPUA80966")
+            {
+                Hide();
+                func.api.Notify("RaCMAN connected!");
+                ACITForm acit = new ACITForm(new acit((Ratchetron)func.api))
+                {
+                    TopMost = true
+                };
+                acit.ShowDialog();
             }
             else
             {

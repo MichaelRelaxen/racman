@@ -102,6 +102,8 @@ namespace racman
             api.WriteMemory(pid, Addr().boltCount, bolts);
         }
 
+        public abstract void SetupFile();
+
         public virtual void SetupMemorySubs()
         {
             int buttonMaskSubID = api.SubMemory(pid, Addr().inputOffset, 4, (value) =>
