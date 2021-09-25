@@ -6,26 +6,29 @@ namespace racman
 
     public partial class UnlocksWindow : Form
     {
-        public UnlocksWindow()
+        rac1 game;
+
+        (string, int)[] unlocks;
+
+        public UnlocksWindow(rac1 game)
         {
+            this.game = game;
+
             InitializeComponent();
             itemsCheckList.ItemCheck += itemsCheckList_ItemCheck;
             gwCheckList.ItemCheck += gwCheckList_ItemCheck;
 
+            itemsCheckList.Items.Clear();
+            gwCheckList.Items.Clear();
+
+            unlocks = game.GetUnlocks();
 
             // Unlocked Items
-            // string[] checkedItems = func.SplitByN(func.ReadMemory(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + 2, 34), 2).ToArray();
-            /*for (int i = 0; i < checkedItems.Length; i++)
+            foreach((string, int) unlock in unlocks)
             {
-                itemsCheckList.SetItemChecked(i, Convert.ToBoolean(int.Parse(checkedItems[i])));
+                itemsCheckList.Items.Add(unlock.Item1, game.HasUnlock(unlock));
+                gwCheckList.Items.Add(unlock.Item1, game.HasUnlock(unlock, true));
             }
-
-            // Gold Weapons
-            string[] checkedGW = func.SplitByN(func.ReadMemory(RAC1Form.ip, RAC1Form.pid, rac1.gold_weapons_array + 2, 34), 2).ToArray();
-            for (int i = 0; i < checkedGW.Length; i++)
-            {
-                gwCheckList.SetItemChecked(i, Convert.ToBoolean(int.Parse(checkedGW[i])));
-            }*/
         }
 
         private void itemsCheckList_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -33,36 +36,18 @@ namespace racman
 
             if (e.Index < 34)
             {
-                if (e.NewValue == CheckState.Checked)
-                {
-                    {
-                        // func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + (uint)e.Index + 2, "01");
-                    }
-                }
-                else
-                {
-                    // func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + (uint)e.Index + 2, "00");
-                }
+                game.SetUnlock(unlocks[e.Index], e.NewValue == CheckState.Checked);
             }
         }
         private void checkBox1_CheckedChanged(object sender, EventArgs e) //check/uncheck all button, forgot to name it
         {
-            /*if (checkBox1.Checked)
+            var i = 0;
+            foreach(var unlock in unlocks)
             {
-                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + 2, string.Concat(Enumerable.Repeat("01", 34)));
-                for (int i = 0; i < itemsCheckList.Items.Count; i++)
-                {
-                    itemsCheckList.SetItemChecked(i, true);
-                }
+                itemsCheckList.SetItemChecked(i, checkBox1.Checked);
+                game.SetUnlock(unlock, checkBox1.Checked);
+                i++;
             }
-            else
-            {
-                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.unlock_array + 2, string.Concat(Enumerable.Repeat("00", 34)));
-                for (int i = 0; i < itemsCheckList.Items.Count; i++)
-                {
-                    itemsCheckList.SetItemChecked(i, false);
-                }
-            }*/
         }
 
         private void UnlocksWindow_Load(object sender, EventArgs e)
@@ -73,40 +58,19 @@ namespace racman
         {
             if (e.Index < 34)
             {
-                if (e.NewValue == CheckState.Checked)
-                {
-                    {
-                        func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.gold_weapons_array + (uint)e.Index + 2, "01");
-                    }
-                }
-                else
-                {
-                    func.WriteMemory_SingleByte(RAC1Form.ip, RAC1Form.pid, rac1.gold_weapons_array + (uint)e.Index + 2, "00");
-                }
+                game.SetUnlock(unlocks[e.Index], e.NewValue == CheckState.Checked, true);
             }
 
         }
         private void gwCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (gwCheckBox.Checked)
+            var i = 0;
+            foreach (var unlock in unlocks)
             {
-                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.gold_weapons_array + 2, string.Concat(Enumerable.Repeat("01", 34)));
-                for (int i = 0; i < gwCheckList.Items.Count; i++)
-                {
-                    gwCheckList.SetItemChecked(i, true);
-                }
+                gwCheckList.SetItemChecked(i, gwCheckBox.Checked);
+                game.SetUnlock(unlock, gwCheckBox.Checked, true);
+                i++;
             }
-            else
-            {
-                func.WriteMemory(RAC1Form.ip, RAC1Form.pid, rac1.gold_weapons_array + 2, string.Concat(Enumerable.Repeat("00", 34)));
-                for (int i = 0; i < gwCheckList.Items.Count; i++)
-                {
-                    gwCheckList.SetItemChecked(i, false);
-                }
-
-            }
-
-
         }
     }
 }

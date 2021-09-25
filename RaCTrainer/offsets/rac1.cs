@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace racman
@@ -42,6 +43,8 @@ namespace racman
         public uint drekSkip => 0xFACC7B;
 
         public uint goodiesMenu => 0x969CD3;
+
+        public uint goldItems => 0x969CA8;
     }
 
     public class rac1 : IGame
@@ -73,43 +76,44 @@ namespace racman
             };
 
         }
-        enum Unlocks : int
+
+        public dynamic Unlocks = new
         {
-            HeliPack = 2,
-            ThrusterPack = 3,
-            HydroPack = 4,
-            SonicSummoner = 5,
-            O2Mask = 6,
-            PilotsHelmet = 7,
-            Wrench = 8,
-            SuckCannon = 9,
-            BombGlove = 10,
-            Devastator = 11,
-            Swingshot = 12,
-            Visibomb = 13,
-            Taunter = 14,
-            Blaster = 15,
-            Pyrocitor = 16,
-            MineGlove = 17,
-            Walloper = 18,
-            TeslaClaw = 19,
-            GloveOfDoom = 20,
-            MorphORay = 21,
-            Hydrodisplacer = 22,
-            RYNO = 23,
-            DroneDevice = 24,
-            DecoyGlove = 25,
-            Trespasser = 26,
-            MetalDetector = 27,
-            Magneboots = 28,
-            Grindboots = 29,
-            Hoverboard = 30,
-            Hologuise = 31,
-            PDA = 32,
-            MapOMatic = 33,
-            BoltGrabber = 34,
-            Persuader = 35,
-        }
+            HeliPack = ("Heli-Pack", 2),
+            ThrusterPack = ("Thruster-Pack", 3),
+            HydroPack = ("Hydro-Pack", 4),
+            SonicSummoner = ("Sonic Summoner", 5),
+            O2Mask = ("O2 Mask", 6),
+            PilotsHelmet = ("Pilots Helmet", 7),
+            Wrench = ("Wrench", 8),
+            SuckCannon = ("Suck Cannon", 9),
+            BombGlove = ("Bomb Glove", 10),
+            Devastator = ("Devastator", 11),
+            Swingshot = ("Swingshot", 12),
+            Visibomb = ("Visibomb", 13),
+            Taunter = ("Taunter", 14),
+            Blaster = ("Blaster", 15),
+            Pyrocitor = ("Pyrocitor", 16),
+            MineGlove = ("Mine Glove", 17),
+            Walloper = ("Walloper", 18),
+            TeslaClaw = ("Tesla Claw", 19),
+            GloveOfDoom = ("Glove Of Doom", 20),
+            MorphORay = ("Morph-O-Ray", 21),
+            Hydrodisplacer = ("Hydrodisplacer", 22),
+            RYNO = ("RYNO", 23),
+            DroneDevice = ("Drone Device", 24),
+            DecoyGlove = ("Decoy Glove", 25),
+            Trespasser = ("Trespasser", 26),
+            MetalDetector = ("Metal Detector", 27),
+            Magneboots = ("Magneboots", 28),
+            Grindboots = ("Grindboots", 29),
+            Hoverboard = ("Hoverboard", 30),
+            Hologuise = ("Hologuise", 31),
+            PDA = ("PDA", 32),
+            MapOMatic = ("Map-O-Matic", 33),
+            BoltGrabber = ("Bolt Grabber", 34),
+            Persuader = ("Persuader", 35)
+        };
 
         private int ghostRatchetSubID = -1;
 
@@ -170,6 +174,74 @@ namespace racman
             }
         }
 
+        public void SetUnlock((string, int) item, bool unlocked, bool gold = false)
+        {
+            api.WriteMemory(pid, (gold ? rac1.addr.goldItems : rac1.addr.unlockArray) + (uint)item.Item2, BitConverter.GetBytes(unlocked));
+        }
+
+        Dictionary<int, bool> ownedUnlocks = new Dictionary<int, bool>();
+        Dictionary<int, bool> ownedGoldItems = new Dictionary<int, bool>();
+        long lastUnlocksUpdate = 0;
+        long lastGoldItemsUpdate = 0;
+
+        private void UpdateUnlocks()
+        {
+            if (DateTime.Now.Ticks < lastUnlocksUpdate + 10000000)
+            {
+                return;
+            }
+
+            byte[] memory = api.ReadMemory(pid, rac1.addr.unlockArray, 40);
+
+            var i = 0;
+            foreach (byte item in memory)
+            {
+                ownedUnlocks[i] = item != 0;
+                i++;
+            }
+
+            lastUnlocksUpdate = DateTime.Now.Ticks;
+        }
+
+        private void UpdateGoldItems()
+        {
+            if (DateTime.Now.Ticks < lastGoldItemsUpdate + 10000000)
+            {
+                return;
+            }
+
+            byte[] memory = api.ReadMemory(pid, rac1.addr.goldItems, 40);
+
+            var i = 0;
+            foreach (byte item in memory)
+            {
+                ownedGoldItems[i] = item != 0;
+                i++;
+            }
+
+            lastGoldItemsUpdate = DateTime.Now.Ticks;
+        }
+
+        public bool HasUnlock((string, int) item, bool gold = false)
+        {
+            UpdateGoldItems();
+            UpdateUnlocks();
+            return gold ? ownedGoldItems[item.Item2] : ownedUnlocks[item.Item2];
+        }
+
+        public (string, int)[] GetUnlocks()
+        {
+            List<(string, int)> unlocks = new List<(string, int)>();
+           
+            foreach (var item in Unlocks.GetType().GetProperties())
+            {
+                unlocks.Add(item.GetValue(Unlocks));
+            }
+
+
+            return unlocks.ToArray();
+        }
+
         public override void ResetLevelFlags()
         {
 
@@ -182,14 +254,14 @@ namespace racman
             if (planetToLoad == 3)
             {
                 api.WriteMemory(pid, 0x96C378, 0xF0, new byte[0xF0]);
-                api.WriteMemory(pid, rac1.addr.unlockArray + (int)Unlocks.HeliPack, 1, new byte[1]);
-                api.WriteMemory(pid, rac1.addr.unlockArray + (int)Unlocks.Swingshot, 1, new byte[1]);
+                SetUnlock(Unlocks.HeliPack, false);
+                SetUnlock(Unlocks.Swingshot, false);
             }
 
             if (planetToLoad == 4)
             {
                 api.WriteMemory(pid, 0x96C468, 0x40, new byte[0x40]);
-                api.WriteMemory(pid, rac1.addr.unlockArray + (int)Unlocks.SuckCannon, 1, new byte[1]);
+                SetUnlock(Unlocks.SuckCannon, false);
             }
 
             if (planetToLoad == 5)
@@ -199,7 +271,7 @@ namespace racman
 
             if (planetToLoad == 6)
             {
-                api.WriteMemory(pid, rac1.addr.unlockArray + (int)Unlocks.Grindboots, 1, new byte[1]);
+                SetUnlock(Unlocks.Grindboots, false);
             }
 
             if (planetToLoad == 8)
@@ -210,14 +282,14 @@ namespace racman
             if (planetToLoad == 9)
             {
                 api.WriteMemory(pid, 0x96C5E8, 0x20, new byte[0x20]);
-                api.WriteMemory(pid, rac1.addr.unlockArray + (int)Unlocks.PilotsHelmet, 1, new byte[1]);
+                SetUnlock(Unlocks.PilotsHelmet, false);
             }
 
             if (planetToLoad == 10)
             {
-                api.WriteMemory(pid, rac1.addr.unlockArray + (int)Unlocks.Magneboots, 1, new byte[1]);
+                SetUnlock(Unlocks.Magneboots, false);
 
-                if (api.ReadMemory(pid, rac1.addr.unlockArray + (int)Unlocks.O2Mask, 1) == new byte[] { 0x01 })
+                if (HasUnlock(Unlocks.O2Mask))
                 {
                     // Figure it out
                     api.WriteMemory(pid, rac1.addr.infobotFlags + 11, 1);
@@ -226,8 +298,8 @@ namespace racman
 
             if (planetToLoad == 11)
             {
-                api.WriteMemory(pid, rac1.addr.unlockArray + (int)Unlocks.ThrusterPack, 1, new byte[1]);
-                api.WriteMemory(pid, rac1.addr.unlockArray + (int)Unlocks.O2Mask, 1, new byte[1]);
+                SetUnlock(Unlocks.ThrusterPack, false);
+                SetUnlock(Unlocks.O2Mask, false);
             }
         }
 

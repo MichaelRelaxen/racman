@@ -180,6 +180,12 @@ namespace racman
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)address).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
 
+#if DEBUG
+            var watch = new System.Diagnostics.Stopwatch();
+
+            watch.Start();
+#endif
+
             this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
             byte[] memory = new byte[2048];
@@ -189,6 +195,12 @@ namespace racman
             {
                 n_bytes += stream.Read(memory, 0, (int)size);
             }
+
+#if DEBUG
+            watch.Stop();
+
+            Console.WriteLine($"Reading {size} bytes memory at {address.ToString("X")} took: {watch.ElapsedMilliseconds} ms");
+#endif 
 
             return memory.Take((int)size).ToArray();
         }

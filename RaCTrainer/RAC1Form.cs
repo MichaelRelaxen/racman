@@ -123,7 +123,7 @@ namespace racman
         {
             if (UnlocksWindow == null)
             {
-                UnlocksWindow = new UnlocksWindow();
+                UnlocksWindow = new UnlocksWindow(game);
                 UnlocksWindow.FormClosed += UnlocksWindow_FormClosed;
                 UnlocksWindow.Show();
             }
