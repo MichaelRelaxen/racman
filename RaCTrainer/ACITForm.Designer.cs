@@ -51,6 +51,7 @@ namespace racman
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ACITForm";
             this.Text = "ACITForm";
+            this.Load += new System.EventHandler(this.ACITForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -12,9 +12,22 @@ namespace racman
 {
     public partial class ACITForm : Form
     {
-        public ACITForm()
+        private AutosplitterHelper autosplitterHelper;
+
+        public acit game;
+        public ACITForm(acit game)
         {
+            this.game = game;
+
+            autosplitterHelper = new AutosplitterHelper();
+            autosplitterHelper.StartAutosplitterForGame(game);
+
             InitializeComponent();
+        }
+
+        private void ACITForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -102,6 +102,16 @@ namespace racman
                 };
                 rac4.ShowDialog();
             }
+            else if (game == "NPUA80966")
+            {
+                Hide();
+                func.api.Notify("RaCMAN connected!");
+                ACITForm acit = new ACITForm(new acit((Ratchetron)func.api))
+                {
+                    TopMost = true
+                };
+                acit.ShowDialog();
+            }
             else
             {
                 MessageBox.Show("Game isn't running or isn't supported yet.");
