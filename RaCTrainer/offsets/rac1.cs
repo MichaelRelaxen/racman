@@ -6,45 +6,74 @@ namespace racman
 {
     public class RaC1Addresses : IAddresses
     {
+        // Current bolt count
         public uint boltCount => 0x969CA0;
 
+        // Ratchet's coordinates
         public uint playerCoords => 0x969D60;
 
+        // The player's current health.
+        public uint playerHealth => 0x96BF88;
+
+        // Controller inputs mask address
         public uint inputOffset => 0x964AF0;
 
+        // Controller analog sticks address
         public uint analogOffset => 0x964A40;
 
+        // First 0x4 for if planet should be loaded, the 0x4 after for planet to load.
         public uint loadPlanet => 0xA10700;
 
+        // Currently loaded planet.
         public uint currentPlanet => 0x969C70;
 
+        // Main level flags
         public uint levelFlags => 0xA0CA84;
 
+        // Other level flags
         public uint miscLevelFlags => 0xA0CD1C;
 
+        // Array of infobots collected
         public uint infobotFlags => 0x96CA0C;
 
+        // Movies that have been watched
         public uint moviesFlags => 0x96BFF0;
 
+        // Array of unlocked unlockables like gadgets, weapons and other items
         public uint unlockArray => 0x96C140;
 
+        // Planet we're going to.
         public uint destinationPlanet => 0xa10704;
 
+        // Current player state. 
         public uint playerState => 0x96BD64;
 
+        // Count of frames in current level
         public uint planetFrameCount => 0xA10710;
 
+        // Current game state, like currently playing, in menu, in ILM, etc.
         public uint gameState => 0x00A10708;
 
+        // Which loading screen type you're current at, or the last loading screen you got in last load
         public uint loadingScreenID => 0x9645C8;
 
+        //Frames until "Ghost Ratchet" runs out.
         public uint ghostTimer => 0x969EAC;
 
+        // Set single byte to enable/disable drek skip.
         public uint drekSkip => 0xFACC7B;
 
+        // Set single byte to enable/disable goodies menu. Not related to challenge mode.
         public uint goodiesMenu => 0x969CD3;
 
+        // Array of whether or not you've unlocked any gold weapons.
         public uint goldItems => 0x969CA8;
+
+        // Force third loading screen by setting to 2. Not to be confused with instant loads
+        public uint fastLoad => 0x9645CF;
+
+        // Array of whether or not you've collected gold bolts. 4 per planet.
+        public uint goldBolts => 0xA0CA34;
     }
 
     public class rac1 : IGame
@@ -117,49 +146,10 @@ namespace racman
 
         private int ghostRatchetSubID = -1;
 
-        ///////////// Player /////////////
-
-
-        // The player's current health.
-        public static uint player_health = 0x96BF88;
-
-        // Current player state. 
-        public static uint player_state = 0x96BD64;
-
-        //Frames until "Ghost Ratchet" runs out.
-        public static uint ghost_timer = 0x969EAC;
-
-        // Currently loaded planet.
-        public static uint current_planet = 0x969C70;
-
-        // Planet we're going to.
-        public static uint destination_planet = 0xa10704;
-
-
-        ///////////// Misc. /////////////
-
-        // Set single byte to enable/disable drek skip.
-        public static uint drek_skip = 0xFACC7B;
-
-        // Set single byte to enable/disable goodies menu. Not related to challenge mode.
-        public static uint goodies_menu = 0x969CD3;
-
-        // First 0x4 for if planet should be loaded, the 0x4 after for planet to load.
-        public static uint load_planet = 0xA10700;
-
-        // Force third loading screen by setting to 2.
-        public static uint fast_load = 0x9645CF;
-
-        ///////////// Arrays /////////////
-
-        // Array of whether or not you've collected gold bolts. 4 per planet.
-        public static uint gold_bolts_array = 0xA0CA34;
-
-        // Array of whether or not you've unlocked any gold weapons.
-        public static uint gold_weapons_array = 0x969CA8;
-
-
-
+        /// <summary>
+        /// Enables instant loads by overwriting code that starts loads somehow.
+        /// </summary>
+        /// <param name="toggle">if true, writes instant load code to the game, if false restores the original code</param>
         public override void ToggleFastLoad(bool toggle)
         {
             if (toggle)
@@ -174,6 +164,12 @@ namespace racman
             }
         }
 
+        /// <summary>
+        /// Sets an unlockable item/gadget/weapon so that it's owned, or optionally unlocks it as gold instead.
+        /// </summary>
+        /// <param name="item">Item as tuple, needs item "id" in second tuple item, first item is string, but its value doesn't really matter.</param>
+        /// <param name="unlocked">true if owned, false if not</param>
+        /// <param name="gold">Whether to set item as golded (true) or to just unlock item (false)</param>
         public void SetUnlock((string, int) item, bool unlocked, bool gold = false)
         {
             api.WriteMemory(pid, (gold ? rac1.addr.goldItems : rac1.addr.unlockArray) + (uint)item.Item2, BitConverter.GetBytes(unlocked));
@@ -184,6 +180,10 @@ namespace racman
         long lastUnlocksUpdate = 0;
         long lastGoldItemsUpdate = 0;
 
+        /// <summary>
+        /// Updates internal list of unlocked items. There's a bug in Ratchetron or the Ratchetron C# API that makes it unfeasibly slow to get each item as a single byte.
+        /// This function can be called as often as you'd like, but it only updates every second or so, as to not overload the Ratchetron API. No idea why the API is so fucky, this might be fixed in the future, who knows. 
+        /// </summary>
         private void UpdateUnlocks()
         {
             if (DateTime.Now.Ticks < lastUnlocksUpdate + 10000000)
@@ -203,6 +203,10 @@ namespace racman
             lastUnlocksUpdate = DateTime.Now.Ticks;
         }
 
+        /// <summary>
+        /// Updates internal list of golded items. There's a bug in Ratchetron or the Ratchetron C# API that makes it unfeasibly slow to get each item as a single byte.
+        /// This function can be called as often as you'd like, but it only updates every second or so, as to not overload the Ratchetron API. No idea why the API is so fucky, this might be fixed in the future, who knows. 
+        /// </summary>
         private void UpdateGoldItems()
         {
             if (DateTime.Now.Ticks < lastGoldItemsUpdate + 10000000)
@@ -222,6 +226,12 @@ namespace racman
             lastGoldItemsUpdate = DateTime.Now.Ticks;
         }
 
+        /// <summary>
+        /// If you do or do not have an item unlocked or golded.
+        /// </summary>
+        /// <param name="item">Tuple<string, int> of item to check</param>
+        /// <param name="gold">Whether or not to check for golded state</param>
+        /// <returns></returns>
         public bool HasUnlock((string, int) item, bool gold = false)
         {
             UpdateGoldItems();
@@ -229,6 +239,10 @@ namespace racman
             return gold ? ownedGoldItems[item.Item2] : ownedUnlocks[item.Item2];
         }
 
+        /// <summary>
+        /// Get list of unlockables in the game
+        /// </summary>
+        /// <returns></returns>
         public (string, int)[] GetUnlocks()
         {
             List<(string, int)> unlocks = new List<(string, int)>();
@@ -242,6 +256,9 @@ namespace racman
             return unlocks.ToArray();
         }
 
+        /// <summary>
+        /// Resets level flag of destination planet
+        /// </summary>
         public override void ResetLevelFlags()
         {
 
@@ -303,11 +320,19 @@ namespace racman
             }
         }
 
+        /// <summary>
+        /// Whether or not goodies menu is enabled
+        /// </summary>
+        /// <returns>true if enabled false if not</returns>
         public bool GoodiesMenuEnabled()
         {
-            return BitConverter.ToBoolean(api.ReadMemory(pid, rac1.goodies_menu, 1), 0);
+            return BitConverter.ToBoolean(api.ReadMemory(pid, rac1.addr.goodiesMenu, 1), 0);
         }
 
+        /// <summary>
+        /// Inifnite health is set by overwriting game code that deals health with nops.
+        /// </summary>
+        /// <param name="enabled">if true overwrites game code with nops, if false restores original game code</param>
         public void SetInfiniteHealth(bool enabled)
         {
             if (enabled)
@@ -320,6 +345,10 @@ namespace racman
             }
         }
 
+        /// <summary>
+        /// Ghost ratchet works by having a frame countdown, we hard enable ghost ratchet by freezing the frame countdown to 10.
+        /// </summary>
+        /// <param name="enabled">if true freezes frame countdown to 10, if false releases the freeze</param>
         public void SetGhostRatchet(bool enabled)
         {
             if (enabled) {
@@ -331,16 +360,28 @@ namespace racman
             }
         }
 
+        /// <summary>
+        /// Drek skip sets the destroyer to be up.
+        /// </summary>
+        /// <param name="enabled">Destroyer up or not</param>
         public void SetDrekSkip(bool enabled)
         {
             api.WriteMemory(pid, rac1.addr.drekSkip, 1, BitConverter.GetBytes(enabled));
         }
 
+        /// <summary>
+        /// Goodies menu is the NG+ goodies menu at the bottom of the main pause menu. This does not set challenge mode, it only enables the goodies menu as if you "timewarped to before you beat Drek" on Veldin 2.
+        /// </summary>
+        /// <param name="enabled">Sets or unsets goodies menu</param>
         public void SetGoodies(bool enabled)
         {
             api.WriteMemory(pid, rac1.addr.goodiesMenu, 1, BitConverter.GetBytes(enabled));
         }
 
+        /// <summary>
+        /// Overwrites game code that decreases ammo when you use a weapon
+        /// </summary>
+        /// <param name="toggle">Overwrites ammo decreasement code with nops on true, restores original game code on false</param>
         public override void ToggleInfiniteAmmo(bool toggle = false)
         {
             if (toggle)

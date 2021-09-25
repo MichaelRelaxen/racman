@@ -12,11 +12,11 @@ namespace racman
     {
         uint boltCount { get; }
         uint playerCoords { get; }
+        uint playerHealth { get; }
         uint inputOffset { get; }
         uint analogOffset { get; }
         uint loadPlanet { get; }
         uint currentPlanet { get; }
-
         uint levelFlags { get; }
         uint miscLevelFlags { get; }
         uint infobotFlags { get; }
