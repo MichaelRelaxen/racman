@@ -320,6 +320,17 @@ namespace racman
             }
         }
 
+
+        public override void ResetGoldBolts(uint planetIndex)
+        {
+            api.WriteMemory(pid, rac1.addr.goldBolts + (planetIndex * 4), 0);
+        }
+
+        public void ResetAllGoldBolts()
+        {
+            api.WriteMemory(pid, rac1.addr.goldBolts, new byte[80]);
+        }
+
         /// <summary>
         /// Whether or not goodies menu is enabled
         /// </summary>

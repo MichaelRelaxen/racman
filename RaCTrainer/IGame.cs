@@ -83,11 +83,11 @@ namespace racman
         {
             if (resetFlags) ResetLevelFlags();
 
-            if (resetGoldBolts) ResetGoldBolts();
+            if (resetGoldBolts) ResetGoldBolts(planetToLoad);
 
             api.WriteMemory(pid, Addr().loadPlanet, 8, $"00000001000000{planetToLoad.ToString("X2")}");
         }
-        public virtual void ResetGoldBolts()
+        public virtual void ResetGoldBolts(uint planetIndex)
         {
             // lol
         }

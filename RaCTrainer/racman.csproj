@@ -141,7 +141,6 @@
     <Compile Include="RAC4Form.Designer.cs">
       <DependentUpon>RAC4Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Updater.cs" />
     <EmbeddedResource Include="ACITForm.resx">
       <DependentUpon>ACITForm.cs</DependentUpon>
     </EmbeddedResource>

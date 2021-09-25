@@ -224,5 +224,10 @@ namespace racman
         {
 
         }
+
+        private void resetGBsButton_Click(object sender, EventArgs e)
+        {
+            game.ResetAllGoldBolts();
+        }
     }
 }
