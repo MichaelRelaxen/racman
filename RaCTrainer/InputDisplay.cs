@@ -110,14 +110,6 @@ namespace racman
             timer.Start();
         }
 
-        /*private List<(int drawX, int drawY, int spriteX, int spriteY, int spriteWidth, int spriteHeight)> GetTuple()
-        {
-            return new List<(int drawX, int drawY, int spriteX, int spriteY, int spriteWidth, int spriteHeight)>
-            {
-                (1, 1, 1, 1, 1, 1)
-            };
-        }*/
-
         public void timer_Tick(object sender, EventArgs e)
         {
             this.Refresh();

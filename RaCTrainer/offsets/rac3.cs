@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using Timer = System.Windows.Forms.Timer;
 
 namespace racman
 {
@@ -25,8 +27,9 @@ namespace racman
         public uint healthXP => 0xc1e510;
         public uint playerHealth => 0xda5040;
         public uint playerCoords => 0xDA2870;
-        public uint currentArmor => 0xc1e51c;
-        public uint challengeMode => 0xC1E50D;
+        public uint currentArmor => 0xc1e51e;
+        public uint challengeMode => 0xC1E50e;
+
 
         // Arrays
         public uint titaniumBoltsArray => 0xECE53D;
@@ -58,6 +61,8 @@ namespace racman
     }
     public class rac3 : IGame
     {
+        public Timer fastloadTimer = new Timer();
+
         public static RaC3Addresses addr = new RaC3Addresses();
 
         int ghostRatchetSubID = -1;
@@ -101,6 +106,10 @@ namespace racman
             "VidComic5",
             "VidComic1SpecialEdition"
             };
+
+            fastloadTimer.Interval = 200;
+            fastloadTimer.Tick += new EventHandler(FastLoadTimer);
+            fastloadTimer.Enabled = false;
         }
 
 
@@ -110,43 +119,24 @@ namespace racman
         }
 
         /// <summary>
-        /// Overwrites load segments with nops. Taken from username's UYA IL practice patch
+        /// Freezes variables used for loading screens.
         /// </summary>
         /// <param name="enabled"></param>
+
+
         public override void SetFastLoads(bool enabled = false)
         {
-            if (enabled)
-            {
-                // single seg loads pt. 1 [li r3, 4; blr]
-                api.WriteMemory(pid, 0x27C2E8, new byte[] { 0x38, 0x60, 0x00, 0x04 });
-                api.WriteMemory(pid, 0x27C2EC, new byte[] { 0x4e, 0x80, 0x00, 0x20 });
+            api.WriteMemory(pid, addr.fastLoad1, 0x00000003);
 
-                // single seg loads pt. 2 [nop]
-                api.WriteMemory(pid, 0x280E68, new byte[] { 0x60, 0x00, 0x00, 0x00 });
-
-                // single seg loads pt. 3 [nop]
-                api.WriteMemory(pid, 0xAB6688, new byte[] { 0x60, 0x00, 0x00, 0x00 });
-
-                // single seg loads pt. 4[nop]
-                api.WriteMemory(pid, 0x1D29FC, new byte[] { 0x60, 0x00, 0x00, 0x00 });
-            }
-            else // Restore original game code
-            {
-                // Part 1
-                api.WriteMemory(pid, 0x27C2E8, new byte[] { 0xf8, 0x21, 0xff, 0x81 });
-                api.WriteMemory(pid, 0x27C2EC, new byte[] { 0x7c, 0x08, 0x02, 0xa6 });
-
-                // Part 2
-                api.WriteMemory(pid, 0x280E68, new byte[] { 0x9b, 0xfe, 0x00, 0x71 });
-
-                // Part 3
-                api.WriteMemory(pid, 0xAB6688, new byte[] { 0x40, 0x9e, 0xff, 0xe8 });
-
-                // Part 4
-                api.WriteMemory(pid, 0x1D29FC, new byte[] { 0x40, 0x82, 0x00, 0xa4 });
-            }
+            if (planetIndex != 26 || planetIndex != 20 || planetIndex != 29)
+                fastloadTimer.Enabled = true;
         }
 
+        public void FastLoadTimer(object sender, EventArgs e)
+        {
+            api.WriteMemory(pid, addr.fastLoad2, new byte[] { 0x01, 0x01 } );
+            fastloadTimer.Enabled = false;
+        }
 
 
         public override void ToggleInfiniteAmmo(bool toggle = false)
@@ -167,6 +157,8 @@ namespace racman
             api.WriteMemory(pid, rac3.addr.klunkTuning2, 0x3);
             api.WriteMemory(pid, rac3.addr.vidComicMenu, new byte[] { 0x00, 0x00, 0x00, 0x02 });
             api.WriteMemory(pid, rac3.addr.ccHelpDesk, new byte[] { 0x00, 0x00, 0x00, 0x01 });
+
+            api.Notify("Klunk, Vid Comic Menu and CC Helpdesk is now setup for runs");
         }
 
         /// <summary>
@@ -207,10 +199,10 @@ namespace racman
 
         public int GetChallengeMode()
         {
-            return BitConverter.ToInt32(api.ReadMemory(pid, rac3.addr.challengeMode, 4), 0);
+            return api.ReadMemory(pid, rac3.addr.challengeMode, 1)[0];
         }
 
-        public void SetChallengeMode(int mode)
+        public void SetChallengeMode(byte mode)
         {
             api.WriteMemory(pid, rac3.addr.challengeMode, BitConverter.GetBytes(mode));
         }
@@ -228,6 +220,46 @@ namespace racman
         public void SetArmor(int number)
         {
             api.WriteMemory(pid, rac3.addr.currentArmor, BitConverter.GetBytes((ushort)number).Reverse().ToArray());
+        }
+
+        /// <summary>
+        /// Inifnite health is set by overwriting game code that deals health with nops.
+        /// </summary>
+        /// <param name="enabled">if true overwrites game code with nops, if false restores original game code</param>
+        public void SetInfiniteHealth(bool enabled)
+        {
+            if (enabled)
+                api.WriteMemory(pid, 0x1536D8, 4, new byte[] { 0x60, 0x00, 0x00, 0x00 });
+            else
+                api.WriteMemory(pid, 0x1536D8, 4, new byte[] { 0x38, 0x60, 0x00, 0x00 });
+        }
+        public override void CheckInputs(object sender, EventArgs e)
+        {
+            if (Inputs.RawInputs == 0xB && inputCheck)
+            {
+                SavePosition();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x7 && inputCheck)
+            {
+                LoadPosition();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x5 && inputCheck)
+            {
+                KillYourself();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x600 & inputCheck)
+            {
+                LoadPlanet();
+                SetFastLoads();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x00 & !inputCheck)
+            {
+                inputCheck = true;
+            }
         }
     }
 }

@@ -86,8 +86,7 @@ namespace racman
         private void loadPlanetButton_Click(object sender, EventArgs e)
         {
             game.LoadPlanet();
-
-            // Add check for force load
+            game.SetFastLoads(true);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -181,11 +180,6 @@ namespace racman
                 game.InputsTimer.Enabled = false;
         }
 
-        private void fastLoadsEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            game.SetFastLoads(fastLoadsEnabledCheckBox.Checked);
-        }
-
         private void freezeAmmoCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             game.ToggleInfiniteAmmo(freezeAmmoCheckBox.Checked);
@@ -213,7 +207,7 @@ namespace racman
 
         private void challengeModeInput_ValueChanged(object sender, EventArgs e)
         {
-            game.SetChallengeMode((int)challengeModeInput.Value);
+            game.SetChallengeMode((byte)challengeModeInput.Value);
         }
 
         private void vidComicCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -230,6 +224,11 @@ namespace racman
         private void armorComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             game.SetArmor(armorComboBox.SelectedIndex);
+        }
+
+        private void freezeHealthCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            game.SetInfiniteHealth(freezeAmmoCheckBox.Checked);
         }
     }
 }

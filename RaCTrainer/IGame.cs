@@ -29,7 +29,7 @@ namespace racman
         public Ratchetron api { get; }
 
         public uint planetIndex;
-        bool inputCheck = true;
+        public bool inputCheck = true;
 
         public string[] planetsList;
 
@@ -81,11 +81,11 @@ namespace racman
 
         public virtual void LoadPlanet(bool resetFlags = false, bool resetGoldBolts = false)
         {
+            api.WriteMemory(pid, Addr().loadPlanet, 8, $"00000001000000{planetToLoad.ToString("X2")}");
+
             if (resetFlags) ResetLevelFlags();
 
             if (resetGoldBolts) ResetGoldBolts(planetToLoad);
-
-            api.WriteMemory(pid, Addr().loadPlanet, 8, $"00000001000000{planetToLoad.ToString("X2")}");
         }
         public virtual void ResetGoldBolts(uint planetIndex)
         {
@@ -130,32 +130,7 @@ namespace racman
             });
         }
 
-        public virtual void CheckInputs(object sender, EventArgs e)
-        {
-            if (Inputs.RawInputs == 0xB && inputCheck)
-            {
-                SavePosition();
-                inputCheck = false;
-            }
-            if (Inputs.RawInputs == 0x7 && inputCheck)
-            {
-                LoadPosition();
-                inputCheck = false;
-            }
-            if (Inputs.RawInputs == 0x5 && inputCheck)
-            {
-                KillYourself();
-                inputCheck = false;
-            }
-            if (Inputs.RawInputs == 0x600 & inputCheck)
-            {
-                LoadPlanet();
-                inputCheck = false;
-            }
-            if (Inputs.RawInputs == 0x00 & !inputCheck)
-            {
-                inputCheck = true;
-            }
-        }
+        public abstract void CheckInputs(object sender, EventArgs e);
+
     }
 }

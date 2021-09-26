@@ -409,5 +409,33 @@ namespace racman
         {
             throw new NotImplementedException();
         }
+
+        public override void CheckInputs(object sender, EventArgs e)
+        {
+            if (Inputs.RawInputs == 0xB && inputCheck)
+            {
+                SavePosition();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x7 && inputCheck)
+            {
+                LoadPosition();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x5 && inputCheck)
+            {
+                KillYourself();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x600 & inputCheck)
+            {
+                LoadPlanet();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x00 & !inputCheck)
+            {
+                inputCheck = true;
+            }
+        }
     }
 }
