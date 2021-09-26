@@ -158,9 +158,23 @@ namespace racman
 
         private void OpenAutosplitter(acit game)
         {
-            int planetFrameCountSubID = game.api.SubMemory(game.pid, acit.addr.planetFrameCount, 4, (value) =>
+            int planetFrameCountSubID = game.api.SubMemory(game.pid, acit.addr.weirdTimerThingy, 4, (value) =>
             {
                 WriteToMemory(0, value);
+            });
+            int isPausedSubID = game.api.SubMemory(game.pid, acit.addr.isPaused2, 1, (value) =>
+            {
+                WriteToMemory(4, value);
+            });
+            int gameStateSubID = game.api.SubMemory(game.pid, acit.addr.gameState + 3, 1, (value) =>
+            {
+                WriteToMemory(5, value);
+            });
+
+            subscriptionIDs.AddRange(new int[] {
+                planetFrameCountSubID,
+                isPausedSubID,
+                gameStateSubID
             });
         }
 

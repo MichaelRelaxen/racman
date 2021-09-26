@@ -175,12 +175,16 @@
     <None Include="autosplitters\acit-autosplitter.asl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="autosplitters\rac3-autosplitter.asl" />
+    <None Include="autosplitters\rac3-autosplitter.asl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="autosplitters\rac1-autosplitter.asl" />
+    <None Include="autosplitters\rac1-autosplitter.asl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

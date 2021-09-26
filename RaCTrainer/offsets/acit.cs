@@ -7,6 +7,10 @@ namespace racman
     public class ACITAddresses : IAddresses
     {
         public uint planetFrameCount => 0xD3F214;
+        public uint weirdTimerThingy => 0xEB3C04;
+        public uint gameState => 0xF70DEC;
+        public uint isPaused => 0xEE7635;
+        public uint isPaused2 => 0xF5B4AD;
         public uint boltCount => throw new NotImplementedException();
 
         public uint playerCoords => throw new NotImplementedException();
