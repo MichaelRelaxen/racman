@@ -209,6 +209,7 @@
   <PropertyGroup>
     <PostBuildEvent>XCOPY "$(SolutionDir)SPRX\" "$(TargetDir)\" /S /Y
 XCOPY "$(SolutionDir)controllerskins\" "$(TargetDir)\controllerskins\" /S /Y
+XCOPY "$(SolutionDir)\RaCTrainer\autosplitters\" "$(TargetDir)\autosplitters\" /S /Y
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
