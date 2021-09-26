@@ -202,7 +202,7 @@ namespace racman
 
         private void FastLoadToggle_CheckedChanged(object sender, EventArgs e)
         {
-            game.ToggleFastLoad(FastLoadToggle.Checked);
+            game.SetFastLoads(FastLoadToggle.Checked);
         }
 
         private void FreezeAmmoCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -223,6 +223,11 @@ namespace racman
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
+        }
+
+        private void resetGBsButton_Click(object sender, EventArgs e)
+        {
+            game.ResetAllGoldBolts();
         }
     }
 }
