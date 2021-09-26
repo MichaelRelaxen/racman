@@ -77,9 +77,9 @@ namespace racman
                 WriteToMemory(9, value);
             });
 
-            int playerStateSubID = game.api.SubMemory(game.pid, rac1.addr.playerState + 1, 2, (value) =>
+            int playerStateSubID = game.api.SubMemory(game.pid, rac1.addr.playerState, 4, (value) =>
             {
-                WriteToMemory(10, value);
+                WriteToMemory(10, new byte[] { value[0], value[1] });
             });
 
             int planetFrameCountSubID = game.api.SubMemory(game.pid, rac1.addr.planetFrameCount, 4, (value) =>

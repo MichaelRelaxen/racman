@@ -31,6 +31,14 @@ init {
     vars.ShouldStopTimer = true;
     vars.timer.Enabled = false;
     });
+	
+	Tuple<float, float>[] buttons = {
+		Tuple.Create(477.9081f, 601.4653f),
+		Tuple.Create(453.7222f, 643.2076f),
+		Tuple.Create(436.0573f, 577.0817f),
+		Tuple.Create(411.8376f, 619.1204f)
+    };
+    vars.buttons = buttons;
 }
 
 update {
@@ -64,15 +72,6 @@ update {
     if (current.loadingScreen != old.loadingScreen) {
         print("wtf load screen is " + current.loadingScreen);
     }
-    if (current.loadingScreen != 4)
-    {
-        print("started load");
-    }
-    else if (current.loadingScreen == 4)
-    {
-        print("it should print the loading time");
-    }
-
 
     if (current.loadingScreen != 4 && !vars.ShouldStopTimer) {
     vars.timer.Enabled = true;
@@ -108,13 +107,15 @@ split {
         return true;
     }
 
-    if(current.gameState == 0 && current.planet == 18 && current.playerState == 34 && old.playerState != 34) {
-    foreach(var button in vars.buttons) {
-        var x = current.x - button.Item1;
-        var y = current.y - button.Item2;
+    print("Current X: " + current.x + ". Current Y: " + current.y);
+
+    if (current.planet == 18 && current.playerState == 34 && old.playerState != 34) {
+        foreach(var button in vars.buttons) {
+            var x = current.x - button.Item1;
+            var y = current.y - button.Item2;
     
-        if(x * x + y * y < 1.7f) {
-            return true;
+            if(x * x + y * y < 1.7f) {
+                return true;
             }
         }
     }
