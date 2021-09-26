@@ -19,6 +19,7 @@ namespace racman
         {
 #if !DEBUG
             AutoUpdater.Start("https://MichaelRelaxen.github.io/racman/update.xml");
+            AutoUpdater.RunUpdateAsAdmin = false;
 #endif
 
             Application.EnableVisualStyles();
