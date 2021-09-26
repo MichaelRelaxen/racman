@@ -208,6 +208,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>XCOPY "$(SolutionDir)SPRX\" "$(TargetDir)\" /S /Y
+XCOPY "$(SolutionDir)controllerskins\" "$(TargetDir)\controllerskins\" /S /Y
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

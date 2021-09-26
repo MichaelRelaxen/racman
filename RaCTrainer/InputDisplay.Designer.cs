@@ -38,12 +38,10 @@ namespace racman
             // 
             this.skinComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.skinComboBox.FormattingEnabled = true;
-            this.skinComboBox.Items.AddRange(new object[] {
-            "Black",
-            "White"});
-            this.skinComboBox.Location = new System.Drawing.Point(15, 585);
+            this.skinComboBox.Location = new System.Drawing.Point(30, 1125);
+            this.skinComboBox.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.skinComboBox.Name = "skinComboBox";
-            this.skinComboBox.Size = new System.Drawing.Size(121, 21);
+            this.skinComboBox.Size = new System.Drawing.Size(238, 33);
             this.skinComboBox.TabIndex = 0;
             this.skinComboBox.SelectedIndexChanged += new System.EventHandler(this.skinComboBox_SelectedIndexChanged);
             // 
@@ -52,7 +50,8 @@ namespace racman
             this.skinLabel.AutoSize = true;
             this.skinLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.skinLabel.ForeColor = System.Drawing.SystemColors.Control;
-            this.skinLabel.Location = new System.Drawing.Point(12, 569);
+            this.skinLabel.Location = new System.Drawing.Point(24, 1094);
+            this.skinLabel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.skinLabel.Name = "skinLabel";
             this.skinLabel.Size = new System.Drawing.Size(36, 13);
             this.skinLabel.TabIndex = 1;
@@ -60,14 +59,15 @@ namespace racman
             // 
             // InputDisplay
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.ClientSize = new System.Drawing.Size(787, 622);
+            this.ClientSize = new System.Drawing.Size(1574, 1196);
             this.Controls.Add(this.skinLabel);
             this.Controls.Add(this.skinComboBox);
             this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.Name = "InputDisplay";
             this.Text = "Input Display";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.InputDisplay_FormClosing);

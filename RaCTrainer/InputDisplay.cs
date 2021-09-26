@@ -2,28 +2,107 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace racman
 {
     public partial class InputDisplay : Form
     {
+        public struct InputPlot
+        {
+            public int drawX { get; set; }
+            public int drawY { get; set; }
+            public int spriteX { get; set; }
+            public int spriteY { get; set; }
+            public int spriteWidth { get; set; }
+            public int spriteHeight { get; set; }
+        }
+
+        class ControllerSkin
+        {
+
+            public Image image;
+            public Dictionary<string, InputPlot> buttons;
+            public int analogPitch = 32;
+
+
+            public static ControllerSkin Load(string skinPath)
+            {
+                var skin = new ControllerSkin();
+                skin.buttons = new Dictionary<string, InputPlot>();
+
+                var config = File.ReadAllText(skinPath + "\\skin.txt");
+
+                foreach (var line in config.Split('\n'))
+                {
+                    if (line.Length < 2 || line[0] == '#')
+                    {
+                        continue;
+                    }
+
+                    var components = line.Split(':');
+                    if (components.Length < 2) 
+                    {
+                        continue;
+                    }
+
+                    string buttonName = components[0];
+
+                    if (buttonName == "imageName")
+                    {
+                        skin.image = Image.FromFile(skinPath + "\\" + components[1].Trim());
+                        continue;
+                    }
+
+                    if (buttonName == "analogPitch")
+                    {
+                        skin.analogPitch = int.Parse(components[1].Trim());
+                        continue;
+                    }
+
+                    var plot = components[1].Split(',').Select(thing => int.Parse(thing.Trim())).ToArray();
+                    
+                    if (plot.Length < 6)
+                    {
+                        continue;
+                    }
+
+
+                    var inputPlot = new InputPlot();
+                    inputPlot.drawX         = plot[0];
+                    inputPlot.drawY         = plot[1];
+                    inputPlot.spriteX       = plot[2];
+                    inputPlot.spriteY       = plot[3];
+                    inputPlot.spriteWidth   = plot[4];
+                    inputPlot.spriteHeight  = plot[5];
+
+                    skin.buttons[buttonName] = inputPlot;
+                }
+
+                return skin;
+            }
+        }
+
         public System.Windows.Forms.Timer timer;
+        ControllerSkin controllerSkin;
+
         public InputDisplay()
         {
             InitializeComponent();
         }
         private void InputDisplay_Load(object sender, EventArgs e)
         {
-            skinComboBox.SelectedIndex = 0;
-
-            if (Directory.Exists("skins"))
+            if (Directory.Exists("controllerskins"))
             {
-                foreach(var file in Directory.EnumerateFiles("skins"))
+                foreach(var skinName in Directory.EnumerateDirectories("controllerskins"))
                 {
-                    skinComboBox.Items.Add(file.Replace("skins\\", ""));
+                    skinComboBox.Items.Add(skinName.Replace("controllerskins\\", ""));
                 }
             }
+
+            skinComboBox.SelectedIndex = 0;
+            controllerSkin = ControllerSkin.Load(Directory.EnumerateDirectories("controllerskins").First());
 
             timer = new System.Windows.Forms.Timer();
             timer.Interval = (int)16.66667;
@@ -44,46 +123,66 @@ namespace racman
             this.Refresh();
         }
 
-        private Image sprite = Properties.Resources.ds3b;
         private GraphicsUnit units = GraphicsUnit.Pixel;
         private void InputDisplay_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.DrawImage(sprite, 0, 0, new Rectangle(0, 0, 800, 558), units);
+            Image sprite = controllerSkin.image;
 
-            if (Inputs.Mask.Contains(Inputs.Buttons.r3)) e.Graphics.DrawImage(sprite, 469 + (Inputs.rx * 32), 328 + (Inputs.ry * 32), new Rectangle(106, 627, 105, 105), units); 
-            else e.Graphics.DrawImage(sprite, 469 + (Inputs.rx * 32), 328 + (Inputs.ry * 32), new Rectangle(0, 627, 105, 105), units); 
-            if (Inputs.Mask.Contains(Inputs.Buttons.l3)) e.Graphics.DrawImage(sprite, 210 + (Inputs.lx * 32), 328 + (Inputs.ly * 32), new Rectangle(106, 627, 105, 105), units); 
-            else e.Graphics.DrawImage(sprite, 210 + (Inputs.lx * 32), 328 + (Inputs.ly * 32), new Rectangle(0, 627, 105, 105), units); 
+            InputPlot basePlot = controllerSkin.buttons["base"];
+            InputPlot r3 = controllerSkin.buttons["r3"];
+            InputPlot r3Press = controllerSkin.buttons["r3Press"];
+            InputPlot l3 = controllerSkin.buttons["l3"];
+            InputPlot l3Press = controllerSkin.buttons["l3Press"];
 
-            if (Inputs.Mask.Contains(Inputs.Buttons.left)) e.Graphics.DrawImage(sprite, 74, 244, new Rectangle(0, 560, 52, 38), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.right)) e.Graphics.DrawImage(sprite, 162, 244, new Rectangle(130, 560, 52, 38), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.down)) e.Graphics.DrawImage(sprite, 124, 276, new Rectangle(53, 560, 38, 52), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.up)) e.Graphics.DrawImage(sprite, 124, 198, new Rectangle(92, 560, 38, 52), units);
+            InputPlot dpadLeft = controllerSkin.buttons["dpadLeft"];
+            InputPlot dpadRight = controllerSkin.buttons["dpadRight"];
+            InputPlot dpadDown = controllerSkin.buttons["dpadDown"];
+            InputPlot dpadUp = controllerSkin.buttons["dpadUp"];
 
-            if (Inputs.Mask.Contains(Inputs.Buttons.cross)) e.Graphics.DrawImage(sprite, 609, 303, new Rectangle(389, 560, 62, 62), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.circle)) e.Graphics.DrawImage(sprite, 680, 232, new Rectangle(326, 560, 62, 62), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.triangle)) e.Graphics.DrawImage(sprite, 609, 161, new Rectangle(263, 560, 62, 62), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.square)) e.Graphics.DrawImage(sprite, 538, 232, new Rectangle(200, 560, 62, 62), units);
+            InputPlot cross = controllerSkin.buttons["cross"];
+            InputPlot circle = controllerSkin.buttons["circle"];
+            InputPlot triangle = controllerSkin.buttons["triangle"];
+            InputPlot square = controllerSkin.buttons["square"];
 
-            if (Inputs.Mask.Contains(Inputs.Buttons.select)) e.Graphics.DrawImage(sprite, 291, 252, new Rectangle(460, 561, 38, 20), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.start)) e.Graphics.DrawImage(sprite, 459, 252, new Rectangle(499, 561, 37, 20), units);
+            InputPlot select = controllerSkin.buttons["select"];
+            InputPlot start = controllerSkin.buttons["start"];
 
-            if (Inputs.Mask.Contains(Inputs.Buttons.r1)) e.Graphics.DrawImage(sprite, 596, 73, new Rectangle(458, 654, 89, 27), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.l1)) e.Graphics.DrawImage(sprite, 99, 73, new Rectangle(458, 654, 89, 27), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.l2)) e.Graphics.DrawImage(sprite, 99, 0, new Rectangle(460, 586, 86, 65), units);
-            if (Inputs.Mask.Contains(Inputs.Buttons.r2)) e.Graphics.DrawImage(sprite, 599, 0, new Rectangle(460, 586, 86, 65), units);
+            InputPlot r1 = controllerSkin.buttons["r1"];
+            InputPlot l1 = controllerSkin.buttons["l1"];
+            InputPlot l2 = controllerSkin.buttons["l2"];
+            InputPlot r2 = controllerSkin.buttons["r2"];
+
+            e.Graphics.DrawImage(sprite, basePlot.drawX, basePlot.drawY, new Rectangle(basePlot.spriteX, basePlot.spriteY, basePlot.spriteWidth, basePlot.spriteHeight), units);
+
+            if (Inputs.Mask.Contains(Inputs.Buttons.r3)) e.Graphics.DrawImage(sprite, r3.drawX + (Inputs.rx * controllerSkin.analogPitch), r3.drawY + (Inputs.ry * controllerSkin.analogPitch), new Rectangle(r3.spriteX, r3.spriteY, r3.spriteWidth, r3.spriteHeight), units); 
+            else e.Graphics.DrawImage(sprite, r3Press.drawX + (Inputs.rx * controllerSkin.analogPitch), r3Press.drawY + (Inputs.ry * controllerSkin.analogPitch), new Rectangle(r3Press.spriteX, r3Press.spriteY, r3Press.spriteWidth, r3Press.spriteHeight), units); 
+            if (Inputs.Mask.Contains(Inputs.Buttons.l3)) e.Graphics.DrawImage(sprite, l3.drawX + (Inputs.lx * controllerSkin.analogPitch), l3.drawY + (Inputs.ly * controllerSkin.analogPitch), new Rectangle(l3.spriteX, l3.spriteY, l3.spriteWidth, l3.spriteHeight), units); 
+            else e.Graphics.DrawImage(sprite, l3Press.drawX + (Inputs.lx * controllerSkin.analogPitch), l3Press.drawY + (Inputs.ly * controllerSkin.analogPitch), new Rectangle(l3Press.spriteX, l3Press.spriteY, l3Press.spriteWidth, l3Press.spriteHeight), units); 
+
+            if (Inputs.Mask.Contains(Inputs.Buttons.left)) e.Graphics.DrawImage(sprite, dpadLeft.drawX, dpadLeft.drawY, new Rectangle(dpadLeft.spriteX, dpadLeft.spriteY, dpadLeft.spriteWidth, dpadLeft.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.right)) e.Graphics.DrawImage(sprite, dpadRight.drawX, dpadRight.drawY, new Rectangle(dpadRight.spriteX, dpadRight.spriteY, dpadRight.spriteWidth, dpadRight.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.down)) e.Graphics.DrawImage(sprite, dpadDown.drawX, dpadDown.drawY, new Rectangle(dpadDown.spriteX, dpadDown.spriteY, dpadDown.spriteWidth, dpadDown.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.up)) e.Graphics.DrawImage(sprite, dpadUp.drawX, dpadUp.drawY, new Rectangle(dpadUp.spriteX, dpadUp.spriteY, dpadUp.spriteWidth, dpadUp.spriteHeight), units);
+
+            if (Inputs.Mask.Contains(Inputs.Buttons.cross)) e.Graphics.DrawImage(sprite, cross.drawX, cross.drawY, new Rectangle(cross.spriteX, cross.spriteY, cross.spriteWidth, cross.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.circle)) e.Graphics.DrawImage(sprite, circle.drawX, circle.drawY, new Rectangle(circle.spriteX, circle.spriteY, circle.spriteWidth, circle.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.triangle)) e.Graphics.DrawImage(sprite, triangle.drawX, triangle.drawY, new Rectangle(triangle.spriteX, triangle.spriteY, triangle.spriteWidth, triangle.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.square)) e.Graphics.DrawImage(sprite, square.drawX, square.drawY, new Rectangle(square.spriteX, square.spriteY, triangle.spriteWidth, triangle.spriteHeight), units);
+
+            if (Inputs.Mask.Contains(Inputs.Buttons.select)) e.Graphics.DrawImage(sprite, select.drawX, select.drawY, new Rectangle(select.spriteX, select.spriteY, select.spriteWidth, select.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.start)) e.Graphics.DrawImage(sprite, start.drawX, start.drawY, new Rectangle(start.spriteX, start.spriteY, start.spriteWidth, start.spriteHeight), units);
+
+            if (Inputs.Mask.Contains(Inputs.Buttons.r1)) e.Graphics.DrawImage(sprite, r1.drawX, r1.drawY, new Rectangle(r1.spriteX, r1.spriteY, r1.spriteWidth, r1.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.l1)) e.Graphics.DrawImage(sprite, l1.drawX, l1.drawY, new Rectangle(l1.spriteX, l1.spriteY, l1.spriteWidth, l1.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.l2)) e.Graphics.DrawImage(sprite, l2.drawX, l2.drawY, new Rectangle(l2.spriteX, l2.spriteY, l2.spriteWidth, l2.spriteHeight), units);
+            if (Inputs.Mask.Contains(Inputs.Buttons.r2)) e.Graphics.DrawImage(sprite, r2.drawX, r2.drawY, new Rectangle(r2.spriteX, r2.spriteY, r2.spriteWidth, r2.spriteHeight), units);
         }
 
         private void skinComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(skinComboBox.SelectedIndex == 0) sprite = Properties.Resources.ds3b;
-            if(skinComboBox.SelectedIndex == 1) sprite = Properties.Resources.ds3w;
-            
-            if (skinComboBox.SelectedIndex > 1)
-            {
-                var skinName = skinComboBox.Items[skinComboBox.SelectedIndex].ToString();
-                sprite = Image.FromFile($"skins\\{skinName}");
-            }
+            var skinName = skinComboBox.Items[skinComboBox.SelectedIndex].ToString();
+
+            controllerSkin = ControllerSkin.Load($"controllerskins\\{skinName}");
         }
 
         private void InputDisplay_FormClosing(object sender, FormClosingEventArgs e)
