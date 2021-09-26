@@ -31,8 +31,6 @@ init {
     vars.ShouldStopTimer = true;
     vars.timer.Enabled = false;
     });
-
-    vars.watch = new System.Diagnostics.Stopwatch();
 }
 
 update {
@@ -68,14 +66,11 @@ update {
     }
     if (current.loadingScreen != 4)
     {
-        vars.watch.Start();
         print("started load");
     }
     else if (current.loadingScreen == 4)
     {
         print("it should print the loading time");
-        vars.watch.Stop();
-        print("loading took" + watch.ElapsedMilliseconds)
     }
 
 
