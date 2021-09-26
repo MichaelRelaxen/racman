@@ -202,7 +202,7 @@ namespace racman
 
         private void FastLoadToggle_CheckedChanged(object sender, EventArgs e)
         {
-            game.ToggleFastLoad(FastLoadToggle.Checked);
+            game.SetFastLoads(FastLoadToggle.Checked);
         }
 
         private void FreezeAmmoCheckbox_CheckedChanged(object sender, EventArgs e)

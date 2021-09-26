@@ -93,7 +93,7 @@ namespace racman
         }
 
         public abstract void ResetLevelFlags();
-        public abstract void ToggleFastLoad(bool toggle = false);
+        public abstract void SetFastLoads(bool enabled = false);
 
         public abstract void ToggleInfiniteAmmo(bool toggle = false);
 

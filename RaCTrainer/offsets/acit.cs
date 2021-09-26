@@ -52,7 +52,7 @@ namespace racman
             throw new NotImplementedException();
         }
 
-        public override void ToggleFastLoad(bool toggle = false)
+        public override void SetFastLoads(bool toggle = false)
         {
             throw new NotImplementedException();
         }

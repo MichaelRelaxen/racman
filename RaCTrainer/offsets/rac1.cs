@@ -150,7 +150,7 @@ namespace racman
         /// Enables instant loads by overwriting code that starts loads somehow.
         /// </summary>
         /// <param name="toggle">if true, writes instant load code to the game, if false restores the original code</param>
-        public override void ToggleFastLoad(bool toggle)
+        public override void SetFastLoads(bool toggle)
         {
             if (toggle)
             {

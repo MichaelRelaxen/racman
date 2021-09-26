@@ -92,7 +92,14 @@ namespace racman
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Set current challenge mode
+            challengeModeInput.Value = game.GetChallengeMode();
 
+            // Tick currently enabled vic comics
+            for (var i = 0; i < vidComicCheckedListBox.Items.Count; i++)
+            {
+                vidComicCheckedListBox.SetItemChecked(i, game.GetVidComic(i));
+            }
         }
 
         private void button6_MouseHover(object sender, EventArgs e)
@@ -172,6 +179,57 @@ namespace racman
                 game.InputsTimer.Enabled = true;
             else
                 game.InputsTimer.Enabled = false;
+        }
+
+        private void fastLoadsEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            game.SetFastLoads(fastLoadsEnabledCheckBox.Checked);
+        }
+
+        private void freezeAmmoCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            game.ToggleInfiniteAmmo(freezeAmmoCheckBox.Checked);
+        }
+
+        private void unlockTitaniumBoltsButton_Click(object sender, EventArgs e)
+        {
+            game.GiveAllTitaniumBolts();
+        }
+
+        private void resetTitaniumBoltsButton_Click(object sender, EventArgs e)
+        {
+            game.ResetAllTitaniumBolts();
+        }
+
+        private void unlockSkillPointsButton_Click(object sender, EventArgs e)
+        {
+            game.GiveAllSkillpoints();
+        }
+
+        private void resetSkillPointsButton_Click(object sender, EventArgs e)
+        {
+            game.ResetAllSkillpoints();
+        }
+
+        private void challengeModeInput_ValueChanged(object sender, EventArgs e)
+        {
+            game.SetChallengeMode((int)challengeModeInput.Value);
+        }
+
+        private void vidComicCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // This stops the vid comic item from staying selected
+            vidComicCheckedListBox.ClearSelected();
+        }
+
+        private void vidComicCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            game.SetVidComic(e.Index, e.NewValue == CheckState.Checked);
+        }
+
+        private void armorComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            game.SetArmor(armorComboBox.SelectedIndex);
         }
     }
 }
