@@ -1,4 +1,5 @@
 #- name: UYA IL practice patches by doesthisusername
+#- author: doesthisusername
 
 # Link beneath to source code and how to compile
 #- href: https://github.com/doesthisusername/rc3-il
