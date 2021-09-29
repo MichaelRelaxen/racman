@@ -50,11 +50,9 @@ r2: 599, 0, 460, 586, 86, 65
 # Add in name of the image you used. Needs to be in the same folder as the .txt
 imageName: skin.png
 ```
-`drawX` and `drawY`: X and Y positions to draw the sprite on screen
-
-`spriteX` and `spriteY`: X and Y positions for the top left corner where the sprite starts in the png image. 
-
-`spriteWidth` and `spriteHeight`: Width and height in pixels of the sprite in your png image.
+`drawX` and `drawY`: X and Y positions to draw the sprite on screen  
+`spriteX` and `spriteY`: X and Y positions for the top left corner where the sprite starts in the png image.  
+`spriteWidth` and `spriteHeight`: Width and height in pixels of the sprite in your png image.  
 
 
 ## Game patches
@@ -74,13 +72,10 @@ Metadata tags start with `#-` and are key value seratated by `:` and may look li
 
 #### Metadata tags
 
-`name`: Name of the patch, which shows up as the patch name in the GUI.
-
-`author`: Name of the person who made it. Not currently shown in the UI.
-
-`href`: Link to project page or author page.
-
-`unloadable`: Set to `false` if you don't want the user to be able to unload the patch without restarting the game. On by default.
+`name`: Name of the patch, which shows up as the patch name in the GUI.  
+`author`: Name of the person who made it. Not currently shown in the UI.  
+`href`: Link to project page or author page.  
+`unloadable`: Set to `false` if you don't want the user to be able to unload the patch without restarting the game. On by default.  
 
 ### Patches
 Patches are hex addresses and either references to blobs or patch values. Example under: 
