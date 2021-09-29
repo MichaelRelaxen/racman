@@ -11,29 +11,37 @@ init {
     
     vars.reader.BaseStream.Position = 0;
 
-    current.planetFramesCount = vars.reader.ReadUInt32();
+    current.mapTimer = vars.reader.ReadSingle();
     current.isPaused = vars.reader.ReadByte();
     current.gameState = vars.reader.ReadByte();
+    current.planetString = vars.reader.ReadString();
 
-    vars.shouldPauseTimer = false;
+    vars.gameTimer = 0.0f;
 }
 
 update {
     vars.reader.BaseStream.Position = 0;
 
-    current.planetFramesCount = vars.reader.ReadUInt32();
+    current.mapTimer = vars.reader.ReadSingle();
     current.isPaused = vars.reader.ReadByte();
     current.gameState = vars.reader.ReadByte();
+    current.planetString = vars.reader.ReadString();
 
-    if(current.gameState != 7 || current.isPaused == 1)
+    if(current.gameState != old.gameState)
     {
-        vars.shouldPauseTimer = true;
+        print("fucking shit gamestate is " + current.gameState);
     }
-    else
+    if(current.planetString != old.planetString)
     {
-        vars.shouldPauseTimer = false;
+        print("shit planet is " + current.planetString);
     }
 
+    float delta = current.mapTimer - old.mapTimer;
+
+    if (delta > 0.0f)
+    {
+        vars.gameTimer += delta;
+    }
 }
 
 
@@ -43,13 +51,22 @@ reset {
 }
 
 start {
-
+    vars.gameTimer = 0.0f;
+    if (current.planetString.Contains("great_clock_a") && old.gameState == 6 && current.gameState == 7)
+    {
+        return true;
+    }
 }
 
 split {
 
 }
 
-isLoading {
-	return vars.shouldPauseTimer;	
+gameTime {
+    return TimeSpan.FromSeconds(vars.gameTimer);
 }
+
+isLoading
+{
+    return true;
+} 

@@ -170,11 +170,22 @@ namespace racman
             {
                 WriteToMemory(5, value);
             });
+            int planetStringSubID1 = game.api.SubMemory(game.pid, 0xE20583, 8, (value) => 
+            {
+                WriteToMemory(6, new byte[] { 0x41 }); // Fuck livesplit
+                WriteToMemory(7, value.Reverse().ToArray());
+            });
+            int planetStringSubID2 = game.api.SubMemory(game.pid, 0xE20583 + 8, 8, (value) => 
+            {
+                WriteToMemory(15, value.Reverse().ToArray());
+            });
 
             subscriptionIDs.AddRange(new int[] {
                 planetFrameCountSubID,
                 isPausedSubID,
-                gameStateSubID
+                gameStateSubID,
+                planetStringSubID1,
+                planetStringSubID2
             });
         }
 
