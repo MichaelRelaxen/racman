@@ -70,6 +70,7 @@ namespace racman
             this.label4 = new System.Windows.Forms.Label();
             this.vidComicCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.freezeHealthCheck = new System.Windows.Forms.CheckBox();
+            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -297,7 +298,8 @@ namespace racman
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.switchGameToolStripMenuItem});
+            this.switchGameToolStripMenuItem,
+            this.patchLoaderToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -305,7 +307,7 @@ namespace racman
             // switchGameToolStripMenuItem
             // 
             this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
-            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
@@ -357,7 +359,7 @@ namespace racman
             // 
             this.freezeAmmoCheckBox.AutoSize = true;
             this.freezeAmmoCheckBox.Location = new System.Drawing.Point(15, 251);
-            this.freezeAmmoCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.freezeAmmoCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.freezeAmmoCheckBox.Name = "freezeAmmoCheckBox";
             this.freezeAmmoCheckBox.Size = new System.Drawing.Size(89, 17);
             this.freezeAmmoCheckBox.TabIndex = 81;
@@ -369,7 +371,7 @@ namespace racman
             // 
             this.unlockTitaniumBoltsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.unlockTitaniumBoltsButton.Location = new System.Drawing.Point(360, 41);
-            this.unlockTitaniumBoltsButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.unlockTitaniumBoltsButton.Margin = new System.Windows.Forms.Padding(2);
             this.unlockTitaniumBoltsButton.Name = "unlockTitaniumBoltsButton";
             this.unlockTitaniumBoltsButton.Size = new System.Drawing.Size(124, 23);
             this.unlockTitaniumBoltsButton.TabIndex = 82;
@@ -381,7 +383,7 @@ namespace racman
             // 
             this.resetTitaniumBoltsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.resetTitaniumBoltsButton.Location = new System.Drawing.Point(360, 68);
-            this.resetTitaniumBoltsButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.resetTitaniumBoltsButton.Margin = new System.Windows.Forms.Padding(2);
             this.resetTitaniumBoltsButton.Name = "resetTitaniumBoltsButton";
             this.resetTitaniumBoltsButton.Size = new System.Drawing.Size(124, 23);
             this.resetTitaniumBoltsButton.TabIndex = 83;
@@ -393,7 +395,7 @@ namespace racman
             // 
             this.unlockSkillPointsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.unlockSkillPointsButton.Location = new System.Drawing.Point(360, 102);
-            this.unlockSkillPointsButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.unlockSkillPointsButton.Margin = new System.Windows.Forms.Padding(2);
             this.unlockSkillPointsButton.Name = "unlockSkillPointsButton";
             this.unlockSkillPointsButton.Size = new System.Drawing.Size(124, 23);
             this.unlockSkillPointsButton.TabIndex = 84;
@@ -405,7 +407,7 @@ namespace racman
             // 
             this.resetSkillPointsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.resetSkillPointsButton.Location = new System.Drawing.Point(360, 129);
-            this.resetSkillPointsButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.resetSkillPointsButton.Margin = new System.Windows.Forms.Padding(2);
             this.resetSkillPointsButton.Name = "resetSkillPointsButton";
             this.resetSkillPointsButton.Size = new System.Drawing.Size(124, 23);
             this.resetSkillPointsButton.TabIndex = 85;
@@ -416,7 +418,7 @@ namespace racman
             // challengeModeInput
             // 
             this.challengeModeInput.Location = new System.Drawing.Point(228, 86);
-            this.challengeModeInput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.challengeModeInput.Margin = new System.Windows.Forms.Padding(2);
             this.challengeModeInput.Name = "challengeModeInput";
             this.challengeModeInput.Size = new System.Drawing.Size(110, 20);
             this.challengeModeInput.TabIndex = 86;
@@ -444,7 +446,7 @@ namespace racman
             "Snowman Skin",
             "Tux Skin"});
             this.armorComboBox.Location = new System.Drawing.Point(228, 121);
-            this.armorComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.armorComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.armorComboBox.Name = "armorComboBox";
             this.armorComboBox.Size = new System.Drawing.Size(112, 21);
             this.armorComboBox.TabIndex = 88;
@@ -473,7 +475,7 @@ namespace racman
             "Vid Comic 4",
             "Vid Comic 5"});
             this.vidComicCheckedListBox.Location = new System.Drawing.Point(360, 191);
-            this.vidComicCheckedListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.vidComicCheckedListBox.Margin = new System.Windows.Forms.Padding(2);
             this.vidComicCheckedListBox.Name = "vidComicCheckedListBox";
             this.vidComicCheckedListBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.vidComicCheckedListBox.Size = new System.Drawing.Size(124, 75);
@@ -491,6 +493,13 @@ namespace racman
             this.freezeHealthCheck.Text = "Freeze health";
             this.freezeHealthCheck.UseVisualStyleBackColor = true;
             this.freezeHealthCheck.CheckedChanged += new System.EventHandler(this.freezeHealthCheck_CheckedChanged);
+            // 
+            // patchLoaderToolStripMenuItem
+            // 
+            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
+            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
             // RAC3Form
             // 
@@ -588,6 +597,7 @@ namespace racman
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckedListBox vidComicCheckedListBox;
         private System.Windows.Forms.CheckBox freezeHealthCheck;
+        private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
     }
 }
 

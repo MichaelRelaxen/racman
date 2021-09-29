@@ -33,7 +33,6 @@ namespace racman
             this.attachButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.currentVerLabel = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // IPTextBox
@@ -72,24 +71,11 @@ namespace racman
             this.currentVerLabel.Text = "gaming";
             this.currentVerLabel.Click += new System.EventHandler(this.currentVerLabel_Click);
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(224, 103);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(82, 17);
-            this.checkBox1.TabIndex = 4;
-            this.checkBox1.Text = "Use old API";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
             // AttachPS3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(303, 126);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.currentVerLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.attachButton);
@@ -111,6 +97,5 @@ namespace racman
         private System.Windows.Forms.Button attachButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label currentVerLabel;
-        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

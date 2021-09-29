@@ -1,0 +1,5 @@
+#- name: Lock RNG
+
+# don't advance rng
+0x5C8318: 0x806D9000
+0x5C831C: 0x4E800020

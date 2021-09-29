@@ -229,5 +229,26 @@ namespace racman
         {
             game.ResetAllGoldBolts();
         }
+
+        static ModLoaderForm modLoaderForm;
+
+        private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if ((Application.OpenForms["ModLoaderForm"] as ModLoaderForm) != null)
+            {
+                modLoaderForm.Activate();
+            }
+            else
+            {
+                // Show warning only once per run.
+                if (modLoaderForm == null)
+                {
+                    MessageBox.Show("Patches replace code in the game while it's running. While it seems to work, your mileage may vary. If you close RaCMAN with a patch loaded, you can't unload it.");
+                }
+
+                modLoaderForm = new ModLoaderForm();
+                modLoaderForm.Show();
+            }
+        }
     }
 }

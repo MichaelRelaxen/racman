@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace racman
 {
@@ -103,7 +104,6 @@ namespace racman
                 "Fleet",
                 "Veldin2"
             };
-
         }
 
         public dynamic Unlocks = new
@@ -181,8 +181,7 @@ namespace racman
         long lastGoldItemsUpdate = 0;
 
         /// <summary>
-        /// Updates internal list of unlocked items. There's a bug in Ratchetron or the Ratchetron C# API that makes it unfeasibly slow to get each item as a single byte.
-        /// This function can be called as often as you'd like, but it only updates every second or so, as to not overload the Ratchetron API. No idea why the API is so fucky, this might be fixed in the future, who knows. 
+        /// Updates internal list of unlocked items. There was a bug in the Ratchetron C# API that maked it unfeasibly slow to get each item as a single byte.
         /// </summary>
         private void UpdateUnlocks()
         {

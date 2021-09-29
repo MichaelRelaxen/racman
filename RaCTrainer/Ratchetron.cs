@@ -44,6 +44,7 @@ namespace racman
             try
             {
                 this.client = new TcpClient(this.ip, this.port);
+                this.client.NoDelay = true;
 
                 this.stream = client.GetStream();
 
@@ -188,7 +189,7 @@ namespace racman
 
             this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
-            byte[] memory = new byte[2048];
+            byte[] memory = new byte[size];
 
             int n_bytes = 0;
             while (n_bytes < size)
@@ -199,9 +200,8 @@ namespace racman
 #if DEBUG
             watch.Stop();
 
-            Console.WriteLine($"Reading {size} bytes memory at {address.ToString("X")} took: {watch.ElapsedMilliseconds} ms");
+            Console.WriteLine($"Request for {size} bytes memory at {address.ToString("X")} took: {watch.ElapsedMilliseconds} ms");
 #endif 
-
             return memory.Take((int)size).ToArray();
         }
 
