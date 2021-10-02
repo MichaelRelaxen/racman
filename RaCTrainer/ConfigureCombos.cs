@@ -12,28 +12,24 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace racman
 {
+
     public partial class ConfigureCombos : Form
     {
         public ConfigureCombos()
         {
             InitializeComponent();
-            ReadCombos();
+            GetCombos();
+            UpdateCombos();
 
-            InputsTimer.Interval = 100;
-            InputsTimer.Tick += new EventHandler(UpdateInputs);
-        }
-
-        private void ConfigureCombos_Load(object sender, EventArgs e)
-        {
-
+            timer.Interval = 100;
+            timer.Tick += new EventHandler(UpdateInputs);
         }
 
         int currentInput;
         bool input = false;
 
-        int loadCombo, saveCombo, switchCombo, dieCombo, loadPlanetCombo;
-
-        private void ReadCombos()
+        public static int loadCombo, saveCombo, switchCombo, dieCombo, loadPlanetCombo;
+        public static void GetCombos()
         {
             try
             {
@@ -42,12 +38,6 @@ namespace racman
                 switchCombo = Convert.ToInt32(func.GetConfigData("config.txt", "switchCombo"));
                 dieCombo = Convert.ToInt32(func.GetConfigData("config.txt", "dieCombo"));
                 loadPlanetCombo = Convert.ToInt32(func.GetConfigData("config.txt", "loadPlanetCombo"));
-
-                loadPlanetTextBox.Text = String.Join(" + ", Inputs.DecodeMask(loadPlanetCombo));
-                dieTextBox.Text = String.Join(" + ", Inputs.DecodeMask(dieCombo));
-                switchPositionTextBox.Text = String.Join(" + ", Inputs.DecodeMask(switchCombo));
-                loadPositionTextBox.Text = String.Join(" + ", Inputs.DecodeMask(loadCombo));
-                savePositionTextBox.Text = String.Join(" + ", Inputs.DecodeMask(saveCombo));
             }
             catch
             {
@@ -56,10 +46,9 @@ namespace racman
                 dieCombo = 0x5;
                 loadPlanetCombo = 0x600;
                 switchCombo = 0;
-                UpdateCombos();
             }
         }
-        private void UpdateCombos()
+        public void UpdateCombos()
         {
             loadPlanetTextBox.Text = String.Join(" + ", Inputs.DecodeMask(loadPlanetCombo));
             dieTextBox.Text = String.Join(" + ", Inputs.DecodeMask(dieCombo));
@@ -73,12 +62,12 @@ namespace racman
             func.ChangeFileLines("config.txt", dieCombo.ToString(), "dieCombo");
             func.ChangeFileLines("config.txt", loadPlanetCombo.ToString(), "loadPlanetCombo");
             input = false;
-            InputsTimer.Enabled = false;
+            timer.Enabled = false;
         }
 
-        public Timer InputsTimer = new Timer();
+        public Timer timer = new Timer();
 
-        private void UpdateInputs(object sender, EventArgs e)
+        public void UpdateInputs(object sender, EventArgs e)
         {
             if(currentInput == Inputs.RawInputs)
             {
@@ -118,7 +107,7 @@ namespace racman
         private void loadPlanetTextBox_Click(object sender, EventArgs e)
         {
             loadPlanetTextBox.Text = "Enter Controller input...";
-            InputsTimer.Enabled = true;
+            timer.Enabled = true;
         }
 
         private void ConfigureCombos_FormClosing(object sender, FormClosingEventArgs e)
@@ -129,25 +118,30 @@ namespace racman
         private void dieTextBox_Click(object sender, EventArgs e)
         {
             dieTextBox.Text = "Enter Controller input...";
-            InputsTimer.Enabled = true;
+            timer.Enabled = true;
         }
 
         private void switchPositionTextBox_Click(object sender, EventArgs e)
         {
             switchPositionTextBox.Text = "Enter Controller input...";
-            InputsTimer.Enabled = true;
+            timer.Enabled = true;
         }
 
         private void loadPositionTextBox_Click(object sender, EventArgs e)
         {
             loadPositionTextBox.Text = "Enter Controller input...";
-            InputsTimer.Enabled = true;
+            timer.Enabled = true;
         }
 
         private void savePositionTextBox_Click(object sender, EventArgs e)
         {
             savePositionTextBox.Text = "Enter Controller input...";
-            InputsTimer.Enabled = true;
+            timer.Enabled = true;
+        }
+
+        public void ConfigureCombos_Load(object sender, EventArgs e)
+        {
+            infoText.Text = "To edit a combo, simply click on\nthe box you want to change.\n";
         }
     }
 }

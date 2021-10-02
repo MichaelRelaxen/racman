@@ -29,6 +29,7 @@ namespace racman
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigureCombos));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -39,6 +40,7 @@ namespace racman
             this.switchPositionTextBox = new System.Windows.Forms.TextBox();
             this.dieTextBox = new System.Windows.Forms.TextBox();
             this.loadPlanetTextBox = new System.Windows.Forms.TextBox();
+            this.infoText = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -90,7 +92,7 @@ namespace racman
             // 
             this.savePositionTextBox.Location = new System.Drawing.Point(12, 29);
             this.savePositionTextBox.Name = "savePositionTextBox";
-            this.savePositionTextBox.Size = new System.Drawing.Size(100, 20);
+            this.savePositionTextBox.Size = new System.Drawing.Size(126, 20);
             this.savePositionTextBox.TabIndex = 5;
             this.savePositionTextBox.Click += new System.EventHandler(this.savePositionTextBox_Click);
             // 
@@ -98,7 +100,7 @@ namespace racman
             // 
             this.loadPositionTextBox.Location = new System.Drawing.Point(12, 73);
             this.loadPositionTextBox.Name = "loadPositionTextBox";
-            this.loadPositionTextBox.Size = new System.Drawing.Size(100, 20);
+            this.loadPositionTextBox.Size = new System.Drawing.Size(126, 20);
             this.loadPositionTextBox.TabIndex = 6;
             this.loadPositionTextBox.Click += new System.EventHandler(this.loadPositionTextBox_Click);
             // 
@@ -106,7 +108,7 @@ namespace racman
             // 
             this.switchPositionTextBox.Location = new System.Drawing.Point(12, 112);
             this.switchPositionTextBox.Name = "switchPositionTextBox";
-            this.switchPositionTextBox.Size = new System.Drawing.Size(100, 20);
+            this.switchPositionTextBox.Size = new System.Drawing.Size(126, 20);
             this.switchPositionTextBox.TabIndex = 7;
             this.switchPositionTextBox.Click += new System.EventHandler(this.switchPositionTextBox_Click);
             // 
@@ -114,7 +116,7 @@ namespace racman
             // 
             this.dieTextBox.Location = new System.Drawing.Point(12, 152);
             this.dieTextBox.Name = "dieTextBox";
-            this.dieTextBox.Size = new System.Drawing.Size(100, 20);
+            this.dieTextBox.Size = new System.Drawing.Size(126, 20);
             this.dieTextBox.TabIndex = 8;
             this.dieTextBox.Click += new System.EventHandler(this.dieTextBox_Click);
             // 
@@ -122,15 +124,25 @@ namespace racman
             // 
             this.loadPlanetTextBox.Location = new System.Drawing.Point(12, 194);
             this.loadPlanetTextBox.Name = "loadPlanetTextBox";
-            this.loadPlanetTextBox.Size = new System.Drawing.Size(100, 20);
+            this.loadPlanetTextBox.Size = new System.Drawing.Size(126, 20);
             this.loadPlanetTextBox.TabIndex = 9;
             this.loadPlanetTextBox.Click += new System.EventHandler(this.loadPlanetTextBox_Click);
+            // 
+            // infoText
+            // 
+            this.infoText.AutoSize = true;
+            this.infoText.Location = new System.Drawing.Point(12, 221);
+            this.infoText.Name = "infoText";
+            this.infoText.Size = new System.Drawing.Size(27, 13);
+            this.infoText.TabIndex = 10;
+            this.infoText.Text = "stuff";
             // 
             // ConfigureCombos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(235, 248);
+            this.ClientSize = new System.Drawing.Size(241, 270);
+            this.Controls.Add(this.infoText);
             this.Controls.Add(this.loadPlanetTextBox);
             this.Controls.Add(this.dieTextBox);
             this.Controls.Add(this.switchPositionTextBox);
@@ -141,8 +153,9 @@ namespace racman
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureCombos";
-            this.Text = "ConfigureCombos";
+            this.Text = "Configure Combos";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigureCombos_FormClosing);
             this.Load += new System.EventHandler(this.ConfigureCombos_Load);
             this.ResumeLayout(false);
@@ -162,5 +175,6 @@ namespace racman
         private System.Windows.Forms.TextBox switchPositionTextBox;
         private System.Windows.Forms.TextBox dieTextBox;
         private System.Windows.Forms.TextBox loadPlanetTextBox;
+        private System.Windows.Forms.Label infoText;
     }
 }

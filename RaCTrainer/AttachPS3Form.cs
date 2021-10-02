@@ -26,7 +26,7 @@ namespace racman
             }
             IPTextBox.Text = ip;
 
-            
+            ConfigureCombos.GetCombos();
         }
 
         public static string ip;
@@ -41,8 +41,6 @@ namespace racman
 
         private void attachButton_Click(object sender, EventArgs e)
         {
-            
-
             ip = IPTextBox.Text;
             func.ChangeFileLines("config.txt", Convert.ToString(ip), "ip");
 

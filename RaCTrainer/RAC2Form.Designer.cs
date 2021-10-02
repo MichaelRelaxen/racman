@@ -29,6 +29,7 @@ namespace racman
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RAC2Form));
             this.CComboCheckBox = new System.Windows.Forms.CheckBox();
             this.killyourself = new System.Windows.Forms.Button();
             this.loadpos = new System.Windows.Forms.Button();
@@ -51,7 +52,7 @@ namespace racman
             // CComboCheckBox
             // 
             this.CComboCheckBox.AutoSize = true;
-            this.CComboCheckBox.Location = new System.Drawing.Point(13, 111);
+            this.CComboCheckBox.Location = new System.Drawing.Point(13, 122);
             this.CComboCheckBox.Name = "CComboCheckBox";
             this.CComboCheckBox.Size = new System.Drawing.Size(147, 17);
             this.CComboCheckBox.TabIndex = 93;
@@ -61,7 +62,7 @@ namespace racman
             // 
             // killyourself
             // 
-            this.killyourself.Location = new System.Drawing.Point(12, 83);
+            this.killyourself.Location = new System.Drawing.Point(12, 94);
             this.killyourself.Name = "killyourself";
             this.killyourself.Size = new System.Drawing.Size(115, 23);
             this.killyourself.TabIndex = 91;
@@ -71,7 +72,7 @@ namespace racman
             // 
             // loadpos
             // 
-            this.loadpos.Location = new System.Drawing.Point(12, 54);
+            this.loadpos.Location = new System.Drawing.Point(12, 65);
             this.loadpos.Name = "loadpos";
             this.loadpos.Size = new System.Drawing.Size(115, 23);
             this.loadpos.TabIndex = 90;
@@ -81,7 +82,7 @@ namespace racman
             // 
             // savepos
             // 
-            this.savepos.Location = new System.Drawing.Point(12, 25);
+            this.savepos.Location = new System.Drawing.Point(12, 36);
             this.savepos.Name = "savepos";
             this.savepos.Size = new System.Drawing.Size(115, 23);
             this.savepos.TabIndex = 89;
@@ -104,7 +105,7 @@ namespace racman
             "8",
             "9",
             "10"});
-            this.positions_comboBox.Location = new System.Drawing.Point(133, 27);
+            this.positions_comboBox.Location = new System.Drawing.Point(133, 38);
             this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
             this.positions_comboBox.TabIndex = 92;
@@ -113,7 +114,7 @@ namespace racman
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 148);
+            this.label6.Location = new System.Drawing.Point(12, 159);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 96;
@@ -121,7 +122,7 @@ namespace racman
             // 
             // loadPlanetButton
             // 
-            this.loadPlanetButton.Location = new System.Drawing.Point(133, 162);
+            this.loadPlanetButton.Location = new System.Drawing.Point(133, 173);
             this.loadPlanetButton.Name = "loadPlanetButton";
             this.loadPlanetButton.Size = new System.Drawing.Size(75, 23);
             this.loadPlanetButton.TabIndex = 94;
@@ -160,7 +161,7 @@ namespace racman
             "Slim Cognito",
             "Wupash",
             "Jamming Array"});
-            this.planets_comboBox.Location = new System.Drawing.Point(15, 164);
+            this.planets_comboBox.Location = new System.Drawing.Point(15, 175);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
             this.planets_comboBox.TabIndex = 95;
@@ -168,7 +169,7 @@ namespace racman
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(241, 61);
+            this.button2.Location = new System.Drawing.Point(241, 66);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(106, 22);
@@ -180,7 +181,7 @@ namespace racman
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(238, 14);
+            this.label8.Location = new System.Drawing.Point(238, 25);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 99;
@@ -188,7 +189,7 @@ namespace racman
             // 
             // bolts_textBox
             // 
-            this.bolts_textBox.Location = new System.Drawing.Point(241, 28);
+            this.bolts_textBox.Location = new System.Drawing.Point(241, 39);
             this.bolts_textBox.Name = "bolts_textBox";
             this.bolts_textBox.Size = new System.Drawing.Size(105, 20);
             this.bolts_textBox.TabIndex = 98;
@@ -197,7 +198,7 @@ namespace racman
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(15, 191);
+            this.ghostCheckbox.Location = new System.Drawing.Point(15, 202);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 100;
@@ -211,7 +212,7 @@ namespace racman
             this.menusToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(355, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(363, 24);
             this.menuStrip1.TabIndex = 101;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -242,7 +243,7 @@ namespace racman
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(355, 310);
+            this.ClientSize = new System.Drawing.Size(363, 244);
             this.Controls.Add(this.ghostCheckbox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.bolts_textBox);
@@ -256,9 +257,10 @@ namespace racman
             this.Controls.Add(this.savepos);
             this.Controls.Add(this.positions_comboBox);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "RAC2Form";
-            this.Text = "RAC2Form";
+            this.Text = "Ratchet & Clank 2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RAC2Form_FormClosing);
             this.Load += new System.EventHandler(this.RAC2Form_Load);
             this.menuStrip1.ResumeLayout(false);
