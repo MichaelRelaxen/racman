@@ -15,6 +15,7 @@ namespace racman
 
         public rac2 game;
         public Form InputDisplay;
+        public Form ConfigureCombos;
         public RAC2Form(rac2 game)
         {
             this.game = game;
@@ -126,7 +127,17 @@ namespace racman
 
         private void configureButtonCombosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (ConfigureCombos == null)
+            {
+                ConfigureCombos = new ConfigureCombos();
+                ConfigureCombos.FormClosed += ConfigureCombos_FormClosed;
+                ConfigureCombos.Show();
+            }
         }
+        private void ConfigureCombos_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ConfigureCombos = null;
+        }
+
     }
 }
