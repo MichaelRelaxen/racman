@@ -362,7 +362,7 @@ namespace racman
         public void SetGhostRatchet(bool enabled)
         {
             if (enabled) {
-                ghostRatchetSubID = api.FreezeMemory(pid, rac1.addr.ghostTimer, 10);
+                ghostRatchetSubID = api.FreezeMemory(pid, addr.ghostTimer, 10);
             }
                 else
             {

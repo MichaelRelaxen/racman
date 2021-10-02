@@ -82,6 +82,16 @@ namespace racman
                 };
                 rac1.ShowDialog();
             }
+            else if (game == "NPEA00386")
+            {
+                Hide();
+                func.api.Notify("RaCMAN connected to rac2");
+                RAC2Form rac2 = new RAC2Form(new rac2((Ratchetron)func.api));
+                {
+                    TopMost = true;
+                }
+                rac2.ShowDialog();
+            }
             else if (game == "NPEA00387")
             {
                 Hide();
