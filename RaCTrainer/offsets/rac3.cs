@@ -27,7 +27,7 @@ namespace racman
         public uint healthXP => 0xc1e510;
         public uint playerHealth => 0xda5040;
         public uint playerCoords => 0xDA2870;
-        public uint currentArmor => 0xc1e51e;
+        public uint currentArmor => 0xC1E51C;
         public uint challengeMode => 0xC1E50e;
 
 
@@ -111,6 +111,7 @@ namespace racman
             fastloadTimer.Tick += new EventHandler(FastLoadTimer);
             fastloadTimer.Enabled = false;
         }
+        int freezeHealthSubID = -1;
 
 
         public override void ResetLevelFlags()
@@ -229,28 +230,29 @@ namespace racman
         public void SetInfiniteHealth(bool enabled)
         {
             if (enabled)
-                api.WriteMemory(pid, 0x1536D8, 4, new byte[] { 0x60, 0x00, 0x00, 0x00 });
+                freezeHealthSubID = api.FreezeMemory(pid, addr.playerHealth, 200);
             else
-                api.WriteMemory(pid, 0x1536D8, 4, new byte[] { 0x38, 0x60, 0x00, 0x00 });
+                api.ReleaseSubID(freezeHealthSubID);
         }
+
         public override void CheckInputs(object sender, EventArgs e)
         {
-            if (Inputs.RawInputs == 0xB && inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
             {
                 SavePosition();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x7 && inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.loadCombo && inputCheck)
             {
                 LoadPosition();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x5 && inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
             {
                 KillYourself();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x600 & inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo & inputCheck)
             {
                 LoadPlanet();
                 SetFastLoads();

@@ -29,6 +29,7 @@ namespace racman
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModLoaderForm));
             this.modsCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.SuspendLayout();
             // 
@@ -50,8 +51,9 @@ namespace racman
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.modsCheckedListBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ModLoaderForm";
-            this.Text = "ModLoaderForm";
+            this.Text = "Mod Loader";
             this.ResumeLayout(false);
 
         }

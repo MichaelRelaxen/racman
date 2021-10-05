@@ -26,7 +26,7 @@ namespace racman
             }
             IPTextBox.Text = ip;
 
-            
+            ConfigureCombos.GetCombos();
         }
 
         public static string ip;
@@ -41,8 +41,6 @@ namespace racman
 
         private void attachButton_Click(object sender, EventArgs e)
         {
-            
-
             ip = IPTextBox.Text;
             func.ChangeFileLines("config.txt", Convert.ToString(ip), "ip");
 
@@ -81,6 +79,16 @@ namespace racman
                     TopMost = true
                 };
                 rac1.ShowDialog();
+            }
+            else if (game == "NPEA00386")
+            {
+                Hide();
+                func.api.Notify("RaCMAN connected to rac2");
+                RAC2Form rac2 = new RAC2Form(new rac2((Ratchetron)func.api));
+                {
+                    TopMost = true;
+                }
+                rac2.ShowDialog();
             }
             else if (game == "NPEA00387")
             {

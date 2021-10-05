@@ -228,7 +228,7 @@ namespace racman
 
         private void freezeHealthCheck_CheckedChanged(object sender, EventArgs e)
         {
-            game.SetInfiniteHealth(freezeAmmoCheckBox.Checked);
+            game.SetInfiniteHealth(freezeHealthCheck.Checked);
         }
 
         static ModLoaderForm modLoaderForm;
@@ -250,6 +250,24 @@ namespace racman
                 modLoaderForm = new ModLoaderForm();
                 modLoaderForm.Show();
             }
+        }
+
+        public Form ConfigureCombos;
+        private void configureButtonCombosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ConfigureCombos == null)
+            {
+                ConfigureCombos = new ConfigureCombos();
+                ConfigureCombos.FormClosed += ConfigureCombos_FormClosed;
+                ConfigureCombos.Show();
+                    game.InputsTimer.Enabled = false;
+            }
+        }
+        private void ConfigureCombos_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ConfigureCombos = null;
+            if (controllerCombosCheckbox.Checked)
+                game.InputsTimer.Enabled = true;
         }
     }
 }
