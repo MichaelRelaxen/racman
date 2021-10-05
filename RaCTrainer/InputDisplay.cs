@@ -100,9 +100,15 @@ namespace racman
                     skinComboBox.Items.Add(skinName.Replace("controllerskins\\", ""));
                 }
             }
-
-            skinComboBox.SelectedIndex = 0;
-            controllerSkin = ControllerSkin.Load(Directory.EnumerateDirectories("controllerskins").First());
+            // controllerSkin = ControllerSkin.Load(Directory.EnumerateDirectories("controllerskins").First());
+            try
+            {
+                skinComboBox.SelectedIndex = Convert.ToInt32(func.GetConfigData("config.txt", "InputDisplaySkin"));
+            }
+            catch
+            {
+                skinComboBox.SelectedIndex = 0;
+            }
 
             timer = new System.Windows.Forms.Timer();
             timer.Interval = (int)16.66667;
@@ -175,6 +181,8 @@ namespace racman
             var skinName = skinComboBox.Items[skinComboBox.SelectedIndex].ToString();
 
             controllerSkin = ControllerSkin.Load($"controllerskins\\{skinName}");
+
+            func.ChangeFileLines("config.txt", skinComboBox.SelectedIndex.ToString(), "InputDisplaySkin");
         }
 
         private void InputDisplay_FormClosing(object sender, FormClosingEventArgs e)
