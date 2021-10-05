@@ -141,7 +141,7 @@ namespace racman
 
         public void ConfigureCombos_Load(object sender, EventArgs e)
         {
-            infoText.Text = "To edit a combo, simply click on\nthe box you want to change.\n";
+            infoText.Text = "To edit a combo, simply click on\nthe box you want to change,\nthen press inputs on your controller";
         }
     }
 }

@@ -53,6 +53,7 @@ namespace racman
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
@@ -64,7 +65,7 @@ namespace racman
             this.FastLoadToggle = new System.Windows.Forms.CheckBox();
             this.FreezeAmmoCheckbox = new System.Windows.Forms.CheckBox();
             this.resetGBsButton = new System.Windows.Forms.Button();
-            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -299,7 +300,8 @@ namespace racman
             this.menuToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDark;
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.switchGameToolStripMenuItem,
-            this.patchLoaderToolStripMenuItem});
+            this.patchLoaderToolStripMenuItem,
+            this.configureButtonCombosToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -308,9 +310,16 @@ namespace racman
             // switchGameToolStripMenuItem
             // 
             this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
-            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
+            // 
+            // patchLoaderToolStripMenuItem
+            // 
+            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
+            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
             // button1
             // 
@@ -325,7 +334,7 @@ namespace racman
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(227, 317);
-            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(106, 22);
             this.button2.TabIndex = 82;
@@ -425,12 +434,12 @@ namespace racman
             this.resetGBsButton.UseVisualStyleBackColor = true;
             this.resetGBsButton.Click += new System.EventHandler(this.resetGBsButton_Click);
             // 
-            // patchLoaderToolStripMenuItem
+            // configureButtonCombosToolStripMenuItem
             // 
-            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
-            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
-            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
+            this.configureButtonCombosToolStripMenuItem.Name = "configureButtonCombosToolStripMenuItem";
+            this.configureButtonCombosToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.configureButtonCombosToolStripMenuItem.Text = "Configure button combos";
+            this.configureButtonCombosToolStripMenuItem.Click += new System.EventHandler(this.configureButtonCombosToolStripMenuItem_Click);
             // 
             // RAC1Form
             // 
@@ -523,6 +532,7 @@ namespace racman
         private System.Windows.Forms.CheckBox FreezeAmmoCheckbox;
         private System.Windows.Forms.Button resetGBsButton;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem configureButtonCombosToolStripMenuItem;
     }
 }
 

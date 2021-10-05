@@ -411,22 +411,22 @@ namespace racman
 
         public override void CheckInputs(object sender, EventArgs e)
         {
-            if (Inputs.RawInputs == 0xB && inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
             {
                 SavePosition();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x7 && inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.loadCombo && inputCheck)
             {
                 LoadPosition();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x5 && inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
             {
                 KillYourself();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x600 & inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo & inputCheck)
             {
                 LoadPlanet();
                 inputCheck = false;
