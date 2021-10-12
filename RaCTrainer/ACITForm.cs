@@ -29,5 +29,11 @@ namespace racman
         {
 
         }
+
+        private void ACITForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            Application.Exit();
+        }
     }
 }
