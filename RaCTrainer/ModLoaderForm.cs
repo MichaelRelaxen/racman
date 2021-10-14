@@ -103,6 +103,11 @@ namespace racman
                 ModLoaderForm.mods[e.Index].Unload();
             }
         }
+
+        private void ModLoaderForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public class Mod

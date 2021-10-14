@@ -54,6 +54,7 @@ namespace racman
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ModLoaderForm";
             this.Text = "Mod Loader";
+            this.Load += new System.EventHandler(this.ModLoaderForm_Load);
             this.ResumeLayout(false);
 
         }

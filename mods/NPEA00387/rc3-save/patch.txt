@@ -1,0 +1,14 @@
+#- name: Savefile helper
+#- author:
+
+# Link beneath to source code and how to compile
+#- href: https://distortion.city
+
+# shared
+0x980500: tramp.bin
+0x980600: lv2.bin
+
+# input loop
+0x97C7E8: 0x489804CB
+0x9804C8: inputp.bin
+0x981000: input.bin
