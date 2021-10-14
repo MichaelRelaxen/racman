@@ -37,7 +37,7 @@ namespace racman
 
             goodiesCheck.Checked = game.GoodiesMenuEnabled();
 
-            game.SetupMemorySubs();
+            game.SetupInputDisplayMemorySubs();
         }
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)

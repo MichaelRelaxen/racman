@@ -252,10 +252,15 @@ namespace racman
                 KillYourself();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo & inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
             {
                 LoadPlanet();
                 SetFastLoads();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)
+            {
+                api.WriteMemory(pid, 0xD9FF01, new byte[] { 0x01 });
                 inputCheck = false;
             }
             if (Inputs.RawInputs == 0x00 & !inputCheck)

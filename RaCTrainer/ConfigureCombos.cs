@@ -28,14 +28,14 @@ namespace racman
         int currentInput;
         bool input = false;
 
-        public static int loadCombo, saveCombo, switchCombo, dieCombo, loadPlanetCombo;
+        public static int loadCombo, saveCombo, loadSetAsideCombo, dieCombo, loadPlanetCombo;
         public static void GetCombos()
         {
             try
             {
                 loadCombo = Convert.ToInt32(func.GetConfigData("config.txt", "loadPosCombo"));
                 saveCombo = Convert.ToInt32(func.GetConfigData("config.txt", "savePosCombo"));
-                switchCombo = Convert.ToInt32(func.GetConfigData("config.txt", "switchCombo"));
+                loadSetAsideCombo = Convert.ToInt32(func.GetConfigData("config.txt", "loadSetAsideCombo"));
                 dieCombo = Convert.ToInt32(func.GetConfigData("config.txt", "dieCombo"));
                 loadPlanetCombo = Convert.ToInt32(func.GetConfigData("config.txt", "loadPlanetCombo"));
             }
@@ -45,20 +45,20 @@ namespace racman
                 loadCombo = 0x7;
                 dieCombo = 0x5;
                 loadPlanetCombo = 0x600;
-                switchCombo = 0;
+                loadSetAsideCombo = 0x100;
             }
         }
         public void UpdateCombos()
         {
             loadPlanetTextBox.Text = String.Join(" + ", Inputs.DecodeMask(loadPlanetCombo));
             dieTextBox.Text = String.Join(" + ", Inputs.DecodeMask(dieCombo));
-            switchPositionTextBox.Text = String.Join(" + ", Inputs.DecodeMask(switchCombo));
+            loadSetAsideComboTextBox.Text = String.Join(" + ", Inputs.DecodeMask(loadSetAsideCombo));
             loadPositionTextBox.Text = String.Join(" + ", Inputs.DecodeMask(loadCombo));
             savePositionTextBox.Text = String.Join(" + ", Inputs.DecodeMask(saveCombo));
 
             func.ChangeFileLines("config.txt", loadCombo.ToString(), "loadPosCombo");
             func.ChangeFileLines("config.txt", saveCombo.ToString(), "savePosCombo");
-            func.ChangeFileLines("config.txt", switchCombo.ToString(), "switchCombo");
+            func.ChangeFileLines("config.txt", loadSetAsideCombo.ToString(), "loadSetAsideCombo");
             func.ChangeFileLines("config.txt", dieCombo.ToString(), "dieCombo");
             func.ChangeFileLines("config.txt", loadPlanetCombo.ToString(), "loadPlanetCombo");
             input = false;
@@ -87,9 +87,9 @@ namespace racman
                 dieCombo = Inputs.RawInputs;
                 UpdateCombos();
             }
-            if (switchPositionTextBox.Text == "Enter Controller input..." && input == true)
+            if (loadSetAsideComboTextBox.Text == "Enter Controller input..." && input == true)
             {
-                switchCombo = Inputs.RawInputs;
+                loadSetAsideCombo = Inputs.RawInputs;
                 UpdateCombos();
             }
             if (loadPositionTextBox.Text == "Enter Controller input..." && input == true)
@@ -123,7 +123,7 @@ namespace racman
 
         private void switchPositionTextBox_Click(object sender, EventArgs e)
         {
-            switchPositionTextBox.Text = "Enter Controller input...";
+            loadSetAsideComboTextBox.Text = "Enter Controller input...";
             timer.Enabled = true;
         }
 

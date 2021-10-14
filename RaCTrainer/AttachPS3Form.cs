@@ -110,7 +110,7 @@ namespace racman
                 };
                 rac4.ShowDialog();
             }
-            else if (game == "NPUA80966")
+            else if (game == "NPUA80966" || game == "NPEA00453" || game == "BCES00511" || game == "BCES00726")
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");

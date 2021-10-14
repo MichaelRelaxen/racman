@@ -15,6 +15,7 @@ namespace racman
         public rac3 game;
         private AutosplitterHelper autosplitterHelper;
 
+        public static string[] saves;
 
         public RAC3Form(rac3 game)
         {
@@ -32,8 +33,18 @@ namespace racman
             {
                 Ratchetron api = (Ratchetron)func.api;
 
-                game.SetupMemorySubs();
+                game.SetupInputDisplayMemorySubs();
             }
+
+
+
+            saves = Directory.GetFiles($@"{Directory.GetCurrentDirectory()}\\saves\{AttachPS3Form.game}");
+
+            foreach(string i in saves)
+            {
+                savefileHelperComboBox.Items.Add(i.Substring(i.IndexOf(AttachPS3Form.game) + 10));
+            }
+
         }
 
         private void TextBox1_KeyDown(object sender, KeyEventArgs e)
@@ -99,6 +110,17 @@ namespace racman
             {
                 vidComicCheckedListBox.SetItemChecked(i, game.GetVidComic(i));
             }
+
+            int savefileHelperSubID = game.api.SubMemory(pid, 0xD9FF00, 1, (value) =>
+            {
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() => {
+                        setAsideButton.Enabled = true;
+                        loadFileButton.Enabled = true;
+                    }));
+                }
+            });
         }
 
         private void button6_MouseHover(object sender, EventArgs e)
@@ -268,6 +290,34 @@ namespace racman
             ConfigureCombos = null;
             if (controllerCombosCheckbox.Checked)
                 game.InputsTimer.Enabled = true;
+        }
+        private void loadFileButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(pid, 0xD9FF01, new byte[] { 0x01 });
+        }
+        private void setAsideButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(pid, 0xD9FF02, new byte[] { 0x01 });
+        }
+
+        private void uploadFileButton_Click(object sender, EventArgs e)
+        {
+            byte[] patchBytes;
+
+            patchBytes = File.ReadAllBytes($"{ Directory.GetCurrentDirectory()}\\saves\\{AttachPS3Form.game}\\{savefileHelperComboBox.Text}");
+
+            int bytesWritten = 0;
+            byte[] bytesToWrite = new byte[] { };
+            while (bytesWritten != patchBytes.Length)
+            {
+                bytesToWrite = patchBytes.Skip(bytesWritten).Take(1024).ToArray();
+
+                game.api.WriteMemory(AttachPS3Form.pid, 0x1100000 + (uint)bytesWritten, (uint)bytesToWrite.Length, bytesToWrite);
+
+                bytesWritten += bytesToWrite.Length;
+
+                Console.WriteLine("Bytes written:" + bytesWritten);
+            }
         }
     }
 }

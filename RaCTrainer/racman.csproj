@@ -247,6 +247,8 @@ XCOPY "$(SolutionDir)controllerskins\" "$(TargetDir)\controllerskins\" /S /Y
 
 XCOPY "$(SolutionDir)mods\" "$(TargetDir)\mods\" /S /Y
 
+XCOPY "$(SolutionDir)saves\" "$(TargetDir)\saves\" /S /Y
+
 XCOPY "$(SolutionDir)\RaCTrainer\autosplitters\" "$(TargetDir)\autosplitters\" /S /Y
 </PostBuildEvent>
   </PropertyGroup>

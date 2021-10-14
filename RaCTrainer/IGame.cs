@@ -98,7 +98,7 @@ namespace racman
 
         public abstract void SetupFile();
 
-        public virtual void SetupMemorySubs()
+        public virtual void SetupInputDisplayMemorySubs()
         {
             int buttonMaskSubID = api.SubMemory(pid, Addr().inputOffset, 4, (value) =>
             {

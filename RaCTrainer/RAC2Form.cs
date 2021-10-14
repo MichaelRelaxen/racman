@@ -24,7 +24,7 @@ namespace racman
 
             positions_comboBox.Text = "1";
             bolts_textBox.KeyDown += bolts_textBox_KeyDown;
-            game.SetupMemorySubs();
+            game.SetupInputDisplayMemorySubs();
         }
 
         private void RAC2Form_Load(object sender, EventArgs e)
