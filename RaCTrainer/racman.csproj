@@ -209,6 +209,7 @@
     <None Include="autosplitters\acit-autosplitter.asl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="autosplitters\rac3 no qe.asl" />
     <None Include="autosplitters\rac3-autosplitter.asl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
