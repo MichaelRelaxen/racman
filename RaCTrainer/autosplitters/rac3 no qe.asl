@@ -2,7 +2,6 @@
 
 startup {
     print("Starting");
-	 settings.Add("GBsplit",false, "Split on Gold Bolts");
 }
 
 init {
