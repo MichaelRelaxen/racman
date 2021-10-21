@@ -80,15 +80,15 @@ update {
 
 reset {
     if (current.planet == 1 && (old.gameState == 6 && current.gameState == 0)) {
-		vars.splitCount = 0;
-		vars.splitRoute = 0;
-		vars.neffyToggle = 0;
         return true;
     }
 }
 
 start {
     if (current.planet == 1 && (old.gameState == 6 && current.gameState == 0)) {
+        vars.splitCount = 0;
+		vars.splitRoute = 0;
+		vars.neffyToggle = 0;
         return true;
     }
 }
