@@ -23,7 +23,7 @@ namespace racman
 
         public uint loadPlanet => throw new NotImplementedException();
 
-        public uint currentPlanet => throw new NotImplementedException();
+        public uint currentPlanet => 0xB11F30; // just the input offset for now. I don't care this shit isnt used atm anyway lol
     }
     public class rac4 : IGame
     {
