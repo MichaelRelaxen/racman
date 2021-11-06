@@ -145,6 +145,16 @@ namespace racman
                 WriteToMemory(13, value);
             });
 
+            int neffyHealthSubID = game.api.SubMemory(game.pid, 0xC4DF80, 4, (value) =>
+            {
+                WriteToMemory(14, value);
+            });
+
+            int neffyDeadID = game.api.SubMemory(game.pid, 0xDA50FC, 4, (value) =>
+            {
+                WriteToMemory(18, value);
+            });
+
             subscriptionIDs.AddRange(new int[] {
                 destinationPlanetSubID,
                 currentPlanetSubID,
@@ -152,7 +162,9 @@ namespace racman
                 planetFrameCountSubID,
                 gameStateSubID,
                 loadingScreenSubID,
-                marcadiaMissionSubID
+                marcadiaMissionSubID,
+                neffyHealthSubID,
+                neffyDeadID,
             });
         }
 
