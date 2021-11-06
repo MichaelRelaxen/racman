@@ -11,10 +11,21 @@ namespace racman
 {
     public partial class RAC4Form : Form
     {
-        public RAC4Form()
+        public rac4 game;
+        public RAC4Form(rac4 game)
         {
+            this.game = game;
+
+            if (func.api is Ratchetron)
+            {
+                Ratchetron api = (Ratchetron)func.api;
+                game.SetupInputDisplayMemorySubs();
+            }
+
             InitializeComponent();
         }
+
+        public Form InputDisplay;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         public static uint SaveInfo = 0x11B1BD8;
@@ -91,6 +102,27 @@ namespace racman
         private void ghostcheck_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void inputdisplaybutton_Click(object sender, EventArgs e)
+        {
+            if (!(func.api is Ratchetron))
+            {
+                MessageBox.Show("You need to be using the new API to use input display");
+                return;
+            }
+
+            if (InputDisplay == null)
+            {
+                InputDisplay = new InputDisplay();
+                InputDisplay.FormClosed += InputDisplay_FormClosed;
+                InputDisplay.Show();
+            }
+        }
+
+        private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            InputDisplay = null;
         }
     }
 }

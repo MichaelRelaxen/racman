@@ -34,6 +34,7 @@ namespace racman
             this.levelinfo = new System.Windows.Forms.Label();
             this.wrtext = new System.Windows.Forms.Label();
             this.ghostcheck = new System.Windows.Forms.CheckBox();
+            this.inputdisplaybutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // writetext
@@ -79,11 +80,22 @@ namespace racman
             this.ghostcheck.UseVisualStyleBackColor = true;
             this.ghostcheck.CheckedChanged += new System.EventHandler(this.ghostcheck_CheckedChanged);
             // 
+            // inputdisplaybutton
+            // 
+            this.inputdisplaybutton.Location = new System.Drawing.Point(113, 103);
+            this.inputdisplaybutton.Name = "inputdisplaybutton";
+            this.inputdisplaybutton.Size = new System.Drawing.Size(75, 23);
+            this.inputdisplaybutton.TabIndex = 4;
+            this.inputdisplaybutton.Text = "Input display";
+            this.inputdisplaybutton.UseVisualStyleBackColor = true;
+            this.inputdisplaybutton.Click += new System.EventHandler(this.inputdisplaybutton_Click);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(629, 136);
+            this.ClientSize = new System.Drawing.Size(629, 134);
+            this.Controls.Add(this.inputdisplaybutton);
             this.Controls.Add(this.ghostcheck);
             this.Controls.Add(this.wrtext);
             this.Controls.Add(this.levelinfo);
@@ -106,5 +118,6 @@ namespace racman
         private System.Windows.Forms.Label levelinfo;
         private System.Windows.Forms.Label wrtext;
         private System.Windows.Forms.CheckBox ghostcheck;
+        private System.Windows.Forms.Button inputdisplaybutton;
     }
 }

@@ -104,7 +104,7 @@ namespace racman
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC4Form rac4 = new RAC4Form
+                RAC4Form rac4 = new RAC4Form(new rac4((Ratchetron)func.api))
                 {
                     TopMost = true
                 };

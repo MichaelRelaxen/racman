@@ -112,6 +112,7 @@
     </Compile>
     <Compile Include="offsets\acit.cs" />
     <Compile Include="offsets\rac2.cs" />
+    <Compile Include="offsets\rac4.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -210,7 +211,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="autosplitters\rac3 no qe.asl" />
-    <None Include="autosplitters\rac3-autosplitter.asl" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
