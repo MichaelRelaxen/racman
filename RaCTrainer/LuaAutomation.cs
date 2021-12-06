@@ -80,8 +80,12 @@ namespace racman
 
                 failed = true;
 
+                automationFile.Close();
+
                 return;
             }
+
+            automationFile.Close();
 
             // Call OnLoad Lua function
             var onLoadFunc = state["OnLoad"] as LuaFunction;
