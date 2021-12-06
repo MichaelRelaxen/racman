@@ -1,0 +1,4 @@
+#- name: One-Hit KO
+#- author: bordplate
+
+automation: main.lua

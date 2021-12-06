@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLua;
 
 namespace racman
 {
@@ -123,6 +124,8 @@ namespace racman
         public List<string> patchLines = new List<string>();
         public Dictionary<uint, byte[]> originalData = new Dictionary<uint, byte[]>();
 
+        private List<LuaAutomationTimer> luaAutomationTimers = new List<LuaAutomationTimer>();
+
         private void LoadOriginalData()
         {
             foreach (string patch in patchLines)
@@ -134,6 +137,12 @@ namespace racman
 
                 var patchComponents = patch.Split(':');
                 var addressString = patchComponents[0].Trim();
+                
+                if(!addressString.StartsWith("0x"))
+                {
+                    continue;  // Probably Lua automation or something
+                }
+
                 uint address = UInt32.Parse(addressString.Substring(addressString.IndexOf("0x") + 2), System.Globalization.NumberStyles.HexNumber);
                 var value = patchComponents[1].Trim();
 
@@ -175,7 +184,6 @@ namespace racman
             }
 
             Ratchetron api = (Ratchetron)func.api;
-            //api.WriteMemory(AttachPS3Form.pid, 0xe1638, 4, new byte[] { 0x42, 0x80, 0xff, 0xfc });
 
 
             foreach (string patch in patchLines)
@@ -187,8 +195,18 @@ namespace racman
 
                 var patchComponents = patch.Split(':');
                 var addressString = patchComponents[0].Trim();
-                uint address = UInt32.Parse(addressString.Substring(addressString.IndexOf("0x") + 2), System.Globalization.NumberStyles.HexNumber);
                 var value = patchComponents[1].Trim();
+
+                if (addressString == "automation")
+                {
+                    // Lua "automation" file
+
+                    this.LoadLuaAutomation($"{modFolder}\\{value}");
+
+                    continue;
+                }
+
+                uint address = UInt32.Parse(addressString.Substring(addressString.IndexOf("0x") + 2), System.Globalization.NumberStyles.HexNumber);
 
                 byte[] patchBytes;
 
@@ -212,8 +230,106 @@ namespace racman
                     bytesWritten += bytesToWrite.Length;
                 }
             }
+        }
 
-            //api.WriteMemory(AttachPS3Form.pid, 0xe1638, 4, new byte[] { 0x38, 0x60, 0x00, 0x01 });
+        class LuaAutomationTimer : System.Timers.Timer
+        {
+            public Lua State;
+            public LuaFunction TickFunction;
+            public LuaFunction OnUnloadFunction;
+
+            public int Ticks = 0;
+        }
+
+        private void LoadLuaAutomation(string filename)
+        {
+            Console.WriteLine($"Loading Lua automation from file {filename}...");
+
+            Lua state = new Lua();
+
+            state.LoadCLRPackage();
+
+            state.RegisterFunction("print", typeof(Mod).GetMethod("LuaPrint"));
+            state.RegisterFunction("bytestoint", typeof(Mod).GetMethod("LuaByteArrayToInt"));
+
+            state["Ratchetron"] = func.api;
+            state["GAME_PID"] = func.api.getCurrentPID();
+
+            // Load racman standard library
+            string standardLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\standard\\";
+
+            if (Directory.Exists(standardLibsFolder))
+            {
+                var libraryFiles = Directory.EnumerateFiles(standardLibsFolder);
+
+                foreach (var libraryFile in libraryFiles)
+                {
+                    var libReader = new StreamReader(libraryFile);
+                    state.DoString(libReader.ReadToEnd());
+                }
+            }
+
+
+            // Load "standard" library for current game
+
+            string gameLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\{AttachPS3Form.game}\\";
+
+            if (Directory.Exists(gameLibsFolder))
+            {
+                var libraryFiles = Directory.EnumerateFiles(gameLibsFolder);
+
+                foreach(var libraryFile in libraryFiles)
+                {
+                    var libReader = new StreamReader(libraryFile);
+                    state.DoString(libReader.ReadToEnd());
+                }
+            }
+
+            // Load automation file
+
+            var automationFile = File.OpenRead(filename);
+            StreamReader reader = new StreamReader(automationFile);
+            var automation = reader.ReadToEnd();
+
+            state.DoString(automation);
+
+            // Call OnLoad Lua function
+            var onLoadFunc = state["OnLoad"] as LuaFunction;
+            onLoadFunc.Call();
+
+            // Set up OnTick function
+            var timer = new LuaAutomationTimer();
+            timer.Interval = (int)16.66667;
+            timer.Elapsed += LuaAutomationTick;
+
+            timer.State = state;
+            timer.TickFunction = state["OnTick"] as LuaFunction;
+            timer.OnUnloadFunction = state["OnUnload"] as LuaFunction;
+
+            this.luaAutomationTimers.Add(timer);
+
+            timer.Start();
+
+            Console.WriteLine($"Loaded Lua automation for file {filename}!");
+        }
+
+        private void LuaAutomationTick(object sender, EventArgs e)
+        {
+            var timer = (LuaAutomationTimer)sender;
+
+            timer.TickFunction.Call(timer.Ticks);
+
+            timer.Ticks += 1;
+        }
+
+        public static void LuaPrint(string text)
+        {
+            Console.WriteLine($"[LuaMod] {text}");
+        }
+
+        public static int LuaByteArrayToInt(byte[] bytes)
+        {
+            return (int)BitConverter.ToInt32(bytes.Take(4).Reverse().ToArray(), 0);
         }
 
         public void Unload()
@@ -232,6 +348,17 @@ namespace racman
                     bytesWritten += bytesToWrite.Length;
                 }
             }
+
+            // Stop and clear out Lua automations
+            foreach(LuaAutomationTimer timer in this.luaAutomationTimers)
+            {
+                timer.OnUnloadFunction.Call();
+
+                timer.Stop();
+                timer.State.Close();
+            }
+
+            this.luaAutomationTimers.Clear();
         }
     }
 
