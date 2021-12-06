@@ -73,11 +73,11 @@ Metadata tags start with `#-` and are key value seratated by `:` and may look li
 #### Metadata tags
 
 `name`: Name of the patch, which shows up as the patch name in the GUI.  
-`author`: Name of the person/team who made it
-`version`: Version of your mod/patch.
-`description`: Description of your thing. 
+`author`: Name of the person/team who made it  
+`version`: Version of your mod/patch.  
+`description`: Description of your thing.  
 `href`: Link to project page or author page.  
-`unloadable`: Set to `false` if you don't want the user to be able to unload the patch without restarting the game. On by default.  
+`unloadable`: Set to `false` if you don't want the user to be able to unload the patch without restarting the game. On by default.   
 
 ### Patches
 Patches are hex addresses and either references to blobs or patch values. Example under: 
