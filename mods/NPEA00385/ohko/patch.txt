@@ -1,4 +1,7 @@
 #- name: One-Hit KO
 #- author: bordplate
+#- href: https://github.com/bordplate
+#- version: 1.0
+#- description: Forces you to only have 1 health.
 
 automation: main.lua

@@ -70,6 +70,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
@@ -102,6 +103,13 @@
     </Compile>
     <Compile Include="ConfigureCombos.Designer.cs">
       <DependentUpon>ConfigureCombos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LuaAutomation.cs" />
+    <Compile Include="RacManConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RacManConsole.Designer.cs">
+      <DependentUpon>RacManConsole.cs</DependentUpon>
     </Compile>
     <Compile Include="IGame.cs" />
     <Compile Include="InputDisplay.cs">
@@ -177,6 +185,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigureCombos.resx">
       <DependentUpon>ConfigureCombos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RacManConsole.resx">
+      <DependentUpon>RacManConsole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HovenHealthForm.resx">
       <DependentUpon>HovenHealthForm.cs</DependentUpon>

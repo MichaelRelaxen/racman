@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Threading;
 
 namespace racman
 {
@@ -9,9 +10,15 @@ namespace racman
     {
         bool useOldAPI = false;
 
+        public static RacManConsole console;
+
         public AttachPS3Form()
         {
             InitializeComponent();
+
+            RacManConsole.RedirectOutput();
+
+            console = new RacManConsole();
 
             currentVerLabel.Text = "v" + Assembly.GetEntryAssembly().GetName().Version;
 

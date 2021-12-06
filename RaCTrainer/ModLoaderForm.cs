@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,11 +15,16 @@ namespace racman
 {
     public partial class ModLoaderForm : Form
     {
-        static Mod[] mods;
+        public static Mod[] mods;
+        string gameModFolder;
+
+        bool reloading = false;
 
         public ModLoaderForm()
         {
             InitializeComponent();
+
+            gameModFolder = $"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\";
 
             if (mods == null)
             {
@@ -33,8 +39,6 @@ namespace racman
 
         public List<Mod> LoadMods()
         {
-            string gameModFolder = $"{ Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\";
-
             if (!Directory.Exists(gameModFolder))
             {
                 return new List<Mod>();
@@ -46,58 +50,134 @@ namespace racman
 
             foreach (var modFolder in modFolders)
             {
-                if (!File.Exists($"{modFolder}\\patch.txt"))
+                Mod mod = GetMod(modFolder);
+
+                if (mod != null)
                 {
-                    continue;
+                    mods.Add(mod);
                 }
-
-                var mod = new Mod();
-                mod.modFolder = modFolder;
-
-                var patchFileStream = File.OpenRead($"{modFolder}\\patch.txt");
-
-                using (StreamReader reader = new StreamReader(patchFileStream))
-                {
-                    mod.patchLines = reader.ReadToEnd().Split('\n').ToList();
-
-                    foreach (var patchLine in mod.patchLines)
-                    {
-                        if (patchLine.Length > 2 && patchLine.Substring(0, 2) == "#-")
-                        {
-                            var patchLineComponents = patchLine.Split(':');
-                            if (patchLineComponents.Length < 2)
-                            {
-                                continue;
-                            }
-
-                            var key = patchLineComponents[0].Substring(2).Trim();
-                            var value = patchLineComponents[1].Trim();
-
-                            mod.variables[key] = value;
-                        }
-                    }
-                }
-
-                if (mod.variables.ContainsKey("name"))
-                {
-                    mod.name = mod.variables["name"];
-                }
-                else
-                {
-                    mod.name = new DirectoryInfo(modFolder).Name;
-                }
-
-                mods.Add(mod);
             }
 
             return mods;
         }
 
+        private void ReloadMods()
+        {
+            reloading = true;
+
+            List<Mod> allMods = new List<Mod>(ModLoaderForm.mods);
+            List<string> modsFolders = new List<string>();
+
+            foreach(Mod mod in mods)
+            {
+                modsFolders.Add(mod.modFolder);
+
+                // Don't reload mods that are currently loaded
+                if (!mod.loaded)
+                {
+                    var index = allMods.FindIndex(x => x.modFolder == mod.modFolder);
+
+                    // Remove mod from list if it's removed from file system
+                    if (!Directory.Exists(mod.modFolder))
+                    {
+                        allMods.RemoveAt(index);
+                        continue;
+                    }
+
+                    allMods.RemoveAt(index);
+                    allMods.Insert(index, GetMod(mod.modFolder));
+                }
+            }
+
+            var modFolders = Directory.EnumerateDirectories(gameModFolder);
+
+            // Load new mods
+            foreach (var modFolder in modFolders)
+            {
+                // Ignore already loaded mods
+                if (modsFolders.Contains(modFolder))
+                {
+                    continue;
+                }
+
+                Mod mod = GetMod(modFolder);
+
+                if (mod != null)
+                {
+                    allMods.Add(mod);
+                }
+            }
+
+            mods = allMods.ToArray();
+
+            this.modsCheckedListBox.Items.Clear();
+            foreach (var mod in mods)
+            {
+                this.modsCheckedListBox.Items.Add(mod.name, mod.loaded);
+            }
+
+            reloading = false;
+        }
+
+        private Mod GetMod(string modFolder)
+        {
+            if (!File.Exists($"{modFolder}\\patch.txt"))
+            {
+                return null;
+            }
+
+            var mod = new Mod();
+            mod.modFolder = modFolder;
+
+            var patchFileStream = File.OpenRead($"{modFolder}\\patch.txt");
+
+            using (StreamReader reader = new StreamReader(patchFileStream))
+            {
+                mod.patchLines = reader.ReadToEnd().Split('\n').ToList();
+
+                foreach (var patchLine in mod.patchLines)
+                {
+                    if (patchLine.Length > 2 && patchLine.Substring(0, 2) == "#-")
+                    {
+                        var patchLineComponents = patchLine.Split(new char[] { ':' }, 2);
+                        if (patchLineComponents.Length < 2)
+                        {
+                            continue;
+                        }
+
+                        var key = patchLineComponents[0].Substring(2).Trim();
+                        var value = patchLineComponents[1].Trim();
+
+                        mod.variables[key] = value;
+                    }
+                }
+            }
+
+            if (mod.variables.ContainsKey("name"))
+            {
+                mod.name = mod.variables["name"];
+            }
+            else
+            {
+                mod.name = new DirectoryInfo(modFolder).Name;
+            }
+
+            return mod;
+        }
+
         private void modsCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+            if (reloading)
+            {
+                return;
+            }
+
             if (e.NewValue == CheckState.Checked)
             {
-                ModLoaderForm.mods[e.Index].Load();
+                if (!ModLoaderForm.mods[e.Index].Load())
+                {
+                    e.NewValue = CheckState.Unchecked;
+                }
             }
             else
             {
@@ -108,6 +188,82 @@ namespace racman
         private void ModLoaderForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void modsCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (modsCheckedListBox.SelectedIndex < 0)
+            {
+                return;
+            }
+
+            Mod mod = ModLoaderForm.mods[modsCheckedListBox.SelectedIndex];
+
+            modNameLabel.Text = mod.name;
+            authorNameLabel.Text = "N/A";
+            versionLabel.Text = "N/A";
+            linkLabel.Text = "";
+            descriptionTextBox.Text = "";
+            
+            if (mod.variables.ContainsKey("author"))
+            {
+                authorNameLabel.Text = mod.variables["author"];
+            }
+
+            if (mod.variables.ContainsKey("version"))
+            {
+                versionLabel.Text = mod.variables["version"];
+            }
+
+            if (mod.variables.ContainsKey("href") && (mod.variables["href"].StartsWith("https://") || mod.variables["href"].StartsWith("http://")))
+            {
+                linkLabel.Text = mod.variables["href"];
+                linkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler((s, ev) => System.Diagnostics.Process.Start(mod.variables["href"]));
+            }
+
+            if (mod.variables.ContainsKey("description"))
+            {
+                descriptionTextBox.Text = mod.variables["description"];
+            }
+        }
+
+        private void addZipButton_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "ZIP file (*.zip)|*.zip";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        ZipFile.ExtractToDirectory(openFileDialog.FileName, $"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\");
+                    } catch (IOException exception)
+                    {
+                        // There's apparently no easy way to tell ZipFile.ExtractToDirectory to overwrite files smh
+                        MessageBox.Show("Failed to extract mod from ZIP, maybe a mod with the same name is already installed?");
+                    }
+
+                    this.ReloadMods();
+                }
+            }
+        }
+
+        private void ModLoaderForm_Activated(object sender, EventArgs e)
+        {
+            this.ReloadMods();
+        }
+
+        private void openConsoleButton_Click(object sender, EventArgs e)
+        {
+            if (!AttachPS3Form.console.IsDisposed)
+            {
+                AttachPS3Form.console.Show();
+            } else
+            {
+                RacManConsole console = new RacManConsole();
+                console.Show();
+            }
         }
     }
 
@@ -124,7 +280,7 @@ namespace racman
         public List<string> patchLines = new List<string>();
         public Dictionary<uint, byte[]> originalData = new Dictionary<uint, byte[]>();
 
-        private List<LuaAutomationTimer> luaAutomationTimers = new List<LuaAutomationTimer>();
+        List<LuaAutomation> luaAutomations = new List<LuaAutomation>();
 
         private void LoadOriginalData()
         {
@@ -174,7 +330,7 @@ namespace racman
             }
         }
 
-        public void Load()
+        public bool Load()
         {
             Console.WriteLine($"Loading mod: {this.name}");
 
@@ -185,6 +341,7 @@ namespace racman
 
             Ratchetron api = (Ratchetron)func.api;
 
+            bool dirty = false;
 
             foreach (string patch in patchLines)
             {
@@ -201,7 +358,11 @@ namespace racman
                 {
                     // Lua "automation" file
 
-                    this.LoadLuaAutomation($"{modFolder}\\{value}");
+                    if (!this.LoadLuaAutomation($"{modFolder}\\{value}"))
+                    {
+                        // We need to unload, but we need to do it later because we don't know what patches might have been applied that need to be reverted.
+                        dirty = true;
+                    }
 
                     continue;
                 }
@@ -230,106 +391,24 @@ namespace racman
                     bytesWritten += bytesToWrite.Length;
                 }
             }
-        }
 
-        class LuaAutomationTimer : System.Timers.Timer
-        {
-            public Lua State;
-            public LuaFunction TickFunction;
-            public LuaFunction OnUnloadFunction;
-
-            public int Ticks = 0;
-        }
-
-        private void LoadLuaAutomation(string filename)
-        {
-            Console.WriteLine($"Loading Lua automation from file {filename}...");
-
-            Lua state = new Lua();
-
-            state.LoadCLRPackage();
-
-            state.RegisterFunction("print", typeof(Mod).GetMethod("LuaPrint"));
-            state.RegisterFunction("bytestoint", typeof(Mod).GetMethod("LuaByteArrayToInt"));
-
-            state["Ratchetron"] = func.api;
-            state["GAME_PID"] = func.api.getCurrentPID();
-
-            // Load racman standard library
-            string standardLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\standard\\";
-
-            if (Directory.Exists(standardLibsFolder))
+            if (dirty)
             {
-                var libraryFiles = Directory.EnumerateFiles(standardLibsFolder);
-
-                foreach (var libraryFile in libraryFiles)
-                {
-                    var libReader = new StreamReader(libraryFile);
-                    state.DoString(libReader.ReadToEnd());
-                }
+                // We failed something at some point, revert patches.
+                this.Unload();
+                return false;
             }
 
-
-            // Load "standard" library for current game
-
-            string gameLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\{AttachPS3Form.game}\\";
-
-            if (Directory.Exists(gameLibsFolder))
-            {
-                var libraryFiles = Directory.EnumerateFiles(gameLibsFolder);
-
-                foreach(var libraryFile in libraryFiles)
-                {
-                    var libReader = new StreamReader(libraryFile);
-                    state.DoString(libReader.ReadToEnd());
-                }
-            }
-
-            // Load automation file
-
-            var automationFile = File.OpenRead(filename);
-            StreamReader reader = new StreamReader(automationFile);
-            var automation = reader.ReadToEnd();
-
-            state.DoString(automation);
-
-            // Call OnLoad Lua function
-            var onLoadFunc = state["OnLoad"] as LuaFunction;
-            onLoadFunc.Call();
-
-            // Set up OnTick function
-            var timer = new LuaAutomationTimer();
-            timer.Interval = (int)16.66667;
-            timer.Elapsed += LuaAutomationTick;
-
-            timer.State = state;
-            timer.TickFunction = state["OnTick"] as LuaFunction;
-            timer.OnUnloadFunction = state["OnUnload"] as LuaFunction;
-
-            this.luaAutomationTimers.Add(timer);
-
-            timer.Start();
-
-            Console.WriteLine($"Loaded Lua automation for file {filename}!");
+            this.loaded = true;
+            return true;
         }
 
-        private void LuaAutomationTick(object sender, EventArgs e)
+        private bool LoadLuaAutomation(string filename)
         {
-            var timer = (LuaAutomationTimer)sender;
+            LuaAutomation automation = new LuaAutomation(filename, AttachPS3Form.game, this);
+            this.luaAutomations.Add(automation);
 
-            timer.TickFunction.Call(timer.Ticks);
-
-            timer.Ticks += 1;
-        }
-
-        public static void LuaPrint(string text)
-        {
-            Console.WriteLine($"[LuaMod] {text}");
-        }
-
-        public static int LuaByteArrayToInt(byte[] bytes)
-        {
-            return (int)BitConverter.ToInt32(bytes.Take(4).Reverse().ToArray(), 0);
+            return !automation.failed;
         }
 
         public void Unload()
@@ -350,15 +429,14 @@ namespace racman
             }
 
             // Stop and clear out Lua automations
-            foreach(LuaAutomationTimer timer in this.luaAutomationTimers)
+            foreach(LuaAutomation automation in luaAutomations)
             {
-                timer.OnUnloadFunction.Call();
-
-                timer.Stop();
-                timer.State.Close();
+                automation.Unload();
             }
 
-            this.luaAutomationTimers.Clear();
+            this.luaAutomations.Clear();
+
+            this.loaded = false;
         }
     }
 
