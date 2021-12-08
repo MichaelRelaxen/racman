@@ -1,0 +1,7 @@
+#- name: Simple Chaos Mod
+#- author: bordplate
+#- href: https://github.com/bordplate
+#- version: 1.0
+#- description: Very simple chaos mod with a handful of effects that rotate every 10 seconds. 
+
+automation: main.lua

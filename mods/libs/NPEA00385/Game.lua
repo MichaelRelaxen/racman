@@ -8,6 +8,11 @@ mt.__index = function(self, key)
 		
 		local mem = Ratchetron:ReadMemory(GAME_PID, obj.addr, obj.size)
 		
+		if obj._type == "float" then
+			return bytestofloat(mem)
+		end
+		
+		-- Fallback return int
 		return bytestoint(mem)
 	else
 		return self.class.__instanceDict[key]
@@ -18,7 +23,12 @@ mt.__newindex = function(self, key, value)
 	if self._addresses[key] ~= nil then
 		local obj = self._addresses[key]
 		
-		Ratchetron:WriteMemory(GAME_PID, obj.addr, value)
+		if obj._type == "float" then
+			Ratchetron:WriteMemory(GAME_PID, obj.addr, obj.size, floattobytes(value))
+		else
+			-- Default to int
+			Ratchetron:WriteMemory(GAME_PID, obj.addr, obj.size, inttobytes(value, obj.size))
+		end
 	else
 		rawset(self, key, value)
 	end
@@ -36,11 +46,20 @@ function Game:initialize()
 			addr = 0x00A10708,
 			size = 4,
 			_type = "int"
+		},
+		moby_table = {
+			addr = 0x0a390a0,
+			size = 4,
+			_type = "int"
+		},
+		fov = {
+			addr = 0x0095D1C8,
+			size = 4, 
+			_type = "float"
 		}
 	}
-	local old = getmetatable(self)
-	old.__index = mt.__index
-	old.__newindex = mt.__newindex
+	
+	setmetatable(self, mt)
 end
 
 function Game:setFastLoads(enabled)
