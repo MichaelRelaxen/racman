@@ -200,7 +200,7 @@ namespace racman
 #if DEBUG
             watch.Stop();
 
-            Console.WriteLine($"Request for {size} bytes memory at {address.ToString("X")} took: {watch.ElapsedMilliseconds} ms");
+            //Console.WriteLine($"Request for {size} bytes memory at {address.ToString("X")} took: {watch.ElapsedMilliseconds} ms");
 #endif 
             return memory.Take((int)size).ToArray();
         }
@@ -438,6 +438,28 @@ namespace racman
                 }
             }
             return -1;
+        }
+
+        public uint AllocatePage(int pid, uint size, uint flags, bool is_executable)
+        {
+            var cmdBuf = new List<byte>();
+            cmdBuf.Add(0x0e);
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)flags).Reverse());
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)(is_executable ? 1 : 0)).Reverse());
+
+            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+
+            byte[] address = new byte[8];
+
+            int n_bytes = 0;
+            while (n_bytes < 8)
+            {
+                n_bytes += stream.Read(address, 0, 8);
+            }
+
+            return (uint)BitConverter.ToUInt32(address.Take(4).Reverse().ToArray(), 0); ;
         }
     }
 }
