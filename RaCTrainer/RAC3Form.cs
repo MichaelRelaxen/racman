@@ -263,12 +263,6 @@ namespace racman
             }
             else
             {
-                // Show warning only once per run.
-                if (modLoaderForm == null)
-                {
-                    MessageBox.Show("Patches replace code in the game while it's running. While it seems to work, your mileage may vary. If you close RaCMAN with a patch loaded, you can't unload it.");
-                }
-
                 modLoaderForm = new ModLoaderForm();
                 modLoaderForm.Show();
             }

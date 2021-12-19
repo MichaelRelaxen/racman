@@ -37,6 +37,12 @@ namespace racman
             state.RegisterFunction("inttobytes", typeof(LuaFunctions).GetMethod("IntToByteArray"));
             state.RegisterFunction("bytestofloat", typeof(LuaFunctions).GetMethod("ByteArrayToFloat"));
             state.RegisterFunction("floattobytes", typeof(LuaFunctions).GetMethod("FloatToByteArray"));
+            state.RegisterFunction("memset", typeof(LuaFunctions).GetMethod("Memset"));
+            state.RegisterFunction("ba", typeof(LuaFunctions).GetMethod("LuaTableToByteArray"));
+            state.RegisterFunction("dumpbytes", typeof(LuaFunctions).GetMethod("DumpByteArray"));
+            state.RegisterFunction("read_large", typeof(LuaFunctions).GetMethod("ReadLarge"));
+            state.RegisterFunction("get_ba_range", typeof(LuaFunctions).GetMethod("GetByteArrayRange"));
+            state.RegisterFunction("large_lookup", typeof(LuaFunctions).GetMethod("LargeLookup"));
 
             state["Ratchetron"] = func.api;
             state["GAME_PID"] = func.api.getCurrentPID();
@@ -67,7 +73,23 @@ namespace racman
                 foreach (var libraryFile in libraryFiles)
                 {
                     var libReader = new StreamReader(libraryFile);
-                    state.DoString(libReader.ReadToEnd(), libraryFile.Replace($"{Directory.GetCurrentDirectory()}\\mods\\", ""));
+                    try
+                    {
+                        state.DoString(libReader.ReadToEnd(), libraryFile.Replace($"{Directory.GetCurrentDirectory()}\\mods\\", ""));
+                    }
+                    catch (NLua.Exceptions.LuaScriptException ex)
+                    {
+                        Console.Error.WriteLine(ex.Message);
+                        Console.Error.WriteLine(ex.StackTrace);
+
+                        failed = true;
+
+                        libReader.Close();
+
+                        return;
+                    }
+
+                    libReader.Close();
                 }
             }
 
@@ -216,7 +238,7 @@ namespace racman
             Thread.Sleep(milliseconds);
         }
 
-        public static int ByteArrayToInt(byte[] bytes)
+        public static uint ByteArrayToInt(byte[] bytes)
         {
             if (bytes.Length == 1)
             {
@@ -225,10 +247,10 @@ namespace racman
 
             if (bytes.Length == 2)
             {
-                return BitConverter.ToInt16(bytes.Reverse().ToArray(), 0);
+                return BitConverter.ToUInt16(bytes.Reverse().ToArray(), 0);
             }
 
-            return BitConverter.ToInt32(bytes.Reverse().ToArray(), 0);
+            return BitConverter.ToUInt32(bytes.Reverse().ToArray(), 0);
         }
 
         public static byte[] IntToByteArray(int num, int size)
@@ -245,6 +267,76 @@ namespace racman
        {
             return BitConverter.GetBytes(number).Reverse().ToArray();
        }
+
+        public static void Memset(uint addr, byte num, uint size)
+        {
+            Ratchetron api = (Ratchetron)func.api;
+
+            api.WriteMemory(AttachPS3Form.pid, addr, size, Enumerable.Repeat<byte>(num, (int)size).ToArray());
+        }
+
+        public static byte[] LuaTableToByteArray(object table)
+        {
+            List<byte> bytes = new List<byte>();
+
+            foreach (var value in ((NLua.LuaTable)table).Values)
+            {
+                bytes.Add(((byte)((Int64)value)));
+            }
+
+            return bytes.ToArray();
+        }
+
+        public static void DumpByteArray(byte[] bytes)
+        {
+            foreach (byte val in bytes)
+            {
+                Console.Write($"{val.ToString("X2")} ");
+            }
+            Console.WriteLine("");
+        }
+
+        public static byte[] ReadLarge(uint address, uint size)
+        {
+            List<byte> buffer = new List<byte>();
+
+            int pid = AttachPS3Form.pid;
+            Ratchetron api = (Ratchetron)func.api;
+
+            for (uint i = 0; i <= size; i+=0x8000)
+            {
+                buffer.AddRange(api.ReadMemory(pid, address + i, 0x8000));
+            }
+
+            return buffer.ToArray();
+        }
+
+        public static uint[] LargeLookup(byte[] bytes, int offset, int objectSize, byte[] lookup)
+        {
+            List<uint> result = new List<uint>();
+
+            for (int i = 0; i < bytes.Length; i += objectSize)
+            {
+                if (bytes.Skip(i + offset).Take(lookup.Length).ToArray() == lookup)
+                {
+                    result.Add((uint)i);
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        public static byte[] GetByteArrayRange(byte[] bytes, int start, int count)
+        {
+            List<byte> result = new List<byte>();
+            
+            for (int i = 0; i < count; i++)
+            {
+                result.Add(bytes[start + i]);
+            }
+
+            return result.ToArray();
+        }
     }
 
     class LuaAutomationTimer : System.Timers.Timer

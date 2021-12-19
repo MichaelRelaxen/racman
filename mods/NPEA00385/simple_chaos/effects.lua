@@ -67,21 +67,23 @@ end
 
 function BlindToMobiesOnLoad()
 	blinded_mobies = {}
-	local moby_table = game.moby_table
+	local mobies = Moby:findAll(-1)
 
-	for i=1,0x400,1 do
-		-- Sleep once in a while
-		if (i % 50) == 0 then
+	for key, moby in pairs(mobies) do
+		if (key % 50) == 0 then
 			sleep(10)
 		end
-	
-		local moby = Moby(moby_table + (0x100 * i))
 		
-		if moby.moby_id < 1 then
+		moby.auto_commit = false  -- Makes us read from cache instead of directly from game
+	
+		if moby.o_class < 1 or moby.state <= 0xfd then
 			goto continue
 		end
 		
 		moby.original_draw_distance = moby.draw_distance
+		
+		moby.auto_commit = true  -- Reset auto_commit so that moby.scale is written directly to the game
+		
 		moby.draw_distance = 2
 	
 		blinded_mobies[#blinded_mobies + 1] = moby
@@ -102,21 +104,23 @@ end
 
 function ChonkyMobiesOnLoad()
 	chonky_mobies = {}
-	local moby_table = game.moby_table
+	local mobies = Moby:findAll(-1)
 
-	for i=1,0x400,1 do
-		-- Sleep once in a while
-		if (i % 50) == 0 then
+	for key, moby in pairs(mobies) do
+		if (key % 50) == 0 then
 			sleep(10)
 		end
-	
-		local moby = Moby(moby_table + (0x100 * i))
 		
-		if moby.moby_id < 1 then
+		moby.auto_commit = false  -- Makes us read from cache instead of directly from game
+	
+		if moby.o_class < 1 or moby.state <= 0xfd then
 			goto continue
 		end
 		
 		moby.original_scale = moby.scale
+		
+		moby.auto_commit = true  -- Reset auto_commit so that moby.scale is written directly to the game
+		
 		moby.scale = moby.original_scale * 2.0
 	
 		chonky_mobies[#chonky_mobies + 1] = moby
@@ -130,20 +134,21 @@ function ChonkyMobiesOnUnload()
 		if (key % 50) == 0 then
 			sleep(10)
 		end
+		
 		moby.scale = moby.original_scale
 	end
 end
 
-effescts = {
+effects = {
 	{
-		name = "Chonky mobies",
-		onload = ChonkyMobiesOnLoad,
-		onunload = ChonkyMobiesOnUnload,
+		name = "Blind to mobies",
+		onload = BlindToMobiesOnLoad,
+		onunload = BlindToMobiesOnUnload,
 		tick = nil
 	}
 }
 
-effects = {
+effefcts = {
 	{
 		name = "Yeet Ratchet",
 		onload = YeetRatchetOnLoad,

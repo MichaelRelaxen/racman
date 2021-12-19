@@ -52,6 +52,11 @@ function Ratchet:initialize()
 			size = 4,
 			_type = "float"
 		},
+		rotation_z = {
+			addr = 0x00969d78, 
+			size = 4,
+			_type = "float"
+		},
 		bolts = {
 			addr = 0x969CA0,
 			size = 4,

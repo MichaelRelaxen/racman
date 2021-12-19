@@ -52,10 +52,45 @@ function Game:initialize()
 			size = 4,
 			_type = "int"
 		},
+		moby_table_end = {
+			addr = 0x0a390a4,
+			size = 4,
+			_type = "int"
+		},
+		moby_table_max = {
+			addr = 0x00a390a8,
+			size = 4,
+			_type = "int"
+		},
 		fov = {
 			addr = 0x0095D1C8,
 			size = 4, 
 			_type = "float"
+		},
+		_time = {
+			addr = 0x00a10710,
+			size = 4,
+			_type = "int"
+		},
+		unk_moby_vars_ptr = {
+			addr = 0x00a390b0, 
+			size = 4,
+			_type = "int"
+		},
+		unk_moby_counter = {
+			addr = 0x00a4daf0,
+			size = 4,
+			_type = "int"
+		},
+		mobies_update_functions_table = {
+			addr = 0x00a34f80,
+			size = 4,
+			_type = "int"
+		},
+		mobies_class_table = {
+			addr = 0x00a34c00,
+			size = 4,
+			_type = "int"
 		}
 	}
 	
