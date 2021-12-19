@@ -1,8 +1,9 @@
-#- name: UYA IL practice patches by doesthisusername
+#- name: UYA IL practice patches
 #- author: doesthisusername
 
 # Link beneath to source code and how to compile
 #- href: https://github.com/doesthisusername/rc3-il
+#- description: Quick patch for NPEA00387 UYA to add some IL practice features
 
 # shared
 0x980500: tramp.bin

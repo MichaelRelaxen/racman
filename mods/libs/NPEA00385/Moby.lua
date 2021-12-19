@@ -310,7 +310,7 @@ end
 
 function Moby.static:findAll(id)
 	local moby_table = game.moby_table
-	local max_search_space = (0x100 * 0x2000)
+	local max_search_space = game.moby_table_max - moby_table
 	
 	print("Searching mobies with ID " .. id .. " from addr " .. string.format("%x", moby_table))
 	

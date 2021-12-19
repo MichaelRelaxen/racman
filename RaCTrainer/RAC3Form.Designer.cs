@@ -322,7 +322,7 @@ namespace racman
             // 
             this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
             this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
+            this.patchLoaderToolStripMenuItem.Text = "Mods and patches...";
             this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
             // configureButtonCombosToolStripMenuItem
@@ -581,7 +581,7 @@ namespace racman
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(371, 518);
+            this.ClientSize = new System.Drawing.Size(371, 471);
             this.Controls.Add(this.uploadFileButton);
             this.Controls.Add(this.loadFileButton);
             this.Controls.Add(this.setAsideButton);
