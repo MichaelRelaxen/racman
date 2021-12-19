@@ -73,12 +73,12 @@ namespace racman
             this.vidComicCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.freezeHealthCheck = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.savefileHelperComboBox = new System.Windows.Forms.ComboBox();
             this.setAsideButton = new System.Windows.Forms.Button();
             this.loadFileButton = new System.Windows.Forms.Button();
-            this.uploadFileButton = new System.Windows.Forms.Button();
+            this.toggleQS = new System.Windows.Forms.Button();
+            this.coordsComboBox = new System.Windows.Forms.CheckBox();
+            this.coordsLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -224,9 +224,9 @@ namespace racman
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(237, 316);
+            this.button6.Location = new System.Drawing.Point(237, 279);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(126, 23);
+            this.button6.Size = new System.Drawing.Size(132, 23);
             this.button6.TabIndex = 29;
             this.button6.Text = "Setup No QE";
             this.button6.UseVisualStyleBackColor = true;
@@ -261,7 +261,7 @@ namespace racman
             // 
             this.textBox1.Location = new System.Drawing.Point(236, 48);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(125, 20);
+            this.textBox1.Size = new System.Drawing.Size(135, 20);
             this.textBox1.TabIndex = 62;
             // 
             // label6
@@ -297,7 +297,7 @@ namespace racman
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(371, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(385, 24);
             this.menuStrip1.TabIndex = 75;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -334,9 +334,9 @@ namespace racman
             // 
             // inputdisplay
             // 
-            this.inputdisplay.Location = new System.Drawing.Point(238, 434);
+            this.inputdisplay.Location = new System.Drawing.Point(236, 338);
             this.inputdisplay.Name = "inputdisplay";
-            this.inputdisplay.Size = new System.Drawing.Size(123, 23);
+            this.inputdisplay.Size = new System.Drawing.Size(133, 23);
             this.inputdisplay.TabIndex = 76;
             this.inputdisplay.Text = "Input Display";
             this.inputdisplay.UseVisualStyleBackColor = true;
@@ -345,7 +345,7 @@ namespace racman
             // OHKOCheckBox
             // 
             this.OHKOCheckBox.AutoSize = true;
-            this.OHKOCheckBox.Location = new System.Drawing.Point(15, 288);
+            this.OHKOCheckBox.Location = new System.Drawing.Point(16, 239);
             this.OHKOCheckBox.Name = "OHKOCheckBox";
             this.OHKOCheckBox.Size = new System.Drawing.Size(80, 17);
             this.OHKOCheckBox.TabIndex = 77;
@@ -356,7 +356,7 @@ namespace racman
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(15, 272);
+            this.ghostCheckbox.Location = new System.Drawing.Point(16, 223);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 78;
@@ -378,7 +378,7 @@ namespace racman
             // freezeAmmoCheckBox
             // 
             this.freezeAmmoCheckBox.AutoSize = true;
-            this.freezeAmmoCheckBox.Location = new System.Drawing.Point(15, 304);
+            this.freezeAmmoCheckBox.Location = new System.Drawing.Point(16, 255);
             this.freezeAmmoCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.freezeAmmoCheckBox.Name = "freezeAmmoCheckBox";
             this.freezeAmmoCheckBox.Size = new System.Drawing.Size(89, 17);
@@ -392,9 +392,9 @@ namespace racman
             this.unlockTitaniumBoltsButton.Location = new System.Drawing.Point(236, 158);
             this.unlockTitaniumBoltsButton.Margin = new System.Windows.Forms.Padding(2);
             this.unlockTitaniumBoltsButton.Name = "unlockTitaniumBoltsButton";
-            this.unlockTitaniumBoltsButton.Size = new System.Drawing.Size(127, 23);
+            this.unlockTitaniumBoltsButton.Size = new System.Drawing.Size(135, 23);
             this.unlockTitaniumBoltsButton.TabIndex = 82;
-            this.unlockTitaniumBoltsButton.Text = "Unlock Titanium Bolts";
+            this.unlockTitaniumBoltsButton.Text = "Unlock All Titanium Bolts";
             this.unlockTitaniumBoltsButton.UseVisualStyleBackColor = true;
             this.unlockTitaniumBoltsButton.Click += new System.EventHandler(this.unlockTitaniumBoltsButton_Click);
             // 
@@ -403,9 +403,9 @@ namespace racman
             this.resetTitaniumBoltsButton.Location = new System.Drawing.Point(236, 185);
             this.resetTitaniumBoltsButton.Margin = new System.Windows.Forms.Padding(2);
             this.resetTitaniumBoltsButton.Name = "resetTitaniumBoltsButton";
-            this.resetTitaniumBoltsButton.Size = new System.Drawing.Size(127, 23);
+            this.resetTitaniumBoltsButton.Size = new System.Drawing.Size(135, 23);
             this.resetTitaniumBoltsButton.TabIndex = 83;
-            this.resetTitaniumBoltsButton.Text = "Reset Titanium Bolts";
+            this.resetTitaniumBoltsButton.Text = "Reset All Titanium Bolts";
             this.resetTitaniumBoltsButton.UseVisualStyleBackColor = true;
             this.resetTitaniumBoltsButton.Click += new System.EventHandler(this.resetTitaniumBoltsButton_Click);
             // 
@@ -414,9 +414,9 @@ namespace racman
             this.unlockSkillPointsButton.Location = new System.Drawing.Point(236, 219);
             this.unlockSkillPointsButton.Margin = new System.Windows.Forms.Padding(2);
             this.unlockSkillPointsButton.Name = "unlockSkillPointsButton";
-            this.unlockSkillPointsButton.Size = new System.Drawing.Size(127, 23);
+            this.unlockSkillPointsButton.Size = new System.Drawing.Size(135, 23);
             this.unlockSkillPointsButton.TabIndex = 84;
-            this.unlockSkillPointsButton.Text = "Unlock Skill Points";
+            this.unlockSkillPointsButton.Text = "Unlock All Skill Points";
             this.unlockSkillPointsButton.UseVisualStyleBackColor = true;
             this.unlockSkillPointsButton.Click += new System.EventHandler(this.unlockSkillPointsButton_Click);
             // 
@@ -425,9 +425,9 @@ namespace racman
             this.resetSkillPointsButton.Location = new System.Drawing.Point(236, 246);
             this.resetSkillPointsButton.Margin = new System.Windows.Forms.Padding(2);
             this.resetSkillPointsButton.Name = "resetSkillPointsButton";
-            this.resetSkillPointsButton.Size = new System.Drawing.Size(127, 23);
+            this.resetSkillPointsButton.Size = new System.Drawing.Size(135, 23);
             this.resetSkillPointsButton.TabIndex = 85;
-            this.resetSkillPointsButton.Text = "Reset Skill Points";
+            this.resetSkillPointsButton.Text = "Reset All Skill Points";
             this.resetSkillPointsButton.UseVisualStyleBackColor = true;
             this.resetSkillPointsButton.Click += new System.EventHandler(this.resetSkillPointsButton_Click);
             // 
@@ -436,7 +436,7 @@ namespace racman
             this.challengeModeInput.Location = new System.Drawing.Point(236, 86);
             this.challengeModeInput.Margin = new System.Windows.Forms.Padding(2);
             this.challengeModeInput.Name = "challengeModeInput";
-            this.challengeModeInput.Size = new System.Drawing.Size(123, 20);
+            this.challengeModeInput.Size = new System.Drawing.Size(133, 20);
             this.challengeModeInput.TabIndex = 86;
             this.challengeModeInput.ValueChanged += new System.EventHandler(this.challengeModeInput_ValueChanged);
             // 
@@ -464,7 +464,7 @@ namespace racman
             this.armorComboBox.Location = new System.Drawing.Point(236, 121);
             this.armorComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.armorComboBox.Name = "armorComboBox";
-            this.armorComboBox.Size = new System.Drawing.Size(125, 21);
+            this.armorComboBox.Size = new System.Drawing.Size(135, 21);
             this.armorComboBox.TabIndex = 88;
             this.armorComboBox.SelectedIndexChanged += new System.EventHandler(this.armorComboBox_SelectedIndexChanged);
             // 
@@ -489,7 +489,7 @@ namespace racman
             "Vid Comic 3",
             "Vid Comic 4",
             "Vid Comic 5"});
-            this.vidComicCheckedListBox.Location = new System.Drawing.Point(15, 369);
+            this.vidComicCheckedListBox.Location = new System.Drawing.Point(132, 221);
             this.vidComicCheckedListBox.Margin = new System.Windows.Forms.Padding(5);
             this.vidComicCheckedListBox.Name = "vidComicCheckedListBox";
             this.vidComicCheckedListBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
@@ -501,7 +501,7 @@ namespace racman
             // freezeHealthCheck
             // 
             this.freezeHealthCheck.AutoSize = true;
-            this.freezeHealthCheck.Location = new System.Drawing.Point(15, 320);
+            this.freezeHealthCheck.Location = new System.Drawing.Point(16, 271);
             this.freezeHealthCheck.Name = "freezeHealthCheck";
             this.freezeHealthCheck.Size = new System.Drawing.Size(90, 17);
             this.freezeHealthCheck.TabIndex = 91;
@@ -512,42 +512,25 @@ namespace racman
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 252);
+            this.label5.Location = new System.Drawing.Point(12, 203);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(48, 13);
             this.label5.TabIndex = 93;
             this.label5.Text = "Toggles:";
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(12, 207);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(83, 13);
-            this.label11.TabIndex = 94;
-            this.label11.Text = "Save file helper:";
-            // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(13, 351);
+            this.label12.Location = new System.Drawing.Point(130, 203);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(62, 13);
             this.label12.TabIndex = 95;
             this.label12.Text = "Vid Comics:";
             // 
-            // savefileHelperComboBox
-            // 
-            this.savefileHelperComboBox.FormattingEnabled = true;
-            this.savefileHelperComboBox.Location = new System.Drawing.Point(15, 223);
-            this.savefileHelperComboBox.Name = "savefileHelperComboBox";
-            this.savefileHelperComboBox.Size = new System.Drawing.Size(112, 21);
-            this.savefileHelperComboBox.TabIndex = 96;
-            // 
             // setAsideButton
             // 
             this.setAsideButton.Enabled = false;
-            this.setAsideButton.Location = new System.Drawing.Point(133, 253);
+            this.setAsideButton.Location = new System.Drawing.Point(136, 74);
             this.setAsideButton.Name = "setAsideButton";
             this.setAsideButton.Size = new System.Drawing.Size(75, 23);
             this.setAsideButton.TabIndex = 97;
@@ -558,7 +541,7 @@ namespace racman
             // loadFileButton
             // 
             this.loadFileButton.Enabled = false;
-            this.loadFileButton.Location = new System.Drawing.Point(133, 282);
+            this.loadFileButton.Location = new System.Drawing.Point(136, 103);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(75, 23);
             this.loadFileButton.TabIndex = 98;
@@ -566,28 +549,47 @@ namespace racman
             this.loadFileButton.UseVisualStyleBackColor = true;
             this.loadFileButton.Click += new System.EventHandler(this.loadFileButton_Click);
             // 
-            // uploadFileButton
+            // toggleQS
             // 
-            this.uploadFileButton.Location = new System.Drawing.Point(133, 223);
-            this.uploadFileButton.Name = "uploadFileButton";
-            this.uploadFileButton.Size = new System.Drawing.Size(75, 23);
-            this.uploadFileButton.TabIndex = 99;
-            this.uploadFileButton.Text = "Upload file...";
-            this.uploadFileButton.UseVisualStyleBackColor = true;
-            this.uploadFileButton.Click += new System.EventHandler(this.uploadFileButton_Click);
+            this.toggleQS.Location = new System.Drawing.Point(236, 308);
+            this.toggleQS.Name = "toggleQS";
+            this.toggleQS.Size = new System.Drawing.Size(133, 23);
+            this.toggleQS.TabIndex = 99;
+            this.toggleQS.Text = "Toggle QS Pause";
+            this.toggleQS.UseVisualStyleBackColor = true;
+            this.toggleQS.Click += new System.EventHandler(this.toggleQS_Click);
+            // 
+            // coordsComboBox
+            // 
+            this.coordsComboBox.AutoSize = true;
+            this.coordsComboBox.Location = new System.Drawing.Point(16, 289);
+            this.coordsComboBox.Name = "coordsComboBox";
+            this.coordsComboBox.Size = new System.Drawing.Size(112, 17);
+            this.coordsComboBox.TabIndex = 100;
+            this.coordsComboBox.Text = "Show Coordinates";
+            this.coordsComboBox.UseVisualStyleBackColor = true;
+            this.coordsComboBox.CheckedChanged += new System.EventHandler(this.coordsComboBox_CheckedChanged);
+            // 
+            // coordsLabel
+            // 
+            this.coordsLabel.AutoSize = true;
+            this.coordsLabel.Location = new System.Drawing.Point(16, 317);
+            this.coordsLabel.Name = "coordsLabel";
+            this.coordsLabel.Size = new System.Drawing.Size(0, 13);
+            this.coordsLabel.TabIndex = 101;
             // 
             // RAC3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(371, 471);
-            this.Controls.Add(this.uploadFileButton);
+            this.ClientSize = new System.Drawing.Size(385, 390);
+            this.Controls.Add(this.coordsLabel);
+            this.Controls.Add(this.coordsComboBox);
+            this.Controls.Add(this.toggleQS);
             this.Controls.Add(this.loadFileButton);
             this.Controls.Add(this.setAsideButton);
-            this.Controls.Add(this.savefileHelperComboBox);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.label11);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.freezeHealthCheck);
             this.Controls.Add(this.vidComicCheckedListBox);
@@ -682,12 +684,12 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configureButtonCombosToolStripMenuItem;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.ComboBox savefileHelperComboBox;
         private System.Windows.Forms.Button setAsideButton;
         private System.Windows.Forms.Button loadFileButton;
-        private System.Windows.Forms.Button uploadFileButton;
+        private System.Windows.Forms.Button toggleQS;
+        private System.Windows.Forms.CheckBox coordsComboBox;
+        private System.Windows.Forms.Label coordsLabel;
     }
 }
 

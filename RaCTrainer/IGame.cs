@@ -26,7 +26,7 @@ namespace racman
         public bool inputCheck = true;
 
         public string[] planetsList;
-
+        public float[] coords = new float[3];
         public int pid;
 
         public Timer InputsTimer = new Timer();
@@ -124,6 +124,22 @@ namespace racman
             });
         }
 
+        public virtual void GetPlayerCoordinates()
+        {
+            int xSubID = api.SubMemory(pid, Addr().playerCoords, 4, (value) =>
+            {
+                coords[0] = BitConverter.ToSingle(value, 0);
+            });
+            int ySubID = api.SubMemory(pid, Addr().playerCoords + 4, 4, (value) =>
+            {
+                coords[1] = BitConverter.ToSingle(value, 0);
+            });
+            int zSubID = api.SubMemory(pid, Addr().playerCoords + 8, 4, (value) =>
+            {
+                coords[2] = BitConverter.ToSingle(value, 0);
+            });
+        }
+        // 
         public abstract void CheckInputs(object sender, EventArgs e);
 
     }

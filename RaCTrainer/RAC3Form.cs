@@ -16,7 +16,7 @@ namespace racman
         private AutosplitterHelper autosplitterHelper;
 
         public static string[] saves;
-
+        public Timer CoordsTimer = new Timer();
         public RAC3Form(rac3 game)
         {
             this.game = game;
@@ -29,6 +29,10 @@ namespace racman
             planets_comboBox.Text = "Veldin";
             textBox1.KeyDown += TextBox1_KeyDown;
 
+            CoordsTimer.Interval = (int)16.66667;
+            CoordsTimer.Tick += new EventHandler(UpdateCoordsLabel);
+            game.GetPlayerCoordinates();
+
             if (func.api is Ratchetron)
             {
                 Ratchetron api = (Ratchetron)func.api;
@@ -38,12 +42,12 @@ namespace racman
 
 
 
-            saves = Directory.GetFiles($@"{Directory.GetCurrentDirectory()}\\saves\{AttachPS3Form.game}");
+            /*saves = Directory.GetFiles($@"{Directory.GetCurrentDirectory()}\\saves\{AttachPS3Form.game}");
 
             foreach(string i in saves)
             {
                 savefileHelperComboBox.Items.Add(i.Substring(i.IndexOf(AttachPS3Form.game) + 10));
-            }
+            }*/
 
         }
 
@@ -293,8 +297,31 @@ namespace racman
         {
             game.api.WriteMemory(pid, 0xD9FF02, new byte[] { 0x01 });
         }
+        static bool qsbool = false;
+        private void toggleQS_Click(object sender, EventArgs e)
+        {
+               qsbool = !qsbool;
+            if (qsbool)
+                game.api.WriteMemory(pid, rac3.addr.quickSelectPause, new byte[] { 1 });
+            if (!qsbool)
+                game.api.WriteMemory(pid, rac3.addr.quickSelectPause, new byte[] { 0 }); 
+        }
 
-        private void uploadFileButton_Click(object sender, EventArgs e)
+        private void coordsComboBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+
+            if (coordsComboBox.Checked)
+                CoordsTimer.Enabled = true;
+            if (!coordsComboBox.Checked)
+                CoordsTimer.Enabled = false;
+        }
+        public void UpdateCoordsLabel(object sender, EventArgs e)
+        {
+            coordsLabel.Text = $"X: {game.coords[0]}\nY: {game.coords[1]}\nZ: {game.coords[2]}\n";
+        }
+
+        /* private void uploadFileButton_Click(object sender, EventArgs e)
         {
             byte[] patchBytes;
 
@@ -312,6 +339,7 @@ namespace racman
 
                 Console.WriteLine("Bytes written:" + bytesWritten);
             }
-        }
+        } // This didn't really work, FTP upload is gonna be the way but I cant be fucked rn 
+        */
     }
 }

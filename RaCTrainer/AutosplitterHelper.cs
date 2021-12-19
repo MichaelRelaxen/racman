@@ -62,6 +62,7 @@ namespace racman
             writeLock.ReleaseMutex();
         }
 
+        // Autosplitter for Ratchet & Clank - NPEA00385
         private void OpenAutosplitter(rac1 game)
         {
             int playerCoordsSubID = game.api.SubMemory(game.pid, rac1.addr.playerCoords, 8, (value) =>
@@ -108,6 +109,7 @@ namespace racman
             });
         }
 
+        // Autosplitter for Ratchet & Clank 3 - NPEA000387
         private void OpenAutosplitter(rac3 game)
         {
             int destinationPlanetSubID = game.api.SubMemory(game.pid, rac3.addr.destinationPlanet + 3, 1, (value) => 

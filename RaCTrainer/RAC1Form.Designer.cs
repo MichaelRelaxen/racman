@@ -54,7 +54,7 @@ namespace racman
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
+            this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -65,7 +65,6 @@ namespace racman
             this.FastLoadToggle = new System.Windows.Forms.CheckBox();
             this.FreezeAmmoCheckbox = new System.Windows.Forms.CheckBox();
             this.resetGBsButton = new System.Windows.Forms.Button();
-            this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -115,7 +114,7 @@ namespace racman
             // 
             // loadPlanetButton
             // 
-            this.loadPlanetButton.Location = new System.Drawing.Point(133, 194);
+            this.loadPlanetButton.Location = new System.Drawing.Point(133, 172);
             this.loadPlanetButton.Name = "loadPlanetButton";
             this.loadPlanetButton.Size = new System.Drawing.Size(75, 23);
             this.loadPlanetButton.TabIndex = 14;
@@ -185,7 +184,7 @@ namespace racman
             "Kalebo III",
             "Fleet",
             "Veldin 2"});
-            this.planets_comboBox.Location = new System.Drawing.Point(15, 196);
+            this.planets_comboBox.Location = new System.Drawing.Point(15, 174);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
             this.planets_comboBox.TabIndex = 28;
@@ -225,7 +224,7 @@ namespace racman
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 180);
+            this.label6.Location = new System.Drawing.Point(12, 158);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 67;
@@ -242,7 +241,7 @@ namespace racman
             // 
             // unlocksWindowButton
             // 
-            this.unlocksWindowButton.Location = new System.Drawing.Point(227, 289);
+            this.unlocksWindowButton.Location = new System.Drawing.Point(15, 275);
             this.unlocksWindowButton.Name = "unlocksWindowButton";
             this.unlocksWindowButton.Size = new System.Drawing.Size(106, 23);
             this.unlocksWindowButton.TabIndex = 72;
@@ -253,7 +252,7 @@ namespace racman
             // infHealth
             // 
             this.infHealth.AutoSize = true;
-            this.infHealth.Location = new System.Drawing.Point(15, 292);
+            this.infHealth.Location = new System.Drawing.Point(231, 154);
             this.infHealth.Name = "infHealth";
             this.infHealth.Size = new System.Drawing.Size(91, 17);
             this.infHealth.TabIndex = 70;
@@ -264,7 +263,7 @@ namespace racman
             // goodiesCheck
             // 
             this.goodiesCheck.AutoSize = true;
-            this.goodiesCheck.Location = new System.Drawing.Point(15, 337);
+            this.goodiesCheck.Location = new System.Drawing.Point(231, 199);
             this.goodiesCheck.Name = "goodiesCheck";
             this.goodiesCheck.Size = new System.Drawing.Size(95, 17);
             this.goodiesCheck.TabIndex = 74;
@@ -275,7 +274,7 @@ namespace racman
             // lflagresetCb
             // 
             this.lflagresetCb.AutoSize = true;
-            this.lflagresetCb.Location = new System.Drawing.Point(15, 223);
+            this.lflagresetCb.Location = new System.Drawing.Point(15, 201);
             this.lflagresetCb.Name = "lflagresetCb";
             this.lflagresetCb.Size = new System.Drawing.Size(111, 17);
             this.lflagresetCb.TabIndex = 75;
@@ -321,19 +320,16 @@ namespace racman
             this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
             this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
-            // button1
+            // configureButtonCombosToolStripMenuItem
             // 
-            this.button1.Location = new System.Drawing.Point(227, 344);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(106, 23);
-            this.button1.TabIndex = 77;
-            this.button1.Text = "Hoven HP";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.hovenHPButton_click);
+            this.configureButtonCombosToolStripMenuItem.Name = "configureButtonCombosToolStripMenuItem";
+            this.configureButtonCombosToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.configureButtonCombosToolStripMenuItem.Text = "Configure button combos";
+            this.configureButtonCombosToolStripMenuItem.Click += new System.EventHandler(this.configureButtonCombosToolStripMenuItem_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(227, 317);
+            this.button2.Location = new System.Drawing.Point(15, 303);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(106, 22);
@@ -345,7 +341,7 @@ namespace racman
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(15, 314);
+            this.ghostCheckbox.Location = new System.Drawing.Point(231, 176);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 83;
@@ -366,7 +362,7 @@ namespace racman
             // resetGB_checkbox
             // 
             this.resetGB_checkbox.AutoSize = true;
-            this.resetGB_checkbox.Location = new System.Drawing.Point(15, 245);
+            this.resetGB_checkbox.Location = new System.Drawing.Point(15, 223);
             this.resetGB_checkbox.Name = "resetGB_checkbox";
             this.resetGB_checkbox.Size = new System.Drawing.Size(105, 17);
             this.resetGB_checkbox.TabIndex = 85;
@@ -376,7 +372,7 @@ namespace racman
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(224, 273);
+            this.label1.Location = new System.Drawing.Point(12, 259);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(42, 13);
             this.label1.TabIndex = 86;
@@ -385,7 +381,7 @@ namespace racman
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(11, 273);
+            this.label4.Location = new System.Drawing.Point(227, 135);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 87;
@@ -405,7 +401,7 @@ namespace racman
             // FastLoadToggle
             // 
             this.FastLoadToggle.AutoSize = true;
-            this.FastLoadToggle.Location = new System.Drawing.Point(15, 360);
+            this.FastLoadToggle.Location = new System.Drawing.Point(231, 222);
             this.FastLoadToggle.Name = "FastLoadToggle";
             this.FastLoadToggle.Size = new System.Drawing.Size(114, 17);
             this.FastLoadToggle.TabIndex = 89;
@@ -416,7 +412,7 @@ namespace racman
             // FreezeAmmoCheckbox
             // 
             this.FreezeAmmoCheckbox.AutoSize = true;
-            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(15, 384);
+            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(231, 246);
             this.FreezeAmmoCheckbox.Name = "FreezeAmmoCheckbox";
             this.FreezeAmmoCheckbox.Size = new System.Drawing.Size(90, 17);
             this.FreezeAmmoCheckbox.TabIndex = 90;
@@ -434,19 +430,12 @@ namespace racman
             this.resetGBsButton.UseVisualStyleBackColor = true;
             this.resetGBsButton.Click += new System.EventHandler(this.resetGBsButton_Click);
             // 
-            // configureButtonCombosToolStripMenuItem
-            // 
-            this.configureButtonCombosToolStripMenuItem.Name = "configureButtonCombosToolStripMenuItem";
-            this.configureButtonCombosToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.configureButtonCombosToolStripMenuItem.Text = "Configure button combos";
-            this.configureButtonCombosToolStripMenuItem.Click += new System.EventHandler(this.configureButtonCombosToolStripMenuItem_Click);
-            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(351, 425);
+            this.ClientSize = new System.Drawing.Size(351, 341);
             this.Controls.Add(this.resetGBsButton);
             this.Controls.Add(this.FreezeAmmoCheckbox);
             this.Controls.Add(this.FastLoadToggle);
@@ -457,7 +446,6 @@ namespace racman
             this.Controls.Add(this.button3);
             this.Controls.Add(this.ghostCheckbox);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.lflagresetCb);
             this.Controls.Add(this.goodiesCheck);
             this.Controls.Add(this.unlocksWindowButton);
@@ -519,7 +507,6 @@ namespace racman
         private System.Windows.Forms.CheckBox lflagresetCb;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolStripMenuItem switchGameToolStripMenuItem;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox ghostCheckbox;
