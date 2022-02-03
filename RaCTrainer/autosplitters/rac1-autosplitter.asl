@@ -1,4 +1,4 @@
-﻿state("racman") {}
+state("racman") {}
 
 startup {
     print("Starting");
@@ -24,6 +24,7 @@ init {
 
     vars.ShouldStopTimer = false;
 
+	vars.NovalisCutscenes = 0;
     vars.timer = new System.Windows.Forms.Timer();
     vars.timer.Interval = 7560;
     vars.timer.Tick += new EventHandler((sender, e) => {
@@ -86,6 +87,7 @@ update {
 
 reset {
     if (current.planet == 0 && (old.gameState == 6 && current.gameState == 0)) {
+		vars.NovalisCutscenes = 0;
         return true;
     }
 }
@@ -121,7 +123,12 @@ split {
     }
 
     if (settings["GBsplit"] && current.playerState == 114 && old.playerState != 114) {
-        return true;
+        if (current.planet != 1)
+			return true;
+		else
+			vars.NovalisCutscenes++;
+		if (current.planet == 1 && vars.NovalisCutscenes > 2)
+			return true;
     }
 }
 
