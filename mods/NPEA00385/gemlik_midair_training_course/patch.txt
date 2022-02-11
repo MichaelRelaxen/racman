@@ -1,0 +1,7 @@
+#- name: Midair training on Gemlik
+#- author: bordplate
+#- href: https://github.com/bordplate
+#- version: 1.0
+#- description: Moves a bunch of shit to extend the long platform on Gemlik.
+
+automation: main.lua
