@@ -98,7 +98,7 @@ namespace racman
                 WriteToMemory(20, value);
             });
 
-            int ratchetAnimationSubID = game.api.SubMemory(game.pid, 0x96BD67, 1, (value) =>
+            int ratchetAnimationSubID = game.api.SubMemory(game.pid, 0x96BD8F, 1, (value) =>
             {
                 WriteToMemory(21, value);
             });

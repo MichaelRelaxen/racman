@@ -21,7 +21,7 @@ init {
     current.planetFramesCount = vars.reader.ReadUInt32();
     current.gameState = vars.reader.ReadUInt32();
     current.loadingScreen = vars.reader.ReadByte();
-    current.ratchetAnimation = vars.reader.ReadByte();
+    current.gbCollect = vars.reader.ReadByte();
 
     vars.ShouldStopTimer = false;
 
@@ -55,7 +55,7 @@ update {
     current.planetFramesCount = vars.reader.ReadUInt32();
     current.gameState = vars.reader.ReadUInt32();
     current.loadingScreen = vars.reader.ReadByte();
-    current.ratchetAnimation = vars.reader.ReadByte();
+    current.gbCollect = vars.reader.ReadByte();
 
     /*
     if (current.planet != old.planet) {
@@ -129,7 +129,7 @@ split {
     }
 
     // Gold bolt split
-    if (settings["GBsplit"] && current.ratchetAnimation == 114 && old.ratchetAnimation != 114) {
+    if (settings["GBsplit"] && current.gbCollect == 1 && old.gbCollect == 0) {
         return true;
     }
 }
