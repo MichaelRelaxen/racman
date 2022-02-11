@@ -28,7 +28,7 @@ init {
     vars.timer = new System.Windows.Forms.Timer();
     vars.timer.Interval = 7560;
     vars.timer.Tick += new EventHandler((sender, e) => {
-    print("fuck this");
+    // print("fuck this");
     vars.ShouldStopTimer = true;
     vars.timer.Enabled = false;
     });
