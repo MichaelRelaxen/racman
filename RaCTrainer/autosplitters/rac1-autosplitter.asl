@@ -3,7 +3,7 @@
 startup {
     print("Starting");
 
-    settings.Add("GBsplit",false, "Split on Gold Bolts");
+    settings.Add("GBsplit", false, "Split on Gold Bolts");
 }
 
 init {
@@ -21,6 +21,7 @@ init {
     current.planetFramesCount = vars.reader.ReadUInt32();
     current.gameState = vars.reader.ReadUInt32();
     current.loadingScreen = vars.reader.ReadByte();
+    current.ratchetAnimation = vars.reader.ReadByte();
 
     vars.ShouldStopTimer = false;
 
@@ -39,6 +40,8 @@ init {
 		Tuple.Create(411.8376f, 619.1204f)
     };
     vars.buttons = buttons;
+
+    vars.veldinFix = false;
 }
 
 update {
@@ -52,8 +55,9 @@ update {
     current.planetFramesCount = vars.reader.ReadUInt32();
     current.gameState = vars.reader.ReadUInt32();
     current.loadingScreen = vars.reader.ReadByte();
-    
-    
+    current.ratchetAnimation = vars.reader.ReadByte();
+
+    /*
     if (current.planet != old.planet) {
         print("Shit planet changed to " + current.planet);
     }
@@ -72,6 +76,8 @@ update {
     if (current.loadingScreen != old.loadingScreen) {
         print("wtf load screen is " + current.loadingScreen);
     }
+    print("Current X: " + current.x + ". Current Y: " + current.y);
+    */
 
     if (current.loadingScreen != 4 && !vars.ShouldStopTimer) {
     vars.timer.Enabled = true;
@@ -79,8 +85,6 @@ update {
     else if (current.loadingScreen == 4) {
     vars.ShouldStopTimer = false;
     }
-
-
 }
 
 
@@ -92,23 +96,27 @@ reset {
 
 start {
     if (current.planet == 0 && (old.gameState == 6 && current.gameState == 0)) {
+        vars.veldinFix = false;
         return true;
     }
 }
 
 split {
+    // Split everything
     if (current.destinationPlanet != old.destinationPlanet && 
         (current.planet != current.destinationPlanet) && current.destinationPlanet != 0 && current.planet != 0) {
         return true;
     }
     
     
-    if (current.gameState == 2 && old.gameState == 0 && current.planet == 0 && current.planetFramesCount > 5) {
+    // Veldin split
+    if (!vars.veldinFix && current.gameState == 2 && old.gameState == 0 && current.planet == 0 && current.planetFramesCount > 5) {
+        vars.veldinFix = true;
         return true;
     }
 
-    print("Current X: " + current.x + ". Current Y: " + current.y);
 
+    // Drek button split
     if (current.planet == 18 && current.playerState == 34 && old.playerState != 34) {
         foreach(var button in vars.buttons) {
             var x = current.x - button.Item1;
@@ -120,7 +128,8 @@ split {
         }
     }
 
-    if (settings["GBsplit"] && current.playerState == 114 && old.playerState != 114) {
+    // Gold bolt split
+    if (settings["GBsplit"] && current.ratchetAnimation == 114 && old.ratchetAnimation != 114) {
         return true;
     }
 }
