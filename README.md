@@ -3,58 +3,6 @@ Practice tool for Ratchet & Clank 1 and Ratchet & Clank 3 for PS3 tailored for s
 
 [Download here.](https://github.com/MichaelRelaxen/racman/releases/tag/RaCMAN.v1.3.1.0) - Download the zip file
 
-## Custom input display skins
-Input display skins are all in the `controllerskins` folder. Skin names (as you see them in the skin selection drop down) are the names of the folders directly in the `controllerskins` folder.
-
-### Making my own skin
-Make a copy of any of the skin folders already in the `controllerskins` folder to get started. Replace the skin image in that folder with yours. If you want a different layout than the skin you
-copied, you need to edit the `skin.txt` file in the folder. This is to adjust the sprite cutouts to fit your layout. Example `skin.txt` looks like this: 
-```
-# Add in numbers following the structure below.
-# Name: drawX, drawY, spriteX, spriteY, spriteWidth, spriteHeight
-
-# Base controller image
-base: 0, 0, 0, 0, 800, 558
-
-# Analog sticks
-r3: 469, 328, 106, 627, 105, 105
-r3Press: 469, 328, 0, 627, 105, 105
-l3: 210, 328, 106, 627, 105, 105
-l3Press: 210, 328, 0, 627, 105, 105
-
-# Add pitch that should be used for the analog stick.
-analogPitch: 32
-
-# D-Pad buttons
-dpadLeft: 74, 244, 0, 560, 52, 38
-dpadRight: 162, 244, 130, 560, 52, 38
-dpadDown: 124, 276, 53, 560, 38, 52
-dpadUp: 124, 198, 92, 560, 38, 52
-
-# Face buttons
-cross: 609, 303, 389, 560, 62, 62
-circle: 680, 232, 326, 560, 62, 62
-triangle: 609, 161, 263, 560, 62, 62
-square: 538, 232, 200, 560, 62, 62
-
-# Pause buttons
-select: 291, 252, 460, 561, 38, 20
-start: 459, 252, 499, 561, 37, 20
-
-# Shoulder buttons
-r1: 596, 73, 458, 654, 89, 27
-l1: 99, 73, 458, 654, 89, 27
-l2: 99, 0, 460, 586, 86, 65
-r2: 599, 0, 460, 586, 86, 65
-
-# Add in name of the image you used. Needs to be in the same folder as the .txt
-imageName: skin.png
-```
-`drawX` and `drawY`: X and Y positions to draw the sprite on screen  
-`spriteX` and `spriteY`: X and Y positions for the top left corner where the sprite starts in the png image.  
-`spriteWidth` and `spriteHeight`: Width and height in pixels of the sprite in your png image.  
-
-
 ## Game patches
 Game patches are loaded while the game is running. They can be simple patches that mildy change the code flow or advanced patches with multiple blobs of code.
 Patches for each supported game can be found on disk under `mods/<GAME TITLE ID>/`. A patch in the game patch folder is only loadable and visible in the patch loader
