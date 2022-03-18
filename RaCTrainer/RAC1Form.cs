@@ -262,5 +262,15 @@ namespace racman
             if (CComboCheckBox.Checked)
                 game.InputsTimer.Enabled = true;
         }
+
+        private void resetSPsButton_Click(object sender, EventArgs e)
+        {
+            game.SetShootSkillPoints(true);
+        }
+
+        private void setupSPsButton_Click(object sender, EventArgs e)
+        {
+            game.SetShootSkillPoints(false);
+        }
     }
 }

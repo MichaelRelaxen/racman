@@ -65,6 +65,8 @@ namespace racman
             this.FastLoadToggle = new System.Windows.Forms.CheckBox();
             this.FreezeAmmoCheckbox = new System.Windows.Forms.CheckBox();
             this.resetGBsButton = new System.Windows.Forms.Button();
+            this.resetSPsButton = new System.Windows.Forms.Button();
+            this.setupSPsButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -252,7 +254,7 @@ namespace racman
             // infHealth
             // 
             this.infHealth.AutoSize = true;
-            this.infHealth.Location = new System.Drawing.Point(231, 154);
+            this.infHealth.Location = new System.Drawing.Point(232, 223);
             this.infHealth.Name = "infHealth";
             this.infHealth.Size = new System.Drawing.Size(91, 17);
             this.infHealth.TabIndex = 70;
@@ -263,7 +265,7 @@ namespace racman
             // goodiesCheck
             // 
             this.goodiesCheck.AutoSize = true;
-            this.goodiesCheck.Location = new System.Drawing.Point(231, 199);
+            this.goodiesCheck.Location = new System.Drawing.Point(232, 268);
             this.goodiesCheck.Name = "goodiesCheck";
             this.goodiesCheck.Size = new System.Drawing.Size(95, 17);
             this.goodiesCheck.TabIndex = 74;
@@ -341,7 +343,7 @@ namespace racman
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(231, 176);
+            this.ghostCheckbox.Location = new System.Drawing.Point(232, 245);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 83;
@@ -381,7 +383,7 @@ namespace racman
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(227, 135);
+            this.label4.Location = new System.Drawing.Point(228, 204);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 87;
@@ -401,7 +403,7 @@ namespace racman
             // FastLoadToggle
             // 
             this.FastLoadToggle.AutoSize = true;
-            this.FastLoadToggle.Location = new System.Drawing.Point(231, 222);
+            this.FastLoadToggle.Location = new System.Drawing.Point(232, 291);
             this.FastLoadToggle.Name = "FastLoadToggle";
             this.FastLoadToggle.Size = new System.Drawing.Size(114, 17);
             this.FastLoadToggle.TabIndex = 89;
@@ -412,7 +414,7 @@ namespace racman
             // FreezeAmmoCheckbox
             // 
             this.FreezeAmmoCheckbox.AutoSize = true;
-            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(231, 246);
+            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(232, 315);
             this.FreezeAmmoCheckbox.Name = "FreezeAmmoCheckbox";
             this.FreezeAmmoCheckbox.Size = new System.Drawing.Size(90, 17);
             this.FreezeAmmoCheckbox.TabIndex = 90;
@@ -430,12 +432,34 @@ namespace racman
             this.resetGBsButton.UseVisualStyleBackColor = true;
             this.resetGBsButton.Click += new System.EventHandler(this.resetGBsButton_Click);
             // 
+            // resetSPsButton
+            // 
+            this.resetSPsButton.Location = new System.Drawing.Point(230, 132);
+            this.resetSPsButton.Name = "resetSPsButton";
+            this.resetSPsButton.Size = new System.Drawing.Size(107, 23);
+            this.resetSPsButton.TabIndex = 92;
+            this.resetSPsButton.Text = "Reset Shoot SPs";
+            this.resetSPsButton.UseVisualStyleBackColor = true;
+            this.resetSPsButton.Click += new System.EventHandler(this.resetSPsButton_Click);
+            // 
+            // setupSPsButton
+            // 
+            this.setupSPsButton.Location = new System.Drawing.Point(230, 162);
+            this.setupSPsButton.Name = "setupSPsButton";
+            this.setupSPsButton.Size = new System.Drawing.Size(106, 23);
+            this.setupSPsButton.TabIndex = 93;
+            this.setupSPsButton.Text = "Setup Shoot SPs";
+            this.setupSPsButton.UseVisualStyleBackColor = true;
+            this.setupSPsButton.Click += new System.EventHandler(this.setupSPsButton_Click);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(351, 341);
+            this.Controls.Add(this.setupSPsButton);
+            this.Controls.Add(this.resetSPsButton);
             this.Controls.Add(this.resetGBsButton);
             this.Controls.Add(this.FreezeAmmoCheckbox);
             this.Controls.Add(this.FastLoadToggle);
@@ -520,6 +544,8 @@ namespace racman
         private System.Windows.Forms.Button resetGBsButton;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configureButtonCombosToolStripMenuItem;
+        private System.Windows.Forms.Button resetSPsButton;
+        private System.Windows.Forms.Button setupSPsButton;
     }
 }
 

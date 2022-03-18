@@ -404,6 +404,31 @@ namespace racman
             }
         }
 
+        /// <summary>
+        /// Resets shooting skill points so that they don't carry over.
+        /// </summary>
+        /// <param name="reset">Sets or unsets shooting skill point variables.</param>
+        public void SetShootSkillPoints(bool reset = false)
+        {
+            if (reset)
+            {
+                // Reset Batalia Sonic Summoner
+                api.WriteMemory(pid, 0xA15F3C, 8, new string('0', 16));
+
+                // Reset all other shooting SPs.
+                api.WriteMemory(pid, 0x96C9DC, 32, new string('0', 64));
+            }
+            else
+            {
+                // Setup Batalia Sonic Summoner.
+                api.WriteMemory(pid, 0xA15F3C, 8, string.Concat(Enumerable.Repeat("00000001", 2)));
+
+                // Setup all shooting SPs.
+                api.WriteMemory(pid, 0x96C9DC, 32,string.Concat(Enumerable.Repeat("00000020", 8)));
+            }
+        }
+
+
         public override void SetupFile()
         {
             throw new NotImplementedException();
