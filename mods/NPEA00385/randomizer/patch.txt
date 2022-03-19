@@ -1,0 +1,212 @@
+#- name: Randomizer
+#- author: bordplate
+#- href: https://github.com/bordplate/rac1-randomizer
+#- version: 1.0.2
+#- description: Randomizes what items and infobot coordinates you get
+#- update_url: https://bordplate.no/rac1/randomizer.json
+
+automation: main.lua
+
+# Hook infobot update func
+0x4F8000: infobot.bin
+0x70e7b0: 0x4F8000
+
+
+# Prepare unlock_planet hook
+0x4f7700: 0xf821ff21
+0x4f7704: unlock_planet.bin
+# Apply unlock_planet hook
+0x112c20: 0x483e4ae0
+
+# Prepare planet_unlock_message hook
+0x4f7500: 0xf821ff21
+0x4f7504: unlock_planet_message.bin
+# Apply unlock_planet hook
+0x112af0: 0x483e4a10
+
+## Overwrite unlock_planet call in infobot update func so we call original unlock_planet function
+# Trampoline
+0x4f7600: 0xf821ff21
+0x4f7604: 0x4bc1b620
+# Apply redirect
+0x44cbc0: 0x480aaa41
+
+## Overwrite planet_unlock_message call in infobot update func so we call original planet_unlock_message function
+# Trampoline
+0x4F74E0: 0xf821ff21
+0x4F74E4: 0x4bc1b610
+# Apply redirect
+0x44ccc4: 0x480aa81d
+
+# Custom has_item function
+0x04f7fd8: has_item.bin
+
+# Prepare unlock_item hook
+## stdu r1, -0xb0 (r1)
+0x4f8ff8: 0xf821ff51
+## ba 0x112e1c
+0x4f8ffc: 0x48112e1e
+#
+# Custom function
+0x4f9000: unlock_item.bin
+# Apply hook
+0x112e18: 0x484f9002
+
+
+### Item redirections
+
+# Heli-pack
+0x4a90b8: 0x38600002
+0x4a90bc: 0x484f7fdb
+0x4a90d8: 0x38600002
+0x4a90dc: 0x484f7fdb
+0x4a91cc: 0x38600002
+0x4a91d0: 0x484f7fdb
+# NOP default toast message
+0x4a9344: 0x60000000
+
+# Thruster-pack (special case)
+0x4a4d00: thruster_pack_check.bin
+
+# Hydro-pack
+0x3434e4: 0x38600004
+0x3434e8: 0x484f7fdb
+0x343504: 0x38600004
+0x343508: 0x484f7fdb
+# NOP toast message
+0x3435dc: 0x60000000
+
+# Sonic Summoner
+0x45b3dc: 0x38600005
+0x45b3e0: 0x484f7fdb
+0x45b2bc: 0x38600005
+0x45b2c0: 0x484f7fdb
+
+# O2 Mask
+0x1dd49c: 0x38600006
+0x1dd4a0: 0x484f7fdb
+
+# Pilot hat
+0x23e1ec: 0x38600007
+0x23e1f0: 0x484f7fdb
+# NOP pilot hat equipping
+0x23e46c: 0x60000000
+
+# Swingshot
+0x04a2eb8: 0x38600006
+0x04a2ebc: 0x484f7fdb
+0x04a3188: 0x60000000
+
+# Hydrodisplacer / Trespasser
+# Hook Hydro/Trespasser function
+0x4f6000: trespasser_hydrodisplacer.bin
+0x708320: 0x4f6000
+# NOP toast
+0x183b50: 0x60000000
+# NOP delete moby
+0x18395c: 0x60000000
+# Skip "has item" check
+0x183954: 0x42800014
+
+# Magneboots
+0x2ba1e0: 0x3860001c
+0x2ba1e4: 0x484f7fdb
+
+# Grindboots
+0x1be6f8: 0x3860001d
+0x1be6fc: 0x484f7fdb
+
+# Hoverboard
+0x45d228: 0x3860001e
+0x45d22c: 0x484f7fdb
+
+# Hologuise
+0x285648: 0x3860001f
+0x28564c: 0x484f7fdb
+# Fix race being weird with item unlock
+#0x0a8b0c: 0x38600030
+#0x0a8b10: 0x48112e1b
+0x0a8ab0: 0x60000000
+
+# Bolt Grabber
+0x267830: 0x38600022
+0x267834: 0x484f7fdb
+
+# Persuader
+0x336390: 0x38600023
+0x336394: 0x484f7fdb
+0x33641c: 0x38600023
+0x336420: 0x484f7fdb
+# Redirect to unlock_item function
+0x336678: 0x38600023
+0x33667c: 0x48112e1b
+# NOP toast
+0x3366b0: 0x60000000
+
+# Zoomerator
+0x4b0a08: 0x38600030
+0x4b0a0c: 0x484f7fdb
+# Redirect to unlock_item function
+0x4b0c50: 0x2c030099
+0x4b0c60: 0x38600030
+0x4b0c6c: 0x48112e1b
+# Fix race being weird with item unlock
+0x0a898c: 0x38600030
+0x0a8990: 0x48112e1b
+0x0a8994: 0x42800068
+0x0a8934: 0x60000000
+
+# Raritanium
+0x32d00c: 0x38600031
+0x32d010: 0x484f7fdb
+0x32d058: 0x38600031
+0x32d05c: 0x484f7fdb
+# Redirect unlock_item function
+0x32d0d8: 0x60000000
+0x32d0fc: 0x38600031
+0x32d100: 0x48112e1b
+
+# Premium nanotech
+# Redirect unlock_item function
+0x24a91c: 0x60000000
+0x24a928: 0x38600034
+0x24a92c: 0x48112e1b
+# NOP setting max health to 5
+0x24a940: 0x60000000
+
+# Ultra nanotech
+0x24a96c: 0x38600035
+0x24a970: 0x484f7fdb
+# Redirect unlock_item function
+0x24a9d8: 0x60000000
+0x24a9f8: 0x38600035
+0x24a9fc: 0x48112e1b
+# NOP setting max health to 8
+0x24aa10: 0x60000000
+
+# NOP nanotech toast messages
+0x24aa9c: 0x60000000
+0x24aa7c: 0x60000000
+
+
+# Codebot
+0x27b780: 0x38600032
+0x27b784: 0x484f7fdb
+#
+# NOP codebot=true
+0x27b8c8: 0x60000000
+# Redirect to unlock_item function
+0x27b868: 0x38600032
+0x27b86c: 0x48112e1b
+
+# Fix thruster-pack gliding when you don't have the heli-pack
+0x4f8f00: has_thruster_heli_pack.bin
+0xc35c0: 0x484f8f03
+0xc4190: 0x484f8f03
+0xc4f18: 0x484f8f03
+
+# Assign higher values to bolts
+0x2406d8: 0x38800005
+0x2406e0: 0x38800015
+0x2406e8: 0x3880003c
+0x2406f0: 0x388000c8
