@@ -26,17 +26,19 @@ struct Moby {
     // Unknown, 0x34
     void* unk_34;
     // Controls the coloring of the moby.
-    color color;
+    color color;  // 0x38
     // Controls the shading of the moby, through mechanisms unknown.
-    unsigned int shading;
+    unsigned int shading;  // 0x3c
     // The moby rotation in radians. Typically only Z needs to be changed.
-    vec4 rot;
+    vec4 rot;  // 0x40
     // The previous frame number of the current animation.
-    char prev_anim_frame;
+    char prev_anim_frame; // 0x50
     // The current frame number of the current animation.
-    char curr_anim_frame;
+    char curr_anim_frame; // 0x51
+	// Update ID
+	char updateID;  // 0x52
     // asdf
-    char asdf[0x26];
+    char asdf[0x25];
     // The moby's pVars.
     void* pvars;
     // asdf2
@@ -63,14 +65,12 @@ void _start(struct Moby *self) {
 	
 	if (self->state == 0) {
 		collected_bolt[vars->number] = 0;
-	}
-
-	if (self->state == 2 || self->state == 3) {
+	} else if (self->state == 2) {
 		if (collected_bolt[vars->number] == 0) {
 			n_gold_bolts_collected += 1;
 			collected_bolt[vars->number] = 1;
 		}
-	}
+	}	
 	
 	gold_bolt_update_func(self);
 }

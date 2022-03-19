@@ -121,6 +121,12 @@ namespace racman
                 WriteToMemory(23, new byte[] { value[0] });
             });
 
+            //A0CA75
+            int kaleboBoltSubID = game.api.SubMemory(game.pid, 0xA0CA75, 1, (value) =>
+            {
+                WriteToMemory(24, value);
+            });
+
             subscriptionIDs.AddRange(new int[] {
                 destinationPlanetSubID,
                 currentPlanetSubID,
@@ -131,7 +137,8 @@ namespace racman
                 playerCoordsSubID,
                 goldBoltCountSubID,
                 skillpointSubID,
-                itemCountSubID
+                itemCountSubID,
+                kaleboBoltSubID
             });
         }
 

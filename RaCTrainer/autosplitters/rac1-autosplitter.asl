@@ -26,6 +26,7 @@ init {
 	current.gbCollect = vars.reader.ReadByte();
 	current.spCollect = vars.reader.ReadByte();
 	current.itemsCollect = vars.reader.ReadByte();
+	current.kaleboBoltCollect = vars.reader.ReadByte();
 
     vars.ShouldStopTimer = false;
 
@@ -62,6 +63,7 @@ update {
     current.gbCollect = vars.reader.ReadByte();
 	current.spCollect = vars.reader.ReadByte();
 	current.itemsCollect = vars.reader.ReadByte();
+	current.kaleboBoltCollect = vars.reader.ReadByte();
 
     /*
     if (current.planet != old.planet) {
@@ -145,7 +147,7 @@ split {
     }
 	
 	// Items split
-    if (settings["ItemSplit"] && current.itemsCollect != old.itemsCollect) {
+    if (settings["ItemSplit"] && (current.itemsCollect != old.itemsCollect) || (current.kaleboBoltCollect != old.kaleboBoltCollect && current.kaleboBoltCollect != 0)) {
         return true;
     }
 }
