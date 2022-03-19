@@ -162,6 +162,11 @@ namespace racman
                 mod.name = new DirectoryInfo(modFolder).Name;
             }
 
+            if (mod.variables.ContainsKey("version"))
+            {
+                mod.version = mod.variables["version"];
+            }
+
             return mod;
         }
 
@@ -237,15 +242,120 @@ namespace racman
                 {
                     try
                     {
-                        ZipFile.ExtractToDirectory(openFileDialog.FileName, $"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\");
+                        ZipFile.ExtractToDirectory(openFileDialog.FileName, $"{Path.GetTempPath()}\\racman\\{AttachPS3Form.game}\\");
+                        var directories = Directory.GetDirectories($"{Path.GetTempPath()}\\racman\\{AttachPS3Form.game}\\");
+
+                        // Find first directory with a path.txt file
+                        string directoryName = "";
+                        Mod mod = null;
+                        foreach (var d in directories)
+                        {
+                            mod = GetMod(d);
+                            if (mod != null)
+                            {
+                                directoryName = Path.GetFileName(d);
+
+                                break;
+                            }
+                        }
+
+                        if (directoryName == "")
+                        {
+                            MessageBox.Show("Invalid or corrupt mod. Redownload the ZIP or ask the mod developer for help.");
+                            return;
+                        }
+
+                        // If there is already an installed mod, just replace it if version is newer
+                        Mod installedMod = GetMod($"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\{directoryName}");
+
+                        bool upgrade = false;
+                        if (installedMod != null)
+                        {
+                            Version installedVersion = new Version(installedMod.version);
+                            Version zipVersion = new Version(mod.version);
+
+                            if (installedVersion != null && zipVersion != null)
+                            {
+                                var result = installedVersion.CompareTo(zipVersion);
+
+                                DialogResult userChoice = DialogResult.No;
+                                if (result > 0)
+                                {
+                                    userChoice = MessageBox.Show("Current installed version is newer than your ZIP. Downgrade?", "Downgrade", MessageBoxButtons.YesNo);
+                                }
+                                else if (result < 0)
+                                {
+                                    upgrade = true;
+                                }
+                                else
+                                {
+                                    userChoice = MessageBox.Show("Mod already installed. Replace?", "Replace", MessageBoxButtons.YesNo);
+                                }
+
+                                if (!upgrade && userChoice == DialogResult.No)
+                                {
+                                    return;
+                                }
+                            }
+                        }
+
+                        // Merge folders
+                        DirectoryInfo source = new DirectoryInfo($"{Path.GetTempPath()}\\racman\\{AttachPS3Form.game}\\{directoryName}");
+                        DirectoryInfo target = new DirectoryInfo($"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\{directoryName}");
+
+                        CopyAll(source, target);
+
+                        if (upgrade)
+                        {
+                            MessageBox.Show($"{mod.name} upgraded to version {mod.version}!");
+                        } else
+                        {
+                            MessageBox.Show($"{mod.name} version {mod.version} installed.");
+                        }
+
+
+                        //ZipFile.ExtractToDirectory(openFileDialog.FileName, $"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\");
                     } catch (IOException exception)
                     {
                         // There's apparently no easy way to tell ZipFile.ExtractToDirectory to overwrite files smh
-                        MessageBox.Show("Failed to extract mod from ZIP, maybe a mod with the same name is already installed?");
+                        MessageBox.Show("Failed to extract ZIP. ");
+                    } finally
+                    {
+                        Directory.Delete($"{System.IO.Path.GetTempPath()}\\racman\\", true);
                     }
 
                     this.ReloadMods();
                 }
+            }
+        }
+
+        // Thanks Stack Overflow: https://stackoverflow.com/questions/9053564/c-sharp-merge-one-directory-with-another
+        private void CopyAll(DirectoryInfo source, DirectoryInfo target)
+        {
+            if (source.FullName.ToLower() == target.FullName.ToLower())
+            {
+                return;
+            }
+
+            // Check if the target directory exists, if not, create it.
+            if (Directory.Exists(target.FullName) == false)
+            {
+                Directory.CreateDirectory(target.FullName);
+            }
+
+            // Copy each file into it's new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
+                fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
+            }
+
+            // Copy each subdirectory using recursion.
+            foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
+            {
+                DirectoryInfo nextTargetSubDir =
+                    target.CreateSubdirectory(diSourceSubDir.Name);
+                CopyAll(diSourceSubDir, nextTargetSubDir);
             }
         }
 
