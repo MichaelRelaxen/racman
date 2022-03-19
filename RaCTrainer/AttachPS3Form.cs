@@ -12,6 +12,8 @@ namespace racman
 
         public static RacManConsole console;
 
+        static ModLoaderForm modLoaderForm;
+
         public AttachPS3Form()
         {
             InitializeComponent();
@@ -39,6 +41,22 @@ namespace racman
         public static string ip;
         public static int pid;
         public static string game;
+
+        private int pleaseStartTheGame = 1;
+
+        private string[] startGameText = {
+                "You need to start the game first." ,
+                "Bro, you need to start the game first.",
+                "You're not in a game. You need to be in a game to attach RaCMAN.",
+                "Are you even reading the error messages? Please start the game.",
+                "What the fuck? Can you please start the game before hitting \"Attach\"?",
+                "???",
+                "Fr, start the game on your PS3.",
+                "Why? What's your problem?",
+                "Fuck you",
+                "This is getting ridiculous.",
+                "I'm begging you, start the game.",
+        };
 
 
         private void AttachPS3Form_Load(object sender, EventArgs e)
@@ -77,14 +95,23 @@ namespace racman
                 MessageBox.Show("invalid ip/web exception.");
             }
 
+            if (pid == 0)
+            {
+                MessageBox.Show(startGameText[pleaseStartTheGame-1], "Game is not running");
+
+                if (pleaseStartTheGame < startGameText.Length)
+                {
+                    pleaseStartTheGame += 1;
+                }
+
+                return;
+            }
+
             if (game == "NPEA00385")
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC1Form rac1 = new RAC1Form(new rac1((Ratchetron)func.api))
-                {
-                    TopMost = true
-                };
+                RAC1Form rac1 = new RAC1Form(new rac1((Ratchetron)func.api));
                 rac1.ShowDialog();
             }
             else if (game == "NPEA00386")
@@ -92,44 +119,49 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected to rac2");
                 RAC2Form rac2 = new RAC2Form(new rac2((Ratchetron)func.api));
-                {
-                    TopMost = true;
-                }
                 rac2.ShowDialog();
             }
             else if (game == "NPEA00387")
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC3Form rac3 = new RAC3Form(new rac3((Ratchetron)func.api))
-                {
-                    TopMost = true
-                };
+                RAC3Form rac3 = new RAC3Form(new rac3((Ratchetron)func.api));
                 rac3.ShowDialog();
             }
             else if (game == "NPEA00423")
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC4Form rac4 = new RAC4Form(new rac4((Ratchetron)func.api))
-                {
-                    TopMost = true
-                };
+                RAC4Form rac4 = new RAC4Form(new rac4((Ratchetron)func.api));
                 rac4.ShowDialog();
             }
             else if (game == "NPUA80966" || game == "NPEA00453" || game == "BCES00511" || game == "BCES00726")
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                ACITForm acit = new ACITForm(new acit((Ratchetron)func.api))
-                {
-                    TopMost = true
-                };
+                ACITForm acit = new ACITForm(new acit((Ratchetron)func.api));
                 acit.ShowDialog();
             }
             else
             {
-                MessageBox.Show("Game isn't running or isn't supported yet.");
+                if (game.Length > 0)
+                {
+                    MessageBox.Show($"{game} isn't supported yet. You can still apply mods if you have any.");
+
+                    if ((Application.OpenForms["ModLoaderForm"] as ModLoaderForm) != null)
+                    {
+                        modLoaderForm.Activate();
+                    }
+                    else
+                    {
+                        modLoaderForm = new ModLoaderForm();
+                        modLoaderForm.Show();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Game isn't running or isn't supported yet.");
+                }
             }
         }
 

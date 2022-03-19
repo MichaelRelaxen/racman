@@ -96,6 +96,11 @@ namespace racman
             api.WriteMemory(pid, Addr().boltCount, bolts);
         }
 
+        public virtual int Bolts()
+        {
+            return BitConverter.ToInt32(api.ReadMemory(pid, Addr().boltCount, 4).Reverse().ToArray(), 0);
+        }
+
         public abstract void SetupFile();
 
         public virtual void SetupInputDisplayMemorySubs()

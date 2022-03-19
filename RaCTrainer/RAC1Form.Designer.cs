@@ -67,6 +67,11 @@ namespace racman
             this.resetGBsButton = new System.Windows.Forms.Button();
             this.resetSPsButton = new System.Windows.Forms.Button();
             this.setupSPsButton = new System.Windows.Forms.Button();
+            this.buyPremiumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.platinumLabel = new System.Windows.Forms.Label();
+            this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autosplitterEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gbspiSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -288,7 +293,8 @@ namespace racman
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuToolStripMenuItem});
+            this.menuToolStripMenuItem,
+            this.autosplitterToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(351, 24);
@@ -302,7 +308,8 @@ namespace racman
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.switchGameToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
-            this.configureButtonCombosToolStripMenuItem});
+            this.configureButtonCombosToolStripMenuItem,
+            this.buyPremiumToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -452,12 +459,55 @@ namespace racman
             this.setupSPsButton.UseVisualStyleBackColor = true;
             this.setupSPsButton.Click += new System.EventHandler(this.setupSPsButton_Click);
             // 
+            // buyPremiumToolStripMenuItem
+            // 
+            this.buyPremiumToolStripMenuItem.Name = "buyPremiumToolStripMenuItem";
+            this.buyPremiumToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.buyPremiumToolStripMenuItem.Text = "Buy Platinum";
+            this.buyPremiumToolStripMenuItem.Click += new System.EventHandler(this.buyPremiumToolStripMenuItem_Click);
+            // 
+            // platinumLabel
+            // 
+            this.platinumLabel.AutoSize = true;
+            this.platinumLabel.Location = new System.Drawing.Point(12, 29);
+            this.platinumLabel.Name = "platinumLabel";
+            this.platinumLabel.Size = new System.Drawing.Size(128, 13);
+            this.platinumLabel.TabIndex = 94;
+            this.platinumLabel.Text = "PLATINUM+   PREMIUM";
+            this.platinumLabel.Visible = false;
+            // 
+            // autosplitterToolStripMenuItem
+            // 
+            this.autosplitterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autosplitterEnabledToolStripMenuItem,
+            this.gbspiSplitToolStripMenuItem});
+            this.autosplitterToolStripMenuItem.Name = "autosplitterToolStripMenuItem";
+            this.autosplitterToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.autosplitterToolStripMenuItem.Text = "Autosplitter";
+            // 
+            // autosplitterEnabledToolStripMenuItem
+            // 
+            this.autosplitterEnabledToolStripMenuItem.CheckOnClick = true;
+            this.autosplitterEnabledToolStripMenuItem.Name = "autosplitterEnabledToolStripMenuItem";
+            this.autosplitterEnabledToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.autosplitterEnabledToolStripMenuItem.Text = "Autosplitter enabled";
+            this.autosplitterEnabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autosplitterEnabledToolStripMenuItem_CheckedChanged);
+            // 
+            // gbspiSplitToolStripMenuItem
+            // 
+            this.gbspiSplitToolStripMenuItem.CheckOnClick = true;
+            this.gbspiSplitToolStripMenuItem.Name = "gbspiSplitToolStripMenuItem";
+            this.gbspiSplitToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.gbspiSplitToolStripMenuItem.Text = "Gold bolt, skillpoint, items splitting";
+            this.gbspiSplitToolStripMenuItem.CheckedChanged += new System.EventHandler(this.gbspiSplitToolStripMenuItem_CheckedChanged);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(351, 341);
+            this.Controls.Add(this.platinumLabel);
             this.Controls.Add(this.setupSPsButton);
             this.Controls.Add(this.resetSPsButton);
             this.Controls.Add(this.resetGBsButton);
@@ -546,6 +596,11 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem configureButtonCombosToolStripMenuItem;
         private System.Windows.Forms.Button resetSPsButton;
         private System.Windows.Forms.Button setupSPsButton;
+        private System.Windows.Forms.ToolStripMenuItem buyPremiumToolStripMenuItem;
+        private System.Windows.Forms.Label platinumLabel;
+        private System.Windows.Forms.ToolStripMenuItem autosplitterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem autosplitterEnabledToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem gbspiSplitToolStripMenuItem;
     }
 }
 

@@ -4,6 +4,8 @@ startup {
     print("Starting");
 
     settings.Add("GBsplit", false, "Split on Gold Bolts");
+	settings.Add("SPsplit", false, "Split on Skillpoints");
+	settings.Add("ItemSplit", false, "Split on items");
 }
 
 init {
@@ -21,7 +23,9 @@ init {
     current.planetFramesCount = vars.reader.ReadUInt32();
     current.gameState = vars.reader.ReadUInt32();
     current.loadingScreen = vars.reader.ReadByte();
-    current.gbCollect = vars.reader.ReadByte();
+	current.gbCollect = vars.reader.ReadByte();
+	current.spCollect = vars.reader.ReadByte();
+	current.itemsCollect = vars.reader.ReadByte();
 
     vars.ShouldStopTimer = false;
 
@@ -56,6 +60,8 @@ update {
     current.gameState = vars.reader.ReadUInt32();
     current.loadingScreen = vars.reader.ReadByte();
     current.gbCollect = vars.reader.ReadByte();
+	current.spCollect = vars.reader.ReadByte();
+	current.itemsCollect = vars.reader.ReadByte();
 
     /*
     if (current.planet != old.planet) {
@@ -80,10 +86,10 @@ update {
     */
 
     if (current.loadingScreen != 4 && !vars.ShouldStopTimer) {
-    vars.timer.Enabled = true;
+		vars.timer.Enabled = true;
     }
     else if (current.loadingScreen == 4) {
-    vars.ShouldStopTimer = false;
+		vars.ShouldStopTimer = false;
     }
 }
 
@@ -129,7 +135,17 @@ split {
     }
 
     // Gold bolt split
-    if (settings["GBsplit"] && current.gbCollect == 1 && old.gbCollect == 0) {
+    if (settings["GBsplit"] && current.gbCollect != old.gbCollect) {
+        return true;
+    }
+	
+	// Skillpoint split
+    if (settings["SPsplit"] && current.spCollect != old.spCollect) {
+        return true;
+    }
+	
+	// Items split
+    if (settings["ItemSplit"] && current.itemsCollect != old.itemsCollect) {
         return true;
     }
 }

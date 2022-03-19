@@ -1,0 +1,21 @@
+#- name: Gold Bolt & Skillpoint 
+#- author: bordplate
+#- version: 1.0.0
+#- visible: false
+#- description: Helper mod for autosplitter. Not meant to be enabled manually. 
+
+# Hook gold bolt update function
+0x4f5be4: gold_bolt.bin
+0x708ec8: 0x4f5be4
+
+# Add skillpoint counter function to unlock_skillpoint function
+0x4f5cac: skillpoint.bin
+0x11b7c0: 0x483da4ed
+
+# Add item counter function to unlock_item function
+0x4F5D10: item.bin
+0x112f08: 0x483e2e09
+
+0x00aff000: 0x0
+0x00aff004: 0x0
+0x00aff010: 0x0

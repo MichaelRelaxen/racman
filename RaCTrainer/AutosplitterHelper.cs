@@ -10,7 +10,7 @@ namespace racman
 {
     class AutosplitterHelper
     {
-        byte[] memoryMapContents = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        byte[] memoryMapContents = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         System.IO.MemoryMappedFiles.MemoryMappedFile mmfFile;
         System.IO.MemoryMappedFiles.MemoryMappedViewStream mmfStream;
@@ -22,7 +22,7 @@ namespace racman
 
         public AutosplitterHelper()
         {
-            mmfFile = System.IO.MemoryMappedFiles.MemoryMappedFile.CreateNew("racman-autosplitter", 21);
+            mmfFile = System.IO.MemoryMappedFiles.MemoryMappedFile.CreateOrOpen("racman-autosplitter", 32);
             mmfStream = mmfFile.CreateViewStream();
             writer = new BinaryWriter(mmfStream);
         }
@@ -32,13 +32,18 @@ namespace racman
         /// </summary>
         ~AutosplitterHelper()
         {
-            this.Stop();
+            if (writer != null)
+            {
+                this.Stop();
+            }
         }
 
         public void Stop()
         {
             mmfStream.Close();
             writer.Close();
+
+            writer = null;
 
             if (currentGame == null)
             {
@@ -56,8 +61,11 @@ namespace racman
         {
             writeLock.WaitOne();
 
-            writer.Seek(offset, SeekOrigin.Begin);
-            writer.Write(value, 0, value.Length);
+            if (writer != null)
+            {
+                writer.Seek(offset, SeekOrigin.Begin);
+                writer.Write(value, 0, value.Length);
+            }
 
             writeLock.ReleaseMutex();
         }
@@ -98,9 +106,19 @@ namespace racman
                 WriteToMemory(20, value);
             });
 
-            int ratchetAnimationSubID = game.api.SubMemory(game.pid, 0x96BD8F, 1, (value) =>
+            int goldBoltCountSubID = game.api.SubMemory(game.pid, 0x00aff000, 4, (value) =>
             {
-                WriteToMemory(21, value);
+                WriteToMemory(21, new byte[] { value[0] });
+            });
+
+            int skillpointSubID = game.api.SubMemory(game.pid, 0x00aff010, 4, (value) =>
+            {
+                WriteToMemory(22, new byte[] { value[0] });
+            });
+
+            int itemCountSubID = game.api.SubMemory(game.pid, 0x00aff020, 4, (value) =>
+            {
+                WriteToMemory(23, new byte[] { value[0] });
             });
 
             subscriptionIDs.AddRange(new int[] {
@@ -111,7 +129,9 @@ namespace racman
                 gameStateSubID,
                 loadingScreenSubID,
                 playerCoordsSubID,
-                ratchetAnimationSubID
+                goldBoltCountSubID,
+                skillpointSubID,
+                itemCountSubID
             });
         }
 

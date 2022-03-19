@@ -52,7 +52,7 @@ namespace racman
             {
                 Mod mod = GetMod(modFolder);
 
-                if (mod != null)
+                if (mod != null && (!mod.variables.ContainsKey("visible") || mod.variables["visible"] != "false"))
                 {
                     mods.Add(mod);
                 }
@@ -89,7 +89,14 @@ namespace racman
                 }
             }
 
-            var modFolders = Directory.EnumerateDirectories(gameModFolder);
+            IEnumerable<string> modFolders = null;
+            try
+            {
+                modFolders = Directory.EnumerateDirectories(gameModFolder);
+            } catch (DirectoryNotFoundException)
+            {
+                return;
+            }
 
             // Load new mods
             foreach (var modFolder in modFolders)
@@ -102,7 +109,7 @@ namespace racman
 
                 Mod mod = GetMod(modFolder);
 
-                if (mod != null)
+                if (mod != null && (!mod.variables.ContainsKey("visible") || mod.variables["visible"] != "false"))
                 {
                     allMods.Add(mod);
                 }
@@ -391,6 +398,16 @@ namespace racman
         public Dictionary<uint, byte[]> originalData = new Dictionary<uint, byte[]>();
 
         List<LuaAutomation> luaAutomations = new List<LuaAutomation>();
+
+        public Mod()
+        {
+
+        }
+
+        public Mod(string modFolder)
+        {
+            this.modFolder = modFolder;
+        }
 
         private void LoadOriginalData()
         {

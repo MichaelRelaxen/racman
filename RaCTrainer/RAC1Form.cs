@@ -20,6 +20,8 @@ namespace racman
         public static int pid = AttachPS3Form.pid;
         private static Timer ForceLoadTimer = new Timer();
 
+        private Mod gbspiMod = null;
+
         private AutosplitterHelper autosplitterHelper;
 
         public rac1 game;
@@ -28,9 +30,6 @@ namespace racman
         {
             this.game = game;
 
-            autosplitterHelper = new AutosplitterHelper();
-            autosplitterHelper.StartAutosplitterForGame(game);
-
             InitializeComponent();
             positions_comboBox.Text = "1";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
@@ -38,6 +37,24 @@ namespace racman
             goodiesCheck.Checked = game.GoodiesMenuEnabled();
 
             game.SetupInputDisplayMemorySubs();
+
+            if (func.GetConfigData("config.txt", "platinum") == "purchased")
+            {
+                platinumLabel.Visible = true;
+            }
+
+            if (func.GetConfigData("config.txt", "gbspi_split_enabled") == "true")
+            {
+                gbspiSplitToolStripMenuItem.Checked = true;
+            }
+
+            if (func.GetConfigData("config.txt", "autosplitter_enabled") != "false")
+            {
+                autosplitterEnabledToolStripMenuItem.Checked = true;
+            } else
+            {
+                gbspiSplitToolStripMenuItem.Enabled = false;
+            }
         }
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -111,6 +128,12 @@ namespace racman
             infHealth.Checked = false;
             FastLoadToggle.Checked = false;
             game.api.Disconnect();
+            
+            if (gbspiMod != null)
+            {
+                gbspiMod.Unload();
+            }
+
             Application.Exit();
         }
 
@@ -271,6 +294,85 @@ namespace racman
         private void setupSPsButton_Click(object sender, EventArgs e)
         {
             game.SetShootSkillPoints(false);
+        }
+
+        private void buyPremiumToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (func.GetConfigData("config.txt", "platinum") == "purchased")
+            {
+                MessageBox.Show("You're already one of our premium customers.");
+
+                return;
+            }
+
+            DialogResult result = MessageBox.Show("Buy Platinum RaCMAN for 500,000 bolts?", "Purchase Platinum", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                int bolts = game.Bolts();
+
+                if (bolts < 500000)
+                {
+                    MessageBox.Show("You can't afford that. You're too poor.");
+                } else
+                {
+                    game.SetBoltCount((uint)bolts - 500000);
+
+                    MessageBox.Show("Platinum successfully purchased!", "Sucker");
+
+                    func.ChangeFileLines("config.txt", "purchased", "platinum");
+
+                    platinumLabel.Visible = true;
+                }
+            } else
+            {
+                MessageBox.Show("LMAO you're poor.");
+            }
+        }
+
+        private void gbspiSplitToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (gbspiSplitToolStripMenuItem.Checked)
+            {
+                Mod gbspiMod = new Mod($"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\gb_sp_as_helper\\");
+                gbspiMod.Load();
+
+                func.ChangeFileLines("config.txt", "true", "gbspi_split_enabled");
+            } else
+            {
+                if (gbspiMod != null)
+                {
+                    gbspiMod.Unload();
+                    gbspiMod = null;
+                }
+
+                func.ChangeFileLines("config.txt", "false", "gbspi_split_enabled");
+            }
+        }
+
+        private void autosplitterEnabledToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (autosplitterEnabledToolStripMenuItem.Checked)
+            {
+                autosplitterHelper = new AutosplitterHelper();
+                autosplitterHelper.StartAutosplitterForGame(game);
+
+                func.ChangeFileLines("config.txt", "true", "autosplitter_enabled");
+                gbspiSplitToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                if (autosplitterHelper != null)
+                {
+                    autosplitterHelper.Stop();
+                    autosplitterHelper = null;
+                }
+
+                func.ChangeFileLines("config.txt", "false", "autosplitter_enabled");
+
+                gbspiSplitToolStripMenuItem.Checked = false;
+                gbspiSplitToolStripMenuItem.Enabled = false;
+            }
         }
     }
 }
