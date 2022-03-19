@@ -334,7 +334,7 @@ namespace racman
         {
             if (gbspiSplitToolStripMenuItem.Checked)
             {
-                Mod gbspiMod = new Mod($"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\gb_sp_as_helper\\");
+                gbspiMod = new Mod($"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\gb_sp_as_helper\\");
                 gbspiMod.Load();
 
                 func.ChangeFileLines("config.txt", "true", "gbspi_split_enabled");

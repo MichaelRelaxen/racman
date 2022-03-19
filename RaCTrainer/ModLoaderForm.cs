@@ -470,52 +470,59 @@ namespace racman
 
             bool dirty = false;
 
-            foreach (string patch in patchLines)
+            var patchFileStream = File.OpenRead($"{modFolder}\\patch.txt");
+
+            using (StreamReader reader = new StreamReader(patchFileStream))
             {
-                if (patch.Length < 2 || patch[0] == '#')
+                this.patchLines = reader.ReadToEnd().Split('\n').ToList();
+
+                foreach (string patch in patchLines)
                 {
-                    continue;
-                }
-
-                var patchComponents = patch.Split(':');
-                var addressString = patchComponents[0].Trim();
-                var value = patchComponents[1].Trim();
-
-                if (addressString == "automation")
-                {
-                    // Lua "automation" file
-
-                    if (!this.LoadLuaAutomation($"{modFolder}\\{value}"))
+                    if (patch.Length < 2 || patch[0] == '#')
                     {
-                        // We need to unload, but we need to do it later because we don't know what patches might have been applied that need to be reverted.
-                        dirty = true;
+                        continue;
                     }
 
-                    continue;
-                }
+                    var patchComponents = patch.Split(':');
+                    var addressString = patchComponents[0].Trim();
+                    var value = patchComponents[1].Trim();
 
-                uint address = UInt32.Parse(addressString.Substring(addressString.IndexOf("0x") + 2), System.Globalization.NumberStyles.HexNumber);
+                    if (addressString == "automation")
+                    {
+                        // Lua "automation" file
 
-                byte[] patchBytes;
+                        if (!this.LoadLuaAutomation($"{modFolder}\\{value}"))
+                        {
+                            // We need to unload, but we need to do it later because we don't know what patches might have been applied that need to be reverted.
+                            dirty = true;
+                        }
 
-                if (value.Contains("0x"))
-                {
-                    patchBytes = BitConverter.GetBytes(UInt32.Parse(value.Substring(value.IndexOf("0x") + 2), System.Globalization.NumberStyles.HexNumber)).Reverse().ToArray();
-                }
-                else
-                {
-                    patchBytes = File.ReadAllBytes($"{modFolder}\\{value}");
-                }
+                        continue;
+                    }
 
-                int bytesWritten = 0;
-                byte[] bytesToWrite = new byte[] { };
-                while (bytesWritten < patchBytes.Length)
-                {
-                    bytesToWrite = patchBytes.Skip(bytesWritten).Take(1024).ToArray();
+                    uint address = UInt32.Parse(addressString.Substring(addressString.IndexOf("0x") + 2), System.Globalization.NumberStyles.HexNumber);
 
-                    api.WriteMemory(AttachPS3Form.pid, address + (uint)bytesWritten, (uint)bytesToWrite.Length, bytesToWrite);
+                    byte[] patchBytes;
 
-                    bytesWritten += bytesToWrite.Length;
+                    if (value.Contains("0x"))
+                    {
+                        patchBytes = BitConverter.GetBytes(UInt32.Parse(value.Substring(value.IndexOf("0x") + 2), System.Globalization.NumberStyles.HexNumber)).Reverse().ToArray();
+                    }
+                    else
+                    {
+                        patchBytes = File.ReadAllBytes($"{modFolder}\\{value}");
+                    }
+
+                    int bytesWritten = 0;
+                    byte[] bytesToWrite = new byte[] { };
+                    while (bytesWritten < patchBytes.Length)
+                    {
+                        bytesToWrite = patchBytes.Skip(bytesWritten).Take(1024).ToArray();
+
+                        api.WriteMemory(AttachPS3Form.pid, address + (uint)bytesWritten, (uint)bytesToWrite.Length, bytesToWrite);
+
+                        bytesWritten += bytesToWrite.Length;
+                    }
                 }
             }
 

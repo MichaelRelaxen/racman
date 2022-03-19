@@ -137,7 +137,7 @@ split {
     }
 
     // Gold bolt split
-    if (settings["GBsplit"] && current.gbCollect != old.gbCollect) {
+    if (settings["GBsplit"] && (current.gbCollect != old.gbCollect) || (current.kaleboBoltCollect != old.kaleboBoltCollect && current.kaleboBoltCollect != 0)) {
         return true;
     }
 	
@@ -147,7 +147,7 @@ split {
     }
 	
 	// Items split
-    if (settings["ItemSplit"] && (current.itemsCollect != old.itemsCollect) || (current.kaleboBoltCollect != old.kaleboBoltCollect && current.kaleboBoltCollect != 0)) {
+    if (settings["ItemSplit"] && (current.itemsCollect != old.itemsCollect)) {
         return true;
     }
 }
