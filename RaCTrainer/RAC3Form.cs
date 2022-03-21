@@ -200,10 +200,7 @@ namespace racman
 
         private void controllerCombosCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (controllerCombosCheckbox.Checked)
-                game.InputsTimer.Enabled = true;
-            else
-                game.InputsTimer.Enabled = false;
+            game.InputsTimer.Enabled = ((CheckBox)sender).Checked;
         }
 
         private void freezeAmmoCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -309,37 +306,16 @@ namespace racman
 
         private void coordsComboBox_CheckedChanged(object sender, EventArgs e)
         {
-
-
-            if (coordsComboBox.Checked)
-                CoordsTimer.Enabled = true;
-            if (!coordsComboBox.Checked)
-                CoordsTimer.Enabled = false;
+            CoordsTimer.Enabled = ((CheckBox)sender).Checked;
         }
         public void UpdateCoordsLabel(object sender, EventArgs e)
         {
             coordsLabel.Text = $"X: {game.coords[0]}\nY: {game.coords[1]}\nZ: {game.coords[2]}\n";
         }
 
-        /* private void uploadFileButton_Click(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            byte[] patchBytes;
-
-            patchBytes = File.ReadAllBytes($"{ Directory.GetCurrentDirectory()}\\saves\\{AttachPS3Form.game}\\{savefileHelperComboBox.Text}");
-
-            int bytesWritten = 0;
-            byte[] bytesToWrite = new byte[] { };
-            while (bytesWritten != patchBytes.Length)
-            {
-                bytesToWrite = patchBytes.Skip(bytesWritten).Take(1024).ToArray();
-
-                game.api.WriteMemory(AttachPS3Form.pid, 0x1100000 + (uint)bytesWritten, (uint)bytesToWrite.Length, bytesToWrite);
-
-                bytesWritten += bytesToWrite.Length;
-
-                Console.WriteLine("Bytes written:" + bytesWritten);
-            }
-        } // This didn't really work, FTP upload is gonna be the way but I cant be fucked rn 
-        */
+            game.KlunkTuneToggle(((CheckBox)sender).Checked);
+        }
     }
 }

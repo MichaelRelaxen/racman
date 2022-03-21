@@ -161,6 +161,21 @@ namespace racman
 
             api.Notify("Klunk, Vid Comic Menu and CC Helpdesk is now setup for runs");
         }
+        int klunkTuneSubID1 = -1;
+        int klunkTuneSubID2 = -1;
+        public void KlunkTuneToggle(bool enabled)
+        {
+            if (enabled)
+            {
+                klunkTuneSubID1 = api.FreezeMemory(pid, rac3.addr.klunkTuning1, 0x0);
+                klunkTuneSubID2 = api.FreezeMemory(pid, rac3.addr.klunkTuning2, 0x0);
+            }
+            else
+            {
+                klunkTuneSubID1 = api.FreezeMemory(pid, rac3.addr.klunkTuning1, 0x7);
+                klunkTuneSubID2 = api.FreezeMemory(pid, rac3.addr.klunkTuning2, 0x3);
+            }
+        }
 
         /// <summary>
         /// Ghost ratchet works by having a frame countdown, we hard enable ghost ratchet by freezing the frame countdown to 10.

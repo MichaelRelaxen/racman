@@ -79,6 +79,7 @@ namespace racman
             this.toggleQS = new System.Windows.Forms.Button();
             this.coordsComboBox = new System.Windows.Forms.CheckBox();
             this.coordsLabel = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -573,10 +574,21 @@ namespace racman
             // coordsLabel
             // 
             this.coordsLabel.AutoSize = true;
-            this.coordsLabel.Location = new System.Drawing.Point(16, 317);
+            this.coordsLabel.Location = new System.Drawing.Point(16, 333);
             this.coordsLabel.Name = "coordsLabel";
             this.coordsLabel.Size = new System.Drawing.Size(0, 13);
             this.coordsLabel.TabIndex = 101;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(16, 308);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(91, 17);
+            this.checkBox1.TabIndex = 102;
+            this.checkBox1.Text = "Untune Klunk";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // RAC3Form
             // 
@@ -584,6 +596,7 @@ namespace racman
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(385, 390);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.coordsLabel);
             this.Controls.Add(this.coordsComboBox);
             this.Controls.Add(this.toggleQS);
@@ -690,6 +703,7 @@ namespace racman
         private System.Windows.Forms.Button toggleQS;
         private System.Windows.Forms.CheckBox coordsComboBox;
         private System.Windows.Forms.Label coordsLabel;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 
