@@ -121,12 +121,21 @@ namespace racman
                 WriteToMemory(23, new byte[] { value[0] });
             });
 
-            //A0CA75
             int kaleboBoltSubID = game.api.SubMemory(game.pid, 0xA0CA75, 1, (value) =>
             {
                 WriteToMemory(24, value);
             });
+            int infobotsSubID = game.api.SubMemory(game.pid, 0x00aff030, 4, (value) =>
+            {
+                WriteToMemory(25, new byte[] { value[0] });
+            });
 
+            // codebot and persuader we'll just check if you have them or not.
+            int rariCodebotSubID = game.api.SubMemory(game.pid, 0x0096bff1, 2, (value) =>
+            {
+                int items = value[0] + value[1];
+                WriteToMemory(26, new byte[] { (byte)items });
+            });
             subscriptionIDs.AddRange(new int[] {
                 destinationPlanetSubID,
                 currentPlanetSubID,
@@ -138,7 +147,9 @@ namespace racman
                 goldBoltCountSubID,
                 skillpointSubID,
                 itemCountSubID,
-                kaleboBoltSubID
+                kaleboBoltSubID,
+                infobotsSubID,
+                rariCodebotSubID,
             });
         }
 

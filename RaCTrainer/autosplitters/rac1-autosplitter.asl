@@ -6,6 +6,7 @@ startup {
     settings.Add("GBsplit", false, "Split on Gold Bolts");
 	settings.Add("SPsplit", false, "Split on Skillpoints");
 	settings.Add("ItemSplit", false, "Split on items");
+	settings.Add("InfobotSplit", false, "Split on infobots");
 }
 
 init {
@@ -27,6 +28,8 @@ init {
 	current.spCollect = vars.reader.ReadByte();
 	current.itemsCollect = vars.reader.ReadByte();
 	current.kaleboBoltCollect = vars.reader.ReadByte();
+	current.infobots = vars.reader.ReadByte();
+    current.codebot = vars.reader.ReadByte();
 
     vars.ShouldStopTimer = false;
 
@@ -64,6 +67,8 @@ update {
 	current.spCollect = vars.reader.ReadByte();
 	current.itemsCollect = vars.reader.ReadByte();
 	current.kaleboBoltCollect = vars.reader.ReadByte();
+	current.infobots = vars.reader.ReadByte();
+    current.codebot = vars.reader.ReadByte();
 
     /*
     if (current.planet != old.planet) {
@@ -119,7 +124,7 @@ split {
     
     // Veldin split
     if (!vars.veldinFix && current.gameState == 2 && old.gameState == 0 && current.planet == 0 && current.planetFramesCount > 5) {
-        vars.veldinFix = true;
+        vars.veldinFix = true; // to avoid double veldin split that can happen sometimes.
         return true;
     }
 
@@ -137,8 +142,13 @@ split {
     }
 
     // Gold bolt split
-    if (settings["GBsplit"] && (current.gbCollect != old.gbCollect) || (current.kaleboBoltCollect != old.kaleboBoltCollect && current.kaleboBoltCollect != 0)) {
-        return true;
+    if (settings["GBsplit"]) {
+
+        if (current.gbCollect != old.gbCollect)
+            return true;
+
+        if (current.kaleboBoltCollect != old.kaleboBoltCollect && current.kaleboBoltCollect != 0)
+            return true;
     }
 	
 	// Skillpoint split
@@ -147,9 +157,19 @@ split {
     }
 	
 	// Items split
-    if (settings["ItemSplit"] && (current.itemsCollect != old.itemsCollect)) {
-        return true;
+    if (settings["ItemSplit"]) {
+
+        if (current.itemsCollect != old.itemsCollect)
+            return true;
+
+        if (current.codebot != old.codebot && current.codebot != 0)
+            return true;
     }
+	
+	// Infobots split
+	if (settings["InfobotSplit"] && (current.infobots != old.infobots)) {
+		return true;
+	}
 }
 
 isLoading {

@@ -55,6 +55,10 @@ namespace racman
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buyPremiumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autosplitterEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gbspiSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -67,11 +71,7 @@ namespace racman
             this.resetGBsButton = new System.Windows.Forms.Button();
             this.resetSPsButton = new System.Windows.Forms.Button();
             this.setupSPsButton = new System.Windows.Forms.Button();
-            this.buyPremiumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.platinumLabel = new System.Windows.Forms.Label();
-            this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autosplitterEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gbspiSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -336,6 +336,38 @@ namespace racman
             this.configureButtonCombosToolStripMenuItem.Text = "Configure button combos";
             this.configureButtonCombosToolStripMenuItem.Click += new System.EventHandler(this.configureButtonCombosToolStripMenuItem_Click);
             // 
+            // buyPremiumToolStripMenuItem
+            // 
+            this.buyPremiumToolStripMenuItem.Name = "buyPremiumToolStripMenuItem";
+            this.buyPremiumToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.buyPremiumToolStripMenuItem.Text = "Buy Platinum";
+            this.buyPremiumToolStripMenuItem.Click += new System.EventHandler(this.buyPremiumToolStripMenuItem_Click);
+            // 
+            // autosplitterToolStripMenuItem
+            // 
+            this.autosplitterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autosplitterEnabledToolStripMenuItem,
+            this.gbspiSplitToolStripMenuItem});
+            this.autosplitterToolStripMenuItem.Name = "autosplitterToolStripMenuItem";
+            this.autosplitterToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.autosplitterToolStripMenuItem.Text = "Autosplitter";
+            // 
+            // autosplitterEnabledToolStripMenuItem
+            // 
+            this.autosplitterEnabledToolStripMenuItem.CheckOnClick = true;
+            this.autosplitterEnabledToolStripMenuItem.Name = "autosplitterEnabledToolStripMenuItem";
+            this.autosplitterEnabledToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.autosplitterEnabledToolStripMenuItem.Text = "Autosplitter enabled";
+            this.autosplitterEnabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autosplitterEnabledToolStripMenuItem_CheckedChanged);
+            // 
+            // gbspiSplitToolStripMenuItem
+            // 
+            this.gbspiSplitToolStripMenuItem.CheckOnClick = true;
+            this.gbspiSplitToolStripMenuItem.Name = "gbspiSplitToolStripMenuItem";
+            this.gbspiSplitToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.gbspiSplitToolStripMenuItem.Text = "Gold bolt, skillpoint, items splitting";
+            this.gbspiSplitToolStripMenuItem.CheckedChanged += new System.EventHandler(this.gbspiSplitToolStripMenuItem_CheckedChanged);
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(15, 303);
@@ -459,13 +491,6 @@ namespace racman
             this.setupSPsButton.UseVisualStyleBackColor = true;
             this.setupSPsButton.Click += new System.EventHandler(this.setupSPsButton_Click);
             // 
-            // buyPremiumToolStripMenuItem
-            // 
-            this.buyPremiumToolStripMenuItem.Name = "buyPremiumToolStripMenuItem";
-            this.buyPremiumToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.buyPremiumToolStripMenuItem.Text = "Buy Platinum";
-            this.buyPremiumToolStripMenuItem.Click += new System.EventHandler(this.buyPremiumToolStripMenuItem_Click);
-            // 
             // platinumLabel
             // 
             this.platinumLabel.AutoSize = true;
@@ -475,31 +500,6 @@ namespace racman
             this.platinumLabel.TabIndex = 94;
             this.platinumLabel.Text = "PLATINUM+   PREMIUM";
             this.platinumLabel.Visible = false;
-            // 
-            // autosplitterToolStripMenuItem
-            // 
-            this.autosplitterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.autosplitterEnabledToolStripMenuItem,
-            this.gbspiSplitToolStripMenuItem});
-            this.autosplitterToolStripMenuItem.Name = "autosplitterToolStripMenuItem";
-            this.autosplitterToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
-            this.autosplitterToolStripMenuItem.Text = "Autosplitter";
-            // 
-            // autosplitterEnabledToolStripMenuItem
-            // 
-            this.autosplitterEnabledToolStripMenuItem.CheckOnClick = true;
-            this.autosplitterEnabledToolStripMenuItem.Name = "autosplitterEnabledToolStripMenuItem";
-            this.autosplitterEnabledToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.autosplitterEnabledToolStripMenuItem.Text = "Autosplitter enabled";
-            this.autosplitterEnabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.autosplitterEnabledToolStripMenuItem_CheckedChanged);
-            // 
-            // gbspiSplitToolStripMenuItem
-            // 
-            this.gbspiSplitToolStripMenuItem.CheckOnClick = true;
-            this.gbspiSplitToolStripMenuItem.Name = "gbspiSplitToolStripMenuItem";
-            this.gbspiSplitToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
-            this.gbspiSplitToolStripMenuItem.Text = "Gold bolt, skillpoint, items splitting";
-            this.gbspiSplitToolStripMenuItem.CheckedChanged += new System.EventHandler(this.gbspiSplitToolStripMenuItem_CheckedChanged);
             // 
             // RAC1Form
             // 
