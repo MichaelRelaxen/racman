@@ -172,8 +172,8 @@ namespace racman
             }
             else
             {
-                klunkTuneSubID1 = api.FreezeMemory(pid, rac3.addr.klunkTuning1, 0x7);
-                klunkTuneSubID2 = api.FreezeMemory(pid, rac3.addr.klunkTuning2, 0x3);
+                api.ReleaseSubID(klunkTuneSubID2);
+                api.ReleaseSubID(klunkTuneSubID1);
             }
         }
 
