@@ -47,6 +47,7 @@ namespace racman
         // Boss stuff
         public uint klunkTuning1 => 0xC9165C;
         public uint klunkTuning2 => 0xC36BCC;
+        public uint neffyTuning => 0xEF6098;
 
         // Load stuff
         public uint fastLoad1 => 0x134EBD4; // Set to "00000003" to force third load screen.
@@ -156,10 +157,11 @@ namespace racman
         {
             api.WriteMemory(pid, rac3.addr.klunkTuning1, 0x7);
             api.WriteMemory(pid, rac3.addr.klunkTuning2, 0x3);
+            api.WriteMemory(pid, rac3.addr.neffyTuning, 0xE); 
             api.WriteMemory(pid, rac3.addr.vidComicMenu, new byte[] { 0x00, 0x00, 0x00, 0x02 });
             api.WriteMemory(pid, rac3.addr.ccHelpDesk, new byte[] { 0x00, 0x00, 0x00, 0x01 });
 
-            api.Notify("Klunk, Vid Comic Menu and CC Helpdesk is now setup for runs");
+            api.Notify("Klunk, Neffy, Vid Comic Menu and CC Helpdesk is now setup for runs");
         }
         int klunkTuneSubID1 = -1;
         int klunkTuneSubID2 = -1;
