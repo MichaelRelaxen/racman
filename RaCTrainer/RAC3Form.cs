@@ -317,5 +317,15 @@ namespace racman
         {
             game.KlunkTuneToggle(((CheckBox)sender).Checked);
         }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void shipColourComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            game.SetShipColour(shipColourComboBox.SelectedIndex);
+        }
     }
 }

@@ -80,6 +80,8 @@ namespace racman
             this.coordsComboBox = new System.Windows.Forms.CheckBox();
             this.coordsLabel = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.shipColourComboBox = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -590,12 +592,66 @@ namespace racman
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // shipColourComboBox
+            // 
+            this.shipColourComboBox.FormattingEnabled = true;
+            this.shipColourComboBox.Items.AddRange(new object[] {
+            "Blargian Red",
+            "Orxon Green ",
+            "Bogon Blue",
+            "Insomniac Special",
+            "Dark Nebula",
+            "Drek\'s Black Heart",
+            "Space Storm",
+            "Lunar Eclipse",
+            "Plaidtastic",
+            "Supernova",
+            "Solar Wind",
+            "Clowner",
+            "Silent Strike",
+            "Lombax Orange",
+            "Neutron Star",
+            "Star Traveller",
+            "Hooked on Onyx",
+            "Tyhrranoid Void",
+            "Zeldrin Sunset",
+            "Ghost Pirate Purple",
+            "Qwark Green",
+            "Agent Orange",
+            "Helga Hues",
+            "Amoeboid Green",
+            "Obani Orange",
+            "Pulsing Purple",
+            "Low Rider",
+            "Black Hole",
+            "Sun Storm",
+            "Sasha Scarlet",
+            "Florana Breeze",
+            "Ozzy Kamikaze"});
+            this.shipColourComboBox.Location = new System.Drawing.Point(19, 357);
+            this.shipColourComboBox.Name = "comboBox1";
+            this.shipColourComboBox.Size = new System.Drawing.Size(121, 21);
+            this.shipColourComboBox.TabIndex = 103;
+            this.shipColourComboBox.SelectedIndexChanged += new System.EventHandler(this.shipColourComboBox_SelectedIndexChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(16, 341);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(64, 13);
+            this.label11.TabIndex = 104;
+            this.label11.Text = "Ship Colour:";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
             // RAC3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(385, 390);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.shipColourComboBox);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.coordsLabel);
             this.Controls.Add(this.coordsComboBox);
@@ -704,6 +760,8 @@ namespace racman
         private System.Windows.Forms.CheckBox coordsComboBox;
         private System.Windows.Forms.Label coordsLabel;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ComboBox shipColourComboBox;
+        private System.Windows.Forms.Label label11;
     }
 }
 

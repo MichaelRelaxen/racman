@@ -30,6 +30,10 @@ namespace racman
         public uint currentArmor => 0xC1E51C;
         public uint challengeMode => 0xC1E50e;
 
+        //Ship Stuff
+
+        public uint shipColour => 0xDA55E8;
+
 
         // Arrays
         public uint titaniumBoltsArray => 0xECE53D;
@@ -238,6 +242,11 @@ namespace racman
         public void SetArmor(int number)
         {
             api.WriteMemory(pid, rac3.addr.currentArmor, BitConverter.GetBytes((ushort)number).Reverse().ToArray());
+        }
+
+        public void SetShipColour(int number)
+        {
+            api.WriteMemory(pid, rac3.addr.shipColour, BitConverter.GetBytes((byte)number).Reverse().ToArray());
         }
 
         /// <summary>
