@@ -243,7 +243,7 @@ namespace racman
             planetText = (String)planets_comboBox.SelectedItem;
             if (planetText != null)
             {
-                if(planetText !="")
+                if(planetText != "")
                 {
                     planetId = (int)Enum.Parse(typeof(Planets), planetText) + 1;
                 }

@@ -629,7 +629,7 @@ namespace racman
             "Sasha Scarlet",
             "Florana Breeze",
             "Ozzy Kamikaze"});
-            this.shipColourComboBox.Location = new System.Drawing.Point(19, 357);
+            this.shipColourComboBox.Location = new System.Drawing.Point(237, 390);
             this.shipColourComboBox.Name = "shipColourComboBox";
             this.shipColourComboBox.Size = new System.Drawing.Size(121, 21);
             this.shipColourComboBox.TabIndex = 103;
@@ -638,7 +638,7 @@ namespace racman
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(16, 341);
+            this.label11.Location = new System.Drawing.Point(234, 374);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(64, 13);
             this.label11.TabIndex = 104;
@@ -650,7 +650,7 @@ namespace racman
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(385, 390);
+            this.ClientSize = new System.Drawing.Size(385, 423);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.shipColourComboBox);
             this.Controls.Add(this.checkBox1);
