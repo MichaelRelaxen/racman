@@ -185,40 +185,41 @@ namespace racman
             this.planets_comboBox.Items.AddRange(new object[] {
             "Veldin",
             "Florana",
-            "Starship Phoenix",
+            "StarshipPhoenix",
             "Marcadia",
             "Daxx",
-            "Phoenix Rescue",
-            "Annihilation Nation",
+            "ObaniGemini",
+            "BlackwaterCity",
+            "AnnihilationNation ",
             "Aquatos",
+            "AquatosClank",
+            "AquatosSewers",
             "Tyhrranosis",
-            "Zeldrin Starport",
-            "Obani Gemini",
-            "Blackwater City",
+            "ZeldrinStarport",
             "Holostar",
-            "Koros",
-            "Unknown",
+            "HolostarClank",
+            "ObaniDraco",
+            "ZeldrinStarport",
             "Metropolis",
-            "Crash Site",
+            "CrashSite",
             "Aridia",
-            "Qwarks Hideout",
-            "Launch Site",
-            "Obani Draco",
-            "Command Center",
-            "Holostar 2",
-            "Insomniac Museum",
+            "QwarksHideout",
+            "PhoenixRescue",
+            "Koros ",
+            "CommandCenter",
+            "LaunchSite",
+            "InsomniacMuseum",
+            "TyhrranosisRangers",
+            "MetropolisRangers",
+            "VidComic1",
+            "VidComic2",
+            "VidComic3",
+            "VidComic4",
+            "VidComic5",
+            "VidComic6",
+            "VidComic1SpecialEdition",
             "Unknown",
-            "Metropolis Rangers",
-            "Aquatos Clank",
-            "Aquatos Sewers",
-            "Tyhrranosis Rangers",
-            "Vid Comic 6",
-            "Vid Comic 1",
-            "Vid Comic 4",
-            "Vid Comic 2",
-            "Vid Comic 3",
-            "Vid Comic 5",
-            "Vid Comic 1 Special Edition"});
+            "Unknown2"});
             this.planets_comboBox.Location = new System.Drawing.Point(15, 179);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
@@ -629,7 +630,7 @@ namespace racman
             "Florana Breeze",
             "Ozzy Kamikaze"});
             this.shipColourComboBox.Location = new System.Drawing.Point(19, 357);
-            this.shipColourComboBox.Name = "comboBox1";
+            this.shipColourComboBox.Name = "shipColourComboBox";
             this.shipColourComboBox.Size = new System.Drawing.Size(121, 21);
             this.shipColourComboBox.TabIndex = 103;
             this.shipColourComboBox.SelectedIndexChanged += new System.EventHandler(this.shipColourComboBox_SelectedIndexChanged);
