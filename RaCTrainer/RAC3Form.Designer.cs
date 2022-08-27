@@ -80,6 +80,8 @@ namespace racman
             this.coordsComboBox = new System.Windows.Forms.CheckBox();
             this.coordsLabel = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.shipColourComboBox = new System.Windows.Forms.ComboBox();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -183,40 +185,41 @@ namespace racman
             this.planets_comboBox.Items.AddRange(new object[] {
             "Veldin",
             "Florana",
-            "Starship Phoenix",
+            "StarshipPhoenix",
             "Marcadia",
             "Daxx",
-            "Phoenix Rescue",
-            "Annihilation Nation",
+            "ObaniGemini",
+            "BlackwaterCity",
+            "AnnihilationNation ",
             "Aquatos",
+            "AquatosClank",
+            "AquatosSewers",
             "Tyhrranosis",
-            "Zeldrin Starport",
-            "Obani Gemini",
-            "Blackwater City",
+            "ZeldrinStarport",
             "Holostar",
-            "Koros",
-            "Unknown",
+            "HolostarClank",
+            "ObaniDraco",
+            "ZeldrinStarport",
             "Metropolis",
-            "Crash Site",
+            "CrashSite",
             "Aridia",
-            "Qwarks Hideout",
-            "Launch Site",
-            "Obani Draco",
-            "Command Center",
-            "Holostar 2",
-            "Insomniac Museum",
+            "QwarksHideout",
+            "PhoenixRescue",
+            "Koros ",
+            "CommandCenter",
+            "LaunchSite",
+            "InsomniacMuseum",
+            "TyhrranosisRangers",
+            "MetropolisRangers",
+            "VidComic1",
+            "VidComic2",
+            "VidComic3",
+            "VidComic4",
+            "VidComic5",
+            "VidComic6",
+            "VidComic1SpecialEdition",
             "Unknown",
-            "Metropolis Rangers",
-            "Aquatos Clank",
-            "Aquatos Sewers",
-            "Tyhrranosis Rangers",
-            "Vid Comic 6",
-            "Vid Comic 1",
-            "Vid Comic 4",
-            "Vid Comic 2",
-            "Vid Comic 3",
-            "Vid Comic 5",
-            "Vid Comic 1 Special Edition"});
+            "Unknown2"});
             this.planets_comboBox.Location = new System.Drawing.Point(15, 179);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
@@ -590,12 +593,66 @@ namespace racman
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // shipColourComboBox
+            // 
+            this.shipColourComboBox.FormattingEnabled = true;
+            this.shipColourComboBox.Items.AddRange(new object[] {
+            "Blargian Red",
+            "Orxon Green ",
+            "Bogon Blue",
+            "Insomniac Special",
+            "Dark Nebula",
+            "Drek\'s Black Heart",
+            "Space Storm",
+            "Lunar Eclipse",
+            "Plaidtastic",
+            "Supernova",
+            "Solar Wind",
+            "Clowner",
+            "Silent Strike",
+            "Lombax Orange",
+            "Neutron Star",
+            "Star Traveller",
+            "Hooked on Onyx",
+            "Tyhrranoid Void",
+            "Zeldrin Sunset",
+            "Ghost Pirate Purple",
+            "Qwark Green",
+            "Agent Orange",
+            "Helga Hues",
+            "Amoeboid Green",
+            "Obani Orange",
+            "Pulsing Purple",
+            "Low Rider",
+            "Black Hole",
+            "Sun Storm",
+            "Sasha Scarlet",
+            "Florana Breeze",
+            "Ozzy Kamikaze"});
+            this.shipColourComboBox.Location = new System.Drawing.Point(237, 390);
+            this.shipColourComboBox.Name = "shipColourComboBox";
+            this.shipColourComboBox.Size = new System.Drawing.Size(121, 21);
+            this.shipColourComboBox.TabIndex = 103;
+            this.shipColourComboBox.SelectedIndexChanged += new System.EventHandler(this.shipColourComboBox_SelectedIndexChanged);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(234, 374);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(64, 13);
+            this.label11.TabIndex = 104;
+            this.label11.Text = "Ship Colour:";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
             // RAC3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(385, 390);
+            this.ClientSize = new System.Drawing.Size(385, 423);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.shipColourComboBox);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.coordsLabel);
             this.Controls.Add(this.coordsComboBox);
@@ -704,6 +761,8 @@ namespace racman
         private System.Windows.Forms.CheckBox coordsComboBox;
         private System.Windows.Forms.Label coordsLabel;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ComboBox shipColourComboBox;
+        private System.Windows.Forms.Label label11;
     }
 }
 

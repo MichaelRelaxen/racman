@@ -2,14 +2,57 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
+using System.Windows;
 using System.Windows.Forms;
+using Application = System.Windows.Forms.Application;
+using MessageBox = System.Windows.Forms.MessageBox;
 using Timer = System.Windows.Forms.Timer;
 
 namespace racman
 {
     public partial class RAC3Form : Form
     {
+        private enum Planets
+        {
+            Veldin,
+            Florana,
+            StarshipPhoenix,
+            Marcadia,
+            Daxx,
+            PhoenixRescue,
+            AnnihilationNation,
+            Aquatos,
+            Tyhrranosis,
+            ZeldrinStarport,
+            ObaniGemini,
+            BlackwaterCity,
+            Holostar,
+            Koros,
+            Unknown,
+            Metropolis,
+            CrashSite,
+            Aridia,
+            QwarksHideout,
+            LaunchSite,
+            ObaniDraco,
+            CommandCenter,
+            HolostarClank,
+            InsomniacMuseum,
+            Unknown2,
+            MetropolisRangers,
+            AquatosClank,
+            AquatosSewers,
+            TyhrranosisRangers,
+            VidComic6,
+            VidComic1,
+            VidComic4,
+            VidComic2,
+            VidComic3,
+            VidComic5,
+            VidComic1SpecialEdition,
+        }
         int ohkoMemSubID = -1;
 
         public rac3 game;
@@ -195,7 +238,28 @@ namespace racman
 
         private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            game.planetToLoad = (uint)planets_comboBox.SelectedIndex + 1;
+            int planetId;
+            String planetText;
+            planetText = (String)planets_comboBox.SelectedItem;
+            if (planetText != null)
+            {
+                if(planetText != "")
+                {
+                    planetId = (int)Enum.Parse(typeof(Planets), planetText) + 1;
+                }
+                else
+                {
+                    planetId = 2;
+                }
+            }
+            else
+            {
+                //planetId = planets_comboBox.SelectedIndex + 1;
+                planetId = 3;
+            }
+
+            
+            game.planetToLoad = (uint)planetId;
         }
 
         private void controllerCombosCheckbox_CheckedChanged(object sender, EventArgs e)
@@ -316,6 +380,16 @@ namespace racman
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             game.KlunkTuneToggle(((CheckBox)sender).Checked);
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void shipColourComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            game.SetShipColour(shipColourComboBox.SelectedIndex);
         }
     }
 }
