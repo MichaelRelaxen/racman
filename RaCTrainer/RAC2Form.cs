@@ -161,5 +161,27 @@ namespace racman
                 autosplitter.StartAutosplitterForGame(this.game);
             }
         }
+
+        private int healthFreezeSubID = -1;
+        private void freezeHealthCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (freezeHealthCheckbox.Checked)
+            {
+                healthFreezeSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x14816AC, 42069);
+            }
+            else
+            {
+                game.api.ReleaseSubID(healthFreezeSubID);
+            }
+        }
+
+        // Doesn't actually freeze anything, just gives you 2 billion of every ammo (clickbait)
+        private void freezeAmmoCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (freezeAmmoCheckbox.Checked)
+            {
+                game.api.WriteMemory(game.api.getCurrentPID(), 0x1481864, 128, "7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF");
+            }
+        }
     }
 }
