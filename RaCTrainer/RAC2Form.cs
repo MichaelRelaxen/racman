@@ -12,7 +12,7 @@ namespace racman
 {
     public partial class RAC2Form : Form
     {
-
+        AutosplitterHelper autosplitter;
         public rac2 game;
         public Form InputDisplay;
 
@@ -25,6 +25,8 @@ namespace racman
             positions_comboBox.Text = "1";
             bolts_textBox.KeyDown += bolts_textBox_KeyDown;
             game.SetupInputDisplayMemorySubs();
+
+            AutosplitterCheckbox.Checked = true;
         }
 
         private void RAC2Form_Load(object sender, EventArgs e)
@@ -141,6 +143,23 @@ namespace racman
             ConfigureCombos = null;
             if(CComboCheckBox.Checked) 
                 game.InputsTimer.Enabled = true;
+        }
+
+        private void AutosplitterCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!AutosplitterCheckbox.Checked)
+            {
+                // Disable autosplitter.
+                autosplitter.Stop();
+                autosplitter = null;
+            }
+            else
+            {
+                // Enable auotpslitter
+                Console.WriteLine("Autosplitter starting!");
+                autosplitter = new AutosplitterHelper();
+                autosplitter.StartAutosplitterForGame(this.game);
+            }
         }
     }
 }

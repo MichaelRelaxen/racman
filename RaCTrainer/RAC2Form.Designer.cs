@@ -46,6 +46,7 @@ namespace racman
             this.menusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -239,11 +240,23 @@ namespace racman
             this.switchGameToolStripMenuItem.Text = "Switch game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
+            // AutosplitterCheckbox
+            // 
+            this.AutosplitterCheckbox.AutoSize = true;
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(256, 115);
+            this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
+            this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
+            this.AutosplitterCheckbox.TabIndex = 102;
+            this.AutosplitterCheckbox.Text = "Autosplitter";
+            this.AutosplitterCheckbox.UseVisualStyleBackColor = true;
+            this.AutosplitterCheckbox.CheckedChanged += new System.EventHandler(this.AutosplitterCheckbox_CheckedChanged);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 244);
+            this.Controls.Add(this.AutosplitterCheckbox);
             this.Controls.Add(this.ghostCheckbox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.bolts_textBox);
@@ -288,5 +301,6 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem menusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configureButtonCombosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem switchGameToolStripMenuItem;
+        private System.Windows.Forms.CheckBox AutosplitterCheckbox;
     }
 }

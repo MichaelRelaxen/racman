@@ -27,6 +27,7 @@ namespace racman
 
         public AutosplitterHelper()
         {
+            Console.WriteLine("Opening MMF.");
             mmfFile = System.IO.MemoryMappedFiles.MemoryMappedFile.CreateOrOpen("racman-autosplitter", 32);
             mmfStream = mmfFile.CreateViewStream();
             writer = new BinaryWriter(mmfStream);
@@ -111,6 +112,7 @@ namespace racman
         public void StartAutosplitterForGame(IGame game)
         {
             if (!(game is IAutosplitterAvailable)) throw new NotSupportedException("This game doesn't support an autosplitter yet.");
+            currentGame = game;
             var autosplitter = game as IAutosplitterAvailable;
 
             int pos = 0;

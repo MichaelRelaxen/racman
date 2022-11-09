@@ -229,6 +229,7 @@
     <None Include="autosplitters\acit-loadremover.asl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="autosplitters\rac2-autosplitter.asl" />
     <None Include="autosplitters\rac3 no qe.asl" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
