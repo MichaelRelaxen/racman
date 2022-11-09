@@ -77,7 +77,7 @@ namespace racman
         public uint goldBolts => 0xA0CA34;
     }
 
-    public class rac1 : IGame
+    public class rac1 : IGame, IAutosplitterAvailable
     {
         public static RaC1Addresses addr = new RaC1Addresses();
 
@@ -179,6 +179,22 @@ namespace racman
         Dictionary<int, bool> ownedGoldItems = new Dictionary<int, bool>();
         long lastUnlocksUpdate = 0;
         long lastGoldItemsUpdate = 0;
+
+        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
+            {
+                (addr.playerCoords, 8),
+                (addr.destinationPlanet + 3, 1),
+                (addr.currentPlanet + 3, 1),
+                (addr.playerState, 4),
+                (addr.planetFrameCount, 4),
+                (addr.gameState, 4),
+                (addr.loadingScreenID + 3, 1),
+                (0x00aff000, 4),
+                (0x00aff010, 4),
+                (0x00aff020, 4),
+                (0xa0ca75, 1),
+                (0x00aff030, 4)
+            };
 
         /// <summary>
         /// Updates internal list of unlocked items. There was a bug in the Ratchetron C# API that maked it unfeasibly slow to get each item as a single byte.

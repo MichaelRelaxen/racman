@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Timer = System.Windows.Forms.Timer;
@@ -64,7 +65,7 @@ namespace racman
         public uint infobotFlags => throw new System.NotImplementedException();
         public uint moviesFlags => throw new System.NotImplementedException();
     }
-    public class rac3 : IGame
+    public class rac3 : IGame, IAutosplitterAvailable
     {
         public Timer fastloadTimer = new Timer();
 
@@ -169,6 +170,20 @@ namespace racman
         }
         int klunkTuneSubID1 = -1;
         int klunkTuneSubID2 = -1;
+
+        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
+        {
+            (addr.destinationPlanet + 3, 1),
+            (addr.currentPlanet + 3, 1),
+            (addr.playerState + 2, 2),
+            (addr.planetFrameCount, 4),
+            (addr.gameState, 4),
+            (addr.loadingScreenID + 3, 1),
+            (addr.marcadiaMission + 3, 1), // Not actually used, here for backwards compatibility
+            (0xC4DF80, 4),
+            (0xDA50FC, 4)
+        };
+
         public void KlunkTuneToggle(bool enabled)
         {
             if (enabled)
