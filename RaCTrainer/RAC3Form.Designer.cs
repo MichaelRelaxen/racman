@@ -82,6 +82,8 @@ namespace racman
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.shipColourComboBox = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -645,12 +647,31 @@ namespace racman
             this.label11.Text = "Ship Colour:";
             this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(37, 376);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(52, 13);
+            this.label13.TabIndex = 106;
+            this.label13.Text = "File Time:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(39, 390);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(135, 20);
+            this.textBox2.TabIndex = 105;
+            this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
+            // 
             // RAC3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(385, 423);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.shipColourComboBox);
             this.Controls.Add(this.checkBox1);
@@ -763,6 +784,8 @@ namespace racman
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ComboBox shipColourComboBox;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 

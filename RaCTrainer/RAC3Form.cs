@@ -391,5 +391,26 @@ namespace racman
         {
             game.SetShipColour(shipColourComboBox.SelectedIndex);
         }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.api.WriteMemory(game.api.getCurrentPID(), 0xDA64E0, UInt32.Parse(textBox2.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Unable to parse number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
+            }
+        }
     }
 }
