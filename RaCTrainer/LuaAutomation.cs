@@ -17,6 +17,24 @@ namespace racman
 
         public bool failed = false;
 
+        private class InputsClass
+        {
+            public bool CrossPressed() => Inputs.Mask.Contains(Inputs.Buttons.cross);
+            public bool TrianglePressed() => Inputs.Mask.Contains(Inputs.Buttons.triangle);
+            public bool SquarePressed() => Inputs.Mask.Contains(Inputs.Buttons.square);
+            public bool CirclePressed() => Inputs.Mask.Contains(Inputs.Buttons.circle);
+
+            public bool R1Pressed() => Inputs.Mask.Contains(Inputs.Buttons.r1);
+            public bool R2Pressed() => Inputs.Mask.Contains(Inputs.Buttons.r2);
+            public bool R3Pressed() => Inputs.Mask.Contains(Inputs.Buttons.r3);
+            public bool L1Pressed() => Inputs.Mask.Contains(Inputs.Buttons.l1);
+            public bool L2Pressed() => Inputs.Mask.Contains(Inputs.Buttons.l2);
+            public bool L3Pressed() => Inputs.Mask.Contains(Inputs.Buttons.l3);
+
+            public bool StartPressed() => Inputs.Mask.Contains(Inputs.Buttons.start);
+            public bool SelectPressed() => Inputs.Mask.Contains(Inputs.Buttons.select);
+        }
+
         public LuaAutomation(string filename, string gameID, Mod mod)
         {
             this.mod = mod;
@@ -46,6 +64,7 @@ namespace racman
 
             state["Ratchetron"] = func.api;
             state["GAME_PID"] = func.api.getCurrentPID();
+            state["Inputs"] = new InputsClass();
 
             // Load racman standard library
             string standardLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\standard\\";
