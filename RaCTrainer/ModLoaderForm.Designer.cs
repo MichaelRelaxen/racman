@@ -42,6 +42,7 @@ namespace racman
             this.authorNameLabel = new System.Windows.Forms.Label();
             this.versionLabel = new System.Windows.Forms.Label();
             this.linkLabel = new System.Windows.Forms.LinkLabel();
+            this.buttonScripting = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // modsCheckedListBox
@@ -181,11 +182,22 @@ namespace racman
             this.linkLabel.TabStop = true;
             this.linkLabel.Text = "N/A";
             // 
+            // buttonScripting
+            // 
+            this.buttonScripting.Location = new System.Drawing.Point(539, 283);
+            this.buttonScripting.Name = "buttonScripting";
+            this.buttonScripting.Size = new System.Drawing.Size(75, 23);
+            this.buttonScripting.TabIndex = 12;
+            this.buttonScripting.Text = "Scripting";
+            this.buttonScripting.UseVisualStyleBackColor = true;
+            this.buttonScripting.Click += new System.EventHandler(this.buttonScripting_Click);
+            // 
             // ModLoaderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(627, 376);
+            this.Controls.Add(this.buttonScripting);
             this.Controls.Add(this.linkLabel);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.authorNameLabel);
@@ -223,5 +235,6 @@ namespace racman
         private System.Windows.Forms.Label authorNameLabel;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.LinkLabel linkLabel;
+        private System.Windows.Forms.Button buttonScripting;
     }
 }

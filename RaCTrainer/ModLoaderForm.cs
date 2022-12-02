@@ -382,6 +382,19 @@ namespace racman
                 console.Show();
             }
         }
+
+        private void buttonScripting_Click(object sender, EventArgs e)
+        {
+            if (!AttachPS3Form.scripting.IsDisposed)
+            {
+                AttachPS3Form.scripting.Show();
+            }
+            else
+            {
+                RacmanScripting scripting = new RacmanScripting();
+                scripting.Show();
+            }
+        }
     }
 
     public class Mod

@@ -12,6 +12,8 @@ namespace racman
 
         public static RacManConsole console;
 
+        public static RacmanScripting scripting;
+
         static ModLoaderForm modLoaderForm;
 
         public AttachPS3Form()
@@ -21,6 +23,7 @@ namespace racman
             RacManConsole.RedirectOutput();
 
             console = new RacManConsole();
+            scripting = new RacmanScripting();
 
             currentVerLabel.Text = "v" + Assembly.GetEntryAssembly().GetName().Version;
 

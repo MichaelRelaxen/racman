@@ -104,6 +104,12 @@
     <Compile Include="ConfigureCombos.Designer.cs">
       <DependentUpon>ConfigureCombos.cs</DependentUpon>
     </Compile>
+    <Compile Include="RacmanScripting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RacmanScripting.Designer.cs">
+      <DependentUpon>RacmanScripting.cs</DependentUpon>
+    </Compile>
     <Compile Include="LuaAutomation.cs" />
     <Compile Include="RacManConsole.cs">
       <SubType>Form</SubType>
@@ -185,6 +191,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigureCombos.resx">
       <DependentUpon>ConfigureCombos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RacmanScripting.resx">
+      <DependentUpon>RacmanScripting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RacManConsole.resx">
       <DependentUpon>RacManConsole.cs</DependentUpon>

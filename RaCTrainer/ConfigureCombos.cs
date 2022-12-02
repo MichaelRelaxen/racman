@@ -15,6 +15,8 @@ namespace racman
 
     public partial class ConfigureCombos : Form
     {
+        public static string EnterInput = "Enter Controller combo...";
+
         public ConfigureCombos()
         {
             InitializeComponent();
@@ -28,7 +30,7 @@ namespace racman
         int currentInput;
         bool input = false;
 
-        public static int loadCombo, saveCombo, loadSetAsideCombo, dieCombo, loadPlanetCombo;
+        public static int loadCombo, saveCombo, loadSetAsideCombo, dieCombo, loadPlanetCombo, runScriptCombo;
         public static void GetCombos()
         {
             try
@@ -38,14 +40,17 @@ namespace racman
                 loadSetAsideCombo = Convert.ToInt32(func.GetConfigData("config.txt", "loadSetAsideCombo"));
                 dieCombo = Convert.ToInt32(func.GetConfigData("config.txt", "dieCombo"));
                 loadPlanetCombo = Convert.ToInt32(func.GetConfigData("config.txt", "loadPlanetCombo"));
+                runScriptCombo = Convert.ToInt32(func.GetConfigData("config.txt", "runScriptCombo"));
             }
             catch
             {
-                saveCombo = 0xb;
-                loadCombo = 0x7;
-                dieCombo = 0x5;
-                loadPlanetCombo = 0x600;
-                loadSetAsideCombo = 0x100;
+                // Keep the ones that successfully loaded.
+                saveCombo = saveCombo == 0 ? 0xb : saveCombo;
+                loadCombo = loadCombo == 0 ? 0x7 : loadCombo;
+                dieCombo = dieCombo == 0 ? 0x5 : dieCombo;
+                loadPlanetCombo = loadPlanetCombo == 0 ? 0x600 : loadPlanetCombo;
+                loadSetAsideCombo = loadSetAsideCombo == 0 ? 0x100 : loadSetAsideCombo;
+                runScriptCombo = runScriptCombo == 0 ? 0xFF : runScriptCombo;
             }
         }
         public void UpdateCombos()
@@ -55,12 +60,14 @@ namespace racman
             loadSetAsideComboTextBox.Text = String.Join(" + ", Inputs.DecodeMask(loadSetAsideCombo));
             loadPositionTextBox.Text = String.Join(" + ", Inputs.DecodeMask(loadCombo));
             savePositionTextBox.Text = String.Join(" + ", Inputs.DecodeMask(saveCombo));
+            textBoxRunScript.Text = String.Join(" + ", Inputs.DecodeMask(runScriptCombo));
 
             func.ChangeFileLines("config.txt", loadCombo.ToString(), "loadPosCombo");
             func.ChangeFileLines("config.txt", saveCombo.ToString(), "savePosCombo");
             func.ChangeFileLines("config.txt", loadSetAsideCombo.ToString(), "loadSetAsideCombo");
             func.ChangeFileLines("config.txt", dieCombo.ToString(), "dieCombo");
             func.ChangeFileLines("config.txt", loadPlanetCombo.ToString(), "loadPlanetCombo");
+            func.ChangeFileLines("config.txt", runScriptCombo.ToString(), "runScriptCombo");
             input = false;
             timer.Enabled = false;
         }
@@ -77,36 +84,41 @@ namespace racman
             {
                 input = true;
             }
-            if(loadPlanetTextBox.Text == "Enter Controller input..." && input == true)
+            if(loadPlanetTextBox.Text == EnterInput && input == true)
             {
                 loadPlanetCombo = Inputs.RawInputs;
                 UpdateCombos();
             }
-            if (dieTextBox.Text == "Enter Controller input..." && input == true)
+            if (dieTextBox.Text == EnterInput && input == true)
             {
                 dieCombo = Inputs.RawInputs;
                 UpdateCombos();
             }
-            if (loadSetAsideComboTextBox.Text == "Enter Controller input..." && input == true)
+            if (loadSetAsideComboTextBox.Text == EnterInput && input == true)
             {
                 loadSetAsideCombo = Inputs.RawInputs;
                 UpdateCombos();
             }
-            if (loadPositionTextBox.Text == "Enter Controller input..." && input == true)
+            if (loadPositionTextBox.Text == EnterInput && input == true)
             {
                 loadCombo = Inputs.RawInputs;
                 UpdateCombos();
             }
-            if (savePositionTextBox.Text == "Enter Controller input..." && input == true)
+            if (savePositionTextBox.Text == EnterInput && input == true)
             {
                 saveCombo = Inputs.RawInputs;
                 UpdateCombos();
             }
+            if (textBoxRunScript.Text == EnterInput && input)
+            {
+                runScriptCombo = Inputs.RawInputs;
+                UpdateCombos();
+            } 
         }
 
         private void loadPlanetTextBox_Click(object sender, EventArgs e)
         {
-            loadPlanetTextBox.Text = "Enter Controller input...";
+            loadPlanetTextBox.Text = EnterInput;
             timer.Enabled = true;
         }
 
@@ -115,27 +127,33 @@ namespace racman
             UpdateCombos();
         }
 
+        private void textBoxRunScript_Click(object sender, EventArgs e)
+        {
+            textBoxRunScript.Text = EnterInput;
+            timer.Enabled = true;
+        }
+
         private void dieTextBox_Click(object sender, EventArgs e)
         {
-            dieTextBox.Text = "Enter Controller input...";
+            dieTextBox.Text = EnterInput;
             timer.Enabled = true;
         }
 
         private void switchPositionTextBox_Click(object sender, EventArgs e)
         {
-            loadSetAsideComboTextBox.Text = "Enter Controller input...";
+            loadSetAsideComboTextBox.Text = EnterInput;
             timer.Enabled = true;
         }
 
         private void loadPositionTextBox_Click(object sender, EventArgs e)
         {
-            loadPositionTextBox.Text = "Enter Controller input...";
+            loadPositionTextBox.Text = EnterInput;
             timer.Enabled = true;
         }
 
         private void savePositionTextBox_Click(object sender, EventArgs e)
         {
-            savePositionTextBox.Text = "Enter Controller input...";
+            savePositionTextBox.Text = EnterInput;
             timer.Enabled = true;
         }
 

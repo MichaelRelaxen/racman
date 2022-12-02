@@ -39,79 +39,9 @@ namespace racman
         {
             this.mod = mod;
 
+            Lua state = this.InitLuaState(gameID, Path.GetDirectoryName(filename));
+
             Console.WriteLine($"Loading Lua automation from file {filename}...");
-
-            Lua state = new Lua();
-            state.UseTraceback = true;
-
-            functions = new LuaFunctions();
-            functions.ModName = mod.name;
-
-            state.LoadCLRPackage();
-
-            state.RegisterFunction("print", functions, typeof(LuaFunctions).GetMethod("Print"));
-            state.RegisterFunction("sleep", typeof(LuaFunctions).GetMethod("Sleep"));
-            state.RegisterFunction("bytestoint", typeof(LuaFunctions).GetMethod("ByteArrayToInt"));
-            state.RegisterFunction("inttobytes", typeof(LuaFunctions).GetMethod("IntToByteArray"));
-            state.RegisterFunction("bytestofloat", typeof(LuaFunctions).GetMethod("ByteArrayToFloat"));
-            state.RegisterFunction("floattobytes", typeof(LuaFunctions).GetMethod("FloatToByteArray"));
-            state.RegisterFunction("memset", typeof(LuaFunctions).GetMethod("Memset"));
-            state.RegisterFunction("ba", typeof(LuaFunctions).GetMethod("LuaTableToByteArray"));
-            state.RegisterFunction("dumpbytes", typeof(LuaFunctions).GetMethod("DumpByteArray"));
-            state.RegisterFunction("read_large", typeof(LuaFunctions).GetMethod("ReadLarge"));
-            state.RegisterFunction("get_ba_range", typeof(LuaFunctions).GetMethod("GetByteArrayRange"));
-            state.RegisterFunction("large_lookup", typeof(LuaFunctions).GetMethod("LargeLookup"));
-
-            state["Ratchetron"] = func.api;
-            state["GAME_PID"] = func.api.getCurrentPID();
-            state["Inputs"] = new InputsClass();
-
-            // Load racman standard library
-            string standardLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\standard\\";
-
-            if (Directory.Exists(standardLibsFolder))
-            {
-                var libraryFiles = Directory.EnumerateFiles(standardLibsFolder);
-
-                foreach (var libraryFile in libraryFiles)
-                {
-                    var libReader = new StreamReader(libraryFile);
-                    state.DoString(libReader.ReadToEnd(), libraryFile.Replace($"{Directory.GetCurrentDirectory()}\\mods\\", ""));
-                }
-            }
-
-
-            // Load "standard" library for current game
-            string gameLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\{gameID}\\";
-            state.DoString($"package.path = package.path .. \";{Path.GetDirectoryName(filename).Replace("\\", "\\\\")}\\\\?.lua\"", "set package path chunk");
-
-            if (Directory.Exists(gameLibsFolder))
-            {
-                var libraryFiles = Directory.EnumerateFiles(gameLibsFolder);
-
-                foreach (var libraryFile in libraryFiles)
-                {
-                    var libReader = new StreamReader(libraryFile);
-                    try
-                    {
-                        state.DoString(libReader.ReadToEnd(), libraryFile.Replace($"{Directory.GetCurrentDirectory()}\\mods\\", ""));
-                    }
-                    catch (NLua.Exceptions.LuaScriptException ex)
-                    {
-                        Console.Error.WriteLine(ex.Message);
-                        Console.Error.WriteLine(ex.StackTrace);
-
-                        failed = true;
-
-                        libReader.Close();
-
-                        return;
-                    }
-
-                    libReader.Close();
-                }
-            }
-
             // Load automation file
             var automationFile = File.OpenRead(filename);
             StreamReader reader = new StreamReader(automationFile);
@@ -149,6 +79,7 @@ namespace racman
                 return;
             }
 
+            
             // Set up OnTick function
             luaAutomationTimer = new LuaAutomationTimer();
             luaAutomationTimer.Interval = (int)16.66667;
@@ -162,6 +93,103 @@ namespace racman
             luaAutomationTimer.Start();
 
             Console.WriteLine($"Loaded Lua automation for file {filename}!");
+        }
+
+        /// This constructor only runs a given function once I guess
+        public LuaAutomation(string code)
+        {
+            Lua state = this.InitLuaState(AttachPS3Form.game, $"{Directory.GetCurrentDirectory()}\\mods");
+
+            try
+            {
+                state.DoString(code);
+            }
+            catch (NLua.Exceptions.LuaScriptException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(ex.StackTrace);
+
+                failed = true;
+
+                return;
+            }
+            
+        }
+
+        public Lua InitLuaState(string game, string fpath)
+        {
+            Lua state = new Lua();
+            state.UseTraceback = true;
+
+            functions = new LuaFunctions();
+            functions.ModName = mod?.name;
+
+            state.LoadCLRPackage();
+
+            state.RegisterFunction("print", functions, typeof(LuaFunctions).GetMethod("Print"));
+            state.RegisterFunction("sleep", typeof(LuaFunctions).GetMethod("Sleep"));
+            state.RegisterFunction("bytestoint", typeof(LuaFunctions).GetMethod("ByteArrayToInt"));
+            state.RegisterFunction("inttobytes", typeof(LuaFunctions).GetMethod("IntToByteArray"));
+            state.RegisterFunction("bytestofloat", typeof(LuaFunctions).GetMethod("ByteArrayToFloat"));
+            state.RegisterFunction("floattobytes", typeof(LuaFunctions).GetMethod("FloatToByteArray"));
+            state.RegisterFunction("memset", typeof(LuaFunctions).GetMethod("Memset"));
+            state.RegisterFunction("ba", typeof(LuaFunctions).GetMethod("LuaTableToByteArray"));
+            state.RegisterFunction("dumpbytes", typeof(LuaFunctions).GetMethod("DumpByteArray"));
+            state.RegisterFunction("read_large", typeof(LuaFunctions).GetMethod("ReadLarge"));
+            state.RegisterFunction("get_ba_range", typeof(LuaFunctions).GetMethod("GetByteArrayRange"));
+            state.RegisterFunction("large_lookup", typeof(LuaFunctions).GetMethod("LargeLookup"));
+
+            state["Ratchetron"] = func.api;
+            state["GAME_PID"] = func.api.getCurrentPID();
+            state["Inputs"] = new InputsClass();
+
+            // Load racman standard library
+            string standardLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\standard\\";
+
+            if (Directory.Exists(standardLibsFolder))
+            {
+                var libraryFiles = Directory.EnumerateFiles(standardLibsFolder);
+
+                foreach (var libraryFile in libraryFiles)
+                {
+                    var libReader = new StreamReader(libraryFile);
+                    state.DoString(libReader.ReadToEnd(), libraryFile.Replace($"{Directory.GetCurrentDirectory()}\\mods\\", ""));
+                }
+            }
+
+
+            // Load "standard" library for current game
+            string gameLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\{game}\\";
+            state.DoString($"package.path = package.path .. \";{fpath.Replace("\\", "\\\\")}\\\\?.lua\"", "set package path chunk");
+
+            if (Directory.Exists(gameLibsFolder))
+            {
+                var libraryFiles = Directory.EnumerateFiles(gameLibsFolder);
+
+                foreach (var libraryFile in libraryFiles)
+                {
+                    var libReader = new StreamReader(libraryFile);
+                    try
+                    {
+                        state.DoString(libReader.ReadToEnd(), libraryFile.Replace($"{Directory.GetCurrentDirectory()}\\mods\\", ""));
+                    }
+                    catch (NLua.Exceptions.LuaScriptException ex)
+                    {
+                        Console.Error.WriteLine(ex.Message);
+                        Console.Error.WriteLine(ex.StackTrace);
+
+                        failed = true;
+
+                        libReader.Close();
+
+                        return null;
+                    }
+
+                    libReader.Close();
+                }
+            }
+
+            return state;
         }
     
         private void LuaAutomationTick(object sender, EventArgs e)
