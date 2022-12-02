@@ -135,6 +135,11 @@ namespace racman
                 LoadPlanet();
                 inputCheck = false;
             }
+            if (Inputs.RawInputs == ConfigureCombos.runScriptCombo && inputCheck)
+            {
+                AttachPS3Form.scripting?.RunCurrentCode();
+                inputCheck = false;
+            }
             if (Inputs.RawInputs == 0x00 & !inputCheck)
             {
                 inputCheck = true;
