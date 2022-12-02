@@ -133,7 +133,7 @@ namespace racman
             // infoText
             // 
             this.infoText.AutoSize = true;
-            this.infoText.Location = new System.Drawing.Point(12, 301);
+            this.infoText.Location = new System.Drawing.Point(12, 268);
             this.infoText.Name = "infoText";
             this.infoText.Size = new System.Drawing.Size(27, 13);
             this.infoText.TabIndex = 10;
@@ -160,7 +160,7 @@ namespace racman
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(241, 323);
+            this.ClientSize = new System.Drawing.Size(241, 356);
             this.Controls.Add(this.textBoxRunScript);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.infoText);
