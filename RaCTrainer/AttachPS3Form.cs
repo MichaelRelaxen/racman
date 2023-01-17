@@ -174,5 +174,10 @@ namespace racman
         {
             this.useOldAPI = ((CheckBox)sender).Checked;
         }
+
+        private void IPTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            attachButton_Click(IPTextBox, e);
+        }
     }
 }
