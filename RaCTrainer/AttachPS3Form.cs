@@ -175,9 +175,12 @@ namespace racman
             this.useOldAPI = ((CheckBox)sender).Checked;
         }
 
-        private void IPTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        private void IPTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            attachButton_Click(IPTextBox, e);
+            if (e.KeyCode == Keys.Enter)
+            {
+                attachButton_Click(IPTextBox, e);
+            }
         }
     }
 }
