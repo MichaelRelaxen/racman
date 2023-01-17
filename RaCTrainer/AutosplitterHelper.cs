@@ -111,6 +111,11 @@ namespace racman
 
         public void StartAutosplitterForGame(IGame game)
         {
+            if (game is acit)
+            {
+                OpenAutosplitter(game as acit);
+                return;
+            }
             if (!(game is IAutosplitterAvailable)) throw new NotSupportedException("This game doesn't support an autosplitter yet.");
             currentGame = game;
             var autosplitter = game as IAutosplitterAvailable;
