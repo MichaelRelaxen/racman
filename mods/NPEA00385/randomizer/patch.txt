@@ -1,16 +1,13 @@
 #- name: Randomizer
 #- author: bordplate
 #- href: https://github.com/bordplate/rac1-randomizer
-#- version: 1.0.2
+#- version: 1.1.2
 #- description: Randomizes what items and infobot coordinates you get
 #- update_url: https://bordplate.no/rac1/randomizer.json
-
-automation: main.lua
 
 # Hook infobot update func
 0x4F8000: infobot.bin
 0x70e7b0: 0x4F8000
-
 
 # Prepare unlock_planet hook
 0x4f7700: 0xf821ff21
@@ -132,6 +129,28 @@ automation: main.lua
 0x267830: 0x38600022
 0x267834: 0x484f7fdb
 
+# Morph-O-Ray
+0x256424: 0x38600015
+0x256428: 0x484f7fdb
+0x25642c: 0x41820014
+# NOP toast messages
+0x256698: 0x60000000
+0x256684: 0x60000000
+
+# Suck Cannon
+0x1d568c: 0x38600009
+0x1d5690: 0x484f7fdb
+# NOP toasts
+0x1d576c: 0x60000000
+0x1d5780: 0x60000000
+
+# RYNO
+0x4b8cd0: 0x38600017
+0x4b8cd4: 0x484f7fdb
+# NOP toasts
+0x4b8da8: 0x60000000
+
+
 # Persuader
 0x336390: 0x38600023
 0x336394: 0x484f7fdb
@@ -166,28 +185,14 @@ automation: main.lua
 0x32d0fc: 0x38600031
 0x32d100: 0x48112e1b
 
-# Premium nanotech
-# Redirect unlock_item function
-0x24a91c: 0x60000000
-0x24a928: 0x38600034
-0x24a92c: 0x48112e1b
-# NOP setting max health to 5
-0x24a940: 0x60000000
-
-# Ultra nanotech
-0x24a96c: 0x38600035
-0x24a970: 0x484f7fdb
-# Redirect unlock_item function
-0x24a9d8: 0x60000000
-0x24a9f8: 0x38600035
-0x24a9fc: 0x48112e1b
-# NOP setting max health to 8
-0x24aa10: 0x60000000
+# Replace Nanotech vendor proximity function
+0x4f8200: nanotech_vendor.bin
+0x24a8b4: 0x484f8203
+0x24a8b8: 0x4280023c
 
 # NOP nanotech toast messages
 0x24aa9c: 0x60000000
 0x24aa7c: 0x60000000
-
 
 # Codebot
 0x27b780: 0x38600032
@@ -210,3 +215,35 @@ automation: main.lua
 0x2406e0: 0x38800015
 0x2406e8: 0x3880003c
 0x2406f0: 0x388000c8
+
+# Make Metal Detector useful
+0x4f60c8: metal_detector_spot.bin
+0x70d898: 0x4f60c8
+
+# Items in vendor
+0x0016c7cc: 0x4182000c
+0x0016c7d0: 0x7cdc3378
+
+0x4f8d00: tramp_vendor_cmp.bin
+0x4f8d38: vendor_class.bin
+0x16c7c0: 0x484f8d02
+
+0x4f8100: swap_weapon.bin
+0x0921f8: 0x484f8103
+
+# Disable animations after purchase because it too often crashes the game
+0x0016dd90: 0x60000000
+
+# Fix crash that occurs if there's junk data where the vendor stores moby data
+# The crash only occurred if the first item in the vendor was unsupported items/gadgets like helmets and boots
+0x4f6200: clear_vendor_data.bin
+0x16ac30: 0x484f6203
+
+# Open all locked Orxon gates if player has O2 Mask
+0x4f7000: orxon_gates.bin
+0x70a5c0: 0x4f7000
+0x7083c8: 0x4f7000
+0x70a4c0: 0x4f7000
+
+# Apply automation last
+automation: main.lua
