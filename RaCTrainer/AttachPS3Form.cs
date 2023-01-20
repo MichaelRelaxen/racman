@@ -142,6 +142,13 @@ namespace racman
                 ACITForm acit = new ACITForm(new acit((Ratchetron)func.api));
                 acit.ShowDialog();
             }
+            else if (game == "NPUA80663")
+            {
+                Hide();
+                func.api.Notify("RaCMAN connected!");
+                Sly1Form sly1 = new Sly1Form(new Sly1((Ratchetron)func.api));
+                sly1.ShowDialog();
+            }
             else
             {
                 if (game.Length > 0)

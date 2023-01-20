@@ -105,6 +105,7 @@
       <DependentUpon>ConfigureCombos.cs</DependentUpon>
     </Compile>
     <Compile Include="LuaAutomation.cs" />
+    <Compile Include="offsets\sly1.cs" />
     <Compile Include="RacManConsole.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +140,12 @@
     </Compile>
     <Compile Include="RAC2Form.Designer.cs">
       <DependentUpon>RAC2Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sly1Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Sly1Form.Designer.cs">
+      <DependentUpon>Sly1Form.cs</DependentUpon>
     </Compile>
     <Compile Include="WebMAN.cs" />
     <Compile Include="func.cs" />
@@ -200,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2Form.resx">
       <DependentUpon>RAC2Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sly1Form.resx">
+      <DependentUpon>Sly1Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UnlocksWindow.resx">
       <DependentUpon>UnlocksWindow.cs</DependentUpon>
