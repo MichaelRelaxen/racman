@@ -220,7 +220,7 @@ function Moby:initialize(base_addr, mem)
 			size = 4,
 			_type = "int"
 		},
-		field_0x78 = {
+		pvars = {
 			offset = 0x78,
 			size = 4,
 			_type = "int"

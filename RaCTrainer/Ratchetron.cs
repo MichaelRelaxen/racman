@@ -101,7 +101,7 @@ namespace racman
 
             byte[] cmd = { 0x06 };
 
-            stream.Write(cmd, 0, 1);
+            WriteStream(cmd, 0, 1);
 
             byte[] titleIdBuf = new byte[16];
             stream.Read(titleIdBuf, 0, 16);
@@ -118,7 +118,7 @@ namespace racman
 
             byte[] cmd = { 0x03 };
 
-            stream.Write(cmd, 0, 1);
+            WriteStream(cmd, 0, 1);
 
             byte[] pidListBuf = new byte[64];
 
@@ -148,7 +148,7 @@ namespace racman
         {
             byte[] cmd = { 0x0d };
 
-            stream.Write(cmd, 0, 1);
+            WriteStream(cmd, 0, 1);
         }
 
         public override int getCurrentPID()
@@ -156,11 +156,21 @@ namespace racman
             return this.GetPIDList()[2];
         }
 
+        private static Mutex writeLock = new Mutex();
+        private void WriteStream(byte[] array, int offset, int count)
+        {
+            writeLock.WaitOne();
+
+            this.stream.Write(array, offset, count);
+
+            writeLock.ReleaseMutex();
+        }
+
         public void WriteMemory(int pid, uint address, byte[] memory)
         {
             this.WriteMemory(pid, address, (uint)memory.Length, memory);
         }
-
+        
         public override void WriteMemory(int pid, uint address, uint size, byte[] memory)
         {
             var cmdBuf = new List<byte>();
@@ -170,7 +180,8 @@ namespace racman
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
             cmdBuf.AddRange(memory);
 
-            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+
+            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
         }
 
         public override byte[] ReadMemory(int pid, uint address, uint size)
@@ -187,7 +198,7 @@ namespace racman
             watch.Start();
 #endif
 
-            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
             byte[] memory = new byte[size];
 
@@ -212,7 +223,7 @@ namespace racman
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)message.Length).Reverse());
             cmdBuf.AddRange(Encoding.ASCII.GetBytes(message));
 
-            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
         }
 
         private void DataChannelReceive()
@@ -280,7 +291,7 @@ namespace racman
             cmdBuf.Add(0x09);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)assignedPort).Reverse());
 
-            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
             byte[] returnValue = new byte[1];
 
@@ -344,7 +355,7 @@ namespace racman
             cmdBuf.AddRange(new byte[] { (byte)condition });
             cmdBuf.AddRange(memory);
 
-            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
             byte[] memSubIDBuf = new byte[4];
 
@@ -374,7 +385,7 @@ namespace racman
             cmdBuf.AddRange(new byte[] { (byte)condition });
             cmdBuf.AddRange(memory);
 
-            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
             byte[] memSubIDBuf = new byte[4];
 
@@ -409,7 +420,7 @@ namespace racman
             cmdBuf.Add(0x0c);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)memSubID).Reverse());
 
-            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
             byte[] resultBuf = new byte[1];
 
@@ -449,7 +460,7 @@ namespace racman
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)flags).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)(is_executable ? 1 : 0)).Reverse());
 
-            this.stream.Write(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
             byte[] address = new byte[8];
 
