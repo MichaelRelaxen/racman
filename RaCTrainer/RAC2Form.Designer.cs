@@ -46,6 +46,9 @@ namespace racman
             this.menusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
+            this.freezeAmmoCheckbox = new System.Windows.Forms.CheckBox();
+            this.freezeHealthCheckbox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -105,7 +108,7 @@ namespace racman
             "8",
             "9",
             "10"});
-            this.positions_comboBox.Location = new System.Drawing.Point(133, 38);
+            this.positions_comboBox.Location = new System.Drawing.Point(133, 36);
             this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
             this.positions_comboBox.TabIndex = 92;
@@ -239,11 +242,47 @@ namespace racman
             this.switchGameToolStripMenuItem.Text = "Switch game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
+            // AutosplitterCheckbox
+            // 
+            this.AutosplitterCheckbox.AutoSize = true;
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(241, 98);
+            this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
+            this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
+            this.AutosplitterCheckbox.TabIndex = 102;
+            this.AutosplitterCheckbox.Text = "Autosplitter";
+            this.AutosplitterCheckbox.UseVisualStyleBackColor = true;
+            this.AutosplitterCheckbox.CheckedChanged += new System.EventHandler(this.AutosplitterCheckbox_CheckedChanged);
+            // 
+            // freezeAmmoCheckbox
+            // 
+            this.freezeAmmoCheckbox.AutoSize = true;
+            this.freezeAmmoCheckbox.Location = new System.Drawing.Point(241, 121);
+            this.freezeAmmoCheckbox.Name = "freezeAmmoCheckbox";
+            this.freezeAmmoCheckbox.Size = new System.Drawing.Size(99, 17);
+            this.freezeAmmoCheckbox.TabIndex = 103;
+            this.freezeAmmoCheckbox.Text = "\"Infinite\" Ammo";
+            this.freezeAmmoCheckbox.UseVisualStyleBackColor = true;
+            this.freezeAmmoCheckbox.CheckedChanged += new System.EventHandler(this.freezeAmmoCheckbox_CheckedChanged);
+            // 
+            // freezeHealthCheckbox
+            // 
+            this.freezeHealthCheckbox.AutoSize = true;
+            this.freezeHealthCheckbox.Location = new System.Drawing.Point(241, 144);
+            this.freezeHealthCheckbox.Name = "freezeHealthCheckbox";
+            this.freezeHealthCheckbox.Size = new System.Drawing.Size(92, 17);
+            this.freezeHealthCheckbox.TabIndex = 104;
+            this.freezeHealthCheckbox.Text = "Freeze Health";
+            this.freezeHealthCheckbox.UseVisualStyleBackColor = true;
+            this.freezeHealthCheckbox.CheckedChanged += new System.EventHandler(this.freezeHealthCheckbox_CheckedChanged);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 244);
+            this.Controls.Add(this.freezeHealthCheckbox);
+            this.Controls.Add(this.freezeAmmoCheckbox);
+            this.Controls.Add(this.AutosplitterCheckbox);
             this.Controls.Add(this.ghostCheckbox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.bolts_textBox);
@@ -288,5 +327,8 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem menusToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configureButtonCombosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem switchGameToolStripMenuItem;
+        private System.Windows.Forms.CheckBox AutosplitterCheckbox;
+        private System.Windows.Forms.CheckBox freezeAmmoCheckbox;
+        private System.Windows.Forms.CheckBox freezeHealthCheckbox;
     }
 }

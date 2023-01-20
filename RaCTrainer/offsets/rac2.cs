@@ -32,7 +32,7 @@ namespace racman
         public uint currentRaritanium => 0x1329A94;
     }
 
-    public class rac2 : IGame
+    public class rac2 : IGame, IAutosplitterAvailable
     {
         public static RaC2Addresses addr = new RaC2Addresses();
 
@@ -69,6 +69,15 @@ namespace racman
             };
         }
         private int ghostRatchetSubID = -1;
+
+        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
+        {
+            (0x0156B064, 4), // Game state
+            (0x01481474, 4), // Ratchet state
+            (0x43BD22B0, 4), // Protopet's health (Float)
+            (0x1329A3C, 4), // current planet
+            (0x156B054, 4) // destination planet
+        };
 
 
         /// <summary>

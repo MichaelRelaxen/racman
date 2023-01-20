@@ -41,6 +41,7 @@ namespace racman
             this.IPTextBox.Name = "IPTextBox";
             this.IPTextBox.Size = new System.Drawing.Size(100, 20);
             this.IPTextBox.TabIndex = 0;
+            this.IPTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.IPTextBox_KeyDown);
             // 
             // attachButton
             // 
