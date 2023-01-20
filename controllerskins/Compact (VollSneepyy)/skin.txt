@@ -1,0 +1,39 @@
+# Add in numbers following the structure below.
+# Name: drawX, drawY, spriteX, spriteY, spriteWidth, spriteHeight
+
+# Base controller image
+base: 0, 0, 0, 0, 914, 308
+
+# Analog sticks
+r3Press: 512, 111, 19, 718, 154, 154
+r3: 512, 111, 35, 335, 154, 154
+l3Press: 250, 111, 19, 718, 154, 154
+l3: 250, 111, 35, 335, 154, 154
+
+# Add pitch that should be used for the analog stick.
+analogPitch: 36
+
+# D-Pad buttons
+dpadLeft: 6, 149, 359, 430, 83, 72
+dpadRight: 118, 149, 350, 530, 83, 72
+dpadDown: 68, 200, 359, 320, 72, 83
+dpadUp: 68, 88, 359, 618, 72, 83
+
+# Face buttons
+cross: 781, 224, 254, 526, 61, 61
+circle: 847, 156, 254, 312, 61, 61
+triangle: 781, 90, 251, 454, 61, 61
+square: 715, 155, 254, 378, 61, 61
+
+# Pause buttons
+select: 334, 23, 33, 568, 70, 47
+start: 523, 19, 40, 641, 80, 51
+
+# Shoulder buttons
+r1: 664, 0, 474, 429, 104, 70
+l1: 146, 0, 474, 341, 104, 70
+l2: 0, 0, 603, 341, 104, 70
+r2: 810, 0, 606, 429, 104, 70
+
+# Add in name of the image you used. Needs to be in the same folder as the .txt
+imageName: skin.png
