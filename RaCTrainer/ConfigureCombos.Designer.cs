@@ -41,6 +41,8 @@ namespace racman
             this.dieTextBox = new System.Windows.Forms.TextBox();
             this.loadPlanetTextBox = new System.Windows.Forms.TextBox();
             this.infoText = new System.Windows.Forms.Label();
+            this.textBoxRunScript = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -131,17 +133,36 @@ namespace racman
             // infoText
             // 
             this.infoText.AutoSize = true;
-            this.infoText.Location = new System.Drawing.Point(12, 223);
+            this.infoText.Location = new System.Drawing.Point(12, 268);
             this.infoText.Name = "infoText";
             this.infoText.Size = new System.Drawing.Size(27, 13);
             this.infoText.TabIndex = 10;
             this.infoText.Text = "stuff";
             // 
+            // textBoxRunScript
+            // 
+            this.textBoxRunScript.Location = new System.Drawing.Point(12, 245);
+            this.textBoxRunScript.Name = "textBoxRunScript";
+            this.textBoxRunScript.Size = new System.Drawing.Size(126, 20);
+            this.textBoxRunScript.TabIndex = 12;
+            this.textBoxRunScript.Click += new System.EventHandler(this.textBoxRunScript_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(9, 228);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(97, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Run Current Script:";
+            // 
             // ConfigureCombos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(241, 323);
+            this.ClientSize = new System.Drawing.Size(241, 356);
+            this.Controls.Add(this.textBoxRunScript);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.infoText);
             this.Controls.Add(this.loadPlanetTextBox);
             this.Controls.Add(this.dieTextBox);
@@ -155,7 +176,7 @@ namespace racman
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureCombos";
-            this.Text = "Configure Combos";
+            this.Text = "j";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigureCombos_FormClosing);
             this.Load += new System.EventHandler(this.ConfigureCombos_Load);
             this.ResumeLayout(false);
@@ -176,5 +197,7 @@ namespace racman
         private System.Windows.Forms.TextBox dieTextBox;
         private System.Windows.Forms.TextBox loadPlanetTextBox;
         private System.Windows.Forms.Label infoText;
+        private System.Windows.Forms.TextBox textBoxRunScript;
+        private System.Windows.Forms.Label label6;
     }
 }

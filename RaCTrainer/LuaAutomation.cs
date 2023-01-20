@@ -42,13 +42,90 @@ namespace racman
         {
             this.mod = mod;
 
-            Console.WriteLine($"Loading Lua automation from file {filename}...");
+            Lua state = this.InitLuaState(gameID, Path.GetDirectoryName(filename));
 
+            Console.WriteLine($"Loading Lua automation from file {filename}...");
+            // Load automation file
+            var automationFile = File.OpenRead(filename);
+            StreamReader reader = new StreamReader(automationFile);
+            var automation = reader.ReadToEnd();
+
+            try
+            {
+                state.DoString(automation, filename.Replace($"{Directory.GetCurrentDirectory()}\\mods\\{gameID}\\", ""));
+            } catch (NLua.Exceptions.LuaScriptException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(ex.StackTrace);
+
+                failed = true;
+
+                automationFile.Close();
+
+                return;
+            }
+
+            automationFile.Close();
+
+            try
+            {
+                // Call OnLoad Lua function
+                var onLoadFunc = state["OnLoad"] as LuaFunction;
+                onLoadFunc.Call();
+            } catch (NLua.Exceptions.LuaScriptException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(ex.StackTrace);
+
+                failed = true;
+
+                return;
+            }
+
+            
+            // Set up OnTick function
+            luaAutomationTimer = new LuaAutomationTimer();
+            luaAutomationTimer.Interval = (int)16.66667;
+            luaAutomationTimer.Elapsed += LuaAutomationTick;
+            luaAutomationTimer.SynchronizingObject = null;
+
+            luaAutomationTimer.State = state;
+            luaAutomationTimer.TickFunction = state["OnTick"] as LuaFunction;
+            luaAutomationTimer.OnUnloadFunction = state["OnUnload"] as LuaFunction;
+
+            luaAutomationTimer.Start();
+
+            Console.WriteLine($"Loaded Lua automation for file {filename}!");
+        }
+
+        /// This constructor only runs a given function once I guess
+        public LuaAutomation(string code)
+        {
+            Lua state = this.InitLuaState(AttachPS3Form.game, $"{Directory.GetCurrentDirectory()}\\mods");
+
+            try
+            {
+                state.DoString(code);
+            }
+            catch (NLua.Exceptions.LuaScriptException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                Console.Error.WriteLine(ex.StackTrace);
+
+                failed = true;
+
+                return;
+            }
+            
+        }
+
+        public Lua InitLuaState(string game, string fpath)
+        {
             Lua state = new Lua();
             state.UseTraceback = true;
 
             functions = new LuaFunctions();
-            functions.ModName = mod.name;
+            functions.ModName = mod?.name;
 
             state.LoadCLRPackage();
 
@@ -94,8 +171,8 @@ namespace racman
 
 
             // Load "standard" library for current game
-            string gameLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\{gameID}\\";
-            state.DoString($"package.path = package.path .. \";{Path.GetDirectoryName(filename).Replace("\\", "\\\\")}\\\\?.lua\"", "set package path chunk");
+            string gameLibsFolder = $"{Directory.GetCurrentDirectory()}\\mods\\libs\\{game}\\";
+            state.DoString($"package.path = package.path .. \";{fpath.Replace("\\", "\\\\")}\\\\?.lua\"", "set package path chunk");
 
             if (Directory.Exists(gameLibsFolder))
             {
@@ -117,72 +194,14 @@ namespace racman
 
                         libReader.Close();
 
-                        return;
+                        return null;
                     }
 
                     libReader.Close();
                 }
             }
 
-            // Load automation file
-            var automationFile = File.OpenRead(filename);
-            StreamReader reader = new StreamReader(automationFile);
-            var automation = reader.ReadToEnd();
-
-            try
-            {
-                state.DoString(automation, filename.Replace($"{Directory.GetCurrentDirectory()}\\mods\\{gameID}\\", ""));
-            } catch (NLua.Exceptions.LuaScriptException ex)
-            {
-                Console.Error.WriteLine(ex.Message);
-                Console.Error.WriteLine(ex.StackTrace);
-
-                failed = true;
-
-                automationFile.Close();
-
-                return;
-            }
-
-            automationFile.Close();
-
-
-            // Set up OnTick function
-            luaAutomationTimer = new LuaAutomationTimer();
-            luaAutomationTimer.Interval = (int)16;
-            luaAutomationTimer.Elapsed += LuaAutomationTick;
-            luaAutomationTimer.SynchronizingObject = null;
-
-            luaAutomationTimer.State = state;
-            luaAutomationTimer.TickFunction = state["OnTick"] as LuaFunction;
-            luaAutomationTimer.OnUnloadFunction = state["OnUnload"] as LuaFunction;
-
-            functions.timer = luaAutomationTimer;
-
-            try
-            {
-                // Call OnLoad Lua function
-                var onLoadFunc = state["OnLoad"] as LuaFunction;
-
-                luaAutomationTimer.CallMutex.WaitOne();
-
-                onLoadFunc.Call();
-
-                luaAutomationTimer.CallMutex.ReleaseMutex();
-            }
-            catch (NLua.Exceptions.LuaScriptException ex)
-            {
-                Console.Error.WriteLine(ex.Message);
-                Console.Error.WriteLine(ex.StackTrace);
-
-                failed = true;
-
-                return;
-            }
-
-            luaAutomationTimer.Start();
-
-            Console.WriteLine($"Loaded Lua automation for file {filename}!");
+            return state;
         }
     
         private void LuaAutomationTick(object sender, EventArgs e)
