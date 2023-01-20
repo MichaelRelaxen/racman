@@ -124,15 +124,23 @@ namespace racman
         }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            FreezeAmmoCheckbox.Checked = false;
-            infHealth.Checked = false;
-            FastLoadToggle.Checked = false;
-            game.api.Disconnect();
-            
             if (gbspiMod != null)
             {
                 gbspiMod.Unload();
+                gbspiMod = null;
             }
+
+            if (autosplitterHelper != null)
+            {
+                autosplitterHelper.Stop();
+            }
+
+
+            FreezeAmmoCheckbox.Checked = false;
+            infHealth.Checked = false;
+            FastLoadToggle.Checked = false;
+
+            game.api.Disconnect();
 
             Application.Exit();
         }

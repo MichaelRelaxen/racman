@@ -161,7 +161,10 @@ namespace racman
         {
             writeLock.WaitOne();
 
-            this.stream.Write(array, offset, count);
+            if (this.stream.CanWrite)
+            {
+                this.stream.Write(array, offset, count);
+            }
 
             writeLock.ReleaseMutex();
         }

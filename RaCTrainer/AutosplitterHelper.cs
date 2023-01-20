@@ -17,6 +17,8 @@ namespace racman
     {
         byte[] memoryMapContents = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
+        bool isRunning = false;
+
         System.IO.MemoryMappedFiles.MemoryMappedFile mmfFile;
         System.IO.MemoryMappedFiles.MemoryMappedViewStream mmfStream;
         BinaryWriter writer;
@@ -38,16 +40,32 @@ namespace racman
         /// </summary>
         ~AutosplitterHelper()
         {
-            if (writer != null)
+            if (writer != null && IsRunning())
             {
                 this.Stop();
             }
         }
 
+        public bool IsRunning()
+        {
+            return isRunning;
+        }
+
         public void Stop()
         {
+            if (!IsRunning())
+            {
+                return;
+            }
+
+            isRunning = false;
+
             mmfStream.Close();
-            writer.Close();
+
+            if (writer != null)
+            {
+                writer.Close();
+            }
 
             writer = null;
 
@@ -130,6 +148,8 @@ namespace racman
                 }));
                 pos += (int) size;
             }
+
+            isRunning = true;
         }
     }
 }
