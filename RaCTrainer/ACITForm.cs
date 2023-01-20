@@ -24,6 +24,29 @@ namespace racman
 
             InitializeComponent();
         }
+        private void menuToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void menuStrip1_ItemClicked(object sender, EventArgs e)
+        {
+
+        }
+
+        static ModLoaderForm modLoaderForm;
+
+        private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if ((Application.OpenForms["ModLoaderForm"] as ModLoaderForm) != null)
+            {
+                modLoaderForm.Activate();
+            }
+            else
+            {
+                modLoaderForm = new ModLoaderForm();
+                modLoaderForm.Show();
+            }
+        }
 
         private void ACITForm_Load(object sender, EventArgs e)
         {

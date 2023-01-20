@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -138,6 +141,10 @@ namespace racman
             state.RegisterFunction("read_large", typeof(LuaFunctions).GetMethod("ReadLarge"));
             state.RegisterFunction("get_ba_range", typeof(LuaFunctions).GetMethod("GetByteArrayRange"));
             state.RegisterFunction("large_lookup", typeof(LuaFunctions).GetMethod("LargeLookup"));
+            state.RegisterFunction("subscribe_memory", functions, typeof(LuaFunctions).GetMethod("SubscribeMemory"));
+            state.RegisterFunction("udp_sock", typeof(LuaFunctions).GetMethod("UdpSock"));
+            state.RegisterFunction("writememory", typeof(LuaFunctions).GetMethod("WriteMemoryAsync"));
+            state.RegisterFunction("net_receive", typeof(LuaFunctions).GetMethod("ReceiveSockData"));
 
             state["Ratchetron"] = func.api;
             state["GAME_PID"] = func.api.getCurrentPID();
@@ -152,6 +159,11 @@ namespace racman
 
                 foreach (var libraryFile in libraryFiles)
                 {
+                    if (!libraryFile.EndsWith(".lua"))
+                    {
+                        continue;
+                    }
+
                     var libReader = new StreamReader(libraryFile);
                     state.DoString(libReader.ReadToEnd(), libraryFile.Replace($"{Directory.GetCurrentDirectory()}\\mods\\", ""));
                 }
@@ -220,7 +232,9 @@ namespace racman
 
             try
             {
+                timer.CallMutex.WaitOne();
                 timer.TickFunction.Call(timer.Ticks);
+                timer.CallMutex.ReleaseMutex();
             } catch (NLua.Exceptions.LuaScriptException ex)
             {
                 Console.Error.WriteLine(ex.Message);
@@ -274,6 +288,7 @@ namespace racman
     class LuaFunctions
     {
         public string ModName;
+        public LuaAutomationTimer timer;
 
         public void Print(string text)
         {
@@ -384,6 +399,78 @@ namespace racman
 
             return result.ToArray();
         }
+
+        public void SubscribeMemory(int address, int size, LuaFunction callback)
+        {
+            int pid = AttachPS3Form.pid;
+            Ratchetron api = (Ratchetron)func.api;
+
+            var subID = -1;
+            subID = api.SubMemory(pid, (uint)address, (uint)size, (value) =>
+            {
+                if (timer == null)
+                {
+                    api.ReleaseSubID(subID);
+                    return;
+                }
+                timer.CallMutex.WaitOne();
+                callback.Call(value.Reverse().ToArray());
+                timer.CallMutex.ReleaseMutex();
+            });
+        }
+
+        public static UdpClient UdpSock(string endPoint)
+        {
+            string[] ep = endPoint.Split(':');
+            if (ep.Length != 2) throw new FormatException("Invalid endpoint format");
+            IPAddress ip;
+            if (!IPAddress.TryParse(ep[0], out ip))
+            {
+                throw new FormatException("Invalid ip-adress");
+            }
+            int port;
+            if (!int.TryParse(ep[1], NumberStyles.None, NumberFormatInfo.CurrentInfo, out port))
+            {
+                throw new FormatException("Invalid port");
+            }
+
+            var client = new UdpClient(ip.ToString(), port);
+
+            return client;
+        }
+
+        public static void WriteMemoryAsync(uint address, byte[] memory)
+        {
+            int pid = AttachPS3Form.pid;
+            Ratchetron api = (Ratchetron)func.api;
+
+            new Thread(() =>
+            {
+                api.WriteMemory(pid, address, memory);
+            }).Start();
+        }
+
+        public static byte[] ReceiveSockData(UdpClient client)
+        {
+            IPEndPoint ep = (IPEndPoint)client.Client.RemoteEndPoint;
+
+            client.Client.ReceiveTimeout = 1;
+            if (client.Available <= 0)
+            {
+                return new byte[] { };
+            }
+
+            try
+            {
+                return client.Receive(ref ep);
+            }
+            catch (System.Net.Sockets.SocketException ex)
+            {
+                return new byte[] { };
+            }
+
+            return new byte[] { };
+        }
     }
 
     class LuaAutomationTimer : System.Timers.Timer
@@ -396,5 +483,6 @@ namespace racman
         public int MissedTicks = 0;
 
         public int Mutex = 0;
+        public Mutex CallMutex = new Mutex();
     }
 }
