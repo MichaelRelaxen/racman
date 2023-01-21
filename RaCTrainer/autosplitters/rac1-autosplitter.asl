@@ -30,6 +30,7 @@ init {
 	current.kaleboBoltCollect = vars.reader.ReadByte();
 	current.infobots = vars.reader.ReadByte();
     current.codebot = vars.reader.ReadByte();
+    current.rari = vars.reader.ReadByte();
 
     vars.ShouldStopTimer = false;
 
@@ -69,6 +70,7 @@ update {
 	current.kaleboBoltCollect = vars.reader.ReadByte();
 	current.infobots = vars.reader.ReadByte();
     current.codebot = vars.reader.ReadByte();
+    current.rari = vars.reader.ReadByte();
 
     /*
     if (current.planet != old.planet) {
@@ -163,6 +165,9 @@ split {
             return true;
 
         if (current.codebot != old.codebot && current.codebot != 0)
+            return true;
+
+        if (current.rari != old.rari && current.rari != 0)
             return true;
     }
 	

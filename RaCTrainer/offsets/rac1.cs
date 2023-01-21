@@ -185,15 +185,16 @@ namespace racman
                 (addr.playerCoords, 8),
                 (addr.destinationPlanet + 3, 1),
                 (addr.currentPlanet + 3, 1),
-                (addr.playerState, 4),
+                (addr.playerState+2, 2),
                 (addr.planetFrameCount, 4),
                 (addr.gameState, 4),
                 (addr.loadingScreenID + 3, 1),
-                (0x00aff000, 4),
-                (0x00aff010, 4),
-                (0x00aff020, 4),
+                (0x00aff000+3, 1),
+                (0x00aff010+3, 1),
+                (0x00aff020+3, 1),
                 (0xa0ca75, 1),
-                (0x00aff030, 4)
+                (0x00aff030+3, 1),
+                (0x0096bff1, 2),
             };
 
         /// <summary>
