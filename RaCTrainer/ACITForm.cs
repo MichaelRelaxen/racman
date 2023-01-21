@@ -58,5 +58,11 @@ namespace racman
 
             Application.Exit();
         }
+
+        private void memoryUtilitiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryForm memoryForm = new MemoryForm();
+            memoryForm.Show();
+        }
     }
 }

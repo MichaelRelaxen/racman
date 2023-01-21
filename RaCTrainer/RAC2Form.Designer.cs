@@ -49,6 +49,9 @@ namespace racman
             this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
             this.freezeAmmoCheckbox = new System.Windows.Forms.CheckBox();
             this.freezeHealthCheckbox = new System.Windows.Forms.CheckBox();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -223,7 +226,10 @@ namespace racman
             // 
             this.menusToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.configureButtonCombosToolStripMenuItem,
-            this.switchGameToolStripMenuItem});
+            this.switchGameToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.patchLoaderToolStripMenuItem,
+            this.memoryUtilitiesToolStripMenuItem});
             this.menusToolStripMenuItem.Name = "menusToolStripMenuItem";
             this.menusToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menusToolStripMenuItem.Text = "Menu";
@@ -274,6 +280,25 @@ namespace racman
             this.freezeHealthCheckbox.Text = "Freeze Health";
             this.freezeHealthCheckbox.UseVisualStyleBackColor = true;
             this.freezeHealthCheckbox.CheckedChanged += new System.EventHandler(this.freezeHealthCheckbox_CheckedChanged);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            // 
+            // memoryUtilitiesToolStripMenuItem
+            // 
+            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
+            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            // 
+            // patchLoaderToolStripMenuItem
+            // 
+            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
+            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
             // RAC2Form
             // 
@@ -330,5 +355,8 @@ namespace racman
         private System.Windows.Forms.CheckBox AutosplitterCheckbox;
         private System.Windows.Forms.CheckBox freezeAmmoCheckbox;
         private System.Windows.Forms.CheckBox freezeHealthCheckbox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
     }
 }

@@ -183,5 +183,25 @@ namespace racman
                 game.api.WriteMemory(game.api.getCurrentPID(), 0x148185C, 136, "7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF");
             }
         }
+
+        private void memoryUtilitiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryForm memoryForm = new MemoryForm();
+            memoryForm.Show();
+        }
+        
+        static ModLoaderForm modLoaderForm;
+        private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if ((Application.OpenForms["ModLoaderForm"] as ModLoaderForm) != null)
+            {
+                modLoaderForm.Activate();
+            }
+            else
+            {
+                modLoaderForm = new ModLoaderForm();
+                modLoaderForm.Show();
+            }
+        }
     }
 }

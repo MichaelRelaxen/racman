@@ -34,6 +34,7 @@ namespace racman
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,23 +47,6 @@ namespace racman
             this.label1.TabIndex = 0;
             this.label1.Text = "There is nothing here for now, just load remover stuff";
             // 
-            // menuToolStripMenuItem
-            // 
-            this.menuToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.patchLoaderToolStripMenuItem});
-            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-            this.menuToolStripMenuItem.Text = "Menu";
-            this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
-            // 
-            // patchLoaderToolStripMenuItem
-            // 
-            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
-            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
-            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
-            // 
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
@@ -71,10 +55,35 @@ namespace racman
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(351, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(291, 24);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
+            // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.patchLoaderToolStripMenuItem,
+            this.memoryUtilitiesToolStripMenuItem});
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.menuToolStripMenuItem.Text = "Menu";
+            this.menuToolStripMenuItem.Click += new System.EventHandler(this.menuToolStripMenuItem_Click);
+            // 
+            // patchLoaderToolStripMenuItem
+            // 
+            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
+            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
+            // 
+            // memoryUtilitiesToolStripMenuItem
+            // 
+            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
+            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
             // ACITForm
             // 
@@ -84,10 +93,10 @@ namespace racman
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "ACITForm";
             this.Text = "ACITForm";
             this.Load += new System.EventHandler(this.ACITForm_Load);
-            this.MainMenuStrip = this.menuStrip1;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -101,5 +110,6 @@ namespace racman
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
     }
 }

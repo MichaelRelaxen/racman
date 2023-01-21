@@ -72,6 +72,8 @@ namespace racman
             this.resetSPsButton = new System.Windows.Forms.Button();
             this.setupSPsButton = new System.Windows.Forms.Button();
             this.platinumLabel = new System.Windows.Forms.Label();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -307,9 +309,11 @@ namespace racman
             this.menuToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDark;
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.switchGameToolStripMenuItem,
-            this.patchLoaderToolStripMenuItem,
             this.configureButtonCombosToolStripMenuItem,
-            this.buyPremiumToolStripMenuItem});
+            this.buyPremiumToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.patchLoaderToolStripMenuItem,
+            this.memoryUtilitiesToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -501,6 +505,18 @@ namespace racman
             this.platinumLabel.Text = "PLATINUM+   PREMIUM";
             this.platinumLabel.Visible = false;
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            // 
+            // memoryUtilitiesToolStripMenuItem
+            // 
+            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities...";
+            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -601,6 +617,8 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem autosplitterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autosplitterEnabledToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gbspiSplitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
     }
 }
 
