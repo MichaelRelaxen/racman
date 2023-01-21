@@ -46,12 +46,16 @@ namespace racman
             this.menusToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
             this.freezeAmmoCheckbox = new System.Windows.Forms.CheckBox();
             this.freezeHealthCheckbox = new System.Windows.Forms.CheckBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.raritaniumTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.challengeTextBox = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -120,7 +124,7 @@ namespace racman
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 159);
+            this.label6.Location = new System.Drawing.Point(9, 159);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 96;
@@ -128,7 +132,7 @@ namespace racman
             // 
             // loadPlanetButton
             // 
-            this.loadPlanetButton.Location = new System.Drawing.Point(133, 173);
+            this.loadPlanetButton.Location = new System.Drawing.Point(133, 174);
             this.loadPlanetButton.Name = "loadPlanetButton";
             this.loadPlanetButton.Size = new System.Drawing.Size(75, 23);
             this.loadPlanetButton.TabIndex = 94;
@@ -167,18 +171,18 @@ namespace racman
             "Slim Cognito",
             "Wupash",
             "Jamming Array"});
-            this.planets_comboBox.Location = new System.Drawing.Point(15, 175);
+            this.planets_comboBox.Location = new System.Drawing.Point(12, 175);
             this.planets_comboBox.Name = "planets_comboBox";
-            this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
+            this.planets_comboBox.Size = new System.Drawing.Size(115, 21);
             this.planets_comboBox.TabIndex = 95;
             this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(241, 66);
+            this.button2.Location = new System.Drawing.Point(12, 206);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(106, 22);
+            this.button2.Size = new System.Drawing.Size(115, 23);
             this.button2.TabIndex = 97;
             this.button2.Text = "Input Display";
             this.button2.UseVisualStyleBackColor = true;
@@ -187,7 +191,7 @@ namespace racman
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(238, 25);
+            this.label8.Location = new System.Drawing.Point(244, 113);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 99;
@@ -195,7 +199,7 @@ namespace racman
             // 
             // bolts_textBox
             // 
-            this.bolts_textBox.Location = new System.Drawing.Point(241, 39);
+            this.bolts_textBox.Location = new System.Drawing.Point(247, 127);
             this.bolts_textBox.Name = "bolts_textBox";
             this.bolts_textBox.Size = new System.Drawing.Size(105, 20);
             this.bolts_textBox.TabIndex = 98;
@@ -204,7 +208,7 @@ namespace racman
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(15, 202);
+            this.ghostCheckbox.Location = new System.Drawing.Point(247, 199);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 100;
@@ -248,10 +252,29 @@ namespace racman
             this.switchGameToolStripMenuItem.Text = "Switch game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            // 
+            // patchLoaderToolStripMenuItem
+            // 
+            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
+            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
+            // 
+            // memoryUtilitiesToolStripMenuItem
+            // 
+            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
+            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            // 
             // AutosplitterCheckbox
             // 
             this.AutosplitterCheckbox.AutoSize = true;
-            this.AutosplitterCheckbox.Location = new System.Drawing.Point(241, 98);
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(246, 222);
             this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
             this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
             this.AutosplitterCheckbox.TabIndex = 102;
@@ -262,18 +285,18 @@ namespace racman
             // freezeAmmoCheckbox
             // 
             this.freezeAmmoCheckbox.AutoSize = true;
-            this.freezeAmmoCheckbox.Location = new System.Drawing.Point(241, 121);
+            this.freezeAmmoCheckbox.Location = new System.Drawing.Point(247, 153);
             this.freezeAmmoCheckbox.Name = "freezeAmmoCheckbox";
-            this.freezeAmmoCheckbox.Size = new System.Drawing.Size(99, 17);
+            this.freezeAmmoCheckbox.Size = new System.Drawing.Size(89, 17);
             this.freezeAmmoCheckbox.TabIndex = 103;
-            this.freezeAmmoCheckbox.Text = "\"Infinite\" Ammo";
+            this.freezeAmmoCheckbox.Text = "Infinite Ammo";
             this.freezeAmmoCheckbox.UseVisualStyleBackColor = true;
             this.freezeAmmoCheckbox.CheckedChanged += new System.EventHandler(this.freezeAmmoCheckbox_CheckedChanged);
             // 
             // freezeHealthCheckbox
             // 
             this.freezeHealthCheckbox.AutoSize = true;
-            this.freezeHealthCheckbox.Location = new System.Drawing.Point(241, 144);
+            this.freezeHealthCheckbox.Location = new System.Drawing.Point(247, 176);
             this.freezeHealthCheckbox.Name = "freezeHealthCheckbox";
             this.freezeHealthCheckbox.Size = new System.Drawing.Size(92, 17);
             this.freezeHealthCheckbox.TabIndex = 104;
@@ -281,30 +304,49 @@ namespace racman
             this.freezeHealthCheckbox.UseVisualStyleBackColor = true;
             this.freezeHealthCheckbox.CheckedChanged += new System.EventHandler(this.freezeHealthCheckbox_CheckedChanged);
             // 
-            // toolStripSeparator1
+            // raritaniumTextBox
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            this.raritaniumTextBox.Location = new System.Drawing.Point(246, 90);
+            this.raritaniumTextBox.Name = "raritaniumTextBox";
+            this.raritaniumTextBox.Size = new System.Drawing.Size(106, 20);
+            this.raritaniumTextBox.TabIndex = 105;
+            this.raritaniumTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.raritaniumTextBox_KeyDown);
             // 
-            // memoryUtilitiesToolStripMenuItem
+            // label1
             // 
-            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
-            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
-            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(244, 75);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(60, 13);
+            this.label1.TabIndex = 106;
+            this.label1.Text = "Raritanium:";
             // 
-            // patchLoaderToolStripMenuItem
+            // challengeTextBox
             // 
-            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
-            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
-            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
+            this.challengeTextBox.Location = new System.Drawing.Point(246, 52);
+            this.challengeTextBox.Name = "challengeTextBox";
+            this.challengeTextBox.Size = new System.Drawing.Size(105, 20);
+            this.challengeTextBox.TabIndex = 107;
+            this.challengeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(244, 36);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(87, 13);
+            this.label2.TabIndex = 108;
+            this.label2.Text = "Challenge Mode:";
             // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 244);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.challengeTextBox);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.raritaniumTextBox);
             this.Controls.Add(this.freezeHealthCheckbox);
             this.Controls.Add(this.freezeAmmoCheckbox);
             this.Controls.Add(this.AutosplitterCheckbox);
@@ -321,10 +363,11 @@ namespace racman
             this.Controls.Add(this.savepos);
             this.Controls.Add(this.positions_comboBox);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "RAC2Form";
-            this.Text = "Ratchet & Clank 2";
+            this.Text = "Ratchet & Clank 2 - NPEA00386 (PAL)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RAC2Form_FormClosing);
             this.Load += new System.EventHandler(this.RAC2Form_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -358,5 +401,9 @@ namespace racman
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
+        private System.Windows.Forms.TextBox raritaniumTextBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox challengeTextBox;
+        private System.Windows.Forms.Label label2;
     }
 }

@@ -203,5 +203,35 @@ namespace racman
                 modLoaderForm.Show();
             }
         }
+
+        private void raritaniumTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.api.WriteMemory(game.api.getCurrentPID(), 0x1329A94, uint.Parse(raritaniumTextBox.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.api.WriteMemory(game.api.getCurrentPID(), 0x1329AA2, new byte[] { byte.Parse(challengeTextBox.Text) });
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
     }
 }
