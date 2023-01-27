@@ -480,6 +480,9 @@ namespace racman
             }
 
             Ratchetron api = (Ratchetron)func.api;
+            WebMAN wmm = new WebMAN(func.api.GetIP());
+
+            wmm.PauseRSX();
 
             bool dirty = false;
 
@@ -543,10 +546,12 @@ namespace racman
             {
                 // We failed something at some point, revert patches.
                 this.Unload();
+                wmm.ContinueRSX();
                 return false;
             }
 
             this.loaded = true;
+            wmm.ContinueRSX();
             return true;
         }
 
@@ -560,6 +565,8 @@ namespace racman
 
         public void Unload()
         {
+            WebMAN wmm = new WebMAN(func.api.GetIP());
+            wmm.PauseRSX();
             foreach (KeyValuePair<uint, byte[]> entry in this.originalData)
             {
                 int bytesWritten = 0;
@@ -574,6 +581,7 @@ namespace racman
                     bytesWritten += bytesToWrite.Length;
                 }
             }
+            wmm.ContinueRSX();
 
             // Stop and clear out Lua automations
             foreach(LuaAutomation automation in luaAutomations)

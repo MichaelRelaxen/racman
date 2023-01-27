@@ -115,5 +115,15 @@ namespace racman
         {
             return true;
         }
+
+        public void PauseRSX()
+        {
+            get_data($"http://{ip}/xmb.ps3$rsx_pause");
+        }
+
+        public void ContinueRSX()
+        {
+            get_data($"http://{ip}/xmb.ps3$rsx_continue");
+        }
     }
 }
