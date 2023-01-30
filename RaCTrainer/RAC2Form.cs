@@ -203,5 +203,47 @@ namespace racman
                 modLoaderForm.Show();
             }
         }
+
+        private void raritaniumTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.api.WriteMemory(game.api.getCurrentPID(), 0x1329A94, uint.Parse(raritaniumTextBox.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.api.WriteMemory(game.api.getCurrentPID(), 0x1329AA2, new byte[] { byte.Parse(challengeTextBox.Text) });
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void resetFileManipButton_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, 0x13965F4, 0); // Hoverbike menu
+            api.WriteMemory(pid, 0x1329AAC, 0); // Bolt economy
+            api.WriteMemory(pid, 0x1A5815B, 0); // Endako cutscene
+
+            api.Notify("Bolts manip, Hoverbike menu, and Endako Boss Cutscene are now reset and ready for runs");
+        }
     }
 }
