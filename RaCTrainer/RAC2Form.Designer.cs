@@ -29,6 +29,7 @@ namespace racman
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RAC2Form));
             this.CComboCheckBox = new System.Windows.Forms.CheckBox();
             this.killyourself = new System.Windows.Forms.Button();
@@ -56,6 +57,8 @@ namespace racman
             this.label1 = new System.Windows.Forms.Label();
             this.challengeTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.resetFileManipButton = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -338,11 +341,28 @@ namespace racman
             this.label2.TabIndex = 108;
             this.label2.Text = "Challenge Mode:";
             // 
+            // resetFileManipButton
+            // 
+            this.resetFileManipButton.Location = new System.Drawing.Point(247, 245);
+            this.resetFileManipButton.Name = "resetFileManipButton";
+            this.resetFileManipButton.Size = new System.Drawing.Size(104, 26);
+            this.resetFileManipButton.TabIndex = 109;
+            this.resetFileManipButton.Text = "Setup any%";
+            this.toolTip1.SetToolTip(this.resetFileManipButton, "Clears bolt manip, resets hoverbike menu, and resets Endako boss cutscene.\r\nDoes " +
+        "not affect slot machine RNG or act tuning.");
+            this.resetFileManipButton.UseVisualStyleBackColor = true;
+            this.resetFileManipButton.Click += new System.EventHandler(this.resetFileManipButton_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.IsBalloon = true;
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 244);
+            this.ClientSize = new System.Drawing.Size(363, 278);
+            this.Controls.Add(this.resetFileManipButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.challengeTextBox);
             this.Controls.Add(this.label1);
@@ -405,5 +425,7 @@ namespace racman
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox challengeTextBox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button resetFileManipButton;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

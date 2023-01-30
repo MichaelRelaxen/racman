@@ -49,6 +49,7 @@ split
     else if (current.gameState == 0 && current.planet == 20 && current.protopetHealth == 0)
     {
         print("Protopets health is 0!!!!!");
-        return true;
+        //return true;
+        // Commenting this out until I fix it
     }
 }
