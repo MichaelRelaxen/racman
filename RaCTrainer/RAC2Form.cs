@@ -242,8 +242,9 @@ namespace racman
             api.WriteMemory(pid, 0x13965F4, 0); // Hoverbike menu
             api.WriteMemory(pid, 0x1329AAC, 0); // Bolt economy
             api.WriteMemory(pid, 0x1A5815B, 0); // Endako cutscene
+            api.WriteMemory(pid, 0x1AAC767, 0); // Game pyramid bolt drop
 
-            api.Notify("Bolts manip, Hoverbike menu, and Endako Boss Cutscene are now reset and ready for runs");
+            api.Notify("Game Pyramid, Bolts manip, Hoverbike menu, and Endako Boss Cutscene are now reset and ready for runs");
         }
     }
 }

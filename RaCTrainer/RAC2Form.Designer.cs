@@ -348,8 +348,9 @@ namespace racman
             this.resetFileManipButton.Size = new System.Drawing.Size(104, 26);
             this.resetFileManipButton.TabIndex = 109;
             this.resetFileManipButton.Text = "Setup any%";
-            this.toolTip1.SetToolTip(this.resetFileManipButton, "Clears bolt manip, resets hoverbike menu, and resets Endako boss cutscene.\r\nDoes " +
-        "not affect slot machine RNG or act tuning.");
+            this.toolTip1.SetToolTip(this.resetFileManipButton, "Clears bolt manip, resets hoverbike menu, makes game\r\n pyramid drop 1,024 bolts, " +
+        "and resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning" +
+        ".");
             this.resetFileManipButton.UseVisualStyleBackColor = true;
             this.resetFileManipButton.Click += new System.EventHandler(this.resetFileManipButton_Click);
             // 
