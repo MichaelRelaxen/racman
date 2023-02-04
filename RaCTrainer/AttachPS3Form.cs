@@ -25,7 +25,7 @@ namespace racman
             console = new RacManConsole();
             scripting = new RacmanScripting();
 
-            currentVerLabel.Text = "v" + Assembly.GetEntryAssembly().GetName().Version;
+            currentVerLabel.Text = "v" + Assembly.GetEntryAssembly().GetName().Version.ToString(3);
 
             if (File.Exists(Environment.CurrentDirectory + @"\config.txt"))
             {
