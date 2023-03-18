@@ -1,0 +1,7 @@
+#- name: Test Mod
+#- author: robo
+#- href: https://github.com/MichaelRelaxen/racman
+#- version: 1.0
+#- description: Test mod. Press r1 for hoverboots.
+
+automation: main.lua
