@@ -110,6 +110,26 @@ namespace racman
                 return;
             }
 
+            if (game == "BCES01503")
+            {
+                var diskGameSelector = new DiskGameSelector();
+                if (diskGameSelector.ShowDialog() == DialogResult.OK)
+                {
+                    switch (diskGameSelector.GetSelectedVersion())
+                    {
+                        case 0:
+                            game = "NPEA00385"; // RAC 1
+                            break;
+                        case 1:
+                            game = "NPEA00386"; // RAC 2
+                            break;
+                        case 2:
+                            game = "NPEA00387"; // RAC 3
+                            break;  
+                    }
+                }
+            } // if disk version was found, the following code can be executed as if this check never happened
+
             if (game == "NPEA00385")
             {
                 Hide();
