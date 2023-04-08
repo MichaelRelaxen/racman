@@ -1,9 +1,16 @@
 #- name: Randomizer
 #- author: bordplate
 #- href: https://github.com/bordplate/rac1-randomizer
-#- version: 1.1.2
+#- version: 1.2
 #- description: Randomizes what items and infobot coordinates you get
 #- update_url: https://bordplate.no/rac1/randomizer.json
+
+## Most of the important functionality is in .s or .c-files. 
+## Although there is a lot of single, simple, instruction patches
+##     manually defined here as integers.
+## They're not properly documented, and I can't remember the purpose of most
+##   of them at the time of writing this. 
+
 
 # Hook infobot update func
 0x4F8000: infobot.bin
@@ -50,7 +57,13 @@
 0x112e18: 0x484f9002
 
 
-### Item redirections
+#########################
+### Item redirections ###
+#########################
+## This is the part where we redirect the original items
+##  to make them randomized. 
+## Some items require a little extra massaging than others. 
+## A lot of items shows a toast message to the player, so we remove those. 
 
 # Heli-pack
 0x4a90b8: 0x38600002
@@ -204,6 +217,11 @@
 0x27b868: 0x38600032
 0x27b86c: 0x48112e1b
 
+#############################
+### End item redirections ###
+#############################
+
+
 # Fix thruster-pack gliding when you don't have the heli-pack
 0x4f8f00: has_thruster_heli_pack.bin
 0xc35c0: 0x484f8f03
@@ -236,6 +254,7 @@
 
 # Fix crash that occurs if there's junk data where the vendor stores moby data
 # The crash only occurred if the first item in the vendor was unsupported items/gadgets like helmets and boots
+# Junk data can come from playing a pre-rendered movie. They store the movie data in the same location as some vendor data. 
 0x4f6200: clear_vendor_data.bin
 0x16ac30: 0x484f6203
 
@@ -245,5 +264,5 @@
 0x7083c8: 0x4f7000
 0x70a4c0: 0x4f7000
 
-# Apply automation last
+# Apply automation script that creates the randomizer path and populates relevant data in the game. 
 automation: main.lua
