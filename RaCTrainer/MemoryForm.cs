@@ -19,6 +19,8 @@ namespace racman
             public uint size;
             public bool isFloat;
             public bool hexRepresented;
+            public bool isFrozen;
+            public int freezeSub;
         }
 
         List<WatchedAddress> watchedAddresses = new List<WatchedAddress>();
@@ -164,8 +166,9 @@ namespace racman
                 if (item.Tag != null)
                 {
                     WatchedAddress watched = (WatchedAddress)item.Tag;
-
                     ((Ratchetron)func.api).ReleaseSubID(watched.subID);
+                    if (watched.isFrozen)
+                        ((Ratchetron)func.api).ReleaseSubID(watched.freezeSub);
                 }
             }
         }
@@ -181,11 +184,48 @@ namespace racman
                     menuStrip.Items.Add("Edit value...");
                     menuStrip.Items[0].Click += MenuStripEditValue_Click;
 
+                    menuStrip.Items.Add("Freeze/unfreeze value");
+                    menuStrip.Items[1].Click += MenuStripEditValue_Freeze;
+
                     menuStrip.Items.Add("Delete");
-                    menuStrip.Items[1].Click += MenuStripDelete_Click;
+                    menuStrip.Items[2].Click += MenuStripDelete_Click;
 
                     menuStrip.Show(Cursor.Position);
 
+                }
+            }
+        }
+
+        private void MenuStripEditValue_Freeze(object sender, EventArgs e)
+        {
+            var focusedItem = watchedMemoryAddressesListView.FocusedItem;
+            if (focusedItem != null)
+            {
+                if (focusedItem.Tag != null)
+                {
+                    WatchedAddress watched = (WatchedAddress)focusedItem.Tag;
+                    Ratchetron api = (Ratchetron)func.api;
+                    try
+                    {
+                        if (watched.isFrozen)
+                        {
+                            watched.isFrozen = false;
+                            api.ReleaseSubID(watched.freezeSub);
+                            watched.freezeSub = 0;
+                        } 
+                        else
+                        {
+                            watched.isFrozen = true;
+                            // Get current value to freeze
+                            byte[] currVal = api.ReadMemory(api.getCurrentPID(), watched.address, watched.size);
+                            watched.freezeSub = api.FreezeMemory(api.getCurrentPID(), watched.address, watched.size, Ratchetron.MemoryCondition.Any, currVal);
+                        }
+                          
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
                 }
             }
         }
