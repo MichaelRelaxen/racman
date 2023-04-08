@@ -127,6 +127,9 @@ namespace racman
                             game = "NPEA00387"; // RAC 3
                             break;  
                     }
+                } else
+                {
+                    return;
                 }
             } // if disk version was found, the following code can be executed as if this check never happened
 
