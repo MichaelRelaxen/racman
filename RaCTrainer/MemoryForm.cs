@@ -108,7 +108,7 @@ namespace racman
             {
                 if (watched.isFloat)
                 {
-                    float value = BitConverter.ToSingle(bytes.Reverse().ToArray(), 0);
+                    float value = BitConverter.ToSingle(bytes, 0);
                     SetItemValueText(item, value.ToString());
 
                     return;
@@ -125,7 +125,7 @@ namespace racman
                         }
                     case 2:
                         {
-                            val = BitConverter.ToInt16(bytes.Reverse().ToArray(), 0);
+                            val = BitConverter.ToInt16(bytes, 0);
                             break;
                         }
                     case 4:
@@ -135,7 +135,7 @@ namespace racman
                         }
                     case 8:
                         {
-                            val = BitConverter.ToInt64(bytes.Reverse().ToArray(), 0);
+                            val = BitConverter.ToInt64(bytes, 0);
                             break;
                         }
                     default:
