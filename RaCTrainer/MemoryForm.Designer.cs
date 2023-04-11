@@ -32,9 +32,9 @@
             this.registerAddressTypeCombo = new System.Windows.Forms.ComboBox();
             this.addMemoryWatchButton = new System.Windows.Forms.Button();
             this.watchedMemoryAddressesListView = new System.Windows.Forms.ListView();
+            this.nameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddressColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ValueColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.nameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // registerAddressTextBox
@@ -89,6 +89,11 @@
             this.watchedMemoryAddressesListView.View = System.Windows.Forms.View.Details;
             this.watchedMemoryAddressesListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.watchedMemoryAddressesListView_MouseClick);
             // 
+            // nameColumnHeader
+            // 
+            this.nameColumnHeader.Text = "Name";
+            this.nameColumnHeader.Width = 105;
+            // 
             // AddressColumnHeader
             // 
             this.AddressColumnHeader.Text = "Address";
@@ -98,11 +103,6 @@
             // 
             this.ValueColumnHeader.Text = "Value";
             this.ValueColumnHeader.Width = 99;
-            // 
-            // nameColumnHeader
-            // 
-            this.nameColumnHeader.Text = "Name";
-            this.nameColumnHeader.Width = 105;
             // 
             // MemoryForm
             // 
@@ -115,6 +115,7 @@
             this.Controls.Add(this.registerAddressTextBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "MemoryForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Memory utilities";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MemoryForm_FormClosing);
             this.ResumeLayout(false);
