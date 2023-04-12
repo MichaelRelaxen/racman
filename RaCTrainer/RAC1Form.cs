@@ -388,5 +388,103 @@ namespace racman
             MemoryForm memoryForm = new MemoryForm();
             memoryForm.Show();
         }
+
+        private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            updateHeroToolStripMenuItem.Checked = false;
+            updateMobysToolStripMenuItem.Checked = false;
+            updateParticlesToolStripMenuItem.Checked = false;
+            normalCameraToolStripMenuItem.Checked = false;
+            freecamToolStripMenuItem.Checked = false;
+            freecamCharacterToolStripMenuItem.Checked = false;
+
+
+            foreach (rac1.DebugOption option in game.DebugOptions())
+            {
+                switch (option)
+                {
+                    case rac1.DebugOption.UpdateRatchet:
+                        updateHeroToolStripMenuItem.Checked = true;
+                        break;
+                    case rac1.DebugOption.UpdateMobys:
+                        updateMobysToolStripMenuItem.Checked = true;
+                        break;
+                    case rac1.DebugOption.UpdateParticles:
+                        updateParticlesToolStripMenuItem.Checked = true;
+                        break;
+                    case rac1.DebugOption.NormalCamera:
+                        normalCameraToolStripMenuItem.Checked = true;
+                        break;
+                    case rac1.DebugOption.Freecam:
+                        freecamToolStripMenuItem.Checked = true;
+                        break;
+                    case rac1.DebugOption.FreecamCharacter:
+                        freecamCharacterToolStripMenuItem.Checked = true;
+                        break;
+                }
+            }
+        }
+
+        private void updateHeroToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+            item.Checked = !item.Checked;
+
+            game.SetDebugOption(rac1.DebugOption.UpdateRatchet, item.Checked);
+        }
+
+        private void updateMobysToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+            item.Checked = !item.Checked;
+
+            game.SetDebugOption(rac1.DebugOption.UpdateMobys, item.Checked);
+        }
+
+        private void updateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+            item.Checked = !item.Checked;
+
+            game.SetDebugOption(rac1.DebugOption.UpdateParticles, item.Checked);
+        }
+
+        private void normalCameraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+            item.Checked = true;
+            freecamCharacterToolStripMenuItem.Checked = false;
+            freecamCharacterToolStripMenuItem.Checked = false;
+
+
+            game.SetDebugOption(rac1.DebugOption.NormalCamera, item.Checked);
+        }
+
+        private void freecamToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+            item.Checked = true;
+            normalCameraToolStripMenuItem.Checked = false;
+            freecamCharacterToolStripMenuItem.Checked = false;
+
+
+            game.SetDebugOption(rac1.DebugOption.Freecam, item.Checked);
+        }
+
+        private void freecamCharacterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+            item.Checked = true;
+            freecamCharacterToolStripMenuItem.Checked = false;
+            normalCameraToolStripMenuItem.Checked = false;
+
+            game.SetDebugOption(rac1.DebugOption.FreecamCharacter, item.Checked);
+        }
     }
 }

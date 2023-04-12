@@ -53,12 +53,22 @@ namespace racman
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buyPremiumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbspiSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateHeroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateMobysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.updateParticlesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.normalCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.freecamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.freecamCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -72,8 +82,6 @@ namespace racman
             this.resetSPsButton = new System.Windows.Forms.Button();
             this.setupSPsButton = new System.Windows.Forms.Button();
             this.platinumLabel = new System.Windows.Forms.Label();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -296,7 +304,8 @@ namespace racman
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
-            this.autosplitterToolStripMenuItem});
+            this.autosplitterToolStripMenuItem,
+            this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(351, 24);
@@ -326,13 +335,6 @@ namespace racman
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
-            // patchLoaderToolStripMenuItem
-            // 
-            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
-            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
-            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
-            // 
             // configureButtonCombosToolStripMenuItem
             // 
             this.configureButtonCombosToolStripMenuItem.Name = "configureButtonCombosToolStripMenuItem";
@@ -346,6 +348,25 @@ namespace racman
             this.buyPremiumToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.buyPremiumToolStripMenuItem.Text = "Buy Platinum";
             this.buyPremiumToolStripMenuItem.Click += new System.EventHandler(this.buyPremiumToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            // 
+            // patchLoaderToolStripMenuItem
+            // 
+            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
+            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
+            // 
+            // memoryUtilitiesToolStripMenuItem
+            // 
+            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities...";
+            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
             // autosplitterToolStripMenuItem
             // 
@@ -371,6 +392,68 @@ namespace racman
             this.gbspiSplitToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
             this.gbspiSplitToolStripMenuItem.Text = "Gold bolt, skillpoint, items splitting";
             this.gbspiSplitToolStripMenuItem.CheckedChanged += new System.EventHandler(this.gbspiSplitToolStripMenuItem_CheckedChanged);
+            // 
+            // debugToolStripMenuItem
+            // 
+            this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.updateHeroToolStripMenuItem,
+            this.updateMobysToolStripMenuItem,
+            this.updateParticlesToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.normalCameraToolStripMenuItem,
+            this.freecamToolStripMenuItem,
+            this.freecamCharacterToolStripMenuItem});
+            this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.debugToolStripMenuItem.Text = "Debug";
+            this.debugToolStripMenuItem.DropDownOpening += new System.EventHandler(this.debugToolStripMenuItem_DropDownOpening);
+            // 
+            // updateHeroToolStripMenuItem
+            // 
+            this.updateHeroToolStripMenuItem.Name = "updateHeroToolStripMenuItem";
+            this.updateHeroToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.updateHeroToolStripMenuItem.Text = "Update Hero";
+            this.updateHeroToolStripMenuItem.Click += new System.EventHandler(this.updateHeroToolStripMenuItem_Click);
+            // 
+            // updateMobysToolStripMenuItem
+            // 
+            this.updateMobysToolStripMenuItem.Name = "updateMobysToolStripMenuItem";
+            this.updateMobysToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.updateMobysToolStripMenuItem.Text = "Update Mobys";
+            this.updateMobysToolStripMenuItem.Click += new System.EventHandler(this.updateMobysToolStripMenuItem_Click);
+            // 
+            // updateParticlesToolStripMenuItem
+            // 
+            this.updateParticlesToolStripMenuItem.Name = "updateParticlesToolStripMenuItem";
+            this.updateParticlesToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.updateParticlesToolStripMenuItem.Text = "Update Particles";
+            this.updateParticlesToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            // 
+            // normalCameraToolStripMenuItem
+            // 
+            this.normalCameraToolStripMenuItem.Name = "normalCameraToolStripMenuItem";
+            this.normalCameraToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.normalCameraToolStripMenuItem.Text = "Normal Camera";
+            this.normalCameraToolStripMenuItem.Click += new System.EventHandler(this.normalCameraToolStripMenuItem_Click);
+            // 
+            // freecamToolStripMenuItem
+            // 
+            this.freecamToolStripMenuItem.Name = "freecamToolStripMenuItem";
+            this.freecamToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.freecamToolStripMenuItem.Text = "Freecam";
+            this.freecamToolStripMenuItem.Click += new System.EventHandler(this.freecamToolStripMenuItem_Click);
+            // 
+            // freecamCharacterToolStripMenuItem
+            // 
+            this.freecamCharacterToolStripMenuItem.Name = "freecamCharacterToolStripMenuItem";
+            this.freecamCharacterToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.freecamCharacterToolStripMenuItem.Text = "Freecam + Character";
+            this.freecamCharacterToolStripMenuItem.Click += new System.EventHandler(this.freecamCharacterToolStripMenuItem_Click);
             // 
             // button2
             // 
@@ -505,18 +588,6 @@ namespace racman
             this.platinumLabel.Text = "PLATINUM+   PREMIUM";
             this.platinumLabel.Visible = false;
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
-            // 
-            // memoryUtilitiesToolStripMenuItem
-            // 
-            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
-            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities...";
-            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
-            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -619,6 +690,14 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem gbspiSplitToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateHeroToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateMobysToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem updateParticlesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem normalCameraToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem freecamToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem freecamCharacterToolStripMenuItem;
     }
 }
 
