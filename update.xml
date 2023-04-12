@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <item>
-    <version>1.6.0.0</version>
+    <version>1.6.1.0</version>
     <url>https://github.com/MichaelRelaxen/racman/releases/download/v1.6.1/RaCMAN-v1.6.1.zip</url>
     <changelog>https://michaelrelaxen.github.io/racman/v1.6.0.0.html</changelog>
     <mandatory>false</mandatory>
