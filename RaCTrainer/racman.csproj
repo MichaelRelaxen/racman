@@ -114,6 +114,12 @@
     <Compile Include="DiskGameSelector.Designer.cs">
       <DependentUpon>DiskGameSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="UYAUnlocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UYAUnlocks.Designer.cs">
+      <DependentUpon>UYAUnlocks.cs</DependentUpon>
+    </Compile>
     <Compile Include="MemoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -263,6 +269,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UYAUnlocks.resx">
+      <DependentUpon>UYAUnlocks.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

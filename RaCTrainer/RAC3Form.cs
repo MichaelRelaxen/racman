@@ -418,5 +418,11 @@ namespace racman
             MemoryForm memoryForm = new MemoryForm();
             memoryForm.Show();
         }
+
+        private void buttonUnlocks_Click(object sender, EventArgs e)
+        {
+            UYAUnlocks unlocks = new UYAUnlocks(game);
+            unlocks.Show();
+        }
     }
 }
