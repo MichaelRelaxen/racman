@@ -207,7 +207,7 @@ namespace racman
             var neededItems = new string[]
             {
                 "Miniturret", "Shield Charger", "Shock Blaster", "Rift Inducer", "Flux Rifle", 
-                "Nitro Launcher", "Plasma Whip", "Suck Cannon", "PDA", "Charge Boots"
+                "Nitro Launcher", "Plasma Whip", "Suck Cannon", "PDA", "Charge Boots", "Nano Pak"
             };
             foreach (var name in neededItems)
             {
@@ -218,12 +218,34 @@ namespace racman
 
             // Special case RYNO v4
             var ryno = itemByName("R3YNO");
-            ryno.SetVersion(game, 4);
             ryno.LockOrUnlock(game, true);
+            ryno.SetVersion(game, 4);
             // Supposedly the exp for the R3YNO v4
             // However this is one of the setExps that doesnt work so enjoy your graphical bugs/levelling lol lmao
             ryno.SetExp(game, 2560001);
 
+            // Special case Agents v1 (m3 skip)
+            var agents = itemByName("Agents of Doom");
+            agents.LockOrUnlock(game, true);
+            agents.SetVersion(game, 1);
+            agents.SetExp(game, 0);
+        }
+
+        private void buttonBomb_Click(object sender, EventArgs e)
+        {
+            UYAItem bomb = itemByName("Bomb Glove");
+            foreach (var heldWeaponAddr in new uint[] { rac3.addr.HeldItemFoo, rac3.addr.HeldItemBar, rac3.addr.HeldItemBaz })
+            {
+                game.api.WriteMemory(game.pid, heldWeaponAddr, new byte[] { (byte)bomb.id });
+            }
+
+            // Bomb glove ammo address
+            game.api.WriteMemory(game.pid, 0xDA526B, new byte[] { 40 });
+        }
+
+        private void buttonBomb_MouseHover(object sender, EventArgs e)
+        {
+            toolTip2.Show("Equip the (unused) bomb glove", buttonBomb);
         }
     }
 
