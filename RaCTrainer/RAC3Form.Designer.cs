@@ -87,6 +87,7 @@ namespace racman
             this.label13 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.buttonUnlocks = new System.Windows.Forms.Button();
+            this.buttonSetup = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -685,18 +686,30 @@ namespace racman
             // 
             this.buttonUnlocks.Location = new System.Drawing.Point(12, 331);
             this.buttonUnlocks.Name = "buttonUnlocks";
-            this.buttonUnlocks.Size = new System.Drawing.Size(199, 40);
+            this.buttonUnlocks.Size = new System.Drawing.Size(113, 40);
             this.buttonUnlocks.TabIndex = 107;
             this.buttonUnlocks.Text = "Unlocks";
             this.buttonUnlocks.UseVisualStyleBackColor = true;
             this.buttonUnlocks.Click += new System.EventHandler(this.buttonUnlocks_Click);
             // 
+            // buttonSetup
+            // 
+            this.buttonSetup.Location = new System.Drawing.Point(128, 331);
+            this.buttonSetup.Name = "buttonSetup";
+            this.buttonSetup.Size = new System.Drawing.Size(83, 40);
+            this.buttonSetup.TabIndex = 108;
+            this.buttonSetup.Text = "Setup NG+ or No QE File";
+            this.buttonSetup.UseVisualStyleBackColor = true;
+            this.buttonSetup.Click += new System.EventHandler(this.buttonSetup_Click);
+            // 
             // RAC3Form
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(385, 423);
+            this.Controls.Add(this.buttonSetup);
             this.Controls.Add(this.buttonUnlocks);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.textBox2);
@@ -817,6 +830,7 @@ namespace racman
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.Button buttonUnlocks;
+        private System.Windows.Forms.Button buttonSetup;
     }
 }
 

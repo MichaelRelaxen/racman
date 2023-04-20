@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
 
 namespace racman
@@ -87,6 +88,20 @@ namespace racman
         private List<string> itemNames => items.Select(obj => obj.name).ToList();
         private UYAItem itemByName(string itemName) => items.Find(obj => obj.name == itemName);
 
+        // SetExp works wrongly for some weapons and this is a hacky workaround
+        // Basically the exact addresses confuse me so I'm blasting the entire range
+        private void SetAllExp(int start, int range, uint exp)
+        {
+            byte[] expBytes = BitConverter.GetBytes(exp).Take(4).Reverse().ToArray();
+            byte[] newBytes = new byte[726];
+            for (int i = 0; i < newBytes.Length; i++)
+            {
+                newBytes[i] = expBytes[i % 4];
+            }
+
+            game.api.WriteMemory(game.pid, rac3.addr.expArray + (uint)start, newBytes.Skip(start).Take(range).ToArray());
+        }
+
         public UYAUnlocks(rac3 game)
         {
             this.game = game;
@@ -114,8 +129,6 @@ namespace racman
             foreach (var it in items)
             {
                 checklistItems.Items.Add(it.name, it.IsUnlocked(game));
-                Console.Write(it.name);
-                Console.WriteLine(it.levels);
                 if (it.levels > 1)
                 {
                     weapons.Add(it);
@@ -187,9 +200,7 @@ namespace racman
 
         private void buttonDowngrade_Click(object sender, EventArgs e)
         {
-            // SetExp works wrongly for some weapons and this is a workaround
-            game.api.WriteMemory(game.pid, rac3.addr.expArray, new byte[726]);
-
+            SetAllExp(0, 726, 0);
             foreach (var it in items)
             {
                 it.SetVersion(game, 1);
@@ -202,12 +213,23 @@ namespace racman
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void SetupNGPWeapons()
         {
+            // Special case RYNO v4
+            // We do this first so the xp value doesn't overwrite everything else
+            var ryno = itemByName("R3YNO");
+            ryno.LockOrUnlock(game, true);
+            ryno.SetVersion(game, 4);
+            // Supposedly the exp for the R3YNO v4
+            ryno.SetExp(game, 2560001);
+            SetAllExp(364, 363, 3000001);
+
+
             var neededItems = new string[]
             {
-                "Miniturret", "Shield Charger", "Shock Blaster", "Rift Inducer", "Flux Rifle", 
-                "Nitro Launcher", "Plasma Whip", "Suck Cannon", "PDA", "Charge Boots", "Nano Pak"
+                "Miniturret", "Shield Charger", "Shock Blaster", "Rift Inducer", "Flux Rifle",
+                "Nitro Launcher", "Plasma Whip", "Suck Cannon", "PDA", "Charge Boots", "Nano Pak",
+                "Heli Pack", "Thruster Pack"
             };
             foreach (var name in neededItems)
             {
@@ -216,19 +238,17 @@ namespace racman
                 item.SetVersion(game, item.levels);
             }
 
-            // Special case RYNO v4
-            var ryno = itemByName("R3YNO");
-            ryno.LockOrUnlock(game, true);
-            ryno.SetVersion(game, 4);
-            // Supposedly the exp for the R3YNO v4
-            // However this is one of the setExps that doesnt work so enjoy your graphical bugs/levelling lol lmao
-            ryno.SetExp(game, 2560001);
-
             // Special case Agents v1 (m3 skip)
             var agents = itemByName("Agents of Doom");
             agents.LockOrUnlock(game, true);
             agents.SetVersion(game, 1);
+            SetAllExp(0, 363, 0);
             agents.SetExp(game, 0);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SetupNGPWeapons();
         }
 
         private void buttonBomb_Click(object sender, EventArgs e)
