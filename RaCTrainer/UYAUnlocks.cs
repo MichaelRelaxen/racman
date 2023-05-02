@@ -148,6 +148,9 @@ namespace racman
                     {
                         var newVersion = levelCombos[indexCopy].SelectedIndex + 1;
                         weapons[indexCopy].SetVersion(game, (uint)newVersion);
+                        // Reset only if level 1 because I don't have the xp upgrade values for every weapon
+                        if (newVersion == 1) weapons[indexCopy].SetExp(game, 0);
+                       
                     };
 
                     index++;
@@ -221,13 +224,13 @@ namespace racman
             ryno.LockOrUnlock(game, true);
             ryno.SetVersion(game, 4);
             // Supposedly the exp for the R3YNO v4
-            ryno.SetExp(game, 2560001);
-            SetAllExp(364, 363, 3000001);
+            ryno.SetExp(game, 2560000);
+            SetAllExp(364, 363, 2880000);
 
 
             var neededItems = new string[]
             {
-                "Miniturret", "Shield Charger", "Shock Blaster", "Rift Inducer", "Flux Rifle",
+                "Miniturret", "Shield Charger", "Shock Blaster", "Rift Inducer", "Flux Rifle", "Plasma Coil",
                 "Nitro Launcher", "Plasma Whip", "Suck Cannon", "PDA", "Charge Boots", "Nano Pak",
                 "Heli Pack", "Thruster Pack"
             };

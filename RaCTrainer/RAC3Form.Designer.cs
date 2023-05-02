@@ -88,6 +88,8 @@ namespace racman
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.buttonUnlocks = new System.Windows.Forms.Button();
             this.buttonSetup = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -597,10 +599,12 @@ namespace racman
             // coordsLabel
             // 
             this.coordsLabel.AutoSize = true;
-            this.coordsLabel.Location = new System.Drawing.Point(16, 333);
+            this.coordsLabel.Location = new System.Drawing.Point(13, 424);
             this.coordsLabel.Name = "coordsLabel";
-            this.coordsLabel.Size = new System.Drawing.Size(0, 13);
+            this.coordsLabel.Size = new System.Drawing.Size(123, 13);
             this.coordsLabel.TabIndex = 101;
+            this.coordsLabel.Text = "Co-ordinates: <disabled>";
+            this.coordsLabel.Click += new System.EventHandler(this.coordsLabel_Click);
             // 
             // checkBox1
             // 
@@ -694,7 +698,7 @@ namespace racman
             // 
             // buttonSetup
             // 
-            this.buttonSetup.Location = new System.Drawing.Point(128, 331);
+            this.buttonSetup.Location = new System.Drawing.Point(131, 331);
             this.buttonSetup.Name = "buttonSetup";
             this.buttonSetup.Size = new System.Drawing.Size(83, 40);
             this.buttonSetup.TabIndex = 108;
@@ -702,13 +706,33 @@ namespace racman
             this.buttonSetup.UseVisualStyleBackColor = true;
             this.buttonSetup.Click += new System.EventHandler(this.buttonSetup_Click);
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(101, 561);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(156, 13);
+            this.label14.TabIndex = 109;
+            this.label14.Text = "what are you doing down here?";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(157, 696);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(212, 13);
+            this.label15.TabIndex = 110;
+            this.label15.Text = "leave. there\'s nothing for you here. unless...";
+            // 
             // RAC3Form
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(385, 423);
+            this.ClientSize = new System.Drawing.Size(385, 424);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.buttonSetup);
             this.Controls.Add(this.buttonUnlocks);
             this.Controls.Add(this.label13);
@@ -831,6 +855,8 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.Button buttonUnlocks;
         private System.Windows.Forms.Button buttonSetup;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
     }
 }
 

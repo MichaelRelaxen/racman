@@ -418,7 +418,7 @@ namespace racman
         }
 
         public void ReleaseSubID(int memSubID)
-        {
+        {   
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0c);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)memSubID).Reverse());

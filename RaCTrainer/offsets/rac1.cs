@@ -362,6 +362,11 @@ namespace racman
             api.WriteMemory(pid, rac1.addr.goldBolts, new byte[80]);
         }
 
+        public void UnlockAllGoldBolts()
+        {
+            api.WriteMemory(pid, rac1.addr.goldBolts, Enumerable.Repeat((byte)1, 80).ToArray());
+        }
+
         /// <summary>
         /// Whether or not goodies menu is enabled
         /// </summary>
