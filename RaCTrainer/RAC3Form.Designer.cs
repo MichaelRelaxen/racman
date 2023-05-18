@@ -54,8 +54,10 @@ namespace racman
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.inputdisplay = new System.Windows.Forms.Button();
             this.OHKOCheckBox = new System.Windows.Forms.CheckBox();
@@ -84,8 +86,10 @@ namespace racman
             this.label11 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonUnlocks = new System.Windows.Forms.Button();
+            this.buttonSetup = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -328,6 +332,18 @@ namespace racman
             this.switchGameToolStripMenuItem.Text = "Switch Game";
             this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
+            // configureButtonCombosToolStripMenuItem
+            // 
+            this.configureButtonCombosToolStripMenuItem.Name = "configureButtonCombosToolStripMenuItem";
+            this.configureButtonCombosToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.configureButtonCombosToolStripMenuItem.Text = "Configure button combos";
+            this.configureButtonCombosToolStripMenuItem.Click += new System.EventHandler(this.configureButtonCombosToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            // 
             // patchLoaderToolStripMenuItem
             // 
             this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
@@ -335,12 +351,12 @@ namespace racman
             this.patchLoaderToolStripMenuItem.Text = "Mods and patches...";
             this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
-            // configureButtonCombosToolStripMenuItem
+            // memoryUtilitiesToolStripMenuItem
             // 
-            this.configureButtonCombosToolStripMenuItem.Name = "configureButtonCombosToolStripMenuItem";
-            this.configureButtonCombosToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.configureButtonCombosToolStripMenuItem.Text = "Configure button combos";
-            this.configureButtonCombosToolStripMenuItem.Click += new System.EventHandler(this.configureButtonCombosToolStripMenuItem_Click);
+            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
+            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
             // inputdisplay
             // 
@@ -583,10 +599,12 @@ namespace racman
             // coordsLabel
             // 
             this.coordsLabel.AutoSize = true;
-            this.coordsLabel.Location = new System.Drawing.Point(16, 333);
+            this.coordsLabel.Location = new System.Drawing.Point(13, 424);
             this.coordsLabel.Name = "coordsLabel";
-            this.coordsLabel.Size = new System.Drawing.Size(0, 13);
+            this.coordsLabel.Size = new System.Drawing.Size(123, 13);
             this.coordsLabel.TabIndex = 101;
+            this.coordsLabel.Text = "Co-ordinates: <disabled>";
+            this.coordsLabel.Click += new System.EventHandler(this.coordsLabel_Click);
             // 
             // checkBox1
             // 
@@ -654,7 +672,7 @@ namespace racman
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(37, 376);
+            this.label13.Location = new System.Drawing.Point(12, 374);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(52, 13);
             this.label13.TabIndex = 106;
@@ -662,30 +680,61 @@ namespace racman
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(39, 390);
+            this.textBox2.Location = new System.Drawing.Point(15, 390);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(135, 20);
+            this.textBox2.Size = new System.Drawing.Size(193, 20);
             this.textBox2.TabIndex = 105;
             this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
-            // toolStripSeparator1
+            // buttonUnlocks
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            this.buttonUnlocks.Location = new System.Drawing.Point(12, 331);
+            this.buttonUnlocks.Name = "buttonUnlocks";
+            this.buttonUnlocks.Size = new System.Drawing.Size(113, 40);
+            this.buttonUnlocks.TabIndex = 107;
+            this.buttonUnlocks.Text = "Unlocks";
+            this.buttonUnlocks.UseVisualStyleBackColor = true;
+            this.buttonUnlocks.Click += new System.EventHandler(this.buttonUnlocks_Click);
             // 
-            // memoryUtilitiesToolStripMenuItem
+            // buttonSetup
             // 
-            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
-            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
-            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            this.buttonSetup.Location = new System.Drawing.Point(131, 331);
+            this.buttonSetup.Name = "buttonSetup";
+            this.buttonSetup.Size = new System.Drawing.Size(83, 40);
+            this.buttonSetup.TabIndex = 108;
+            this.buttonSetup.Text = "Setup NG+ or No QE File";
+            this.buttonSetup.UseVisualStyleBackColor = true;
+            this.buttonSetup.Click += new System.EventHandler(this.buttonSetup_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(101, 561);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(156, 13);
+            this.label14.TabIndex = 109;
+            this.label14.Text = "what are you doing down here?";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(157, 696);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(212, 13);
+            this.label15.TabIndex = 110;
+            this.label15.Text = "leave. there\'s nothing for you here. unless...";
             // 
             // RAC3Form
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(385, 423);
+            this.ClientSize = new System.Drawing.Size(385, 424);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.buttonSetup);
+            this.Controls.Add(this.buttonUnlocks);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label11);
@@ -804,6 +853,10 @@ namespace racman
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
+        private System.Windows.Forms.Button buttonUnlocks;
+        private System.Windows.Forms.Button buttonSetup;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
     }
 }
 

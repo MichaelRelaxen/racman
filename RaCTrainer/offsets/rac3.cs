@@ -31,18 +31,33 @@ namespace racman
         public uint currentArmor => 0xC1E51C;
         public uint challengeMode => 0xC1E50e;
 
-        //Ship Stuff
+        // Three variables that seem related to the held item ID.
+        // Funnily enough I don't think any of these are actually the current held item, oops!
+        // In no particular order, I think these are:
+        // - item to pull out after wrench swing
+        // - item to show held model of
+        // - top item in top-left held weapon display
+        public uint HeldItemFoo => 0xDA27CB;
+        public uint HeldItemBar => 0xDA3A1B;
+        public uint HeldItemBaz => 0xDA4E07;
 
+
+        //Ship Stuff
         public uint shipColour => 0xDA55E8;
 
 
         // Arrays
         public uint titaniumBoltsArray => 0xECE53D;
-        public uint skillPointsArray => 0xDA521d;
+        public uint skillPointsArray => 0xDA521D;
         public uint itemArray => 0xc1e43c;
+        // This old value seems wrong to me.
+        // public uint unlockArray => 0xDA5710;
+        public uint unlockArray => 0xDA56EC;
+        // Unlock array is 0xDA56EC, spreadsheet says offset is 4A8.
+        // Offset of exp array is 5F0, so this is DA56EC - 4A8 + 5F0
+        public uint expArray => 0xDA5834;
         public uint ammoArray => 0xDA5240;
         public uint vidComics => 0xda650b;
-        public uint unlockArray => 0xDA5710;
 
         // Toggles / Menus
         public uint quickSelectPause => 0xC1E652;

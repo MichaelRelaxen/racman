@@ -82,6 +82,7 @@ namespace racman
             this.resetSPsButton = new System.Windows.Forms.Button();
             this.setupSPsButton = new System.Windows.Forms.Button();
             this.platinumLabel = new System.Windows.Forms.Label();
+            this.buttonUnlockGB = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -509,7 +510,7 @@ namespace racman
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(228, 204);
+            this.label4.Location = new System.Drawing.Point(178, 223);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 87;
@@ -552,7 +553,7 @@ namespace racman
             // 
             this.resetGBsButton.Location = new System.Drawing.Point(230, 103);
             this.resetGBsButton.Name = "resetGBsButton";
-            this.resetGBsButton.Size = new System.Drawing.Size(106, 23);
+            this.resetGBsButton.Size = new System.Drawing.Size(109, 23);
             this.resetGBsButton.TabIndex = 91;
             this.resetGBsButton.Text = "Reset all Gold Bolts";
             this.resetGBsButton.UseVisualStyleBackColor = true;
@@ -560,7 +561,7 @@ namespace racman
             // 
             // resetSPsButton
             // 
-            this.resetSPsButton.Location = new System.Drawing.Point(230, 132);
+            this.resetSPsButton.Location = new System.Drawing.Point(232, 161);
             this.resetSPsButton.Name = "resetSPsButton";
             this.resetSPsButton.Size = new System.Drawing.Size(107, 23);
             this.resetSPsButton.TabIndex = 92;
@@ -570,7 +571,7 @@ namespace racman
             // 
             // setupSPsButton
             // 
-            this.setupSPsButton.Location = new System.Drawing.Point(230, 162);
+            this.setupSPsButton.Location = new System.Drawing.Point(233, 190);
             this.setupSPsButton.Name = "setupSPsButton";
             this.setupSPsButton.Size = new System.Drawing.Size(106, 23);
             this.setupSPsButton.TabIndex = 93;
@@ -588,12 +589,23 @@ namespace racman
             this.platinumLabel.Text = "PLATINUM+   PREMIUM";
             this.platinumLabel.Visible = false;
             // 
+            // buttonUnlockGB
+            // 
+            this.buttonUnlockGB.Location = new System.Drawing.Point(230, 132);
+            this.buttonUnlockGB.Name = "buttonUnlockGB";
+            this.buttonUnlockGB.Size = new System.Drawing.Size(109, 23);
+            this.buttonUnlockGB.TabIndex = 95;
+            this.buttonUnlockGB.Text = "Unlock all Gold Bolts";
+            this.buttonUnlockGB.UseVisualStyleBackColor = true;
+            this.buttonUnlockGB.Click += new System.EventHandler(this.buttonUnlockGB_Click);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(351, 341);
+            this.Controls.Add(this.buttonUnlockGB);
             this.Controls.Add(this.platinumLabel);
             this.Controls.Add(this.setupSPsButton);
             this.Controls.Add(this.resetSPsButton);
@@ -698,6 +710,7 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem normalCameraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem freecamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem freecamCharacterToolStripMenuItem;
+        private System.Windows.Forms.Button buttonUnlockGB;
     }
 }
 

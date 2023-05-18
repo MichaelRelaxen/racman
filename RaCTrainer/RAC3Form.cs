@@ -296,7 +296,7 @@ namespace racman
         {
             game.SetChallengeMode((byte)challengeModeInput.Value);
         }
-
+        
         private void vidComicCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             // This stops the vid comic item from staying selected
@@ -370,11 +370,13 @@ namespace racman
 
         private void coordsComboBox_CheckedChanged(object sender, EventArgs e)
         {
-            CoordsTimer.Enabled = ((CheckBox)sender).Checked;
+            var check = ((CheckBox)sender).Checked;
+            CoordsTimer.Enabled = check;
+            if (check) this.Height += 50;
         }
         public void UpdateCoordsLabel(object sender, EventArgs e)
         {
-            coordsLabel.Text = $"X: {game.coords[0]}\nY: {game.coords[1]}\nZ: {game.coords[2]}\n";
+            coordsLabel.Text = $"X: {game.coords[0]}\nY: {game.coords[1]}\nZ: {game.coords[2]}";
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
@@ -410,13 +412,64 @@ namespace racman
                     MessageBox.Show("Unable to parse number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 
-            }
+            } 
         }
 
         private void memoryUtilitiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MemoryForm memoryForm = new MemoryForm();
             memoryForm.Show();
+        }
+
+        private void buttonUnlocks_Click(object sender, EventArgs e)
+        {
+            UYAUnlocks unlocks = new UYAUnlocks(game);
+            unlocks.Show();
+        }
+
+        private void buttonSetup_Click(object sender, EventArgs e)
+        {
+            UYAUnlocks unlocks = new UYAUnlocks(game);
+            unlocks.SetupNGPWeapons();
+            unlocks.Dispose();
+
+            game.SetBoltCount(1561120);
+            game.api.WriteMemory(pid, rac3.addr.quickSelectPause, new byte[] { 0 });
+            // No idea what the max value is here
+            game.api.WriteMemory(game.pid, rac3.addr.healthXP, 50000000);
+            game.api.WriteMemory(game.pid, rac3.addr.playerHealth, 200);
+            // See IGT textbox at textbox2_KeyDown
+            game.api.WriteMemory(game.api.getCurrentPID(), 0xDA64E0, 2228300);
+            // Lets go with infernox
+            game.SetArmor(4);
+
+            // We don't want to set up challenge mode from a non-challenge mode file, for some reason.
+            // I think it's fine but see: https://github.com/MichaelRelaxen/racman/pull/47
+            var cm = game.GetChallengeMode();
+            if (cm == 0)
+            {
+                var errorMessage = "RaCMAN has successfully set up your weapons and armor, but could not set your challenge mode.\n"
+                    + "To ensure your runs are valid, you should enter challenge mode manually, then hit the setup button again.\n"
+                    + "See: https://github.com/MichaelRelaxen/racman/pull/47#issuecomment-1529163954\n\n"
+                    + "RaCMAN can take you to the final level to make this process easier for you. Do you want to go now?";
+                var res = MessageBox.Show(errorMessage, "Challenge mode", MessageBoxButtons.YesNo);
+
+                if (res == DialogResult.Yes)
+                {
+                    game.planetToLoad = (uint)((int)Enum.Parse(typeof(Planets), "LaunchSite") + 1);
+                    game.LoadPlanet();
+                }
+            } 
+            else
+            {
+                game.SetChallengeMode(13);
+                game.api.Notify("Set up weapons, armor and health for NG+ categories! Setup bolts, IGT and challenge mode for QE!");
+            }
+        }
+
+        private void coordsLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -486,5 +486,10 @@ namespace racman
 
             game.SetDebugOption(rac1.DebugOption.FreecamCharacter, item.Checked);
         }
+
+        private void buttonUnlockGB_Click(object sender, EventArgs e)
+        {
+            game.UnlockAllGoldBolts();
+        }
     }
 }
