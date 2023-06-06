@@ -28,7 +28,9 @@ namespace racman
         public MemoryForm()
         {
             InitializeComponent();
-            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint, true);
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
+            watchedMemoryAddressesListView.DoubleBuffering(true);
         }
 
         void SetItemValueText(ListViewItem item, string value)
