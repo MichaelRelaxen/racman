@@ -430,7 +430,7 @@ namespace racman
             int n_bytes = 0;
             while (n_bytes < 1)
             {
-                    n_bytes += stream.Read(resultBuf, 0, 1);
+                n_bytes += stream.Read(resultBuf, 0, 1);
             }
 
             this.memSubCallbacks.Remove(memSubID);

@@ -388,6 +388,7 @@ namespace racman
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "RAC2Form";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Ratchet & Clank 2 - NPEA00386 (PAL)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RAC2Form_FormClosing);
             this.Load += new System.EventHandler(this.RAC2Form_Load);

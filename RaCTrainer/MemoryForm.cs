@@ -4,12 +4,16 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static racman.rac2;
 
 namespace racman
-{
+{ 
     public partial class MemoryForm : Form
     {
         struct WatchedAddress
@@ -31,6 +35,7 @@ namespace racman
             SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             watchedMemoryAddressesListView.DoubleBuffering(true);
+            mobyInspectorListView.DoubleBuffering(true);
         }
 
         void SetItemValueText(ListViewItem item, string value)
@@ -285,6 +290,98 @@ namespace racman
 
                     watchedMemoryAddressesListView.Items.Remove(focusedItem);
                 }
+            }
+        }
+
+        public void PopulateMobysComboBoxRac2()
+        {
+            // Clear combo box
+            selectedMobyComboBox.Items.Clear();
+
+            var pid = func.api.getCurrentPID();
+            uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, rac2.addr.mobyInstances, 4).Reverse().ToArray(), 0);
+            uint end = BitConverter.ToUInt32(func.api.ReadMemory(pid, rac2.addr.mobyInstancesEnd, 4).Reverse().ToArray(), 0);
+
+            while (instance < end) {
+                ushort oClass = BitConverter.ToUInt16(func.api.ReadMemory(pid, instance + 0xaa, 0x2).Reverse().ToArray(), 0);
+                byte state = func.api.ReadMemory(pid, instance + 0x20, 0x1)[0];
+
+                selectedMobyComboBox.Items.Add($"0x{instance.ToString("X")}: 0x{oClass.ToString("X")} ({oClass}) (state: {state})");
+
+                instance += 0x100;
+            }
+        }
+
+        public void PopulateMobyInspectorRac2(int index)
+        {
+            var pid = func.api.getCurrentPID();
+            uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, rac2.addr.mobyInstances, 4).Reverse().ToArray(), 0);
+
+            byte[] memory = func.api.ReadMemory(pid, instance + (0x100 * (uint)index), 0x100);
+            rac2.Moby moby = rac2.Moby.ByteArrayToMoby(memory);
+
+            var type = typeof(rac2.Moby);
+            var fields = type.GetFields();
+
+            // Don't clear, but ensure we have the same count of items
+            while (mobyInspectorListView.Items.Count < fields.Length)
+            {
+                mobyInspectorListView.Items.Add(new ListViewItem(new string[3])); // Placeholder
+            }
+
+            // Go through each item and set the right data
+            for (int i = 0; i < fields.Length; i++)
+            {
+                var field = fields[i];
+                var offset = Marshal.OffsetOf(type, field.Name).ToInt32();
+
+                var item = mobyInspectorListView.Items[i];
+                item.Text = $"0x{(instance + (0x100 * (uint)index) + offset).ToString("X")}";
+                item.SubItems[1].Text = field.Name;
+
+                if (field.FieldType == typeof(rac2.Vec4))
+                {
+                    rac2.Vec4 vec = (rac2.Vec4)field.GetValue(moby);
+                    item.SubItems[2].Text = $"x: {vec.x}, y: {vec.y}, z: {vec.z}, w: {vec.w}";
+                }
+                else if(field.FieldType == typeof(GamePtr))
+                {
+                    item.SubItems[2].Text = $"0x{((GamePtr)field.GetValue(moby)).addr.ToString("X")}";
+                }
+                else
+                {
+                    item.SubItems[2].Text = field.GetValue(moby).ToString();
+                }
+            }
+        }
+
+        private void refreshMobysButton_Click(object sender, EventArgs e)
+        {
+            if (AttachPS3Form.game == "NPEA00386")
+            {
+                PopulateMobysComboBoxRac2();
+            } else
+            {
+                MessageBox.Show("Game is not supported.");
+            }
+        }
+        System.Timers.Timer timer = new System.Timers.Timer(1000); // Set up the timer for 1 second intervals (1000 milliseconds = 1 second)
+
+        private void selectedMobyComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (AttachPS3Form.game == "NPEA00386")
+            {
+                timer.Elapsed += (s, evt) =>
+                {
+                    // Inline function (or lambda expression) to be executed every second
+                    this.Invoke(new Action(() =>
+                    {
+                        PopulateMobyInspectorRac2(((ComboBox)sender).SelectedIndex);
+                    }));
+                };
+                timer.Start(); // Start the timer
+
+                PopulateMobyInspectorRac2(((ComboBox)sender).SelectedIndex);
             }
         }
     }
