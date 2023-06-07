@@ -59,6 +59,7 @@ namespace racman
             this.label2 = new System.Windows.Forms.Label();
             this.resetFileManipButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.labelLap = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -358,11 +359,24 @@ namespace racman
             // 
             this.toolTip1.IsBalloon = true;
             // 
+            // labelLap
+            // 
+            this.labelLap.AutoSize = true;
+            this.labelLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLap.Location = new System.Drawing.Point(9, 251);
+            this.labelLap.Name = "labelLap";
+            this.labelLap.Size = new System.Drawing.Size(136, 20);
+            this.labelLap.TabIndex = 110;
+            this.labelLap.Text = "Lap is: <disabled>";
+            this.labelLap.Visible = false;
+            this.labelLap.Click += new System.EventHandler(this.labelLap_Click);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 278);
+            this.Controls.Add(this.labelLap);
             this.Controls.Add(this.resetFileManipButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.challengeTextBox);
@@ -429,5 +443,6 @@ namespace racman
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button resetFileManipButton;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label labelLap;
     }
 }

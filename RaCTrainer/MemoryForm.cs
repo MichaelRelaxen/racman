@@ -52,7 +52,9 @@ namespace racman
 
             try
             {
-                address = Convert.ToUInt32(registerAddressTextBox.Text, 16);
+                // If you put "0x" in the middle of your hex address I want you to die
+                var strippedText = registerAddressTextBox.Text.Replace(" ", "").Replace("0x", "").Trim();
+                address = Convert.ToUInt32(strippedText, 16);
             } catch (Exception ex)
             {
                 MessageBox.Show("Address must be hexadecimal");
@@ -313,7 +315,7 @@ namespace racman
         }
 
         public void PopulateMobyInspectorRac2(int index)
-        {
+        {   
             var pid = func.api.getCurrentPID();
             uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, rac2.addr.mobyInstances, 4).Reverse().ToArray(), 0);
 
@@ -359,8 +361,20 @@ namespace racman
         {
             if (AttachPS3Form.game == "NPEA00386")
             {
-                PopulateMobysComboBoxRac2();
-            } else
+                WebMAN wmm = new WebMAN(func.api.GetIP());
+                wmm.PauseRSX();
+                   
+                try
+                {
+                    PopulateMobysComboBoxRac2();
+                } catch (Exception ex)
+                {
+                    wmm.ContinueRSX();
+                    throw ex;
+                }
+                wmm.ContinueRSX();
+            } 
+            else
             {
                 MessageBox.Show("Game is not supported.");
             }
