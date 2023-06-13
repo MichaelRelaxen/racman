@@ -29,7 +29,7 @@ namespace racman
 
         public AutosplitterHelper()
         {
-            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", 32);
+            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", 256);
             mmfStream = mmfFile.CreateViewStream();
             writer = new BinaryWriter(mmfStream);
         }
@@ -76,6 +76,20 @@ namespace racman
                 writer.Seek(offset, SeekOrigin.Begin);
                 writer.Write(value, 0, value.Length);
             }
+
+            writeLock.ReleaseMutex();
+        }
+
+        // Probably will only be used for UYA
+        public void WriteConfig(byte[] value)
+        {
+            writeLock.WaitOne();
+
+            if (writer != null)
+            {
+                writer.Seek(128, SeekOrigin.Begin);
+                writer.Write(value, 0, value.Length);
+            }    
 
             writeLock.ReleaseMutex();
         }
