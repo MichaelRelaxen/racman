@@ -98,7 +98,6 @@ namespace racman
                         var cell = grid.Rows[i / 2].Cells[i % 2] as DataGridViewComboBoxCell;
                         cell.Value = SelectedRoute.bytes[i] == 0x69 ? null : cell.Items[SelectedRoute.bytes[i]];
                     }
-                    //grid.Rows.RemoveAt(grid.Rows.Count - 1);
                 }
             }
   
@@ -125,7 +124,7 @@ namespace racman
                 {
                     if (cell.Value != null)
                     {
-                        data[i] = (byte) cell.Items.IndexOf(cell.Value);
+                        data[i] = (byte) (cell.Items.IndexOf(cell.Value) + 1);
                     }
                     else
                     {
