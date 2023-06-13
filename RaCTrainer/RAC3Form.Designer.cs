@@ -90,6 +90,8 @@ namespace racman
             this.buttonSetup = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
+            this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editRouteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -306,7 +308,8 @@ namespace racman
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuToolStripMenuItem});
+            this.menuToolStripMenuItem,
+            this.autosplitterToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(385, 24);
@@ -724,6 +727,21 @@ namespace racman
             this.label15.TabIndex = 110;
             this.label15.Text = "leave. there\'s nothing for you here. unless...";
             // 
+            // autosplitterToolStripMenuItem
+            // 
+            this.autosplitterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editRouteToolStripMenuItem});
+            this.autosplitterToolStripMenuItem.Name = "autosplitterToolStripMenuItem";
+            this.autosplitterToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.autosplitterToolStripMenuItem.Text = "Autosplitter";
+            // 
+            // editRouteToolStripMenuItem
+            // 
+            this.editRouteToolStripMenuItem.Name = "editRouteToolStripMenuItem";
+            this.editRouteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editRouteToolStripMenuItem.Text = "Edit route...";
+            this.editRouteToolStripMenuItem.Click += new System.EventHandler(this.editRouteToolStripMenuItem_Click);
+            // 
             // RAC3Form
             // 
             this.AllowDrop = true;
@@ -857,6 +875,8 @@ namespace racman
         private System.Windows.Forms.Button buttonSetup;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ToolStripMenuItem autosplitterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editRouteToolStripMenuItem;
     }
 }
 

@@ -15,7 +15,7 @@ namespace racman
         IEnumerable<(uint addr, uint size)> AutosplitterAddresses { get; }
     }
 
-    class AutosplitterHelper
+    public class AutosplitterHelper
     {
         MemoryMappedFile mmfFile;
         MemoryMappedViewStream mmfStream;

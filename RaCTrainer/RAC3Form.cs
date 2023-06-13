@@ -57,6 +57,7 @@ namespace racman
 
         public rac3 game;
         private AutosplitterHelper autosplitterHelper;
+        private AutosplitterConfigForm autosplitterConfigForm;
 
         public static string[] saves;
         public Timer CoordsTimer = new Timer();
@@ -66,6 +67,8 @@ namespace racman
 
             autosplitterHelper = new AutosplitterHelper();
             autosplitterHelper.StartAutosplitterForGame(game);
+
+            autosplitterConfigForm = new AutosplitterConfigForm();
 
             InitializeComponent();
             positions_ComboBox.Text = "1";
@@ -470,6 +473,15 @@ namespace racman
         private void coordsLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void editRouteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            autosplitterConfigForm.ShowDialog();
+
+            // Not intuitive but good enough for now
+            // TODO fix this later :)
+            autosplitterHelper.WriteConfig(autosplitterConfigForm.SelectedRoute.bytes.ToArray());
         }
     }
 }

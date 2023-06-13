@@ -35,9 +35,9 @@ namespace racman
             this.Close();
         }
 
-        private void inputTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        private void inputTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyChar == ((char)Key.Enter))
+            if (e.KeyCode == Keys.Enter)
             {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
