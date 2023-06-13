@@ -102,6 +102,12 @@
     <Compile Include="AttachPS3Form.Designer.cs">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="AutosplitterConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutosplitterConfigForm.Designer.cs">
+      <DependentUpon>AutosplitterConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AutosplitterHelper.cs" />
     <Compile Include="ConfigureCombos.cs">
       <SubType>Form</SubType>
@@ -217,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AttachPS3Form.resx">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AutosplitterConfigForm.resx">
+      <DependentUpon>AutosplitterConfigForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConfigureCombos.resx">
       <DependentUpon>ConfigureCombos.cs</DependentUpon>
