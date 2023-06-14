@@ -110,9 +110,7 @@ namespace racman
             routeSelectionListBox.Items.Add(new Route());
         }
 
-
         // Double clicking a list item to change its name
-        //TODO having duplicate names causes weird issues with saving/deleting
         private void routeSelectionListBox_DoubleClick(object sender, EventArgs e)
         {
             var dialog = new SimpleInputDialogForm(defaultInput: SelectedRoute.Name);
