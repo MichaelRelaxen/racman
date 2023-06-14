@@ -14,9 +14,6 @@ namespace racman
 {
     public partial class AutosplitterConfigForm : Form
     {
-        public AutosplitterHelper helper;
-        public Ratchetron api;
-
         public Route SelectedRoute => routeSelectionListBox.SelectedItem as Route;
         private const string filePath = "usr";
 
@@ -71,6 +68,23 @@ namespace racman
             textBox1.Enabled = false;
 
             LoadStuffFromDisk();
+        }
+
+        public bool TrySelectRoute(string name)
+        {
+            if (DoesNameExist(name))
+            {
+                foreach (Route r in routeSelectionListBox.Items)
+                {
+                    if (r.Name == name)
+                    {
+                        routeSelectionListBox.SelectedItem = r;
+                        return true;
+                    }
+                }
+                return false; // should never happen
+            }
+            else return false;
         }
 
         private void LoadRoute(string path)
