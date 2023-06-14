@@ -96,7 +96,7 @@ namespace racman
                     {
                         if (i % 2 == 0) grid.Rows.Add();
                         var cell = grid.Rows[i / 2].Cells[i % 2] as DataGridViewComboBoxCell;
-                        cell.Value = SelectedRoute.bytes[i] == 0x69 ? null : cell.Items[SelectedRoute.bytes[i]];
+                        cell.Value = SelectedRoute.bytes[i] == 0x69 ? null : cell.Items[SelectedRoute.bytes[i] - 1];
                     }
                 }
             }
