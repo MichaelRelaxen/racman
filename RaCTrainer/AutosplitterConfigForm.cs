@@ -22,10 +22,50 @@ namespace racman
 
         private int previousIndex = -1;
 
+        // Basically just a byte list and a string
+        public class Route
+        {
+            public List<byte> bytes;
+            public byte[] ByteArray => bytes.ToArray();
+
+            private string _name;
+            public string Name
+            {
+                get { return _name; }
+                set
+                {
+                    _name = GetUniqueName(value);
+                }
+            }
+            public static AutosplitterConfigForm form;
+
+            public override string ToString() => Name;
+            public Route()
+            {
+                bytes = new List<byte>();
+                Name = "Untitled";
+            }
+
+            public static string GetUniqueName(string value)
+            {
+                string nv = value;
+                int i = 2;
+                while (form.DoesNameExist(nv))
+                {
+                    nv = $"{value} ({i})";
+                    i++;
+                }
+                return nv;
+            }
+        }
+
         public AutosplitterConfigForm()
         {
             InitializeComponent();
 
+            Route.form = this;
+
+            removeButton.Enabled = false;
             grid.Enabled = false;
             applyChangesButton.Enabled = false;
             textBox1.Enabled = false;
@@ -38,7 +78,7 @@ namespace racman
             var bytes = File.ReadAllBytes(path);
             var route = new Route();
             route.bytes.AddRange(bytes);
-            route.name = Path.GetFileNameWithoutExtension(path);
+            route.Name = Path.GetFileNameWithoutExtension(path);
             routeSelectionListBox.Items.Add(route);
         }
 
@@ -56,29 +96,34 @@ namespace racman
             routeSelectionListBox.Items.Add(new Route());
         }
 
-        // Basically just a byte list and a string
-        public class Route
-        {
-            public List<byte> bytes;
-            public byte[] ByteArray => bytes.ToArray();
-            public string name;
-
-            public override string ToString() => name;
-            public Route()
-            {
-                bytes = new List<byte>();
-                name = "Unknown";
-            }
-        }
 
         // Double clicking a list item to change its name
         //TODO having duplicate names causes weird issues with saving/deleting
         private void routeSelectionListBox_DoubleClick(object sender, EventArgs e)
         {
-            var dialog = new SimpleInputDialogForm(defaultInput: SelectedRoute.name);
+            var dialog = new SimpleInputDialogForm(defaultInput: SelectedRoute.Name);
             if (dialog.ShowDialog() == DialogResult.OK)
             {
-                SelectedRoute.name = dialog.inputTextBox.Text;
+                string oldName = SelectedRoute.Name;
+                string newName = dialog.inputTextBox.Text;
+
+
+                if (oldName != newName)
+                {
+                    SelectedRoute.Name = newName;
+
+                    // Rename the file
+                    if (File.Exists($"usr/{oldName}.usr"))
+                    {
+                        File.Move($"usr/{oldName}.usr", $"usr/{SelectedRoute.Name}.usr");
+                    }
+                }
+                else
+                {
+                    // This is stupid
+                    SelectedRoute.Name = "";
+                    SelectedRoute.Name = newName;
+                }
 
                 // goofy ahh thing I got from stackoverflow but it doesn't reflect the changes in listview withoug it
                 routeSelectionListBox.Items[routeSelectionListBox.SelectedIndex] = routeSelectionListBox.SelectedItem;
@@ -94,13 +139,14 @@ namespace racman
             applyChangesButton.Enabled = true;
             textBox1.Enabled = true;
             grid.Enabled = true;
+            removeButton.Enabled = true;
 
 
             if (SelectedRoute != null)
             {
                 
 
-                textBox1.Text = SelectedRoute.name;
+                textBox1.Text = SelectedRoute.Name;
                 if (SelectedRoute.bytes.Count != 0) grid.RowCount = SelectedRoute.bytes.Count / 2;
 
                 // load dropdowns from route's bytes
@@ -126,17 +172,34 @@ namespace racman
                 MessageBox.Show("That's too many rows. The maximum is 64. Your changes have not been saved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            SelectedRoute.name = textBox1.Text;
+            string oldName = SelectedRoute.Name;
+            string newName = textBox1.Text;
+
+
+            if (oldName != newName)
+            {
+                SelectedRoute.Name = newName;
+
+                // Rename the file
+                if (File.Exists($"usr/{oldName}.usr"))
+                {
+                    File.Move($"usr/{oldName}.usr", $"usr/{SelectedRoute.Name}.usr");
+                }
+            }
+            else
+            {
+                // This is stupid
+                SelectedRoute.Name = "";
+                SelectedRoute.Name = newName;
+            }
             SelectedRoute.bytes = new List<byte>(CommitDropdownChangesStuff());
             routeSelectionListBox.Items[routeSelectionListBox.SelectedIndex] = routeSelectionListBox.SelectedItem;
 
             // Save route to disk
-            // If the user renames the route it'll make a new file, hopefully that won't cause an issue
-            // TODO yes this does cause an issue pls fix
-            string filename = $"usr/{SelectedRoute.name}.usr";
-                File.WriteAllBytes(filename, SelectedRoute.ByteArray);
+            string filename = $"usr/{SelectedRoute.Name}.usr";
             try
             {
+                File.WriteAllBytes(filename, SelectedRoute.ByteArray);
             }
             catch (Exception ex)
             {
@@ -199,29 +262,49 @@ namespace racman
 
         private void removeButton_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show($"This will remove the split route ({SelectedRoute.name}) from your computer. This action cannot be undone! Are you sure you want to proceed?",
+            var result = MessageBox.Show($"This will remove the split route ({SelectedRoute.Name}) from your computer. This action cannot be undone! Are you sure you want to proceed?",
                 "Warning",
                 MessageBoxButtons.OKCancel,
                 MessageBoxIcon.Warning);
 
             if (result == DialogResult.OK)
             {
-                File.Delete($"usr/{SelectedRoute.name}.usr");
+                File.Delete($"usr/{SelectedRoute.Name}.usr");
                 routeSelectionListBox.Items.Remove(SelectedRoute);
                 grid.Rows.Clear();
-
+                removeButton.Enabled = false;
                 grid.Enabled = false;
                 applyChangesButton.Enabled = false;
                 textBox1.Enabled = false;
+                textBox1.Text = string.Empty;
             }
         }
 
         private void openFromFileButton_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog(this);
-            Console.WriteLine(openFileDialog1.FileName);
-            File.Copy(openFileDialog1.FileName, $"usr/{Path.GetFileName(openFileDialog1.FileName)}");
+
+            // this could cause an issue but i dont really care at this point
+            if (DoesNameExist(Path.GetFileNameWithoutExtension(openFileDialog1.FileName)))
+            {
+                MessageBox.Show("Copy could not be completed because a file with the same name exists. Please remove or rename the other file.");
+                return;
+            }
+            else
+            {
+                File.Copy(openFileDialog1.FileName, $"usr/{Path.GetFileName(openFileDialog1.FileName)}");
+            }
             LoadRoute($"usr/{Path.GetFileName(openFileDialog1.FileName)}");
+            MessageBox.Show($"Loaded {Path.GetFileNameWithoutExtension(openFileDialog1.FileName)} from {openFileDialog1.FileName}");
+        }
+
+        private bool DoesNameExist(string name)
+        {
+            foreach (object o in routeSelectionListBox.Items)
+            {
+                if ((o as Route)?.Name.ToLower() == name.ToLower()) return true;
+            }
+            return false;
         }
     }
 }
