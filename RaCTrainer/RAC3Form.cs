@@ -491,8 +491,6 @@ namespace racman
         {
             autosplitterConfigForm.ShowDialog();
 
-            // Not intuitive but good enough for now
-            // TODO fix this later :)
             if (autosplitterConfigForm.SelectedRoute != null)
             {
                 autosplitterHelper.WriteConfig(autosplitterConfigForm.SelectedRoute.bytes.ToArray());
