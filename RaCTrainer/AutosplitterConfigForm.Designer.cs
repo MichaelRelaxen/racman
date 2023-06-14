@@ -33,8 +33,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.grid = new System.Windows.Forms.DataGridView();
-            this.SourceColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.DestColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.applyChangesButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -42,6 +40,8 @@
             this.removeButton = new System.Windows.Forms.Button();
             this.openFromFileButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.SourceColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.DestColumn = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.SuspendLayout();
@@ -94,92 +94,6 @@
             this.grid.Size = new System.Drawing.Size(276, 159);
             this.grid.TabIndex = 3;
             this.grid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grid_CellClick);
-            // 
-            // SourceColumn
-            // 
-            this.SourceColumn.HeaderText = "Source";
-            this.SourceColumn.Items.AddRange(new object[] {
-            "Veldin",
-            "Florana",
-            "Phoenix",
-            "Marcadia",
-            "Daxx",
-            "Phoenix Rescue",
-            "Annihilation Nation",
-            "Aquatos",
-            "Tyhrranosis",
-            "Zeldrin",
-            "Obani Gemini",
-            "Blackwater",
-            "Holostar (Ratchet)",
-            "Koros",
-            "Unknown 0xE",
-            "Metropolis",
-            "Crash Site",
-            "Aridia",
-            "Hideout",
-            "Launch Site",
-            "Obani Draco",
-            "Command Center",
-            "Holostar (Clank)",
-            "Insomniac Museum",
-            "Unknown 0x19",
-            "Metropolis (Rangers)",
-            "Aquatos (Clank)",
-            "Aquatos (Sewers)",
-            "Tyhrranosis (Rangers)",
-            "Vid-Comic 6",
-            "Vid-Comic 1",
-            "Vid-Comic 4",
-            "Vid-Comic 2",
-            "Vid-Comic 3",
-            "Vid-Comic 5",
-            "Vid-Comic 1 Special Edition"});
-            this.SourceColumn.Name = "SourceColumn";
-            this.SourceColumn.Width = 137;
-            // 
-            // DestColumn
-            // 
-            this.DestColumn.HeaderText = "Destination";
-            this.DestColumn.Items.AddRange(new object[] {
-            "Veldin",
-            "Florana",
-            "Phoenix",
-            "Marcadia",
-            "Daxx",
-            "Phoenix Rescue",
-            "Annihilation Nation",
-            "Aquatos",
-            "Tyhrranosis",
-            "Zeldrin",
-            "Obani Gemini",
-            "Blackwater",
-            "Holostar (Ratchet)",
-            "Koros",
-            "Unknown 0xE",
-            "Metropolis",
-            "Crash Site",
-            "Aridia",
-            "Hideout",
-            "Launch Site",
-            "Obani Draco",
-            "Command Center",
-            "Holostar (Clank)",
-            "Insomniac Museum",
-            "Unknown 0x19",
-            "Metropolis (Rangers)",
-            "Aquatos (Clank)",
-            "Aquatos (Sewers)",
-            "Tyhrranosis (Rangers)",
-            "Vid-Comic 6",
-            "Vid-Comic 1",
-            "Vid-Comic 4",
-            "Vid-Comic 2",
-            "Vid-Comic 3",
-            "Vid-Comic 5",
-            "Vid-Comic 1 Special Edition"});
-            this.DestColumn.Name = "DestColumn";
-            this.DestColumn.Width = 136;
             // 
             // applyChangesButton
             // 
@@ -244,6 +158,92 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "UYA Split Routes|*.usr";
             // 
+            // SourceColumn
+            // 
+            this.SourceColumn.HeaderText = "Source";
+            this.SourceColumn.Items.AddRange(new object[] {
+            "Veldin",
+            "Florana",
+            "Phoenix",
+            "Marcadia",
+            "Daxx",
+            "Phoenix Rescue",
+            "Annihilation Nation",
+            "Aquatos",
+            "Tyhrranosis",
+            "Zeldrin",
+            "Obani Gemini",
+            "Blackwater",
+            "Holostar (Ratchet)",
+            "Koros",
+            "Unknown 0xF",
+            "Metropolis",
+            "Crash Site",
+            "Aridia",
+            "Hideout",
+            "Launch Site",
+            "Obani Draco",
+            "Command Center",
+            "Holostar (Clank)",
+            "Insomniac Museum",
+            "Unknown 0x19",
+            "Metropolis (Rangers)",
+            "Aquatos (Clank)",
+            "Aquatos (Sewers)",
+            "Tyhrranosis (Rangers)",
+            "Vid-Comic 6",
+            "Vid-Comic 1",
+            "Vid-Comic 4",
+            "Vid-Comic 2",
+            "Vid-Comic 3",
+            "Vid-Comic 5",
+            "Vid-Comic 1 Special Edition"});
+            this.SourceColumn.Name = "SourceColumn";
+            this.SourceColumn.Width = 128;
+            // 
+            // DestColumn
+            // 
+            this.DestColumn.HeaderText = "Destination";
+            this.DestColumn.Items.AddRange(new object[] {
+            "Veldin",
+            "Florana",
+            "Phoenix",
+            "Marcadia",
+            "Daxx",
+            "Phoenix Rescue",
+            "Annihilation Nation",
+            "Aquatos",
+            "Tyhrranosis",
+            "Zeldrin",
+            "Obani Gemini",
+            "Blackwater",
+            "Holostar (Ratchet)",
+            "Koros",
+            "Unknown 0xF",
+            "Metropolis",
+            "Crash Site",
+            "Aridia",
+            "Hideout",
+            "Launch Site",
+            "Obani Draco",
+            "Command Center",
+            "Holostar (Clank)",
+            "Insomniac Museum",
+            "Unknown 0x19",
+            "Metropolis (Rangers)",
+            "Aquatos (Clank)",
+            "Aquatos (Sewers)",
+            "Tyhrranosis (Rangers)",
+            "Vid-Comic 6",
+            "Vid-Comic 1",
+            "Vid-Comic 4",
+            "Vid-Comic 2",
+            "Vid-Comic 3",
+            "Vid-Comic 5",
+            "Vid-Comic 1 Special Edition"});
+            this.DestColumn.Name = "DestColumn";
+            this.DestColumn.Width = 128;
+            // 
             // AutosplitterConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -279,8 +279,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button openFromFileButton;
         private System.Windows.Forms.DataGridView grid;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.DataGridViewComboBoxColumn SourceColumn;
         private System.Windows.Forms.DataGridViewComboBoxColumn DestColumn;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
