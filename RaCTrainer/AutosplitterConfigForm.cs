@@ -296,7 +296,6 @@ namespace racman
         {
             openFileDialog1.ShowDialog(this);
 
-            // this could cause an issue but i dont really care at this point
             if (DoesNameExist(Path.GetFileNameWithoutExtension(openFileDialog1.FileName)))
             {
                 MessageBox.Show("Copy could not be completed because a file with the same name exists. Please remove or rename the other file.");

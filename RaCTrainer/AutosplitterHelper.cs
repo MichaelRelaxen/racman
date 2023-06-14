@@ -50,7 +50,7 @@ namespace racman
         {
             if (!IsRunning)
             {
-                throw new InvalidOperationException("Must start autosplitter before starting.");
+                throw new InvalidOperationException("Must start autosplitter before stopping.");
             }
 
             IsRunning = false;
