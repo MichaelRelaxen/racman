@@ -106,6 +106,11 @@ namespace racman
         // save stuff
         private void applyChangesButton_Click(object sender, EventArgs e)
         {
+            if (grid.Rows.Count - 1 > 64)
+            {
+                MessageBox.Show("That's too many rows. The maximum is 64. Your changes have not been saved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             SelectedRoute.name = textBox1.Text;
             SelectedRoute.bytes = new List<byte>(CommitDropdownChangesStuff());
             routeSelectionListBox.Items[routeSelectionListBox.SelectedIndex] = routeSelectionListBox.SelectedItem;
