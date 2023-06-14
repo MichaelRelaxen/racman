@@ -481,7 +481,10 @@ namespace racman
 
             // Not intuitive but good enough for now
             // TODO fix this later :)
-            autosplitterHelper.WriteConfig(autosplitterConfigForm.SelectedRoute.bytes.ToArray());
+            if (autosplitterConfigForm.SelectedRoute != null)
+            {
+                autosplitterHelper.WriteConfig(autosplitterConfigForm.SelectedRoute.bytes.ToArray());
+            }
         }
     }
 }

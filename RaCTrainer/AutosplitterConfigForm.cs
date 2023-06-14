@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace racman
 {
@@ -17,7 +18,7 @@ namespace racman
         public Ratchetron api;
 
         public Route SelectedRoute => routeSelectionListBox.SelectedItem as Route;
-
+        private const string filePath = "usr";
 
         private int previousIndex = -1;
 
@@ -32,9 +33,22 @@ namespace racman
             LoadStuffFromDisk();
         }
 
+        private void LoadRoute(string path)
+        {
+            var bytes = File.ReadAllBytes(path);
+            var route = new Route();
+            route.bytes.AddRange(bytes);
+            route.name = Path.GetFileNameWithoutExtension(path);
+            routeSelectionListBox.Items.Add(route);
+        }
+
         private void LoadStuffFromDisk()
         {
-            // Check the folder and get the files, load them, put them in the list.
+            Directory.CreateDirectory(filePath);
+            foreach (string filename in Directory.GetFiles(filePath))
+            {
+                LoadRoute(filename);
+            }
         }
 
         private void addButton_Click(object sender, EventArgs e)
@@ -58,6 +72,7 @@ namespace racman
         }
 
         // Double clicking a list item to change its name
+        //TODO having duplicate names causes weird issues with saving/deleting
         private void routeSelectionListBox_DoubleClick(object sender, EventArgs e)
         {
             var dialog = new SimpleInputDialogForm(defaultInput: SelectedRoute.name);
@@ -114,6 +129,25 @@ namespace racman
             SelectedRoute.name = textBox1.Text;
             SelectedRoute.bytes = new List<byte>(CommitDropdownChangesStuff());
             routeSelectionListBox.Items[routeSelectionListBox.SelectedIndex] = routeSelectionListBox.SelectedItem;
+
+            // Save route to disk
+            // If the user renames the route it'll make a new file, hopefully that won't cause an issue
+            // TODO yes this does cause an issue pls fix
+            string filename = $"usr/{SelectedRoute.name}.usr";
+                File.WriteAllBytes(filename, SelectedRoute.ByteArray);
+            try
+            {
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                MessageBox.Show(
+                    "Unable to create or write to file. This may be caused by an invalid name. Your changes have been saved locally but not to disk.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
 
         // actually save stuff
@@ -161,6 +195,33 @@ namespace racman
         private void mouseWheelHandler(object sender, MouseEventArgs e)
         {
             ((HandledMouseEventArgs)e).Handled = true;
+        }
+
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show($"This will remove the split route ({SelectedRoute.name}) from your computer. This action cannot be undone! Are you sure you want to proceed?",
+                "Warning",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Warning);
+
+            if (result == DialogResult.OK)
+            {
+                File.Delete($"usr/{SelectedRoute.name}.usr");
+                routeSelectionListBox.Items.Remove(SelectedRoute);
+                grid.Rows.Clear();
+
+                grid.Enabled = false;
+                applyChangesButton.Enabled = false;
+                textBox1.Enabled = false;
+            }
+        }
+
+        private void openFromFileButton_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog(this);
+            Console.WriteLine(openFileDialog1.FileName);
+            File.Copy(openFileDialog1.FileName, $"usr/{Path.GetFileName(openFileDialog1.FileName)}");
+            LoadRoute($"usr/{Path.GetFileName(openFileDialog1.FileName)}");
         }
     }
 }
