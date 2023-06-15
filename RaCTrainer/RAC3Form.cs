@@ -99,6 +99,13 @@ namespace racman
                     func.ChangeFileLines("config.txt", "", "rc3SplitRoute");
                 }
             }
+            else
+            {
+                if (autosplitterConfigForm.TrySelectRoute("ATB"))
+                {
+                    autosplitterHelper.WriteConfig(autosplitterConfigForm.SelectedRoute.bytes.ToArray());
+                }
+            }
 
             /*saves = Directory.GetFiles($@"{Directory.GetCurrentDirectory()}\\saves\{AttachPS3Form.game}");
 
