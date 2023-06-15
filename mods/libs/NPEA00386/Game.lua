@@ -46,10 +46,28 @@ function Game:initialize()
 			addr = 0xEE9334,
 			size = 4,
 			_type = "int"
+		},
+        -- mobyInstances
+        moby_table = {
+			addr = 0x015927b0,
+			size = 4,
+			_type = "int"
+		},
+        -- mobyInstancesEnd
+		moby_table_top = {
+			addr = 0x015927b8,
+			size = 4,
+			_type = "int"
 		}
 	}
 	
 	setmetatable(self, mt)
+end
+
+function Game:loadPlanet(id)
+	print("Loading planet ID: " .. id)
+	Ratchetron:WriteMemory(GAME_PID, 0x156B054, id)
+	Ratchetron:WriteMemory(GAME_PID, 0x156B050, 1)
 end
 
 game = Game()

@@ -1,0 +1,7 @@
+#- name: Joba Trainer
+#- author: robo
+#- href: https://github.com/MichaelRelaxen/racman
+#- version: 1.0
+#- description: Displays the current value of the lap trigger on the Joba race. WARNING: the game is paused while this is loading, and it can take some time to find the motorbike's game object -- your game probably hasn't crashed, just wait.
+
+automation: main.lua

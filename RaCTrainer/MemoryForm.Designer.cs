@@ -130,18 +130,18 @@
             this.selectedMobyComboBox.FormattingEnabled = true;
             this.selectedMobyComboBox.Location = new System.Drawing.Point(330, 12);
             this.selectedMobyComboBox.Name = "selectedMobyComboBox";
-            this.selectedMobyComboBox.Size = new System.Drawing.Size(334, 21);
+            this.selectedMobyComboBox.Size = new System.Drawing.Size(285, 21);
             this.selectedMobyComboBox.TabIndex = 4;
             this.selectedMobyComboBox.SelectedIndexChanged += new System.EventHandler(this.selectedMobyComboBox_SelectedIndexChanged);
             // 
             // refreshMobysButton
             // 
             this.refreshMobysButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.refreshMobysButton.Location = new System.Drawing.Point(671, 11);
+            this.refreshMobysButton.Location = new System.Drawing.Point(621, 11);
             this.refreshMobysButton.Name = "refreshMobysButton";
-            this.refreshMobysButton.Size = new System.Drawing.Size(75, 23);
+            this.refreshMobysButton.Size = new System.Drawing.Size(125, 23);
             this.refreshMobysButton.TabIndex = 5;
-            this.refreshMobysButton.Text = "Refresh";
+            this.refreshMobysButton.Text = "Refresh (pauses game)";
             this.refreshMobysButton.UseVisualStyleBackColor = true;
             this.refreshMobysButton.Click += new System.EventHandler(this.refreshMobysButton_Click);
             // 

@@ -29,6 +29,16 @@ namespace racman
             AutosplitterCheckbox.Checked = true;
         }
 
+        public void UpdateLapFlag(int flagValue)
+        {
+            labelLap.Visible = true;
+            labelLap.Text = $"Lap value: {flagValue}";
+            if (flagValue == 1)
+                labelLap.ForeColor = Color.Green;
+            else
+                labelLap.ForeColor = Color.Red;
+        }
+
         private void RAC2Form_Load(object sender, EventArgs e)
         {
             this.Invoke(new Action(() => {
@@ -218,7 +228,6 @@ namespace racman
                 }
             }
         }
-
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -245,6 +254,11 @@ namespace racman
             api.WriteMemory(pid, 0x1AAC767, 0); // Game pyramid bolt drop
 
             api.Notify("Game Pyramid, Bolts manip, Hoverbike menu, and Endako Boss Cutscene are now reset and ready for runs");
+        }
+
+        private void labelLap_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
