@@ -113,32 +113,35 @@ namespace racman
         // Double clicking a list item to change its name
         private void routeSelectionListBox_DoubleClick(object sender, EventArgs e)
         {
-            var dialog = new SimpleInputDialogForm(defaultInput: SelectedRoute.Name);
-            if (dialog.ShowDialog() == DialogResult.OK)
+            if (SelectedRoute != null)
             {
-                string oldName = SelectedRoute.Name;
-                string newName = dialog.inputTextBox.Text;
-
-
-                if (oldName != newName)
+                var dialog = new SimpleInputDialogForm(defaultInput: SelectedRoute.Name);
+                if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    SelectedRoute.Name = newName;
+                    string oldName = SelectedRoute.Name;
+                    string newName = dialog.inputTextBox.Text;
 
-                    // Rename the file
-                    if (File.Exists($"usr/{oldName}.usr"))
+
+                    if (oldName != newName)
                     {
-                        File.Move($"usr/{oldName}.usr", $"usr/{SelectedRoute.Name}.usr");
-                    }
-                }
-                else
-                {
-                    // This is stupid
-                    SelectedRoute.Name = "";
-                    SelectedRoute.Name = newName;
-                }
+                        SelectedRoute.Name = newName;
 
-                // goofy ahh thing I got from stackoverflow but it doesn't reflect the changes in listview withoug it
-                routeSelectionListBox.Items[routeSelectionListBox.SelectedIndex] = routeSelectionListBox.SelectedItem;
+                        // Rename the file
+                        if (File.Exists($"usr/{oldName}.usr"))
+                        {
+                            File.Move($"usr/{oldName}.usr", $"usr/{SelectedRoute.Name}.usr");
+                        }
+                    }
+                    else
+                    {
+                        // This is stupid
+                        SelectedRoute.Name = "";
+                        SelectedRoute.Name = newName;
+                    }
+
+                    // goofy ahh thing I got from stackoverflow but it doesn't reflect the changes in listview withoug it
+                    routeSelectionListBox.Items[routeSelectionListBox.SelectedIndex] = routeSelectionListBox.SelectedItem;
+                }
             }
         }
 
