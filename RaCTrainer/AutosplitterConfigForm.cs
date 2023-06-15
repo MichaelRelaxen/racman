@@ -317,5 +317,40 @@ namespace racman
             }
             return false;
         }
+
+        private void insertAboveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            grid.Rows.Insert(contextMenuRow, null, null);
+        }
+
+        private void insertBelowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            grid.Rows.Insert(contextMenuRow + 1, null, null);
+        }
+
+        private void deleteRowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            grid.Rows.RemoveAt(contextMenuRow);
+        }
+
+        private int contextMenuRow = 0;
+        private void grid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                contextMenuRow = e.RowIndex;
+                if (contextMenuRow == grid.Rows.Count - 1)
+                {
+                    insertBelowToolStripMenuItem.Enabled = false;
+                    deleteRowToolStripMenuItem.Enabled = false;
+                }
+                else
+                {
+                    insertBelowToolStripMenuItem.Enabled = true;
+                    deleteRowToolStripMenuItem.Enabled = true;
+                }
+                contextMenuStrip1.Show(Cursor.Position);
+            }
+        }
     }
 }
