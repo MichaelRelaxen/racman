@@ -1,6 +1,8 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,24 +15,21 @@ namespace racman
         IEnumerable<(uint addr, uint size)> AutosplitterAddresses { get; }
     }
 
-    class AutosplitterHelper
+    public class AutosplitterHelper
     {
-        byte[] memoryMapContents = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-        bool isRunning = false;
-
-        System.IO.MemoryMappedFiles.MemoryMappedFile mmfFile;
-        System.IO.MemoryMappedFiles.MemoryMappedViewStream mmfStream;
+        MemoryMappedFile mmfFile;
+        MemoryMappedViewStream mmfStream;
         BinaryWriter writer;
 
         List<int> subscriptionIDs = new List<int>();
 
         IGame currentGame = null;
 
+        public bool IsRunning { get; private set; } = false;
+
         public AutosplitterHelper()
         {
-            Console.WriteLine("Opening MMF.");
-            mmfFile = System.IO.MemoryMappedFiles.MemoryMappedFile.CreateOrOpen("racman-autosplitter", 32);
+            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", 256);
             mmfStream = mmfFile.CreateViewStream();
             writer = new BinaryWriter(mmfStream);
         }
@@ -40,41 +39,28 @@ namespace racman
         /// </summary>
         ~AutosplitterHelper()
         {
-            if (writer != null && IsRunning())
+            if (writer != null && IsRunning)
             {
                 this.Stop();
             }
         }
 
-        public bool IsRunning()
-        {
-            return isRunning;
-        }
 
         public void Stop()
         {
-            if (!IsRunning())
+            if (!IsRunning)
             {
-                return;
+                throw new InvalidOperationException("Must start autosplitter before stopping.");
             }
 
-            isRunning = false;
-
+            IsRunning = false;
             mmfStream.Close();
-
-            if (writer != null)
-            {
-                writer.Close();
-            }
-
+            writer?.Close();
             writer = null;
 
-            if (currentGame == null)
-            {
-                return;
-            }
+            if (currentGame == null) return;
 
-            foreach(int subID in subscriptionIDs)
+            foreach (int subID in subscriptionIDs)
             {
                 this.currentGame.api.ReleaseSubID(subID);
             }
@@ -90,6 +76,20 @@ namespace racman
                 writer.Seek(offset, SeekOrigin.Begin);
                 writer.Write(value, 0, value.Length);
             }
+
+            writeLock.ReleaseMutex();
+        }
+
+        // Probably will only be used for UYA
+        public void WriteConfig(byte[] value)
+        {
+            writeLock.WaitOne();
+
+            if (writer != null)
+            {
+                writer.Seek(128, SeekOrigin.Begin);
+                writer.Write(value, 0, value.Length);
+            }    
 
             writeLock.ReleaseMutex();
         }
@@ -149,7 +149,7 @@ namespace racman
                 pos += (int) size;
             }
 
-            isRunning = true;
+            IsRunning = true;
         }
     }
 }

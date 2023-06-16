@@ -81,6 +81,7 @@ namespace racman
             this.Controls.Add(this.label1);
             this.Controls.Add(this.attachButton);
             this.Controls.Add(this.IPTextBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "AttachPS3Form";
             this.ShowIcon = false;

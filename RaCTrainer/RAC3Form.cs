@@ -57,6 +57,7 @@ namespace racman
 
         public rac3 game;
         private AutosplitterHelper autosplitterHelper;
+        private AutosplitterConfigForm autosplitterConfigForm;
 
         public static string[] saves;
         public Timer CoordsTimer = new Timer();
@@ -66,6 +67,8 @@ namespace racman
 
             autosplitterHelper = new AutosplitterHelper();
             autosplitterHelper.StartAutosplitterForGame(game);
+
+            autosplitterConfigForm = new AutosplitterConfigForm();
 
             InitializeComponent();
             positions_ComboBox.Text = "1";
@@ -83,7 +86,26 @@ namespace racman
                 game.SetupInputDisplayMemorySubs();
             }
 
-
+            var sr = func.GetConfigData("config.txt", "rc3SplitRoute");
+            if (sr != "")
+            {
+                if (autosplitterConfigForm.TrySelectRoute(sr))
+                {
+                    autosplitterHelper.WriteConfig(autosplitterConfigForm.SelectedRoute.bytes.ToArray());
+                }
+                else
+                {
+                    // The split route specified in config isn't available (most likely it was deleted)
+                    func.ChangeFileLines("config.txt", "", "rc3SplitRoute");
+                }
+            }
+            else
+            {
+                if (autosplitterConfigForm.TrySelectRoute("ATB"))
+                {
+                    autosplitterHelper.WriteConfig(autosplitterConfigForm.SelectedRoute.bytes.ToArray());
+                }
+            }
 
             /*saves = Directory.GetFiles($@"{Directory.GetCurrentDirectory()}\\saves\{AttachPS3Form.game}");
 
@@ -470,6 +492,17 @@ namespace racman
         private void coordsLabel_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void editRouteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            autosplitterConfigForm.ShowDialog();
+
+            if (autosplitterConfigForm.SelectedRoute != null)
+            {
+                autosplitterHelper.WriteConfig(autosplitterConfigForm.SelectedRoute.bytes.ToArray());
+                func.ChangeFileLines("config.txt", autosplitterConfigForm.SelectedRoute.Name, "rc3SplitRoute");
+            }
         }
     }
 }

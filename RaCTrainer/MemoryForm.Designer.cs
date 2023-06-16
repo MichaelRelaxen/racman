@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MemoryForm));
             this.registerAddressTextBox = new System.Windows.Forms.TextBox();
             this.registerAddressTypeCombo = new System.Windows.Forms.ComboBox();
             this.addMemoryWatchButton = new System.Windows.Forms.Button();
@@ -191,7 +192,10 @@
             this.Controls.Add(this.addMemoryWatchButton);
             this.Controls.Add(this.registerAddressTypeCombo);
             this.Controls.Add(this.registerAddressTextBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MemoryForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Memory utilities";

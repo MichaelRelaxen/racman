@@ -102,6 +102,12 @@
     <Compile Include="AttachPS3Form.Designer.cs">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="AutosplitterConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutosplitterConfigForm.Designer.cs">
+      <DependentUpon>AutosplitterConfigForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="AutosplitterHelper.cs" />
     <Compile Include="ConfigureCombos.cs">
       <SubType>Form</SubType>
@@ -218,6 +224,10 @@
     <EmbeddedResource Include="AttachPS3Form.resx">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AutosplitterConfigForm.resx">
+      <DependentUpon>AutosplitterConfigForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ConfigureCombos.resx">
       <DependentUpon>ConfigureCombos.cs</DependentUpon>
     </EmbeddedResource>
@@ -288,6 +298,18 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="autosplitters\rac1-autosplitter.asl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="usr\Any%25.usr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="usr\ATB.usr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="usr\NG+ No QE.usr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="usr\NG+.usr">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
