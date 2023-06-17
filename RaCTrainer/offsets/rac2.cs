@@ -35,6 +35,9 @@ namespace racman
         public uint mobyInstances => 0x015927b0;
 
         public uint mobyInstancesEnd => 0x015927b8;
+
+        public uint snivBoss1 => 0x01569BF7;
+        public uint snivBoss2 => 0x01A6FB73;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable

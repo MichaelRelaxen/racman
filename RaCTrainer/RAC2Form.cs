@@ -260,5 +260,60 @@ namespace racman
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac2.addr.snivBoss1, new byte[] { 10 });
+            api.WriteMemory(pid, rac2.addr.snivBoss2, new byte[] { 10 });
+            api.Notify("Snivelak boss act tunining done for NG+!");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            var pos = "432dbf2e4422675643bee66500000000b6300000b5d00000bf92c68a0000";
+            var tele = "442d25784414fa7943c152353f800000b5d00000b5d000004042fe940000";
+
+
+            var res = MessageBox.Show("This will transport you to planet Yeedil. Do you want to continue?", "Protopet tuning", MessageBoxButtons.YesNo);
+
+            if (res == DialogResult.Yes)
+            {
+                game.planetToLoad = 20;
+                game.LoadPlanet();
+
+                var playerState = 1;
+                do
+                {
+                    // This should be player state
+                    var stateBytes = api.ReadMemory(pid, rac2.addr.playerCoords + 0x10, 1);
+                    playerState = stateBytes[0];
+                }
+                while (playerState != 0);
+
+                System.Threading.Thread.Sleep(2500);
+                api.WriteMemory(pid, rac2.addr.playerCoords, 30, tele);
+
+                var wait = MessageBox.Show("RaCMAN will now take you to the Protopet. Click OK when you have loaded the protopet.", "Protopet tuning", MessageBoxButtons.OK);
+                if (wait == DialogResult.OK)
+                {
+                    for (var i = 0; i < 20; i++)
+                    {
+                        // lol
+                        api.WriteMemory(pid, rac2.addr.playerCoords, 30, pos);
+                        System.Threading.Thread.Sleep(1000);
+                        game.KillYourself();
+                        System.Threading.Thread.Sleep(1000);
+                    }
+                }
+
+                api.Notify("Protopet boss act tunining done for NG+!");
+            }
+        }
     }
 }

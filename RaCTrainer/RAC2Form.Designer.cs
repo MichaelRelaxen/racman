@@ -60,6 +60,8 @@ namespace racman
             this.resetFileManipButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.labelLap = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -363,7 +365,7 @@ namespace racman
             // 
             this.labelLap.AutoSize = true;
             this.labelLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLap.Location = new System.Drawing.Point(9, 251);
+            this.labelLap.Location = new System.Drawing.Point(12, 316);
             this.labelLap.Name = "labelLap";
             this.labelLap.Size = new System.Drawing.Size(136, 20);
             this.labelLap.TabIndex = 110;
@@ -371,11 +373,39 @@ namespace racman
             this.labelLap.Visible = false;
             this.labelLap.Click += new System.EventHandler(this.labelLap_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(247, 277);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(104, 26);
+            this.button1.TabIndex = 111;
+            this.button1.Text = "Tune Snivelak";
+            this.toolTip1.SetToolTip(this.button1, "Clears bolt manip, resets hoverbike menu, makes game\r\n pyramid drop 1,024 bolts, " +
+        "and resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning" +
+        ".");
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(247, 309);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(104, 26);
+            this.button3.TabIndex = 112;
+            this.button3.Text = "Tune Protopet";
+            this.toolTip1.SetToolTip(this.button3, "Clears bolt manip, resets hoverbike menu, makes game\r\n pyramid drop 1,024 bolts, " +
+        "and resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning" +
+        ".");
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 278);
+            this.ClientSize = new System.Drawing.Size(363, 345);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.labelLap);
             this.Controls.Add(this.resetFileManipButton);
             this.Controls.Add(this.label2);
@@ -444,5 +474,7 @@ namespace racman
         private System.Windows.Forms.Button resetFileManipButton;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label labelLap;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button3;
     }
 }
