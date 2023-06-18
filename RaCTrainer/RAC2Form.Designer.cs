@@ -59,9 +59,11 @@ namespace racman
             this.label2 = new System.Windows.Forms.Label();
             this.resetFileManipButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.buttonProtopet = new System.Windows.Forms.Button();
+            this.buttonSwingshot = new System.Windows.Forms.Button();
+            this.checkBoxExp = new System.Windows.Forms.CheckBox();
+            this.buttonSniv = new System.Windows.Forms.Button();
             this.labelLap = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -361,6 +363,51 @@ namespace racman
             // 
             this.toolTip1.IsBalloon = true;
             // 
+            // buttonProtopet
+            // 
+            this.buttonProtopet.Location = new System.Drawing.Point(247, 309);
+            this.buttonProtopet.Name = "buttonProtopet";
+            this.buttonProtopet.Size = new System.Drawing.Size(104, 26);
+            this.buttonProtopet.TabIndex = 112;
+            this.buttonProtopet.Text = "Tune Protopet";
+            this.toolTip1.SetToolTip(this.buttonProtopet, "Teleports you to the Protopet and kills you 20 times.");
+            this.buttonProtopet.UseVisualStyleBackColor = true;
+            this.buttonProtopet.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // buttonSwingshot
+            // 
+            this.buttonSwingshot.Location = new System.Drawing.Point(12, 245);
+            this.buttonSwingshot.Name = "buttonSwingshot";
+            this.buttonSwingshot.Size = new System.Drawing.Size(148, 26);
+            this.buttonSwingshot.TabIndex = 113;
+            this.buttonSwingshot.Text = "Setup Swingshot Storage";
+            this.toolTip1.SetToolTip(this.buttonSwingshot, "Sets your previous weapon to the Swingshot. For file setup.");
+            this.buttonSwingshot.UseVisualStyleBackColor = true;
+            this.buttonSwingshot.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // checkBoxExp
+            // 
+            this.checkBoxExp.AutoSize = true;
+            this.checkBoxExp.Location = new System.Drawing.Point(12, 277);
+            this.checkBoxExp.Name = "checkBoxExp";
+            this.checkBoxExp.Size = new System.Drawing.Size(172, 17);
+            this.checkBoxExp.TabIndex = 114;
+            this.checkBoxExp.Text = "Enable weapon insta-upgrades";
+            this.toolTip1.SetToolTip(this.checkBoxExp, "Boosts experience values so that killing an enemy instantly upgrades the weapon u" +
+        "sed. Useful for file setup.");
+            this.checkBoxExp.UseVisualStyleBackColor = true;
+            this.checkBoxExp.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // buttonSniv
+            // 
+            this.buttonSniv.Location = new System.Drawing.Point(247, 277);
+            this.buttonSniv.Name = "buttonSniv";
+            this.buttonSniv.Size = new System.Drawing.Size(104, 26);
+            this.buttonSniv.TabIndex = 111;
+            this.buttonSniv.Text = "Tune Snivelak";
+            this.buttonSniv.UseVisualStyleBackColor = true;
+            this.buttonSniv.Click += new System.EventHandler(this.button1_Click);
+            // 
             // labelLap
             // 
             this.labelLap.AutoSize = true;
@@ -373,39 +420,15 @@ namespace racman
             this.labelLap.Visible = false;
             this.labelLap.Click += new System.EventHandler(this.labelLap_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(247, 277);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(104, 26);
-            this.button1.TabIndex = 111;
-            this.button1.Text = "Tune Snivelak";
-            this.toolTip1.SetToolTip(this.button1, "Clears bolt manip, resets hoverbike menu, makes game\r\n pyramid drop 1,024 bolts, " +
-        "and resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning" +
-        ".");
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(247, 309);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(104, 26);
-            this.button3.TabIndex = 112;
-            this.button3.Text = "Tune Protopet";
-            this.toolTip1.SetToolTip(this.button3, "Clears bolt manip, resets hoverbike menu, makes game\r\n pyramid drop 1,024 bolts, " +
-        "and resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning" +
-        ".");
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(363, 345);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.checkBoxExp);
+            this.Controls.Add(this.buttonSwingshot);
+            this.Controls.Add(this.buttonProtopet);
+            this.Controls.Add(this.buttonSniv);
             this.Controls.Add(this.labelLap);
             this.Controls.Add(this.resetFileManipButton);
             this.Controls.Add(this.label2);
@@ -474,7 +497,9 @@ namespace racman
         private System.Windows.Forms.Button resetFileManipButton;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label labelLap;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonSniv;
+        private System.Windows.Forms.Button buttonProtopet;
+        private System.Windows.Forms.Button buttonSwingshot;
+        private System.Windows.Forms.CheckBox checkBoxExp;
     }
 }

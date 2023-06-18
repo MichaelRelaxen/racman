@@ -15,6 +15,7 @@ namespace racman
         AutosplitterHelper autosplitter;
         public rac2 game;
         public Form InputDisplay;
+        private int expEconomySubId = -1;
 
         public RAC2Form(rac2 game)
         {
@@ -313,6 +314,30 @@ namespace racman
                 }
 
                 api.Notify("Protopet boss act tunining done for NG+!");
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            // Swingshot has weapon ID 0D
+            api.WriteMemory(pid, rac2.addr.prevHeldWeapon, new byte[] { 0x0D });
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            if (checkBoxExp.Checked)
+            {
+                expEconomySubId = api.FreezeMemory(pid, rac2.addr.expEconomy, 1, Ratchetron.MemoryCondition.Changed, new byte[] { 100 });
+            } 
+            else
+            {
+                if (expEconomySubId != -1) api.ReleaseSubID(expEconomySubId);
+                api.WriteMemory(pid, rac2.addr.expEconomy, new byte[] { 0 });
             }
         }
     }

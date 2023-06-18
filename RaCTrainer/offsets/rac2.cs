@@ -38,6 +38,10 @@ namespace racman
 
         public uint snivBoss1 => 0x01569BF7;
         public uint snivBoss2 => 0x01A6FB73;
+
+        public uint prevHeldWeapon => 0x01329A9F;
+
+        public uint expEconomy => 0x01329AA8;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable
