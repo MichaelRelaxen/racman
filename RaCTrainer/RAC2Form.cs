@@ -269,6 +269,10 @@ namespace racman
 
             api.WriteMemory(pid, rac2.addr.snivBoss1, new byte[] { 10 });
             api.WriteMemory(pid, rac2.addr.snivBoss2, new byte[] { 10 });
+
+            // We should setup pad manip, since this happens whenever Snivelak is visited.
+            api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
+
             api.Notify("Snivelak boss act tunining done for NG+!");
         }
 
@@ -280,8 +284,8 @@ namespace racman
             var pos = "432dbf2e4422675643bee66500000000b6300000b5d00000bf92c68a0000";
             var tele = "442d25784414fa7943c152353f800000b5d00000b5d000004042fe940000";
 
-
             var res = MessageBox.Show("This will transport you to planet Yeedil. Do you want to continue?", "Protopet tuning", MessageBoxButtons.YesNo);
+            
 
             if (res == DialogResult.Yes)
             {
