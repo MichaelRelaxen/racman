@@ -92,7 +92,7 @@ namespace racman
         {
             (0x0156B064, 4), // Game state
             (0x01481474, 4), // Ratchet state
-            (0x43BD22B0, 4), // Protopet's health (Float)
+            (0x0133EE7C, 4), // Protopet's health (Float, ranges 0-1)
             (0x1329A3C, 4), // current planet
             (0x156B054, 4) // destination planet
         };

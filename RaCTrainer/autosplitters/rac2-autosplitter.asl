@@ -46,10 +46,9 @@ split
 
     }
 
-    else if (current.gameState == 0 && current.planet == 20 && current.protopetHealth == 0)
+    else if (current.gameState == 0 && current.planet == 20 && current.protopetHealth < 0.04 && old.protopetHealth > 0.04)
     {
-        print("Protopets health is 0!!!!!");
-        //return true;
-        // Commenting this out until I fix it
+        print("Protopet is dead!!!!!");
+        return true;
     }
 }
