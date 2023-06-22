@@ -26,22 +26,28 @@ namespace racman
         // Currently loaded planet.
         public uint currentPlanet => 0x1329A3C;
 
-        //Frames until "Ghost Ratchet" runs out.
+        // Frames until "Ghost Ratchet" runs out.
         public uint ghostTimer => 0x147F3ce;
 
-        // Current raritanium
+        // Current raritanium.
         public uint currentRaritanium => 0x1329A94;
 
+        // Values corresponding to the location of the internal table for game objects.
         public uint mobyInstances => 0x015927b0;
-
         public uint mobyInstancesEnd => 0x015927b8;
 
+        // Values that increment when you die to the Snivelak boss. Used for act tuning.
         public uint snivBoss1 => 0x01569BF7;
         public uint snivBoss2 => 0x01A6FB73;
 
+        // Item ID of ratchet's previously held weapon. Used for gadget storage.
         public uint prevHeldWeapon => 0x01329A9F;
 
+        // Boosts exp values earned when killing enemies.
         public uint expEconomy => 0x01329AA8;
+
+        // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
+        public uint gornManip => 0x01A99A4C;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable

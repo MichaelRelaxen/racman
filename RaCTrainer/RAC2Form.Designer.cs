@@ -64,6 +64,7 @@ namespace racman
             this.checkBoxExp = new System.Windows.Forms.CheckBox();
             this.buttonSniv = new System.Windows.Forms.Button();
             this.labelLap = new System.Windows.Forms.Label();
+            this.buttonGorn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -365,7 +366,7 @@ namespace racman
             // 
             // buttonProtopet
             // 
-            this.buttonProtopet.Location = new System.Drawing.Point(247, 309);
+            this.buttonProtopet.Location = new System.Drawing.Point(248, 341);
             this.buttonProtopet.Name = "buttonProtopet";
             this.buttonProtopet.Size = new System.Drawing.Size(104, 26);
             this.buttonProtopet.TabIndex = 112;
@@ -400,7 +401,7 @@ namespace racman
             // 
             // buttonSniv
             // 
-            this.buttonSniv.Location = new System.Drawing.Point(247, 277);
+            this.buttonSniv.Location = new System.Drawing.Point(248, 309);
             this.buttonSniv.Name = "buttonSniv";
             this.buttonSniv.Size = new System.Drawing.Size(104, 26);
             this.buttonSniv.TabIndex = 111;
@@ -412,7 +413,7 @@ namespace racman
             // 
             this.labelLap.AutoSize = true;
             this.labelLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLap.Location = new System.Drawing.Point(12, 316);
+            this.labelLap.Location = new System.Drawing.Point(12, 346);
             this.labelLap.Name = "labelLap";
             this.labelLap.Size = new System.Drawing.Size(136, 20);
             this.labelLap.TabIndex = 110;
@@ -420,11 +421,23 @@ namespace racman
             this.labelLap.Visible = false;
             this.labelLap.Click += new System.EventHandler(this.labelLap_Click);
             // 
+            // buttonGorn
+            // 
+            this.buttonGorn.Location = new System.Drawing.Point(248, 277);
+            this.buttonGorn.Name = "buttonGorn";
+            this.buttonGorn.Size = new System.Drawing.Size(104, 26);
+            this.buttonGorn.TabIndex = 115;
+            this.buttonGorn.Text = "Setup Gorn Manip";
+            this.toolTip1.SetToolTip(this.buttonGorn, "Sets a flag disabling a cutscene on Gorn, saving 7s in NG+ categories.");
+            this.buttonGorn.UseVisualStyleBackColor = true;
+            this.buttonGorn.Click += new System.EventHandler(this.buttonGorn_Click);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 345);
+            this.ClientSize = new System.Drawing.Size(363, 375);
+            this.Controls.Add(this.buttonGorn);
             this.Controls.Add(this.checkBoxExp);
             this.Controls.Add(this.buttonSwingshot);
             this.Controls.Add(this.buttonProtopet);
@@ -501,5 +514,6 @@ namespace racman
         private System.Windows.Forms.Button buttonProtopet;
         private System.Windows.Forms.Button buttonSwingshot;
         private System.Windows.Forms.CheckBox checkBoxExp;
+        private System.Windows.Forms.Button buttonGorn;
     }
 }

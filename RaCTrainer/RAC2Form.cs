@@ -340,5 +340,13 @@ namespace racman
                 api.WriteMemory(pid, rac2.addr.expEconomy, new byte[] { 0 });
             }
         }
+
+        private void buttonGorn_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac2.addr.gornManip, 1);
+        }
     }
 }
