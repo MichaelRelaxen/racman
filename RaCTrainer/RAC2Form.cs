@@ -301,10 +301,10 @@ namespace racman
                 }
                 while (playerState != 0);
 
-                System.Threading.Thread.Sleep(2500);
+                System.Threading.Thread.Sleep(5000);
                 api.WriteMemory(pid, rac2.addr.playerCoords, 30, tele);
 
-                var wait = MessageBox.Show("RaCMAN will now take you to the Protopet. Click OK when you have loaded the protopet.", "Protopet tuning", MessageBoxButtons.OK);
+                var wait = MessageBox.Show("RaCMAN will now take you to the Protopet. Click OK when you have loaded the protopet.", "Protopet tuning", MessageBoxButtons.OKCancel);
                 if (wait == DialogResult.OK)
                 {
                     for (var i = 0; i < 20; i++)
@@ -315,9 +315,10 @@ namespace racman
                         game.KillYourself();
                         System.Threading.Thread.Sleep(1000);
                     }
+
+                    api.Notify("Protopet boss act tunining done for NG+!");
                 }
 
-                api.Notify("Protopet boss act tunining done for NG+!");
             }
         }
 
@@ -350,7 +351,16 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            api.WriteMemory(pid, rac2.addr.gornManip, 1);
+            var res = MessageBox.Show("This will transport you to planet Gorn. Do you want to continue?", "Gorn Manip", MessageBoxButtons.YesNo);
+            if (res == DialogResult.Yes)
+            {
+                api.WriteMemory(pid, rac2.addr.gornManip, 1);
+
+                game.planetToLoad = 15;
+                game.LoadPlanet();
+
+                api.Notify("Gorn Manip done!");
+            }
         }
     }
 }
