@@ -1,0 +1,5 @@
+#- name: Savefile Helper
+#- author: king_dedede
+#- version: 1.0
+0x10cd11c: patch1.bin
+0xb086b0: 0x490cd11f

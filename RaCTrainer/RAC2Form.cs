@@ -15,6 +15,7 @@ namespace racman
         AutosplitterHelper autosplitter;
         public rac2 game;
         public Form InputDisplay;
+        private int savefileHelperSubID;
 
         public RAC2Form(rac2 game)
         {
@@ -27,6 +28,19 @@ namespace racman
             game.SetupInputDisplayMemorySubs();
 
             AutosplitterCheckbox.Checked = true;
+
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
+            {
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        // Savefile helper mod is enabled.
+                        loadFileButton.Enabled = true;
+                        setAsideFileButton.Enabled = true;
+                    }));
+                }
+            });
         }
 
         public void UpdateLapFlag(int flagValue)
@@ -48,6 +62,7 @@ namespace racman
 
         private void RAC2Form_FormClosing(object sender, FormClosingEventArgs e)
         {
+            game.api.ReleaseSubID(savefileHelperSubID);
             game.api.Disconnect();
             Application.Exit();
         }
@@ -259,6 +274,16 @@ namespace racman
         private void labelLap_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void loadFileButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71e, new byte[] { 1 });
+        }
+
+        private void setAsideFileButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71f, new byte[] { 2 });
         }
     }
 }
