@@ -1,5 +1,11 @@
 ﻿state("racman") {}
 
+startup
+{
+    settings.Add("PROTO_SPLIT", false, "[BETA] Attempt to split on defeating protopet");
+    settings.SetToolTip("PROTO_SPLIT", "Splits on defeating the protopet, the final boss.");
+}
+
 init
 {
 	System.IO.MemoryMappedFiles.MemoryMappedFile mmf = System.IO.MemoryMappedFiles.MemoryMappedFile.OpenExisting("racman-autosplitter");
@@ -46,10 +52,9 @@ split
 
     }
 
-    else if (current.gameState == 0 && current.planet == 20 && current.protopetHealth == 0)
+    else if (settings["PROTO_SPLIT"] && current.gameState == 0 && current.planet == 20 && current.protopetHealth < 0.04 && old.protopetHealth > 0.04)
     {
-        print("Protopets health is 0!!!!!");
-        //return true;
-        // Commenting this out until I fix it
+        print("Protopet is dead!!!!!");
+        return true;
     }
 }
