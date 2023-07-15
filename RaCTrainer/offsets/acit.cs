@@ -11,19 +11,26 @@ namespace racman
         public uint gameState => 0xF70DEC;
         public uint isPaused => 0xEE7635;
         public uint isPaused2 => 0xF5B4AD;
-        public uint boltCount => throw new NotImplementedException();
 
-        public uint playerCoords => throw new NotImplementedException();
+        // Current bolt count
+        public uint boltCount => 0xE25068;
 
+        // Ratchet's coordinates
+        public uint playerCoords => 0xE24170;
+
+        // The player's current health.
         public uint playerHealth => throw new NotImplementedException();
 
-        public uint inputOffset => throw new NotImplementedException();
+        // Controller inputs mask address
+        public uint inputOffset => 0xF6ABFC;
 
-        public uint analogOffset => throw new NotImplementedException();
+        // Controller analog sticks address
+        public uint analogOffset => 0xF6ABA4;
 
         public uint loadPlanet => throw new NotImplementedException();
 
-        public uint currentPlanet => throw new NotImplementedException();
+        // Currently loaded planet.
+        public uint currentPlanet => 0xE897B4;
 
         public uint levelFlags => throw new NotImplementedException();
 
