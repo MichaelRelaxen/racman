@@ -15,6 +15,7 @@ namespace racman
         AutosplitterHelper autosplitter;
         public rac2 game;
         public Form InputDisplay;
+        private int savefileHelperSubID;
         private int expEconomySubId = -1;
 
         public RAC2Form(rac2 game)
@@ -28,6 +29,19 @@ namespace racman
             game.SetupInputDisplayMemorySubs();
 
             AutosplitterCheckbox.Checked = true;
+
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
+            {
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        // Savefile helper mod is enabled.
+                        loadFileButton.Enabled = true;
+                        setAsideFileButton.Enabled = true;
+                    }));
+                }
+            });
         }
 
         public void UpdateLapFlag(int flagValue)
@@ -49,6 +63,7 @@ namespace racman
 
         private void RAC2Form_FormClosing(object sender, FormClosingEventArgs e)
         {
+            game.api.ReleaseSubID(savefileHelperSubID);
             game.api.Disconnect();
             Application.Exit();
         }
@@ -249,12 +264,11 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            api.WriteMemory(pid, 0x13965F4, 0); // Hoverbike menu
             api.WriteMemory(pid, 0x1329AAC, 0); // Bolt economy
             api.WriteMemory(pid, 0x1A5815B, 0); // Endako cutscene
             api.WriteMemory(pid, 0x1AAC767, 0); // Game pyramid bolt drop
 
-            api.Notify("Game Pyramid, Bolts manip, Hoverbike menu, and Endako Boss Cutscene are now reset and ready for runs");
+            api.Notify("Game Pyramid, Bolts manip, and Endako Boss Cutscene are now reset and ready for runs");
         }
 
         private void labelLap_Click(object sender, EventArgs e)
@@ -262,6 +276,15 @@ namespace racman
 
         }
 
+        private void loadFileButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71e, new byte[] { 1 });
+        }
+
+        private void setAsideFileButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71f, new byte[] { 1 });
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             var api = game.api;

@@ -64,6 +64,8 @@ namespace racman
             this.checkBoxExp = new System.Windows.Forms.CheckBox();
             this.buttonSniv = new System.Windows.Forms.Button();
             this.labelLap = new System.Windows.Forms.Label();
+            this.loadFileButton = new System.Windows.Forms.Button();
+            this.setAsideFileButton = new System.Windows.Forms.Button();
             this.buttonGorn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -126,7 +128,7 @@ namespace racman
             "10"});
             this.positions_comboBox.Location = new System.Drawing.Point(133, 36);
             this.positions_comboBox.Name = "positions_comboBox";
-            this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
+            this.positions_comboBox.Size = new System.Drawing.Size(96, 21);
             this.positions_comboBox.TabIndex = 92;
             this.positions_comboBox.SelectedIndexChanged += new System.EventHandler(this.positions_comboBox_SelectedIndexChanged);
             // 
@@ -421,6 +423,27 @@ namespace racman
             this.labelLap.Visible = false;
             this.labelLap.Click += new System.EventHandler(this.labelLap_Click);
             // 
+            // loadFileButton
+            // 
+            this.loadFileButton.Enabled = false;
+            this.loadFileButton.Location = new System.Drawing.Point(132, 94);
+            this.loadFileButton.Name = "loadFileButton";
+            this.loadFileButton.Size = new System.Drawing.Size(96, 23);
+            this.loadFileButton.TabIndex = 111;
+            this.loadFileButton.Text = "Load File";
+            this.loadFileButton.UseVisualStyleBackColor = true;
+            this.loadFileButton.Click += new System.EventHandler(this.loadFileButton_Click);
+            // 
+            // setAsideFileButton
+            // 
+            this.setAsideFileButton.Enabled = false;
+            this.setAsideFileButton.Location = new System.Drawing.Point(133, 65);
+            this.setAsideFileButton.Name = "setAsideFileButton";
+            this.setAsideFileButton.Size = new System.Drawing.Size(95, 23);
+            this.setAsideFileButton.TabIndex = 112;
+            this.setAsideFileButton.Text = "Set Aside File";
+            this.setAsideFileButton.UseVisualStyleBackColor = true;
+            this.setAsideFileButton.Click += new System.EventHandler(this.setAsideFileButton_Click);
             // buttonGorn
             // 
             this.buttonGorn.Location = new System.Drawing.Point(248, 277);
@@ -436,6 +459,8 @@ namespace racman
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.setAsideFileButton);
+            this.Controls.Add(this.loadFileButton);
             this.ClientSize = new System.Drawing.Size(363, 375);
             this.Controls.Add(this.buttonGorn);
             this.Controls.Add(this.checkBoxExp);
@@ -510,6 +535,8 @@ namespace racman
         private System.Windows.Forms.Button resetFileManipButton;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label labelLap;
+        private System.Windows.Forms.Button loadFileButton;
+        private System.Windows.Forms.Button setAsideFileButton;
         private System.Windows.Forms.Button buttonSniv;
         private System.Windows.Forms.Button buttonProtopet;
         private System.Windows.Forms.Button buttonSwingshot;
