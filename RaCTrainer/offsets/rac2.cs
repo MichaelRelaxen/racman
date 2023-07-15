@@ -160,7 +160,7 @@ namespace racman
                 KillYourself();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo & inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
             {
                 LoadPlanet();
                 inputCheck = false;
@@ -170,8 +170,13 @@ namespace racman
                 AttachPS3Form.scripting?.RunCurrentCode();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x00 & !inputCheck)
+            if (Inputs.RawInputs == 0x00 && !inputCheck)
             {
+                inputCheck = true;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)
+            {
+                api.WriteMemory(pid, 0x10cd71e, new byte[] { 1 });
                 inputCheck = true;
             }
         }
