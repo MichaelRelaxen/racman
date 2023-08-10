@@ -35,6 +35,7 @@ namespace racman
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.inputdisplay = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -101,7 +102,18 @@ namespace racman
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+            // 
+            // inputdisplay
+            // 
+            this.inputdisplay.Location = new System.Drawing.Point(236, 338);
+            this.inputdisplay.Name = "inputdisplay";
+            this.inputdisplay.Size = new System.Drawing.Size(133, 23);
+            this.inputdisplay.TabIndex = 76;
+            this.inputdisplay.Text = "Input Display";
+            this.inputdisplay.UseVisualStyleBackColor = true;
+            this.inputdisplay.Click += new System.EventHandler(this.inputdisplay_Click);
 
+            this.Controls.Add(this.inputdisplay);
         }
 
         #endregion
@@ -111,5 +123,6 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
+        private System.Windows.Forms.Button inputdisplay;
     }
 }
