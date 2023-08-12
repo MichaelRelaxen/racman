@@ -16,6 +16,7 @@ namespace racman
         public rac2 game;
         public Form InputDisplay;
         private int savefileHelperSubID;
+        private int expEconomySubId = -1;
 
         public RAC2Form(rac2 game)
         {
@@ -283,6 +284,106 @@ namespace racman
         private void setAsideFileButton_Click(object sender, EventArgs e)
         {
             game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71f, new byte[] { 1 });
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac2.addr.snivBoss1, new byte[] { 10 });
+            api.WriteMemory(pid, rac2.addr.snivBoss2, new byte[] { 10 });
+
+            // We should setup pad manip, since this happens whenever Snivelak is visited.
+            api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
+
+            api.Notify("Snivelak boss act tunining done for NG+!");
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            var pos = "432dbf2e4422675643bee66500000000b6300000b5d00000bf92c68a0000";
+            var tele = "442d25784414fa7943c152353f800000b5d00000b5d000004042fe940000";
+
+            var res = MessageBox.Show("This will transport you to planet Yeedil. Do you want to continue?", "Protopet tuning", MessageBoxButtons.YesNo);
+            
+
+            if (res == DialogResult.Yes)
+            {
+                game.planetToLoad = 20;
+                game.LoadPlanet();
+
+                var playerState = 1;
+                do
+                {
+                    // This should be player state
+                    var stateBytes = api.ReadMemory(pid, rac2.addr.playerCoords + 0x10, 1);
+                    playerState = stateBytes[0];
+                }
+                while (playerState != 0);
+
+                System.Threading.Thread.Sleep(5000);
+                api.WriteMemory(pid, rac2.addr.playerCoords, 30, tele);
+
+                var wait = MessageBox.Show("RaCMAN will now take you to the Protopet. Click OK when you have loaded the protopet.", "Protopet tuning", MessageBoxButtons.OKCancel);
+                if (wait == DialogResult.OK)
+                {
+                    for (var i = 0; i < 20; i++)
+                    {
+                        // lol
+                        api.WriteMemory(pid, rac2.addr.playerCoords, 30, pos);
+                        System.Threading.Thread.Sleep(1000);
+                        game.KillYourself();
+                        System.Threading.Thread.Sleep(1000);
+                    }
+
+                    api.Notify("Protopet boss act tunining done for NG+!");
+                }
+
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            // Swingshot has weapon ID 0D
+            api.WriteMemory(pid, rac2.addr.prevHeldWeapon, new byte[] { 0x0D });
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            if (checkBoxExp.Checked)
+            {
+                expEconomySubId = api.FreezeMemory(pid, rac2.addr.expEconomy, 1, Ratchetron.MemoryCondition.Changed, new byte[] { 100 });
+            } 
+            else
+            {
+                if (expEconomySubId != -1) api.ReleaseSubID(expEconomySubId);
+                api.WriteMemory(pid, rac2.addr.expEconomy, new byte[] { 0 });
+            }
+        }
+
+        private void buttonGorn_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            var res = MessageBox.Show("This will transport you to planet Gorn. Do you want to continue?", "Gorn Manip", MessageBoxButtons.YesNo);
+            if (res == DialogResult.Yes)
+            {
+                api.WriteMemory(pid, rac2.addr.gornManip, 1);
+
+                game.planetToLoad = 15;
+                game.LoadPlanet();
+
+                api.Notify("Gorn Manip done!");
+            }
         }
     }
 }
