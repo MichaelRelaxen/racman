@@ -16,6 +16,7 @@ namespace racman
     {
         public Route SelectedRoute => routeSelectionListBox.SelectedItem as Route;
         private const string filePath = "usr";
+        private static int maxRows = (AutosplitterHelper.mmfConfigBytes / 2);
 
         private int previousIndex = -1;
 
@@ -182,9 +183,9 @@ namespace racman
         // save stuff
         private void applyChangesButton_Click(object sender, EventArgs e)
         {
-            if (grid.Rows.Count - 1 > 64)
+            if (grid.Rows.Count - 1 > maxRows)
             {
-                MessageBox.Show("That's too many rows. The maximum is 64. Your changes have not been saved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"That's too many rows. The maximum is {maxRows}. Your changes have not been saved.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             string oldName = SelectedRoute.Name;
