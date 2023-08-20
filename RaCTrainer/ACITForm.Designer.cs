@@ -65,16 +65,27 @@ namespace racman
             // patchLoaderToolStripMenuItem
             // 
             this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
-            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
             this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
             // memoryUtilitiesToolStripMenuItem
             // 
             this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
-            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            // 
+            // inputdisplay
+            // 
+            this.inputdisplay.Location = new System.Drawing.Point(11, 26);
+            this.inputdisplay.Margin = new System.Windows.Forms.Padding(2);
+            this.inputdisplay.Name = "button2";
+            this.inputdisplay.Size = new System.Drawing.Size(106, 22);
+            this.inputdisplay.TabIndex = 83;
+            this.inputdisplay.Text = "Input Display";
+            this.inputdisplay.UseVisualStyleBackColor = true;
+            this.inputdisplay.Click += new System.EventHandler(this.inputdisplay_Click);
             // 
             // ACITForm
             // 
@@ -82,6 +93,7 @@ namespace racman
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(291, 149);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.inputdisplay);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ACITForm";
@@ -91,18 +103,7 @@ namespace racman
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-            // 
-            // inputdisplay
-            // 
-            this.inputdisplay.Location = new System.Drawing.Point(236, 338);
-            this.inputdisplay.Name = "inputdisplay";
-            this.inputdisplay.Size = new System.Drawing.Size(133, 23);
-            this.inputdisplay.TabIndex = 76;
-            this.inputdisplay.Text = "Input Display";
-            this.inputdisplay.UseVisualStyleBackColor = true;
-            this.inputdisplay.Click += new System.EventHandler(this.inputdisplay_Click);
 
-            this.Controls.Add(this.inputdisplay);
         }
 
         #endregion
@@ -112,5 +113,6 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.Button inputdisplay;
+        private System.Windows.Forms.Button button2;
     }
 }
