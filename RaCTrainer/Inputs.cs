@@ -110,37 +110,16 @@ namespace racman
             /// </summary>
             public static List<Buttons> GetButtons(uint mask)
             {
+                Type enumType = (gameName == "ACIT") ? typeof(AciBtns) : typeof(OgBtns);
                 var list = new List<Buttons>();
-                Type enumType;
-
-                Dictionary<string, Type> gameToEnumMapping = new Dictionary<string, Type>
-                {
-                    // ACIT
-                    { "NPUA80966", typeof(AciBtns) },
-                    { "NPEA00453", typeof(AciBtns) },
-                    { "BCES00511", typeof(AciBtns) },
-                    { "BCES00726", typeof(AciBtns) },
-                    // Other games
-                };
-
-                // Otherwise, assume it's an OG game
-                if (!gameToEnumMapping.TryGetValue(gameID, out enumType))
-                {
-                    enumType = typeof(OgBtns);
-                }
 
                 foreach (var button in Enum.GetValues(enumType))
                 {
-                    if (Convert.ToUInt32(button) != 0 && (mask & Convert.ToUInt32(button)) != 0)
+                    var buttonValue = Convert.ToUInt32(button);
+
+                    if (buttonValue != 0 && (mask & buttonValue) != 0)
                     {
-                        if (enumType == typeof(OgBtns))
-                        {
-                            list.Add(ConvertToButtons((OgBtns)button));
-                        }
-                        else if (enumType == typeof(AciBtns))
-                        {
-                            list.Add(ConvertToButtons((AciBtns)button));
-                        }
+                        list.Add(enumType == typeof(OgBtns) ? ConvertToButtons((OgBtns)button) : ConvertToButtons((AciBtns)button));
                     }
                 }
 
@@ -174,6 +153,7 @@ namespace racman
         public static float ly = 0.0f;
 
         static string gameID = AttachPS3Form.game;
+        static string gameName = AttachPS3Form.gameName;
 
         public static int RawInputs;
         public static List<Buttons> Mask = new List<Buttons>();
