@@ -17,6 +17,10 @@ namespace racman
 
     public class AutosplitterHelper
     {
+        public static int mmfAddressBytes = 128;
+        public static int mmfConfigBytes = 256;
+        public static int mmfSize = mmfAddressBytes + mmfConfigBytes;
+
         MemoryMappedFile mmfFile;
         MemoryMappedViewStream mmfStream;
         BinaryWriter writer;
@@ -29,7 +33,7 @@ namespace racman
 
         public AutosplitterHelper()
         {
-            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", 256);
+            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", mmfSize);
             mmfStream = mmfFile.CreateViewStream();
             writer = new BinaryWriter(mmfStream);
         }
@@ -87,7 +91,7 @@ namespace racman
 
             if (writer != null)
             {
-                writer.Seek(128, SeekOrigin.Begin);
+                writer.Seek(mmfAddressBytes, SeekOrigin.Begin);
                 writer.Write(value, 0, value.Length);
             }    
 
