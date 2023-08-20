@@ -80,7 +80,7 @@ namespace racman
             // 
             this.inputdisplay.Location = new System.Drawing.Point(11, 26);
             this.inputdisplay.Margin = new System.Windows.Forms.Padding(2);
-            this.inputdisplay.Name = "button2";
+            this.inputdisplay.Name = "inputdisplay";
             this.inputdisplay.Size = new System.Drawing.Size(106, 22);
             this.inputdisplay.TabIndex = 83;
             this.inputdisplay.Text = "Input Display";
