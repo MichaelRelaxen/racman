@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace racman
@@ -13,6 +6,7 @@ namespace racman
     public partial class ACITForm : Form
     {
         private AutosplitterHelper autosplitterHelper;
+        private AutosplitterConfigForm autosplitterConfigForm
         public acit game;
         public Form InputDisplay;
 
@@ -26,11 +20,15 @@ namespace racman
             InitializeComponent();
 
             game.SetupInputDisplayMemorySubs();
+
+            AutosplitterCheckbox.Checked = true;
         }
+
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
+
         private void menuStrip1_ItemClicked(object sender, EventArgs e)
         {
 
@@ -88,6 +86,23 @@ namespace racman
         {
             MemoryForm memoryForm = new MemoryForm();
             memoryForm.Show();
+        }
+
+        private void AutosplitterCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!AutosplitterCheckbox.Checked)
+            {
+                // Disable autosplitter.
+                autosplitterHelper.Stop();
+                autosplitterHelper = null;
+            }
+            else
+            {
+                // Enable auotpslitter
+                Console.WriteLine("Autosplitter starting!");
+                autosplitterHelper = new AutosplitterHelper();
+                autosplitterHelper.StartAutosplitterForGame(this.game);
+            }
         }
     }
 }

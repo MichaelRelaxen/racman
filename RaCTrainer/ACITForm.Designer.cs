@@ -35,6 +35,7 @@ namespace racman
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inputdisplay = new System.Windows.Forms.Button();
+            this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,11 +88,23 @@ namespace racman
             this.inputdisplay.UseVisualStyleBackColor = true;
             this.inputdisplay.Click += new System.EventHandler(this.inputdisplay_Click);
             // 
+            // AutosplitterCheckbox
+            // 
+            this.AutosplitterCheckbox.AutoSize = true;
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(201, 31);
+            this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
+            this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
+            this.AutosplitterCheckbox.TabIndex = 103;
+            this.AutosplitterCheckbox.Text = "Autosplitter";
+            this.AutosplitterCheckbox.UseVisualStyleBackColor = true;
+            this.AutosplitterCheckbox.CheckedChanged += new System.EventHandler(this.AutosplitterCheckbox_CheckedChanged);
+            // 
             // ACITForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(291, 149);
+            this.Controls.Add(this.AutosplitterCheckbox);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.inputdisplay);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -114,5 +127,6 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.Button inputdisplay;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox AutosplitterCheckbox;
     }
 }

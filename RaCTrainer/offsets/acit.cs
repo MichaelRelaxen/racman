@@ -43,7 +43,7 @@ namespace racman
         public uint unlockArray => throw new NotImplementedException();
     }
 
-    public class acit : IGame
+    public class acit : IGame, IAutosplitterAvailable
     {
         public dynamic Planets = new
         {
@@ -77,6 +77,11 @@ namespace racman
         {
 
         }
+
+        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
+        {
+            (addr.currentPlanet, 4), // current planet
+        };
 
         public override void ResetLevelFlags()
         {
