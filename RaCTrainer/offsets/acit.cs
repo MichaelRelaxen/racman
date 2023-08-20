@@ -22,7 +22,7 @@ namespace racman
         public uint playerHealth => throw new NotImplementedException();
 
         // Controller inputs mask address
-        public uint inputOffset => 0xF6ABFC;
+        public uint inputOffset => 0xF6AD48;
 
         // Controller analog sticks address
         public uint analogOffset => 0xF6ABA4;
@@ -76,7 +76,6 @@ namespace racman
         public acit(Ratchetron api) : base(api)
         {
 
-
         }
 
         public override void ResetLevelFlags()
@@ -102,6 +101,21 @@ namespace racman
         public override void CheckInputs(object sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        protected override void SetupInputDisplayMemorySubsAnalogs()
+        {
+            int analogRSubID = api.SubMemory(pid, addr.analogOffset + 8, 8, (value) =>
+            {
+                Inputs.ry = BitConverter.ToSingle(value, 0);
+                Inputs.rx = BitConverter.ToSingle(value, 4);
+            });
+
+            int analogYSubID = api.SubMemory(pid, addr.analogOffset, 8, (value) =>
+            {
+                Inputs.ly = BitConverter.ToSingle(value, 0);
+                Inputs.lx = BitConverter.ToSingle(value, 4);
+            });
         }
     }
 }
