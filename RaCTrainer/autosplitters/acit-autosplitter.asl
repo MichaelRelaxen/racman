@@ -121,7 +121,7 @@ split
     }
 
     // Azimuth split
-    if (current.planet == 20 && current.azimuthHP == 0.0f)
+    if (current.planet == 20 && current.azimuthHP <= 0.0f)
     {
         return true;
     }

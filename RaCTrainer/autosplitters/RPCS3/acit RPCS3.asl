@@ -94,7 +94,7 @@ update
     //print(current.planet.ToString() + " " + old.planet.ToString());
 
     // Check if Ratchet reached the final room in Neffy1
-    /*if (current.planet == 17 && current.ratchetZ > vars.neffy1MaxZ)
+    if (current.planet == 17 && current.ratchetZ > vars.neffy1MaxZ)
     {
         vars.reachedNeffy1FinalRoom = true;
     }
@@ -115,7 +115,7 @@ update
     {
         vars.tempTimer += old.timer;
     }
-    vars.gameTime = vars.tempTimer + current.timer;*/
+    vars.gameTime = vars.tempTimer + current.timer;
 }
 
 split
@@ -151,7 +151,7 @@ split
     }
 
     // Azimuth split
-    if (current.planet == 20 && current.azimuthHP == 0.0f)
+    if (current.planet == 20 && current.azimuthHP <= 0.0f)
     {
         return true;
     }
