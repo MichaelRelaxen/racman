@@ -59,7 +59,7 @@ init
         current.ratchetY = vars.FloatToLittleEndian(ratchetY);
         current.ratchetZ = vars.FloatToLittleEndian(ratchetZ);
         current.azimuthHP = vars.FloatToLittleEndian(azimuthHP);
-        current.timer1 = vars.FloatToLittleEndian(acitTimer);
+        current.timer = vars.FloatToLittleEndian(acitTimer);
     });
     vars.UpdateValues();
 
@@ -89,7 +89,7 @@ update
 {
     vars.UpdateValues();
 
-    print(current.timer1.ToString());
+    print(current.timer.ToString());
     //print((!vars.noSplitPlanets.Contains((int)old.planet)).ToString());
     //print(current.planet.ToString() + " " + old.planet.ToString());
 
@@ -151,7 +151,7 @@ split
     }
 
     // Azimuth split
-    if (current.planet == 20 && current.azimuthHP <= 0.0f)
+    if (current.planet == 20 && old.timer == current.timer && current.azimuthHP <= 0.0f)
     {
         return true;
     }
