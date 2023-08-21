@@ -6,7 +6,6 @@ namespace racman
     public partial class ACITForm : Form
     {
         private AutosplitterHelper autosplitterHelper;
-        private AutosplitterConfigForm autosplitterConfigForm
         public acit game;
         public Form InputDisplay;
 
