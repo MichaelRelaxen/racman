@@ -98,46 +98,8 @@ namespace racman
             writeLock.ReleaseMutex();
         }
 
-        private void OpenAutosplitter(acit game)
-        {
-            int planetFrameCountSubID = game.api.SubMemory(game.pid, acit.addr.weirdTimerThingy, 4, (value) =>
-            {
-                WriteToMemory(0, value);
-            });
-            int isPausedSubID = game.api.SubMemory(game.pid, acit.addr.isPaused2, 1, (value) =>
-            {
-                WriteToMemory(4, value);
-            });
-            int gameStateSubID = game.api.SubMemory(game.pid, acit.addr.gameState + 3, 1, (value) =>
-            {
-                WriteToMemory(5, value);
-            });
-            int planetStringSubID1 = game.api.SubMemory(game.pid, 0xE20583, 8, (value) => 
-            {
-                WriteToMemory(6, new byte[] { 0x41 }); // Fuck livesplit
-                WriteToMemory(7, value.Reverse().ToArray());
-            });
-            int planetStringSubID2 = game.api.SubMemory(game.pid, 0xE20583 + 8, 8, (value) => 
-            {
-                WriteToMemory(15, value.Reverse().ToArray());
-            });
-
-            subscriptionIDs.AddRange(new int[] {
-                planetFrameCountSubID,
-                isPausedSubID,
-                gameStateSubID,
-                planetStringSubID1,
-                planetStringSubID2
-            });
-        }
-
         public void StartAutosplitterForGame(IGame game)
         {
-            if (game is acit)
-            {
-                OpenAutosplitter(game as acit);
-                return;
-            }
             if (!(game is IAutosplitterAvailable)) throw new NotSupportedException("This game doesn't support an autosplitter yet.");
             currentGame = game;
             var autosplitter = game as IAutosplitterAvailable;

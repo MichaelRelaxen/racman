@@ -105,12 +105,27 @@ namespace racman
 
         public virtual void SetupInputDisplayMemorySubs()
         {
+            SetupInputDisplayMemorySubsButtons();
+
+            SetupInputDisplayMemorySubsAnalogs();
+
+            int planetIndexSubID = api.SubMemory(pid, Addr().currentPlanet, 4, (value) =>
+            {
+                planetIndex = BitConverter.ToUInt32(value, 0);
+            });
+        }
+
+        protected virtual void SetupInputDisplayMemorySubsButtons()
+        {
             int buttonMaskSubID = api.SubMemory(pid, Addr().inputOffset, 4, (value) =>
             {
                 Inputs.RawInputs = BitConverter.ToInt32(value, 0);
                 Inputs.Mask = Inputs.DecodeMask(Inputs.RawInputs);
             });
+        }
 
+        protected virtual void SetupInputDisplayMemorySubsAnalogs()
+        {
             int analogRSubID = api.SubMemory(pid, Addr().analogOffset, 8, (value) =>
             {
                 Inputs.ry = BitConverter.ToSingle(value, 0);
@@ -121,11 +136,6 @@ namespace racman
             {
                 Inputs.ly = BitConverter.ToSingle(value, 0);
                 Inputs.lx = BitConverter.ToSingle(value, 4);
-            });
-
-            int planetIndexSubID = api.SubMemory(pid, Addr().currentPlanet, 4, (value) =>
-            {
-                planetIndex = BitConverter.ToUInt32(value, 0);
             });
         }
 
@@ -144,6 +154,7 @@ namespace racman
                 coords[2] = BitConverter.ToSingle(value, 0);
             });
         }
+
         // 
         public abstract void CheckInputs(object sender, EventArgs e);
 

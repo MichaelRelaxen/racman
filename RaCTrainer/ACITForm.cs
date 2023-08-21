@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace racman
@@ -13,8 +6,9 @@ namespace racman
     public partial class ACITForm : Form
     {
         private AutosplitterHelper autosplitterHelper;
-
         public acit game;
+        public Form InputDisplay;
+
         public ACITForm(acit game)
         {
             this.game = game;
@@ -23,11 +17,17 @@ namespace racman
             autosplitterHelper.StartAutosplitterForGame(game);
 
             InitializeComponent();
+
+            game.SetupInputDisplayMemorySubs();
+
+            AutosplitterCheckbox.Checked = true;
         }
+
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
+
         private void menuStrip1_ItemClicked(object sender, EventArgs e)
         {
 
@@ -59,10 +59,49 @@ namespace racman
             Application.Exit();
         }
 
+        private void inputdisplay_Click(object sender, EventArgs e)
+        {
+            if (!(func.api is Ratchetron))
+            {
+                MessageBox.Show("You need to be using the new API to use input display");
+                return;
+            }
+
+            if (InputDisplay == null)
+            {
+                InputDisplay = new InputDisplay();
+                InputDisplay.FormClosed += InputDisplay_FormClosed;
+                InputDisplay.Show();
+            }
+        }
+
+
+        private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            InputDisplay = null;
+        }
+
         private void memoryUtilitiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MemoryForm memoryForm = new MemoryForm();
             memoryForm.Show();
+        }
+
+        private void AutosplitterCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!AutosplitterCheckbox.Checked)
+            {
+                // Disable autosplitter.
+                autosplitterHelper.Stop();
+                autosplitterHelper = null;
+            }
+            else
+            {
+                // Enable auotpslitter
+                Console.WriteLine("Autosplitter starting!");
+                autosplitterHelper = new AutosplitterHelper();
+                autosplitterHelper.StartAutosplitterForGame(this.game);
+            }
         }
     }
 }

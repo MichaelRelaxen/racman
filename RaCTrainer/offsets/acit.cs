@@ -6,11 +6,14 @@ namespace racman
 {
     public class ACITAddresses : IAddresses
     {
-        public uint planetFrameCount => 0xD3F214;
-        public uint weirdTimerThingy => 0xEB3C04;
-        public uint gameState => 0xF70DEC;
-        public uint isPaused => 0xEE7635;
-        public uint isPaused2 => 0xF5B4AD;
+        // (0 = in game, 1 = in main menu, 2 = in pause) (NOTE: first pause will result in a 1 for a second)
+        public uint gameState1Ptr = 0xFBAE48;
+
+        // (6 = in main menu, 7 = in game)
+        public uint gameState2Ptr = 0x4027CF70;
+
+        // timer
+        public uint timerPtr = 0x40EBADE0;         
 
         // Current bolt count
         public uint boltCount => 0xE25068;
@@ -22,7 +25,7 @@ namespace racman
         public uint playerHealth => throw new NotImplementedException();
 
         // Controller inputs mask address
-        public uint inputOffset => 0xF6ABFC;
+        public uint inputOffset => 0xF6AD48;
 
         // Controller analog sticks address
         public uint analogOffset => 0xF6ABA4;
@@ -31,6 +34,9 @@ namespace racman
 
         // Currently loaded planet.
         public uint currentPlanet => 0xE897B4;
+
+        // Azimuth HP
+        public uint azimuthHPPtr = 0x40E89A2C;
 
         public uint levelFlags => throw new NotImplementedException();
 
@@ -43,7 +49,7 @@ namespace racman
         public uint unlockArray => throw new NotImplementedException();
     }
 
-    public class acit : IGame
+    public class acit : IGame, IAutosplitterAvailable
     {
         public dynamic Planets = new
         {
@@ -76,8 +82,20 @@ namespace racman
         public acit(Ratchetron api) : base(api)
         {
 
-
         }
+
+        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
+        {
+            (addr.currentPlanet, 4),        // current planet
+            (addr.gameState1Ptr, 4),        // game state1
+            (addr.gameState2Ptr, 4),        // game state2
+            (addr.boltCount, 4),            // bolt count
+            (addr.playerCoords, 4),         // player X coord
+            (addr.playerCoords + 0x8, 4),   // player Y coord
+            (addr.playerCoords + 0x4, 4),   // player Z coord
+            (addr.azimuthHPPtr, 4),          // azimuth HP
+            (addr.timerPtr, 4),             // timer0
+        };
 
         public override void ResetLevelFlags()
         {
@@ -102,6 +120,21 @@ namespace racman
         public override void CheckInputs(object sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        protected override void SetupInputDisplayMemorySubsAnalogs()
+        {
+            int analogRSubID = api.SubMemory(pid, addr.analogOffset + 8, 8, (value) =>
+            {
+                Inputs.ry = BitConverter.ToSingle(value, 0);
+                Inputs.rx = BitConverter.ToSingle(value, 4);
+            });
+
+            int analogYSubID = api.SubMemory(pid, addr.analogOffset, 8, (value) =>
+            {
+                Inputs.ly = BitConverter.ToSingle(value, 0);
+                Inputs.lx = BitConverter.ToSingle(value, 4);
+            });
         }
     }
 }
