@@ -17,9 +17,16 @@ namespace racman
             autosplitterHelper.StartAutosplitterForGame(game);
 
             InitializeComponent();
-
-            game.SetupInputDisplayMemorySubs();
-
+            if (game.hasInputDisplay())
+            {
+                game.SetupInputDisplayMemorySubs();
+            }
+            else
+            {
+                inputdisplay.Enabled = false;
+                inputdisplay.Hide();
+            }
+            
             AutosplitterCheckbox.Checked = true;
         }
 
