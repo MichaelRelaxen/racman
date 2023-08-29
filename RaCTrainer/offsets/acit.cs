@@ -90,7 +90,7 @@ namespace racman
             gameVersion["NPUA80966"] = new Addresses
             {
                 gameState1Ptr = 0xFBA8C8, cutsceneState1Ptr = 0xF6B3AC, cutsceneState2Ptr = 0x40E9651C,
-                cutsceneState3Ptr = 0x40E9651C, saveFileIDPtr = 0xE472B8, timerPtr = 0x40EBA460,
+                cutsceneState3Ptr = 0x4A4E5428, saveFileIDPtr = 0xE472B8, timerPtr = 0x40EBA460,
                 boltCount = 0xE24F68, playerCoords = 0xE24070, inputOffset = 0xF6ABC8, analogOffset = 0xF6AA24,
                 currentPlanet = 0xE896B4, azimuthHPPtr = 0x40E890AC, mapTimerPtr = 0x4BA17930
             };
