@@ -11,6 +11,8 @@ namespace racman
     {
         public rac4 game;
         private static ModLoaderForm modLoaderForm;
+        private AutosplitterHelper autosplitterHelper;
+        private AutosplitterConfigForm autosplitterConfigForm;
 
         public RAC4Form(rac4 game)
         {
@@ -23,6 +25,7 @@ namespace racman
             }
 
             InitializeComponent();
+            AutosplitterCheckbox.Checked = true;
         }
 
         public Form InputDisplay;
@@ -142,6 +145,23 @@ namespace racman
         {
             MemoryForm memoryForm = new MemoryForm();
             memoryForm.Show();
+        }
+
+        private void AutosplitterCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!AutosplitterCheckbox.Checked)
+            {
+                // Disable autosplitter.
+                autosplitterHelper.Stop();
+                autosplitterHelper = null;
+            }
+            else
+            {
+                // Enable auotpslitter
+                Console.WriteLine("Autosplitter starting!");
+                autosplitterHelper = new AutosplitterHelper();
+                autosplitterHelper.StartAutosplitterForGame(this.game);
+            }
         }
     }
 }

@@ -39,6 +39,7 @@ namespace racman
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,7 +88,7 @@ namespace racman
             // 
             // inputdisplaybutton
             // 
-            this.inputdisplaybutton.Location = new System.Drawing.Point(542, 47);
+            this.inputdisplaybutton.Location = new System.Drawing.Point(542, 61);
             this.inputdisplaybutton.Name = "inputdisplaybutton";
             this.inputdisplaybutton.Size = new System.Drawing.Size(75, 23);
             this.inputdisplaybutton.TabIndex = 4;
@@ -131,11 +132,23 @@ namespace racman
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
+            // AutosplitterCheckbox
+            // 
+            this.AutosplitterCheckbox.AutoSize = true;
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(542, 35);
+            this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
+            this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
+            this.AutosplitterCheckbox.TabIndex = 104;
+            this.AutosplitterCheckbox.Text = "Autosplitter";
+            this.AutosplitterCheckbox.UseVisualStyleBackColor = true;
+            this.AutosplitterCheckbox.CheckedChanged += new System.EventHandler(this.AutosplitterCheckbox_CheckedChanged);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 134);
+            this.Controls.Add(this.AutosplitterCheckbox);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.inputdisplaybutton);
             this.Controls.Add(this.ghostcheck);
@@ -143,13 +156,13 @@ namespace racman
             this.Controls.Add(this.levelinfo);
             this.Controls.Add(this.writetext);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "RAC4Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ratchet: Deadlocked (PAL) - NPEA00423";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RAC4Form_FormClosing);
             this.Load += new System.EventHandler(this.RAC4Form_Load);
-            this.MainMenuStrip = this.menuStrip1;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -168,5 +181,6 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
+        private System.Windows.Forms.CheckBox AutosplitterCheckbox;
     }
 }
