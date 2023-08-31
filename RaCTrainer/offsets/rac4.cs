@@ -26,6 +26,9 @@ namespace racman
 
         public uint playerCoords => throw new NotImplementedException();
 
+        // In Game (0 in main menu | 1 in game)
+        public uint inGame => 0xB1F460;
+
         // load planet
         public uint loadPlanet => 0x9C307C;
 
@@ -50,6 +53,7 @@ namespace racman
             (addr.loadPlanet, 4),       // load planet
             (addr.voxHP, 4),            // Vox HP
             (addr.cutscenePtr, 4),      // cutscene
+            (addr.inGame, 4),           // in game boolean
         };
 
         public override void ResetLevelFlags()
