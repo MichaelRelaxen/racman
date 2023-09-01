@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
+using System.Collections.Generic;
 using Timer = System.Windows.Forms.Timer;
 
 namespace racman
@@ -17,15 +16,26 @@ namespace racman
         public uint infobotFlags => throw new System.NotImplementedException();
         public uint moviesFlags => throw new System.NotImplementedException();
 
+        // Vox HP
+        public uint voxHP => 0x449BEAD0;
+
+        // Cutscene
+        public uint cutscenePtr = 0xB36DE8;
+
         public uint boltCount => throw new NotImplementedException();
 
         public uint playerCoords => throw new NotImplementedException();
 
-        public uint loadPlanet => throw new NotImplementedException();
+        // In Game (0 in main menu | 1 in game)
+        public uint inGame => 0xB1F460;
 
-        public uint currentPlanet => 0xB11F30; // just the input offset for now. I don't care this shit isnt used atm anyway lol
+        // load planet
+        public uint loadPlanet => 0x9C307C;
+
+        // current planet   (it's 0 in main menu)
+        public uint currentPlanet => 0x119353C;
     }
-    public class rac4 : IGame
+    public class rac4 : IGame, IAutosplitterAvailable
     {
         public Timer fastloadTimer = new Timer();
 
@@ -34,7 +44,17 @@ namespace racman
         int ghostRatchetSubID = -1;
         public rac4(Ratchetron api) : base(api)
         {
+
         }
+
+        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
+        {
+            (addr.currentPlanet, 4),    // current planet
+            (addr.loadPlanet, 4),       // load planet
+            (addr.voxHP, 4),            // Vox HP
+            (addr.cutscenePtr, 4),      // cutscene
+            (addr.inGame, 4),           // in game boolean
+        };
 
         public override void ResetLevelFlags()
         {
@@ -61,4 +81,4 @@ namespace racman
             throw new NotImplementedException();
         }
     }
-    }
+}

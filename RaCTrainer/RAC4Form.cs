@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
 using Timer = System.Windows.Forms.Timer;
 
 namespace racman
@@ -12,6 +10,10 @@ namespace racman
     public partial class RAC4Form : Form
     {
         public rac4 game;
+        private static ModLoaderForm modLoaderForm;
+        private AutosplitterHelper autosplitterHelper;
+        private AutosplitterConfigForm autosplitterConfigForm;
+
         public RAC4Form(rac4 game)
         {
             this.game = game;
@@ -23,6 +25,7 @@ namespace racman
             }
 
             InitializeComponent();
+            AutosplitterCheckbox.Checked = true;
         }
 
         public Form InputDisplay;
@@ -123,6 +126,42 @@ namespace racman
         private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
         {
             InputDisplay = null;
+        }
+
+        private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if ((Application.OpenForms["ModLoaderForm"] as ModLoaderForm) != null)
+            {
+                modLoaderForm.Activate();
+            }
+            else
+            {
+                modLoaderForm = new ModLoaderForm();
+                modLoaderForm.Show();
+            }
+        }
+
+        private void memoryUtilitiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryForm memoryForm = new MemoryForm();
+            memoryForm.Show();
+        }
+
+        private void AutosplitterCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!AutosplitterCheckbox.Checked)
+            {
+                // Disable autosplitter.
+                autosplitterHelper.Stop();
+                autosplitterHelper = null;
+            }
+            else
+            {
+                // Enable auotpslitter
+                Console.WriteLine("Autosplitter starting!");
+                autosplitterHelper = new AutosplitterHelper();
+                autosplitterHelper.StartAutosplitterForGame(this.game);
+            }
         }
     }
 }

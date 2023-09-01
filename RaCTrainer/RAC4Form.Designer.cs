@@ -35,13 +35,19 @@ namespace racman
             this.wrtext = new System.Windows.Forms.Label();
             this.ghostcheck = new System.Windows.Forms.CheckBox();
             this.inputdisplaybutton = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // writetext
             // 
             this.writetext.AutoSize = true;
             this.writetext.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.writetext.Location = new System.Drawing.Point(12, 12);
+            this.writetext.Location = new System.Drawing.Point(12, 35);
             this.writetext.Name = "writetext";
             this.writetext.Size = new System.Drawing.Size(151, 35);
             this.writetext.TabIndex = 0;
@@ -53,7 +59,7 @@ namespace racman
             // 
             this.levelinfo.AutoSize = true;
             this.levelinfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.levelinfo.Location = new System.Drawing.Point(35, 50);
+            this.levelinfo.Location = new System.Drawing.Point(35, 73);
             this.levelinfo.Name = "levelinfo";
             this.levelinfo.Size = new System.Drawing.Size(138, 20);
             this.levelinfo.TabIndex = 1;
@@ -63,7 +69,7 @@ namespace racman
             // 
             this.wrtext.AutoSize = true;
             this.wrtext.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.wrtext.Location = new System.Drawing.Point(35, 77);
+            this.wrtext.Location = new System.Drawing.Point(35, 100);
             this.wrtext.Name = "wrtext";
             this.wrtext.Size = new System.Drawing.Size(44, 20);
             this.wrtext.TabIndex = 2;
@@ -72,7 +78,7 @@ namespace racman
             // ghostcheck
             // 
             this.ghostcheck.AutoSize = true;
-            this.ghostcheck.Location = new System.Drawing.Point(12, 107);
+            this.ghostcheck.Location = new System.Drawing.Point(522, 105);
             this.ghostcheck.Name = "ghostcheck";
             this.ghostcheck.Size = new System.Drawing.Size(95, 17);
             this.ghostcheck.TabIndex = 3;
@@ -82,7 +88,7 @@ namespace racman
             // 
             // inputdisplaybutton
             // 
-            this.inputdisplaybutton.Location = new System.Drawing.Point(113, 103);
+            this.inputdisplaybutton.Location = new System.Drawing.Point(542, 61);
             this.inputdisplaybutton.Name = "inputdisplaybutton";
             this.inputdisplaybutton.Size = new System.Drawing.Size(75, 23);
             this.inputdisplaybutton.TabIndex = 4;
@@ -90,23 +96,75 @@ namespace racman
             this.inputdisplaybutton.UseVisualStyleBackColor = true;
             this.inputdisplaybutton.Click += new System.EventHandler(this.inputdisplaybutton_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(629, 24);
+            this.menuStrip1.TabIndex = 77;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // menuToolStripMenuItem
+            // 
+            this.menuToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.patchLoaderToolStripMenuItem,
+            this.memoryUtilitiesToolStripMenuItem});
+            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+            this.menuToolStripMenuItem.Text = "Menu";
+            // 
+            // patchLoaderToolStripMenuItem
+            // 
+            this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
+            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
+            // 
+            // memoryUtilitiesToolStripMenuItem
+            // 
+            this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
+            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            // 
+            // AutosplitterCheckbox
+            // 
+            this.AutosplitterCheckbox.AutoSize = true;
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(542, 35);
+            this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
+            this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
+            this.AutosplitterCheckbox.TabIndex = 104;
+            this.AutosplitterCheckbox.Text = "Autosplitter";
+            this.AutosplitterCheckbox.UseVisualStyleBackColor = true;
+            this.AutosplitterCheckbox.CheckedChanged += new System.EventHandler(this.AutosplitterCheckbox_CheckedChanged);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 134);
+            this.Controls.Add(this.AutosplitterCheckbox);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.inputdisplaybutton);
             this.Controls.Add(this.ghostcheck);
             this.Controls.Add(this.wrtext);
             this.Controls.Add(this.levelinfo);
             this.Controls.Add(this.writetext);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "RAC4Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ratchet: Deadlocked (PAL) - NPEA00423";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RAC4Form_FormClosing);
             this.Load += new System.EventHandler(this.RAC4Form_Load);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -119,5 +177,10 @@ namespace racman
         private System.Windows.Forms.Label wrtext;
         private System.Windows.Forms.CheckBox ghostcheck;
         private System.Windows.Forms.Button inputdisplaybutton;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
+        private System.Windows.Forms.CheckBox AutosplitterCheckbox;
     }
 }

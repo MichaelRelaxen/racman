@@ -1,3 +1,5 @@
+// Only works on NPUA80966 version of the game
+
 state("rpcs3") { }
 
 init
@@ -5,13 +7,16 @@ init
     IntPtr basePointer = new IntPtr(0x300000000);
 
     // Pointers
-    int planetPtr = 0xE897B4;           // current planet
-    int gameState1Ptr = 0xFBAE48;       // (0 = in game, 1 = in main menu, 2 = in pause) (NOTE: first pause will result in a 1 for a second)
-    int gameState2Ptr = 0x4027CF70;     // (6 = in main menu, 7 = in game)  
-    int boltCounterPtr = 0xE25068;      // bolt counter
-    int ratchetCoordsPtr = 0xE24170;    // ratchet coords
-    int azimuthHPPtr = 0x40E89A2C;      // Azimuth HP
-    int timerPtr = 0x40EBADE0;          // timer
+    int planetPtr = 0xE896B4;           // current planet (22 in main menu)
+    int gameState1Ptr = 0xFBA8C8;       // (0 = in game, 1 = in main menu, 2 = in pause) (NOTE: first pause will result in a 1 for a second)
+    int cutsceneState1Ptr = 0xF6B3AC;   // Main Cutscenes (0 = in game, 1 = in cutscene)
+    int cutsceneState2Ptr = 0x40E9651C; // Animation Cutscenes (0 = in game, 1 = in cutscene)
+    int cutsceneState3Ptr = 0x4A4E5428; // Mini Cutscenes (0 = in game, 1 = in cutscene)
+    int saveFileIDPtr = 0xE472B8;       // save file ID
+    int boltCounterPtr = 0xE24F68;      // bolt counter
+    int ratchetCoordsPtr = 0xE24070;    // ratchet coords
+    int azimuthHPPtr = 0x40E890AC;      // Azimuth HP
+    int timerPtr = 0x40EBA460;          // timer
 
     // Convert big endian int to little endian int
     vars.IntToLittleEndian = (Func<uint, uint>)((bigEndianInt) => {
@@ -31,7 +36,10 @@ init
     vars.UpdateValues = (Action) (() => {
         uint planet = 0;            // current planet
         uint gameState1 = 0;        // game state1
-        uint gameState2 = 0;        // game state2
+        uint cutsceneState1 = 0;    // cutscene state
+        uint cutsceneState2 = 0;    // cutscene state
+        uint cutsceneState3 = 0;    // cutscene state
+        uint saveFileID = 0;        // save file ID
         uint boltCounter = 0;       // bolt counter
         float ratchetX = 0;         // ratchet x coord
         float ratchetY = 0;         // ratchet y coord
@@ -42,7 +50,10 @@ init
         // Read values from memory
         memory.ReadValue<uint>(IntPtr.Add(basePointer, planetPtr), out planet);
         memory.ReadValue<uint>(IntPtr.Add(basePointer, gameState1Ptr), out gameState1);
-        memory.ReadValue<uint>(IntPtr.Add(basePointer, gameState2Ptr), out gameState2);
+        memory.ReadValue<uint>(IntPtr.Add(basePointer, cutsceneState1Ptr), out cutsceneState1);
+        memory.ReadValue<uint>(IntPtr.Add(basePointer, cutsceneState2Ptr), out cutsceneState2);
+        memory.ReadValue<uint>(IntPtr.Add(basePointer, cutsceneState3Ptr), out cutsceneState3);
+        memory.ReadValue<uint>(IntPtr.Add(basePointer, saveFileIDPtr), out saveFileID);
         memory.ReadValue<uint>(IntPtr.Add(basePointer, boltCounterPtr), out boltCounter);
         memory.ReadValue<float>(IntPtr.Add(basePointer, ratchetCoordsPtr), out ratchetX);
         memory.ReadValue<float>(IntPtr.Add(basePointer, ratchetCoordsPtr + 8), out ratchetY);
@@ -53,7 +64,10 @@ init
         // Update values
         current.planet = vars.IntToLittleEndian(planet);
         current.gameState1 = vars.IntToLittleEndian(gameState1);
-        current.gameState2 = vars.IntToLittleEndian(gameState2);
+        current.cutsceneState1 = vars.IntToLittleEndian(cutsceneState1);
+        current.cutsceneState2 = vars.IntToLittleEndian(cutsceneState2);
+        current.cutsceneState3 = vars.IntToLittleEndian(cutsceneState3);
+        current.saveFileID = vars.IntToLittleEndian(saveFileID);
         current.boltCounter = vars.IntToLittleEndian(boltCounter);
         current.ratchetX = vars.FloatToLittleEndian(ratchetX);
         current.ratchetY = vars.FloatToLittleEndian(ratchetY);
@@ -67,50 +81,92 @@ init
     vars.neffy1MaxZ = 320.0f;   // this value is a bit lover than the max height of the elevator on Neffy1
 
     // Initialize run values
-    vars.ResetRunValues = (Action)(() => {
-        vars.noSplitPlanets = new HashSet<int> { 3, 5, 6, 9, 11, 15, 18 };
+    vars.ResetRunValues = (Action) (() => {
+        vars.noSplitPlanets = new HashSet<int> { 3, 5, 6, 9, 10, 11, 14, 15, 18 };
         vars.gameTime = 0.0f;
         vars.tempTimer = 0.0f;
+        vars.runSaveFileID = -1;
+
+        vars.korthosCutsceneCount = 0;
+        vars.isLibraAlive = true;
+        vars.firstVorselonVisit = true;
 
         vars.reachedNeffy1FinalRoom = false;
-
-        vars.isFirstVorselVisit = true;
-        vars.onVorselonBoltCount = -1;
     });
     vars.ResetRunValues();
 }
 
-onReset
+onStart
 {
     vars.ResetRunValues();
+    vars.runSaveFileID = current.saveFileID;
 }
 
 update
 {
     vars.UpdateValues();
 
-    print(current.timer.ToString());
-    //print((!vars.noSplitPlanets.Contains((int)old.planet)).ToString());
+    //print(current.timer.ToString());
     //print(current.planet.ToString() + " " + old.planet.ToString());
+    //print(vars.gameTime.ToString() + " " + vars.tempTimer.ToString() + " " + current.timer.ToString());
 
-    // Check if Ratchet reached the final room in Neffy1
+    // setting up libra fight
+    if (current.planet == 10 && old.cutsceneState2 == 0 && current.cutsceneState2 == 1 && vars.isLibraAlive)
+    {
+        vars.korthosCutsceneCount++;
+    }
+
+    // check if the save file is changed
+    if (vars.firstVorselonVisit && current.saveFileID != old.saveFileID)
+    {
+        vars.runSaveFileID = current.saveFileID;
+    }
+    
+    if (vars.firstVorselonVisit && old.planet == 3 && current.planet == 4)
+    {
+        vars.firstVorselonVisit = false;
+    }
+
+    // check if Ratchet reached the final room in Neffy1
     if (current.planet == 17 && current.ratchetZ > vars.neffy1MaxZ)
     {
         vars.reachedNeffy1FinalRoom = true;
     }
 
-    // If you visit Vorselon from another save it won't count the game timer
-    if (old.planet == 3 && current.planet == 4 && vars.isFirstVorselVisit)
+    // not counting time spent during cutscenes
+    if ((old.cutsceneState2 == 0 && current.cutsceneState2 == 1) ||
+        (old.cutsceneState3 == 0 && current.cutsceneState3 == 1))
     {
-        vars.isFirstVorselVisit = false;
-        vars.onVorselonBoltCount = current.boltCounter;
+        vars.tempTimer += current.timer;
     }
 
-    if (current.planet == 3 && current.boltCounter == vars.onVorselonBoltCount && !vars.isFirstVorselVisit)
+    if ((old.cutsceneState2 == 1 && current.cutsceneState2 == 0) ||
+        (old.cutsceneState3 == 1 && current.cutsceneState3 == 0))
+    {
+        vars.tempTimer -= current.timer;
+    }
+
+    if (current.cutsceneState2 == 1 || current.cutsceneState3 == 1)
     {
         return;
     }
 
+    // not counting time spent on other files
+    if (current.saveFileID != vars.runSaveFileID && current.saveFileID != old.saveFileID && !vars.firstVorselonVisit)
+    {
+        vars.tempTimer += current.timer;
+    }
+
+    if (current.saveFileID == vars.runSaveFileID && current.saveFileID != old.saveFileID && !vars.firstVorselonVisit)
+    {
+        vars.tempTimer -= current.timer;
+    }
+
+    if (current.saveFileID != vars.runSaveFileID)
+    {
+        return;
+    }
+    
     if (old.timer > current.timer)
     {
         vars.tempTimer += old.timer;
@@ -128,6 +184,7 @@ split
     // planet split
     if (old.planet != current.planet && !vars.noSplitPlanets.Contains((int)old.planet))
     {
+        print("Split on planet change " + old.planet.ToString() + " -> " + current.planet.ToString());
         vars.noSplitPlanets.Add((int)old.planet);
         return true;
     }
@@ -135,23 +192,27 @@ split
     // split on leaving Vorselon 2
     if (old.planet == 4 && current.planet == 10)
     {
+        print("Split on leaving Vorselon 2");
         return true;
     }
 
-    // Libra split (No address for Libra HP, so splitting on leaving planet 10)
-    /*if (current.planet == 10 && current.libraHP == 0.0f)
+    // Libra split
+    if (current.planet == 10 && vars.isLibraAlive && vars.korthosCutsceneCount == 3)
     {
+        print("Split on Libra");
+        vars.isLibraAlive = false;
         return true;
-    }*/
+    }
 
     // Neffy1 split (it splits if Ratchet reaches the final room and his z coord is less than the final room z coord)
     if (current.planet == 17 && vars.reachedNeffy1FinalRoom && current.ratchetZ < vars.neffy1MaxZ)
     {
+        vars.reachedNeffy1FinalRoom = false;
         return true;
     }
 
     // Azimuth split
-    if (current.planet == 20 && old.timer == current.timer && current.azimuthHP <= 0.0f)
+    if (current.planet == 20 && current.azimuthHP <= 0.0f && current.cutsceneState1 == 1 && old.cutsceneState1 == 0)
     {
         return true;
     }
@@ -164,7 +225,8 @@ reset
         return false;
     }
 
-    if (current.gameState1 == 1 && old.gameState1 == 0 && current.gameState2 == 6 && current.timer == 0)
+    // any%
+    if (current.gameState1 == 1 && old.gameState1 == 0 && current.timer == 0)
     {
         return true;
     }
@@ -177,8 +239,14 @@ start
         return false;
     }
 
-    if (current.planet == 1 && old.gameState1==1 && current.gameState1==0 &&
-        current.gameState2 == 7 && Equals(timer.CurrentPhase.ToString(), "NotRunning"))
+    // any%
+    if (current.planet == 1 && old.gameState1==1 && current.gameState1==0 && Equals(timer.CurrentPhase.ToString(), "NotRunning"))
+    {
+        return true;
+    }
+
+    // NG+
+    if (current.planet == 1 && old.gameState1==2 && current.gameState1==0 && Equals(timer.CurrentPhase.ToString(), "NotRunning"))
     {
         return true;
     }

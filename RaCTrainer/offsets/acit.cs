@@ -4,49 +4,123 @@ using System.Linq;
 
 namespace racman
 {
+    /// <summary>
+    /// Factory class for creating IAddresses objects.
+    /// </summary>
     public class ACITAddresses : IAddresses
     {
+
+        private Dictionary<string, Addresses> gameVersion = new Dictionary<string, Addresses>();
+
+        public ACITAddresses(string gameID)
+        {
+            InitializeAddresses();
+
+            if (gameVersion.ContainsKey(gameID))
+            {
+                GameID = gameID;
+
+                switch (GameID)
+                {
+                    case "BCUS98124":
+                        IsAutosplitterSupported = true;
+                        break;
+                    case "NPUA80966":
+                        IsAutosplitterSupported = true;
+                        break;
+                    case "BCES00511":
+                        IsAutosplitterSupported = true;
+                        break;
+                    default:
+                        IsAutosplitterSupported = false;
+                        break;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Selected GameID is not available.");
+            }
+        }
+
+        public string GameID { get; }
+
+        public bool IsAutosplitterSupported { get; private set; }
+
         // (0 = in game, 1 = in main menu, 2 = in pause) (NOTE: first pause will result in a 1 for a second)
-        public uint gameState1Ptr = 0xFBAE48;
-
-        // (6 = in main menu, 7 = in game)
-        public uint gameState2Ptr = 0x4027CF70;
-
-        // timer
-        public uint timerPtr = 0x40EBADE0;         
-
+        public uint gameState1Ptr => gameVersion[GameID].gameState1Ptr;
+        // Main Cutscenes (0 = in game, 1 = in cutscene)
+        public uint cutsceneState1Ptr => gameVersion[GameID].cutsceneState1Ptr;
+        // Animation Cutscenes (0 = in game, 1 = in cutscene)
+        public uint cutsceneState2Ptr => gameVersion[GameID].cutsceneState2Ptr;
+        // Mini Cutscenes (0 = in game, 1 = in cutscene)
+        public uint cutsceneState3Ptr => gameVersion[GameID].cutsceneState3Ptr;
+        // Save File ID
+        public uint saveFileIDPtr => gameVersion[GameID].saveFileIDPtr;
+        // Timer
+        public uint timerPtr => gameVersion[GameID].timerPtr;
+        // Map timer
+        public uint mapTimerPtr => gameVersion[GameID].mapTimerPtr;
         // Current bolt count
-        public uint boltCount => 0xE25068;
-
+        public uint boltCount => gameVersion[GameID].boltCount;
         // Ratchet's coordinates
-        public uint playerCoords => 0xE24170;
-
+        public uint playerCoords => gameVersion[GameID].playerCoords;
         // The player's current health.
-        public uint playerHealth => throw new NotImplementedException();
-
+        public uint playerHealth => gameVersion[GameID].playerHealth;
         // Controller inputs mask address
-        public uint inputOffset => 0xF6AD48;
-
+        public uint inputOffset => gameVersion[GameID].inputOffset;
         // Controller analog sticks address
-        public uint analogOffset => 0xF6ABA4;
-
-        public uint loadPlanet => throw new NotImplementedException();
-
+        public uint analogOffset => gameVersion[GameID].analogOffset;
+        // Loading planet
+        public uint loadPlanet => gameVersion[GameID].currentPlanet;
         // Currently loaded planet.
-        public uint currentPlanet => 0xE897B4;
-
+        public uint currentPlanet => gameVersion[GameID].currentPlanet;
         // Azimuth HP
-        public uint azimuthHPPtr = 0x40E89A2C;
+        public uint azimuthHPPtr => gameVersion[GameID].azimuthHPPtr;
 
-        public uint levelFlags => throw new NotImplementedException();
+        private void InitializeAddresses()
+        {
+            // All addresses are from the US version of the game.
 
-        public uint miscLevelFlags => throw new NotImplementedException();
+            gameVersion["BCUS98124"] = new Addresses
+            {
+                gameState1Ptr = 0xFBADC8, cutsceneState1Ptr = 0xF6B4AC, cutsceneState2Ptr = 0x40E9651C,
+                cutsceneState3Ptr = 0xDF027C, saveFileIDPtr = 0xE47338, timerPtr = 0x40EBA460,
+                boltCount = 0xE24FE8, playerCoords = 0xE240F0, currentPlanet = 0xEF7E90, azimuthHPPtr = 0x40E890AC
+            };
+            gameVersion["NPUA80966"] = new Addresses
+            {
+                gameState1Ptr = 0xFBA8C8, cutsceneState1Ptr = 0xF6B3AC, cutsceneState2Ptr = 0x40E9651C,
+                cutsceneState3Ptr = 0x4A4E5428, saveFileIDPtr = 0xE472B8, timerPtr = 0x40EBA460,
+                boltCount = 0xE24F68, playerCoords = 0xE24070, inputOffset = 0xF6ABC8, analogOffset = 0xF6AA24,
+                currentPlanet = 0xE896B4, azimuthHPPtr = 0x40E890AC, mapTimerPtr = 0x4BA17930
+            };
+            gameVersion["BCES00511"] = new Addresses
+            {
+                gameState1Ptr = 0xFBAE48, cutsceneState1Ptr = 0xF6B52C, cutsceneState2Ptr = 0x40E96E9C,
+                cutsceneState3Ptr = 0x40E96E9C, saveFileIDPtr = 0xE473B8, timerPtr = 0x40EBADE0,
+                boltCount = 0xE25068, playerCoords = 0xE24170, inputOffset = 0xF6AD48, analogOffset = 0xF6ABA4,
+                currentPlanet = 0xE897B4, azimuthHPPtr = 0x40E89A2C
+            };
+        }
 
-        public uint infobotFlags => throw new NotImplementedException();
-
-        public uint moviesFlags => throw new NotImplementedException();
-
-        public uint unlockArray => throw new NotImplementedException();
+        private class Addresses
+        {
+            public uint gameState1Ptr { get; set; }
+            public uint cutsceneState1Ptr { get; set; }
+            public uint cutsceneState2Ptr { get; set; }
+            public uint cutsceneState3Ptr { get; set; }
+            public uint saveFileIDPtr { get; set; }
+            public uint timerPtr { get; set; }
+            public uint mapTimerPtr { get; set; }
+            public uint boltCount { get; set; }
+            public uint playerCoords { get; set; }
+            public uint playerHealth { get; set; }
+            public uint inputOffset { get; set; }
+            public uint analogOffset { get; set; }
+            public uint loadPlanet { get; set; }
+            public uint currentPlanet { get; set; }
+            public uint azimuthHPPtr { get; set; }
+        }
     }
 
     public class acit : IGame, IAutosplitterAvailable
@@ -77,24 +151,30 @@ namespace racman
             zolar_forest = ("Zolar Forest")
         };
 
-        public static ACITAddresses addr = new ACITAddresses();
+        public static ACITAddresses addr;
+
+        public bool HasInputDisplay => addr.inputOffset > 0 && addr.analogOffset > 0 && addr.currentPlanet > 0;
+        public bool IsAutosplitterSupported => addr.IsAutosplitterSupported;
 
         public acit(Ratchetron api) : base(api)
         {
-
+            addr = new ACITAddresses(api.getGameTitleID());
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
             (addr.currentPlanet, 4),        // current planet
             (addr.gameState1Ptr, 4),        // game state1
-            (addr.gameState2Ptr, 4),        // game state2
+            (addr.cutsceneState1Ptr, 4),    // cutscene state1
+            (addr.cutsceneState2Ptr, 4),    // cutscene state2
+            (addr.cutsceneState3Ptr, 4),    // cutscene state3
+            (addr.saveFileIDPtr, 4),        // save file ID
             (addr.boltCount, 4),            // bolt count
             (addr.playerCoords, 4),         // player X coord
             (addr.playerCoords + 0x8, 4),   // player Y coord
             (addr.playerCoords + 0x4, 4),   // player Z coord
-            (addr.azimuthHPPtr, 4),          // azimuth HP
-            (addr.timerPtr, 4),             // timer0
+            (addr.azimuthHPPtr, 4),         // azimuth HP
+            (addr.timerPtr, 4),             // timer
         };
 
         public override void ResetLevelFlags()

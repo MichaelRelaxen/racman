@@ -13,14 +13,28 @@ namespace racman
         {
             this.game = game;
 
-            autosplitterHelper = new AutosplitterHelper();
-            autosplitterHelper.StartAutosplitterForGame(game);
-
             InitializeComponent();
 
-            game.SetupInputDisplayMemorySubs();
+            if (this.game.IsAutosplitterSupported)
+            {
+                autosplitterHelper = new AutosplitterHelper();
+                autosplitterHelper.StartAutosplitterForGame(game);
+                AutosplitterCheckbox.Checked = true;
+            }
+            else
+            {
+                AutosplitterCheckbox.Hide();
+            }
 
-            AutosplitterCheckbox.Checked = true;
+            if (this.game.HasInputDisplay)
+            {
+                this.game.SetupInputDisplayMemorySubs();
+            }
+            else
+            {
+                inputdisplay.Enabled = false;
+                inputdisplay.Hide();
+            }            
         }
 
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
