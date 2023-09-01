@@ -93,6 +93,7 @@ namespace racman
             {
                 writer.Seek(mmfAddressBytes, SeekOrigin.Begin);
                 writer.Write(value, 0, value.Length);
+                writer.Write(Enumerable.Repeat((byte)0, mmfConfigBytes - value.Length).ToArray());
             }    
 
             writeLock.ReleaseMutex();
