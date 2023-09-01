@@ -36,7 +36,7 @@ init {
     current.chunk = vars.reader.ReadInt32();
 
     vars.reader.BaseStream.Position = 128;
-    vars.SplitRoute = vars.reader.ReadBytes(128);
+    vars.SplitRoute = vars.reader.ReadBytes(256);
 
     vars.SplitCount = 0;
     vars.biobliterator = false;
@@ -80,7 +80,7 @@ update {
     current.chunk = vars.reader.ReadInt32();
 
     vars.reader.BaseStream.Position = 128;
-    vars.SplitRoute = vars.reader.ReadBytes(128);
+    vars.SplitRoute = vars.reader.ReadBytes(256);
 
     if (current.loadingScreen == 1 && old.loadingScreen != 1 && vars.shipLevels.Contains(current.destinationPlanet)) {
         // Count a long load
