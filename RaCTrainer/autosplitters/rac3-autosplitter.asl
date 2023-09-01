@@ -13,6 +13,8 @@ startup {
     settings.SetToolTip("BIO_SPLIT", "Splits on defeating the biobliterator, the final boss.");
     settings.Add("COUNT_LONG_LOADS", false, "Use long load counter");
     settings.SetToolTip("COUNT_LONG_LOADS", "Count the long loads in a text component. Requires a text component with the left text set to \"Long Loads\".");
+    settings.Add("LDF_SPLIT", false, "Split when entering LDF");
+    settings.SetToolTip("LDF_SPLIT", "Splits when entering the laser defence facility on Marcadia. Does not split on exit.");
 }
 
 init {
@@ -31,6 +33,7 @@ init {
     current.mission = vars.reader.ReadByte();
     current.neffyHealth = vars.reader.ReadSingle();
     current.neffyPhase = vars.reader.ReadUInt32();
+    current.chunk = vars.reader.ReadInt32();
 
     vars.reader.BaseStream.Position = 128;
     vars.SplitRoute = vars.reader.ReadBytes(128);
@@ -74,6 +77,7 @@ update {
     current.mission = vars.reader.ReadByte();
     current.neffyHealth = vars.reader.ReadSingle();
     current.neffyPhase = vars.reader.ReadUInt32();
+    current.chunk = vars.reader.ReadInt32();
 
     vars.reader.BaseStream.Position = 128;
     vars.SplitRoute = vars.reader.ReadBytes(128);
@@ -107,6 +111,11 @@ start {
 }
 
 split {
+    if (settings["LDF_SPLIT"] && current.planet == 4 && current.chunk == 1 && old.chunk != 1)
+    {
+        vars.SplitCount++;
+        return true;
+    }
     if (current.neffyHealth == 0 && vars.biobliterator && current.planet == 20 && settings["BIO_SPLIT"]) {
         vars.biobliterator = false;
         vars.SplitCount++;
