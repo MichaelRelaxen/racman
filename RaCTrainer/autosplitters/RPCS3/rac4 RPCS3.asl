@@ -44,17 +44,28 @@ init
 
         // Update values
         current.planet = vars.IntToLittleEndian(planet);
-        current.loadPlanetPtr = vars.IntToLittleEndian(loadPlanet);
+        current.loadPlanet = vars.IntToLittleEndian(loadPlanet);
         current.voxHP = vars.FloatToLittleEndian(voxHP);
         current.cutscene = vars.IntToLittleEndian(cutscene);
         current.inGame = vars.IntToLittleEndian(inGame);
     });
     vars.UpdateValues();
+
+    // Initialize run values
+    vars.ResetRunValues = (Action) (() => {
+        vars.splitOnCurrentPlanet = false;
+    });
 }
 
 update
 {
     vars.UpdateValues();
+    print(current.loadPlanet.ToString() + " " + current.planet.ToString());
+}
+
+onReset
+{
+    vars.ResetRunValues();
 }
 
 split
@@ -64,10 +75,16 @@ split
         return false;
     }
 
+    if (old.planet != current.planet)
+    {
+        vars.splitOnCurrentPlanet = false;
+    }
+
     // planet split
-    if (old.loadPlanet != current.loadPlanet && current.loadPlanet != 15)
+    if (old.loadPlanet != current.loadPlanet && current.loadPlanet != 15 && old.loadPlanet != 0 && current.loadPlanet != current.planet && !vars.splitOnCurrentPlanet && current.planet != 0)
     {
         print("Split on planet " + current.loadPlanet + "->" + old.loadPlanet);
+        vars.splitOnCurrentPlanet = true;
         return true;
     }
 
