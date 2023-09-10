@@ -8,7 +8,7 @@ init
 
     // Pointers
     int planetPtr = 0x119353C;          // current planet   (it's 0 in main menu)
-    int loadPlanetPtr = 0x9C307C;       // load planet
+    int loadPlanetPtr = 0x9C3240;       // load planet
     int voxHPPtr = 0x449BEAD0;          // Vox HP
     int cutscenePtr = 0xB36DE8;         // cutscene
     int inGamePtr = 0xB1F460;           // in Game (0 in main menu | 1 in game)
