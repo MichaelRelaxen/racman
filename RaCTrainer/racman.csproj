@@ -121,6 +121,19 @@
     <Compile Include="DiskGameSelector.Designer.cs">
       <DependentUpon>DiskGameSelector.cs</DependentUpon>
     </Compile>
+    <Compile Include="RC2Unlocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RC2Unlocks.Designer.cs">
+      <DependentUpon>RC2Unlocks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC2JPForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC2JPForm.Designer.cs">
+      <DependentUpon>RAC2JPForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="offsets\rac2jp.cs" />
     <Compile Include="UYAUnlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -237,6 +250,9 @@
     <EmbeddedResource Include="MemoryForm.resx">
       <DependentUpon>MemoryForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RAC2JPForm.resx">
+      <DependentUpon>RAC2JPForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RacmanScripting.resx">
       <DependentUpon>RacmanScripting.cs</DependentUpon>
     </EmbeddedResource>
@@ -254,6 +270,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2Form.resx">
       <DependentUpon>RAC2Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RC2Unlocks.resx">
+      <DependentUpon>RC2Unlocks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SimpleInputDialogForm.resx">
       <DependentUpon>SimpleInputDialogForm.cs</DependentUpon>
