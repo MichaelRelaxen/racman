@@ -22,6 +22,7 @@ namespace racman
         public uint deathCount => 0xED7F14;
         public uint planetFrameCount => 0x1A70B30;
         public uint marcadiaMission => 0xD3AABC;
+        public uint loadedChunk => 0xF08100;
 
         // Player variables
         public uint boltCount => 0xc1e4dc;
@@ -196,7 +197,8 @@ namespace racman
             (addr.loadingScreenID + 3, 1),
             (addr.marcadiaMission + 3, 1), // Not actually used, here for backwards compatibility
             (0xC4DF80, 4),
-            (0xDA50FC, 4)
+            (0xDA50FC, 4),
+            (addr.loadedChunk, 4)
         };
 
         public void KlunkTuneToggle(bool enabled)

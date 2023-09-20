@@ -44,6 +44,7 @@ namespace racman
         public static string ip;
         public static int pid;
         public static string game;
+        public static string gameName;
 
         private int pleaseStartTheGame = 1;
 
@@ -119,12 +120,15 @@ namespace racman
                     {
                         case 0:
                             game = "NPEA00385"; // RAC 1
+                            gameName = "RAC 1";
                             break;
                         case 1:
                             game = "NPEA00386"; // RAC 2
+                            gameName = "RAC 2";
                             break;
                         case 2:
                             game = "NPEA00387"; // RAC 3
+                            gameName = "RAC 3";
                             break;  
                     }
                 } else
@@ -138,6 +142,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 RAC1Form rac1 = new RAC1Form(new rac1((Ratchetron)func.api));
+                gameName = "RAC 1";
                 rac1.ShowDialog();
             }
             else if (game == "NPEA00386")
@@ -145,6 +150,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected to rac2");
                 RAC2Form rac2 = new RAC2Form(new rac2((Ratchetron)func.api));
+                gameName = "RAC 2";
                 rac2.ShowDialog();
             }
             else if (game == "NPEA00387")
@@ -152,6 +158,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 RAC3Form rac3 = new RAC3Form(new rac3((Ratchetron)func.api));
+                gameName = "RAC 3";
                 rac3.ShowDialog();
             }
             else if (game == "NPEA00423")
@@ -159,6 +166,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 RAC4Form rac4 = new RAC4Form(new rac4((Ratchetron)func.api));
+                gameName = "RAC 4";
                 rac4.ShowDialog();
             }
             else if (game == "NPUA80966" || game == "NPEA00453" || game == "BCES00511" || game == "BCES00726")
@@ -166,6 +174,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 ACITForm acit = new ACITForm(new acit((Ratchetron)func.api));
+                gameName = "ACIT";
                 acit.ShowDialog();
             }
             else

@@ -305,7 +305,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="autosplitters\acit-loadremover.asl">
+    <None Include="autosplitters\acit-autosplitter.asl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="autosplitters\rac2-autosplitter.asl" />

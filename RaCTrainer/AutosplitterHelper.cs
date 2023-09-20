@@ -17,6 +17,10 @@ namespace racman
 
     public class AutosplitterHelper
     {
+        public static int mmfAddressBytes = 128;
+        public static int mmfConfigBytes = 256;
+        public static int mmfSize = mmfAddressBytes + mmfConfigBytes;
+
         MemoryMappedFile mmfFile;
         MemoryMappedViewStream mmfStream;
         BinaryWriter writer;
@@ -29,7 +33,7 @@ namespace racman
 
         public AutosplitterHelper()
         {
-            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", 256);
+            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", mmfSize);
             mmfStream = mmfFile.CreateViewStream();
             writer = new BinaryWriter(mmfStream);
         }
@@ -87,53 +91,16 @@ namespace racman
 
             if (writer != null)
             {
-                writer.Seek(128, SeekOrigin.Begin);
+                writer.Seek(mmfAddressBytes, SeekOrigin.Begin);
                 writer.Write(value, 0, value.Length);
+                writer.Write(Enumerable.Repeat((byte)0, mmfConfigBytes - value.Length).ToArray());
             }    
 
             writeLock.ReleaseMutex();
         }
 
-        private void OpenAutosplitter(acit game)
-        {
-            int planetFrameCountSubID = game.api.SubMemory(game.pid, acit.addr.weirdTimerThingy, 4, (value) =>
-            {
-                WriteToMemory(0, value);
-            });
-            int isPausedSubID = game.api.SubMemory(game.pid, acit.addr.isPaused2, 1, (value) =>
-            {
-                WriteToMemory(4, value);
-            });
-            int gameStateSubID = game.api.SubMemory(game.pid, acit.addr.gameState + 3, 1, (value) =>
-            {
-                WriteToMemory(5, value);
-            });
-            int planetStringSubID1 = game.api.SubMemory(game.pid, 0xE20583, 8, (value) => 
-            {
-                WriteToMemory(6, new byte[] { 0x41 }); // Fuck livesplit
-                WriteToMemory(7, value.Reverse().ToArray());
-            });
-            int planetStringSubID2 = game.api.SubMemory(game.pid, 0xE20583 + 8, 8, (value) => 
-            {
-                WriteToMemory(15, value.Reverse().ToArray());
-            });
-
-            subscriptionIDs.AddRange(new int[] {
-                planetFrameCountSubID,
-                isPausedSubID,
-                gameStateSubID,
-                planetStringSubID1,
-                planetStringSubID2
-            });
-        }
-
         public void StartAutosplitterForGame(IGame game)
         {
-            if (game is acit)
-            {
-                OpenAutosplitter(game as acit);
-                return;
-            }
             if (!(game is IAutosplitterAvailable)) throw new NotSupportedException("This game doesn't support an autosplitter yet.");
             currentGame = game;
             var autosplitter = game as IAutosplitterAvailable;
