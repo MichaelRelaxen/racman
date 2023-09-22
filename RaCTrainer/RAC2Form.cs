@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -267,8 +268,9 @@ namespace racman
             api.WriteMemory(pid, 0x1329AAC, 0); // Bolt economy
             api.WriteMemory(pid, 0x1A5815B, 0); // Endako cutscene
             api.WriteMemory(pid, 0x1AAC767, 0); // Game pyramid bolt drop
+            api.WriteMemory(pid, rac2.addr.selectedRaceIndex, 0); // Race storage
 
-            api.Notify("Game Pyramid, Bolts manip, and Endako Boss Cutscene are now reset and ready for runs");
+            api.Notify("Game Pyramid, Bolts manip, Race Storage and Endako Boss Cutscene are now reset and ready for runs");
         }
 
         private void labelLap_Click(object sender, EventArgs e)
@@ -339,7 +341,7 @@ namespace racman
                         System.Threading.Thread.Sleep(1000);
                     }
 
-                    api.Notify("Protopet boss act tunining done for NG+!");
+                    api.Notify("Protopet boss act tuning done for NG+!");
                 }
 
             }
@@ -384,6 +386,25 @@ namespace racman
 
                 api.Notify("Gorn Manip done!");
             }
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonRaceStorage_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac2.addr.selectedRaceIndex, 0); // Race storages
+            api.Notify("Reset Barlow race storage.");
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            RC2Unlocks unlocks = new RC2Unlocks(game);
+            unlocks.Show();
         }
     }
 }

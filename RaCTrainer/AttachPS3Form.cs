@@ -148,10 +148,18 @@ namespace racman
             else if (game == "NPEA00386")
             {
                 Hide();
-                func.api.Notify("RaCMAN connected to rac2");
+                func.api.Notify("RaCMAN connected!");
                 RAC2Form rac2 = new RAC2Form(new rac2((Ratchetron)func.api));
                 gameName = "RAC 2";
                 rac2.ShowDialog();
+            }
+            else if (game == "NPJA40002")
+            {
+                Hide();
+                func.api.Notify("RaCMAN connected!");
+                RAC2JPForm rac2jp = new RAC2JPForm(new rac2jp((Ratchetron)func.api));
+                gameName = "RAC 2 (JP)";
+                rac2jp.ShowDialog();
             }
             else if (game == "NPEA00387")
             {

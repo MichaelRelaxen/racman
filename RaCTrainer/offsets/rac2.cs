@@ -51,6 +51,10 @@ namespace racman
 
         // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
         public uint gornManip => 0x01A99A4C;
+
+        // Selected race on Barlow (maybe on Joba too idk)
+        public uint selectedRaceIndex => 0x013965F7;
+
     }
 
     public class rac2 : IGame, IAutosplitterAvailable
@@ -170,13 +174,13 @@ namespace racman
                 AttachPS3Form.scripting?.RunCurrentCode();
                 inputCheck = false;
             }
-            if (Inputs.RawInputs == 0x00 && !inputCheck)
-            {
-                inputCheck = true;
-            }
             if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)
             {
                 api.WriteMemory(pid, 0x10cd71e, new byte[] { 1 });
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x00 && !inputCheck)
+            {
                 inputCheck = true;
             }
         }
