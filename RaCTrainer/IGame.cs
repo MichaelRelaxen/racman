@@ -20,7 +20,7 @@ namespace racman
 
     public abstract class IGame
     {
-        public Ratchetron api { get; }
+        public IPS3API api { get; }
 
         public uint planetIndex;
         public bool inputCheck = true;
@@ -34,11 +34,15 @@ namespace racman
         public int selectedPositionIndex { get; set; }
         public uint planetToLoad { get; set; }
 
-        protected IGame(Ratchetron api)
+        protected IGame(IPS3API api)
         {
             this.api = api;
             this.pid = api.getCurrentPID();
-            api.OpenDataChannel();
+
+            if (api is Ratchetron)
+            {
+                ((Ratchetron)api).OpenDataChannel();
+            }
 
             InputsTimer.Interval = (int)16.66667;
             InputsTimer.Tick += new EventHandler(CheckInputs);

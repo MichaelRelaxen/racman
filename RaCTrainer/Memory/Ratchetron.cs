@@ -168,11 +168,6 @@ namespace racman
 
             writeLock.ReleaseMutex();
         }
-
-        public void WriteMemory(int pid, uint address, byte[] memory)
-        {
-            this.WriteMemory(pid, address, (uint)memory.Length, memory);
-        }
         
         public override void WriteMemory(int pid, uint address, uint size, byte[] memory)
         {
@@ -322,33 +317,7 @@ namespace racman
             }
         }
 
-        /// <summary>
-        /// Any blasts the data channel with values all the time
-        /// Changed only sends data when the value changes
-        /// The other things do other things thanks for reading my Ted talk
-        /// </summary>
-        public enum MemoryCondition: byte
-        {
-            Any = 1, 
-            Changed = 2,
-            Above = 3,
-            Below = 4,
-            Equal = 5,  // equal and not equal are not really useful for freezing
-            NotEqual = 6
-        }
-
-        public int SubMemory(int pid, uint address, uint size, MemoryCondition condition, Action<byte[]> callback)
-        {
-            return SubMemory(pid, address, size, condition, new byte[size], callback);
-        }
-
-        // Defaults to changed because why blast yourself with data?
-        public int SubMemory(int pid, uint address, uint size, Action<byte[]> callback)
-        {
-            return SubMemory(pid, address, size, MemoryCondition.Changed, new byte[size], callback);
-        }
-
-        public int SubMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory, Action<byte[]> callback)
+        public override int SubMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory, Action<byte[]> callback)
         {
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0a);
@@ -378,7 +347,7 @@ namespace racman
             return memSubID;
         }
 
-        public int FreezeMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory)
+        public override int FreezeMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory)
         {
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0b);
@@ -407,17 +376,7 @@ namespace racman
             return memSubID;
         }
 
-        public virtual int FreezeMemory(int pid, uint address, MemoryCondition condition, UInt32 intValue)
-        {
-            return this.FreezeMemory(pid, address, 4, condition, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
-        }
-
-        public virtual int FreezeMemory(int pid, uint address, UInt32 intValue)
-        {
-            return this.FreezeMemory(pid, address, 4, MemoryCondition.Any, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
-        }
-
-        public void ReleaseSubID(int memSubID)
+        public override void ReleaseSubID(int memSubID)
         {   
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0c);
@@ -442,7 +401,7 @@ namespace racman
             // we're ignoring the results because yolo
         }
 
-        public int MemSubIDForAddress(uint address)
+        public override int MemSubIDForAddress(uint address)
         {
             foreach(KeyValuePair<int, uint> entry in frozenAddresses)
             {
@@ -454,6 +413,7 @@ namespace racman
             return -1;
         }
 
+        // Doesn't work, sorry.
         public uint AllocatePage(int pid, uint size, uint flags, bool is_executable)
         {
             var cmdBuf = new List<byte>();

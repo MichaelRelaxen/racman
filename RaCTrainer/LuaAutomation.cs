@@ -335,7 +335,7 @@ namespace racman
 
         public static void Memset(uint addr, byte num, uint size)
         {
-            Ratchetron api = (Ratchetron)func.api;
+            IPS3API api = func.api;
 
             api.WriteMemory(AttachPS3Form.pid, addr, size, Enumerable.Repeat<byte>(num, (int)size).ToArray());
         }

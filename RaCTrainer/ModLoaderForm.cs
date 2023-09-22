@@ -460,7 +460,7 @@ namespace racman
                 {
                     bytesToWrite = patchBytes.Skip(bytesRead).Take(1024).ToArray();
 
-                    Ratchetron api = (Ratchetron)func.api;
+                    IPS3API api = func.api;
                     ogData.AddRange(api.ReadMemory(AttachPS3Form.pid, address + (uint)bytesRead, (uint)bytesToWrite.Length));
 
                     bytesRead += bytesToWrite.Length;
@@ -479,7 +479,7 @@ namespace racman
                 this.LoadOriginalData();
             }
 
-            Ratchetron api = (Ratchetron)func.api;
+            IPS3API api = func.api;
             WebMAN wmm = new WebMAN(func.api.GetIP());
 
             wmm.PauseRSX();
@@ -575,7 +575,7 @@ namespace racman
                 {
                     bytesToWrite = entry.Value.Skip(bytesWritten).Take(1024).ToArray();
 
-                    Ratchetron api = (Ratchetron)func.api;
+                    IPS3API api = func.api;
                     api.WriteMemory(AttachPS3Form.pid, entry.Key + (uint)bytesWritten, (uint)bytesToWrite.Length, bytesToWrite);
 
                     bytesWritten += bytesToWrite.Length;

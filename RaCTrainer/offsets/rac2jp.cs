@@ -31,7 +31,7 @@ namespace racman
     {
         public static RaC2JPAddresses addr = new RaC2JPAddresses();
 
-        public rac2jp(Ratchetron api) : base(api)
+        public rac2jp(IPS3API api) : base(api)
         {
             this.planetsList = new string[] {
                 "Aranos",

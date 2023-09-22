@@ -96,7 +96,7 @@ namespace racman
 
         public static RaC1Addresses addr = new RaC1Addresses();
 
-        public rac1(Ratchetron api) : base(api)
+        public rac1(IPS3API api) : base(api)
         {
             this.planetsList = new string[] {
                 "Veldin",

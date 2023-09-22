@@ -156,7 +156,7 @@ namespace racman
         public bool HasInputDisplay => addr.inputOffset > 0 && addr.analogOffset > 0 && addr.currentPlanet > 0;
         public bool IsAutosplitterSupported => addr.IsAutosplitterSupported;
 
-        public acit(Ratchetron api) : base(api)
+        public acit(IPS3API api) : base(api)
         {
             addr = new ACITAddresses(api.getGameTitleID());
         }

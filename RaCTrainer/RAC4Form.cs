@@ -18,11 +18,8 @@ namespace racman
         {
             this.game = game;
 
-            if (func.api is Ratchetron)
-            {
-                Ratchetron api = (Ratchetron)func.api;
-                game.SetupInputDisplayMemorySubs();
-            }
+            game.SetupInputDisplayMemorySubs();
+
 
             InitializeComponent();
             AutosplitterCheckbox.Checked = true;
@@ -109,12 +106,6 @@ namespace racman
 
         private void inputdisplaybutton_Click(object sender, EventArgs e)
         {
-            if (!(func.api is Ratchetron))
-            {
-                MessageBox.Show("You need to be using the new API to use input display");
-                return;
-            }
-
             if (InputDisplay == null)
             {
                 InputDisplay = new InputDisplay();

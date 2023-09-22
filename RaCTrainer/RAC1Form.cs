@@ -130,7 +130,7 @@ namespace racman
                 gbspiMod = null;
             }
 
-            if (autosplitterHelper != null)
+            if (autosplitterHelper != null && autosplitterHelper.IsRunning)
             {
                 autosplitterHelper.Stop();
             }
@@ -191,12 +191,6 @@ namespace racman
 
         private void inputdisplay_click(object sender, EventArgs e)
         {
-            if (!(game.api is Ratchetron))
-            {
-                MessageBox.Show("You need to be using the new API to use input display");
-                return;
-            }
-
             if (InputDisplay == null)
             {
                 InputDisplay = new InputDisplay();

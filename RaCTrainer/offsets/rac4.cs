@@ -42,7 +42,7 @@ namespace racman
         public static RaC4Addresses addr = new RaC4Addresses();
 
         int ghostRatchetSubID = -1;
-        public rac4(Ratchetron api) : base(api)
+        public rac4(IPS3API api) : base(api)
         {
 
         }

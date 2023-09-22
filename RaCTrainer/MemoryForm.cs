@@ -111,7 +111,7 @@ namespace racman
                     }
             }
 
-            Ratchetron api = (Ratchetron)func.api;
+            IPS3API api = func.api;
 
             watched.subID = api.SubMemory(api.getCurrentPID(), address, watched.size, (byte[] bytes) =>
             {
@@ -175,9 +175,9 @@ namespace racman
                 if (item.Tag != null)
                 {
                     WatchedAddress watched = (WatchedAddress)item.Tag;
-                    ((Ratchetron)func.api).ReleaseSubID(watched.subID);
+                    func.api.ReleaseSubID(watched.subID);
                     if (watched.isFrozen)
-                        ((Ratchetron)func.api).ReleaseSubID(watched.freezeSub);
+                        func.api.ReleaseSubID(watched.freezeSub);
                 }
             }
         }
@@ -213,7 +213,7 @@ namespace racman
                 if (focusedItem.Tag != null)
                 {
                     WatchedAddress watched = (WatchedAddress)focusedItem.Tag;
-                    Ratchetron api = (Ratchetron)func.api;
+                    IPS3API api = func.api;
                     try
                     {
                         if (watched.isFrozen)
@@ -227,7 +227,7 @@ namespace racman
                             watched.isFrozen = true;
                             // Get current value to freeze
                             byte[] currVal = api.ReadMemory(api.getCurrentPID(), watched.address, watched.size);
-                            watched.freezeSub = api.FreezeMemory(api.getCurrentPID(), watched.address, watched.size, Ratchetron.MemoryCondition.Any, currVal);
+                            watched.freezeSub = api.FreezeMemory(api.getCurrentPID(), watched.address, watched.size, IPS3API.MemoryCondition.Any, currVal);
                         }
                           
                     }
@@ -248,7 +248,7 @@ namespace racman
                 {
                     WatchedAddress watched = (WatchedAddress)focusedItem.Tag;
 
-                    Ratchetron api = (Ratchetron)func.api;
+                    IPS3API api = func.api;
 
                     SimpleInputDialogForm inputDialog = new SimpleInputDialogForm("Edit value", focusedItem.SubItems[2].Text);
                     if (inputDialog.ShowDialog() == DialogResult.OK)
@@ -286,7 +286,7 @@ namespace racman
                 {
                     WatchedAddress watched = (WatchedAddress)focusedItem.Tag;
 
-                    Ratchetron api = (Ratchetron)func.api;
+                    IPS3API api = func.api;
 
                     api.ReleaseSubID(watched.subID);
 
