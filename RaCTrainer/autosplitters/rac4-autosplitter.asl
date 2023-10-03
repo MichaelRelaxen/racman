@@ -92,7 +92,7 @@ start
         return false;
     }
 
-    if (old.inGame == 0 && current.inGame == 1)
+    if (old.inGame == 0 && current.inGame == 1 && old.cutscene == 0)
     {
         return true;
     }
