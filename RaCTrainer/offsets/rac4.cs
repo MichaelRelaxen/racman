@@ -24,7 +24,7 @@ namespace racman
 
         public uint boltCount => throw new NotImplementedException();
 
-        public uint playerCoords => throw new NotImplementedException();
+        public uint playerCoords => 0x10D7334;
 
         // In Game (0 in main menu | 1 in game)
         public uint inGame => 0xB1F460;
