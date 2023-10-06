@@ -14,6 +14,7 @@ namespace racman
             this.game = game;
 
             InitializeComponent();
+            bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
 
             if (this.game.IsAutosplitterSupported)
             {
@@ -34,7 +35,17 @@ namespace racman
             {
                 inputdisplay.Enabled = false;
                 inputdisplay.Hide();
-            }            
+            }
+            
+            if (this.game.IsSelfKillSupported)
+            {
+                killyourself.Enabled = true;
+            }
+            else
+            {
+                killyourself.Enabled = false;
+                killyourself.Hide();
+            }
         }
 
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
@@ -48,6 +59,21 @@ namespace racman
         }
 
         static ModLoaderForm modLoaderForm;
+
+        private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.SetBoltCount(uint.Parse(bolts_textBox.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
 
         private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -110,6 +136,16 @@ namespace racman
                 autosplitterHelper = new AutosplitterHelper();
                 autosplitterHelper.StartAutosplitterForGame(this.game);
             }
+        }
+
+        private void killyourself_Click(object sender, EventArgs e)
+        {
+            KillYourself();
+        }
+
+        private void KillYourself()
+        {
+            game.KillYourself();
         }
     }
 }

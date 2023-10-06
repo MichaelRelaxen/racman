@@ -40,6 +40,9 @@ namespace racman
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.bolts_textBox = new System.Windows.Forms.TextBox();
+            this.killyourself = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,11 +146,40 @@ namespace racman
             this.AutosplitterCheckbox.UseVisualStyleBackColor = true;
             this.AutosplitterCheckbox.CheckedChanged += new System.EventHandler(this.AutosplitterCheckbox_CheckedChanged);
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(519, 136);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.TabIndex = 107;
+            this.label8.Text = "Bolt Count:";
+            // 
+            // bolts_textBox
+            // 
+            this.bolts_textBox.Location = new System.Drawing.Point(522, 153);
+            this.bolts_textBox.Name = "bolts_textBox";
+            this.bolts_textBox.Size = new System.Drawing.Size(105, 20);
+            this.bolts_textBox.TabIndex = 106;
+            // 
+            // killyourself
+            // 
+            this.killyourself.Location = new System.Drawing.Point(502, 190);
+            this.killyourself.Name = "killyourself";
+            this.killyourself.Size = new System.Drawing.Size(115, 23);
+            this.killyourself.TabIndex = 108;
+            this.killyourself.Text = "Die";
+            this.killyourself.UseVisualStyleBackColor = true;
+            this.killyourself.Click += new System.EventHandler(this.killyourself_Click);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(629, 134);
+            this.ClientSize = new System.Drawing.Size(629, 225);
+            this.Controls.Add(this.killyourself);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.bolts_textBox);
             this.Controls.Add(this.AutosplitterCheckbox);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.inputdisplaybutton);
@@ -182,5 +214,8 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.CheckBox AutosplitterCheckbox;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox bolts_textBox;
+        private System.Windows.Forms.Button killyourself;
     }
 }

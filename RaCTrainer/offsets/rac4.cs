@@ -22,7 +22,7 @@ namespace racman
         // Cutscene
         public uint cutscenePtr = 0xB36DE8;
 
-        public uint boltCount => throw new NotImplementedException();
+        public uint boltCount => 0x9C32E8;
 
         public uint playerCoords => 0x10D7334;
 
@@ -34,6 +34,8 @@ namespace racman
 
         // current planet   (it's 0 in main menu)
         public uint currentPlanet => 0x119353C;
+
+        public uint tutorialFlags => 0x48613624;
     }
     public class rac4 : IGame, IAutosplitterAvailable
     {
@@ -54,6 +56,7 @@ namespace racman
             (addr.voxHP, 4),            // Vox HP
             (addr.cutscenePtr, 4),      // cutscene
             (addr.inGame, 4),           // in game boolean
+            (addr.tutorialFlags, 4),    // tutorial flags
         };
 
         public override void ResetLevelFlags()

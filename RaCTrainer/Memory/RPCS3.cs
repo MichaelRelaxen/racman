@@ -127,7 +127,7 @@ namespace racman.Memory
         public override byte[] ReadMemory(int pid, uint address, uint size)
         {
             byte[] buffer = new byte[size];
-            IntPtr bytesRead; 
+            IntPtr bytesRead;
             ReadProcessMemory(ProcessHandle, (Int64)(address + 0x300000000), buffer, (int)size, out bytesRead);    
             
             return buffer;

@@ -27,12 +27,14 @@ namespace racman
                         break;
                     case "NPUA80966":
                         IsAutosplitterSupported = true;
+                        IsSelfKillSupported = true;
                         break;
                     case "BCES00511":
                         IsAutosplitterSupported = true;
                         break;
                     default:
                         IsAutosplitterSupported = false;
+                        IsSelfKillSupported = false;
                         break;
                 }
             }
@@ -45,6 +47,7 @@ namespace racman
         public string GameID { get; }
 
         public bool IsAutosplitterSupported { get; private set; }
+        public bool IsSelfKillSupported { get; private set; }
 
         // (0 = in game, 1 = in main menu, 2 = in pause) (NOTE: first pause will result in a 1 for a second)
         public uint gameState1Ptr => gameVersion[GameID].gameState1Ptr;
@@ -155,6 +158,7 @@ namespace racman
 
         public bool HasInputDisplay => addr.inputOffset > 0 && addr.analogOffset > 0 && addr.currentPlanet > 0;
         public bool IsAutosplitterSupported => addr.IsAutosplitterSupported;
+        public bool IsSelfKillSupported => addr.IsSelfKillSupported;
 
         public acit(IPS3API api) : base(api)
         {
