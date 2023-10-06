@@ -35,7 +35,11 @@ namespace racman
         // current planet   (it's 0 in main menu)
         public uint currentPlanet => 0x119353C;
 
-        public uint tutorialFlags => 0x48613624;
+        // 0 = tutorial not completed | 1 = tutorial completed
+        public uint tutorialFlags => 0xB1F46C;
+
+        // 0 = not loading, 1 = loading
+        public uint isLoading => 0xB0FD84;
     }
     public class rac4 : IGame, IAutosplitterAvailable
     {
@@ -57,6 +61,7 @@ namespace racman
             (addr.cutscenePtr, 4),      // cutscene
             (addr.inGame, 4),           // in game boolean
             (addr.tutorialFlags, 4),    // tutorial flags
+            (addr.isLoading, 4),        // loading boolean
         };
 
         public override void ResetLevelFlags()

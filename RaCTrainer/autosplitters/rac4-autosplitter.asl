@@ -15,6 +15,8 @@ init
         float voxHP = 0;            // Vox HP
         uint cutscene = 0;          // cutscene
         uint inGame = 0;            // in game
+        uint tutorialFlag = 0;      // tutorial flag (0 = tutorial not completed, 1 = tutorial completed)
+        uint isLoading = 0;         // loading screen (0 = not loading, 1 = loading)
 
         vars.reader.BaseStream.Position = 0;
 
@@ -24,6 +26,8 @@ init
         current.voxHP = vars.reader.ReadSingle();
         current.cutscene = vars.reader.ReadUInt32();
         current.inGame = vars.reader.ReadUInt32();
+        current.tutorialFlag = vars.reader.ReadUInt32();
+        current.isLoading = vars.reader.ReadUInt32();
     });
     vars.UpdateValues();
 
@@ -36,7 +40,8 @@ init
 update
 {
     vars.UpdateValues();
-    print(current.loadPlanet.ToString() + " " + current.planet.ToString());
+    //print(current.tutorialFlag.ToString() + " - " + current.isLoading.ToString());
+    //print(old.isLoading.ToString() + " - " + current.isLoading.ToString() + " - " + current.tutorialFlag.ToString() + " - " + current.loadPlanet.ToString());
 }
 
 onReset
@@ -83,6 +88,11 @@ reset
     {
         return true;
     }
+
+    if (old.isLoading == 0 && current.isLoading == 1 && current.tutorialFlag == 0 && current.loadPlanet == 1 && old.inGame == 1)
+    {
+        return true;
+    }
 }
 
 start
@@ -92,7 +102,14 @@ start
         return false;
     }
 
-    if (old.inGame == 0 && current.inGame == 1 && old.cutscene == 0)
+    // if in main menu
+    if (old.inGame == 0 && current.inGame == 1 && old.cutscene == 0 && current.tutorialFlag == 0)
+    {
+        return true;
+    }
+
+    // if in game
+    if (old.isLoading == 0 && current.isLoading == 1 && current.tutorialFlag == 0 && current.loadPlanet == 1)
     {
         return true;
     }
