@@ -1,4 +1,5 @@
-﻿using System;
+﻿using racman.offsets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -164,9 +165,13 @@ namespace racman
         public bool IsSelfKillSupported => addr.IsSelfKillSupported;
         public bool HasWeaponUnlock => addr.weapons > 0;
 
+        private long lastUnlocksUpdate = 0;
+        private ACITWeaponFactory weaponFactory;
+
         public acit(IPS3API api) : base(api)
         {
             addr = new ACITAddresses(api.getGameTitleID());
+            weaponFactory = new ACITWeaponFactory();
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
@@ -208,6 +213,36 @@ namespace racman
         public override void CheckInputs(object sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Updates internal list of unlocked items. There was a bug in the Ratchetron C# API that maked it unfeasibly slow to get each item as a single byte.
+        /// </summary>
+        private void UpdateUnlocks()
+        {
+            if (DateTime.Now.Ticks < lastUnlocksUpdate + 10000000)
+            {
+                return;
+            }
+
+            byte[] memory = api.ReadMemory(pid, addr.weapons, ACITWeaponFactory.weaponCount * ACITWeaponFactory.weaponMemoryLenght);
+
+            weaponFactory.updateWeapons(memory);
+
+            lastUnlocksUpdate = DateTime.Now.Ticks;
+        }
+
+        public void setUnlockState(ACITWeapon weapon, bool unlockState)
+        {
+            weaponFactory.updateWeaponState(weapon.index, unlockState);
+            api.WriteMemory(pid, addr.weapons + (weapon.index * ACITWeaponFactory.weaponMemoryLenght), BitConverter.GetBytes(unlockState));
+
+        }
+
+        public List<ACITWeapon> GetWeapons()
+        {
+            UpdateUnlocks();
+            return HasWeaponUnlock ? weaponFactory.weapons : null;
         }
 
         protected override void SetupInputDisplayMemorySubsAnalogs()

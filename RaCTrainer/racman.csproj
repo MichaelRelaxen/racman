@@ -119,6 +119,12 @@
     <Compile Include="ACITForm.Designer.cs">
       <DependentUpon>ACITForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ACITUnlocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACITUnlocks.Designer.cs">
+      <DependentUpon>ACITUnlocks.cs</DependentUpon>
+    </Compile>
     <Compile Include="AttachPS3Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -145,6 +151,7 @@
       <DependentUpon>DiskGameSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Memory\RPCS3.cs" />
+    <Compile Include="offsets\ACITWeaponFactory.cs" />
     <Compile Include="RC2Unlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,12 +165,6 @@
       <DependentUpon>RAC2JPForm.cs</DependentUpon>
     </Compile>
     <Compile Include="offsets\rac2jp.cs" />
-    <Compile Include="ACITUnlocks.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ACITUnlocks.Designer.cs">
-      <DependentUpon>ACITUnlocks.cs</DependentUpon>
-    </Compile>
     <Compile Include="UYAUnlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,6 +265,9 @@
     <EmbeddedResource Include="ACITForm.resx">
       <DependentUpon>ACITForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ACITUnlocks.resx">
+      <DependentUpon>ACITUnlocks.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="AttachPS3Form.resx">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
     </EmbeddedResource>
@@ -329,9 +333,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ACITUnlocks.resx">
-      <DependentUpon>ACITUnlocks.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UYAUnlocks.resx">
       <DependentUpon>UYAUnlocks.cs</DependentUpon>
     </EmbeddedResource>
