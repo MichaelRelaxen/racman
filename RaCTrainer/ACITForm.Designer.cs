@@ -39,6 +39,7 @@ namespace racman
             this.bolts_textBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.killyourself = new System.Windows.Forms.Button();
+            this.unlocksWindowButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,11 +129,22 @@ namespace racman
             this.killyourself.UseVisualStyleBackColor = true;
             this.killyourself.Click += new System.EventHandler(this.killyourself_Click);
             // 
+            // unlocksWindowButton
+            // 
+            this.unlocksWindowButton.Location = new System.Drawing.Point(12, 53);
+            this.unlocksWindowButton.Name = "unlocksWindowButton";
+            this.unlocksWindowButton.Size = new System.Drawing.Size(106, 23);
+            this.unlocksWindowButton.TabIndex = 107;
+            this.unlocksWindowButton.Text = "Unlocks";
+            this.unlocksWindowButton.UseVisualStyleBackColor = true;
+            this.unlocksWindowButton.Click += new System.EventHandler(this.unlocksWindowButton_Click);
+            // 
             // ACITForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(291, 149);
+            this.Controls.Add(this.unlocksWindowButton);
             this.Controls.Add(this.killyourself);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.bolts_textBox);
@@ -163,5 +175,6 @@ namespace racman
         private System.Windows.Forms.TextBox bolts_textBox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button killyourself;
+        private System.Windows.Forms.Button unlocksWindowButton;
     }
 }

@@ -79,6 +79,8 @@ namespace racman
         public uint currentPlanet => gameVersion[GameID].currentPlanet;
         // Azimuth HP
         public uint azimuthHPPtr => gameVersion[GameID].azimuthHPPtr;
+        // Weapon unlock
+        public uint weapons => gameVersion[GameID].weapons;
 
         private void InitializeAddresses()
         {
@@ -95,7 +97,7 @@ namespace racman
                 gameState1Ptr = 0xFBA8C8, cutsceneState1Ptr = 0xF6B3AC, cutsceneState2Ptr = 0x40E9651C,
                 cutsceneState3Ptr = 0x4A4E5428, saveFileIDPtr = 0xE472B8, timerPtr = 0x40EBA460,
                 boltCount = 0xE24F68, playerCoords = 0x4A4E4800, inputOffset = 0xF6ABC8, analogOffset = 0xF6AA24,
-                currentPlanet = 0xE896B4, azimuthHPPtr = 0x40E890AC, mapTimerPtr = 0x4BA17930
+                currentPlanet = 0xE896B4, azimuthHPPtr = 0x40E890AC, mapTimerPtr = 0x4BA17930, weapons = 0xE24A05
             };
             gameVersion["BCES00511"] = new Addresses
             {
@@ -123,6 +125,7 @@ namespace racman
             public uint loadPlanet { get; set; }
             public uint currentPlanet { get; set; }
             public uint azimuthHPPtr { get; set; }
+            public uint weapons { get; set; }
         }
     }
 
@@ -159,6 +162,7 @@ namespace racman
         public bool HasInputDisplay => addr.inputOffset > 0 && addr.analogOffset > 0 && addr.currentPlanet > 0;
         public bool IsAutosplitterSupported => addr.IsAutosplitterSupported;
         public bool IsSelfKillSupported => addr.IsSelfKillSupported;
+        public bool HasWeaponUnlock => addr.weapons > 0;
 
         public acit(IPS3API api) : base(api)
         {

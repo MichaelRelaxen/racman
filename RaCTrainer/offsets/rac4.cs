@@ -40,6 +40,9 @@ namespace racman
 
         // 0 = not loading, 1 = loading
         public uint isLoading => 0xB0FD84;
+
+        // 0 = third person, 1 = lock-strafe, 2 = first person
+        public uint cameraMode => 0x9C287C;
     }
     public class rac4 : IGame, IAutosplitterAvailable
     {

@@ -158,6 +158,12 @@
       <DependentUpon>RAC2JPForm.cs</DependentUpon>
     </Compile>
     <Compile Include="offsets\rac2jp.cs" />
+    <Compile Include="ACITUnlocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ACITUnlocks.Designer.cs">
+      <DependentUpon>ACITUnlocks.cs</DependentUpon>
+    </Compile>
     <Compile Include="UYAUnlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -323,6 +329,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ACITUnlocks.resx">
+      <DependentUpon>ACITUnlocks.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UYAUnlocks.resx">
       <DependentUpon>UYAUnlocks.cs</DependentUpon>
     </EmbeddedResource>

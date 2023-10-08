@@ -147,5 +147,11 @@ namespace racman
         {
             game.KillYourself();
         }
+
+        private void unlocksWindowButton_Click(object sender, EventArgs e)
+        {
+            ACITUnlocks unlocks = new ACITUnlocks(game);
+            unlocks.Show();
+        }
     }
 }
