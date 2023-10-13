@@ -12,7 +12,6 @@ namespace racman
         public rac4 game;
         private static ModLoaderForm modLoaderForm;
         private AutosplitterHelper autosplitterHelper;
-        private AutosplitterConfigForm autosplitterConfigForm;
 
         public RAC4Form(rac4 game)
         {
