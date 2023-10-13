@@ -137,6 +137,10 @@ namespace racman
             return bytes;
         }
 
+        /// <summary>
+        /// Enable or disable cutscenes.
+        /// </summary>
+        /// <param name="enable"></param>
         public void EnableCutscenes(bool enable)
         {
             if (enable)
