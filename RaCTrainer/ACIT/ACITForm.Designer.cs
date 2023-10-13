@@ -40,6 +40,7 @@ namespace racman
             this.label8 = new System.Windows.Forms.Label();
             this.killyourself = new System.Windows.Forms.Button();
             this.unlocksWindowButton = new System.Windows.Forms.Button();
+            this.disableCutscenesCheckBox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -139,11 +140,23 @@ namespace racman
             this.unlocksWindowButton.UseVisualStyleBackColor = true;
             this.unlocksWindowButton.Click += new System.EventHandler(this.unlocksWindowButton_Click);
             // 
+            // disableCutscenesCheckBox
+            // 
+            this.disableCutscenesCheckBox.AutoSize = true;
+            this.disableCutscenesCheckBox.Location = new System.Drawing.Point(12, 81);
+            this.disableCutscenesCheckBox.Name = "disableCutscenesCheckBox";
+            this.disableCutscenesCheckBox.Size = new System.Drawing.Size(118, 17);
+            this.disableCutscenesCheckBox.TabIndex = 108;
+            this.disableCutscenesCheckBox.Text = "Disable cutscenes";
+            this.disableCutscenesCheckBox.UseVisualStyleBackColor = true;
+            this.disableCutscenesCheckBox.CheckedChanged += new System.EventHandler(this.disableCutscenesCheckBox_CheckedChanged);
+            // 
             // ACITForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(291, 149);
+            this.Controls.Add(this.disableCutscenesCheckBox);
             this.Controls.Add(this.unlocksWindowButton);
             this.Controls.Add(this.killyourself);
             this.Controls.Add(this.label8);
@@ -176,5 +189,6 @@ namespace racman
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button killyourself;
         private System.Windows.Forms.Button unlocksWindowButton;
+        private System.Windows.Forms.CheckBox disableCutscenesCheckBox;
     }
 }

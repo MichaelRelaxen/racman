@@ -80,6 +80,8 @@ namespace racman.offsets.ACIT
         public uint azimuthHPPtr => gameVersion[GameID].azimuthHPPtr;
         // Weapon unlock
         public uint weapons => gameVersion[GameID].weapons;
+        // Cutscenes array
+        public uint[] cutscenesArray => gameVersion[GameID].cutscenesArray;
 
         private void InitializeAddresses()
         {
@@ -113,7 +115,8 @@ namespace racman.offsets.ACIT
                 currentPlanet = 0xE896B4,
                 azimuthHPPtr = 0x40E890AC,
                 mapTimerPtr = 0x4BA17930,
-                weapons = 0xE24A05
+                weapons = 0xE24A05,
+                cutscenesArray = new uint[] { 0x409AE5BC, 0x409AE620, 0x409AE6F4, 0x409AE784, 0x409AE7B4, 0x409AE814, 0x409AE844, 0x409AE874, 0x409AED84, 0x409AEDE4 }
             };
             gameVersion["BCES00511"] = new Addresses
             {
@@ -150,6 +153,7 @@ namespace racman.offsets.ACIT
             public uint currentPlanet { get; set; }
             public uint azimuthHPPtr { get; set; }
             public uint weapons { get; set; }
+            public uint[] cutscenesArray { get; set; }
         }
     }
 }

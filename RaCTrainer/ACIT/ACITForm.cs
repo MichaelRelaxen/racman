@@ -46,6 +46,16 @@ namespace racman
                 killyourself.Enabled = false;
                 killyourself.Hide();
             }
+
+            if (this.game.canRemoveCutscenes)
+            {
+                disableCutscenesCheckBox.Enabled = true;
+            }
+            else
+            {
+                disableCutscenesCheckBox.Enabled = false;
+                disableCutscenesCheckBox.Hide();
+            }
         }
 
         private void menuToolStripMenuItem_Click(object sender, EventArgs e)
@@ -136,6 +146,11 @@ namespace racman
                 autosplitterHelper = new AutosplitterHelper();
                 autosplitterHelper.StartAutosplitterForGame(this.game);
             }
+        }
+
+        private void disableCutscenesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            game.EnableCutscenes(!disableCutscenesCheckBox.Checked);
         }
 
         private void killyourself_Click(object sender, EventArgs e)

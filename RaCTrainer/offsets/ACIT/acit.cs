@@ -39,14 +39,21 @@ namespace racman
         public bool IsAutosplitterSupported => addr.IsAutosplitterSupported;
         public bool IsSelfKillSupported => addr.IsSelfKillSupported;
         public bool HasWeaponUnlock => addr.weapons > 0;
+        public bool canRemoveCutscenes => addr.cutscenesArray != null && addr.cutscenesArray.Length > 0;
 
         private long lastUnlocksUpdate = 0;
         private ACITWeaponFactory weaponFactory;
+        // array storing every cutscene path initial byte
+        private byte[][] cutscenesInitByteArray;
 
         public acit(IPS3API api) : base(api)
         {
             addr = new ACITAddresses(api.getGameTitleID());
             weaponFactory = new ACITWeaponFactory();
+            if (canRemoveCutscenes)
+            {
+                cutscenesInitByteArray = ReadCutsceneStrings();
+            }
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
@@ -118,6 +125,36 @@ namespace racman
         {
             UpdateUnlocks();
             return HasWeaponUnlock ? weaponFactory.weapons : null;
+        }
+
+        private byte[][] ReadCutsceneStrings()
+        {
+            byte[][] bytes = new byte[addr.cutscenesArray.Length][];
+            for (int i = 0; i < addr.cutscenesArray.Length; i++)
+            {
+                bytes[i] = api.ReadMemory(pid, addr.cutscenesArray[i], 4);
+            }
+            return bytes;
+        }
+
+        public void EnableCutscenes(bool enable)
+        {
+            if (enable)
+            {
+                for (int i = 0; i < cutscenesInitByteArray.Length; i++)
+                {
+                    api.WriteMemory(pid, addr.cutscenesArray[i], cutscenesInitByteArray[i]);
+                }
+                Console.WriteLine("Cutscenes enabled!");
+            }
+            else
+            {
+                for (int i = 0; i < cutscenesInitByteArray.Length; i++)
+                {
+                    api.WriteMemory(pid, addr.cutscenesArray[i], new byte[] { 0 });
+                }
+                Console.WriteLine("Cutscenes disabled!");
+            }
         }
 
         /// <summary>
