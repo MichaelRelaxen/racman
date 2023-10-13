@@ -151,6 +151,7 @@
       <DependentUpon>DiskGameSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Memory\RPCS3.cs" />
+    <Compile Include="offsets\ACIT\ACITAddresses.cs" />
     <Compile Include="offsets\ACIT\ACITWeaponFactory.cs" />
     <Compile Include="RAC2\RC2Unlocks.cs">
       <SubType>Form</SubType>
