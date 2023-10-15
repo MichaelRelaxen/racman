@@ -31,47 +31,54 @@
             this.components = new System.ComponentModel.Container();
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonDowngrade = new System.Windows.Forms.Button();
-            this.buttonUpgrade = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
+            this.btnAllToLevel1 = new System.Windows.Forms.Button();
+            this.btnAllToLevel10 = new System.Windows.Forms.Button();
+            this.lbLevelingAll = new System.Windows.Forms.Label();
             this.buttonRemoveAll = new System.Windows.Forms.Button();
             this.buttonUnlockAll = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbUnlockAll = new System.Windows.Forms.Label();
             this.weaponsCheckList = new System.Windows.Forms.CheckedListBox();
+            this.btnAllToLevel5 = new System.Windows.Forms.Button();
+            this.lbLevelCurrent = new System.Windows.Forms.Label();
+            this.btnLevelCurrentTo1 = new System.Windows.Forms.Button();
+            this.btnLevelCurrentTo5 = new System.Windows.Forms.Button();
+            this.btnLevelCurrentTo10 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // buttonDowngrade
+            // btnAllToLevel1
             // 
-            this.buttonDowngrade.Location = new System.Drawing.Point(171, 52);
-            this.buttonDowngrade.Name = "buttonDowngrade";
-            this.buttonDowngrade.Size = new System.Drawing.Size(168, 24);
-            this.buttonDowngrade.TabIndex = 57;
-            this.buttonDowngrade.Text = "v1 All";
-            this.buttonDowngrade.UseVisualStyleBackColor = true;
+            this.btnAllToLevel1.Location = new System.Drawing.Point(169, 22);
+            this.btnAllToLevel1.Name = "btnAllToLevel1";
+            this.btnAllToLevel1.Size = new System.Drawing.Size(108, 24);
+            this.btnAllToLevel1.TabIndex = 57;
+            this.btnAllToLevel1.Text = "v1 All";
+            this.btnAllToLevel1.UseVisualStyleBackColor = true;
+            this.btnAllToLevel1.Click += new System.EventHandler(this.btnAllToLevel1_Click);
             // 
-            // buttonUpgrade
+            // btnAllToLevel10
             // 
-            this.buttonUpgrade.Location = new System.Drawing.Point(171, 22);
-            this.buttonUpgrade.Name = "buttonUpgrade";
-            this.buttonUpgrade.Size = new System.Drawing.Size(168, 24);
-            this.buttonUpgrade.TabIndex = 56;
-            this.buttonUpgrade.Text = "v8 All*";
-            this.buttonUpgrade.UseVisualStyleBackColor = true;
+            this.btnAllToLevel10.Location = new System.Drawing.Point(169, 52);
+            this.btnAllToLevel10.Name = "btnAllToLevel10";
+            this.btnAllToLevel10.Size = new System.Drawing.Size(108, 24);
+            this.btnAllToLevel10.TabIndex = 56;
+            this.btnAllToLevel10.Text = "v10 All";
+            this.btnAllToLevel10.UseVisualStyleBackColor = true;
+            this.btnAllToLevel10.Click += new System.EventHandler(this.btnAllToLevel10_Click);
             // 
-            // label2
+            // lbLevelingAll
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(168, 6);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 13);
-            this.label2.TabIndex = 55;
-            this.label2.Text = "Levelling";
+            this.lbLevelingAll.AutoSize = true;
+            this.lbLevelingAll.Location = new System.Drawing.Point(183, 6);
+            this.lbLevelingAll.Name = "lbLevelingAll";
+            this.lbLevelingAll.Size = new System.Drawing.Size(49, 13);
+            this.lbLevelingAll.TabIndex = 55;
+            this.lbLevelingAll.Text = "Levelling";
             // 
             // buttonRemoveAll
             // 
             this.buttonRemoveAll.Location = new System.Drawing.Point(12, 52);
             this.buttonRemoveAll.Name = "buttonRemoveAll";
-            this.buttonRemoveAll.Size = new System.Drawing.Size(139, 24);
+            this.buttonRemoveAll.Size = new System.Drawing.Size(151, 24);
             this.buttonRemoveAll.TabIndex = 54;
             this.buttonRemoveAll.Text = "Remove All";
             this.buttonRemoveAll.UseVisualStyleBackColor = true;
@@ -81,40 +88,94 @@
             // 
             this.buttonUnlockAll.Location = new System.Drawing.Point(12, 22);
             this.buttonUnlockAll.Name = "buttonUnlockAll";
-            this.buttonUnlockAll.Size = new System.Drawing.Size(139, 24);
+            this.buttonUnlockAll.Size = new System.Drawing.Size(151, 24);
             this.buttonUnlockAll.TabIndex = 53;
             this.buttonUnlockAll.Text = "Unlock All";
             this.buttonUnlockAll.UseVisualStyleBackColor = true;
             this.buttonUnlockAll.Click += new System.EventHandler(this.buttonUnlockAll_Click);
             // 
-            // label1
+            // lbUnlockAll
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(9, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(46, 13);
-            this.label1.TabIndex = 52;
-            this.label1.Text = "Unlocks";
+            this.lbUnlockAll.AutoSize = true;
+            this.lbUnlockAll.Location = new System.Drawing.Point(9, 6);
+            this.lbUnlockAll.Name = "lbUnlockAll";
+            this.lbUnlockAll.Size = new System.Drawing.Size(46, 13);
+            this.lbUnlockAll.TabIndex = 52;
+            this.lbUnlockAll.Text = "Unlocks";
             // 
             // weaponsCheckList
             // 
             this.weaponsCheckList.FormattingEnabled = true;
             this.weaponsCheckList.Location = new System.Drawing.Point(12, 82);
             this.weaponsCheckList.Name = "weaponsCheckList";
-            this.weaponsCheckList.Size = new System.Drawing.Size(327, 559);
+            this.weaponsCheckList.Size = new System.Drawing.Size(265, 559);
             this.weaponsCheckList.TabIndex = 51;
+            // 
+            // btnAllToLevel5
+            // 
+            this.btnAllToLevel5.Location = new System.Drawing.Point(283, 22);
+            this.btnAllToLevel5.Name = "btnAllToLevel5";
+            this.btnAllToLevel5.Size = new System.Drawing.Size(108, 24);
+            this.btnAllToLevel5.TabIndex = 58;
+            this.btnAllToLevel5.Text = "v5 All";
+            this.btnAllToLevel5.UseVisualStyleBackColor = true;
+            this.btnAllToLevel5.Click += new System.EventHandler(this.btnAllToLevel5_Click);
+            // 
+            // lbLevelCurrent
+            // 
+            this.lbLevelCurrent.AutoSize = true;
+            this.lbLevelCurrent.Location = new System.Drawing.Point(283, 82);
+            this.lbLevelCurrent.Name = "lbLevelCurrent";
+            this.lbLevelCurrent.Size = new System.Drawing.Size(94, 13);
+            this.lbLevelCurrent.TabIndex = 59;
+            this.lbLevelCurrent.Text = "Levelling Selected";
+            // 
+            // btnLevelCurrentTo1
+            // 
+            this.btnLevelCurrentTo1.Location = new System.Drawing.Point(283, 114);
+            this.btnLevelCurrentTo1.Name = "btnLevelCurrentTo1";
+            this.btnLevelCurrentTo1.Size = new System.Drawing.Size(108, 24);
+            this.btnLevelCurrentTo1.TabIndex = 60;
+            this.btnLevelCurrentTo1.Text = "v1";
+            this.btnLevelCurrentTo1.UseVisualStyleBackColor = true;
+            this.btnLevelCurrentTo1.Click += new System.EventHandler(this.btnLevelCurrentTo1_Click);
+            // 
+            // btnLevelCurrentTo5
+            // 
+            this.btnLevelCurrentTo5.Location = new System.Drawing.Point(283, 144);
+            this.btnLevelCurrentTo5.Name = "btnLevelCurrentTo5";
+            this.btnLevelCurrentTo5.Size = new System.Drawing.Size(108, 24);
+            this.btnLevelCurrentTo5.TabIndex = 61;
+            this.btnLevelCurrentTo5.Text = "v5";
+            this.btnLevelCurrentTo5.UseVisualStyleBackColor = true;
+            this.btnLevelCurrentTo5.Click += new System.EventHandler(this.btnLevelCurrentTo5_Click);
+            // 
+            // btnLevelCurrentTo10
+            // 
+            this.btnLevelCurrentTo10.Location = new System.Drawing.Point(283, 174);
+            this.btnLevelCurrentTo10.Name = "btnLevelCurrentTo10";
+            this.btnLevelCurrentTo10.Size = new System.Drawing.Size(108, 24);
+            this.btnLevelCurrentTo10.TabIndex = 62;
+            this.btnLevelCurrentTo10.Text = "v10";
+            this.btnLevelCurrentTo10.UseVisualStyleBackColor = true;
+            this.btnLevelCurrentTo10.Click += new System.EventHandler(this.btnLevelCurrentTo10_Click);
             // 
             // ACITUnlocks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(367, 670);
-            this.Controls.Add(this.buttonDowngrade);
-            this.Controls.Add(this.buttonUpgrade);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(401, 670);
+            this.Controls.Add(this.btnLevelCurrentTo10);
+            this.Controls.Add(this.btnLevelCurrentTo5);
+            this.Controls.Add(this.btnLevelCurrentTo1);
+            this.Controls.Add(this.lbLevelCurrent);
+            this.Controls.Add(this.btnAllToLevel5);
+            this.Controls.Add(this.btnAllToLevel1);
+            this.Controls.Add(this.btnAllToLevel10);
+            this.Controls.Add(this.lbLevelingAll);
             this.Controls.Add(this.buttonRemoveAll);
             this.Controls.Add(this.buttonUnlockAll);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbUnlockAll);
             this.Controls.Add(this.weaponsCheckList);
             this.Name = "ACITUnlocks";
             this.Text = "ACITUnlocks";
@@ -126,12 +187,17 @@
         #endregion
         private System.Windows.Forms.ToolTip toolTip2;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Button buttonDowngrade;
-        private System.Windows.Forms.Button buttonUpgrade;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button btnAllToLevel1;
+        private System.Windows.Forms.Button btnAllToLevel10;
+        private System.Windows.Forms.Label lbLevelingAll;
         private System.Windows.Forms.Button buttonRemoveAll;
         private System.Windows.Forms.Button buttonUnlockAll;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbUnlockAll;
         private System.Windows.Forms.CheckedListBox weaponsCheckList;
+        private System.Windows.Forms.Button btnAllToLevel5;
+        private System.Windows.Forms.Label lbLevelCurrent;
+        private System.Windows.Forms.Button btnLevelCurrentTo1;
+        private System.Windows.Forms.Button btnLevelCurrentTo5;
+        private System.Windows.Forms.Button btnLevelCurrentTo10;
     }
 }

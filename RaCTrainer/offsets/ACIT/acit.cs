@@ -114,17 +114,46 @@ namespace racman
             lastUnlocksUpdate = DateTime.Now.Ticks;
         }
 
+        /// <summary>
+        /// Set the unlock state of a weapon (unlocked or not).
+        /// </summary>
+        /// <param name="weapon"></param>
+        /// <param name="unlockState"></param>
         public void setUnlockState(ACITWeapon weapon, bool unlockState)
         {
-            weaponFactory.updateWeaponState(weapon.index, unlockState);
-            api.WriteMemory(pid, addr.weapons + (weapon.index * ACITWeaponFactory.weaponMemoryLenght), BitConverter.GetBytes(unlockState));
+            weapon.isUnlocked = unlockState;
+            api.WriteMemory(pid, addr.weapons + (weapon.index * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponUnlockOffset, BitConverter.GetBytes(unlockState));
 
         }
 
+        /// <summary>
+        /// Get a list of all weapons.
+        /// </summary>
+        /// <returns></returns>
         public List<ACITWeapon> GetWeapons()
         {
             UpdateUnlocks();
             return HasWeaponUnlock ? weaponFactory.weapons : null;
+        }
+
+        /// <summary>
+        /// Set the level of a weapon.
+        /// It's not perfect, it only works for level 1, 5 and 10.
+        /// </summary>
+        /// <param name="weapon"></param>
+        /// <param name="level"></param>
+        public void setWeaponLevel(ACITWeapon weapon, uint level)
+        {
+            level--;
+            uint xp = (uint)(level == 0 ? 0 : 0xFF);
+            uint weaponIndex = weapon.index;
+            api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponlevel1Offset, BitConverter.GetBytes(xp));
+            api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponlevel2Offset, BitConverter.GetBytes(xp));
+            api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponlevel3Offset, BitConverter.GetBytes(xp));
+            api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponlevel4Offset, BitConverter.GetBytes(xp));
+
+            api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponLevelOffset, BitConverter.GetBytes(level));
+            weapon.level = level;
         }
 
         private byte[][] ReadCutsceneStrings()

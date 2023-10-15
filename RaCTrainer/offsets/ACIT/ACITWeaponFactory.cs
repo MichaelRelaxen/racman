@@ -8,8 +8,19 @@ namespace racman.offsets
         public static uint weaponCount = 22;
         public static uint weaponMemoryLenght = 24;
 
-        private uint weaponUnlockOffset = 0x0;
-        private uint weaponLevelOffset = 0x1;
+        public static uint weaponlevel1Offset = 0x0;
+        public static uint weaponlevel2Offset = 0x1;
+        public static uint weaponlevel3Offset = 0x2;
+        public static uint weaponlevel4Offset = 0x3;
+        public static uint weaponAmmo1Offset = 0x4;
+        public static uint weaponAmmo2Offset = 0x5;
+
+        public static uint constructoOffset = 0x8;
+
+        public static uint weaponUnlockOffset = 0x11;
+        public static uint weaponLevelOffset = 0x12;
+
+        public static uint weaponIndex = 0x17;
 
         public List<ACITWeapon> weapons { get; private set; }
 
@@ -47,13 +58,9 @@ namespace racman.offsets
             for (int i = 0; i < weaponCount; i++)
             {
                 weapons[i].isUnlocked = BitConverter.ToBoolean(memoryArray, (int)(weaponUnlockOffset + (i * weaponMemoryLenght)));
-                weapons[i].level = memoryArray[weaponLevelOffset + (i * weaponMemoryLenght)];
+                weapons[i].level = (uint)memoryArray[weaponLevelOffset + (i * weaponMemoryLenght)] + 1;
+                Console.WriteLine(weapons[i].name + " " + weapons[i].level);
             }
-        }
-
-        public void updateWeaponState(uint index, bool isUnlocked)
-        {
-            weapons[(int)index].isUnlocked = isUnlocked;
         }
     }
 

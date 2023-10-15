@@ -47,5 +47,65 @@ namespace racman
                 game.setUnlockState(weapons[i], false);
             }
         }
+
+        private void btnLevelCurrentTo1_Click(object sender, EventArgs e)
+        {
+            uint selectetWeapon = (uint)weaponsCheckList.SelectedIndex;
+
+            if (selectetWeapon > ACITWeaponFactory.weaponCount - 1)
+            {
+                return;
+            }
+
+            game.setWeaponLevel(weapons[(int)selectetWeapon], 1);
+        }
+
+        private void btnLevelCurrentTo5_Click(object sender, EventArgs e)
+        {
+            uint selectetWeapon = (uint)weaponsCheckList.SelectedIndex;
+
+            if (selectetWeapon > ACITWeaponFactory.weaponCount - 1)
+            {
+                return;
+            }
+
+            game.setWeaponLevel(weapons[(int)selectetWeapon], 5);
+        }
+
+        private void btnLevelCurrentTo10_Click(object sender, EventArgs e)
+        {
+            uint selectetWeapon = (uint)weaponsCheckList.SelectedIndex;
+
+            if (selectetWeapon > ACITWeaponFactory.weaponCount - 1)
+            {
+                return;
+            }
+
+            game.setWeaponLevel(weapons[(int)selectetWeapon], 10);
+        }
+
+        private void btnAllToLevel1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                game.setWeaponLevel(weapons[i], 1);
+            }
+        }
+
+        private void btnAllToLevel5_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                game.setWeaponLevel(weapons[i], 5);
+            }
+        }
+
+        private void btnAllToLevel10_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                game.setWeaponLevel(weapons[i], 10);
+            }
+        }
     }
 }
