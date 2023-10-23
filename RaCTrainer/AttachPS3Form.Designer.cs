@@ -33,6 +33,7 @@ namespace racman
             this.attachButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.currentVerLabel = new System.Windows.Forms.Label();
+            this.AttachRPCS3Button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // IPTextBox
@@ -72,11 +73,22 @@ namespace racman
             this.currentVerLabel.Text = "gaming";
             this.currentVerLabel.Click += new System.EventHandler(this.currentVerLabel_Click);
             // 
+            // AttachRPCS3Button
+            // 
+            this.AttachRPCS3Button.Location = new System.Drawing.Point(216, 93);
+            this.AttachRPCS3Button.Name = "AttachRPCS3Button";
+            this.AttachRPCS3Button.Size = new System.Drawing.Size(75, 23);
+            this.AttachRPCS3Button.TabIndex = 4;
+            this.AttachRPCS3Button.Text = "RPCS3";
+            this.AttachRPCS3Button.UseVisualStyleBackColor = true;
+            this.AttachRPCS3Button.Click += new System.EventHandler(this.AttachRPCS3Button_Click);
+            // 
             // AttachPS3Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(303, 126);
+            this.Controls.Add(this.AttachRPCS3Button);
             this.Controls.Add(this.currentVerLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.attachButton);
@@ -99,5 +111,6 @@ namespace racman
         private System.Windows.Forms.Button attachButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label currentVerLabel;
+        private System.Windows.Forms.Button AttachRPCS3Button;
     }
 }

@@ -30,7 +30,7 @@ namespace racman
         public uint inGame => 0xB1F460;
 
         // load planet
-        public uint loadPlanet => 0x9C307C;
+        public uint loadPlanet => 0x9C3240;
 
         // current planet   (it's 0 in main menu)
         public uint currentPlanet => 0x119353C;
@@ -42,7 +42,7 @@ namespace racman
         public static RaC4Addresses addr = new RaC4Addresses();
 
         int ghostRatchetSubID = -1;
-        public rac4(Ratchetron api) : base(api)
+        public rac4(IPS3API api) : base(api)
         {
 
         }

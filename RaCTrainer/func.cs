@@ -1,17 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace racman
 {
+
+
     class func
     {
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern int GetWindowTextLength(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+
+        public delegate bool EnumWindowsProc(IntPtr hWnd, IntPtr lParam);
+
+
         public static WebClient client = new WebClient();
         public static int pid = AttachPS3Form.pid;
         public static IPS3API api;
@@ -158,6 +179,29 @@ namespace racman
             return string.Concat(Enumerable.Repeat(swag, length));
         }
 
+        public static List<string> GetWindowTitles(string processName)
+        {
+            List<string> titles = new List<string>();
+            uint processId = (uint)Process.GetProcessesByName(processName)[0].Id;
+
+            EnumWindows((hWnd, lParam) =>
+            {
+                uint windowProcessId;
+                GetWindowThreadProcessId(hWnd, out windowProcessId);
+
+                if (windowProcessId == processId)
+                {
+                    int length = GetWindowTextLength(hWnd);
+                    StringBuilder sb = new StringBuilder(length + 1);
+                    GetWindowText(hWnd, sb, sb.Capacity);
+                    titles.Add(sb.ToString());
+                }
+
+                return true;  // Continue enumeration
+            }, IntPtr.Zero);
+
+            return titles;
+        }
     }
 
     class ListViewNF : System.Windows.Forms.ListView

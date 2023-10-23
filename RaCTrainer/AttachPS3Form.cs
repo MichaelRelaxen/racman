@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Threading;
+using racman.Memory;
 
 namespace racman
 {
@@ -83,7 +84,12 @@ namespace racman
                 }
             }
 
-            if (!func.api.Connect())
+            Attach(func.api);
+        }
+
+        private void Attach(IPS3API api)
+        {
+            if (!api.Connect())
             {
                 MessageBox.Show("Couldn't connect to the game.");
                 return;
@@ -141,7 +147,7 @@ namespace racman
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC1Form rac1 = new RAC1Form(new rac1((Ratchetron)func.api));
+                RAC1Form rac1 = new RAC1Form(new rac1(func.api));
                 gameName = "RAC 1";
                 rac1.ShowDialog();
             }
@@ -149,7 +155,7 @@ namespace racman
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC2Form rac2 = new RAC2Form(new rac2((Ratchetron)func.api));
+                RAC2Form rac2 = new RAC2Form(new rac2(func.api));
                 gameName = "RAC 2";
                 rac2.ShowDialog();
             }
@@ -157,7 +163,7 @@ namespace racman
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC2JPForm rac2jp = new RAC2JPForm(new rac2jp((Ratchetron)func.api));
+                RAC2JPForm rac2jp = new RAC2JPForm(new rac2jp(func.api));
                 gameName = "RAC 2 (JP)";
                 rac2jp.ShowDialog();
             }
@@ -165,7 +171,7 @@ namespace racman
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC3Form rac3 = new RAC3Form(new rac3((Ratchetron)func.api));
+                RAC3Form rac3 = new RAC3Form(new rac3(func.api));
                 gameName = "RAC 3";
                 rac3.ShowDialog();
             }
@@ -173,7 +179,7 @@ namespace racman
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC4Form rac4 = new RAC4Form(new rac4((Ratchetron)func.api));
+                RAC4Form rac4 = new RAC4Form(new rac4(func.api));
                 gameName = "RAC 4";
                 rac4.ShowDialog();
             }
@@ -181,7 +187,7 @@ namespace racman
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                ACITForm acit = new ACITForm(new acit((Ratchetron)func.api));
+                ACITForm acit = new ACITForm(new acit(func.api));
                 gameName = "ACIT";
                 acit.ShowDialog();
             }
@@ -224,6 +230,13 @@ namespace racman
             {
                 attachButton_Click(IPTextBox, e);
             }
+        }
+
+        private void AttachRPCS3Button_Click(object sender, EventArgs e)
+        {
+            func.api = new RPCS3("FUCK");
+
+            Attach(func.api);
         }
     }
 }

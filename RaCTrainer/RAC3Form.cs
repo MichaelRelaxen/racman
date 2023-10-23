@@ -79,12 +79,7 @@ namespace racman
             CoordsTimer.Tick += new EventHandler(UpdateCoordsLabel);
             game.GetPlayerCoordinates();
 
-            if (func.api is Ratchetron)
-            {
-                Ratchetron api = (Ratchetron)func.api;
-
-                game.SetupInputDisplayMemorySubs();
-            }
+            game.SetupInputDisplayMemorySubs();
 
             var sr = func.GetConfigData("config.txt", "rc3SplitRoute");
             if (sr != "")
@@ -199,11 +194,6 @@ namespace racman
 
         private void inputdisplay_Click(object sender, EventArgs e)
         {
-            if (!(func.api is Ratchetron))
-            {
-                MessageBox.Show("You need to be using the new API to use input display");
-                return;
-            }
 
             if (InputDisplay == null)
             {
@@ -221,13 +211,7 @@ namespace racman
 
         private void OHKOCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (!(func.api is Ratchetron))
-            {
-                MessageBox.Show("You need to use the new API to use this function");
-                return;
-            }
-
-            Ratchetron api = (Ratchetron)func.api;
+            IPS3API api = func.api;
 
             var isChecked = ((CheckBox)sender).Checked;
 

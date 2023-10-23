@@ -70,7 +70,7 @@ namespace racman
     {
         public static RaC2Addresses addr = new RaC2Addresses();
 
-        public rac2(Ratchetron api) : base(api)
+        public rac2(IPS3API api) : base(api)
         {
             this.planetsList = new string[] {
                 "Aranos",

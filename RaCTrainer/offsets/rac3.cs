@@ -88,7 +88,7 @@ namespace racman
         public static RaC3Addresses addr = new RaC3Addresses();
 
         int ghostRatchetSubID = -1;
-        public rac3(Ratchetron api) : base(api)
+        public rac3(IPS3API api) : base(api)
         {
             this.planetsList = new string[] {
             "Rac3Veldin",

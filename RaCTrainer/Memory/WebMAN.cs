@@ -125,5 +125,25 @@ namespace racman
         {
             get_data($"http://{ip}/xmb.ps3$rsx_continue");
         }
+
+        public override int SubMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory, Action<byte[]> callback)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int FreezeMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ReleaseSubID(int memSubID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int MemSubIDForAddress(uint address)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
