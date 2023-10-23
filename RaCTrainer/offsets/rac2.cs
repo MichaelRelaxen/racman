@@ -37,8 +37,8 @@ namespace racman
         public uint mobyInstancesEnd => 0x015927b8;
 
         // Values that increment when you die to the Snivelak boss. Used for act tuning.
-        public uint snivBoss1 => 0x01569BF7;
-        public uint snivBoss2 => 0x01A6FB73;
+        // public uint snivBoss1 => 0x01569BF7; // not used according to elkon
+        public uint snivBoss => 0x01A6FB73;
 
         // Float value controlling jump-pad speed. Changes on visiting Snivelak.
         public uint padManip => 0x013185B8;
@@ -51,6 +51,15 @@ namespace racman
 
         // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
         public uint gornManip => 0x01A99A4C;
+
+        // As above, for opening cutscene
+        public uint gornOpening => 0x01A99A34;
+
+        // Set to 1 if insomniac museum shortcut is avaliable
+        public uint imInShortcuts => 0x0135268C;
+
+        // Index of selected item in shortcuts menu
+        public uint shortcutsIndex => 0x01352684;
 
         // Selected race on Barlow (maybe on Joba too idk)
         public uint selectedRaceIndex => 0x013965F7;

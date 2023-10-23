@@ -292,8 +292,7 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            api.WriteMemory(pid, rac2.addr.snivBoss1, new byte[] { 10 });
-            api.WriteMemory(pid, rac2.addr.snivBoss2, new byte[] { 10 });
+            api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 20 });
 
             // We should setup pad manip, since this happens whenever Snivelak is visited.
             api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
@@ -380,6 +379,7 @@ namespace racman
             if (res == DialogResult.Yes)
             {
                 api.WriteMemory(pid, rac2.addr.gornManip, 1);
+                api.WriteMemory(pid, rac2.addr.gornOpening, 1);
 
                 game.planetToLoad = 15;
                 game.LoadPlanet();
@@ -405,6 +405,15 @@ namespace racman
         {
             RC2Unlocks unlocks = new RC2Unlocks(game);
             unlocks.Show();
+        }
+
+        private void buttonNGPlusMenu_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac2.addr.imInShortcuts, 1);
+            api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7);
+            api.Notify("NG+ insomniac museum menus are set up!");
         }
     }
 }

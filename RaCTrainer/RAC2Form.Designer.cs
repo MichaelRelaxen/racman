@@ -64,11 +64,11 @@ namespace racman
             this.checkBoxExp = new System.Windows.Forms.CheckBox();
             this.buttonGorn = new System.Windows.Forms.Button();
             this.buttonSniv = new System.Windows.Forms.Button();
-            this.buttonRaceStorage = new System.Windows.Forms.Button();
             this.labelLap = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.setAsideFileButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.buttonNGPlusMenu = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -370,7 +370,7 @@ namespace racman
             // 
             // buttonProtopet
             // 
-            this.buttonProtopet.Location = new System.Drawing.Point(247, 341);
+            this.buttonProtopet.Location = new System.Drawing.Point(248, 373);
             this.buttonProtopet.Name = "buttonProtopet";
             this.buttonProtopet.Size = new System.Drawing.Size(104, 26);
             this.buttonProtopet.TabIndex = 112;
@@ -405,18 +405,18 @@ namespace racman
             // 
             // buttonGorn
             // 
-            this.buttonGorn.Location = new System.Drawing.Point(248, 277);
+            this.buttonGorn.Location = new System.Drawing.Point(247, 309);
             this.buttonGorn.Name = "buttonGorn";
-            this.buttonGorn.Size = new System.Drawing.Size(104, 26);
+            this.buttonGorn.Size = new System.Drawing.Size(105, 26);
             this.buttonGorn.TabIndex = 115;
-            this.buttonGorn.Text = "Setup Gorn Manip";
+            this.buttonGorn.Text = "Setup Gorn manip";
             this.toolTip1.SetToolTip(this.buttonGorn, "Sets a flag disabling a cutscene on Gorn, saving 7s in NG+ categories.");
             this.buttonGorn.UseVisualStyleBackColor = true;
             this.buttonGorn.Click += new System.EventHandler(this.buttonGorn_Click);
             // 
             // buttonSniv
             // 
-            this.buttonSniv.Location = new System.Drawing.Point(248, 309);
+            this.buttonSniv.Location = new System.Drawing.Point(248, 341);
             this.buttonSniv.Name = "buttonSniv";
             this.buttonSniv.Size = new System.Drawing.Size(104, 26);
             this.buttonSniv.TabIndex = 111;
@@ -426,22 +426,11 @@ namespace racman
             this.buttonSniv.UseVisualStyleBackColor = true;
             this.buttonSniv.Click += new System.EventHandler(this.button1_Click);
             // 
-            // buttonRaceStorage
-            // 
-            this.buttonRaceStorage.Location = new System.Drawing.Point(12, 394);
-            this.buttonRaceStorage.Name = "buttonRaceStorage";
-            this.buttonRaceStorage.Size = new System.Drawing.Size(340, 35);
-            this.buttonRaceStorage.TabIndex = 118;
-            this.buttonRaceStorage.Text = "Reset Race Storage (use when resetting in no IMG)";
-            this.toolTip1.SetToolTip(this.buttonRaceStorage, "Resets the cursor on the Barlow racetrack to point to the first race.");
-            this.buttonRaceStorage.UseVisualStyleBackColor = true;
-            this.buttonRaceStorage.Click += new System.EventHandler(this.buttonRaceStorage_Click);
-            // 
             // labelLap
             // 
             this.labelLap.AutoSize = true;
             this.labelLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLap.Location = new System.Drawing.Point(12, 371);
+            this.labelLap.Location = new System.Drawing.Point(12, 383);
             this.labelLap.Name = "labelLap";
             this.labelLap.Size = new System.Drawing.Size(136, 20);
             this.labelLap.TabIndex = 110;
@@ -481,12 +470,24 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // buttonNGPlusMenu
+            // 
+            this.buttonNGPlusMenu.Location = new System.Drawing.Point(248, 277);
+            this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
+            this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 26);
+            this.buttonNGPlusMenu.TabIndex = 118;
+            this.buttonNGPlusMenu.Text = "Setup NG+ menus";
+            this.toolTip1.SetToolTip(this.buttonNGPlusMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it in the shortcut" +
+        "s menu, neccesary for the NG+ category to perform the insomniac museum glitch.");
+            this.buttonNGPlusMenu.UseVisualStyleBackColor = true;
+            this.buttonNGPlusMenu.Click += new System.EventHandler(this.buttonNGPlusMenu_Click);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 441);
-            this.Controls.Add(this.buttonRaceStorage);
+            this.ClientSize = new System.Drawing.Size(363, 412);
+            this.Controls.Add(this.buttonNGPlusMenu);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.setAsideFileButton);
             this.Controls.Add(this.loadFileButton);
@@ -571,6 +572,6 @@ namespace racman
         private System.Windows.Forms.CheckBox checkBoxExp;
         private System.Windows.Forms.Button buttonGorn;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button buttonRaceStorage;
+        private System.Windows.Forms.Button buttonNGPlusMenu;
     }
 }
