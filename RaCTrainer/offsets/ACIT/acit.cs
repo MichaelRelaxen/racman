@@ -144,6 +144,10 @@ namespace racman
         /// <param name="level"></param>
         public void setWeaponLevel(ACITWeapon weapon, uint level)
         {
+            if (!weapon.upgradealbe)
+            {
+                return;
+            }
             level--;
             uint xp = (uint)(level == 0 ? 0 : 0xFF);
             uint weaponIndex = weapon.index;
@@ -153,7 +157,7 @@ namespace racman
             api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponlevel4Offset, BitConverter.GetBytes(xp));
 
             api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponLevelOffset, BitConverter.GetBytes(level));
-            weapon.level = level;
+            weapon.updateLevel(level + 1);
         }
 
         private byte[][] ReadCutsceneStrings()

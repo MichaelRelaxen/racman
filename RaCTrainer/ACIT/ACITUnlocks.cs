@@ -19,15 +19,22 @@ namespace racman
 
             for (int i = 0; i < weapons.Count; i++)
             {
-                weaponsCheckList.Items.Add(weapons[i].name, weapons[i].isUnlocked);
+                String weaponName = weapons[i].name + $" [{weapons[i].level}]";
+                weaponsCheckList.Items.Add(weaponName, weapons[i].isUnlocked);
                 weaponsCheckList.SetItemChecked(i, weapons[i].isUnlocked);
+
+                weapons[i].levelChanged += (s, e) =>
+                {
+                    // get the index of the weapon that changed
+                    int index = weapons.IndexOf((ACITWeapon)s);
+                    weaponsCheckList.Items[index] = weapons[index].name + $" [{weapons[index].level}]";
+                };
             }
 
             weaponsCheckList.ItemCheck += (s, e) =>
             {
                 game.setUnlockState(weapons[e.Index], e.NewValue == CheckState.Checked);
             };
-
         }
 
         private void buttonUnlockAll_Click(object sender, EventArgs e)
