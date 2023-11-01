@@ -8,19 +8,6 @@ init
 
     // Update values from memory
     vars.UpdateValues = (Action) (() => {
-        uint planet = 0;            // current planet
-        uint gameState1 = 0;        // game state1
-        uint cutsceneState1 = 0;    // cutscene state
-        uint cutsceneState2 = 0;    // cutscene state
-        uint cutsceneState3 = 0;    // cutscene state
-        uint saveFileID = 0;        // save file ID
-        uint boltCounter = 0;       // bolt counter
-        float ratchetX = 0;         // ratchet x coord
-        float ratchetY = 0;         // ratchet y coord
-        float ratchetZ = 0;         // ratchet z coord
-        float azimuthHP = 0;        // Azimuth HP
-        float acitTimer = 0;        // timer
-
         vars.reader.BaseStream.Position = 0;
 
         // Read values from memory
