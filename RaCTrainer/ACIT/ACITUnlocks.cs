@@ -23,10 +23,9 @@ namespace racman
                 weaponsCheckList.Items.Add(weaponName, weapons[i].isUnlocked);
                 weaponsCheckList.SetItemChecked(i, weapons[i].isUnlocked);
 
-                weapons[i].levelChanged += (s, e) =>
+                weapons[i].levelChanged += (weapon) =>
                 {
-                    // get the index of the weapon that changed
-                    int index = weapons.IndexOf((ACITWeapon)s);
+                    int index = weapons.IndexOf(weapon);
                     weaponsCheckList.Items[index] = weapons[index].name + $" [{weapons[index].level}]";
                 };
             }

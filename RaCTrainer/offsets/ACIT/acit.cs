@@ -9,32 +9,6 @@ namespace racman
 {
     public class acit : IGame, IAutosplitterAvailable
     {
-        public dynamic Planets = new
-        {
-            agorian_arena = ("Agorian Arena"),
-            axiom_city = ("Axion City"),
-            front_end = ("Front End"),
-            galacton_ship = ("Vorselon Ship"),
-            gimlick_valley = ("Gimlick Valey"),
-            great_clock_a = ("Great Clock 1"),
-            great_clock_b = ("Great Clock 2"),
-            great_clock_c = ("Great Clock 3"),
-            great_clock_d = ("Great Clock 4"),
-            great_clock_e = ("Great Clock 5"),
-            insomniac_museum = ("Insomniac Museum"),
-            krell_canyon = ("Krell Canyon"),
-            molonoth = ("Molonoth Fields"),
-            nefarious_statio = ("Nefarious Station"),
-            space_sector_1 = ("Space Sector 1"),
-            space_sector_2 = ("Space Sector 2"),
-            space_sector_3 = ("Space Sector 3"),
-            space_sector_4 = ("Space Sector 4"),
-            space_sector_5 = ("Space Sector 5"),
-            tombli = ("Tombli Outpost"),
-            valkyrie_fleet = ("Valkyrie Fleet"),
-            zolar_forest = ("Zolar Forest")
-        };
-
         public static ACITAddresses addr;
 
         public bool HasInputDisplay => addr.inputOffset > 0 && addr.analogOffset > 0 && addr.currentPlanet > 0;
