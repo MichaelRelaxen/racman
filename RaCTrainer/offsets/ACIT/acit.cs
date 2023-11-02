@@ -158,6 +158,8 @@ namespace racman
             api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponlevel4Offset, BitConverter.GetBytes(xp));
 
             api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponLevelOffset, BitConverter.GetBytes(level));
+
+            weapon.updateLevel(level + 1);
         }
 
         private byte[][] ReadCutsceneStrings()
