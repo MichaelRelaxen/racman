@@ -58,14 +58,13 @@ namespace racman.offsets
             for (int i = 0; i < weaponCount; i++)
             {
                 weapons[i].isUnlocked = BitConverter.ToBoolean(memoryArray, (int)(weaponUnlockOffset + (i * weaponMemoryLenght)));
-                weapons[i].updateLevel((uint)memoryArray[weaponLevelOffset + (i * weaponMemoryLenght)] + 1);
             }
         }
     }
 
     public class ACITWeapon
     {
-        internal Action<object, object> levelChanged;
+        internal Action<ACITWeapon> levelChanged;
 
         public string name { get; private set; }
         // the index in the unlock array
@@ -91,7 +90,7 @@ namespace racman.offsets
                 return;
             }
             this.level = level;
-            levelChanged?.Invoke(this, null);
+            levelChanged?.Invoke(this);
         }
     }
 }

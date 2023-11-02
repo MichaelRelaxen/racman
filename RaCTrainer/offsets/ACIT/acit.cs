@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using racman.offsets.ACIT;
+using System.Threading;
+using System.Linq;
 
 namespace racman
 {
@@ -46,6 +48,9 @@ namespace racman
         // array storing every cutscene path initial byte
         private byte[][] cutscenesInitByteArray;
 
+        private Timer currentPlanetTimer;
+        private uint currentPlanet;
+
         public acit(IPS3API api) : base(api)
         {
             addr = new ACITAddresses(api.getGameTitleID());
@@ -54,6 +59,9 @@ namespace racman
             {
                 cutscenesInitByteArray = ReadCutsceneStrings();
             }
+
+            // creating a timer to update current planet every second
+            currentPlanetTimer = new Timer((e) => updateCurrentPlanet(), null, 0, 1000);
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
@@ -69,6 +77,9 @@ namespace racman
             (addr.playerCoords + 0x8, 4),   // player Y coord
             (addr.playerCoords + 0x4, 4),   // player Z coord
             (addr.azimuthHPPtr, 4),         // azimuth HP
+            (addr.libraHPPtr, 4),           // libra HP
+            (addr.vorselon1SpaceCombat, 4), // vorselon 1 space combat
+            (addr.neffy1finalRoom, 4),      // neffy 1 final room
             (addr.timerPtr, 4),             // timer
         };
 
@@ -95,6 +106,22 @@ namespace racman
         public override void CheckInputs(object sender, EventArgs e)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Updates current planet.
+        /// </summary>
+        private void updateCurrentPlanet()
+        {
+            uint newPlanet = BitConverter.ToUInt32(api.ReadMemory(pid, addr.currentPlanet, 4).Reverse().ToArray(), 0);
+            if (newPlanet != currentPlanet)
+            {
+                currentPlanet = newPlanet;
+                addr.planetValue = currentPlanet;
+            }
+
+            float coord = BitConverter.ToSingle(api.ReadMemory(pid, addr.playerCoords, 4).Reverse().ToArray(), 0);
+            Console.WriteLine("coord: " + coord);
         }
 
         /// <summary>
@@ -157,7 +184,6 @@ namespace racman
             api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponlevel4Offset, BitConverter.GetBytes(xp));
 
             api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponLevelOffset, BitConverter.GetBytes(level));
-            weapon.updateLevel(level + 1);
         }
 
         private byte[][] ReadCutsceneStrings()
