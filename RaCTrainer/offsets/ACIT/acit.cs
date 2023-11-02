@@ -47,13 +47,11 @@ namespace racman
             (addr.cutsceneState3Ptr, 4),    // cutscene state3
             (addr.saveFileIDPtr, 4),        // save file ID
             (addr.boltCount, 4),            // bolt count
-            (addr.playerCoords, 4),         // player X coord
-            (addr.playerCoords + 0x8, 4),   // player Y coord
-            (addr.playerCoords + 0x4, 4),   // player Z coord
             (addr.azimuthHPPtr, 4),         // azimuth HP
             (addr.libraHPPtr, 4),           // libra HP
             (addr.vorselon1SpaceCombat, 4), // vorselon 1 space combat
             (addr.neffy1finalRoom, 4),      // neffy 1 final room
+            (addr.wasGC2Visited, 4),         // neffy 2 final room
             (addr.timerPtr, 4),             // timer
         };
 

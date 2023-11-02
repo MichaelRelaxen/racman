@@ -133,6 +133,8 @@ namespace racman.offsets.ACIT
         public uint vorselon1SpaceCombat => gameVersion[GameID].vorselon1SpaceCombat;
         // 2 if Neffy 1 final room is done
         public uint neffy1finalRoom => gameVersion[GameID].neffy1finalRoom;
+        // 1 if GC2 was already visited
+        public uint wasGC2Visited => gameVersion[GameID].wasGC2Visited;
         // Weapon unlock
         public uint weapons => gameVersion[GameID].weapons;
         // Cutscenes array
@@ -192,6 +194,7 @@ namespace racman.offsets.ACIT
 
                 vorselon1SpaceCombat = 0xE26B20,
                 neffy1finalRoom = 0xE2C3A0,
+                wasGC2Visited = 0xE271E8,
 
                 mapTimerPtr = 0x4BA17930,
                 weapons = 0xE249F4,
@@ -253,6 +256,7 @@ namespace racman.offsets.ACIT
             public uint libraHPPtr { get; set; }
             public uint vorselon1SpaceCombat { get; set; }
             public uint neffy1finalRoom { get; set; }
+            public uint wasGC2Visited { get; set; }
             public uint weapons { get; set; }
             public uint[] cutscenesArray { get; set; }
         }
