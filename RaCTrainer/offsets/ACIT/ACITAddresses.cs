@@ -59,6 +59,8 @@ namespace racman.offsets.ACIT
         public uint saveFileIDPtr => gameVersion[GameID].saveFileIDPtr;
         // Timer
         public uint timerPtr => gameVersion[GameID].timerPtr;
+        // 1 if the game is loading, 0 otherwise
+        public uint isLoading => gameVersion[GameID].isLoading;
         // Map timer
         public uint mapTimerPtr => gameVersion[GameID].mapTimerPtr;
         // Current bolt count
@@ -185,6 +187,7 @@ namespace racman.offsets.ACIT
                 cutsceneState3Ptr = 0x4A4E5428,
                 saveFileIDPtr = 0xE472B8,
                 timerPtr = 0x40EBA460,
+                isLoading = 0xF23584,
                 boltCount = 0xE24F68,
                 inputOffset = 0xF6ABC8,
                 analogOffset = 0xF6AA24,
@@ -245,6 +248,7 @@ namespace racman.offsets.ACIT
             public uint cutsceneState3Ptr { get; set; }
             public uint saveFileIDPtr { get; set; }
             public uint timerPtr { get; set; }
+            public uint isLoading { get; set; }
             public uint mapTimerPtr { get; set; }
             public uint boltCount { get; set; }
             public uint playerHealth { get; set; }

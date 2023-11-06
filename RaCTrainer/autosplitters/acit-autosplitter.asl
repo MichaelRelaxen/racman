@@ -12,7 +12,7 @@ init
 
         // Read values from memory
         current.planet = vars.reader.ReadUInt32();
-        current.gameState1 = vars.reader.ReadUInt32();
+        current.gameState = vars.reader.ReadUInt32();
         current.cutsceneState1 = vars.reader.ReadUInt32();
         current.cutsceneState2 = vars.reader.ReadUInt32();
         current.cutsceneState3 = vars.reader.ReadUInt32();
@@ -24,6 +24,7 @@ init
         current.neffy1SpaceCombat = vars.reader.ReadUInt32();
         current.wasGC2Visited = vars.reader.ReadUInt32();
         current.timer = vars.reader.ReadSingle();
+        current.isLoading = vars.reader.ReadUInt32();
     });
     vars.UpdateValues();
 
@@ -33,7 +34,7 @@ init
         vars.tempTimer = 0.0f;
         vars.runSaveFileID = -1;
 
-        vars.firstVorselonVisit = true;
+        vars.startAfterLoad = false;
     });
     vars.ResetRunValues();
 }
@@ -47,7 +48,7 @@ onStart
 update
 {
     vars.UpdateValues();
-
+    
     //print(current.timer.ToString());
     //print(current.planet.ToString() + " " + old.planet.ToString());
     //print(vars.gameTime.ToString() + " " + vars.tempTimer.ToString() + " " + current.timer.ToString());
@@ -152,9 +153,17 @@ reset
         return false;
     }
 
-    // any%
-    if (current.gameState1 == 1 && old.gameState1 == 0 && current.timer == 0)
+    // if in main menu
+    if (current.gameState == 1 && old.gameState == 0 && current.timer == 0)
     {
+        print("Reset on main menu");
+        return true;
+    }
+
+    // if NG+
+    if (current.planet == 1 && old.gameState==2 && current.gameState==0 && Equals(timer.CurrentPhase.ToString(), "Running"))
+    {
+        print("Reset on NG+");
         return true;
     }
 }
@@ -166,15 +175,23 @@ start
         return false;
     }
 
-    // any%
-    if (current.planet == 1 && old.gameState1==1 && current.gameState1==0 && Equals(timer.CurrentPhase.ToString(), "NotRunning"))
+    // if in main menu
+    if (current.planet == 1 && old.gameState==1 && current.gameState==0 && Equals(timer.CurrentPhase.ToString(), "NotRunning"))
     {
-        return true;
+        print("Starting on main menu");
+        vars.startAfterLoad = true;
     }
 
-    // NG+
-    if (current.planet == 1 && old.gameState1==2 && current.gameState1==0 && Equals(timer.CurrentPhase.ToString(), "NotRunning"))
+    // if NG+
+    if (current.planet == 1 && old.gameState==2 && current.gameState==0 && Equals(timer.CurrentPhase.ToString(), "NotRunning"))
     {
+        print("Starting on NG+");
+        vars.startAfterLoad = true;
+    }
+
+    if (vars.startAfterLoad && old.isLoading == 1 && current.isLoading == 0)
+    {
+        print("Start");
         return true;
     }
 }

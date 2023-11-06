@@ -53,6 +53,7 @@ namespace racman
             (addr.neffy1finalRoom, 4),      // neffy 1 final room
             (addr.wasGC2Visited, 4),         // neffy 2 final room
             (addr.timerPtr, 4),             // timer
+            (addr.isLoading, 4),            // is loading
         };
 
         public override void ResetLevelFlags()
