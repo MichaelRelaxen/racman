@@ -25,6 +25,8 @@ init
         current.wasGC2Visited = vars.reader.ReadUInt32();
         current.timer = vars.reader.ReadSingle();
         current.isLoading = vars.reader.ReadUInt32();
+        current.firstCutscene = vars.reader.ReadUInt32();
+        current.loadSaveState = vars.reader.ReadUInt32();
     });
     vars.UpdateValues();
 
@@ -33,8 +35,6 @@ init
         vars.gameTime = 0.0f;
         vars.tempTimer = 0.0f;
         vars.runSaveFileID = -1;
-
-        vars.startAfterLoad = false;
     });
     vars.ResetRunValues();
 }
@@ -48,6 +48,12 @@ onStart
 update
 {
     vars.UpdateValues();
+
+    // update save file ID if it change is caused by a save
+    if (vars.runSaveFileID != current.saveFileID && current.loadSaveState == 1)
+    {
+        vars.runSaveFileID = current.saveFileID;
+    }
     
     //print(current.timer.ToString());
     //print(current.planet.ToString() + " " + old.planet.ToString());
@@ -76,7 +82,6 @@ split
     }
 
     // Vorselon 1
-    // TODO: check if ratchet is on the rigth save file
     if (old.planet == 4 && current.planet == 3 && current.wasGC2Visited == 0)
     {
         print("Split on leaving Vorselon 1");
@@ -161,9 +166,9 @@ reset
     }
 
     // if NG+
-    if (current.planet == 1 && old.gameState==2 && current.gameState==0 && Equals(timer.CurrentPhase.ToString(), "Running"))
+    if (current.planet == 1 && old.firstCutscene == 0 && current.firstCutscene == 1)
     {
-        print("Reset on NG+");
+        print("Reset on first cutscene");
         return true;
     }
 }
@@ -175,23 +180,10 @@ start
         return false;
     }
 
-    // if in main menu
-    if (current.planet == 1 && old.gameState==1 && current.gameState==0 && Equals(timer.CurrentPhase.ToString(), "NotRunning"))
+    // if the first cutscene starts
+    if (current.planet == 1 && old.firstCutscene == 0 && current.firstCutscene == 1)
     {
-        print("Starting on main menu");
-        vars.startAfterLoad = true;
-    }
-
-    // if NG+
-    if (current.planet == 1 && old.gameState==2 && current.gameState==0 && Equals(timer.CurrentPhase.ToString(), "NotRunning"))
-    {
-        print("Starting on NG+");
-        vars.startAfterLoad = true;
-    }
-
-    if (vars.startAfterLoad && old.isLoading == 1 && current.isLoading == 0)
-    {
-        print("Start");
+        print("Start on first cutscene");
         return true;
     }
 }

@@ -49,6 +49,8 @@ namespace racman.offsets.ACIT
 
         // (0 = in game, 1 = in main menu, 2 = in pause) (NOTE: first pause will result in a 1 for a second)
         public uint gameState1Ptr => gameVersion[GameID].gameState1Ptr;
+        // indicates last opened scene (1 = save screen, 2 = load screen, 4 playing)
+        public uint loadSaveState => gameVersion[GameID].loadSaveState;
         // Main Cutscenes (0 = in game, 1 = in cutscene)
         public uint cutsceneState1Ptr => gameVersion[GameID].cutsceneState1Ptr;
         // Animation Cutscenes (0 = in game, 1 = in cutscene)
@@ -103,15 +105,15 @@ namespace racman.offsets.ACIT
                     case 15:
                         return gameVersion[GameID].pCoordsBerniliusS;
                     case 16:
-                        return gameVersion[GameID].pCoordsGC5;
+                        return gameVersion[GameID].pCoordsVapedia;
                     case 17:
                         return gameVersion[GameID].pCoordsNeffy;
                     case 18:
                         return gameVersion[GameID].pCoordsCorvusS;
                     case 19:
-                        return gameVersion[GameID].pCoordsGC6;
+                        return gameVersion[GameID].pCoordsGimlick;
                     case 20:
-                        return gameVersion[GameID].pCoordsGC6;
+                        return gameVersion[GameID].pCoordsGC5;
                     default:
                         return 0;
                 }
@@ -137,6 +139,8 @@ namespace racman.offsets.ACIT
         public uint neffy1finalRoom => gameVersion[GameID].neffy1finalRoom;
         // 1 if GC2 was already visited
         public uint wasGC2Visited => gameVersion[GameID].wasGC2Visited;
+        // 1 if the first cutscene of the game is playing 0 otherwise (NOTE: this workds only on GC1) (backups 0x400473A4, 0x40047524, 0x4896B7C8)
+        public uint firstCutscene => gameVersion[GameID].firstCutscene;
         // Weapon unlock
         public uint weapons => gameVersion[GameID].weapons;
         // Cutscenes array
@@ -161,27 +165,29 @@ namespace racman.offsets.ACIT
             };
             gameVersion["NPUA80966"] = new Addresses
             {
-                pCoordsGC1 = 0x0,
+                pCoordsGC1 = 0xDE5590,
                 pCoordsZolar = 0x4A4E4800,
-                pCoordsPhylaxS = 0x0,
+                pCoordsPhylaxS = 0x490E2E80,
                 pCoordsVorselon = 0x4A392A70,
-                pCoordsGC2 = 0x0,
+                pCoordsGC2 = 0xDE5590,
                 pCoordsVelaS = 0x0,
                 pCoordsMolonoth = 0x0,
                 pCoordsAxiom = 0x0,
-                pCoordsGC3 = 0x0,
+                pCoordsGC3 = 0x4740C2B0,
                 pCoordsKorthosS = 0x0,
                 pCoordsKrell = 0x0,
                 pCoordsBattlePlex = 0x0,
                 pCoordsZanifar = 0x0,
-                pCoordsGC4 = 0x0,
+                pCoordsGC4 = 0x47D9C5B0,
                 pCoordsBerniliusS = 0x0,
-                pCoordsGC5 = 0x0,
+                pCoordsVapedia = 0x0,
                 pCoordsNeffy = 0x4A5E1980,
                 pCoordsCorvusS = 0x0,
-                pCoordsGC6 = 0x0,
+                pCoordsGimlick = 0x0,
+                pCoordsGC5 = 0x0,
 
                 gameState1Ptr = 0xFBA8C8,
+                loadSaveState = 0xE472C4,
                 cutsceneState1Ptr = 0xF6B3AC,
                 cutsceneState2Ptr = 0x40E9651C,
                 cutsceneState3Ptr = 0x4A4E5428,
@@ -198,6 +204,7 @@ namespace racman.offsets.ACIT
                 vorselon1SpaceCombat = 0xE26B20,
                 neffy1finalRoom = 0xE2C3A0,
                 wasGC2Visited = 0xE271E8,
+                firstCutscene = 0x40047224,
 
                 mapTimerPtr = 0x4BA17930,
                 weapons = 0xE249F4,
@@ -237,12 +244,14 @@ namespace racman.offsets.ACIT
             public uint pCoordsZanifar { get; set; }
             public uint pCoordsGC4 { get; set; }
             public uint pCoordsBerniliusS { get; set; }
-            public uint pCoordsGC5 { get; set; }
+            public uint pCoordsVapedia { get; set; }
             public uint pCoordsNeffy { get; set; }
             public uint pCoordsCorvusS { get; set; }
-            public uint pCoordsGC6 { get; set; }
+            public uint pCoordsGimlick { get; set; }
+            public uint pCoordsGC5 { get; set; }
 
             public uint gameState1Ptr { get; set; }
+            public uint loadSaveState { get; set; }
             public uint cutsceneState1Ptr { get; set; }
             public uint cutsceneState2Ptr { get; set; }
             public uint cutsceneState3Ptr { get; set; }
@@ -261,6 +270,7 @@ namespace racman.offsets.ACIT
             public uint vorselon1SpaceCombat { get; set; }
             public uint neffy1finalRoom { get; set; }
             public uint wasGC2Visited { get; set; }
+            public uint firstCutscene { get; set; }
             public uint weapons { get; set; }
             public uint[] cutscenesArray { get; set; }
         }

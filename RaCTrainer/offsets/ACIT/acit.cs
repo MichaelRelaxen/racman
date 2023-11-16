@@ -51,9 +51,11 @@ namespace racman
             (addr.libraHPPtr, 4),           // libra HP
             (addr.vorselon1SpaceCombat, 4), // vorselon 1 space combat
             (addr.neffy1finalRoom, 4),      // neffy 1 final room
-            (addr.wasGC2Visited, 4),         // neffy 2 final room
+            (addr.wasGC2Visited, 4),        // neffy 2 final room
             (addr.timerPtr, 4),             // timer
             (addr.isLoading, 4),            // is loading
+            (addr.firstCutscene, 4),        // first cutscene
+            (addr.loadSaveState, 4),        // load save state
         };
 
         public override void ResetLevelFlags()
