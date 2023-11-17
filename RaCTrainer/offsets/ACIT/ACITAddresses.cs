@@ -48,7 +48,7 @@ namespace racman.offsets.ACIT
         public uint planetValue { get; set; }
 
         // (0 = in game, 1 = in main menu, 2 = in pause) (NOTE: first pause will result in a 1 for a second)
-        public uint gameState1Ptr => gameVersion[GameID].gameState1Ptr;
+        public uint gameStatePtr => gameVersion[GameID].gameStatePtr;
         // indicates last opened scene (1 = save screen, 2 = load screen, 4 playing)
         public uint loadSaveState => gameVersion[GameID].loadSaveState;
         // Main Cutscenes (0 = in game, 1 = in cutscene)
@@ -152,7 +152,7 @@ namespace racman.offsets.ACIT
 
             gameVersion["BCUS98124"] = new Addresses
             {
-                gameState1Ptr = 0xFBADC8,
+                gameStatePtr = 0xFBADC8,
                 cutsceneState1Ptr = 0xF6B4AC,
                 cutsceneState2Ptr = 0x40E9651C,
                 cutsceneState3Ptr = 0xDF027C,
@@ -186,7 +186,7 @@ namespace racman.offsets.ACIT
                 pCoordsGimlick = 0x0,
                 pCoordsGC5 = 0x0,
 
-                gameState1Ptr = 0xFBA8C8,
+                gameStatePtr = 0xFBA8C8,
                 loadSaveState = 0xE472C4,
                 cutsceneState1Ptr = 0xF6B3AC,
                 cutsceneState2Ptr = 0x40E9651C,
@@ -212,7 +212,7 @@ namespace racman.offsets.ACIT
             };
             gameVersion["BCES00511"] = new Addresses
             {
-                gameState1Ptr = 0xFBAE48,
+                gameStatePtr = 0xFBAE48,
                 cutsceneState1Ptr = 0xF6B52C,
                 cutsceneState2Ptr = 0x40E96E9C,
                 cutsceneState3Ptr = 0x40E96E9C,
@@ -250,7 +250,7 @@ namespace racman.offsets.ACIT
             public uint pCoordsGimlick { get; set; }
             public uint pCoordsGC5 { get; set; }
 
-            public uint gameState1Ptr { get; set; }
+            public uint gameStatePtr { get; set; }
             public uint loadSaveState { get; set; }
             public uint cutsceneState1Ptr { get; set; }
             public uint cutsceneState2Ptr { get; set; }

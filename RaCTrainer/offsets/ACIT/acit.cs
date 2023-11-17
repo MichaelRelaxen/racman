@@ -41,7 +41,7 @@ namespace racman
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
             (addr.currentPlanet, 4),        // current planet
-            (addr.gameState1Ptr, 4),        // game state1
+            (addr.gameStatePtr, 4),        // game state1
             (addr.cutsceneState1Ptr, 4),    // cutscene state1
             (addr.cutsceneState2Ptr, 4),    // cutscene state2
             (addr.cutsceneState3Ptr, 4),    // cutscene state3
