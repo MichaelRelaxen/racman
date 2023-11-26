@@ -16,6 +16,10 @@ namespace racman
         public uint infobotFlags => throw new System.NotImplementedException();
         public uint moviesFlags => throw new System.NotImplementedException();
 
+        public uint botsUnlock => 0x9D2775;
+        // unlocks are not saved, until the save flag is set to 1
+        public uint botsUnlockSave => 0x9C3325;
+
         // Vox HP
         public uint voxHP => 0x449BEAD0;
 
@@ -66,6 +70,8 @@ namespace racman
             (addr.tutorialFlags, 4),    // tutorial flags
             (addr.isLoading, 4),        // loading boolean
         };
+
+        //public void SetUnlockState()
 
         public override void ResetLevelFlags()
         {

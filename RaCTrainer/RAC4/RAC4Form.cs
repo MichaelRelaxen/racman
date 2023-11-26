@@ -179,5 +179,11 @@ namespace racman
         {
             game.KillYourself();
         }
+
+        private void botsUnlocksWindowButton_Click(object sender, EventArgs e)
+        {
+            RAC4BotsUnlocks unlocks = new RAC4BotsUnlocks(game);
+            unlocks.Show();
+        }
     }
 }

@@ -43,6 +43,7 @@ namespace racman
             this.label8 = new System.Windows.Forms.Label();
             this.bolts_textBox = new System.Windows.Forms.TextBox();
             this.killyourself = new System.Windows.Forms.Button();
+            this.botsUnlocksWindowButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -172,11 +173,22 @@ namespace racman
             this.killyourself.UseVisualStyleBackColor = true;
             this.killyourself.Click += new System.EventHandler(this.killyourself_Click);
             // 
+            // botsUnlocksWindowButton
+            // 
+            this.botsUnlocksWindowButton.Location = new System.Drawing.Point(12, 190);
+            this.botsUnlocksWindowButton.Name = "botsUnlocksWindowButton";
+            this.botsUnlocksWindowButton.Size = new System.Drawing.Size(106, 23);
+            this.botsUnlocksWindowButton.TabIndex = 109;
+            this.botsUnlocksWindowButton.Text = "Bots Unlocks";
+            this.botsUnlocksWindowButton.UseVisualStyleBackColor = true;
+            this.botsUnlocksWindowButton.Click += new System.EventHandler(this.botsUnlocksWindowButton_Click);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 225);
+            this.Controls.Add(this.botsUnlocksWindowButton);
             this.Controls.Add(this.killyourself);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.bolts_textBox);
@@ -217,5 +229,6 @@ namespace racman
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox bolts_textBox;
         private System.Windows.Forms.Button killyourself;
+        private System.Windows.Forms.Button botsUnlocksWindowButton;
     }
 }

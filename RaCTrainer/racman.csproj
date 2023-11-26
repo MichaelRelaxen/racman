@@ -156,6 +156,12 @@
     <Compile Include="MemoryForm.Designer.cs">
       <DependentUpon>MemoryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RAC4\RAC4BotsUnlocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC4\RAC4BotsUnlocks.Designer.cs">
+      <DependentUpon>RAC4BotsUnlocks.cs</DependentUpon>
+    </Compile>
     <Compile Include="RacmanScripting.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,6 +271,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2\RAC2JPForm.resx">
       <DependentUpon>RAC2JPForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC4\RAC4BotsUnlocks.resx">
+      <DependentUpon>RAC4BotsUnlocks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RacmanScripting.resx">
       <DependentUpon>RacmanScripting.cs</DependentUpon>
