@@ -17,18 +17,18 @@ namespace racman
         public bool HasWeaponUnlock => addr.weapons > 0;
         public bool canRemoveCutscenes => addr.cutscenesArray != null && addr.cutscenesArray.Length > 0;
 
-        private long lastUnlocksUpdate = 0;
-        private ACITWeaponFactory weaponFactory;
+        private List<ACITWeapon> weapons;
         // array storing every cutscene path initial byte
         private byte[][] cutscenesInitByteArray;
 
+        // This timer updates the current planet every second. It is used cuz some addresses are planet specific
         private Timer currentPlanetTimer;
         private uint currentPlanet;
 
         public acit(IPS3API api) : base(api)
         {
             addr = new ACITAddresses(api.getGameTitleID());
-            weaponFactory = new ACITWeaponFactory();
+            weapons = ACITWeaponFactory.GetWeapons();
             if (canRemoveCutscenes)
             {
                 cutscenesInitByteArray = ReadCutsceneStrings();
@@ -104,16 +104,8 @@ namespace racman
         /// </summary>
         private void UpdateUnlocks()
         {
-            if (DateTime.Now.Ticks < lastUnlocksUpdate + 10000000)
-            {
-                return;
-            }
-
             byte[] memory = api.ReadMemory(pid, addr.weapons, ACITWeaponFactory.weaponCount * ACITWeaponFactory.weaponMemoryLenght);
-
-            weaponFactory.updateWeapons(memory);
-
-            lastUnlocksUpdate = DateTime.Now.Ticks;
+            ACITWeaponFactory.updateWeapons(memory, weapons);
         }
 
         /// <summary>
@@ -135,7 +127,7 @@ namespace racman
         public List<ACITWeapon> GetWeapons()
         {
             UpdateUnlocks();
-            return HasWeaponUnlock ? weaponFactory.weapons : null;
+            return HasWeaponUnlock ? weapons : null;
         }
 
         /// <summary>
@@ -160,7 +152,7 @@ namespace racman
 
             api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponLevelOffset, BitConverter.GetBytes(level));
 
-            weapon.updateLevel(level + 1);
+            UpdateUnlocks();
         }
 
         private byte[][] ReadCutsceneStrings()

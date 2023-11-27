@@ -23,7 +23,7 @@ namespace racman.offsets
             this.upgradealbe = upgradealbe;
         }
 
-        public void updateLevel(uint level)
+        public void UpdateLevel(uint level)
         {
             if (!upgradealbe)
             {

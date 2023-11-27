@@ -22,11 +22,9 @@ namespace racman.offsets
 
         public static uint weaponIndex = 0x17;
 
-        public List<ACITWeapon> weapons { get; private set; }
-
-        public ACITWeaponFactory()
+        public static List<ACITWeapon> GetWeapons()
         {
-            weapons = new List<ACITWeapon>
+            return new List<ACITWeapon>
             {
                 new ACITWeapon("Omniwrench", 0, false),
                 new ACITWeapon("Time bomb", 1, false),
@@ -53,11 +51,12 @@ namespace racman.offsets
             };
         }
 
-        public void updateWeapons(byte[] memoryArray)
+        public static void updateWeapons(byte[] memoryArray, List<ACITWeapon> weapons)
         {
             for (int i = 0; i < weaponCount; i++)
             {
                 weapons[i].isUnlocked = BitConverter.ToBoolean(memoryArray, (int)(weaponUnlockOffset + (i * weaponMemoryLenght)));
+                weapons[i].UpdateLevel(BitConverter.ToUInt32(memoryArray, (int)(weaponLevelOffset + (i * weaponMemoryLenght))) + 1);
             }
         }
     }
