@@ -55,7 +55,7 @@ namespace racman.offsets
         {
             for (int i = 0; i < weaponCount; i++)
             {
-                weapons[i].isUnlocked = BitConverter.ToBoolean(memoryArray, (int)(weaponUnlockOffset + (i * weaponMemoryLenght)));
+                weapons[i].IsUnlocked = BitConverter.ToBoolean(memoryArray, (int)(weaponUnlockOffset + (i * weaponMemoryLenght)));
                 weapons[i].UpdateLevel(BitConverter.ToUInt32(memoryArray, (int)(weaponLevelOffset + (i * weaponMemoryLenght))) + 1);
             }
         }

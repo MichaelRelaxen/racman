@@ -10,7 +10,7 @@ namespace racman.offsets
         // the index in the unlock array
         public uint index { get; private set; }
         public uint level { get; private set; }
-        public bool isUnlocked { get; set; }
+        public bool IsUnlocked { get; set; }
         // if a gadget get's leveled up, it wont work properly
         public bool upgradealbe { get; private set; }
 
@@ -19,7 +19,7 @@ namespace racman.offsets
             this.name = name;
             this.index = index;
             this.level = 1;
-            this.isUnlocked = false;
+            this.IsUnlocked = false;
             this.upgradealbe = upgradealbe;
         }
 

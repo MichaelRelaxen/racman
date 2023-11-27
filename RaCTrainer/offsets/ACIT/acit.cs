@@ -115,7 +115,7 @@ namespace racman
         /// <param name="unlockState"></param>
         public void setUnlockState(ACITWeapon weapon, bool unlockState)
         {
-            weapon.isUnlocked = unlockState;
+            weapon.IsUnlocked = unlockState;
             api.WriteMemory(pid, addr.weapons + (weapon.index * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponUnlockOffset, BitConverter.GetBytes(unlockState));
 
         }

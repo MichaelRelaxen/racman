@@ -20,8 +20,8 @@ namespace racman
             for (int i = 0; i < weapons.Count; i++)
             {
                 String weaponName = weapons[i].name + $" [{weapons[i].level}]";
-                weaponsCheckList.Items.Add(weaponName, weapons[i].isUnlocked);
-                weaponsCheckList.SetItemChecked(i, weapons[i].isUnlocked);
+                weaponsCheckList.Items.Add(weaponName, weapons[i].IsUnlocked);
+                weaponsCheckList.SetItemChecked(i, weapons[i].IsUnlocked);
 
                 weapons[i].levelChanged += (weapon) =>
                 {
