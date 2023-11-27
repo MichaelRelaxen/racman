@@ -1,4 +1,4 @@
-﻿using racman.offsets;
+﻿using racman.offsets.RAC4;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
@@ -9,30 +9,23 @@ namespace racman
     {
         private rac4 game;
 
-        private List<ACITWeapon> unlocks = new List<ACITWeapon>();
+        private List<BotsUnlocks> unlocks;
 
         public RAC4BotsUnlocks(rac4 game)
         {
             this.game = game;
-            //unlocks = game.GetWeapons();
+            unlocks = game.GetBotsUnlocks();
             InitializeComponent();
 
             for (int i = 0; i < unlocks.Count; i++)
             {
-                String weaponName = unlocks[i].name + $" [{unlocks[i].level}]";
-                botsUnlocksCheckList.Items.Add(weaponName, unlocks[i].isUnlocked);
-                botsUnlocksCheckList.SetItemChecked(i, unlocks[i].isUnlocked);
-
-                unlocks[i].levelChanged += (weapon) =>
-                {
-                    int index = unlocks.IndexOf(weapon);
-                    botsUnlocksCheckList.Items[index] = unlocks[index].name + $" [{unlocks[index].level}]";
-                };
+                botsUnlocksCheckList.Items.Add(unlocks[i].name, unlocks[i].IsUnlocked);
+                botsUnlocksCheckList.SetItemChecked(i, unlocks[i].IsUnlocked);
             }
 
             botsUnlocksCheckList.ItemCheck += (s, e) =>
             {
-                //game.SetUnlockState(unlocks[e.Index], e.NewValue == CheckState.Checked);
+                game.SetUnlockState(unlocks[e.Index], e.NewValue == CheckState.Checked);
             };
         }
 
@@ -41,7 +34,7 @@ namespace racman
             for (int i = 0; i < unlocks.Count; i++)
             {
                 botsUnlocksCheckList.SetItemChecked(i, true);
-                //game.setUnlockState(unlocks[i], true);
+                game.SetUnlockState(unlocks[i], true);
             }
         }
 
@@ -50,7 +43,7 @@ namespace racman
             for (int i = 0; i < unlocks.Count; i++)
             {
                 botsUnlocksCheckList.SetItemChecked(i, false);
-                //game.setUnlockState(unlocks[i], false);
+                game.SetUnlockState(unlocks[i], false);
             }
         }
     }

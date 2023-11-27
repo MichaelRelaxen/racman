@@ -1,4 +1,6 @@
-﻿using System;
+﻿using racman.offsets;
+using racman.offsets.RAC4;
+using System;
 using System.Collections.Generic;
 using Timer = System.Windows.Forms.Timer;
 
@@ -54,10 +56,12 @@ namespace racman
 
         public static RaC4Addresses addr = new RaC4Addresses();
 
+        private List<BotsUnlocks> botsUnlocks;
+
         int ghostRatchetSubID = -1;
         public rac4(IPS3API api) : base(api)
         {
-
+            botsUnlocks = BotsUnlocksFactory.GetUpgrades();
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
@@ -71,7 +75,27 @@ namespace racman
             (addr.isLoading, 4),        // loading boolean
         };
 
-        //public void SetUnlockState()
+        public void UpdateUnlocks()
+        {
+            byte[] memory = api.ReadMemory(pid, addr.botsUnlock, ACITWeaponFactory.weaponCount * ACITWeaponFactory.weaponMemoryLenght);
+
+            for (int i = 0; i < botsUnlocks.Count; i++)
+            {
+                botsUnlocks[i].IsUnlocked = BitConverter.ToBoolean(memory, i);
+            }
+        }
+
+        public void SetUnlockState(BotsUnlocks unlock, bool state)
+        {
+            api.WriteMemory(pid, addr.botsUnlock + unlock.index, BitConverter.GetBytes(state));
+            api.WriteMemory(pid, addr.botsUnlockSave + unlock.index, BitConverter.GetBytes(state));
+        }
+
+        public List<BotsUnlocks> GetBotsUnlocks()
+        {
+            UpdateUnlocks();
+            return botsUnlocks;
+        }
 
         public override void ResetLevelFlags()
         {
