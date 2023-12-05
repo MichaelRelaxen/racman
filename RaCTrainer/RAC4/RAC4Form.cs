@@ -12,7 +12,6 @@ namespace racman
         public rac4 game;
         private static ModLoaderForm modLoaderForm;
         private AutosplitterHelper autosplitterHelper;
-        private AutosplitterConfigForm autosplitterConfigForm;
 
         public RAC4Form(rac4 game)
         {
@@ -22,6 +21,7 @@ namespace racman
 
 
             InitializeComponent();
+            bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
             AutosplitterCheckbox.Checked = true;
         }
 
@@ -153,6 +153,31 @@ namespace racman
                 autosplitterHelper = new AutosplitterHelper();
                 autosplitterHelper.StartAutosplitterForGame(this.game);
             }
+        }
+
+        private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.SetBoltCount(uint.Parse(bolts_textBox.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void killyourself_Click(object sender, EventArgs e)
+        {
+            KillYourself();
+        }
+
+        private void KillYourself()
+        {
+            game.KillYourself();
         }
     }
 }
