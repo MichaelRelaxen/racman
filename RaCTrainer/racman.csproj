@@ -332,6 +332,7 @@
     <None Include="autosplitters\acit-autosplitter.asl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="autosplitters\rac2-jp-autosplitter.asl" />
     <None Include="autosplitters\rac2-autosplitter.asl" />
     <None Include="autosplitters\rac3 no qe.asl" />
     <None Include="autosplitters\rac3-autosplitter.asl" />
