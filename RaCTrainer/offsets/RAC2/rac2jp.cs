@@ -22,9 +22,9 @@ namespace racman
         // idk why these are all required
         public uint playerCoords => throw new NotImplementedException();
 
-        public uint inputOffset => throw new NotImplementedException();
+        public uint inputOffset => 0x0147fdf0;
 
-        public uint analogOffset => throw new NotImplementedException();
+        public uint analogOffset => 0x0147fd40;
 
         public uint loadPlanet => throw new NotImplementedException();
 

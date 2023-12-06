@@ -20,7 +20,7 @@ namespace racman
         {
             this.game = game;
             InitializeComponent();
-            // game.SetupInputDisplayMemorySubs();
+            game.SetupInputDisplayMemorySubs();
         }
 
         private void buttonSlots_Click(object sender, EventArgs e)
@@ -114,6 +114,21 @@ namespace racman
                 modLoaderForm = new ModLoaderForm();
                 modLoaderForm.Show();
             }
+        }
+
+        private void inputDisplayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (InputDisplay == null)
+            {
+                InputDisplay = new InputDisplay();
+                InputDisplay.FormClosed += (s, _) => InputDisplay = null;
+                InputDisplay.Show();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            inputDisplayToolStripMenuItem_Click(sender, e);
         }
     }
 }
