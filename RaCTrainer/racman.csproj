@@ -206,10 +206,10 @@
     </Compile>
     <Compile Include="Memory\WebMAN.cs" />
     <Compile Include="func.cs" />
-    <Compile Include="HovenHealthForm.cs">
+    <Compile Include="RAC1\HovenHealthForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HovenHealthForm.Designer.cs">
+    <Compile Include="RAC1\HovenHealthForm.Designer.cs">
       <DependentUpon>HovenHealthForm.cs</DependentUpon>
     </Compile>
     <Compile Include="offsets\RAC1\rac1.cs" />
@@ -246,6 +246,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ACIT\ACITUnlocks.resx">
       <DependentUpon>ACITUnlocks.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="AttachPS3Form.resx">
       <DependentUpon>AttachPS3Form.cs</DependentUpon>
@@ -272,7 +273,7 @@
     <EmbeddedResource Include="RacManConsole.resx">
       <DependentUpon>RacManConsole.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HovenHealthForm.resx">
+    <EmbeddedResource Include="RAC1\HovenHealthForm.resx">
       <DependentUpon>HovenHealthForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InputDisplay.resx">

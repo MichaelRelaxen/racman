@@ -59,9 +59,14 @@ function Ratchet:initialize()
 		},
 		state = {
 			addr = 0x01481474,
-			size = 4,
+			size = 1,
 			_type = "int"
-		}
+		},
+        health = {
+            addr = 0x014816AF,
+            size = 1,
+            _type = "int"
+        }
 	}
 	setmetatable(self, mt)
 end

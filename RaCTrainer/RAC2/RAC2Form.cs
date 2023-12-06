@@ -16,6 +16,7 @@ namespace racman
         AutosplitterHelper autosplitter;
         public rac2 game;
         public Form InputDisplay;
+        private bool debugEnabled;
         private int savefileHelperSubID;
         private int expEconomySubId = -1;
 
@@ -408,6 +409,54 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.imInShortcuts, 1);
             api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7);
             api.Notify("NG+ insomniac museum menus are set up!");
+        }
+
+        private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            debugFeaturesToolStripMenuItem.Checked = debugEnabled;
+        }
+
+        private void debugFeaturesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            debugEnabled = !debugEnabled;
+            debugFeaturesToolStripMenuItem.Checked = debugEnabled;
+
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac2.addr.debugFeatures, new byte[] { (byte)(debugEnabled ? 1 : 0) });
+        }
+
+        private void debugFeaturesToolStripMenuItem_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.Show("Enables built-in debugging features. Press shoulder buttons to skip electrolyzer puzzles and arena missions.", menuStrip1, 1500);
+        }
+
+        private void activateQEToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            var inputForm = new SimpleInputDialogForm("Overwrite save write-offset with what?", "-1");
+            inputForm.Width = 400; // Otherwise the text gets hidden
+            inputForm.ShowDialog();
+
+            if (inputForm.DialogResult != DialogResult.OK) return;
+            var text = inputForm.inputTextBox.Text;
+
+            short writeOffset;
+            if (short.TryParse(text, out writeOffset))
+            {
+                byte[] offsetBytes = BitConverter.GetBytes(writeOffset);
+                if (BitConverter.IsLittleEndian) Array.Reverse(offsetBytes);
+                api.WriteMemory(pid, rac2.addr.selectedSaveSlot, offsetBytes);
+                MessageBox.Show("Done!");
+
+            }
+            else
+            {
+                MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
     }
 }
