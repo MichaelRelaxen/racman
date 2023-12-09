@@ -31,7 +31,7 @@ namespace racman
             // Defaults to 370, decrease by 40.
             api.WriteMemory(pid, rac2jp.addr.pBolts, 330);
             // Defaults to 5, increase by 40.
-            api.WriteMemory(pid, rac2jp.addr.pBolts, 45);
+            api.WriteMemory(pid, rac2jp.addr.pJackpot, 45);
             api.Notify("Slots manipulated for skill point! Good luck.");
         }
 
