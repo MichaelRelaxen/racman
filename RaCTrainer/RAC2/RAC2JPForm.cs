@@ -32,6 +32,8 @@ namespace racman
             api.WriteMemory(pid, rac2jp.addr.pBolts, 330);
             // Defaults to 5, increase by 40.
             api.WriteMemory(pid, rac2jp.addr.pJackpot, 45);
+            // For safety, let the game know the manip is done already:
+            api.WriteMemory(pid, rac2jp.addr.slotsHits, 40);
             api.Notify("Slots manipulated for skill point! Good luck.");
         }
 

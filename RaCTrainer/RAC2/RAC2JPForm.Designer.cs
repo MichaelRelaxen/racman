@@ -151,7 +151,7 @@
             this.buttonSlots.Name = "buttonSlots";
             this.buttonSlots.Size = new System.Drawing.Size(211, 75);
             this.buttonSlots.TabIndex = 103;
-            this.buttonSlots.Text = "SETUP SLOTS (for real)";
+            this.buttonSlots.Text = "SETUP SLOTS\r\n(no but for real)\r\n(i mean it this time)\r\n";
             this.buttonSlots.UseVisualStyleBackColor = true;
             this.buttonSlots.Click += new System.EventHandler(this.buttonSlots_Click);
             // 

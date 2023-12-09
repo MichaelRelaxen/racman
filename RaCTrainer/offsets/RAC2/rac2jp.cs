@@ -19,6 +19,9 @@ namespace racman
         // After 38 attempts, this is increased by 40 (and pBolts is decreased by 40)
         public uint pJackpot => 0x1391034;
 
+        // Number of times the slots have been hit.
+        public uint slotsHits => 0x148716F;
+
         // idk why these are all required
         public uint playerCoords => throw new NotImplementedException();
 
