@@ -1,0 +1,7 @@
+#- name: One-Hit KO
+#- author: robo
+#- href: https://github.com/MichaelRelaxen/racman
+#- version: 1.0
+#- description: Forces you to only have 1 health.
+
+automation: main.lua
