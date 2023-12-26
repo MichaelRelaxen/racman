@@ -183,6 +183,9 @@ namespace racman
             controllerSkin = ControllerSkin.Load($"controllerskins\\{skinName}");
 
             func.ChangeFileLines("config.txt", skinComboBox.SelectedIndex.ToString(), "InputDisplaySkin");
+
+            this.Width = Math.Max(controllerSkin.buttons["base"].spriteWidth + 50, this.Width);
+            this.Height = Math.Max(controllerSkin.buttons["base"].spriteHeight + 50, this.Height);
         }
 
         private void InputDisplay_FormClosing(object sender, FormClosingEventArgs e)
