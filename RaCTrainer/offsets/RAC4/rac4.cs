@@ -1,4 +1,6 @@
-﻿using System;
+﻿using racman.offsets;
+using racman.offsets.RAC4;
+using System;
 using System.Collections.Generic;
 using Timer = System.Windows.Forms.Timer;
 
@@ -15,6 +17,10 @@ namespace racman
         public uint miscLevelFlags => throw new System.NotImplementedException();
         public uint infobotFlags => throw new System.NotImplementedException();
         public uint moviesFlags => throw new System.NotImplementedException();
+
+        public uint botsUnlock => 0x9D2775;
+        // unlocks are not saved, until the save flag is set to 1
+        public uint botsUnlockSave => 0x9C3325;
 
         // Vox HP
         public uint voxHP => 0x449BEAD0;
@@ -50,10 +56,12 @@ namespace racman
 
         public static RaC4Addresses addr = new RaC4Addresses();
 
+        private List<BotsUnlocks> botsUnlocks;
+
         int ghostRatchetSubID = -1;
         public rac4(IPS3API api) : base(api)
         {
-
+            botsUnlocks = BotsUnlocksFactory.GetUpgrades();
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
@@ -66,6 +74,28 @@ namespace racman
             (addr.tutorialFlags, 4),    // tutorial flags
             (addr.isLoading, 4),        // loading boolean
         };
+
+        public void UpdateUnlocks()
+        {
+            byte[] memory = api.ReadMemory(pid, addr.botsUnlock, ACITWeaponFactory.weaponCount * ACITWeaponFactory.weaponMemoryLenght);
+
+            for (int i = 0; i < botsUnlocks.Count; i++)
+            {
+                botsUnlocks[i].IsUnlocked = BitConverter.ToBoolean(memory, i);
+            }
+        }
+
+        public void SetUnlockState(BotsUnlocks unlock, bool state)
+        {
+            api.WriteMemory(pid, addr.botsUnlock + unlock.index, BitConverter.GetBytes(state));
+            api.WriteMemory(pid, addr.botsUnlockSave + unlock.index, BitConverter.GetBytes(state));
+        }
+
+        public List<BotsUnlocks> GetBotsUnlocks()
+        {
+            UpdateUnlocks();
+            return botsUnlocks;
+        }
 
         public override void ResetLevelFlags()
         {

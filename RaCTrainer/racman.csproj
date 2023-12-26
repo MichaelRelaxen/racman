@@ -130,7 +130,10 @@
     </Compile>
     <Compile Include="Memory\RPCS3.cs" />
     <Compile Include="offsets\ACIT\ACITAddresses.cs" />
+    <Compile Include="offsets\ACIT\ACITWeapon.cs" />
     <Compile Include="offsets\ACIT\ACITWeaponFactory.cs" />
+    <Compile Include="offsets\RAC4\BotsUnlocks.cs" />
+    <Compile Include="offsets\RAC4\BotsUnlocksFactory.cs" />
     <Compile Include="RAC2\RC2Unlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,6 +158,12 @@
     </Compile>
     <Compile Include="MemoryForm.Designer.cs">
       <DependentUpon>MemoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC4\RAC4BotsUnlocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC4\RAC4BotsUnlocks.Designer.cs">
+      <DependentUpon>RAC4BotsUnlocks.cs</DependentUpon>
     </Compile>
     <Compile Include="RacmanScripting.cs">
       <SubType>Form</SubType>
@@ -265,6 +274,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2\RAC2JPForm.resx">
       <DependentUpon>RAC2JPForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC4\RAC4BotsUnlocks.resx">
+      <DependentUpon>RAC4BotsUnlocks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RacmanScripting.resx">
       <DependentUpon>RacmanScripting.cs</DependentUpon>

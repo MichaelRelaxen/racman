@@ -1,5 +1,3 @@
-// Only works on PAL
-
 state("racman") { }
 
 init
@@ -10,14 +8,6 @@ init
 
     // Update values from memory
     vars.UpdateValues = (Action) (() => {
-        uint planet = 0;            // current planet
-        uint loadPlanet = 0;        // load planet
-        float voxHP = 0;            // Vox HP
-        uint cutscene = 0;          // cutscene
-        uint inGame = 0;            // in game
-        uint tutorialFlag = 0;      // tutorial flag (0 = tutorial not completed, 1 = tutorial completed)
-        uint isLoading = 0;         // loading screen (0 = not loading, 1 = loading)
-
         vars.reader.BaseStream.Position = 0;
 
         // Read values from memory

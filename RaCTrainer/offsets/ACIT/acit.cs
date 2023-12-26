@@ -2,37 +2,13 @@
 using System;
 using System.Collections.Generic;
 using racman.offsets.ACIT;
+using System.Threading;
+using System.Linq;
 
 namespace racman
 {
     public class acit : IGame, IAutosplitterAvailable
     {
-        public dynamic Planets = new
-        {
-            agorian_arena = ("Agorian Arena"),
-            axiom_city = ("Axion City"),
-            front_end = ("Front End"),
-            galacton_ship = ("Vorselon Ship"),
-            gimlick_valley = ("Gimlick Valey"),
-            great_clock_a = ("Great Clock 1"),
-            great_clock_b = ("Great Clock 2"),
-            great_clock_c = ("Great Clock 3"),
-            great_clock_d = ("Great Clock 4"),
-            great_clock_e = ("Great Clock 5"),
-            insomniac_museum = ("Insomniac Museum"),
-            krell_canyon = ("Krell Canyon"),
-            molonoth = ("Molonoth Fields"),
-            nefarious_statio = ("Nefarious Station"),
-            space_sector_1 = ("Space Sector 1"),
-            space_sector_2 = ("Space Sector 2"),
-            space_sector_3 = ("Space Sector 3"),
-            space_sector_4 = ("Space Sector 4"),
-            space_sector_5 = ("Space Sector 5"),
-            tombli = ("Tombli Outpost"),
-            valkyrie_fleet = ("Valkyrie Fleet"),
-            zolar_forest = ("Zolar Forest")
-        };
-
         public static ACITAddresses addr;
 
         public bool HasInputDisplay => addr.inputOffset > 0 && addr.analogOffset > 0 && addr.currentPlanet > 0;
@@ -41,35 +17,45 @@ namespace racman
         public bool HasWeaponUnlock => addr.weapons > 0;
         public bool canRemoveCutscenes => addr.cutscenesArray != null && addr.cutscenesArray.Length > 0;
 
-        private long lastUnlocksUpdate = 0;
-        private ACITWeaponFactory weaponFactory;
+        private List<ACITWeapon> weapons;
         // array storing every cutscene path initial byte
         private byte[][] cutscenesInitByteArray;
+
+        // This timer updates the current planet every second. It is used cuz some addresses are planet specific
+        private Timer currentPlanetTimer;
+        private uint currentPlanet;
 
         public acit(IPS3API api) : base(api)
         {
             addr = new ACITAddresses(api.getGameTitleID());
-            weaponFactory = new ACITWeaponFactory();
+            weapons = ACITWeaponFactory.GetWeapons();
             if (canRemoveCutscenes)
             {
                 cutscenesInitByteArray = ReadCutsceneStrings();
             }
+
+            // creating a timer to update current planet every second
+            currentPlanetTimer = new Timer((e) => updateCurrentPlanet(), null, 0, 1000);
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
             (addr.currentPlanet, 4),        // current planet
-            (addr.gameState1Ptr, 4),        // game state1
+            (addr.gameStatePtr, 4),        // game state1
             (addr.cutsceneState1Ptr, 4),    // cutscene state1
             (addr.cutsceneState2Ptr, 4),    // cutscene state2
             (addr.cutsceneState3Ptr, 4),    // cutscene state3
             (addr.saveFileIDPtr, 4),        // save file ID
             (addr.boltCount, 4),            // bolt count
-            (addr.playerCoords, 4),         // player X coord
-            (addr.playerCoords + 0x8, 4),   // player Y coord
-            (addr.playerCoords + 0x4, 4),   // player Z coord
             (addr.azimuthHPPtr, 4),         // azimuth HP
+            (addr.libraHPPtr, 4),           // libra HP
+            (addr.vorselon1SpaceCombat, 4), // vorselon 1 space combat
+            (addr.neffy1finalRoom, 4),      // neffy 1 final room
+            (addr.wasGC2Visited, 4),        // neffy 2 final room
             (addr.timerPtr, 4),             // timer
+            (addr.isLoading, 4),            // is loading
+            (addr.firstCutscene, 4),        // first cutscene
+            (addr.loadSaveState, 4),        // load save state
         };
 
         public override void ResetLevelFlags()
@@ -98,20 +84,28 @@ namespace racman
         }
 
         /// <summary>
+        /// Updates current planet.
+        /// </summary>
+        private void updateCurrentPlanet()
+        {
+            uint newPlanet = BitConverter.ToUInt32(api.ReadMemory(pid, addr.currentPlanet, 4).Reverse().ToArray(), 0);
+            if (newPlanet != currentPlanet)
+            {
+                currentPlanet = newPlanet;
+                addr.planetValue = currentPlanet;
+            }
+
+            float coord = BitConverter.ToSingle(api.ReadMemory(pid, addr.playerCoords, 4).Reverse().ToArray(), 0);
+            Console.WriteLine("coord: " + coord);
+        }
+
+        /// <summary>
         /// Updates internal list of unlocked items. There was a bug in the Ratchetron C# API that maked it unfeasibly slow to get each item as a single byte.
         /// </summary>
         private void UpdateUnlocks()
         {
-            if (DateTime.Now.Ticks < lastUnlocksUpdate + 10000000)
-            {
-                return;
-            }
-
             byte[] memory = api.ReadMemory(pid, addr.weapons, ACITWeaponFactory.weaponCount * ACITWeaponFactory.weaponMemoryLenght);
-
-            weaponFactory.updateWeapons(memory);
-
-            lastUnlocksUpdate = DateTime.Now.Ticks;
+            ACITWeaponFactory.updateWeapons(memory, weapons);
         }
 
         /// <summary>
@@ -121,7 +115,7 @@ namespace racman
         /// <param name="unlockState"></param>
         public void setUnlockState(ACITWeapon weapon, bool unlockState)
         {
-            weapon.isUnlocked = unlockState;
+            weapon.IsUnlocked = unlockState;
             api.WriteMemory(pid, addr.weapons + (weapon.index * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponUnlockOffset, BitConverter.GetBytes(unlockState));
 
         }
@@ -133,7 +127,7 @@ namespace racman
         public List<ACITWeapon> GetWeapons()
         {
             UpdateUnlocks();
-            return HasWeaponUnlock ? weaponFactory.weapons : null;
+            return HasWeaponUnlock ? weapons : null;
         }
 
         /// <summary>
@@ -144,6 +138,10 @@ namespace racman
         /// <param name="level"></param>
         public void setWeaponLevel(ACITWeapon weapon, uint level)
         {
+            if (!weapon.upgradealbe)
+            {
+                return;
+            }
             level--;
             uint xp = (uint)(level == 0 ? 0 : 0xFF);
             uint weaponIndex = weapon.index;
@@ -153,7 +151,8 @@ namespace racman
             api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponlevel4Offset, BitConverter.GetBytes(xp));
 
             api.WriteMemory(pid, addr.weapons + (weaponIndex * ACITWeaponFactory.weaponMemoryLenght) + ACITWeaponFactory.weaponLevelOffset, BitConverter.GetBytes(level));
-            weapon.level = level;
+
+            UpdateUnlocks();
         }
 
         private byte[][] ReadCutsceneStrings()

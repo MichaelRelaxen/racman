@@ -22,62 +22,42 @@ namespace racman.offsets
 
         public static uint weaponIndex = 0x17;
 
-        public List<ACITWeapon> weapons { get; private set; }
-
-        public ACITWeaponFactory()
+        public static List<ACITWeapon> GetWeapons()
         {
-            weapons = new List<ACITWeapon>
+            return new List<ACITWeapon>
             {
-                new ACITWeapon("Omniwrench", 0, 0, false),
-                new ACITWeapon("Time bomb", 1, 0, false),
-                new ACITWeapon("Mr Zurkon", 2, 0, false),
-                new ACITWeapon("Buzz blades", 3, 0, false),
-                new ACITWeapon("Negotiator", 4, 0, false),
-                new ACITWeapon("Sonic eruptor", 5, 0, false),
-                new ACITWeapon("Magnet launcher", 6, 0, false),
-                new ACITWeapon("Cryomine glove", 7, 0, false),
-                new ACITWeapon("Plasma striker", 8, 0, false),
-                new ACITWeapon("Dynamo of doom", 9, 0, false),
-                new ACITWeapon("Rift inducer", 10, 0, false),
-                new ACITWeapon("Tesla spikes", 11, 0, false),
-                new ACITWeapon("Groovitron glove", 12, 0, false),
-                new ACITWeapon("Chimp-o-matic", 13, 0, false),
-                new ACITWeapon("Ryno V", 14, 0, false),
-                new ACITWeapon("Spiral of death", 15, 0, false),
-                new ACITWeapon("Constructo pistol", 16, 0, false),
-                new ACITWeapon("Constructo bomb", 17, 0, false),
-                new ACITWeapon("Constructo shotgun", 18, 0, false),
-                new ACITWeapon("Swingshot", 19, 0, false),
-                new ACITWeapon("Omnisoaker", 20, 0, false),
-                new ACITWeapon("Hoverboots", 21, 0, false),
+                new ACITWeapon("Omniwrench", 0, false),
+                new ACITWeapon("Time bomb", 1, false),
+                new ACITWeapon("Mr Zurkon", 2, true),
+                new ACITWeapon("Buzz blades", 3, true),
+                new ACITWeapon("Negotiator", 4, true),
+                new ACITWeapon("Sonic eruptor", 5, true),
+                new ACITWeapon("Magnet launcher", 6, true),
+                new ACITWeapon("Cryomine glove", 7, true),
+                new ACITWeapon("Plasma striker", 8, true),
+                new ACITWeapon("Dynamo of doom", 9, true),
+                new ACITWeapon("Rift inducer", 10, true),
+                new ACITWeapon("Tesla spikes", 11, true),
+                new ACITWeapon("Groovitron glove", 12, true),
+                new ACITWeapon("Chimp-o-matic", 13, true),
+                new ACITWeapon("Ryno V", 14, true),
+                new ACITWeapon("Spiral of death", 15, true),
+                new ACITWeapon("Constructo pistol", 16, true),
+                new ACITWeapon("Constructo bomb", 17, true),
+                new ACITWeapon("Constructo shotgun", 18, true),
+                new ACITWeapon("Swingshot", 19, false),
+                new ACITWeapon("Omnisoaker", 20, false),
+                new ACITWeapon("Hoverboots", 21, false),
             };
         }
 
-        public void updateWeapons(byte[] memoryArray)
+        public static void updateWeapons(byte[] memoryArray, List<ACITWeapon> weapons)
         {
             for (int i = 0; i < weaponCount; i++)
             {
-                weapons[i].isUnlocked = BitConverter.ToBoolean(memoryArray, (int)(weaponUnlockOffset + (i * weaponMemoryLenght)));
-                weapons[i].level = (uint)memoryArray[weaponLevelOffset + (i * weaponMemoryLenght)] + 1;
-                Console.WriteLine(weapons[i].name + " " + weapons[i].level);
+                weapons[i].IsUnlocked = BitConverter.ToBoolean(memoryArray, (int)(weaponUnlockOffset + (i * weaponMemoryLenght)));
+                weapons[i].UpdateLevel(BitConverter.ToUInt32(memoryArray, (int)(weaponLevelOffset + (i * weaponMemoryLenght))) + 1);
             }
-        }
-    }
-
-    public class ACITWeapon
-    {
-        public string name { get; private set; }
-        // the index in the unlock array
-        public uint index { get; private set; }
-        public uint level { get; set; }
-        public bool isUnlocked { get; set; }
-
-        public ACITWeapon(string name, uint index, uint level, bool isUnlocked)
-        {
-            this.name = name;
-            this.index = index;
-            this.level = level;
-            this.isUnlocked = isUnlocked;
         }
     }
 }
