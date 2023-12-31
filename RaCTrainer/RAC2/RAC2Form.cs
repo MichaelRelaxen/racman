@@ -263,7 +263,7 @@ namespace racman
             api.WriteMemory(pid, 0x1329AAC, 0); // Bolt economy
             api.WriteMemory(pid, 0x1A5815B, 0); // Endako cutscene
             api.WriteMemory(pid, 0x1AAC767, 0); // Game pyramid bolt drop
-            api.WriteMemory(pid, rac2.addr.selectedRaceIndex, 0); // Race storage
+            api.WriteMemory(pid, 0x1A4D7E0, 0); // Race storage
 
             api.Notify("Game Pyramid, Bolts manip, Race Storage and Endako Boss Cutscene are now reset and ready for runs");
         }
