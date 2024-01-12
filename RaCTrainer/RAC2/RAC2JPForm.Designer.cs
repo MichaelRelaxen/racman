@@ -44,6 +44,9 @@
             this.buttonSlots = new System.Windows.Forms.Button();
             this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.loadPlanetButton = new System.Windows.Forms.Button();
+            this.planets_comboBox = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -147,9 +150,9 @@
             // 
             // buttonSlots
             // 
-            this.buttonSlots.Location = new System.Drawing.Point(118, 35);
+            this.buttonSlots.Location = new System.Drawing.Point(136, 35);
             this.buttonSlots.Name = "buttonSlots";
-            this.buttonSlots.Size = new System.Drawing.Size(211, 75);
+            this.buttonSlots.Size = new System.Drawing.Size(193, 209);
             this.buttonSlots.TabIndex = 103;
             this.buttonSlots.Text = "SETUP SLOTS\r\n(no but for real)\r\n(i mean it this time)\r\n";
             this.buttonSlots.UseVisualStyleBackColor = true;
@@ -158,8 +161,7 @@
             // AutosplitterCheckbox
             // 
             this.AutosplitterCheckbox.AutoSize = true;
-            this.AutosplitterCheckbox.Enabled = false;
-            this.AutosplitterCheckbox.Location = new System.Drawing.Point(251, 126);
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(12, 227);
             this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
             this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
             this.AutosplitterCheckbox.TabIndex = 105;
@@ -169,7 +171,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(11, 120);
+            this.button2.Location = new System.Drawing.Point(8, 184);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(101, 23);
@@ -178,11 +180,70 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(12, 113);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(67, 13);
+            this.label6.TabIndex = 109;
+            this.label6.Text = "Load Planet:";
+            // 
+            // loadPlanetButton
+            // 
+            this.loadPlanetButton.Location = new System.Drawing.Point(12, 156);
+            this.loadPlanetButton.Name = "loadPlanetButton";
+            this.loadPlanetButton.Size = new System.Drawing.Size(97, 23);
+            this.loadPlanetButton.TabIndex = 107;
+            this.loadPlanetButton.Text = "Load";
+            this.loadPlanetButton.UseVisualStyleBackColor = true;
+            this.loadPlanetButton.Click += new System.EventHandler(this.loadPlanetButton_Click);
+            // 
+            // planets_comboBox
+            // 
+            this.planets_comboBox.FormattingEnabled = true;
+            this.planets_comboBox.Items.AddRange(new object[] {
+            "Aranos",
+            "Oozla",
+            "Maktar",
+            "Endako",
+            "Barlow",
+            "Feltzin",
+            "Notak",
+            "Siberius",
+            "Tabora",
+            "Dobbo",
+            "Hrugis",
+            "Joba",
+            "Todano",
+            "Boldan",
+            "Aranos 2",
+            "Gorn",
+            "Snivelak",
+            "Smolg",
+            "Damosel",
+            "Grelbin",
+            "Yeedil",
+            "Insomniac Museum",
+            "Dobbo Orbit",
+            "Damosel Orbit",
+            "Slim Cognito",
+            "Wupash",
+            "Jamming Array"});
+            this.planets_comboBox.Location = new System.Drawing.Point(12, 129);
+            this.planets_comboBox.Name = "planets_comboBox";
+            this.planets_comboBox.Size = new System.Drawing.Size(97, 21);
+            this.planets_comboBox.TabIndex = 108;
+            this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
+            // 
             // RAC2JPForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 154);
+            this.ClientSize = new System.Drawing.Size(341, 256);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.loadPlanetButton);
+            this.Controls.Add(this.planets_comboBox);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.AutosplitterCheckbox);
             this.Controls.Add(this.buttonSlots);
@@ -194,6 +255,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RAC2JPForm";
             this.Text = " Ratchet & Clank 2 - NPJA40002 (JP)";
+            this.Load += new System.EventHandler(this.RAC2JPForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -218,5 +280,8 @@
         private System.Windows.Forms.CheckBox AutosplitterCheckbox;
         private System.Windows.Forms.ToolStripMenuItem inputDisplayToolStripMenuItem;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button loadPlanetButton;
+        private System.Windows.Forms.ComboBox planets_comboBox;
     }
 }
