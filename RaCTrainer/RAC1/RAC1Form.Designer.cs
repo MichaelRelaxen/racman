@@ -29,6 +29,7 @@ namespace racman
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RAC1Form));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button5 = new System.Windows.Forms.Button();
@@ -83,6 +84,8 @@ namespace racman
             this.setupSPsButton = new System.Windows.Forms.Button();
             this.platinumLabel = new System.Windows.Forms.Label();
             this.buttonUnlockGB = new System.Windows.Forms.Button();
+            this.resetAllMissionsStuffButton = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -234,7 +237,7 @@ namespace racman
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(224, 227);
+            this.label3.Location = new System.Drawing.Point(224, 259);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 63;
@@ -270,7 +273,7 @@ namespace racman
             // infHealth
             // 
             this.infHealth.AutoSize = true;
-            this.infHealth.Location = new System.Drawing.Point(232, 223);
+            this.infHealth.Location = new System.Drawing.Point(232, 255);
             this.infHealth.Name = "infHealth";
             this.infHealth.Size = new System.Drawing.Size(91, 17);
             this.infHealth.TabIndex = 70;
@@ -281,7 +284,7 @@ namespace racman
             // goodiesCheck
             // 
             this.goodiesCheck.AutoSize = true;
-            this.goodiesCheck.Location = new System.Drawing.Point(232, 268);
+            this.goodiesCheck.Location = new System.Drawing.Point(232, 300);
             this.goodiesCheck.Name = "goodiesCheck";
             this.goodiesCheck.Size = new System.Drawing.Size(95, 17);
             this.goodiesCheck.TabIndex = 74;
@@ -470,7 +473,7 @@ namespace racman
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(232, 245);
+            this.ghostCheckbox.Location = new System.Drawing.Point(232, 277);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 83;
@@ -510,7 +513,7 @@ namespace racman
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(178, 223);
+            this.label4.Location = new System.Drawing.Point(178, 255);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 87;
@@ -530,7 +533,7 @@ namespace racman
             // FastLoadToggle
             // 
             this.FastLoadToggle.AutoSize = true;
-            this.FastLoadToggle.Location = new System.Drawing.Point(232, 291);
+            this.FastLoadToggle.Location = new System.Drawing.Point(232, 323);
             this.FastLoadToggle.Name = "FastLoadToggle";
             this.FastLoadToggle.Size = new System.Drawing.Size(114, 17);
             this.FastLoadToggle.TabIndex = 89;
@@ -541,7 +544,7 @@ namespace racman
             // FreezeAmmoCheckbox
             // 
             this.FreezeAmmoCheckbox.AutoSize = true;
-            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(232, 315);
+            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(232, 347);
             this.FreezeAmmoCheckbox.Name = "FreezeAmmoCheckbox";
             this.FreezeAmmoCheckbox.Size = new System.Drawing.Size(90, 17);
             this.FreezeAmmoCheckbox.TabIndex = 90;
@@ -561,9 +564,9 @@ namespace racman
             // 
             // resetSPsButton
             // 
-            this.resetSPsButton.Location = new System.Drawing.Point(232, 161);
+            this.resetSPsButton.Location = new System.Drawing.Point(230, 161);
             this.resetSPsButton.Name = "resetSPsButton";
-            this.resetSPsButton.Size = new System.Drawing.Size(107, 23);
+            this.resetSPsButton.Size = new System.Drawing.Size(109, 23);
             this.resetSPsButton.TabIndex = 92;
             this.resetSPsButton.Text = "Reset Shoot SPs";
             this.resetSPsButton.UseVisualStyleBackColor = true;
@@ -571,9 +574,9 @@ namespace racman
             // 
             // setupSPsButton
             // 
-            this.setupSPsButton.Location = new System.Drawing.Point(233, 190);
+            this.setupSPsButton.Location = new System.Drawing.Point(230, 190);
             this.setupSPsButton.Name = "setupSPsButton";
-            this.setupSPsButton.Size = new System.Drawing.Size(106, 23);
+            this.setupSPsButton.Size = new System.Drawing.Size(109, 23);
             this.setupSPsButton.TabIndex = 93;
             this.setupSPsButton.Text = "Setup Shoot SPs";
             this.setupSPsButton.UseVisualStyleBackColor = true;
@@ -599,12 +602,29 @@ namespace racman
             this.buttonUnlockGB.UseVisualStyleBackColor = true;
             this.buttonUnlockGB.Click += new System.EventHandler(this.buttonUnlockGB_Click);
             // 
+            // resetAllMissionsStuffButton
+            // 
+            this.resetAllMissionsStuffButton.Location = new System.Drawing.Point(230, 219);
+            this.resetAllMissionsStuffButton.Name = "resetAllMissionsStuffButton";
+            this.resetAllMissionsStuffButton.Size = new System.Drawing.Size(109, 23);
+            this.resetAllMissionsStuffButton.TabIndex = 96;
+            this.resetAllMissionsStuffButton.Text = "Setup All Missions";
+            this.toolTip1.SetToolTip(this.resetAllMissionsStuffButton, "Resets Blarg bridge manip and clears Rilgar hoverboard best time.\r\nUsed for reset" +
+        "ting in any% all missions runs.");
+            this.resetAllMissionsStuffButton.UseVisualStyleBackColor = true;
+            this.resetAllMissionsStuffButton.Click += new System.EventHandler(this.resetAllMissionsStuffButton_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.IsBalloon = true;
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(351, 341);
+            this.ClientSize = new System.Drawing.Size(351, 380);
+            this.Controls.Add(this.resetAllMissionsStuffButton);
             this.Controls.Add(this.buttonUnlockGB);
             this.Controls.Add(this.platinumLabel);
             this.Controls.Add(this.setupSPsButton);
@@ -711,6 +731,8 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem freecamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem freecamCharacterToolStripMenuItem;
         private System.Windows.Forms.Button buttonUnlockGB;
+        private System.Windows.Forms.Button resetAllMissionsStuffButton;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

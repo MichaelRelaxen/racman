@@ -485,5 +485,19 @@ namespace racman
         {
             game.UnlockAllGoldBolts();
         }
+
+        private void resetAllMissionsStuffButton_Click(object sender, EventArgs e)
+        {
+            var zero = new byte[] { 0, 0, 0, 0 };
+
+            game.api.WriteMemory(game.pid, 0xA0CD04, 4, zero);
+
+            // these next 3 are floats
+            game.api.WriteMemory(game.pid, 0xE5EFD0, 4, zero);
+            game.api.WriteMemory(game.pid, 0xE5EFD4, 4, zero);
+            game.api.WriteMemory(game.pid, 0xE5EFD8, 4, zero);
+
+            game.api.Notify("Blarg bridge and rilgar race reset for any% all missions. Good luck!");
+        }
     }
 }
