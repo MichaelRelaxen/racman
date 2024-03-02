@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -163,7 +163,7 @@ namespace racman
         private void ConfigureCombos_FormClosed(object sender, FormClosedEventArgs e)
         {
             ConfigureCombos = null;
-            if(CComboCheckBox.Checked) 
+            if (CComboCheckBox.Checked)
                 game.InputsTimer.Enabled = true;
         }
 
@@ -211,7 +211,7 @@ namespace racman
             MemoryForm memoryForm = new MemoryForm();
             memoryForm.Show();
         }
-        
+
         static ModLoaderForm modLoaderForm;
         private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -263,9 +263,27 @@ namespace racman
             api.WriteMemory(pid, 0x1329AAC, 0); // Bolt economy
             api.WriteMemory(pid, 0x1A5815B, 0); // Endako cutscene
             api.WriteMemory(pid, 0x1AAC767, 0); // Game pyramid bolt drop
-            api.WriteMemory(pid, rac2.addr.selectedRaceIndex, 0); // Race storage
+            api.WriteMemory(pid, 0x1A4D7E0, 0); // Race storage
 
             api.Notify("Game Pyramid, Bolts manip, Race Storage and Endako Boss Cutscene are now reset and ready for runs");
+        }
+
+        
+        private int fastLoadSubID = -1;
+        private void SetFastLoadCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+
+            if (SetFastLoadCheckbox.Checked)
+            {
+            // Address related to some kind of ship animations timing, it messes up the entering, exiting ship animations and crash if its active in cutscenes
+                fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
+            }
+            else
+            {
+                game.api.ReleaseSubID(fastLoadSubID);
+            }
+            // Ship load screen addresses that I dont know what to do with it 0x147A257 (1-4 amount of load screens and display wich one is currently) 
+            // and 0x0147A258 (0-2 sequence of the load screens, 0 is the first and 2 is the last)
         }
 
         private void labelLap_Click(object sender, EventArgs e)
@@ -281,64 +299,6 @@ namespace racman
         private void setAsideFileButton_Click(object sender, EventArgs e)
         {
             game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71f, new byte[] { 1 });
-        }
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-
-            api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 20 });
-
-            // We should setup pad manip, since this happens whenever Snivelak is visited.
-            api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
-
-            api.Notify("Snivelak boss act tunining done for NG+!");
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-
-            var api = game.api;
-            var pid = api.getCurrentPID();
-            var pos = "432dbf2e4422675643bee66500000000b6300000b5d00000bf92c68a0000";
-            var tele = "442d25784414fa7943c152353f800000b5d00000b5d000004042fe940000";
-
-            var res = MessageBox.Show("This will transport you to planet Yeedil. Do you want to continue?", "Protopet tuning", MessageBoxButtons.YesNo);
-            
-
-            if (res == DialogResult.Yes)
-            {
-                game.planetToLoad = 20;
-                game.LoadPlanet();
-
-                var playerState = 1;
-                do
-                {
-                    // This should be player state
-                    var stateBytes = api.ReadMemory(pid, rac2.addr.playerCoords + 0x10, 1);
-                    playerState = stateBytes[0];
-                }
-                while (playerState != 0);
-
-                System.Threading.Thread.Sleep(5000);
-                api.WriteMemory(pid, rac2.addr.playerCoords, 30, tele);
-
-                var wait = MessageBox.Show("RaCMAN will now take you to the Protopet. Click OK when you have loaded the protopet.", "Protopet tuning", MessageBoxButtons.OKCancel);
-                if (wait == DialogResult.OK)
-                {
-                    for (var i = 0; i < 20; i++)
-                    {
-                        // lol
-                        api.WriteMemory(pid, rac2.addr.playerCoords, 30, pos);
-                        System.Threading.Thread.Sleep(1000);
-                        game.KillYourself();
-                        System.Threading.Thread.Sleep(1000);
-                    }
-
-                    api.Notify("Protopet boss act tuning done for NG+!");
-                }
-
-            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -365,24 +325,6 @@ namespace racman
             }
         }
 
-        private void buttonGorn_Click(object sender, EventArgs e)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-
-            var res = MessageBox.Show("This will transport you to planet Gorn. Do you want to continue?", "Gorn Manip", MessageBoxButtons.YesNo);
-            if (res == DialogResult.Yes)
-            {
-                api.WriteMemory(pid, rac2.addr.gornManip, 1);
-                api.WriteMemory(pid, rac2.addr.gornOpening, 1);
-
-                game.planetToLoad = 15;
-                game.LoadPlanet();
-
-                api.Notify("Gorn Manip done!");
-            }
-        }
-
         private void label3_Click(object sender, EventArgs e)
         {
 
@@ -392,7 +334,7 @@ namespace racman
         {
             var api = game.api;
             var pid = api.getCurrentPID();
-            api.WriteMemory(pid, rac2.addr.selectedRaceIndex, 0); // Race storages
+            api.WriteMemory(pid, 0x1A4D7E0, 0); // Race storages
             api.Notify("Reset Barlow race storage.");
         }
 
@@ -406,9 +348,16 @@ namespace racman
         {
             var api = game.api;
             var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 20 });
+            // We should setup pad manip, since this happens whenever Snivelak is visited.
+            api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
+            api.WriteMemory(pid, 0x1A9DF90, new byte[] { 66 }); // Just need to set this address to 20 in float value but Idk how to do it, with 66 in byte value works likewise. 
+            api.WriteMemory(pid, rac2.addr.gornManip, 1);
+            api.WriteMemory(pid, rac2.addr.gornOpening, 1);
             api.WriteMemory(pid, rac2.addr.imInShortcuts, 1);
             api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7);
-            api.Notify("NG+ insomniac museum menus are set up!");
+            api.Notify("NG+ insomniac museum menus, gorn manips, protopet and sniv boss tuning are set up!");
         }
 
         private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -458,5 +407,6 @@ namespace racman
             }
 
         }
+
     }
 }
