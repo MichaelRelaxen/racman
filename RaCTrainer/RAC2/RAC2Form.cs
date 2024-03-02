@@ -352,7 +352,7 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 20 });
             // We should setup pad manip, since this happens whenever Snivelak is visited.
             api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
-            api.WriteMemory(pid, 0x1A9DF90, new byte[] { 65 });
+            api.WriteMemory(pid, 0x1A9DF90, new byte[] { 66 }); // Just need to set this address to 20 in float value but Idk how to do it, with 66 in byte value works likewise. 
             api.WriteMemory(pid, rac2.addr.gornManip, 1);
             api.WriteMemory(pid, rac2.addr.gornOpening, 1);
             api.WriteMemory(pid, rac2.addr.imInShortcuts, 1);
