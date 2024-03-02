@@ -275,7 +275,7 @@ namespace racman
 
             if (SetFastLoadCheckbox.Checked)
             {
-            // Address related to some kind of ship animations timing, it messes up the entering and exiting animations
+            // Address related to some kind of ship animations timing, it messes up the entering, exiting ship animations and crash if its active in cutscenes
                 fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
             }
             else
