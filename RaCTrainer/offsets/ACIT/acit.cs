@@ -56,6 +56,7 @@ namespace racman
             (addr.isLoading, 4),            // is loading
             (addr.firstCutscene, 4),        // first cutscene
             (addr.loadSaveState, 4),        // load save state
+            (addr.ratchetHP, 4),            // ratchet HP
         };
 
         public override void ResetLevelFlags()

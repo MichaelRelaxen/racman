@@ -46,6 +46,8 @@ namespace racman.offsets.ACIT
         public bool IsAutosplitterSupported { get; private set; }
         public bool IsSelfKillSupported { get; private set; }
         public uint planetValue { get; set; }
+        //ratchet's / clank's health
+        public uint ratchetHP => gameVersion[GameID].ratchetHP;
 
         // (0 = in game, 1 = in main menu, 2 = in pause) (NOTE: first pause will result in a 1 for a second)
         public uint gameStatePtr => gameVersion[GameID].gameStatePtr;
@@ -186,6 +188,7 @@ namespace racman.offsets.ACIT
                 pCoordsGimlick = 0x0,
                 pCoordsGC5 = 0x0,
 
+                ratchetHP = 0x40E8AD44,
                 gameStatePtr = 0xFBA8C8,
                 loadSaveState = 0xE472C4,
                 cutsceneState1Ptr = 0xF6B3AC,
@@ -206,7 +209,7 @@ namespace racman.offsets.ACIT
                 wasGC2Visited = 0xE271E8,
                 firstCutscene = 0x40047224,
 
-                mapTimerPtr = 0x4BA17930,
+                //mapTimerPtr = 0x4BA17930,
                 weapons = 0xE249F4,
                 cutscenesArray = new uint[] { 0x409AE5BC, 0x409AE620, 0x409AE6F4, 0x409AE784, 0x409AE7B4, 0x409AE814, 0x409AE844, 0x409AE874, 0x409AED84, 0x409AEDE4 }
             };
@@ -253,6 +256,7 @@ namespace racman.offsets.ACIT
             public uint pCoordsGimlick { get; set; }
             public uint pCoordsGC5 { get; set; }
 
+            public uint ratchetHP { get; set; }
             public uint gameStatePtr { get; set; }
             public uint loadSaveState { get; set; }
             public uint cutsceneState1Ptr { get; set; }

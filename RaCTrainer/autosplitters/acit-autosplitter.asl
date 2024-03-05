@@ -27,13 +27,17 @@ init
         current.isLoading = vars.reader.ReadUInt32();
         current.firstCutscene = vars.reader.ReadUInt32();
         current.loadSaveState = vars.reader.ReadUInt32();
+        current.isInPause = vars.reader.ReadUInt32();
+        current.ratchetHP = vars.reader.ReadSingle();
     });
     vars.UpdateValues();
 
     // Initialize run values
     vars.ResetRunValues = (Action) (() => {
         vars.gameTime = 0.0f;
-        vars.tempTimer = 0.0f;
+        vars.tempTimer = 0.0f; // 7 * 60 + 58;// 0.0f;
+        vars.isGamePaused = false;
+        vars.hasPlanetChanged = false;
         vars.runSaveFileID = -1;
     });
     vars.ResetRunValues();
@@ -53,6 +57,48 @@ update
     if (vars.runSaveFileID != current.saveFileID && current.loadSaveState == 1)
     {
         vars.runSaveFileID = current.saveFileID;
+    }
+
+    // on planet change floor the timer
+    if (old.planet != current.planet)
+    {
+        vars.hasPlanetChanged = true;
+    }
+
+    // if there is a cutscene playing, than the timer is paused
+    if (old.cutsceneState2 == 0 && current.cutsceneState2 == 1)
+    {
+        vars.isGamePaused = true;
+        vars.tempTimer += current.timer;
+    }
+
+    if (old.cutsceneState2 == 1 && current.cutsceneState2 == 0)
+    {
+        vars.isGamePaused = false;
+        vars.tempTimer -= current.timer;
+    }
+
+    // update timer
+    if (current.timer < old.timer)
+    {
+        if (vars.hasPlanetChanged)
+        {
+            vars.tempTimer = Math.Floor(vars.gameTime);
+            vars.hasPlanetChanged = false;
+        }
+        else
+        {
+            vars.tempTimer = Math.Ceiling(vars.gameTime);
+            if (current.planet == 2)
+            {
+                vars.tempTimer += 1f;
+            }
+        }
+    }
+
+    if (!vars.isGamePaused)
+    {
+        vars.gameTime = current.timer + vars.tempTimer;
     }
     
     //print(current.timer.ToString());
@@ -181,7 +227,7 @@ start
     }
 
     // if the first cutscene starts
-    if (current.planet == 1 && old.firstCutscene == 0 && current.firstCutscene == 1)
+    if ((current.planet == 1 || current.planet == 0) && old.firstCutscene == 0 && current.firstCutscene == 1)
     {
         print("Start on first cutscene");
         return true;
