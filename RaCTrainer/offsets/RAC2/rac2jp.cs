@@ -29,12 +29,13 @@ namespace racman
 
         public uint analogOffset => 0x0147fd40;
 
-        public uint loadPlanet => throw new NotImplementedException();
+        // First 0x4 for if planet should be loaded, the 0x4 after for planet to load.
+        public uint loadPlanet => 0x01570A10;
 
-        public uint currentPlanet => throw new NotImplementedException();
+        public uint currentPlanet => 0x01329E2C;
     }
 
-    public class rac2jp : IGame
+    public class rac2jp : IGame, IAutosplitterAvailable
     {
         public static RaC2JPAddresses addr = new RaC2JPAddresses();
 
@@ -76,7 +77,7 @@ namespace racman
             // (0x0156B064, 4), // Game state
             (0x1486E34, 4), // Ratchet state
             // (0x0133EE7C, 4), // Protopet's health bar (Float, ranges 0-1)
-            (0x01329E2F, 4), // current planet
+            (0x01329E2C, 4), // current planet
             // (0x156B054, 4) // destination planet
         };
 
