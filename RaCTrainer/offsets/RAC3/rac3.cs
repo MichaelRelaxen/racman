@@ -76,7 +76,7 @@ namespace racman
         public uint loadPlanet => 0xEE9310;
 
         // Currently not implemented, probably works a bit different in RaC3 anyway.
-        public uint levelFlags => throw new System.NotImplementedException();
+        public uint levelFlags => 0xECE675;
         public uint miscLevelFlags => throw new System.NotImplementedException();
         public uint infobotFlags => throw new System.NotImplementedException();
         public uint moviesFlags => throw new System.NotImplementedException();
