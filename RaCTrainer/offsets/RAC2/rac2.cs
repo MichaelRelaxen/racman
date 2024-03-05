@@ -52,17 +52,25 @@ namespace racman
         // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
         public uint gornManip => 0x01A99A4C;
 
-        // As above, for opening cutscene
+        // As above, for opening cutscene.
         public uint gornOpening => 0x01A99A34;
 
-        // Set to 1 if insomniac museum shortcut is avaliable
+        // Set to 1 if insomniac museum shortcut is avaliable.
         public uint imInShortcuts => 0x0135268C;
 
-        // Index of selected item in shortcuts menu
+        // Index of selected item in shortcuts menu.
         public uint shortcutsIndex => 0x01352684;
 
-        // Selected race on Barlow (maybe on Joba too idk)
+        // Selected race on Barlow (maybe on Joba too idk).
         public uint selectedRaceIndex => 0x013965F7;
+
+        // "Current active save slot" used for tracking savefiles (PS2 leftover).
+        // This gets set to -1 when you do QE (and is subsequently overwritten).
+        public uint selectedSaveSlot => 0x013298cc;
+
+        // Internal debug flag that controls some debug features. Set to 1 to enable.
+        // For "documentation", see: https://www.youtube.com/watch?v=AwIoPo1NstU
+        public uint debugFeatures => 0x015b3070;
 
     }
 

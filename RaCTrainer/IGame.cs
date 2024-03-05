@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 
 namespace racman
@@ -113,10 +114,16 @@ namespace racman
 
             SetupInputDisplayMemorySubsAnalogs();
 
-            int planetIndexSubID = api.SubMemory(pid, Addr().currentPlanet, 4, (value) =>
+            // Why the FUCK is this here?
+            // TODO: Move it. This is a workaround.
+            try
             {
-                planetIndex = BitConverter.ToUInt32(value, 0);
-            });
+                var addr = Addr().currentPlanet;
+                int planetIndexSubID = api.SubMemory(pid, addr, 4, (value) =>
+                {
+                    planetIndex = BitConverter.ToUInt32(value, 0);
+                });
+            } catch { /* nah */ }
         }
 
         protected virtual void SetupInputDisplayMemorySubsButtons()

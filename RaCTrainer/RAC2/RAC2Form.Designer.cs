@@ -64,11 +64,14 @@ namespace racman
             this.checkBoxExp = new System.Windows.Forms.CheckBox();
             this.buttonGorn = new System.Windows.Forms.Button();
             this.buttonSniv = new System.Windows.Forms.Button();
+            this.buttonNGPlusMenu = new System.Windows.Forms.Button();
             this.labelLap = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.setAsideFileButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.buttonNGPlusMenu = new System.Windows.Forms.Button();
+            this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.debugFeaturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.activateQEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -232,7 +235,8 @@ namespace racman
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menusToolStripMenuItem});
+            this.menusToolStripMenuItem,
+            this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(363, 24);
@@ -426,6 +430,18 @@ namespace racman
             this.buttonSniv.UseVisualStyleBackColor = true;
             this.buttonSniv.Click += new System.EventHandler(this.button1_Click);
             // 
+            // buttonNGPlusMenu
+            // 
+            this.buttonNGPlusMenu.Location = new System.Drawing.Point(248, 277);
+            this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
+            this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 26);
+            this.buttonNGPlusMenu.TabIndex = 118;
+            this.buttonNGPlusMenu.Text = "Setup NG+ menus";
+            this.toolTip1.SetToolTip(this.buttonNGPlusMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it in the shortcut" +
+        "s menu, neccesary for the NG+ category to perform the insomniac museum glitch.");
+            this.buttonNGPlusMenu.UseVisualStyleBackColor = true;
+            this.buttonNGPlusMenu.Click += new System.EventHandler(this.buttonNGPlusMenu_Click);
+            // 
             // labelLap
             // 
             this.labelLap.AutoSize = true;
@@ -470,17 +486,30 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // buttonNGPlusMenu
+            // debugToolStripMenuItem
             // 
-            this.buttonNGPlusMenu.Location = new System.Drawing.Point(248, 277);
-            this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
-            this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 26);
-            this.buttonNGPlusMenu.TabIndex = 118;
-            this.buttonNGPlusMenu.Text = "Setup NG+ menus";
-            this.toolTip1.SetToolTip(this.buttonNGPlusMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it in the shortcut" +
-        "s menu, neccesary for the NG+ category to perform the insomniac museum glitch.");
-            this.buttonNGPlusMenu.UseVisualStyleBackColor = true;
-            this.buttonNGPlusMenu.Click += new System.EventHandler(this.buttonNGPlusMenu_Click);
+            this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.debugFeaturesToolStripMenuItem,
+            this.activateQEToolStripMenuItem});
+            this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.debugToolStripMenuItem.Text = "Debug";
+            this.debugToolStripMenuItem.DropDownOpening += new System.EventHandler(this.debugToolStripMenuItem_DropDownOpening);
+            // 
+            // debugFeaturesToolStripMenuItem
+            // 
+            this.debugFeaturesToolStripMenuItem.Name = "debugFeaturesToolStripMenuItem";
+            this.debugFeaturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.debugFeaturesToolStripMenuItem.Text = "Enable debug mode";
+            this.debugFeaturesToolStripMenuItem.Click += new System.EventHandler(this.debugFeaturesToolStripMenuItem_Click);
+            this.debugFeaturesToolStripMenuItem.MouseHover += new System.EventHandler(this.debugFeaturesToolStripMenuItem_MouseHover);
+            // 
+            // activateQEToolStripMenuItem
+            // 
+            this.activateQEToolStripMenuItem.Name = "activateQEToolStripMenuItem";
+            this.activateQEToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.activateQEToolStripMenuItem.Text = "Activate QE...";
+            this.activateQEToolStripMenuItem.Click += new System.EventHandler(this.activateQEToolStripMenuItem_Click);
             // 
             // RAC2Form
             // 
@@ -573,5 +602,8 @@ namespace racman
         private System.Windows.Forms.Button buttonGorn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonNGPlusMenu;
+        private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem debugFeaturesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem activateQEToolStripMenuItem;
     }
 }

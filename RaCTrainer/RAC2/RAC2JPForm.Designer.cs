@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RAC2JPForm));
             this.textBoxRari = new System.Windows.Forms.TextBox();
             this.labelRari = new System.Windows.Forms.Label();
             this.labelBolts = new System.Windows.Forms.Label();
@@ -37,10 +38,12 @@
             this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.inputDisplayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonSlots = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -94,11 +97,13 @@
             this.configureButtonCombosToolStripMenuItem,
             this.switchGameToolStripMenuItem,
             this.toolStripSeparator1,
+            this.inputDisplayToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem});
             this.menusToolStripMenuItem.Name = "menusToolStripMenuItem";
             this.menusToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menusToolStripMenuItem.Text = "Menu";
+            this.menusToolStripMenuItem.Click += new System.EventHandler(this.menusToolStripMenuItem_Click);
             // 
             // configureButtonCombosToolStripMenuItem
             // 
@@ -112,23 +117,33 @@
             this.switchGameToolStripMenuItem.Name = "switchGameToolStripMenuItem";
             this.switchGameToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.switchGameToolStripMenuItem.Text = "Switch game";
+            this.switchGameToolStripMenuItem.Click += new System.EventHandler(this.switchGameToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
             // 
+            // inputDisplayToolStripMenuItem
+            // 
+            this.inputDisplayToolStripMenuItem.Name = "inputDisplayToolStripMenuItem";
+            this.inputDisplayToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.inputDisplayToolStripMenuItem.Text = "Input display";
+            this.inputDisplayToolStripMenuItem.Click += new System.EventHandler(this.inputDisplayToolStripMenuItem_Click);
+            // 
             // patchLoaderToolStripMenuItem
             // 
             this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
             this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.patchLoaderToolStripMenuItem.Text = "Patch loader...";
+            this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
             // memoryUtilitiesToolStripMenuItem
             // 
             this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
             this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
+            this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
             // buttonSlots
             // 
@@ -136,32 +151,47 @@
             this.buttonSlots.Name = "buttonSlots";
             this.buttonSlots.Size = new System.Drawing.Size(211, 75);
             this.buttonSlots.TabIndex = 103;
-            this.buttonSlots.Text = "SETUP\r\nSLOTS\r\nMANIP \r\n:)\r\n";
+            this.buttonSlots.Text = "SETUP SLOTS\r\n(no but for real)\r\n(i mean it this time)\r\n";
             this.buttonSlots.UseVisualStyleBackColor = true;
             this.buttonSlots.Click += new System.EventHandler(this.buttonSlots_Click);
             // 
-            // label1
+            // AutosplitterCheckbox
             // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.SystemColors.AppWorkspace;
-            this.label1.Location = new System.Drawing.Point(249, 133);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(80, 13);
-            this.label1.TabIndex = 104;
-            this.label1.Text = "more here soon";
+            this.AutosplitterCheckbox.AutoSize = true;
+            this.AutosplitterCheckbox.Enabled = false;
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(251, 126);
+            this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
+            this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
+            this.AutosplitterCheckbox.TabIndex = 105;
+            this.AutosplitterCheckbox.Text = "Autosplitter";
+            this.AutosplitterCheckbox.UseVisualStyleBackColor = true;
+            this.AutosplitterCheckbox.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(11, 120);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(101, 23);
+            this.button2.TabIndex = 106;
+            this.button2.Text = "Input Display";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // RAC2JPForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 155);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(341, 154);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.AutosplitterCheckbox);
             this.Controls.Add(this.buttonSlots);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.labelBolts);
             this.Controls.Add(this.textBoxBolts);
             this.Controls.Add(this.labelRari);
             this.Controls.Add(this.textBoxRari);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "RAC2JPForm";
             this.Text = " Ratchet & Clank 2 - NPJA40002 (JP)";
             this.menuStrip1.ResumeLayout(false);
@@ -185,6 +215,8 @@
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.Button buttonSlots;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox AutosplitterCheckbox;
+        private System.Windows.Forms.ToolStripMenuItem inputDisplayToolStripMenuItem;
+        private System.Windows.Forms.Button button2;
     }
 }

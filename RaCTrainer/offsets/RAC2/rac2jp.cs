@@ -12,15 +12,22 @@ namespace racman
 
         public uint currentRaritanium => 0x1329E87;
 
-        // Number of time the slot machines on Maktar have been hit.
-        public uint slotsManip => 0x148716F;
+        // Luck table entry to get triple bolts on the slots machines.
+        // (2nd element in int[6] at 0x1391020)
+        public uint pBolts => 0x1391024;
+        // Luck table entry to get jackpot on the slots machines.
+        // After 38 attempts, this is increased by 40 (and pBolts is decreased by 40)
+        public uint pJackpot => 0x1391034;
+
+        // Number of times the slots have been hit.
+        public uint slotsHits => 0x148716F;
 
         // idk why these are all required
         public uint playerCoords => throw new NotImplementedException();
 
-        public uint inputOffset => throw new NotImplementedException();
+        public uint inputOffset => 0x0147fdf0;
 
-        public uint analogOffset => throw new NotImplementedException();
+        public uint analogOffset => 0x0147fd40;
 
         public uint loadPlanet => throw new NotImplementedException();
 
@@ -63,6 +70,15 @@ namespace racman
                 "JammingArray",
             };
         }
+
+        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
+        {
+            // (0x0156B064, 4), // Game state
+            (0x1486E34, 4), // Ratchet state
+            // (0x0133EE7C, 4), // Protopet's health bar (Float, ranges 0-1)
+            (0x01329E2F, 4), // current planet
+            // (0x156B054, 4) // destination planet
+        };
 
         public override void CheckInputs(object sender, EventArgs e)
         {

@@ -12,6 +12,7 @@ namespace racman
 {
     public partial class RAC2JPForm : Form
     {
+        AutosplitterHelper autosplitter;
         public rac2jp game;
         public Form InputDisplay;
 
@@ -19,7 +20,7 @@ namespace racman
         {
             this.game = game;
             InitializeComponent();
-            // game.SetupInputDisplayMemorySubs();
+            game.SetupInputDisplayMemorySubs();
         }
 
         private void buttonSlots_Click(object sender, EventArgs e)
@@ -27,8 +28,13 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            api.WriteMemory(pid, rac2jp.addr.slotsManip, 60);
-            api.Notify("Slots set up for skill point!");
+            // Defaults to 370, decrease by 40.
+            api.WriteMemory(pid, rac2jp.addr.pBolts, 330);
+            // Defaults to 5, increase by 40.
+            api.WriteMemory(pid, rac2jp.addr.pJackpot, 45);
+            // For safety, let the game know the manip is done already:
+            api.WriteMemory(pid, rac2jp.addr.slotsHits, 40);
+            api.Notify("Slots manipulated for skill point! Good luck.");
         }
 
         private void textBoxRari_KeyDown(object sender, KeyEventArgs e)
@@ -62,6 +68,69 @@ namespace racman
                     MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!AutosplitterCheckbox.Checked)
+            {
+                // Disable autosplitter.
+                autosplitter.Stop();
+                autosplitter = null;
+            }
+            else
+            {
+                // Enable auotpslitter
+                Console.WriteLine("Autosplitter starting!");
+                autosplitter = new AutosplitterHelper();
+                autosplitter.StartAutosplitterForGame(this.game);
+            }
+        }
+
+        private void menusToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Program.AttachPS3Form.Show();
+            Close();
+        }
+
+        private void memoryUtilitiesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MemoryForm memoryForm = new MemoryForm();
+            memoryForm.Show();
+        }
+
+        static ModLoaderForm modLoaderForm;
+        private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if ((Application.OpenForms["ModLoaderForm"] as ModLoaderForm) != null)
+            {
+                modLoaderForm.Activate();
+            }
+            else
+            {
+                modLoaderForm = new ModLoaderForm();
+                modLoaderForm.Show();
+            }
+        }
+
+        private void inputDisplayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (InputDisplay == null)
+            {
+                InputDisplay = new InputDisplay();
+                InputDisplay.FormClosed += (s, _) => InputDisplay = null;
+                InputDisplay.Show();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            inputDisplayToolStripMenuItem_Click(sender, e);
         }
     }
 }

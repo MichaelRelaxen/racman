@@ -1,0 +1,7 @@
+#- name: Clone
+#- author: robo
+#- href: https://github.com/MichaelRelaxen/racman
+#- version: 1.0
+#- description: Clones ratchet.
+
+automation: main.lua

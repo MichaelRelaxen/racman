@@ -1,8 +1,4 @@
-// Skip to line 110 to edit the split route
-
-state("racman") {
-
-}
+state("racman") {}
 
 startup {
     settings.Add("USE_SPLIT_ROUTE", true, "Use split route");
@@ -11,10 +7,10 @@ startup {
     settings.SetToolTip("STRICT_ORDER", "Require the splits in the path to be completed in order.");
     settings.Add("BIO_SPLIT", true, "Split on biobliterator");
     settings.SetToolTip("BIO_SPLIT", "Splits on defeating the biobliterator, the final boss.");
-    settings.Add("COUNT_LONG_LOADS", false, "Use long load counter");
-    settings.SetToolTip("COUNT_LONG_LOADS", "Count the long loads in a text component. Requires a text component with the left text set to \"Long Loads\".");
     settings.Add("LDF_SPLIT", false, "Split when entering LDF");
     settings.SetToolTip("LDF_SPLIT", "Splits when entering the laser defence facility on Marcadia. Does not split on exit.");
+    settings.Add("KOROS_BOLT", false, "Koros Bolt 2 Split");
+    settings.SetToolTip("KOROS_BOLT", "Split when getting the second titanium bolt on Koros.\n(This may split incorrectly if you do things out of order, use at your own risk!)");
 }
 
 init {
@@ -41,32 +37,25 @@ init {
     vars.SplitCount = 0;
     vars.biobliterator = false;
 
-    vars.longloads = 0;
+    vars.llIgnorePlanets = new bool[37];
 
-    vars.shipLevels = new byte[]{
-        1,2,3,4,5,6,7,8,9,10,11,12,14,16,17,18,19,21,22,23,24
-    }.ToList();
+    // Don't count out long loads when flying from or to these planets
+    // i.e. the loading screen on these planets is different than the regular one with ratchet's ship
+    // the "long loads" on these loading screens are not actually longer and shouldn't be timed out
 
-    vars.LLCountText = null;
+    vars.llIgnorePlanets[20] = true; // Launch site (ranger ship)
+    vars.llIgnorePlanets[26] = true; // Metro rangers (ranger ship)
+    vars.llIgnorePlanets[27] = true; // Aquatos clank (submarine / falling down the pipe)
+    vars.llIgnorePlanets[28] = true; // Aquatos sewers (falling down the pipe / submarine)
+    vars.llIgnorePlanets[29] = true; // Tryhrranosis rangers (ranger ship)
 
-    vars.GetTextComponentPointer = (Func<string, dynamic>)((name) => {
-        foreach (dynamic component in timer.Layout.Components)
-        {
-            if (component.GetType().Name == "TextComponent" && component.Settings.Text1 == name) {
-                return component;
-            }
-        }
-        return null;
-    });
+    vars.korosTBs = 0;
+
+    vars.originPlanet = 0;
     
 }
 
 update {
-
-    if (settings["COUNT_LONG_LOADS"] && vars.LLCountText == null) {
-        vars.LLCountText = vars.GetTextComponentPointer("Long Loads");
-    }
-
     vars.reader.BaseStream.Position = 0;
     current.destinationPlanet = vars.reader.ReadByte();
     current.planet = vars.reader.ReadByte();
@@ -82,20 +71,24 @@ update {
     vars.reader.BaseStream.Position = 128;
     vars.SplitRoute = vars.reader.ReadBytes(256);
 
-    if (current.loadingScreen == 1 && old.loadingScreen != 1 && vars.shipLevels.Contains(current.destinationPlanet)) {
-        // Count a long load
-        vars.longloads++;
-        timer.SetGameTime(timer.CurrentTime.GameTime.Value.Subtract(TimeSpan.FromSeconds(1)));
+
+    if (current.planet != old.planet && current.destinationPlanet != 0) {
+        vars.originPlanet = old.planet;
+    }
+    else if (current.planet == old.planet && current.destinationPlanet == 0) {
+        vars.originPlanet = current.planet;
     }
 
-    if (settings["COUNT_LONG_LOADS"]) {
-        if (vars.LLCountText != null) {
-            vars.LLCountText.Settings.Text2 = vars.longloads.ToString();
-        }
+    if (current.loadingScreen == 1 && old.loadingScreen != 1 && (!vars.llIgnorePlanets[current.destinationPlanet]) && (!vars.llIgnorePlanets[vars.originPlanet])) {
+        timer.SetGameTime(timer.CurrentTime.GameTime.Value.Subtract(TimeSpan.FromSeconds(1)));
     }
 
     if (!vars.biobliterator && current.gameState == 0 && current.planet == 20 && current.neffyPhase % 2 == 1 && current.neffyHealth == 1) {
         vars.biobliterator = true;
+    }
+
+    if (current.playerState == 0x74 && old.playerState != 0x74 && current.planet == 14) {
+        vars.korosTBs++;
     }
 }
 
@@ -104,8 +97,8 @@ start {
     old.gameState == 6 &&      // The game was loading in the last frame
     current.gameState == 0){   // The game is in gameplay this frame
         vars.SplitCount = 0;
-        vars.longloads = 0;
         vars.biobliterator = false;
+        vars.korosTBs = 0;
         return true;
     } 
 }
@@ -114,6 +107,10 @@ split {
     if (settings["LDF_SPLIT"] && current.planet == 4 && current.chunk == 1 && old.chunk != 1)
     {
         vars.SplitCount++;
+        return true;
+    }
+    if (current.planet == 14 && vars.korosTBs >= 2 && settings["KOROS_BOLT"]) {
+        vars.korosTBs = 0;
         return true;
     }
     if (current.neffyHealth == 0 && vars.biobliterator && current.planet == 20 && settings["BIO_SPLIT"]) {
