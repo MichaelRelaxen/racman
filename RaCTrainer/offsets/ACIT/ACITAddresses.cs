@@ -229,7 +229,7 @@ namespace racman.offsets.ACIT
                 azimuthHPPtr = 0x40E89A2C,
 
                 weapons = 0xE24AF4,
-                cutscenesArray = new uint[] { 0x409AE5D0, 0x409AE634, 0x409AE740, 0x409AE7D0, 0x409AE800, 0x409AE860, 0x409AE890, 0x409AE8C0, 0x409AEDD0, 0x409AEE30 }
+                cutscenesArray = new uint[] { 0x409AE5D0, 0x409AE634, 0x409AE740, 0x409AE7D0, 0x409AE800, 0x409AE860, 0x409AE890, 0x409AE8C0, 0x409AEDD0, 0x409AEE30, 0x409AE264 }  // gc1 intro cutscene is activated by 2 addresses
             };
         }
 
