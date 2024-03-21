@@ -17,14 +17,12 @@ init
         current.cutsceneState2 = vars.reader.ReadUInt32();
         current.cutsceneState3 = vars.reader.ReadUInt32();
         current.saveFileID = vars.reader.ReadUInt32();
-        current.boltCounter = vars.reader.ReadUInt32();
         current.azimuthHP = vars.reader.ReadSingle();
         current.LibraHP = vars.reader.ReadSingle();
         current.vorselon1SpaceCombat = vars.reader.ReadUInt32();
-        current.neffy1SpaceCombat = vars.reader.ReadUInt32();
+        current.neffy1finalRoom = vars.reader.ReadUInt32();
         current.wasGC2Visited = vars.reader.ReadUInt32();
         current.timer = vars.reader.ReadSingle();
-        current.isLoading = vars.reader.ReadUInt32();
         current.firstCutscene = vars.reader.ReadUInt32();
         current.loadSaveState = vars.reader.ReadUInt32();
     });
@@ -33,7 +31,9 @@ init
     // Initialize run values
     vars.ResetRunValues = (Action) (() => {
         vars.gameTime = 0.0f;
-        vars.tempTimer = 0.0f;
+        vars.tempTimer = 0.0f; // 7 * 60 + 58;// 0.0f;
+        vars.isGamePaused = false;
+        vars.hasPlanetChanged = false;
         vars.runSaveFileID = -1;
     });
     vars.ResetRunValues();
@@ -53,6 +53,48 @@ update
     if (vars.runSaveFileID != current.saveFileID && current.loadSaveState == 1)
     {
         vars.runSaveFileID = current.saveFileID;
+    }
+
+    // on planet change floor the timer
+    if (old.planet != current.planet)
+    {
+        vars.hasPlanetChanged = true;
+    }
+
+    // if there is a cutscene playing, than the timer is paused
+    if (old.cutsceneState2 == 0 && current.cutsceneState2 == 1)
+    {
+        vars.isGamePaused = true;
+        vars.tempTimer += current.timer;
+    }
+
+    if (old.cutsceneState2 == 1 && current.cutsceneState2 == 0)
+    {
+        vars.isGamePaused = false;
+        vars.tempTimer -= current.timer;
+    }
+
+    // update timer
+    if (current.timer < old.timer)
+    {
+        if (vars.hasPlanetChanged)
+        {
+            vars.tempTimer = Math.Floor(vars.gameTime);
+            vars.hasPlanetChanged = false;
+        }
+        else
+        {
+            vars.tempTimer = Math.Ceiling(vars.gameTime);
+            if (current.planet == 2)
+            {
+                vars.tempTimer += 1f;
+            }
+        }
+    }
+
+    if (!vars.isGamePaused)
+    {
+        vars.gameTime = current.timer + vars.tempTimer;
     }
     
     //print(current.timer.ToString());
@@ -131,7 +173,7 @@ split
     }
 
     // Neffy 1
-    if (current.planet == 17 && old.neffy1SpaceCombat == 1 && current.neffy1SpaceCombat == 2)
+    if (current.planet == 17 && old.neffy1finalRoom == 1 && current.neffy1finalRoom == 2)
     {
         print("Split on leaving Neffy 1");
         return true;
@@ -181,7 +223,7 @@ start
     }
 
     // if the first cutscene starts
-    if (current.planet == 1 && old.firstCutscene == 0 && current.firstCutscene == 1)
+    if ((current.planet == 1 || current.planet == 0) && old.firstCutscene == 0 && current.firstCutscene == 1)
     {
         print("Start on first cutscene");
         return true;
