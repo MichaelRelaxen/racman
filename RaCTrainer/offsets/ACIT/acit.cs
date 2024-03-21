@@ -41,22 +41,19 @@ namespace racman
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
             (addr.currentPlanet, 4),        // current planet
-            (addr.gameStatePtr, 4),        // game state1
+            (addr.gameStatePtr, 4),         // game state1
             (addr.cutsceneState1Ptr, 4),    // cutscene state1
             (addr.cutsceneState2Ptr, 4),    // cutscene state2
             (addr.cutsceneState3Ptr, 4),    // cutscene state3
             (addr.saveFileIDPtr, 4),        // save file ID
-            (addr.boltCount, 4),            // bolt count
             (addr.azimuthHPPtr, 4),         // azimuth HP
             (addr.libraHPPtr, 4),           // libra HP
             (addr.vorselon1SpaceCombat, 4), // vorselon 1 space combat
             (addr.neffy1finalRoom, 4),      // neffy 1 final room
             (addr.wasGC2Visited, 4),        // neffy 2 final room
             (addr.timerPtr, 4),             // timer
-            (addr.isLoading, 4),            // is loading
             (addr.firstCutscene, 4),        // first cutscene
             (addr.loadSaveState, 4),        // load save state
-            (addr.ratchetHP, 4),            // ratchet HP
         };
 
         public override void ResetLevelFlags()

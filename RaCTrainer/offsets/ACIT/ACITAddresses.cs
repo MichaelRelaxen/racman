@@ -133,9 +133,9 @@ namespace racman.offsets.ACIT
         public uint currentPlanet => gameVersion[GameID].currentPlanet;
         // Azimuth HP
         public uint azimuthHPPtr => gameVersion[GameID].azimuthHPPtr;
-        // Libra HP (backup 0x40E89510)
+        // Libra HP
         public uint libraHPPtr => gameVersion[GameID].libraHPPtr;
-        // 1 if Vorselon 1 space combat is done
+        // 1 if Vorselon 1 space combat is done (or in PAL version it indicates if the V1 ship is still on Sector1), 0 otherwise
         public uint vorselon1SpaceCombat => gameVersion[GameID].vorselon1SpaceCombat;
         // 2 if Neffy 1 final room is done
         public uint neffy1finalRoom => gameVersion[GameID].neffy1finalRoom;
@@ -202,7 +202,7 @@ namespace racman.offsets.ACIT
                 analogOffset = 0xF6AA24,
                 currentPlanet = 0xE896B4,
                 azimuthHPPtr = 0x40E890AC,
-                libraHPPtr = 0x40E893CC,
+                libraHPPtr = 0x40E893CC,    // (backup 0x40E89510)
 
                 vorselon1SpaceCombat = 0xE26B20,
                 neffy1finalRoom = 0xE2C3A0,
@@ -216,6 +216,7 @@ namespace racman.offsets.ACIT
             gameVersion["BCES00511"] = new Addresses
             {
                 gameStatePtr = 0xFBAE48,
+                loadSaveState = 0xE473C4,
                 cutsceneState1Ptr = 0xF6B52C,
                 cutsceneState2Ptr = 0x40E96E9C,
                 cutsceneState3Ptr = 0x40E96E9C,
@@ -227,6 +228,12 @@ namespace racman.offsets.ACIT
                 analogOffset = 0xF6ABA4,
                 currentPlanet = 0xE897B4,
                 azimuthHPPtr = 0x40E89A2C,
+                libraHPPtr = 0x40E89D4C,    // (backup 0x40E89E90)
+
+                vorselon1SpaceCombat = 0xE26C20,    // (backups 0xE26C4C 0xE26C78 0xE69120 0xE6914C 0xE69178)
+                neffy1finalRoom = 0xE2C4A0,    // (backups 0xE6E9A0)
+                wasGC2Visited = 0xE28E8C,   // (backups 0xE28EB8 0xE28EE4 0xE28F10 0xE28F3C)
+                // firstCutscene = TODO
 
                 weapons = 0xE24AF4,
                 cutscenesArray = new uint[] { 0x409AE5D0, 0x409AE634, 0x409AE740, 0x409AE7D0, 0x409AE800, 0x409AE860, 0x409AE890, 0x409AE8C0, 0x409AEDD0, 0x409AEE30, 0x409AE264 }  // gc1 intro cutscene is activated by 2 addresses

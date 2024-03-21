@@ -17,18 +17,14 @@ init
         current.cutsceneState2 = vars.reader.ReadUInt32();
         current.cutsceneState3 = vars.reader.ReadUInt32();
         current.saveFileID = vars.reader.ReadUInt32();
-        current.boltCounter = vars.reader.ReadUInt32();
         current.azimuthHP = vars.reader.ReadSingle();
         current.LibraHP = vars.reader.ReadSingle();
         current.vorselon1SpaceCombat = vars.reader.ReadUInt32();
-        current.neffy1SpaceCombat = vars.reader.ReadUInt32();
+        current.neffy1finalRoom = vars.reader.ReadUInt32();
         current.wasGC2Visited = vars.reader.ReadUInt32();
         current.timer = vars.reader.ReadSingle();
-        current.isLoading = vars.reader.ReadUInt32();
         current.firstCutscene = vars.reader.ReadUInt32();
         current.loadSaveState = vars.reader.ReadUInt32();
-        current.isInPause = vars.reader.ReadUInt32();
-        current.ratchetHP = vars.reader.ReadSingle();
     });
     vars.UpdateValues();
 
@@ -177,7 +173,7 @@ split
     }
 
     // Neffy 1
-    if (current.planet == 17 && old.neffy1SpaceCombat == 1 && current.neffy1SpaceCombat == 2)
+    if (current.planet == 17 && old.neffy1finalRoom == 1 && current.neffy1finalRoom == 2)
     {
         print("Split on leaving Neffy 1");
         return true;
