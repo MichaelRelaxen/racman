@@ -35,6 +35,8 @@ init
         vars.isGamePaused = false;
         vars.hasPlanetChanged = false;
         vars.runSaveFileID = -1;
+        vars.isPlayerOnRunSaveFile = true;
+        vars.waitTillFileChanges = false;
     });
     vars.ResetRunValues();
 }
@@ -48,13 +50,38 @@ onStart
 update
 {
     vars.UpdateValues();
+    vars.isPlayerOnRunSaveFile = vars.runSaveFileID == current.saveFileID;
 
-    // update save file ID if it change is caused by a save
-    if (vars.runSaveFileID != current.saveFileID && current.loadSaveState == 1)
+    // update save file ID if the change is caused by a save
+    if (!vars.isPlayerOnRunSaveFile && current.loadSaveState == 1)
     {
         vars.runSaveFileID = current.saveFileID;
     }
 
+    // there is a bug where in the first run the save file ID is always 0
+    if (vars.runSaveFileID == 0 && old.saveFileID != 0 && current.saveFileID != old.saveFileID)
+    {
+        vars.runSaveFileID = current.saveFileID;
+    }
+
+    // don't update the timer if the save file ID is different from the run save file ID
+    if (!vars.isPlayerOnRunSaveFile)
+    {
+        vars.waitTillFileChanges = true;
+    }
+
+    // if the player changes back to the run save file, then we must wait until the timer goes back to 0
+    if (vars.isPlayerOnRunSaveFile && current.timer <= 0.1f && vars.waitTillFileChanges)
+    {
+        vars.waitTillFileChanges = false;
+    }
+    
+    if (vars.waitTillFileChanges)
+    {
+        return;
+    }
+
+    // Timer related
     // on planet change floor the timer
     if (old.planet != current.planet)
     {
@@ -85,7 +112,7 @@ update
         else
         {
             vars.tempTimer = Math.Ceiling(vars.gameTime);
-            if (current.planet == 2)
+            if (current.planet > 2)
             {
                 vars.tempTimer += 1f;
             }
@@ -94,7 +121,7 @@ update
 
     if (!vars.isGamePaused)
     {
-        vars.gameTime = current.timer + vars.tempTimer;
+        vars.gameTime = vars.tempTimer + current.timer;
     }
     
     //print(current.timer.ToString());
@@ -105,6 +132,12 @@ update
 split
 {
     if (!settings.SplitEnabled)
+    {
+        return false;
+    }
+
+    // don't split if the save file ID is different from the run save file ID
+    if (vars.runSaveFileID != current.saveFileID)
     {
         return false;
     }
