@@ -28,6 +28,7 @@ namespace racman.offsets.ACIT
                         IsSelfKillSupported = true;
                         break;
                     case "BCES00511":
+                        IsAutosplitterSupported = true;
                         break;
                     default:
                         IsAutosplitterSupported = false;
@@ -141,7 +142,7 @@ namespace racman.offsets.ACIT
         public uint neffy1finalRoom => gameVersion[GameID].neffy1finalRoom;
         // 1 if GC2 was already visited
         public uint wasGC2Visited => gameVersion[GameID].wasGC2Visited;
-        // 1 if the first cutscene of the game is playing 0 otherwise (NOTE: this workds only on GC1) (backups 0x400473A4, 0x40047524, 0x4896B7C8)
+        // 1 if the first cutscene of the game is playing 0 otherwise (NOTE: this workds only on GC1)
         public uint firstCutscene => gameVersion[GameID].firstCutscene;
         // Weapon unlock
         public uint weapons => gameVersion[GameID].weapons;
@@ -207,7 +208,7 @@ namespace racman.offsets.ACIT
                 vorselon1SpaceCombat = 0xE26B20,
                 neffy1finalRoom = 0xE2C3A0,
                 wasGC2Visited = 0xE271E8,
-                firstCutscene = 0x40047224,
+                firstCutscene = 0x40047224,     // (backups 0x400473A4, 0x40047524, 0x4896B7C8)
 
                 //mapTimerPtr = 0x4BA17930,
                 weapons = 0xE249F4,
@@ -226,14 +227,14 @@ namespace racman.offsets.ACIT
                 //playerCoords = 0xE24170,
                 inputOffset = 0xF6AD48,
                 analogOffset = 0xF6ABA4,
-                currentPlanet = 0xE897B4,
+                currentPlanet = 0xE472B4,  // (backup 0xEF7F10)
                 azimuthHPPtr = 0x40E89A2C,
                 libraHPPtr = 0x40E89D4C,    // (backup 0x40E89E90)
 
                 vorselon1SpaceCombat = 0xE26C20,    // (backups 0xE26C4C 0xE26C78 0xE69120 0xE6914C 0xE69178)
                 neffy1finalRoom = 0xE2C4A0,    // (backups 0xE6E9A0)
-                wasGC2Visited = 0xE28E8C,   // (backups 0xE28EB8 0xE28EE4 0xE28F10 0xE28F3C)
-                // firstCutscene = TODO
+                wasGC2Visited = 0xE272E8,   // (backups 0xE697E8 0xE279B0)
+                firstCutscene = 0xF49450,  // (backups 0x40950BD4 0x41FABA08) (experimental 0xF23704)
 
                 weapons = 0xE24AF4,
                 cutscenesArray = new uint[] { 0x409AE5D0, 0x409AE634, 0x409AE740, 0x409AE7D0, 0x409AE800, 0x409AE860, 0x409AE890, 0x409AE8C0, 0x409AEDD0, 0x409AEE30, 0x409AE264 }  // gc1 intro cutscene is activated by 2 addresses
