@@ -35,6 +35,7 @@ init
         vars.isGamePaused = false;
         vars.hasPlanetChanged = false;
         vars.runSaveFileID = -1;
+        vars.isLibraSpawned = false;
         vars.isPlayerOnRunSaveFile = true;
         vars.waitTillFileChanges = false;
     });
@@ -45,15 +46,22 @@ onStart
 {
     vars.ResetRunValues();
     vars.runSaveFileID = current.saveFileID;
+    vars.tempTimer = -current.timer;
 }
 
 update
 {
     vars.UpdateValues();
     vars.isPlayerOnRunSaveFile = vars.runSaveFileID == current.saveFileID;
+    
+    // update libra spawned state
+    if (current.planet == 10 && current.LibraHP > 0.6f)
+    {
+        vars.isLibraSpawned = true;
+    }
 
-    // update save file ID if the change is caused by a save
-    if (!vars.isPlayerOnRunSaveFile && current.loadSaveState == 1)
+    // update save file ID if the change is caused by a save and only if the player was on the run save file
+    if (!vars.isPlayerOnRunSaveFile && current.loadSaveState == 1 && old.saveFileID == vars.runSaveFileID)
     {
         vars.runSaveFileID = current.saveFileID;
     }
@@ -178,14 +186,14 @@ split
     }
 
     // Libra
-    if (current.planet == 10 && current.LibraHP <= 0.1f && old.cutsceneState2 == 0 && current.cutsceneState2 == 1)
+    if (current.planet == 10 && current.LibraHP <= 0.1f && old.cutsceneState2 == 0 && current.cutsceneState2 == 1 && vars.isLibraSpawned)
     {
         print("Split on beating Libra");
         return true;
     }
 
     // Battleplex
-    if (old.planet == 12 && current.planet == 3)
+    if (old.planet == 12 && current.planet == 4)
     {
         print("Split on leaving Battleplex");
         return true;
@@ -241,9 +249,9 @@ reset
     }
 
     // if NG+
-    if (current.planet == 1 && old.firstCutscene == 0 && current.firstCutscene == 1)
+    if (!vars.runSaves.Contains((int)current.saveFileID))
     {
-        print("Reset on first cutscene");
+        print("Reset on leaving run save files");
         return true;
     }
 }

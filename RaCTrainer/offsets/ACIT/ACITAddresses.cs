@@ -216,6 +216,27 @@ namespace racman.offsets.ACIT
             };
             gameVersion["BCES00511"] = new Addresses
             {
+                pCoordsGC1 = 0x0,
+                pCoordsZolar = 0x0,
+                pCoordsPhylaxS = 0x0,
+                pCoordsVorselon = 0x0,
+                pCoordsGC2 = 0x0,
+                pCoordsVelaS = 0x0,
+                pCoordsMolonoth = 0x0,
+                pCoordsAxiom = 0x0,
+                pCoordsGC3 = 0x0,
+                pCoordsKorthosS = 0x0,
+                pCoordsKrell = 0x0,
+                pCoordsBattlePlex = 0x0,
+                pCoordsZanifar = 0x0,
+                pCoordsGC4 = 0x0,
+                pCoordsBerniliusS = 0x0,
+                pCoordsVapedia = 0x0,
+                pCoordsNeffy = 0x0,
+                pCoordsCorvusS = 0x0,
+                pCoordsGimlick = 0x49F48100,
+                pCoordsGC5 = 0x0,
+
                 gameStatePtr = 0xFBAE48,
                 loadSaveState = 0xE473C4,
                 cutsceneState1Ptr = 0xF6B52C,
@@ -227,9 +248,9 @@ namespace racman.offsets.ACIT
                 //playerCoords = 0xE24170,
                 inputOffset = 0xF6AD48,
                 analogOffset = 0xF6ABA4,
-                currentPlanet = 0xE472B4,  // (backup 0xEF7F10)
+                currentPlanet = 0xEF7F10,  // (backup 0xE472B4)
                 azimuthHPPtr = 0x40E89A2C,
-                libraHPPtr = 0x40E89D4C,    // (backup 0x40E89E90)
+                libraHPPtr = 0x40E89E90,    // (backup 0x40E89D4C)
 
                 vorselon1SpaceCombat = 0xE26C20,    // (backups 0xE26C4C 0xE26C78 0xE69120 0xE6914C 0xE69178)
                 neffy1finalRoom = 0xE2C4A0,    // (backups 0xE6E9A0)
