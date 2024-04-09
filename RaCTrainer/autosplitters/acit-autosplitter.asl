@@ -38,6 +38,8 @@ init
         vars.isLibraSpawned = false;
         vars.isPlayerOnRunSaveFile = true;
         vars.waitTillFileChanges = false;
+
+        vars.runSaves = new HashSet<int>();
     });
     vars.ResetRunValues();
 }
@@ -46,6 +48,7 @@ onStart
 {
     vars.ResetRunValues();
     vars.runSaveFileID = current.saveFileID;
+    vars.runSaves.Add((int)current.saveFileID);
     vars.tempTimer = -current.timer;
 }
 
@@ -64,6 +67,7 @@ update
     if (!vars.isPlayerOnRunSaveFile && current.loadSaveState == 1 && old.saveFileID == vars.runSaveFileID)
     {
         vars.runSaveFileID = current.saveFileID;
+        vars.runSaves.Add((int)current.saveFileID);
     }
 
     // there is a bug where in the first run the save file ID is always 0
