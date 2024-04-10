@@ -28,6 +28,7 @@ namespace racman.offsets.ACIT
                         IsSelfKillSupported = true;
                         break;
                     case "BCES00511":
+                        IsAutosplitterSupported = true;
                         break;
                     default:
                         IsAutosplitterSupported = false;
@@ -46,6 +47,8 @@ namespace racman.offsets.ACIT
         public bool IsAutosplitterSupported { get; private set; }
         public bool IsSelfKillSupported { get; private set; }
         public uint planetValue { get; set; }
+        //ratchet's / clank's health
+        public uint ratchetHP => gameVersion[GameID].ratchetHP;
 
         // (0 = in game, 1 = in main menu, 2 = in pause) (NOTE: first pause will result in a 1 for a second)
         public uint gameStatePtr => gameVersion[GameID].gameStatePtr;
@@ -131,15 +134,15 @@ namespace racman.offsets.ACIT
         public uint currentPlanet => gameVersion[GameID].currentPlanet;
         // Azimuth HP
         public uint azimuthHPPtr => gameVersion[GameID].azimuthHPPtr;
-        // Libra HP (backup 0x40E89510)
+        // Libra HP
         public uint libraHPPtr => gameVersion[GameID].libraHPPtr;
-        // 1 if Vorselon 1 space combat is done
+        // 1 if Vorselon 1 space combat is done (or in PAL version it indicates if the V1 ship is still on Sector1), 0 otherwise
         public uint vorselon1SpaceCombat => gameVersion[GameID].vorselon1SpaceCombat;
         // 2 if Neffy 1 final room is done
         public uint neffy1finalRoom => gameVersion[GameID].neffy1finalRoom;
         // 1 if GC2 was already visited
         public uint wasGC2Visited => gameVersion[GameID].wasGC2Visited;
-        // 1 if the first cutscene of the game is playing 0 otherwise (NOTE: this workds only on GC1) (backups 0x400473A4, 0x40047524, 0x4896B7C8)
+        // 1 if the first cutscene of the game is playing 0 otherwise (NOTE: this workds only on GC1)
         public uint firstCutscene => gameVersion[GameID].firstCutscene;
         // Weapon unlock
         public uint weapons => gameVersion[GameID].weapons;
@@ -186,6 +189,7 @@ namespace racman.offsets.ACIT
                 pCoordsGimlick = 0x0,
                 pCoordsGC5 = 0x0,
 
+                ratchetHP = 0x40E8AD44,
                 gameStatePtr = 0xFBA8C8,
                 loadSaveState = 0xE472C4,
                 cutsceneState1Ptr = 0xF6B3AC,
@@ -199,20 +203,42 @@ namespace racman.offsets.ACIT
                 analogOffset = 0xF6AA24,
                 currentPlanet = 0xE896B4,
                 azimuthHPPtr = 0x40E890AC,
-                libraHPPtr = 0x40E893CC,
+                libraHPPtr = 0x40E893CC,    // (backup 0x40E89510)
 
                 vorselon1SpaceCombat = 0xE26B20,
                 neffy1finalRoom = 0xE2C3A0,
                 wasGC2Visited = 0xE271E8,
-                firstCutscene = 0x40047224,
+                firstCutscene = 0x40047224,     // (backups 0x400473A4, 0x40047524, 0x4896B7C8)
 
-                mapTimerPtr = 0x4BA17930,
+                //mapTimerPtr = 0x4BA17930,
                 weapons = 0xE249F4,
                 cutscenesArray = new uint[] { 0x409AE5BC, 0x409AE620, 0x409AE6F4, 0x409AE784, 0x409AE7B4, 0x409AE814, 0x409AE844, 0x409AE874, 0x409AED84, 0x409AEDE4 }
             };
             gameVersion["BCES00511"] = new Addresses
             {
+                pCoordsGC1 = 0x0,
+                pCoordsZolar = 0x0,
+                pCoordsPhylaxS = 0x0,
+                pCoordsVorselon = 0x0,
+                pCoordsGC2 = 0x0,
+                pCoordsVelaS = 0x0,
+                pCoordsMolonoth = 0x0,
+                pCoordsAxiom = 0x0,
+                pCoordsGC3 = 0x0,
+                pCoordsKorthosS = 0x0,
+                pCoordsKrell = 0x0,
+                pCoordsBattlePlex = 0x0,
+                pCoordsZanifar = 0x0,
+                pCoordsGC4 = 0x0,
+                pCoordsBerniliusS = 0x0,
+                pCoordsVapedia = 0x0,
+                pCoordsNeffy = 0x0,
+                pCoordsCorvusS = 0x0,
+                pCoordsGimlick = 0x49F48100,
+                pCoordsGC5 = 0x0,
+
                 gameStatePtr = 0xFBAE48,
+                loadSaveState = 0xE473C4,
                 cutsceneState1Ptr = 0xF6B52C,
                 cutsceneState2Ptr = 0x40E96E9C,
                 cutsceneState3Ptr = 0x40E96E9C,
@@ -222,8 +248,17 @@ namespace racman.offsets.ACIT
                 //playerCoords = 0xE24170,
                 inputOffset = 0xF6AD48,
                 analogOffset = 0xF6ABA4,
-                currentPlanet = 0xE897B4,
-                azimuthHPPtr = 0x40E89A2C
+                currentPlanet = 0xEF7F10,  // (backup 0xE472B4)
+                azimuthHPPtr = 0x40E89A2C,
+                libraHPPtr = 0x40E89E90,    // (backup 0x40E89D4C)
+
+                vorselon1SpaceCombat = 0xE26C20,    // (backups 0xE26C4C 0xE26C78 0xE69120 0xE6914C 0xE69178)
+                neffy1finalRoom = 0xE2C4A0,    // (backups 0xE6E9A0)
+                wasGC2Visited = 0xE272E8,   // (backups 0xE697E8 0xE279B0)
+                firstCutscene = 0xF49450,  // (backups 0x40950BD4 0x41FABA08) (experimental 0xF23704)
+
+                weapons = 0xE24AF4,
+                cutscenesArray = new uint[] { 0x409AE5D0, 0x409AE634, 0x409AE740, 0x409AE7D0, 0x409AE800, 0x409AE860, 0x409AE890, 0x409AE8C0, 0x409AEDD0, 0x409AEE30, 0x409AE264 }  // gc1 intro cutscene is activated by 2 addresses
             };
         }
 
@@ -250,6 +285,7 @@ namespace racman.offsets.ACIT
             public uint pCoordsGimlick { get; set; }
             public uint pCoordsGC5 { get; set; }
 
+            public uint ratchetHP { get; set; }
             public uint gameStatePtr { get; set; }
             public uint loadSaveState { get; set; }
             public uint cutsceneState1Ptr { get; set; }
