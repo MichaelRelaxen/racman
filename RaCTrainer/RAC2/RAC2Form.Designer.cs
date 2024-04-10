@@ -1,4 +1,4 @@
-﻿
+
 namespace racman
 {
     partial class RAC2Form
@@ -50,6 +50,9 @@ namespace racman
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.debugFeaturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.activateQEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
             this.freezeAmmoCheckbox = new System.Windows.Forms.CheckBox();
             this.freezeHealthCheckbox = new System.Windows.Forms.CheckBox();
@@ -59,26 +62,22 @@ namespace racman
             this.label2 = new System.Windows.Forms.Label();
             this.resetFileManipButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.buttonProtopet = new System.Windows.Forms.Button();
             this.buttonSwingshot = new System.Windows.Forms.Button();
             this.checkBoxExp = new System.Windows.Forms.CheckBox();
-            this.buttonGorn = new System.Windows.Forms.Button();
-            this.buttonSniv = new System.Windows.Forms.Button();
+            this.SetFastLoadCheckbox = new System.Windows.Forms.CheckBox();
             this.buttonNGPlusMenu = new System.Windows.Forms.Button();
+            this.buttonRaceStorage = new System.Windows.Forms.Button();
             this.labelLap = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.setAsideFileButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.debugFeaturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.activateQEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // CComboCheckBox
             // 
             this.CComboCheckBox.AutoSize = true;
-            this.CComboCheckBox.Location = new System.Drawing.Point(13, 122);
+            this.CComboCheckBox.Location = new System.Drawing.Point(12, 129);
             this.CComboCheckBox.Name = "CComboCheckBox";
             this.CComboCheckBox.Size = new System.Drawing.Size(147, 17);
             this.CComboCheckBox.TabIndex = 93;
@@ -288,10 +287,35 @@ namespace racman
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
+            // debugToolStripMenuItem
+            // 
+            this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.debugFeaturesToolStripMenuItem,
+            this.activateQEToolStripMenuItem});
+            this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
+            this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.debugToolStripMenuItem.Text = "Debug";
+            this.debugToolStripMenuItem.DropDownOpening += new System.EventHandler(this.debugToolStripMenuItem_DropDownOpening);
+            // 
+            // debugFeaturesToolStripMenuItem
+            // 
+            this.debugFeaturesToolStripMenuItem.Name = "debugFeaturesToolStripMenuItem";
+            this.debugFeaturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.debugFeaturesToolStripMenuItem.Text = "Enable debug mode";
+            this.debugFeaturesToolStripMenuItem.Click += new System.EventHandler(this.debugFeaturesToolStripMenuItem_Click);
+            this.debugFeaturesToolStripMenuItem.MouseHover += new System.EventHandler(this.debugFeaturesToolStripMenuItem_MouseHover);
+            // 
+            // activateQEToolStripMenuItem
+            // 
+            this.activateQEToolStripMenuItem.Name = "activateQEToolStripMenuItem";
+            this.activateQEToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.activateQEToolStripMenuItem.Text = "Activate QE...";
+            this.activateQEToolStripMenuItem.Click += new System.EventHandler(this.activateQEToolStripMenuItem_Click);
+            // 
             // AutosplitterCheckbox
             // 
             this.AutosplitterCheckbox.AutoSize = true;
-            this.AutosplitterCheckbox.Location = new System.Drawing.Point(246, 222);
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(247, 222);
             this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
             this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
             this.AutosplitterCheckbox.TabIndex = 102;
@@ -357,14 +381,14 @@ namespace racman
             // 
             // resetFileManipButton
             // 
-            this.resetFileManipButton.Location = new System.Drawing.Point(247, 245);
+            this.resetFileManipButton.Location = new System.Drawing.Point(247, 254);
             this.resetFileManipButton.Name = "resetFileManipButton";
             this.resetFileManipButton.Size = new System.Drawing.Size(104, 26);
             this.resetFileManipButton.TabIndex = 109;
-            this.resetFileManipButton.Text = "Setup any%";
-            this.toolTip1.SetToolTip(this.resetFileManipButton, "Clears bolt manip, resets hoverbike menu, makes game\r\n pyramid drop 1,024 bolts, " +
-        "and resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning" +
-        ".");
+            this.resetFileManipButton.Text = "Setup Any%";
+            this.toolTip1.SetToolTip(this.resetFileManipButton, "Clears bolt manip, resets hoverbike menu, makes game\r\npyramid drop 1,024 bolts, a" +
+            "nd resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning." +
+            "");
             this.resetFileManipButton.UseVisualStyleBackColor = true;
             this.resetFileManipButton.Click += new System.EventHandler(this.resetFileManipButton_Click);
             // 
@@ -372,81 +396,11 @@ namespace racman
             // 
             this.toolTip1.IsBalloon = true;
             // 
-            // buttonProtopet
-            // 
-            this.buttonProtopet.Location = new System.Drawing.Point(248, 373);
-            this.buttonProtopet.Name = "buttonProtopet";
-            this.buttonProtopet.Size = new System.Drawing.Size(104, 26);
-            this.buttonProtopet.TabIndex = 112;
-            this.buttonProtopet.Text = "Tune Protopet";
-            this.toolTip1.SetToolTip(this.buttonProtopet, "Teleports you to the Protopet and kills you 20 times.");
-            this.buttonProtopet.UseVisualStyleBackColor = true;
-            this.buttonProtopet.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // buttonSwingshot
-            // 
-            this.buttonSwingshot.Location = new System.Drawing.Point(140, 261);
-            this.buttonSwingshot.Name = "buttonSwingshot";
-            this.buttonSwingshot.Size = new System.Drawing.Size(68, 52);
-            this.buttonSwingshot.TabIndex = 113;
-            this.buttonSwingshot.Text = "Store\r\nSwingshot\r\n";
-            this.toolTip1.SetToolTip(this.buttonSwingshot, "Sets your previous weapon to the Swingshot. For file setup.");
-            this.buttonSwingshot.UseVisualStyleBackColor = true;
-            this.buttonSwingshot.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // checkBoxExp
-            // 
-            this.checkBoxExp.AutoSize = true;
-            this.checkBoxExp.Location = new System.Drawing.Point(12, 319);
-            this.checkBoxExp.Name = "checkBoxExp";
-            this.checkBoxExp.Size = new System.Drawing.Size(172, 17);
-            this.checkBoxExp.TabIndex = 114;
-            this.checkBoxExp.Text = "Enable weapon insta-upgrades";
-            this.toolTip1.SetToolTip(this.checkBoxExp, "Boosts experience values so that killing an enemy instantly upgrades the weapon u" +
-        "sed. Useful for file setup.");
-            this.checkBoxExp.UseVisualStyleBackColor = true;
-            this.checkBoxExp.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // buttonGorn
-            // 
-            this.buttonGorn.Location = new System.Drawing.Point(247, 309);
-            this.buttonGorn.Name = "buttonGorn";
-            this.buttonGorn.Size = new System.Drawing.Size(105, 26);
-            this.buttonGorn.TabIndex = 115;
-            this.buttonGorn.Text = "Setup Gorn manip";
-            this.toolTip1.SetToolTip(this.buttonGorn, "Sets a flag disabling a cutscene on Gorn, saving 7s in NG+ categories.");
-            this.buttonGorn.UseVisualStyleBackColor = true;
-            this.buttonGorn.Click += new System.EventHandler(this.buttonGorn_Click);
-            // 
-            // buttonSniv
-            // 
-            this.buttonSniv.Location = new System.Drawing.Point(248, 341);
-            this.buttonSniv.Name = "buttonSniv";
-            this.buttonSniv.Size = new System.Drawing.Size(104, 26);
-            this.buttonSniv.TabIndex = 111;
-            this.buttonSniv.Text = "Tune Snivelak";
-            this.toolTip1.SetToolTip(this.buttonSniv, "Halves the health of the Snivelak boss by making the game think you died to him m" +
-        "any times; saving time in NG+ categories.");
-            this.buttonSniv.UseVisualStyleBackColor = true;
-            this.buttonSniv.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // buttonNGPlusMenu
-            // 
-            this.buttonNGPlusMenu.Location = new System.Drawing.Point(248, 277);
-            this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
-            this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 26);
-            this.buttonNGPlusMenu.TabIndex = 118;
-            this.buttonNGPlusMenu.Text = "Setup NG+ menus";
-            this.toolTip1.SetToolTip(this.buttonNGPlusMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it in the shortcut" +
-        "s menu, neccesary for the NG+ category to perform the insomniac museum glitch.");
-            this.buttonNGPlusMenu.UseVisualStyleBackColor = true;
-            this.buttonNGPlusMenu.Click += new System.EventHandler(this.buttonNGPlusMenu_Click);
-            // 
             // labelLap
             // 
             this.labelLap.AutoSize = true;
             this.labelLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLap.Location = new System.Drawing.Point(12, 383);
+            this.labelLap.Location = new System.Drawing.Point(12, 350);
             this.labelLap.Name = "labelLap";
             this.labelLap.Size = new System.Drawing.Size(136, 20);
             this.labelLap.TabIndex = 110;
@@ -476,9 +430,56 @@ namespace racman
             this.setAsideFileButton.UseVisualStyleBackColor = true;
             this.setAsideFileButton.Click += new System.EventHandler(this.setAsideFileButton_Click);
             // 
+            // buttonSwingshot
+            // 
+            this.buttonSwingshot.Location = new System.Drawing.Point(140, 254);
+            this.buttonSwingshot.Name = "buttonSwingshot";
+            this.buttonSwingshot.Size = new System.Drawing.Size(68, 52);
+            this.buttonSwingshot.TabIndex = 113;
+            this.buttonSwingshot.Text = "Store\r\nSwingshot\r\n";
+            this.toolTip1.SetToolTip(this.buttonSwingshot, "Sets your previous weapon to the Swingshot. For file setup.");
+            this.buttonSwingshot.UseVisualStyleBackColor = true;
+            this.buttonSwingshot.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // checkBoxExp
+            // 
+            this.checkBoxExp.AutoSize = true;
+            this.checkBoxExp.Location = new System.Drawing.Point(12, 322);
+            this.checkBoxExp.Name = "checkBoxExp";
+            this.checkBoxExp.Size = new System.Drawing.Size(172, 17);
+            this.checkBoxExp.TabIndex = 114;
+            this.checkBoxExp.Text = "Enable weapon insta-upgrades";
+            this.toolTip1.SetToolTip(this.checkBoxExp, "Boosts experience values so that killing an enemy instantly upgrades the weapon u" +
+            "sed. Useful for file setup.");
+            this.checkBoxExp.UseVisualStyleBackColor = true;
+            this.checkBoxExp.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // buttonRaceStorage
+            // 
+            this.buttonRaceStorage.Location = new System.Drawing.Point(247, 322);
+            this.buttonRaceStorage.Name = "buttonRaceStorage";
+            this.buttonRaceStorage.Size = new System.Drawing.Size(104, 36);
+            this.buttonRaceStorage.TabIndex = 115;
+            this.buttonRaceStorage.Text = "Reset race\r\nstorage\r\n";
+            this.toolTip1.SetToolTip(this.buttonRaceStorage, "Resets the position of the cursor on the race selector.");
+            this.buttonRaceStorage.UseVisualStyleBackColor = true;
+            this.buttonRaceStorage.Click += new System.EventHandler(this.buttonRaceStorage_Click);
+            // 
+            // SetFastLoadCheckbox
+            // 
+            this.SetFastLoadCheckbox.AutoSize = true;
+            this.SetFastLoadCheckbox.Location = new System.Drawing.Point(132, 210);
+            this.SetFastLoadCheckbox.Name = "SetFastLoadCheckbox";
+            this.SetFastLoadCheckbox.Size = new System.Drawing.Size(107, 17);
+            this.SetFastLoadCheckbox.TabIndex = 116;
+            this.SetFastLoadCheckbox.Text = "Enable fast loads";
+            this.toolTip1.SetToolTip(this.SetFastLoadCheckbox, "Kinda make fast load?");
+            this.SetFastLoadCheckbox.UseVisualStyleBackColor = true;
+            this.SetFastLoadCheckbox.CheckedChanged += new System.EventHandler(this.SetFastLoadCheckbox_CheckedChanged);
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 261);
+            this.button1.Location = new System.Drawing.Point(12, 254);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(122, 52);
             this.button1.TabIndex = 117;
@@ -486,45 +487,32 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // debugToolStripMenuItem
+            // buttonNGPlusMenu
             // 
-            this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.debugFeaturesToolStripMenuItem,
-            this.activateQEToolStripMenuItem});
-            this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
-            this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
-            this.debugToolStripMenuItem.Text = "Debug";
-            this.debugToolStripMenuItem.DropDownOpening += new System.EventHandler(this.debugToolStripMenuItem_DropDownOpening);
-            // 
-            // debugFeaturesToolStripMenuItem
-            // 
-            this.debugFeaturesToolStripMenuItem.Name = "debugFeaturesToolStripMenuItem";
-            this.debugFeaturesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.debugFeaturesToolStripMenuItem.Text = "Enable debug mode";
-            this.debugFeaturesToolStripMenuItem.Click += new System.EventHandler(this.debugFeaturesToolStripMenuItem_Click);
-            this.debugFeaturesToolStripMenuItem.MouseHover += new System.EventHandler(this.debugFeaturesToolStripMenuItem_MouseHover);
-            // 
-            // activateQEToolStripMenuItem
-            // 
-            this.activateQEToolStripMenuItem.Name = "activateQEToolStripMenuItem";
-            this.activateQEToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.activateQEToolStripMenuItem.Text = "Activate QE...";
-            this.activateQEToolStripMenuItem.Click += new System.EventHandler(this.activateQEToolStripMenuItem_Click);
+            this.buttonNGPlusMenu.Location = new System.Drawing.Point(247, 280);
+            this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
+            this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 26);
+            this.buttonNGPlusMenu.TabIndex = 118;
+            this.buttonNGPlusMenu.Text = "Setup NG+";
+            this.toolTip1.SetToolTip(this.buttonNGPlusMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
+            "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
+            "elak bosses.");
+            this.buttonNGPlusMenu.UseVisualStyleBackColor = true;
+            this.buttonNGPlusMenu.Click += new System.EventHandler(this.buttonNGPlusMenu_Click);
             // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 412);
+            this.ClientSize = new System.Drawing.Size(363, 379);
+            this.Controls.Add(this.SetFastLoadCheckbox);
             this.Controls.Add(this.buttonNGPlusMenu);
+            this.Controls.Add(this.buttonRaceStorage);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.setAsideFileButton);
             this.Controls.Add(this.loadFileButton);
-            this.Controls.Add(this.buttonGorn);
             this.Controls.Add(this.checkBoxExp);
             this.Controls.Add(this.buttonSwingshot);
-            this.Controls.Add(this.buttonProtopet);
-            this.Controls.Add(this.buttonSniv);
             this.Controls.Add(this.labelLap);
             this.Controls.Add(this.resetFileManipButton);
             this.Controls.Add(this.label2);
@@ -565,6 +553,7 @@ namespace racman
         #endregion
 
         private System.Windows.Forms.CheckBox CComboCheckBox;
+        private System.Windows.Forms.CheckBox SetFastLoadCheckbox;
         private System.Windows.Forms.Button killyourself;
         private System.Windows.Forms.Button loadpos;
         private System.Windows.Forms.Button savepos;
@@ -595,13 +584,11 @@ namespace racman
         private System.Windows.Forms.Label labelLap;
         private System.Windows.Forms.Button loadFileButton;
         private System.Windows.Forms.Button setAsideFileButton;
-        private System.Windows.Forms.Button buttonSniv;
-        private System.Windows.Forms.Button buttonProtopet;
         private System.Windows.Forms.Button buttonSwingshot;
         private System.Windows.Forms.CheckBox checkBoxExp;
-        private System.Windows.Forms.Button buttonGorn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonNGPlusMenu;
+        private System.Windows.Forms.Button buttonRaceStorage;
         private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem debugFeaturesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem activateQEToolStripMenuItem;
