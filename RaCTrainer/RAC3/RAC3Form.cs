@@ -131,7 +131,6 @@ namespace racman
         public static int pid = AttachPS3Form.pid;
 
         public int saved_pos_index = 1;
-        public string current_planet;
 
         private void loadPosButton_Click(object sender, EventArgs e)
         {
@@ -487,6 +486,13 @@ namespace racman
                 autosplitterHelper.WriteConfig(autosplitterConfigForm.SelectedRoute.bytes.ToArray());
                 func.ChangeFileLines("config.txt", autosplitterConfigForm.SelectedRoute.Name, "rc3SplitRoute");
             }
+        }
+
+        private void flagViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewer = new FlagViewer(game, rac3.addr.levelFlags + (game.planetToLoad * 0x10), 0x10);
+            viewer.Text = $"{planets_comboBox.SelectedItem} level flags";
+            viewer.Show();
         }
     }
 }

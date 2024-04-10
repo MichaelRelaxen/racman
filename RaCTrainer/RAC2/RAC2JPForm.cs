@@ -23,6 +23,13 @@ namespace racman
             game.SetupInputDisplayMemorySubs();
         }
 
+        private void RAC2JPForm_Load(object sender, EventArgs e)
+        {
+            this.Invoke(new Action(() => {
+                planets_comboBox.SelectedIndex = (int)game.planetIndex;
+            }));
+        }
+
         private void buttonSlots_Click(object sender, EventArgs e)
         {
             var api = game.api;
@@ -131,6 +138,16 @@ namespace racman
         private void button2_Click(object sender, EventArgs e)
         {
             inputDisplayToolStripMenuItem_Click(sender, e);
+        }
+
+        private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            game.planetToLoad = (uint)planets_comboBox.SelectedIndex;
+        }
+
+        private void loadPlanetButton_Click(object sender, EventArgs e)
+        {
+            game.LoadPlanet();
         }
     }
 }
