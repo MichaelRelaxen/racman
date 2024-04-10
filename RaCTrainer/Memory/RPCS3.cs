@@ -148,6 +148,9 @@ namespace racman.Memory
                 {
                     MemorySubItem item = SubItems[i];
 
+                    if (item.Released) continue;
+                    
+
                     bool hitConditional = false;
 
                     byte[] currentValue = ReadMemory(0, item.Address, item.Size);
