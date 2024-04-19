@@ -231,7 +231,7 @@ namespace racman
             var neededItems = new string[]
             {
                 "Miniturret", "Shield Charger", "Shock Blaster", "Rift Inducer", "Flux Rifle", "Plasma Coil",
-                "Nitro Launcher", "Plasma Whip", "Suck Cannon", "PDA", "Charge Boots", "Nano Pak",
+                "Nitro Launcher", "Plasma Whip", "PDA", "Charge Boots", "Nano Pak",
                 "Heli Pack", "Thruster Pack"
             };
             foreach (var name in neededItems)
@@ -243,6 +243,12 @@ namespace racman
 
             // Special case Agents v1 (m3 skip)
             var agents = itemByName("Agents of Doom");
+            agents.LockOrUnlock(game, true);
+            agents.SetVersion(game, 1);
+            SetAllExp(0, 363, 0);
+            agents.SetExp(game, 0);
+
+            var suck = itemByName("Suck Cannon");
             agents.LockOrUnlock(game, true);
             agents.SetVersion(game, 1);
             SetAllExp(0, 363, 0);
