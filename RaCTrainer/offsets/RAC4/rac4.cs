@@ -49,6 +49,9 @@ namespace racman
 
         // 0 = third person, 1 = lock-strafe, 2 = first person
         public uint cameraMode => 0x9C287C;
+
+        public uint playerHealth => 0x10D7250;
+        public uint playerState => 0x10D69FC; 
     }
     public class rac4 : IGame, IAutosplitterAvailable
     {
