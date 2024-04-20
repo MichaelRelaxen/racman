@@ -1,4 +1,4 @@
-
+﻿
 namespace racman
 {
     partial class RAC2Form
@@ -31,6 +31,8 @@ namespace racman
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RAC2Form));
+            this.coordsComboBox = new System.Windows.Forms.CheckBox();
+            this.coordsLabel = new System.Windows.Forms.Label();
             this.CComboCheckBox = new System.Windows.Forms.CheckBox();
             this.killyourself = new System.Windows.Forms.Button();
             this.loadpos = new System.Windows.Forms.Button();
@@ -64,15 +66,36 @@ namespace racman
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.buttonSwingshot = new System.Windows.Forms.Button();
             this.checkBoxExp = new System.Windows.Forms.CheckBox();
+            this.buttonRaceStorage = new System.Windows.Forms.Button();
             this.SetFastLoadCheckbox = new System.Windows.Forms.CheckBox();
             this.buttonNGPlusMenu = new System.Windows.Forms.Button();
-            this.buttonRaceStorage = new System.Windows.Forms.Button();
             this.labelLap = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.setAsideFileButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // coordsComboBox
+            // 
+            this.coordsComboBox.AutoSize = true;
+            this.coordsComboBox.Location = new System.Drawing.Point(132, 231);
+            this.coordsComboBox.Name = "coordsComboBox";
+            this.coordsComboBox.Size = new System.Drawing.Size(112, 17);
+            this.coordsComboBox.TabIndex = 120;
+            this.coordsComboBox.Text = "Show Coordinates";
+            this.coordsComboBox.UseVisualStyleBackColor = true;
+            this.coordsComboBox.CheckedChanged += new System.EventHandler(this.coordsComboBox_CheckedChanged);
+            // 
+            // coordsLabel
+            // 
+            this.coordsLabel.AutoSize = true;
+            this.coordsLabel.Location = new System.Drawing.Point(9, 383);
+            this.coordsLabel.Name = "coordsLabel";
+            this.coordsLabel.Size = new System.Drawing.Size(123, 13);
+            this.coordsLabel.TabIndex = 119;
+            this.coordsLabel.Text = "Co-ordinates: <disabled>";
+            this.coordsLabel.Click += new System.EventHandler(this.coordsLabel_Click);
             // 
             // CComboCheckBox
             // 
@@ -387,14 +410,74 @@ namespace racman
             this.resetFileManipButton.TabIndex = 109;
             this.resetFileManipButton.Text = "Setup Any%";
             this.toolTip1.SetToolTip(this.resetFileManipButton, "Clears bolt manip, resets hoverbike menu, makes game\r\npyramid drop 1,024 bolts, a" +
-            "nd resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning." +
-            "");
+        "nd resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning." +
+        "");
             this.resetFileManipButton.UseVisualStyleBackColor = true;
             this.resetFileManipButton.Click += new System.EventHandler(this.resetFileManipButton_Click);
             // 
             // toolTip1
             // 
             this.toolTip1.IsBalloon = true;
+            // 
+            // buttonSwingshot
+            // 
+            this.buttonSwingshot.Location = new System.Drawing.Point(140, 254);
+            this.buttonSwingshot.Name = "buttonSwingshot";
+            this.buttonSwingshot.Size = new System.Drawing.Size(68, 52);
+            this.buttonSwingshot.TabIndex = 113;
+            this.buttonSwingshot.Text = "Store\r\nSwingshot\r\n";
+            this.toolTip1.SetToolTip(this.buttonSwingshot, "Sets your previous weapon to the Swingshot. For file setup.");
+            this.buttonSwingshot.UseVisualStyleBackColor = true;
+            this.buttonSwingshot.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // checkBoxExp
+            // 
+            this.checkBoxExp.AutoSize = true;
+            this.checkBoxExp.Location = new System.Drawing.Point(12, 322);
+            this.checkBoxExp.Name = "checkBoxExp";
+            this.checkBoxExp.Size = new System.Drawing.Size(172, 17);
+            this.checkBoxExp.TabIndex = 114;
+            this.checkBoxExp.Text = "Enable weapon insta-upgrades";
+            this.toolTip1.SetToolTip(this.checkBoxExp, "Boosts experience values so that killing an enemy instantly upgrades the weapon u" +
+        "sed. Useful for file setup.");
+            this.checkBoxExp.UseVisualStyleBackColor = true;
+            this.checkBoxExp.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // buttonRaceStorage
+            // 
+            this.buttonRaceStorage.Location = new System.Drawing.Point(247, 322);
+            this.buttonRaceStorage.Name = "buttonRaceStorage";
+            this.buttonRaceStorage.Size = new System.Drawing.Size(104, 36);
+            this.buttonRaceStorage.TabIndex = 115;
+            this.buttonRaceStorage.Text = "Reset race\r\nstorage\r\n";
+            this.toolTip1.SetToolTip(this.buttonRaceStorage, "Resets the position of the cursor on the race selector.");
+            this.buttonRaceStorage.UseVisualStyleBackColor = true;
+            this.buttonRaceStorage.Click += new System.EventHandler(this.buttonRaceStorage_Click);
+            // 
+            // SetFastLoadCheckbox
+            // 
+            this.SetFastLoadCheckbox.AutoSize = true;
+            this.SetFastLoadCheckbox.Location = new System.Drawing.Point(132, 210);
+            this.SetFastLoadCheckbox.Name = "SetFastLoadCheckbox";
+            this.SetFastLoadCheckbox.Size = new System.Drawing.Size(107, 17);
+            this.SetFastLoadCheckbox.TabIndex = 116;
+            this.SetFastLoadCheckbox.Text = "Enable fast loads";
+            this.toolTip1.SetToolTip(this.SetFastLoadCheckbox, "Kinda make fast load?");
+            this.SetFastLoadCheckbox.UseVisualStyleBackColor = true;
+            this.SetFastLoadCheckbox.CheckedChanged += new System.EventHandler(this.SetFastLoadCheckbox_CheckedChanged);
+            // 
+            // buttonNGPlusMenu
+            // 
+            this.buttonNGPlusMenu.Location = new System.Drawing.Point(247, 280);
+            this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
+            this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 26);
+            this.buttonNGPlusMenu.TabIndex = 118;
+            this.buttonNGPlusMenu.Text = "Setup NG+";
+            this.toolTip1.SetToolTip(this.buttonNGPlusMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
+        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
+        "elak bosses.");
+            this.buttonNGPlusMenu.UseVisualStyleBackColor = true;
+            this.buttonNGPlusMenu.Click += new System.EventHandler(this.buttonNGPlusMenu_Click);
             // 
             // labelLap
             // 
@@ -430,53 +513,6 @@ namespace racman
             this.setAsideFileButton.UseVisualStyleBackColor = true;
             this.setAsideFileButton.Click += new System.EventHandler(this.setAsideFileButton_Click);
             // 
-            // buttonSwingshot
-            // 
-            this.buttonSwingshot.Location = new System.Drawing.Point(140, 254);
-            this.buttonSwingshot.Name = "buttonSwingshot";
-            this.buttonSwingshot.Size = new System.Drawing.Size(68, 52);
-            this.buttonSwingshot.TabIndex = 113;
-            this.buttonSwingshot.Text = "Store\r\nSwingshot\r\n";
-            this.toolTip1.SetToolTip(this.buttonSwingshot, "Sets your previous weapon to the Swingshot. For file setup.");
-            this.buttonSwingshot.UseVisualStyleBackColor = true;
-            this.buttonSwingshot.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // checkBoxExp
-            // 
-            this.checkBoxExp.AutoSize = true;
-            this.checkBoxExp.Location = new System.Drawing.Point(12, 322);
-            this.checkBoxExp.Name = "checkBoxExp";
-            this.checkBoxExp.Size = new System.Drawing.Size(172, 17);
-            this.checkBoxExp.TabIndex = 114;
-            this.checkBoxExp.Text = "Enable weapon insta-upgrades";
-            this.toolTip1.SetToolTip(this.checkBoxExp, "Boosts experience values so that killing an enemy instantly upgrades the weapon u" +
-            "sed. Useful for file setup.");
-            this.checkBoxExp.UseVisualStyleBackColor = true;
-            this.checkBoxExp.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // buttonRaceStorage
-            // 
-            this.buttonRaceStorage.Location = new System.Drawing.Point(247, 322);
-            this.buttonRaceStorage.Name = "buttonRaceStorage";
-            this.buttonRaceStorage.Size = new System.Drawing.Size(104, 36);
-            this.buttonRaceStorage.TabIndex = 115;
-            this.buttonRaceStorage.Text = "Reset race\r\nstorage\r\n";
-            this.toolTip1.SetToolTip(this.buttonRaceStorage, "Resets the position of the cursor on the race selector.");
-            this.buttonRaceStorage.UseVisualStyleBackColor = true;
-            this.buttonRaceStorage.Click += new System.EventHandler(this.buttonRaceStorage_Click);
-            // 
-            // SetFastLoadCheckbox
-            // 
-            this.SetFastLoadCheckbox.AutoSize = true;
-            this.SetFastLoadCheckbox.Location = new System.Drawing.Point(132, 210);
-            this.SetFastLoadCheckbox.Name = "SetFastLoadCheckbox";
-            this.SetFastLoadCheckbox.Size = new System.Drawing.Size(107, 17);
-            this.SetFastLoadCheckbox.TabIndex = 116;
-            this.SetFastLoadCheckbox.Text = "Enable fast loads";
-            this.toolTip1.SetToolTip(this.SetFastLoadCheckbox, "Kinda make fast load?");
-            this.SetFastLoadCheckbox.UseVisualStyleBackColor = true;
-            this.SetFastLoadCheckbox.CheckedChanged += new System.EventHandler(this.SetFastLoadCheckbox_CheckedChanged);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(12, 254);
@@ -487,24 +523,12 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // buttonNGPlusMenu
-            // 
-            this.buttonNGPlusMenu.Location = new System.Drawing.Point(247, 280);
-            this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
-            this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 26);
-            this.buttonNGPlusMenu.TabIndex = 118;
-            this.buttonNGPlusMenu.Text = "Setup NG+";
-            this.toolTip1.SetToolTip(this.buttonNGPlusMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
-            "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
-            "elak bosses.");
-            this.buttonNGPlusMenu.UseVisualStyleBackColor = true;
-            this.buttonNGPlusMenu.Click += new System.EventHandler(this.buttonNGPlusMenu_Click);
-            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 379);
+            this.ClientSize = new System.Drawing.Size(363, 377);
+            this.Controls.Add(this.coordsLabel);
             this.Controls.Add(this.SetFastLoadCheckbox);
             this.Controls.Add(this.buttonNGPlusMenu);
             this.Controls.Add(this.buttonRaceStorage);
@@ -535,6 +559,7 @@ namespace racman
             this.Controls.Add(this.savepos);
             this.Controls.Add(this.positions_comboBox);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.coordsComboBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -552,6 +577,7 @@ namespace racman
 
         #endregion
 
+        private System.Windows.Forms.Label coordsLabel;
         private System.Windows.Forms.CheckBox CComboCheckBox;
         private System.Windows.Forms.CheckBox SetFastLoadCheckbox;
         private System.Windows.Forms.Button killyourself;
@@ -592,5 +618,6 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem debugFeaturesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem activateQEToolStripMenuItem;
+        private System.Windows.Forms.CheckBox coordsComboBox;
     }
 }
