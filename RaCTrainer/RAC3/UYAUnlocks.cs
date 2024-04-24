@@ -226,19 +226,19 @@ namespace racman
             // Supposedly the exp for the R3YNO v4
             ryno.SetExp(game, 2560000);
             SetAllExp(364, 363, 2880000);
-
+            return;
 
             var neededItems = new string[]
             {
                 "Miniturret", "Shield Charger", "Shock Blaster", "Rift Inducer", "Flux Rifle", "Plasma Coil",
-                "Nitro Launcher", "Plasma Whip", "Suck Cannon", "PDA", "Charge Boots", "Nano Pak",
+                "Nitro Launcher", "Plasma Whip", "PDA", "Charge Boots", "Nano Pak",
                 "Heli Pack", "Thruster Pack"
             };
             foreach (var name in neededItems)
             {
                 var item = itemByName(name);
                 item.LockOrUnlock(game, true);
-                item.SetVersion(game, item.levels);
+                // item.SetVersion(game, item.levels);
             }
 
             // Special case Agents v1 (m3 skip)
@@ -247,6 +247,11 @@ namespace racman
             agents.SetVersion(game, 1);
             SetAllExp(0, 363, 0);
             agents.SetExp(game, 0);
+
+            var suck = itemByName("Suck Cannon");
+            suck.LockOrUnlock(game, true);
+            suck.SetVersion(game, 1);
+            suck.SetExp(game, 0);
         }
 
         private void button1_Click(object sender, EventArgs e)

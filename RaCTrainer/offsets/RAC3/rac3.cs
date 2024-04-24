@@ -198,7 +198,10 @@ namespace racman
             (addr.marcadiaMission + 3, 1), // Not actually used, here for backwards compatibility
             (0xC4DF80, 4),
             (0xDA50FC, 4),
-            (addr.loadedChunk, 4)
+            (addr.loadedChunk, 4),
+            // Tyhrraguise unlock
+            // 0xDA56EC + 0x4C6 - 0x4A8
+            (0xDA570A, 1)
         };
 
         public void KlunkTuneToggle(bool enabled)
