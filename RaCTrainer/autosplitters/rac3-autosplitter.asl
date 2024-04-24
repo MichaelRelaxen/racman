@@ -9,8 +9,10 @@ startup {
     settings.SetToolTip("BIO_SPLIT", "Splits on defeating the biobliterator, the final boss.");
     settings.Add("LDF_SPLIT", false, "Split when entering LDF");
     settings.SetToolTip("LDF_SPLIT", "Splits when entering the laser defence facility on Marcadia. Does not split on exit.");
-    settings.Add("KOROS_BOLT", false, "Koros Bolt 2 Split");
+    settings.Add("KOROS_BOLT", false, "Split on koros bolt 2");
     settings.SetToolTip("KOROS_BOLT", "Split when getting the second titanium bolt on Koros.\n(This may split incorrectly if you do things out of order, use at your own risk!)");
+    settings.Add("TYHRRA_SPLIT", false, "Split on obtaining tyhrraguise");
+    settings.SetToolTip("TYHRRA_SPLIT", "Splits when obtaining the tyhrraguise, i.e. after completing the arena challenge on Annihilation Nation..");
 }
 
 init {
@@ -30,6 +32,7 @@ init {
     current.neffyHealth = vars.reader.ReadSingle();
     current.neffyPhase = vars.reader.ReadUInt32();
     current.chunk = vars.reader.ReadInt32();
+    current.guise = vars.reader.ReadByte();
 
     vars.reader.BaseStream.Position = 128;
     vars.SplitRoute = vars.reader.ReadBytes(256);
@@ -67,6 +70,8 @@ update {
     current.neffyHealth = vars.reader.ReadSingle();
     current.neffyPhase = vars.reader.ReadUInt32();
     current.chunk = vars.reader.ReadInt32();
+    current.guise = vars.reader.ReadByte();
+
 
     vars.reader.BaseStream.Position = 128;
     vars.SplitRoute = vars.reader.ReadBytes(256);
@@ -107,6 +112,9 @@ split {
     if (settings["LDF_SPLIT"] && current.planet == 4 && current.chunk == 1 && old.chunk != 1)
     {
         vars.SplitCount++;
+        return true;
+    }
+    if (settings["TYHRRA_SPLIT"] && current.guise == 1 && old.guise == 0) {
         return true;
     }
     if (current.planet == 14 && vars.korosTBs >= 2 && settings["KOROS_BOLT"]) {
