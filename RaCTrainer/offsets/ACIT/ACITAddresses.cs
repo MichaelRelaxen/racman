@@ -62,8 +62,11 @@ namespace racman.offsets.ACIT
         public uint cutsceneState3Ptr => gameVersion[GameID].cutsceneState3Ptr;
         // Save File ID
         public uint saveFileIDPtr => gameVersion[GameID].saveFileIDPtr;
-        // Timer
+        // ACITTimer
         public uint timerPtr => gameVersion[GameID].timerPtr;
+        // The base address of the timer (it usally is GC1's timer address)
+        public uint timerBaseAddress => gameVersion[GameID].timerBaseAddress;
+        public uint timerBaseSecondaryAddress => gameVersion[GameID].timerBaseSecondaryAddress;
         // 1 if the game is loading, 0 otherwise
         public uint isLoading => gameVersion[GameID].isLoading;
         // Map timer
@@ -244,6 +247,8 @@ namespace racman.offsets.ACIT
                 cutsceneState3Ptr = 0x40E96E9C,
                 saveFileIDPtr = 0xE473B8,
                 timerPtr = 0x40EBADE0,
+                timerBaseAddress = 0xE25E64,
+                timerBaseSecondaryAddress = 0xE68364,
                 boltCount = 0xE25068,
                 //playerCoords = 0xE24170,
                 inputOffset = 0xF6AD48,
@@ -293,6 +298,8 @@ namespace racman.offsets.ACIT
             public uint cutsceneState3Ptr { get; set; }
             public uint saveFileIDPtr { get; set; }
             public uint timerPtr { get; set; }
+            public uint timerBaseAddress { get; set; }
+            public uint timerBaseSecondaryAddress { get; set; }
             public uint isLoading { get; set; }
             public uint mapTimerPtr { get; set; }
             public uint boltCount { get; set; }
