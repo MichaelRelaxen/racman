@@ -56,6 +56,8 @@ namespace racman
             (addr.timerPtr, 4),             // timer
             (addr.firstCutscene, 4),        // first cutscene
             (addr.loadSaveState, 4),        // load save state
+
+            (0x4CAB4068, 4),    // timer
         };
 
         public override void ResetLevelFlags()
@@ -91,11 +93,10 @@ namespace racman
             UpdateCurrentPlanet();
             UpdateTimer();
 
-            // if a new run is detected, reset the timer
-            if (InGameTimer.NewRun())
-            {
-                InGameTimer.ResetTimer();
-            }
+            byte[] bytes = BitConverter.GetBytes(InGameTimer.GetTimer());
+            Array.Reverse(bytes);
+
+            api.WriteMemory(pid, 0x4CAB4068, bytes);
         }
 
         /// <summary>

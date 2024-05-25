@@ -246,7 +246,7 @@ namespace racman.offsets.ACIT
                 cutsceneState2Ptr = 0x40E96E9C,
                 cutsceneState3Ptr = 0x40E96E9C,
                 saveFileIDPtr = 0xE473B8,
-                timerPtr = 0x40EBADE0,
+                timerPtr = 0xEF2A34,
                 timerBaseAddress = 0xE25E64,
                 timerBaseSecondaryAddress = 0xE68364,
                 boltCount = 0xE25068,

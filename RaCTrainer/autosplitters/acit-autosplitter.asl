@@ -25,6 +25,8 @@ init
         current.timer = vars.reader.ReadSingle();
         current.firstCutscene = vars.reader.ReadUInt32();
         current.loadSaveState = vars.reader.ReadUInt32();
+
+        current.IGT = vars.reader.ReadUInt32();
     });
     vars.UpdateValues();
 
@@ -32,8 +34,7 @@ init
     vars.ResetRunValues = (Action) (() => {
         vars.gameTime = 0.0f;
         vars.tempTimer = 0.0f; // 7 * 60 + 58;// 0.0f;
-        vars.isGamePaused = false;
-        vars.hasPlanetChanged = false;
+        vars.initTimer = 0.0f;
         vars.runSaveFileID = -1;
         vars.isLibraSpawned = false;
         vars.isPlayerOnRunSaveFile = true;
@@ -49,7 +50,8 @@ onStart
     vars.ResetRunValues();
     vars.runSaveFileID = current.saveFileID;
     vars.runSaves.Add((int)current.saveFileID);
-    vars.tempTimer = -current.timer;
+    //vars.tempTimer = -current.timer -current.IGT;
+    vars.initTimer = -current.IGT;
 }
 
 update
@@ -94,49 +96,10 @@ update
     }
 
     // Timer related
-    // on planet change floor the timer
-    if (old.planet != current.planet)
-    {
-        vars.hasPlanetChanged = true;
-    }
 
-    // if there is a cutscene playing, than the timer is paused
-    if (old.cutsceneState2 == 0 && current.cutsceneState2 == 1)
-    {
-        vars.isGamePaused = true;
-        vars.tempTimer += current.timer;
-    }
-
-    if (old.cutsceneState2 == 1 && current.cutsceneState2 == 0)
-    {
-        vars.isGamePaused = false;
-        vars.tempTimer -= current.timer;
-    }
-
-    // update timer
-    if (current.timer < old.timer)
-    {
-        if (vars.hasPlanetChanged)
-        {
-            vars.tempTimer = Math.Floor(vars.gameTime);
-            vars.hasPlanetChanged = false;
-        }
-        else
-        {
-            vars.tempTimer = Math.Ceiling(vars.gameTime);
-            if (current.planet > 2)
-            {
-                vars.tempTimer += 1f;
-            }
-        }
-    }
-
-    if (!vars.isGamePaused)
-    {
-        vars.gameTime = vars.tempTimer + current.timer;
-    }
+    vars.gameTime = vars.initTimer + current.IGT + current.timer;
     
-    //print(current.timer.ToString());
+    print(vars.gameTime.ToString());
     //print(current.planet.ToString() + " " + old.planet.ToString());
     //print(vars.gameTime.ToString() + " " + vars.tempTimer.ToString() + " " + current.timer.ToString());
 }

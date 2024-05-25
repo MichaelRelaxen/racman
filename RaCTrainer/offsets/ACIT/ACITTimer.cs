@@ -30,19 +30,11 @@ namespace racman.offsets.ACIT
                 OldATimer = ATimer;
                 ATimer = timer;
             }
-
-            public void Reset()
-            {
-                IGT = 0;
-                ATimer = 0;
-                OldATimer = 0;
-            }
         }
 
-        //TODO: for optimization, read only the planet where the player is
         private IPS3API API;
         private int PID;
-        private static uint timersCount = 7;    //TODO: set properly
+        private static uint timersCount = 21;
         private static uint timersOffset = 0x06C8;
 
         private List<PlanetTimer> Timers = new List<PlanetTimer>();
@@ -108,35 +100,5 @@ namespace racman.offsets.ACIT
             }
             return timer;
         }
-
-        /// <summary>
-        /// Checks if a new run was detected.
-        /// </summary>
-        /// <returns> True if a new run was detected, false otherwise. </returns>
-        public bool NewRun()
-        {
-            foreach (PlanetTimer planetTimer in Timers)
-            {
-                // Check if GC1 timer was greater than 0 and now it is 0
-                if (planetTimer.ATimer == 0 && planetTimer.OldATimer > 0)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Resets all timers.
-        /// </summary>
-        public void ResetTimer()
-        {
-            foreach (PlanetTimer planetTimer in Timers)
-            {
-                planetTimer.Reset();
-            }
-        }
     }
-
-    
 }
