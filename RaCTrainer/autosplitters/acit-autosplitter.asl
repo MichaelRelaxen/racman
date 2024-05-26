@@ -100,7 +100,7 @@ update
     // do not update the timer in case the timer drops by 3 seconds. This is due to the fact that the
     // IGT and the checkpoint timers are updated at different times. Sometimes if the game saves the timer
     // will drop by the checkpoint timer for a split second.
-    if (vars.gameTime - vars.tempTimer > 3 )
+    if (vars.gameTime > vars.tempTimer)
     {
         return;
     }
