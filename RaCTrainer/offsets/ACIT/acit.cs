@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace racman
 {
-    public class acit : IGame, IAutosplitterAvailable
+    public class acit : IGame, IReadMemory, IAutosplitterAvailable
     {
         public static ACITAddresses addr;
 
@@ -18,7 +18,9 @@ namespace racman
         public bool canRemoveCutscenes => addr.cutscenesArray != null && addr.cutscenesArray.Length > 0;
 
         private List<ACITWeapon> weapons;
-        private ACITTimer InGameTimer;
+        private ACITTimer InGameTimer1;
+        private ACITTimer InGameTimer2;
+        private ACITTimer InGameTimer3;
         // array storing every cutscene path initial byte
         private byte[][] cutscenesInitByteArray;
 
@@ -30,7 +32,9 @@ namespace racman
         {
             addr = new ACITAddresses(api.getGameTitleID());
             weapons = ACITWeaponFactory.GetWeapons();
-            InGameTimer = new ACITTimer(api, pid, addr.timerBaseAddress, addr.timerBaseSecondaryAddress);
+            InGameTimer1 = new ACITTimer(this, addr.timerBase1Ptr, 78, 0x04);
+            InGameTimer2 = new ACITTimer(this, addr.timerBase2Ptr, 234, 0x04);
+            InGameTimer3 = new ACITTimer(this, addr.timerBase3Ptr, 6, 0x04);
             if (canRemoveCutscenes)
             {
                 cutscenesInitByteArray = ReadCutsceneStrings();
@@ -57,12 +61,17 @@ namespace racman
             (addr.firstCutscene, 4),        // first cutscene
             (addr.loadSaveState, 4),        // load save state
 
-            (0x4CAB4068, 4),    // timer
+            (addr.timerOutput, 4),          // timer
         };
 
         public override void ResetLevelFlags()
         {
             throw new NotImplementedException();
+        }
+
+        public byte[] ReadMemory(uint address, uint size)
+        {
+            return api.ReadMemory(pid, address, size);
         }
 
         public override void SetupFile()
@@ -92,11 +101,20 @@ namespace racman
         {
             UpdateCurrentPlanet();
             UpdateTimer();
+            WriteTimerToMemory(addr.timerOutput);
+        }
 
-            byte[] bytes = BitConverter.GetBytes(InGameTimer.GetTimer());
+        /// <summary>
+        /// Writes the timer to memory.
+        /// </summary>
+        /// <param name="address"> The address to write the timer to. </param>
+        public void WriteTimerToMemory(uint address)
+        {
+            uint timer = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
+            byte[] bytes = BitConverter.GetBytes(timer);
             Array.Reverse(bytes);
 
-            api.WriteMemory(pid, 0x4CAB4068, bytes);
+            api.WriteMemory(pid, address, bytes);
         }
 
         /// <summary>
@@ -104,9 +122,20 @@ namespace racman
         /// </summary>
         public void UpdateTimer()
         {
-            InGameTimer.UpdateTimer(currentPlanet);
+            InGameTimer1.UpdateTimer();
+            InGameTimer2.UpdateTimer();
+            InGameTimer3.UpdateTimer();
 
-            Console.WriteLine("IGT: " + InGameTimer.GetTimer());
+            /*uint timer = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
+
+            TimeSpan time = TimeSpan.FromSeconds(timer);
+
+            string formattedTime = string.Format("{0:D2}:{1:D2}:{2:D2}",
+                                                 time.Hours,
+                                                 time.Minutes,
+                                                 time.Seconds);
+
+            Console.WriteLine(formattedTime);*/
         }
 
         /// <summary>

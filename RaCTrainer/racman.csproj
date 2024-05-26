@@ -139,6 +139,7 @@
     <Compile Include="offsets\ACIT\ACITWeapon.cs" />
     <Compile Include="offsets\ACIT\ACITWeaponFactory.cs" />
     <Compile Include="offsets\ACIT\ACITTimer.cs" />
+    <Compile Include="offsets\IReadMemory.cs" />
     <Compile Include="offsets\RAC4\BotsUnlocks.cs" />
     <Compile Include="offsets\RAC4\BotsUnlocksFactory.cs" />
     <Compile Include="RAC2\RC2Unlocks.cs">

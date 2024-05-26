@@ -62,11 +62,6 @@ namespace racman.offsets.ACIT
         public uint cutsceneState3Ptr => gameVersion[GameID].cutsceneState3Ptr;
         // Save File ID
         public uint saveFileIDPtr => gameVersion[GameID].saveFileIDPtr;
-        // ACITTimer
-        public uint timerPtr => gameVersion[GameID].timerPtr;
-        // The base address of the timer (it usally is GC1's timer address)
-        public uint timerBaseAddress => gameVersion[GameID].timerBaseAddress;
-        public uint timerBaseSecondaryAddress => gameVersion[GameID].timerBaseSecondaryAddress;
         // 1 if the game is loading, 0 otherwise
         public uint isLoading => gameVersion[GameID].isLoading;
         // Map timer
@@ -152,6 +147,22 @@ namespace racman.offsets.ACIT
         // Cutscenes array
         public uint[] cutscenesArray => gameVersion[GameID].cutscenesArray;
 
+        /// <summary>
+        /// Timer related stuff.
+        /// The timerPtr is a timer that tracks the time spent in the game. It resets every time ratchet dies or he triggers a checkpoint.
+        /// NOTE: The IGT is a sum of 318 addresses (no, it's not a typo). These addresses are divided into 3 groups:
+        /// - timerBase1Ptr: that contains78 addresses with an offset of 0x4
+        /// - timerBase2Ptr: that contains 234 addresses with an offset of 0x4
+        /// - timerBase3Ptr: that contains 6 addresses with an offset of 0x4
+        /// NOTE: At the moment the IGT is passed to the ASL by writing the value to the memory address (timerOutput).
+        /// TODO: find a better way to pass the IGT.
+        /// </summary>
+        public uint timerPtr => gameVersion[GameID].timerPtr;
+        public uint timerBase1Ptr => gameVersion[GameID].timerBase1Ptr;
+        public uint timerBase2Ptr => gameVersion[GameID].timerBase2Ptr;
+        public uint timerBase3Ptr => gameVersion[GameID].timerBase3Ptr;
+        public uint timerOutput => gameVersion[GameID].timerOutput;
+
         private void InitializeAddresses()
         {
             // All addresses are from the US version of the game.
@@ -213,7 +224,6 @@ namespace racman.offsets.ACIT
                 wasGC2Visited = 0xE271E8,
                 firstCutscene = 0x40047224,     // (backups 0x400473A4, 0x40047524, 0x4896B7C8)
 
-                //mapTimerPtr = 0x4BA17930,
                 weapons = 0xE249F4,
                 cutscenesArray = new uint[] { 0x409AE5BC, 0x409AE620, 0x409AE6F4, 0x409AE784, 0x409AE7B4, 0x409AE814, 0x409AE844, 0x409AE874, 0x409AED84, 0x409AEDE4 }
             };
@@ -247,8 +257,10 @@ namespace racman.offsets.ACIT
                 cutsceneState3Ptr = 0x40E96E9C,
                 saveFileIDPtr = 0xE473B8,
                 timerPtr = 0xEF2A34,
-                timerBaseAddress = 0xE25E64,
-                timerBaseSecondaryAddress = 0xE68364,
+                timerBase1Ptr = 0xE423D4,
+                timerBase2Ptr = 0xE44669,
+                timerBase3Ptr = 0xE4638E,
+                timerOutput = 0x4CAB4068,
                 boltCount = 0xE25068,
                 //playerCoords = 0xE24170,
                 inputOffset = 0xF6AD48,
@@ -298,8 +310,10 @@ namespace racman.offsets.ACIT
             public uint cutsceneState3Ptr { get; set; }
             public uint saveFileIDPtr { get; set; }
             public uint timerPtr { get; set; }
-            public uint timerBaseAddress { get; set; }
-            public uint timerBaseSecondaryAddress { get; set; }
+            public uint timerBase1Ptr { get; set; }
+            public uint timerBase2Ptr { get; set; }
+            public uint timerBase3Ptr { get; set; }
+            public uint timerOutput { get; set; }
             public uint isLoading { get; set; }
             public uint mapTimerPtr { get; set; }
             public uint boltCount { get; set; }
