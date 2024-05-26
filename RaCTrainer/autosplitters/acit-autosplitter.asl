@@ -9,7 +9,7 @@ init
     // Update values from memory
     vars.UpdateValues = (Action) (() => {
         vars.reader.BaseStream.Position = 0;
-
+        
         // Read values from memory
         current.planet = vars.reader.ReadUInt32();
         current.gameState = vars.reader.ReadUInt32();
@@ -33,7 +33,7 @@ init
     // Initialize run values
     vars.ResetRunValues = (Action) (() => {
         vars.gameTime = 0.0f;
-        vars.tempTimer = 0.0f; // 7 * 60 + 58;// 0.0f;
+        vars.tempTimer = 0.0f;
         vars.initTimer = 0.0f;
         vars.runSaveFileID = -1;
         vars.isLibraSpawned = false;
@@ -50,7 +50,6 @@ onStart
     vars.ResetRunValues();
     vars.runSaveFileID = current.saveFileID;
     vars.runSaves.Add((int)current.saveFileID);
-    //vars.tempTimer = -current.timer -current.IGT;
     vars.initTimer = -current.IGT;
 }
 
@@ -96,10 +95,18 @@ update
     }
 
     // Timer related
+    vars.tempTimer = vars.initTimer + current.IGT + current.timer;
 
-    vars.gameTime = vars.initTimer + current.IGT + current.timer;
+    // do not update the timer in case the timer drops by 3 seconds. This is due to the fact that the
+    // IGT and the checkpoint timers are updated at different times. Sometimes if the game saves the timer
+    // will drop by the checkpoint timer for a split second.
+    if (vars.gameTime - vars.tempTimer > 3 )
+    {
+        return;
+    }
+    vars.gameTime = vars.tempTimer;
     
-    print(vars.gameTime.ToString());
+    //print(vars.gameTime.ToString());
     //print(current.planet.ToString() + " " + old.planet.ToString());
     //print(vars.gameTime.ToString() + " " + vars.tempTimer.ToString() + " " + current.timer.ToString());
 }
