@@ -61,6 +61,7 @@ namespace racman
             (addr.firstCutscene, 4),        // first cutscene
             (addr.loadSaveState, 4),        // load save state
 
+            (addr.checkpointTimer, 4),      // checkpoint timer
             (addr.timerOutput, 4),          // timer
         };
 

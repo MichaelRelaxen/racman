@@ -26,6 +26,7 @@ init
         current.firstCutscene = vars.reader.ReadUInt32();
         current.loadSaveState = vars.reader.ReadUInt32();
 
+        current.checkpointTimer = vars.reader.ReadSingle();
         current.IGT = vars.reader.ReadUInt32();
     });
     vars.UpdateValues();
@@ -36,6 +37,8 @@ init
         vars.tempTimer = 0.0f;
         vars.initTimer = 0.0f;
         vars.runJustStarted = true;
+        vars.possibleSaveDetection = false;
+        vars.loopCounter = 0;
 
         vars.runSaveFileID = -1;
         vars.isLibraSpawned = false;
@@ -52,13 +55,13 @@ onStart
     vars.ResetRunValues();
     vars.runSaveFileID = current.saveFileID;
     vars.runSaves.Add((int)current.saveFileID);
-    vars.initTimer = -current.IGT -current.timer;
 }
 
 update
 {
     vars.UpdateValues();
     vars.isPlayerOnRunSaveFile = vars.runSaveFileID == current.saveFileID;
+    vars.loopCounter++;
     
     // update libra spawned state
     if (current.planet == 10 && current.LibraHP > 0.6f)
@@ -97,11 +100,34 @@ update
     }
 
     // Timer related
-    if (vars.runJustStarted && current.timer < old.timer)
+
+    // this fixes the timer at the beginning of the run, cuz normally the timer does not start at 0
+    if (vars.runJustStarted && current.checkpointTimer == 0)
     {
-        vars.initTimer = -current.IGT;
-        vars.runJustStarted = false;
+        vars.gameTime = 0;
+        return;
     }
+    if (vars.runJustStarted && current.checkpointTimer > 0)
+    {
+        vars.runJustStarted = false;
+        vars.initTimer = -current.IGT -current.timer;
+    }
+
+    // this fixes the timer when the game saves and the IGT is out of sync by a fraction of a second
+    if (!vars.possibleSaveDetection && current.timer < old.timer)
+    {
+        vars.possibleSaveDetection = true;
+        vars.loopCounter = 0;
+    }
+    if (vars.possibleSaveDetection && vars.loopCounter > 10)
+    {
+        vars.possibleSaveDetection = false;
+    }
+    if (vars.possibleSaveDetection)
+    {
+        return;
+    }
+
 
     vars.tempTimer = vars.initTimer + current.IGT + current.timer;
 

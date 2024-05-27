@@ -157,6 +157,7 @@ namespace racman.offsets.ACIT
         /// NOTE: At the moment the IGT is passed to the ASL by writing the value to the memory address (timerOutput).
         /// TODO: find a better way to pass the IGT.
         /// </summary>
+        public uint checkpointTimer => gameVersion[GameID].checkpointTimer;
         public uint timerPtr => gameVersion[GameID].timerPtr;
         public uint timerBase1Ptr => gameVersion[GameID].timerBase1Ptr;
         public uint timerBase2Ptr => gameVersion[GameID].timerBase2Ptr;
@@ -256,6 +257,7 @@ namespace racman.offsets.ACIT
                 cutsceneState2Ptr = 0x40E96E9C,
                 cutsceneState3Ptr = 0x40E96E9C,
                 saveFileIDPtr = 0xE473B8,
+                checkpointTimer = 0x40EBADE0,
                 timerPtr = 0xEF2A34,
                 timerBase1Ptr = 0xE423D4,
                 timerBase2Ptr = 0xE44669,
@@ -309,6 +311,7 @@ namespace racman.offsets.ACIT
             public uint cutsceneState2Ptr { get; set; }
             public uint cutsceneState3Ptr { get; set; }
             public uint saveFileIDPtr { get; set; }
+            public uint checkpointTimer { get; set; }
             public uint timerPtr { get; set; }
             public uint timerBase1Ptr { get; set; }
             public uint timerBase2Ptr { get; set; }
