@@ -35,6 +35,8 @@ init
         vars.gameTime = 0.0f;
         vars.tempTimer = 0.0f;
         vars.initTimer = 0.0f;
+        vars.runJustStarted = true;
+
         vars.runSaveFileID = -1;
         vars.isLibraSpawned = false;
         vars.isPlayerOnRunSaveFile = true;
@@ -50,7 +52,7 @@ onStart
     vars.ResetRunValues();
     vars.runSaveFileID = current.saveFileID;
     vars.runSaves.Add((int)current.saveFileID);
-    vars.initTimer = -current.IGT;
+    vars.initTimer = -current.IGT -current.timer;
 }
 
 update
@@ -95,15 +97,22 @@ update
     }
 
     // Timer related
+    if (vars.runJustStarted && current.timer < old.timer)
+    {
+        vars.initTimer = -current.IGT;
+        vars.runJustStarted = false;
+    }
+
     vars.tempTimer = vars.initTimer + current.IGT + current.timer;
+
+    print("temp: " + vars.tempTimer.ToString());
+    print("IGT " + vars.gameTime.ToString());
 
     // do not update the timer in case the timer drops by 3 seconds. This is due to the fact that the
     // IGT and the checkpoint timers are updated at different times. Sometimes if the game saves the timer
     // will drop by the checkpoint timer for a split second.
-    if (vars.gameTime > vars.tempTimer)
-    {
-        return;
-    }
+    //TODO
+
     vars.gameTime = vars.tempTimer;
     
     //print(vars.gameTime.ToString());
