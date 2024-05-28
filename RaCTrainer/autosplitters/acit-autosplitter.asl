@@ -62,6 +62,8 @@ update
     vars.UpdateValues();
     vars.isPlayerOnRunSaveFile = vars.runSaveFileID == current.saveFileID;
     vars.loopCounter++;
+
+    print("temp: " + current.IGT);
     
     // update libra spawned state
     if (current.planet == 10 && current.LibraHP > 0.6f)

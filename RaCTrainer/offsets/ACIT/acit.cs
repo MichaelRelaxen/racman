@@ -112,10 +112,11 @@ namespace racman
         public void WriteTimerToMemory(uint address)
         {
             uint timer = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
-            byte[] bytes = BitConverter.GetBytes(timer);
-            Array.Reverse(bytes);
 
-            api.WriteMemory(pid, address, bytes);
+            api.WriteMemory(pid, address, timer);
+
+            uint readTimer = BitConverter.ToUInt32(api.ReadMemory(pid, address, 4).Reverse().ToArray(), 0);
+            Console.WriteLine("Timer: " + readTimer);
         }
 
         /// <summary>
