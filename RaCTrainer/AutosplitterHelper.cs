@@ -109,11 +109,17 @@ namespace racman
             foreach (var (addr, size) in autosplitter.AutosplitterAddresses)
             {
                 var _pos = pos; // If you can think of a better way to do this please tell me
+
+                // Write the initial value to the memory. This is necessary because the autosplitter will only
+                // trigger when the value changes. So at the start of the game all values will be 0;
+                var initialValue = game.api.ReadMemory(game.api.getCurrentPID(), addr, size).Reverse().ToArray();
+                WriteToMemory(_pos, initialValue);
+
                 subscriptionIDs.Add(game.api.SubMemory(game.api.getCurrentPID(), addr, size, (value) =>
                 {
                     WriteToMemory(_pos, value);
                 }));
-                pos += (int) size;
+                pos += (int)size;
             }
 
             IsRunning = true;
