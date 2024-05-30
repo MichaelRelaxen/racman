@@ -18,8 +18,10 @@ namespace racman
 
             if (this.game.IsAutosplitterSupported)
             {
+                int pos;
                 autosplitterHelper = new AutosplitterHelper();
-                autosplitterHelper.StartAutosplitterForGame(game);
+                pos = autosplitterHelper.StartAutosplitterForGame(game);
+                game.SetWriter(autosplitterHelper.GetWriter(), autosplitterHelper.GetWriteLock(), pos);
                 AutosplitterCheckbox.Checked = true;
             }
             else
@@ -144,7 +146,7 @@ namespace racman
                 // Enable auotpslitter
                 Console.WriteLine("Autosplitter starting!");
                 autosplitterHelper = new AutosplitterHelper();
-                autosplitterHelper.StartAutosplitterForGame(this.game);
+                //!autosplitterHelper.StartAutosplitterForGame(this.game);
             }
         }
 

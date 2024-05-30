@@ -162,7 +162,6 @@ namespace racman.offsets.ACIT
         public uint timerBase1Ptr => gameVersion[GameID].timerBase1Ptr;
         public uint timerBase2Ptr => gameVersion[GameID].timerBase2Ptr;
         public uint timerBase3Ptr => gameVersion[GameID].timerBase3Ptr;
-        public uint timerOutput => gameVersion[GameID].timerOutput;
 
         private void InitializeAddresses()
         {
@@ -262,7 +261,6 @@ namespace racman.offsets.ACIT
                 timerBase1Ptr = 0xE423D4,
                 timerBase2Ptr = 0xE44669,
                 timerBase3Ptr = 0xE4638E,
-                timerOutput = 0xC1B000,
                 boltCount = 0xE25068,
                 //playerCoords = 0xE24170,
                 inputOffset = 0xF6AD48,
@@ -316,7 +314,6 @@ namespace racman.offsets.ACIT
             public uint timerBase1Ptr { get; set; }
             public uint timerBase2Ptr { get; set; }
             public uint timerBase3Ptr { get; set; }
-            public uint timerOutput { get; set; }
             public uint isLoading { get; set; }
             public uint mapTimerPtr { get; set; }
             public uint boltCount { get; set; }

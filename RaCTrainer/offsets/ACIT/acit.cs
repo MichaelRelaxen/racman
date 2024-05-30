@@ -2,6 +2,7 @@
 using racman.offsets.ACIT;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -21,6 +22,7 @@ namespace racman
         private ACITTimer InGameTimer1;
         private ACITTimer InGameTimer2;
         private ACITTimer InGameTimer3;
+        private uint TimerOutput = 0;
         // array storing every cutscene path initial byte
         private byte[][] cutscenesInitByteArray;
 
@@ -62,7 +64,6 @@ namespace racman
             (addr.loadSaveState, 4),        // load save state
 
             (addr.checkpointTimer, 4),      // checkpoint timer
-            (addr.timerOutput, 4),          // timer
         };
 
         public override void ResetLevelFlags()
@@ -102,21 +103,39 @@ namespace racman
         {
             UpdateCurrentPlanet();
             UpdateTimer();
-            WriteTimerToMemory(addr.timerOutput);
+
+            TimerOutput = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
+
+            if (Writer != null)
+            {
+                WriteToMemory(WritePos, BitConverter.GetBytes(TimerOutput));
+            }
         }
 
-        /// <summary>
-        /// Writes the timer to memory.
-        /// </summary>
-        /// <param name="address"> The address to write the timer to. </param>
-        public void WriteTimerToMemory(uint address)
+        private BinaryWriter Writer = null;
+        private Mutex WriteLock = null;
+        private int WritePos = 0;
+        public void SetWriter(BinaryWriter writer, Mutex writeLock, int pos)
         {
-            uint timer = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
+            Writer = writer;
+            WriteLock = writeLock;
+            WritePos = pos;
+            Console.WriteLine(pos);
+        }
 
-            api.WriteMemory(pid, address, timer);
+        private void WriteToMemory(int offset, byte[] value)
+        {
+            WriteLock.WaitOne();
 
-            uint readTimer = BitConverter.ToUInt32(api.ReadMemory(pid, address, 4).Reverse().ToArray(), 0);
-            Console.WriteLine("Timer: " + readTimer);
+            if (Writer != null)
+            {
+                Writer.Seek(offset, SeekOrigin.Begin);
+                Writer.Write(value, 0, value.Length);
+            }
+
+            Console.WriteLine("Wrote to memory: " + BitConverter.ToUInt32(value, 0));
+
+            WriteLock.ReleaseMutex();
         }
 
         /// <summary>
