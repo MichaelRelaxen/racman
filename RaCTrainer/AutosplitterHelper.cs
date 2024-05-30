@@ -78,6 +78,11 @@ namespace racman
             }
         }
 
+        public Action<int, byte[]> GetMemoryWriter()
+        {
+            return WriteToMemory;
+        }
+
         private static Mutex writeLock = new Mutex();
         private void WriteToMemory(int offset, byte[] value)
         {

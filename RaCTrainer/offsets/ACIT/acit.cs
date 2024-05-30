@@ -106,36 +106,18 @@ namespace racman
 
             TimerOutput = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
 
-            if (Writer != null)
+            if (MemoryWriter != null)
             {
-                WriteToMemory(WritePos, BitConverter.GetBytes(TimerOutput));
+                MemoryWriter(WritePos, BitConverter.GetBytes(TimerOutput));
             }
         }
 
-        private BinaryWriter Writer = null;
-        private Mutex WriteLock = null;
+        private Action<int, byte[]> MemoryWriter = null;
         private int WritePos = 0;
-        public void SetWriter(BinaryWriter writer, Mutex writeLock, int pos)
+        public void SetWriter(Action<int, byte[]> memoryWriter, int pos)
         {
-            Writer = writer;
-            WriteLock = writeLock;
+            MemoryWriter = memoryWriter;
             WritePos = pos;
-            Console.WriteLine(pos);
-        }
-
-        private void WriteToMemory(int offset, byte[] value)
-        {
-            WriteLock.WaitOne();
-
-            if (Writer != null)
-            {
-                Writer.Seek(offset, SeekOrigin.Begin);
-                Writer.Write(value, 0, value.Length);
-            }
-
-            Console.WriteLine("Wrote to memory: " + BitConverter.ToUInt32(value, 0));
-
-            WriteLock.ReleaseMutex();
         }
 
         /// <summary>

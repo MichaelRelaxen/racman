@@ -21,7 +21,7 @@ namespace racman
                 int pos;
                 autosplitterHelper = new AutosplitterHelper();
                 pos = autosplitterHelper.StartAutosplitterForGame(game);
-                game.SetWriter(autosplitterHelper.GetWriter(), autosplitterHelper.GetWriteLock(), pos);
+                game.SetWriter(autosplitterHelper.GetMemoryWriter(), pos);
                 AutosplitterCheckbox.Checked = true;
             }
             else
