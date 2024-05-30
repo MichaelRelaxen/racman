@@ -12,6 +12,11 @@ namespace racman
         IEnumerable<(uint addr, uint size)> AutosplitterAddresses { get; }
     }
 
+    public interface IAutosplitterWVariables
+    {
+        IEnumerable<(uint addr, uint size)> GetAutosplitterVariables();
+    } 
+
     public class AutosplitterHelper
     {
         public static int mmfAddressBytes = 128;
@@ -22,7 +27,7 @@ namespace racman
         MemoryMappedViewStream mmfStream;
         BinaryWriter writer;
 
-        Timer UpdatingTimer;
+        private Timer UpdatingTimer = null;
 
         List<int> subscriptionIDs = new List<int>();
 
@@ -35,16 +40,6 @@ namespace racman
             mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", mmfSize);
             mmfStream = mmfFile.CreateViewStream();
             writer = new BinaryWriter(mmfStream);
-        }
-
-        public BinaryWriter GetWriter()
-        {
-            return writer;
-        }
-
-        public Mutex GetWriteLock()
-        {
-            return writeLock;
         }
 
         /// <summary>
@@ -76,11 +71,10 @@ namespace racman
             {
                 this.currentGame.api.ReleaseSubID(subID);
             }
-        }
 
-        public Action<int, byte[]> GetMemoryWriter()
-        {
-            return WriteToMemory;
+            // stop the update timer
+            UpdatingTimer.Dispose();
+            UpdatingTimer = null;
         }
 
         private static Mutex writeLock = new Mutex();
@@ -112,32 +106,54 @@ namespace racman
             writeLock.ReleaseMutex();
         }
 
-        public int StartAutosplitterForGame(IGame game)
+        public void StartAutosplitterForGame(IGame game)
         {
-            if (!(game is IAutosplitterAvailable)) throw new NotSupportedException("This game doesn't support an autosplitter yet.");
+            if (!(game is IAutosplitterAvailable) && !(game is IAutosplitterWVariables)) throw new NotSupportedException("This game doesn't support an autosplitter yet.");
             currentGame = game;
-            var autosplitter = game as IAutosplitterAvailable;
 
             int pos = 0;
-            foreach (var (addr, size) in autosplitter.AutosplitterAddresses)
+
+            // if the game has addresses that need to be written to memory
+            if (game is IAutosplitterAvailable)
             {
-                var _pos = pos; // If you can think of a better way to do this please tell me
-
-                // Write the initial value to the memory. This is necessary because the autosplitter will only
-                // trigger when the value changes. So at the start of the game all values will be 0;
-                var initialValue = game.api.ReadMemory(game.api.getCurrentPID(), addr, size).Reverse().ToArray();
-                WriteToMemory(_pos, initialValue);
-
-                subscriptionIDs.Add(game.api.SubMemory(game.api.getCurrentPID(), addr, size, (value) =>
+                var autosplitter = game as IAutosplitterAvailable;
+                foreach (var (addr, size) in autosplitter.AutosplitterAddresses)
                 {
-                    WriteToMemory(_pos, value);
-                }));
-                pos += (int)size;
+                    var _pos = pos; // If you can think of a better way to do this please tell me
+
+                    // Write the initial value to the memory. This is necessary because the autosplitter will only
+                    // trigger when the value changes. So at the start of the game all values will be 0;
+                    var initialValue = game.api.ReadMemory(game.api.getCurrentPID(), addr, size).Reverse().ToArray();
+                    WriteToMemory(_pos, initialValue);
+
+                    subscriptionIDs.Add(game.api.SubMemory(game.api.getCurrentPID(), addr, size, (value) =>
+                    {
+                        WriteToMemory(_pos, value);
+                    }));
+                    pos += (int)size;
+                }
+            }
+            
+            // if the game has variables that need to be written to memory
+            if (game is IAutosplitterWVariables)
+            {
+                var autosplitterWVariables = game as IAutosplitterWVariables;
+                if (UpdatingTimer == null)
+                {
+                    UpdatingTimer = new Timer((state) =>
+                    {
+                        int _pos = pos;
+                        foreach (var (value, size) in autosplitterWVariables.GetAutosplitterVariables())
+                        {
+                            byte[] bytes = BitConverter.GetBytes(value);
+                            WriteToMemory(pos, bytes);
+                            _pos += (int)size;
+                        }
+                    }, null, 0, 1000 / 120);
+                }
             }
 
             IsRunning = true;
-
-            return pos;
         }
     }
 }

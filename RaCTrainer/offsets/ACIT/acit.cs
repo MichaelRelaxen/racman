@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace racman
 {
-    public class acit : IGame, IReadMemory, IAutosplitterAvailable
+    public class acit : IGame, IReadMemory, IAutosplitterAvailable, IAutosplitterWVariables
     {
         public static ACITAddresses addr;
 
@@ -99,46 +99,30 @@ namespace racman
         /// <summary>
         /// Updates all values that must be read every few seconds.
         /// </summary>
-        public void UpdateAllTimerRelated()
+        private void UpdateAllTimerRelated()
         {
             UpdateCurrentPlanet();
             UpdateTimer();
 
             TimerOutput = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
-
-            if (MemoryWriter != null)
-            {
-                MemoryWriter(WritePos, BitConverter.GetBytes(TimerOutput));
-            }
         }
 
-        private Action<int, byte[]> MemoryWriter = null;
-        private int WritePos = 0;
-        public void SetWriter(Action<int, byte[]> memoryWriter, int pos)
+        public IEnumerable<(uint addr, uint size)> GetAutosplitterVariables()
         {
-            MemoryWriter = memoryWriter;
-            WritePos = pos;
+            return new (uint, uint)[]
+            {
+                (TimerOutput, 4),        // IGT
+            };
         }
 
         /// <summary>
         /// Updates the timer.
         /// </summary>
-        public void UpdateTimer()
+        private void UpdateTimer()
         {
             InGameTimer1.UpdateTimer();
             InGameTimer2.UpdateTimer();
             InGameTimer3.UpdateTimer();
-
-            /*uint timer = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
-
-            TimeSpan time = TimeSpan.FromSeconds(timer);
-
-            string formattedTime = string.Format("{0:D2}:{1:D2}:{2:D2}",
-                                                 time.Hours,
-                                                 time.Minutes,
-                                                 time.Seconds);
-
-            Console.WriteLine(formattedTime);*/
         }
 
         /// <summary>
@@ -152,10 +136,6 @@ namespace racman
                 currentPlanet = newPlanet;
                 addr.planetValue = currentPlanet;
             }
-
-            //float coord = BitConverter.ToSingle(api.ReadMemory(pid, addr.playerCoords, 4).Reverse().ToArray(), 0);
-            //Console.WriteLine("coord: " + coord);
-            //Console.WriteLine("planet: " + currentPlanet);
         }
 
         /// <summary>
