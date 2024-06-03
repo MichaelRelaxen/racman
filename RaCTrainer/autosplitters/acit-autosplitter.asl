@@ -59,6 +59,11 @@ onStart
     vars.gameIsAboutToStart = false;
 }
 
+onReset
+{
+    vars.gameIsAboutToStart = false;
+}
+
 update
 {
     vars.UpdateValues();
@@ -122,8 +127,6 @@ update
     {
         return;
     }
-
-    //print(current.timer.ToString());
 
     // do not update the timer in case the timer drops. This is (can) due to the fact that the
     // IGT and the checkpoint timers are updated at different times. Sometimes if the game saves the timer
