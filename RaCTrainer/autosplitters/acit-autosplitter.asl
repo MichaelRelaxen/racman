@@ -34,12 +34,12 @@ init
     // Initialize run values
     vars.ResetRunValues = (Action) (() => {
         vars.gameTime = 0.0f;
-        vars.tempTimer = 0.0f;
         vars.initTimer = 0.0f;
-        vars.runJustStarted = true;
         vars.possibleSaveDetection = false;
         vars.loopCounter = 0;
+        vars.waitTillTimerChanges = false;
 
+        vars.gameIsAboutToStart = false;
         vars.runSaveFileID = -1;
         vars.isLibraSpawned = false;
         vars.isPlayerOnRunSaveFile = true;
@@ -55,6 +55,8 @@ onStart
     vars.ResetRunValues();
     vars.runSaveFileID = current.saveFileID;
     vars.runSaves.Add((int)current.saveFileID);
+    vars.initTimer = -current.IGT -current.timer;
+    vars.gameIsAboutToStart = false;
 }
 
 update
@@ -62,6 +64,11 @@ update
     vars.UpdateValues();
     vars.isPlayerOnRunSaveFile = vars.runSaveFileID == current.saveFileID;
     vars.loopCounter++;
+
+    if (!vars.gameIsAboutToStart)
+    {
+        vars.gameIsAboutToStart = (current.planet == 1 || current.planet == 0) && old.firstCutscene == 0 && current.firstCutscene == 1;
+    }
     
     // update libra spawned state
     if (current.planet == 10 && current.LibraHP > 0.6f)
@@ -101,18 +108,6 @@ update
 
     // Timer related
 
-    // this fixes the timer at the beginning of the run, cuz normally the timer does not start at 0
-    if (vars.runJustStarted && current.checkpointTimer == 0)
-    {
-        vars.gameTime = 0;
-        return;
-    }
-    if (vars.runJustStarted && current.checkpointTimer > 0)
-    {
-        vars.runJustStarted = false;
-        vars.initTimer = -current.IGT -current.timer;
-    }
-
     // this fixes the timer when the game saves and the IGT is out of sync by a fraction of a second
     if (!vars.possibleSaveDetection && current.timer < old.timer)
     {
@@ -128,22 +123,28 @@ update
         return;
     }
 
+    //print(current.timer.ToString());
 
-    vars.tempTimer = vars.initTimer + current.IGT + current.timer;
-
-    print("temp: " + vars.tempTimer.ToString());
-    print("IGT " + vars.gameTime.ToString());
-
-    // do not update the timer in case the timer drops by 3 seconds. This is due to the fact that the
+    // do not update the timer in case the timer drops. This is (can) due to the fact that the
     // IGT and the checkpoint timers are updated at different times. Sometimes if the game saves the timer
     // will drop by the checkpoint timer for a split second.
-    //TODO
+    if (current.timer < old.timer)
+    {
+        vars.waitTillTimerChanges = true;
+    }
+    if (current.timer > old.timer)
+    {
+        vars.waitTillTimerChanges = false;
+    }
+    if (vars.waitTillTimerChanges)
+    {
+        return;
+    }
 
-    vars.gameTime = vars.tempTimer;
+    vars.gameTime = vars.initTimer + current.IGT + current.timer;
     
     //print(vars.gameTime.ToString());
     //print(current.planet.ToString() + " " + old.planet.ToString());
-    //print(vars.gameTime.ToString() + " " + vars.tempTimer.ToString() + " " + current.timer.ToString());
 }
 
 split
@@ -273,7 +274,7 @@ start
     }
 
     // if the first cutscene starts
-    if ((current.planet == 1 || current.planet == 0) && old.firstCutscene == 0 && current.firstCutscene == 1)
+    if (vars.gameIsAboutToStart && current.timer < 0.1f)
     {
         print("Start on first cutscene");
         return true;
