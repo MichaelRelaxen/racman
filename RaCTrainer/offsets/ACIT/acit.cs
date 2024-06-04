@@ -34,16 +34,17 @@ namespace racman
         {
             addr = new ACITAddresses(api.getGameTitleID());
             weapons = ACITWeaponFactory.GetWeapons();
-            InGameTimer1 = new ACITTimer(this, addr.timerBase1Ptr, 78, 0x04);
-            InGameTimer2 = new ACITTimer(this, addr.timerBase2Ptr, 234, 0x04);
-            InGameTimer3 = new ACITTimer(this, addr.timerBase3Ptr, 6, 0x04);
+            double a = 0.333;
+            InGameTimer1 = new ACITTimer(this, addr.timerBase1Ptr, 78, 0x04, a);
+            InGameTimer2 = new ACITTimer(this, addr.timerBase2Ptr, 234, 0x04, a);
+            InGameTimer3 = new ACITTimer(this, addr.timerBase3Ptr, 6, 0x04, a);
             if (canRemoveCutscenes)
             {
                 cutscenesInitByteArray = ReadCutsceneStrings();
             }
 
             // creating a timer that updates every value that must be read every few seconds
-            UpdatingTimer = new Timer((e) => UpdateAllTimerRelated(), null, 0, 200);
+            UpdatingTimer = new Timer((e) => UpdateAllTimerRelated(), null, 0, 333);
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
