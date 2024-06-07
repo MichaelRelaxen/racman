@@ -2,7 +2,6 @@
 using racman.offsets.ACIT;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -28,6 +27,7 @@ namespace racman
 
         // This timer updates the current planet every second. It is used cuz some addresses are planet specific
         private Timer UpdatingTimer;
+        public bool IsAutosplitterEnabled { get; set; } = false;
         private uint currentPlanet;
 
         public acit(IPS3API api) : base(api)
@@ -102,7 +102,10 @@ namespace racman
         private void UpdateAllTimerRelated()
         {
             UpdateCurrentPlanet();
-            UpdateTimer();
+            if (IsAutosplitterEnabled)
+            {
+                UpdateTimer();
+            }
 
             TimerOutput = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
         }
