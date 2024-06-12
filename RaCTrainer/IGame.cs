@@ -47,17 +47,16 @@ namespace racman
 
             InputsTimer.Interval = (int)16.66667;
             InputsTimer.Tick += new EventHandler(CheckInputs);
+            InputsTimer.Start();
+
+            // Ajout de l'événement de clavier
+            Application.AddMessageFilter(new KeyMessageFilter(this));
         }
 
-        /// <summary>
-        /// Function to get addresses in IGame because static values and stuff, not needed outside of IGame or in any IGame-inherited classes because they just use <ClassName>.addr.<whatever>
-        /// </summary>
-        /// <returns></returns>
         private IAddresses Addr()
         {
              return (IAddresses)this.GetType().GetField("addr").GetValue(typeof(IAddresses));
         }
-
 
         public virtual void SavePosition()
         {
@@ -111,7 +110,6 @@ namespace racman
         public virtual void SetupInputDisplayMemorySubs()
         {
             SetupInputDisplayMemorySubsButtons();
-
             SetupInputDisplayMemorySubsAnalogs();
 
             // Why the FUCK is this here?
@@ -166,8 +164,38 @@ namespace racman
             });
         }
 
-        // 
         public abstract void CheckInputs(object sender, EventArgs e);
+    }
 
+    // Filtre de message pour le clavier
+    public class KeyMessageFilter : IMessageFilter
+    {
+        private readonly IGame game;
+
+        public KeyMessageFilter(IGame game)
+        {
+            this.game = game;
+        }
+
+        public bool PreFilterMessage(ref Message m)
+        {
+            if (m.Msg == 0x0100) // jsp quel utilité
+            {
+                Keys keyCode = (Keys)m.WParam & Keys.KeyCode;
+                switch (keyCode) // ptit switch case pour les touches
+                {
+                    case Keys.F1:
+                        game.SavePosition();
+                        return true;
+                    case Keys.F2:
+                        game.LoadPosition();
+                        return true;
+                    case Keys.F3:
+                        game.KillYourself();
+                        return true;
+                }  // Pour ajouter une touche, il suffit de faire comme les précédentes :3
+            }
+            return false;
+        }
     }
 }
