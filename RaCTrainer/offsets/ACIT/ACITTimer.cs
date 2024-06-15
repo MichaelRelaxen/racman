@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Security.Cryptography;
 
 namespace racman.offsets.ACIT
 {
@@ -18,7 +20,7 @@ namespace racman.offsets.ACIT
             }
         }
 
-        private IReadMemory MemoryReader;
+        private IPS3API MemoryReader;
         private static uint TimersCount;
         private static uint TimersOffset;
 
@@ -31,7 +33,7 @@ namespace racman.offsets.ACIT
         /// <param name="baseAddress"> The base address of the timer. </param>
         /// <param name="count"> The number of timers. </param>
         /// <param name="offset"> The offset between each timer. </param>
-        public ACITTimer(IReadMemory memroyReader, uint baseAddress, uint count, uint offset)
+        public ACITTimer(IPS3API memroyReader, uint baseAddress, uint count, uint offset)
         {
             MemoryReader = memroyReader;
             TimersCount = count;
@@ -41,18 +43,19 @@ namespace racman.offsets.ACIT
             {
                 Timers.Add(new InnerTimer(baseAddress + TimersOffset * i));
             }
+
+            SetupTimer();
         }
 
-        /// <summary>
-        /// Updates every timer.
-        /// </summary>
-        public void UpdateTimer()
+        private void SetupTimer()
         {
             foreach (InnerTimer timer in Timers)
             {
-                uint t = (uint)BitConverter.ToInt32(MemoryReader.ReadMemory(timer.Address, 4).Reverse().ToArray(), 0);
-
-                timer.IGT = t;
+                timer.IGT = BitConverter.ToUInt32(MemoryReader.ReadMemory(MemoryReader.getCurrentPID(), timer.Address, 0x04).Reverse().ToArray(), 0);
+                MemoryReader.SubMemory(MemoryReader.getCurrentPID(), timer.Address, 0x04, (value) =>
+                {
+                    timer.IGT = BitConverter.ToUInt32(value, 0);
+                });
             }
         }
 

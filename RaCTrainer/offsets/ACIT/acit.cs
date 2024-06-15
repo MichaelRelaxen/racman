@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace racman
 {
-    public class acit : IGame, IReadMemory, IAutosplitterAvailable, IAutosplitterWVariables
+    public class acit : IGame, IAutosplitterAvailable, IAutosplitterWVariables
     {
         public static ACITAddresses addr;
 
@@ -21,12 +21,9 @@ namespace racman
         private ACITTimer InGameTimer1;
         private ACITTimer InGameTimer2;
         private ACITTimer InGameTimer3;
-        private uint TimerOutput = 0;
         // array storing every cutscene path initial byte
         private byte[][] cutscenesInitByteArray;
 
-        // This timer updates the current planet every second. It is used cuz some addresses are planet specific
-        private Timer UpdatingTimer;
         public bool IsAutosplitterEnabled { get; set; } = false;
         private uint currentPlanet;
 
@@ -34,16 +31,17 @@ namespace racman
         {
             addr = new ACITAddresses(api.getGameTitleID());
             weapons = ACITWeaponFactory.GetWeapons();
-            InGameTimer1 = new ACITTimer(this, addr.timerBase1Ptr, 78, 0x04);
-            InGameTimer2 = new ACITTimer(this, addr.timerBase2Ptr, 234, 0x04);
-            InGameTimer3 = new ACITTimer(this, addr.timerBase3Ptr, 6, 0x04);
+
+            InGameTimer1 = new ACITTimer(api, addr.timerBase1Ptr, 78, 0x04);
+            InGameTimer2 = new ACITTimer(api, addr.timerBase2Ptr, 234, 0x04);
+            InGameTimer3 = new ACITTimer(api, addr.timerBase3Ptr, 6, 0x04);
+
             if (canRemoveCutscenes)
             {
                 cutscenesInitByteArray = ReadCutsceneStrings();
             }
 
-            // creating a timer that updates every value that must be read every few seconds
-            UpdatingTimer = new Timer((e) => UpdateAllTimerRelated(), null, 0, 200);
+            UpdateCurrentPlanet();
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
@@ -66,14 +64,19 @@ namespace racman
             (addr.checkpointTimer, 4),      // checkpoint timer
         };
 
+        public IEnumerable<(uint addr, uint size)> GetAutosplitterVariables()
+        {
+            uint timerOutput = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
+
+            return new (uint, uint)[]
+            {
+                (timerOutput, 4),        // IGT
+            };
+        }
+
         public override void ResetLevelFlags()
         {
             throw new NotImplementedException();
-        }
-
-        public byte[] ReadMemory(uint address, uint size)
-        {
-            return api.ReadMemory(pid, address, size);
         }
 
         public override void SetupFile()
@@ -97,48 +100,15 @@ namespace racman
         }
 
         /// <summary>
-        /// Updates all values that must be read every few seconds.
-        /// </summary>
-        private void UpdateAllTimerRelated()
-        {
-            UpdateCurrentPlanet();
-            if (IsAutosplitterEnabled)
-            {
-                UpdateTimer();
-            }
-
-            TimerOutput = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
-        }
-
-        public IEnumerable<(uint addr, uint size)> GetAutosplitterVariables()
-        {
-            return new (uint, uint)[]
-            {
-                (TimerOutput, 4),        // IGT
-            };
-        }
-
-        /// <summary>
-        /// Updates the timer.
-        /// </summary>
-        private void UpdateTimer()
-        {
-            InGameTimer1.UpdateTimer();
-            InGameTimer2.UpdateTimer();
-            InGameTimer3.UpdateTimer();
-        }
-
-        /// <summary>
-        /// Updates current planet.
+        /// Subscribes to the current planet address and updates the current planet value.
         /// </summary>
         private void UpdateCurrentPlanet()
         {
-            uint newPlanet = BitConverter.ToUInt32(api.ReadMemory(pid, addr.currentPlanet, 4).Reverse().ToArray(), 0);
-            if (newPlanet != currentPlanet)
+            currentPlanet = BitConverter.ToUInt32(api.ReadMemory(pid, addr.currentPlanet, 4).Reverse().ToArray(), 0);
+            api.SubMemory(api.getCurrentPID(), addr.currentPlanet, 0x04, (value) =>
             {
-                currentPlanet = newPlanet;
-                addr.planetValue = currentPlanet;
-            }
+                currentPlanet = BitConverter.ToUInt32(value, 0);
+            });
         }
 
         /// <summary>

@@ -146,6 +146,7 @@ namespace racman
                         foreach (var (value, size) in autosplitterWVariables.GetAutosplitterVariables())
                         {
                             byte[] bytes = BitConverter.GetBytes(value);
+                            //Console.WriteLine($"Writing {value} to memory at {_pos}");
                             WriteToMemory(pos, bytes);
                             _pos += (int)size;
                         }
