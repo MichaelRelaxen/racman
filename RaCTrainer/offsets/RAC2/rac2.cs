@@ -39,21 +39,24 @@ namespace racman
         public uint challengeMode => 0x1329AA2;
 
         // Values corresponding to the location of the internal table for game objects.
-        public uint mobyInstances => 0x015927b0;
-        public uint mobyInstancesEnd => 0x015927b8;
+        public uint mobyInstances => 0x15927b0;
+        public uint mobyInstancesEnd => 0x15927b8;
 
         // Values that increment when you die to the Snivelak boss. Used for act tuning.
         // public uint snivBoss1 => 0x01569BF7; // not used according to elkon
-        public uint snivBoss => 0x01A6FB73;
+        public uint snivBoss => 0x1A6FB73;
 
         // Float value controlling jump-pad speed. Changes on visiting Snivelak.
-        public uint padManip => 0x013185B8;
+        public uint padManip => 0x13185B8;
 
         // Item ID of ratchet's previously held weapon. Used for gadget storage.
-        public uint prevHeldWeapon => 0x01329A9F;
+        public uint prevHeldWeapon => 0x1329A9F;
+
+        // Start of ammo array (136 length)
+        public uint ammoArray => 0x148185C;
 
         // Boosts exp values earned when killing enemies.
-        public uint expEconomy => 0x01329AA8;
+        public uint expEconomy => 0x1329AA8;
 
         // Determines ratchet's current health
         public uint healthExp => 0x1329AA4;

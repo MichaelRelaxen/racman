@@ -39,19 +39,6 @@ namespace racman
             game.SetupInputDisplayMemorySubs();
 
             AutosplitterCheckbox.Checked = true;
-
-            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
-            {
-                if (value[0] == 1)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        // Savefile helper mod is enabled.
-                        loadFileButton.Enabled = true;
-                        setAsideFileButton.Enabled = true;
-                    }));
-                }
-            });
         }
 
         public Timer CoordsTimer = new Timer();
@@ -70,6 +57,19 @@ namespace racman
         {
             var api = game.api;
             var pid = api.getCurrentPID();
+
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
+            {
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        // Savefile helper mod is enabled.
+                        loadFileButton.Enabled = true;
+                        setAsideFileButton.Enabled = true;
+                    }));
+                }
+            });
 
             loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenType, 4, IPS3API.MemoryCondition.Changed, value =>
             {
@@ -93,12 +93,20 @@ namespace racman
 
         private void RAC2Form_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (fastLoadSubID != -1) game.api.ReleaseSubID(fastLoadSubID);
-            if (expEconomySubId != -1) game.api.ReleaseSubID(expEconomySubId);
-            if (loadScreenTypeSubId != -1) game.api.ReleaseSubID(loadScreenTypeSubId);
-            game.api.ReleaseSubID(savefileHelperSubID);
-            game.api.Disconnect();
-            Application.Exit();
+            // Fix crash on exit (lol)
+            try
+            {
+                if (fastLoadSubID != -1) game.api.ReleaseSubID(fastLoadSubID);
+                if (expEconomySubId != -1) game.api.ReleaseSubID(expEconomySubId);
+                if (loadScreenTypeSubId != -1) game.api.ReleaseSubID(loadScreenTypeSubId);
+                game.api.ReleaseSubID(savefileHelperSubID);
+                game.api.Disconnect();
+                Application.Exit();
+            }
+            catch
+            {
+
+            }
         }
         private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -318,20 +326,36 @@ namespace racman
 
         private void enableDisableFastLoads(bool enable)
         {
-            // Ship load screen addresses that I dont know what to do with it 0x147A257 (1-4 amount of load screens and display wich one is currently) 
-            // and 0x0147A258 (0-2 sequence of the load screens, 0 is the first and 2 is the last)
-            bool alreadyEnabled = fastLoadSubID != -1;
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            uint fastLoadInstr = 0xBEA8A0;
 
-            if (!alreadyEnabled && enable)
+            if (enable)
             {
-                // Address related to some kind of ship animations timing, it messes up the entering and exiting animations
-                fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
+                // NOP
+                api.WriteMemory(pid, fastLoadInstr, 0x60000000);
             }
-            else if (alreadyEnabled && !enable)
+            else
             {
-                game.api.ReleaseSubID(fastLoadSubID);
-                fastLoadSubID = -1;
+                // Default instr
+                api.WriteMemory(pid, fastLoadInstr, 0x4BFFEA69);
+                
             }
+
+            // // Ship load screen addresses that I dont know what to do with it 0x147A257 (1-4 amount of load screens and display wich one is currently) 
+            // // and 0x0147A258 (0-2 sequence of the load screens, 0 is the first and 2 is the last)
+            // bool alreadyEnabled = fastLoadSubID != -1;
+            //
+            // if (!alreadyEnabled && enable)
+            // {
+            //     // Address related to some kind of ship animations timing, it messes up the entering and exiting animations
+            //     fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
+            // }
+            // else if (alreadyEnabled && !enable)
+            // {
+            //     game.api.ReleaseSubID(fastLoadSubID);
+            //     fastLoadSubID = -1;
+            // }
         }
 
 
