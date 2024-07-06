@@ -14,6 +14,9 @@ namespace racman
         // Ratchet's coordinates
         public uint playerCoords => 0x147F260;
 
+        // Ratchet's movement state
+        public uint playerState => 0x1481474;
+
         // Controller inputs mask address
         public uint inputOffset => 0x147A430;
 
@@ -32,6 +35,9 @@ namespace racman
         // Current raritanium.
         public uint currentRaritanium => 0x1329A94;
 
+        // Challenge mode
+        public uint challengeMode => 0x1329AA2;
+
         // Values corresponding to the location of the internal table for game objects.
         public uint mobyInstances => 0x015927b0;
         public uint mobyInstancesEnd => 0x015927b8;
@@ -49,6 +55,9 @@ namespace racman
         // Boosts exp values earned when killing enemies.
         public uint expEconomy => 0x01329AA8;
 
+        // Determines ratchet's current health
+        public uint healthExp => 0x1329AA4;
+
         // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
         public uint gornManip => 0x01A99A4C;
 
@@ -63,6 +72,9 @@ namespace racman
 
         // Selected race on Barlow (maybe on Joba too idk).
         public uint selectedRaceIndex => 0x013965F7;
+
+        // Loading screen type (0/1/3/4 for main loads, 2 for final planet screen)
+        public uint loadingScreenType => 0x147A258;
 
         // "Current active save slot" used for tracking savefiles (PS2 leftover).
         // This gets set to -1 when you do QE (and is subsequently overwritten).

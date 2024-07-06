@@ -19,7 +19,10 @@ namespace racman
         public Form InputDisplay;
         private bool debugEnabled;
         private int savefileHelperSubID;
+        private int fastLoadSubID = -1;
         private int expEconomySubId = -1;
+        // Used to reset fast loads after load is finished
+        private int loadScreenTypeSubId = -1;
 
         public RAC2Form(rac2 game)
         {
@@ -63,8 +66,17 @@ namespace racman
                 labelLap.ForeColor = Color.Red;
         }
 
-        private void RAC2Form_Load(object sender, EventArgs e)
-        {
+        private void RAC2Form_Load(object sender, EventArgs e) {
+
+            loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenType, 4, IPS3API.MemoryCondition.Changed, value =>
+            {
+                // Only run once, on final load screen
+                if (value[0] != 2) return;
+                 
+                // Disable force-override from reload file by setting to previous setting
+                enableDisableFastLoads(SetFastLoadCheckbox.Checked);                
+            });
+
             this.Invoke(new Action(() => {
                 planets_comboBox.SelectedIndex = (int)game.planetIndex;
             }));
@@ -72,6 +84,9 @@ namespace racman
 
         private void RAC2Form_FormClosing(object sender, FormClosingEventArgs e)
         {
+            if (fastLoadSubID != -1) game.api.ReleaseSubID(fastLoadSubID);
+            if (expEconomySubId != -1) game.api.ReleaseSubID(expEconomySubId);
+            if (loadScreenTypeSubId != -1) game.api.ReleaseSubID(loadScreenTypeSubId);
             game.api.ReleaseSubID(savefileHelperSubID);
             game.api.Disconnect();
             Application.Exit();
@@ -239,7 +254,7 @@ namespace racman
             {
                 try
                 {
-                    game.api.WriteMemory(game.api.getCurrentPID(), 0x1329A94, uint.Parse(raritaniumTextBox.Text));
+                    game.api.WriteMemory(game.api.getCurrentPID(), rac2.addr.currentRaritanium, uint.Parse(raritaniumTextBox.Text));
                 }
                 catch
                 {
@@ -247,13 +262,29 @@ namespace racman
                 }
             }
         }
+
+        private void textBoxHealthXP_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.api.WriteMemory(game.api.getCurrentPID(), rac2.addr.healthExp, unchecked((uint)int.Parse(textBoxHealthXP.Text)));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 try
                 {
-                    game.api.WriteMemory(game.api.getCurrentPID(), 0x1329AA2, new byte[] { byte.Parse(challengeTextBox.Text) });
+                    game.api.WriteMemory(game.api.getCurrentPID(), rac2.addr.challengeMode, new byte[] { byte.Parse(challengeTextBox.Text) });
                 }
                 catch
                 {
@@ -276,21 +307,28 @@ namespace racman
         }
 
         
-        private int fastLoadSubID = -1;
-        private void SetFastLoadCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void enableDisableFastLoads(bool enable)
         {
-
-            if (SetFastLoadCheckbox.Checked)
-            {
-            // Address related to some kind of ship animations timing, it messes up the entering and exiting animations
-                fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
-            }
-            else
-            {
-                game.api.ReleaseSubID(fastLoadSubID);
-            }
             // Ship load screen addresses that I dont know what to do with it 0x147A257 (1-4 amount of load screens and display wich one is currently) 
             // and 0x0147A258 (0-2 sequence of the load screens, 0 is the first and 2 is the last)
+            bool alreadyEnabled = fastLoadSubID != -1;
+
+            if (!alreadyEnabled && enable)
+            {
+                // Address related to some kind of ship animations timing, it messes up the entering and exiting animations
+                fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
+            }
+            else if (alreadyEnabled && !enable) 
+            {
+                game.api.ReleaseSubID(fastLoadSubID);
+                fastLoadSubID = -1;
+            }
+        }
+
+        
+        private void SetFastLoadCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            enableDisableFastLoads(SetFastLoadCheckbox.Checked);
         }
 
         private void labelLap_Click(object sender, EventArgs e)
@@ -300,7 +338,10 @@ namespace racman
 
         private void loadFileButton_Click(object sender, EventArgs e)
         {
+            enableDisableFastLoads(true);
             game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71e, new byte[] { 1 });
+            // Re-disable when landing on planet!
+            // enableDisableFastLoads(SetFastLoadCheckbox.Checked);
         }
 
         private void setAsideFileButton_Click(object sender, EventArgs e)
@@ -391,6 +432,7 @@ namespace racman
         {
             var check = ((CheckBox)sender).Checked;
             CoordsTimer.Enabled = check;
+            coordsLabel.Visible = true;
             if (check) this.Height += 50;
         }
 
@@ -431,6 +473,7 @@ namespace racman
             }
 
         }
+
 
     }
 }

@@ -73,13 +73,20 @@ namespace racman
             this.loadFileButton = new System.Windows.Forms.Button();
             this.setAsideFileButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.textBoxHealthXP = new System.Windows.Forms.TextBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // coordsComboBox
             // 
             this.coordsComboBox.AutoSize = true;
-            this.coordsComboBox.Location = new System.Drawing.Point(132, 231);
+            this.coordsComboBox.Location = new System.Drawing.Point(16, 413);
             this.coordsComboBox.Name = "coordsComboBox";
             this.coordsComboBox.Size = new System.Drawing.Size(112, 17);
             this.coordsComboBox.TabIndex = 120;
@@ -90,17 +97,18 @@ namespace racman
             // coordsLabel
             // 
             this.coordsLabel.AutoSize = true;
-            this.coordsLabel.Location = new System.Drawing.Point(9, 383);
+            this.coordsLabel.Location = new System.Drawing.Point(13, 470);
             this.coordsLabel.Name = "coordsLabel";
             this.coordsLabel.Size = new System.Drawing.Size(123, 13);
             this.coordsLabel.TabIndex = 119;
             this.coordsLabel.Text = "Co-ordinates: <disabled>";
+            this.coordsLabel.Visible = false;
             this.coordsLabel.Click += new System.EventHandler(this.coordsLabel_Click);
             // 
             // CComboCheckBox
             // 
             this.CComboCheckBox.AutoSize = true;
-            this.CComboCheckBox.Location = new System.Drawing.Point(12, 129);
+            this.CComboCheckBox.Location = new System.Drawing.Point(12, 123);
             this.CComboCheckBox.Name = "CComboCheckBox";
             this.CComboCheckBox.Size = new System.Drawing.Size(147, 17);
             this.CComboCheckBox.TabIndex = 93;
@@ -162,7 +170,7 @@ namespace racman
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 159);
+            this.label6.Location = new System.Drawing.Point(12, 169);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 96;
@@ -170,7 +178,7 @@ namespace racman
             // 
             // loadPlanetButton
             // 
-            this.loadPlanetButton.Location = new System.Drawing.Point(133, 174);
+            this.loadPlanetButton.Location = new System.Drawing.Point(133, 183);
             this.loadPlanetButton.Name = "loadPlanetButton";
             this.loadPlanetButton.Size = new System.Drawing.Size(75, 23);
             this.loadPlanetButton.TabIndex = 94;
@@ -209,7 +217,7 @@ namespace racman
             "Slim Cognito",
             "Wupash",
             "Jamming Array"});
-            this.planets_comboBox.Location = new System.Drawing.Point(12, 175);
+            this.planets_comboBox.Location = new System.Drawing.Point(12, 185);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(115, 21);
             this.planets_comboBox.TabIndex = 95;
@@ -217,7 +225,7 @@ namespace racman
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(12, 206);
+            this.button2.Location = new System.Drawing.Point(12, 385);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(115, 23);
@@ -229,7 +237,7 @@ namespace racman
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(244, 113);
+            this.label8.Location = new System.Drawing.Point(354, 38);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 99;
@@ -237,7 +245,7 @@ namespace racman
             // 
             // bolts_textBox
             // 
-            this.bolts_textBox.Location = new System.Drawing.Point(247, 127);
+            this.bolts_textBox.Location = new System.Drawing.Point(357, 52);
             this.bolts_textBox.Name = "bolts_textBox";
             this.bolts_textBox.Size = new System.Drawing.Size(105, 20);
             this.bolts_textBox.TabIndex = 98;
@@ -246,7 +254,7 @@ namespace racman
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(247, 199);
+            this.ghostCheckbox.Location = new System.Drawing.Point(358, 183);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 100;
@@ -261,7 +269,7 @@ namespace racman
             this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(363, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(482, 24);
             this.menuStrip1.TabIndex = 101;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -338,7 +346,7 @@ namespace racman
             // AutosplitterCheckbox
             // 
             this.AutosplitterCheckbox.AutoSize = true;
-            this.AutosplitterCheckbox.Location = new System.Drawing.Point(247, 222);
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(358, 206);
             this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
             this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
             this.AutosplitterCheckbox.TabIndex = 102;
@@ -349,7 +357,7 @@ namespace racman
             // freezeAmmoCheckbox
             // 
             this.freezeAmmoCheckbox.AutoSize = true;
-            this.freezeAmmoCheckbox.Location = new System.Drawing.Point(247, 153);
+            this.freezeAmmoCheckbox.Location = new System.Drawing.Point(247, 183);
             this.freezeAmmoCheckbox.Name = "freezeAmmoCheckbox";
             this.freezeAmmoCheckbox.Size = new System.Drawing.Size(89, 17);
             this.freezeAmmoCheckbox.TabIndex = 103;
@@ -360,7 +368,7 @@ namespace racman
             // freezeHealthCheckbox
             // 
             this.freezeHealthCheckbox.AutoSize = true;
-            this.freezeHealthCheckbox.Location = new System.Drawing.Point(247, 176);
+            this.freezeHealthCheckbox.Location = new System.Drawing.Point(247, 206);
             this.freezeHealthCheckbox.Name = "freezeHealthCheckbox";
             this.freezeHealthCheckbox.Size = new System.Drawing.Size(92, 17);
             this.freezeHealthCheckbox.TabIndex = 104;
@@ -404,11 +412,11 @@ namespace racman
             // 
             // resetFileManipButton
             // 
-            this.resetFileManipButton.Location = new System.Drawing.Point(247, 254);
+            this.resetFileManipButton.Location = new System.Drawing.Point(356, 280);
             this.resetFileManipButton.Name = "resetFileManipButton";
-            this.resetFileManipButton.Size = new System.Drawing.Size(104, 26);
+            this.resetFileManipButton.Size = new System.Drawing.Size(104, 23);
             this.resetFileManipButton.TabIndex = 109;
-            this.resetFileManipButton.Text = "Setup Any%";
+            this.resetFileManipButton.Text = "Any%";
             this.toolTip1.SetToolTip(this.resetFileManipButton, "Clears bolt manip, resets hoverbike menu, makes game\r\npyramid drop 1,024 bolts, a" +
         "nd resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning." +
         "");
@@ -421,7 +429,7 @@ namespace racman
             // 
             // buttonSwingshot
             // 
-            this.buttonSwingshot.Location = new System.Drawing.Point(140, 254);
+            this.buttonSwingshot.Location = new System.Drawing.Point(140, 280);
             this.buttonSwingshot.Name = "buttonSwingshot";
             this.buttonSwingshot.Size = new System.Drawing.Size(68, 52);
             this.buttonSwingshot.TabIndex = 113;
@@ -433,7 +441,7 @@ namespace racman
             // checkBoxExp
             // 
             this.checkBoxExp.AutoSize = true;
-            this.checkBoxExp.Location = new System.Drawing.Point(12, 322);
+            this.checkBoxExp.Location = new System.Drawing.Point(12, 338);
             this.checkBoxExp.Name = "checkBoxExp";
             this.checkBoxExp.Size = new System.Drawing.Size(172, 17);
             this.checkBoxExp.TabIndex = 114;
@@ -445,11 +453,11 @@ namespace racman
             // 
             // buttonRaceStorage
             // 
-            this.buttonRaceStorage.Location = new System.Drawing.Point(247, 322);
+            this.buttonRaceStorage.Location = new System.Drawing.Point(246, 385);
             this.buttonRaceStorage.Name = "buttonRaceStorage";
-            this.buttonRaceStorage.Size = new System.Drawing.Size(104, 36);
+            this.buttonRaceStorage.Size = new System.Drawing.Size(115, 23);
             this.buttonRaceStorage.TabIndex = 115;
-            this.buttonRaceStorage.Text = "Reset race\r\nstorage\r\n";
+            this.buttonRaceStorage.Text = "Reset menu storage";
             this.toolTip1.SetToolTip(this.buttonRaceStorage, "Resets the position of the cursor on the race selector.");
             this.buttonRaceStorage.UseVisualStyleBackColor = true;
             this.buttonRaceStorage.Click += new System.EventHandler(this.buttonRaceStorage_Click);
@@ -457,7 +465,7 @@ namespace racman
             // SetFastLoadCheckbox
             // 
             this.SetFastLoadCheckbox.AutoSize = true;
-            this.SetFastLoadCheckbox.Location = new System.Drawing.Point(132, 210);
+            this.SetFastLoadCheckbox.Location = new System.Drawing.Point(12, 212);
             this.SetFastLoadCheckbox.Name = "SetFastLoadCheckbox";
             this.SetFastLoadCheckbox.Size = new System.Drawing.Size(107, 17);
             this.SetFastLoadCheckbox.TabIndex = 116;
@@ -468,11 +476,11 @@ namespace racman
             // 
             // buttonNGPlusMenu
             // 
-            this.buttonNGPlusMenu.Location = new System.Drawing.Point(247, 280);
+            this.buttonNGPlusMenu.Location = new System.Drawing.Point(246, 309);
             this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
-            this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 26);
+            this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 23);
             this.buttonNGPlusMenu.TabIndex = 118;
-            this.buttonNGPlusMenu.Text = "Setup NG+";
+            this.buttonNGPlusMenu.Text = "NG+";
             this.toolTip1.SetToolTip(this.buttonNGPlusMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
         "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
         "elak bosses.");
@@ -483,7 +491,7 @@ namespace racman
             // 
             this.labelLap.AutoSize = true;
             this.labelLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLap.Location = new System.Drawing.Point(12, 350);
+            this.labelLap.Location = new System.Drawing.Point(12, 450);
             this.labelLap.Name = "labelLap";
             this.labelLap.Size = new System.Drawing.Size(136, 20);
             this.labelLap.TabIndex = 110;
@@ -515,7 +523,7 @@ namespace racman
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 254);
+            this.button1.Location = new System.Drawing.Point(12, 280);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(122, 52);
             this.button1.TabIndex = 117;
@@ -523,11 +531,83 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(247, 414);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(108, 17);
+            this.checkBox1.TabIndex = 121;
+            this.checkBox1.Text = "Auto-reset menus";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(356, 74);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(58, 13);
+            this.label3.TabIndex = 123;
+            this.label3.Text = "Health XP:";
+            // 
+            // textBoxHealthXP
+            // 
+            this.textBoxHealthXP.Location = new System.Drawing.Point(358, 90);
+            this.textBoxHealthXP.Name = "textBoxHealthXP";
+            this.textBoxHealthXP.Size = new System.Drawing.Size(105, 20);
+            this.textBoxHealthXP.TabIndex = 122;
+            this.textBoxHealthXP.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxHealthXP_KeyDown);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(246, 280);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(104, 23);
+            this.button3.TabIndex = 124;
+            this.button3.Text = "NG+ No IMG";
+            this.toolTip1.SetToolTip(this.button3, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
+        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
+        "elak bosses.");
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(248, 264);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 13);
+            this.label4.TabIndex = 125;
+            this.label4.Text = "Category Setup";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 264);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(54, 13);
+            this.label5.TabIndex = 126;
+            this.label5.Text = "File Setup";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(248, 169);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(0, 13);
+            this.label7.TabIndex = 127;
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(363, 377);
+            this.ClientSize = new System.Drawing.Size(482, 472);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.textBoxHealthXP);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.coordsLabel);
             this.Controls.Add(this.SetFastLoadCheckbox);
             this.Controls.Add(this.buttonNGPlusMenu);
@@ -619,5 +699,12 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem debugFeaturesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem activateQEToolStripMenuItem;
         private System.Windows.Forms.CheckBox coordsComboBox;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBoxHealthXP;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label7;
     }
 }
