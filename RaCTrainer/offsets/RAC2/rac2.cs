@@ -14,6 +14,9 @@ namespace racman
         // Ratchet's coordinates
         public uint playerCoords => 0x147F260;
 
+        // Ratchet's movement state
+        public uint playerState => 0x1481474;
+
         // Controller inputs mask address
         public uint inputOffset => 0x147A430;
 
@@ -32,37 +35,54 @@ namespace racman
         // Current raritanium.
         public uint currentRaritanium => 0x1329A94;
 
+        // Challenge mode
+        public uint challengeMode => 0x1329AA2;
+
         // Values corresponding to the location of the internal table for game objects.
-        public uint mobyInstances => 0x015927b0;
-        public uint mobyInstancesEnd => 0x015927b8;
+        public uint mobyInstances => 0x15927b0;
+        public uint mobyInstancesEnd => 0x15927b8;
 
         // Values that increment when you die to the Snivelak boss. Used for act tuning.
         // public uint snivBoss1 => 0x01569BF7; // not used according to elkon
-        public uint snivBoss => 0x01A6FB73;
+        public uint snivBoss => 0x1A6FB73;
 
         // Float value controlling jump-pad speed. Changes on visiting Snivelak.
-        public uint padManip => 0x013185B8;
+        public uint padManip => 0x13185B8;
 
         // Item ID of ratchet's previously held weapon. Used for gadget storage.
-        public uint prevHeldWeapon => 0x01329A9F;
+        public uint prevHeldWeapon => 0x1329A9F;
+
+        // Start of ammo array (136 length)
+        public uint ammoArray => 0x148185C;
 
         // Boosts exp values earned when killing enemies.
-        public uint expEconomy => 0x01329AA8;
+        public uint expEconomy => 0x1329AA8;
+
+        // Determines ratchet's current health
+        public uint healthExp => 0x1329AA4;
 
         // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
-        public uint gornManip => 0x01A99A4C;
+        public uint gornManip => 0x1A99A4C;
 
         // As above, for opening cutscene.
-        public uint gornOpening => 0x01A99A34;
+        public uint gornOpening => 0x1A99A34;
 
         // Set to 1 if insomniac museum shortcut is avaliable.
-        public uint imInShortcuts => 0x0135268C;
+        public uint imInShortcuts => 0x135268C;
 
         // Index of selected item in shortcuts menu.
-        public uint shortcutsIndex => 0x01352684;
+        public uint shortcutsIndex => 0x1352684;
 
-        // Selected race on Barlow (maybe on Joba too idk).
-        public uint selectedRaceIndex => 0x013965F7;
+        // Stored race on Barlow (maybe on Joba too idk).
+        public uint savedRaceIndex => 0x1A4D7E0;
+
+        // Should be set to 0 but isn't reset properly - causes menu bug
+        public uint feltzinMissionComplete => 0x1A84973;
+        // Same thing but on Hrugis
+        public uint hrugisMissionComplete => 0x143DB0F;
+
+        // Loading screen type (0/1/3/4 for main loads, 2 for final planet screen)
+        public uint loadingScreenType => 0x147A258;
 
         // "Current active save slot" used for tracking savefiles (PS2 leftover).
         // This gets set to -1 when you do QE (and is subsequently overwritten).
