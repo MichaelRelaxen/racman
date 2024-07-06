@@ -1,13 +1,13 @@
 ﻿using racman.offsets;
+using racman.offsets.ACIT;
 using System;
 using System.Collections.Generic;
-using racman.offsets.ACIT;
-using System.Threading;
 using System.Linq;
+using System.Threading;
 
 namespace racman
 {
-    public class acit : IGame, IAutosplitterAvailable
+    public class acit : IGame, IAutosplitterAvailable, IAutosplitterWVariables
     {
         public static ACITAddresses addr;
 
@@ -18,24 +18,30 @@ namespace racman
         public bool canRemoveCutscenes => addr.cutscenesArray != null && addr.cutscenesArray.Length > 0;
 
         private List<ACITWeapon> weapons;
+        private ACITTimer InGameTimer1;
+        private ACITTimer InGameTimer2;
+        private ACITTimer InGameTimer3;
         // array storing every cutscene path initial byte
         private byte[][] cutscenesInitByteArray;
 
-        // This timer updates the current planet every second. It is used cuz some addresses are planet specific
-        private Timer currentPlanetTimer;
+        public bool IsAutosplitterEnabled { get; set; } = false;
         private uint currentPlanet;
 
         public acit(IPS3API api) : base(api)
         {
             addr = new ACITAddresses(api.getGameTitleID());
             weapons = ACITWeaponFactory.GetWeapons();
+
+            InGameTimer1 = new ACITTimer(api, addr.timerBase1Ptr, 78, 0x04);
+            InGameTimer2 = new ACITTimer(api, addr.timerBase2Ptr, 234, 0x04);
+            InGameTimer3 = new ACITTimer(api, addr.timerBase3Ptr, 6, 0x04);
+
             if (canRemoveCutscenes)
             {
                 cutscenesInitByteArray = ReadCutsceneStrings();
             }
 
-            // creating a timer to update current planet every second
-            currentPlanetTimer = new Timer((e) => updateCurrentPlanet(), null, 0, 1000);
+            UpdateCurrentPlanet();
         }
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
@@ -54,7 +60,19 @@ namespace racman
             (addr.timerPtr, 4),             // timer
             (addr.firstCutscene, 4),        // first cutscene
             (addr.loadSaveState, 4),        // load save state
+
+            (addr.checkpointTimer, 4),      // checkpoint timer
         };
+
+        public IEnumerable<(uint addr, uint size)> GetAutosplitterVariables()
+        {
+            uint timerOutput = InGameTimer1.GetTimer() + InGameTimer2.GetTimer() + InGameTimer3.GetTimer();
+
+            return new (uint, uint)[]
+            {
+                (timerOutput, 4),        // IGT
+            };
+        }
 
         public override void ResetLevelFlags()
         {
@@ -82,19 +100,15 @@ namespace racman
         }
 
         /// <summary>
-        /// Updates current planet.
+        /// Subscribes to the current planet address and updates the current planet value.
         /// </summary>
-        private void updateCurrentPlanet()
+        private void UpdateCurrentPlanet()
         {
-            uint newPlanet = BitConverter.ToUInt32(api.ReadMemory(pid, addr.currentPlanet, 4).Reverse().ToArray(), 0);
-            if (newPlanet != currentPlanet)
+            currentPlanet = BitConverter.ToUInt32(api.ReadMemory(pid, addr.currentPlanet, 4).Reverse().ToArray(), 0);
+            api.SubMemory(api.getCurrentPID(), addr.currentPlanet, 0x04, (value) =>
             {
-                currentPlanet = newPlanet;
-                addr.planetValue = currentPlanet;
-            }
-
-            float coord = BitConverter.ToSingle(api.ReadMemory(pid, addr.playerCoords, 4).Reverse().ToArray(), 0);
-            Console.WriteLine("coord: " + coord);
+                currentPlanet = BitConverter.ToUInt32(value, 0);
+            });
         }
 
         /// <summary>
