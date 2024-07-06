@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace racman
 {
@@ -23,6 +24,10 @@ namespace racman
         public RAC2Form(rac2 game)
         {
             this.game = game;
+
+            CoordsTimer.Interval = (int)16.66667;
+            CoordsTimer.Tick += new EventHandler(UpdateCoordsLabel);
+            game.GetPlayerCoordinates();
 
             InitializeComponent();
 
@@ -45,6 +50,8 @@ namespace racman
                 }
             });
         }
+
+        public Timer CoordsTimer = new Timer();
 
         public void UpdateLapFlag(int flagValue)
         {
@@ -275,7 +282,7 @@ namespace racman
 
             if (SetFastLoadCheckbox.Checked)
             {
-            // Address related to some kind of ship animations timing, it messes up the entering, exiting ship animations and crash if its active in cutscenes
+            // Address related to some kind of ship animations timing, it messes up the entering and exiting animations
                 fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
             }
             else
@@ -352,7 +359,7 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 20 });
             // We should setup pad manip, since this happens whenever Snivelak is visited.
             api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
-            api.WriteMemory(pid, 0x1A9DF90, new byte[] { 66 }); // Just need to set this address to 20 in float value but Idk how to do it, with 66 in byte value works likewise. 
+            api.WriteMemory(pid, 0x1A9DF90, new byte[] { 66 });
             api.WriteMemory(pid, rac2.addr.gornManip, 1);
             api.WriteMemory(pid, rac2.addr.gornOpening, 1);
             api.WriteMemory(pid, rac2.addr.imInShortcuts, 1);
@@ -378,6 +385,23 @@ namespace racman
         private void debugFeaturesToolStripMenuItem_MouseHover(object sender, EventArgs e)
         {
             toolTip1.Show("Enables built-in debugging features. Press shoulder buttons to skip electrolyzer puzzles and arena missions.", menuStrip1, 1500);
+        }
+
+        private void coordsComboBox_CheckedChanged(object sender, EventArgs e)
+        {
+            var check = ((CheckBox)sender).Checked;
+            CoordsTimer.Enabled = check;
+            if (check) this.Height += 50;
+        }
+
+        private void coordsLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public void UpdateCoordsLabel(object sender, EventArgs e)
+        {
+            coordsLabel.Text = $"X: {game.coords[0]}\nY: {game.coords[1]}\nZ: {game.coords[2]}";
         }
 
         private void activateQEToolStripMenuItem_Click(object sender, EventArgs e)
