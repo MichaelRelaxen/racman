@@ -59,19 +59,24 @@ namespace racman
         public uint healthExp => 0x1329AA4;
 
         // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
-        public uint gornManip => 0x01A99A4C;
+        public uint gornManip => 0x1A99A4C;
 
         // As above, for opening cutscene.
-        public uint gornOpening => 0x01A99A34;
+        public uint gornOpening => 0x1A99A34;
 
         // Set to 1 if insomniac museum shortcut is avaliable.
-        public uint imInShortcuts => 0x0135268C;
+        public uint imInShortcuts => 0x135268C;
 
         // Index of selected item in shortcuts menu.
-        public uint shortcutsIndex => 0x01352684;
+        public uint shortcutsIndex => 0x1352684;
 
-        // Selected race on Barlow (maybe on Joba too idk).
-        public uint selectedRaceIndex => 0x013965F7;
+        // Stored race on Barlow (maybe on Joba too idk).
+        public uint savedRaceIndex => 0x1A4D7E0;
+
+        // Should be set to 0 but isn't reset properly - causes menu bug
+        public uint feltzinMissionComplete => 0x1A84973;
+        // Same thing but on Hrugis
+        public uint hrugisMissionComplete => 0x143DB0F;
 
         // Loading screen type (0/1/3/4 for main loads, 2 for final planet screen)
         public uint loadingScreenType => 0x147A258;

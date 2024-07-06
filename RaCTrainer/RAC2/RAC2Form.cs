@@ -66,15 +66,24 @@ namespace racman
                 labelLap.ForeColor = Color.Red;
         }
 
-        private void RAC2Form_Load(object sender, EventArgs e) {
+        private void RAC2Form_Load(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
 
             loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenType, 4, IPS3API.MemoryCondition.Changed, value =>
             {
                 // Only run once, on final load screen
                 if (value[0] != 2) return;
-                 
+
                 // Disable force-override from reload file by setting to previous setting
-                enableDisableFastLoads(SetFastLoadCheckbox.Checked);                
+                enableDisableFastLoads(SetFastLoadCheckbox.Checked);
+
+                if (!checkBoxAutoReset.Checked) return;
+                var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
+                if (planet[3] != 0) return;
+                resetMenuStorage();
+
             });
 
             this.Invoke(new Action(() => {
@@ -306,7 +315,7 @@ namespace racman
             api.Notify("Game Pyramid, Bolts manip, Race Storage and Endako Boss Cutscene are now reset and ready for runs");
         }
 
-        
+
         private void enableDisableFastLoads(bool enable)
         {
             // Ship load screen addresses that I dont know what to do with it 0x147A257 (1-4 amount of load screens and display wich one is currently) 
@@ -318,14 +327,14 @@ namespace racman
                 // Address related to some kind of ship animations timing, it messes up the entering and exiting animations
                 fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
             }
-            else if (alreadyEnabled && !enable) 
+            else if (alreadyEnabled && !enable)
             {
                 game.api.ReleaseSubID(fastLoadSubID);
                 fastLoadSubID = -1;
             }
         }
 
-        
+
         private void SetFastLoadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             enableDisableFastLoads(SetFastLoadCheckbox.Checked);
@@ -365,7 +374,7 @@ namespace racman
             if (checkBoxExp.Checked)
             {
                 expEconomySubId = api.FreezeMemory(pid, rac2.addr.expEconomy, 1, Ratchetron.MemoryCondition.Changed, new byte[] { 100 });
-            } 
+            }
             else
             {
                 if (expEconomySubId != -1) api.ReleaseSubID(expEconomySubId);
@@ -378,12 +387,21 @@ namespace racman
 
         }
 
-        private void buttonRaceStorage_Click(object sender, EventArgs e)
+        private void resetMenuStorage()
         {
             var api = game.api;
             var pid = api.getCurrentPID();
-            api.WriteMemory(pid, 0x1A4D7E0, 0); // Race storages
-            api.Notify("Reset Barlow race storage.");
+            // Disable race storage
+            api.WriteMemory(pid, rac2.addr.savedRaceIndex, 0);
+            // Fix ship mission menus
+            api.WriteMemory(pid, rac2.addr.feltzinMissionComplete, 0);
+            api.WriteMemory(pid, rac2.addr.hrugisMissionComplete, 0);
+        }
+
+        private void buttonRaceStorage_Click(object sender, EventArgs e)
+        {
+            resetMenuStorage();
+            game.api.Notify("Reset menu storage!");
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -392,7 +410,7 @@ namespace racman
             unlocks.Show();
         }
 
-        private void buttonNGPlusMenu_Click(object sender, EventArgs e)
+        private void SetupGeneralNGPlusMenus()
         {
             var api = game.api;
             var pid = api.getCurrentPID();
@@ -400,12 +418,30 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 20 });
             // We should setup pad manip, since this happens whenever Snivelak is visited.
             api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
-            api.WriteMemory(pid, 0x1A9DF90, new byte[] { 66 });
+            api.WriteMemory(pid, 0x1A9DF90, new byte[] { 66 }); // Yeedil act tuning thingy
             api.WriteMemory(pid, rac2.addr.gornManip, 1);
             api.WriteMemory(pid, rac2.addr.gornOpening, 1);
             api.WriteMemory(pid, rac2.addr.imInShortcuts, 1);
-            api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7);
-            api.Notify("NG+ insomniac museum menus, gorn manips, protopet and sniv boss tuning are set up!");
+
+            api.Notify("Manips done!");
+        }
+
+        private void buttonNGPlusMenu_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7); // Museum
+            SetupGeneralNGPlusMenus();
+          
+        }
+
+        private void buttonNoIMGMenu_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac2.addr.shortcutsIndex, 1); // Barlow
+            SetupGeneralNGPlusMenus();
+
         }
 
         private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -473,7 +509,5 @@ namespace racman
             }
 
         }
-
-
     }
 }

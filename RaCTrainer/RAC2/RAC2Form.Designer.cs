@@ -73,10 +73,10 @@ namespace racman
             this.loadFileButton = new System.Windows.Forms.Button();
             this.setAsideFileButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBoxAutoReset = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxHealthXP = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttonNoIMGMenu = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -531,15 +531,15 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // checkBox1
+            // checkBoxAutoReset
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(247, 414);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(108, 17);
-            this.checkBox1.TabIndex = 121;
-            this.checkBox1.Text = "Auto-reset menus";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBoxAutoReset.AutoSize = true;
+            this.checkBoxAutoReset.Location = new System.Drawing.Point(247, 414);
+            this.checkBoxAutoReset.Name = "checkBoxAutoReset";
+            this.checkBoxAutoReset.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxAutoReset.TabIndex = 121;
+            this.checkBoxAutoReset.Text = "Auto-reset menus";
+            this.checkBoxAutoReset.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -558,17 +558,18 @@ namespace racman
             this.textBoxHealthXP.TabIndex = 122;
             this.textBoxHealthXP.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxHealthXP_KeyDown);
             // 
-            // button3
+            // buttonNoIMGMenu
             // 
-            this.button3.Location = new System.Drawing.Point(246, 280);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(104, 23);
-            this.button3.TabIndex = 124;
-            this.button3.Text = "NG+ No IMG";
-            this.toolTip1.SetToolTip(this.button3, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
+            this.buttonNoIMGMenu.Location = new System.Drawing.Point(246, 280);
+            this.buttonNoIMGMenu.Name = "buttonNoIMGMenu";
+            this.buttonNoIMGMenu.Size = new System.Drawing.Size(104, 23);
+            this.buttonNoIMGMenu.TabIndex = 124;
+            this.buttonNoIMGMenu.Text = "NG+ No IMG";
+            this.toolTip1.SetToolTip(this.buttonNoIMGMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
         "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
         "elak bosses.");
-            this.button3.UseVisualStyleBackColor = true;
+            this.buttonNoIMGMenu.UseVisualStyleBackColor = true;
+            this.buttonNoIMGMenu.Click += new System.EventHandler(this.buttonNoIMGMenu_Click);
             // 
             // label4
             // 
@@ -604,10 +605,10 @@ namespace racman
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.buttonNoIMGMenu);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBoxHealthXP);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.checkBoxAutoReset);
             this.Controls.Add(this.coordsLabel);
             this.Controls.Add(this.SetFastLoadCheckbox);
             this.Controls.Add(this.buttonNGPlusMenu);
@@ -699,10 +700,10 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem debugFeaturesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem activateQEToolStripMenuItem;
         private System.Windows.Forms.CheckBox coordsComboBox;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBoxAutoReset;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox textBoxHealthXP;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonNoIMGMenu;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
