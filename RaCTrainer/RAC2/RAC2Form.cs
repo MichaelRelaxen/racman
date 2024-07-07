@@ -23,6 +23,7 @@ namespace racman
         private int expEconomySubId = -1;
         // Used to reset fast loads after load is finished
         private int loadScreenTypeSubId = -1;
+        private byte prevLoadScreen = 255;
 
         public RAC2Form(rac2 game)
         {
@@ -75,11 +76,16 @@ namespace racman
 
             loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenType, 1, IPS3API.MemoryCondition.Changed, value =>
             {
+                // Work around a bug in Ratchetron
+                var loadScreen = value[0];
+                if (loadScreen == prevLoadScreen) return;
+                prevLoadScreen = loadScreen;
+
                 // Only run once, on final load screen
-                if (value[0] != 2) return;
+                if (loadScreen != 2) return;
 
                 // Disable force-override from reload file by setting to previous setting
-                enableDisableFastLoads(SetFastLoadCheckbox.Checked);
+                game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
 
                 if (!checkBoxAutoReset.Checked) return;
                 var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
@@ -157,6 +163,7 @@ namespace racman
 
         private void loadPlanetButton_Click(object sender, EventArgs e)
         {
+            game.enableDisableFastLoads(true);
             game.LoadPlanet();
         }
 
@@ -326,44 +333,12 @@ namespace racman
         }
 
 
-        private void enableDisableFastLoads(bool enable)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-            uint fastLoadInstr = 0xBEA8A0;
-
-            if (enable)
-            {
-                // NOP
-                api.WriteMemory(pid, fastLoadInstr, 0x60000000);
-            }
-            else
-            {
-                // Default instr
-                api.WriteMemory(pid, fastLoadInstr, 0x4BFFEA69);
-                
-            }
-
-            // // Ship load screen addresses that I dont know what to do with it 0x147A257 (1-4 amount of load screens and display wich one is currently) 
-            // // and 0x0147A258 (0-2 sequence of the load screens, 0 is the first and 2 is the last)
-            // bool alreadyEnabled = fastLoadSubID != -1;
-            //
-            // if (!alreadyEnabled && enable)
-            // {
-            //     // Address related to some kind of ship animations timing, it messes up the entering and exiting animations
-            //     fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
-            // }
-            // else if (alreadyEnabled && !enable)
-            // {
-            //     game.api.ReleaseSubID(fastLoadSubID);
-            //     fastLoadSubID = -1;
-            // }
-        }
+  
 
 
         private void SetFastLoadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            enableDisableFastLoads(SetFastLoadCheckbox.Checked);
+            game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
         }
 
         private void labelLap_Click(object sender, EventArgs e)
@@ -373,10 +348,7 @@ namespace racman
 
         private void loadFileButton_Click(object sender, EventArgs e)
         {
-            enableDisableFastLoads(true);
-            game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71e, new byte[] { 1 });
-            // Re-disable when landing on planet!
-            // enableDisableFastLoads(SetFastLoadCheckbox.Checked);
+            game.loadSetAsideFile();
         }
 
         private void setAsideFileButton_Click(object sender, EventArgs e)
