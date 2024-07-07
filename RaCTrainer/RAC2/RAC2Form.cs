@@ -60,6 +60,7 @@ namespace racman
 
             savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
             {
+                // this lione
                 if (value[0] == 1)
                 {
                     this.Invoke(new Action(() =>
@@ -67,11 +68,12 @@ namespace racman
                         // Savefile helper mod is enabled.
                         loadFileButton.Enabled = true;
                         setAsideFileButton.Enabled = true;
+                        game.api.ReleaseSubID(savefileHelperSubID);
                     }));
                 }
             });
 
-            loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenType, 4, IPS3API.MemoryCondition.Changed, value =>
+            loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenType, 1, IPS3API.MemoryCondition.Changed, value =>
             {
                 // Only run once, on final load screen
                 if (value[0] != 2) return;

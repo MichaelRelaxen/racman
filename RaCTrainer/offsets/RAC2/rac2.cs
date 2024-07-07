@@ -82,7 +82,7 @@ namespace racman
         public uint hrugisMissionComplete => 0x143DB0F;
 
         // Loading screen type (0/1/3/4 for main loads, 2 for final planet screen)
-        public uint loadingScreenType => 0x147A258;
+        public uint loadingScreenType => 0x147A25B;
 
         // "Current active save slot" used for tracking savefiles (PS2 leftover).
         // This gets set to -1 when you do QE (and is subsequently overwritten).
