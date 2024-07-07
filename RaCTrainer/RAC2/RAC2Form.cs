@@ -419,9 +419,14 @@ namespace racman
             var pid = api.getCurrentPID();
             // Disable race storage
             api.WriteMemory(pid, rac2.addr.savedRaceIndex, 0);
+            // Disable ship opening cutscenes
+            api.WriteMemory(pid, rac2.addr.feltzinOpening, 1);
+            api.WriteMemory(pid, rac2.addr.gornOpening, 1);
             // Fix ship mission menus
             api.WriteMemory(pid, rac2.addr.feltzinMissionComplete, 0);
             api.WriteMemory(pid, rac2.addr.hrugisMissionComplete, 0);
+            api.WriteMemory(pid, rac2.addr.gornMissionComplete, 0);
+
         }
 
         private void buttonRaceStorage_Click(object sender, EventArgs e)

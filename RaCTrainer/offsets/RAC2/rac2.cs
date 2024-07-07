@@ -61,12 +61,6 @@ namespace racman
         // Determines ratchet's current health
         public uint healthExp => 0x1329AA4;
 
-        // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
-        public uint gornManip => 0x1A99A4C;
-
-        // As above, for opening cutscene.
-        public uint gornOpening => 0x1A99A34;
-
         // Set to 1 if insomniac museum shortcut is avaliable.
         public uint imInShortcuts => 0x135268C;
 
@@ -76,10 +70,20 @@ namespace racman
         // Stored race on Barlow (maybe on Joba too idk).
         public uint savedRaceIndex => 0x1A4D7E0;
 
+        // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
+        public uint gornManip => 0x1A99A4C;
+
+        // First cutscene on Feltzin that only plays once per session.
+        public uint feltzinOpening => 0x1A8495B;
+        // Same thing but on Gorn
+        public uint gornOpening => 0x1A99A34;
+
         // Should be set to 0 but isn't reset properly - causes menu bug
         public uint feltzinMissionComplete => 0x1A84973;
         // Same thing but on Hrugis
         public uint hrugisMissionComplete => 0x143DB0F;
+        // And Gorn
+        public uint gornMissionComplete => 0x1A99A5B;
 
         // Loading screen type (0/1/3/4 for main loads, 2 for final planet screen)
         public uint loadingScreenType => 0x147A25B;
