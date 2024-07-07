@@ -191,6 +191,30 @@ namespace racman
             throw new NotImplementedException();
         }
 
+        public void enableDisableFastLoads(bool enable)
+        {
+            var pid = api.getCurrentPID();
+            uint fastLoadInstr = 0xBEA8A0;
+
+            if (enable)
+            {
+                // NOP
+                api.WriteMemory(pid, fastLoadInstr, 0x60000000);
+            }
+            else
+            {
+                // Default instr
+                api.WriteMemory(pid, fastLoadInstr, 0x4BFFEA69);
+
+            }
+        }
+
+        public void loadSetAsideFile()
+        {
+            enableDisableFastLoads(true);
+            api.WriteMemory(pid, 0x10cd71e, new byte[] { 1 });
+        }
+
         public override void CheckInputs(object sender, EventArgs e)
         {
             if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
@@ -210,6 +234,7 @@ namespace racman
             }
             if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
             {
+                enableDisableFastLoads(true);
                 LoadPlanet();
                 inputCheck = false;
             }
@@ -220,7 +245,7 @@ namespace racman
             }
             if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)
             {
-                api.WriteMemory(pid, 0x10cd71e, new byte[] { 1 });
+                loadSetAsideFile();
                 inputCheck = false;
             }
             if (Inputs.RawInputs == 0x00 && !inputCheck)
