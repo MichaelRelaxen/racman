@@ -69,6 +69,7 @@ namespace racman
             this.buttonRaceStorage = new System.Windows.Forms.Button();
             this.SetFastLoadCheckbox = new System.Windows.Forms.CheckBox();
             this.buttonNGPlusMenu = new System.Windows.Forms.Button();
+            this.buttonNoIMGMenu = new System.Windows.Forms.Button();
             this.labelLap = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.setAsideFileButton = new System.Windows.Forms.Button();
@@ -76,10 +77,10 @@ namespace racman
             this.checkBoxAutoReset = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.textBoxHealthXP = new System.Windows.Forms.TextBox();
-            this.buttonNoIMGMenu = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.buttonRespawn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -108,17 +109,17 @@ namespace racman
             // CComboCheckBox
             // 
             this.CComboCheckBox.AutoSize = true;
-            this.CComboCheckBox.Location = new System.Drawing.Point(12, 123);
+            this.CComboCheckBox.Location = new System.Drawing.Point(133, 127);
             this.CComboCheckBox.Name = "CComboCheckBox";
-            this.CComboCheckBox.Size = new System.Drawing.Size(147, 17);
+            this.CComboCheckBox.Size = new System.Drawing.Size(100, 17);
             this.CComboCheckBox.TabIndex = 93;
-            this.CComboCheckBox.Text = "Enable Controller Combos";
+            this.CComboCheckBox.Text = "Enable Combos";
             this.CComboCheckBox.UseVisualStyleBackColor = true;
             this.CComboCheckBox.CheckedChanged += new System.EventHandler(this.CComboCheckBox_CheckedChanged);
             // 
             // killyourself
             // 
-            this.killyourself.Location = new System.Drawing.Point(12, 94);
+            this.killyourself.Location = new System.Drawing.Point(12, 123);
             this.killyourself.Name = "killyourself";
             this.killyourself.Size = new System.Drawing.Size(115, 23);
             this.killyourself.TabIndex = 91;
@@ -487,6 +488,19 @@ namespace racman
             this.buttonNGPlusMenu.UseVisualStyleBackColor = true;
             this.buttonNGPlusMenu.Click += new System.EventHandler(this.buttonNGPlusMenu_Click);
             // 
+            // buttonNoIMGMenu
+            // 
+            this.buttonNoIMGMenu.Location = new System.Drawing.Point(246, 280);
+            this.buttonNoIMGMenu.Name = "buttonNoIMGMenu";
+            this.buttonNoIMGMenu.Size = new System.Drawing.Size(104, 23);
+            this.buttonNoIMGMenu.TabIndex = 124;
+            this.buttonNoIMGMenu.Text = "NG+ No IMG";
+            this.toolTip1.SetToolTip(this.buttonNoIMGMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
+        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
+        "elak bosses.");
+            this.buttonNoIMGMenu.UseVisualStyleBackColor = true;
+            this.buttonNoIMGMenu.Click += new System.EventHandler(this.buttonNoIMGMenu_Click);
+            // 
             // labelLap
             // 
             this.labelLap.AutoSize = true;
@@ -558,19 +572,6 @@ namespace racman
             this.textBoxHealthXP.TabIndex = 122;
             this.textBoxHealthXP.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxHealthXP_KeyDown);
             // 
-            // buttonNoIMGMenu
-            // 
-            this.buttonNoIMGMenu.Location = new System.Drawing.Point(246, 280);
-            this.buttonNoIMGMenu.Name = "buttonNoIMGMenu";
-            this.buttonNoIMGMenu.Size = new System.Drawing.Size(104, 23);
-            this.buttonNoIMGMenu.TabIndex = 124;
-            this.buttonNoIMGMenu.Text = "NG+ No IMG";
-            this.toolTip1.SetToolTip(this.buttonNoIMGMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
-        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
-        "elak bosses.");
-            this.buttonNoIMGMenu.UseVisualStyleBackColor = true;
-            this.buttonNoIMGMenu.Click += new System.EventHandler(this.buttonNoIMGMenu_Click);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -597,11 +598,22 @@ namespace racman
             this.label7.Size = new System.Drawing.Size(0, 13);
             this.label7.TabIndex = 127;
             // 
+            // buttonRespawn
+            // 
+            this.buttonRespawn.Location = new System.Drawing.Point(13, 94);
+            this.buttonRespawn.Name = "buttonRespawn";
+            this.buttonRespawn.Size = new System.Drawing.Size(115, 23);
+            this.buttonRespawn.TabIndex = 128;
+            this.buttonRespawn.Text = "Set Respawn";
+            this.buttonRespawn.UseVisualStyleBackColor = true;
+            this.buttonRespawn.Click += new System.EventHandler(this.buttonRespawn_Click);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 472);
+            this.Controls.Add(this.buttonRespawn);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -707,5 +719,6 @@ namespace racman
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button buttonRespawn;
     }
 }

@@ -14,6 +14,9 @@ namespace racman
         // Ratchet's coordinates
         public uint playerCoords => 0x147F260;
 
+        // The coordinates ratchet wil respawn at
+        public uint respawnCoords => 0x15D26E0;
+
         // Ratchet's movement state
         public uint playerState => 0x1481474;
 

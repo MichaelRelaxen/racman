@@ -472,7 +472,6 @@ namespace racman
             var pid = api.getCurrentPID();
             api.WriteMemory(pid, rac2.addr.shortcutsIndex, 1); // Barlow
             SetupGeneralNGPlusMenus();
-
         }
 
         private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -539,6 +538,15 @@ namespace racman
                 MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private void buttonRespawn_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            var currPos = api.ReadMemory(pid, rac2.addr.playerCoords, 24);
+            api.WriteMemory(pid, rac2.addr.respawnCoords, currPos);
         }
     }
 }
