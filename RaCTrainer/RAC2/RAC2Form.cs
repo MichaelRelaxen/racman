@@ -60,6 +60,7 @@ namespace racman
 
             savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
             {
+                // this lione
                 if (value[0] == 1)
                 {
                     this.Invoke(new Action(() =>
@@ -67,11 +68,12 @@ namespace racman
                         // Savefile helper mod is enabled.
                         loadFileButton.Enabled = true;
                         setAsideFileButton.Enabled = true;
+                        game.api.ReleaseSubID(savefileHelperSubID);
                     }));
                 }
             });
 
-            loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenType, 4, IPS3API.MemoryCondition.Changed, value =>
+            loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenType, 1, IPS3API.MemoryCondition.Changed, value =>
             {
                 // Only run once, on final load screen
                 if (value[0] != 2) return;
@@ -417,9 +419,14 @@ namespace racman
             var pid = api.getCurrentPID();
             // Disable race storage
             api.WriteMemory(pid, rac2.addr.savedRaceIndex, 0);
+            // Disable ship opening cutscenes
+            api.WriteMemory(pid, rac2.addr.feltzinOpening, 1);
+            api.WriteMemory(pid, rac2.addr.gornOpening, 1);
             // Fix ship mission menus
             api.WriteMemory(pid, rac2.addr.feltzinMissionComplete, 0);
             api.WriteMemory(pid, rac2.addr.hrugisMissionComplete, 0);
+            api.WriteMemory(pid, rac2.addr.gornMissionComplete, 0);
+
         }
 
         private void buttonRaceStorage_Click(object sender, EventArgs e)
@@ -465,7 +472,6 @@ namespace racman
             var pid = api.getCurrentPID();
             api.WriteMemory(pid, rac2.addr.shortcutsIndex, 1); // Barlow
             SetupGeneralNGPlusMenus();
-
         }
 
         private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -532,6 +538,15 @@ namespace racman
                 MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private void buttonRespawn_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            var currPos = api.ReadMemory(pid, rac2.addr.playerCoords, 24);
+            api.WriteMemory(pid, rac2.addr.respawnCoords, currPos);
         }
     }
 }
