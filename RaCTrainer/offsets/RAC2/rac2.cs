@@ -105,6 +105,7 @@ namespace racman
         // Level specific info (spawnpoint, completed missions etc)
         public uint levelFlags => 0x15625B0;
 
+        public uint currentChunk => 0x157CE03;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable
@@ -151,7 +152,9 @@ namespace racman
             (0x01481474, 4), // Ratchet state
             (0x0133EE7C, 4), // Protopet's health bar (Float, ranges 0-1)
             (0x1329A3C, 4), // current planet
-            (0x156B054, 4) // destination planet
+            (0x156B054, 4), // destination planet
+            (rac2.addr.currentChunk, 1),
+            (0x1562699, 1) // clank level flag on a2
         };
 
 
