@@ -99,6 +99,13 @@ namespace racman
         // For "documentation", see: https://www.youtube.com/watch?v=AwIoPo1NstU
         public uint debugFeatures => 0x015b3070;
 
+        // What it says on the tin
+        public uint platinumBoltArray => 0x1562540;
+
+        // Level specific info (spawnpoint, completed missions etc)
+        public uint levelFlags => 0x15625B0;
+
+        public uint currentChunk => 0x157CE03;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable
@@ -138,6 +145,7 @@ namespace racman
             };
         }
         private int ghostRatchetSubID = -1;
+        public bool resetFlagsRequested = true;
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
@@ -145,7 +153,9 @@ namespace racman
             (0x01481474, 4), // Ratchet state
             (0x0133EE7C, 4), // Protopet's health bar (Float, ranges 0-1)
             (0x1329A3C, 4), // current planet
-            (0x156B054, 4) // destination planet
+            (0x156B054, 4), // destination planet
+            (rac2.addr.currentChunk, 1),
+            (0x1562699, 1) // clank level flag on a2
         };
 
 
@@ -154,7 +164,9 @@ namespace racman
         /// </summary>
         public override void ResetLevelFlags()
         {
-
+            var flagsForPlanet = rac2.addr.levelFlags + (planetToLoad * 0x10);
+            var reset = Enumerable.Repeat((byte)0x00, 0x10).ToArray();
+            api.WriteMemory(pid, flagsForPlanet, reset);
         }
 
 
@@ -235,7 +247,7 @@ namespace racman
             if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
             {
                 enableDisableFastLoads(true);
-                LoadPlanet();
+                LoadPlanet(resetFlags: resetFlagsRequested);
                 inputCheck = false;
             }
             if (Inputs.RawInputs == ConfigureCombos.runScriptCombo && inputCheck)

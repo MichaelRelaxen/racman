@@ -81,6 +81,10 @@ namespace racman
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.buttonRespawn = new System.Windows.Forms.Button();
+            this.levelFlagViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonUnlockAllPlat = new System.Windows.Forms.Button();
+            this.buttonResetPlatBolts = new System.Windows.Forms.Button();
+            this.checkBoxResetFlags = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -280,6 +284,7 @@ namespace racman
             this.configureButtonCombosToolStripMenuItem,
             this.switchGameToolStripMenuItem,
             this.toolStripSeparator1,
+            this.levelFlagViewerToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem});
             this.menusToolStripMenuItem.Name = "menusToolStripMenuItem";
@@ -468,9 +473,9 @@ namespace racman
             this.SetFastLoadCheckbox.AutoSize = true;
             this.SetFastLoadCheckbox.Location = new System.Drawing.Point(12, 212);
             this.SetFastLoadCheckbox.Name = "SetFastLoadCheckbox";
-            this.SetFastLoadCheckbox.Size = new System.Drawing.Size(107, 17);
+            this.SetFastLoadCheckbox.Size = new System.Drawing.Size(74, 17);
             this.SetFastLoadCheckbox.TabIndex = 116;
-            this.SetFastLoadCheckbox.Text = "Enable fast loads";
+            this.SetFastLoadCheckbox.Text = "Fast loads";
             this.toolTip1.SetToolTip(this.SetFastLoadCheckbox, "Kinda make fast load?");
             this.SetFastLoadCheckbox.UseVisualStyleBackColor = true;
             this.SetFastLoadCheckbox.CheckedChanged += new System.EventHandler(this.SetFastLoadCheckbox_CheckedChanged);
@@ -608,11 +613,59 @@ namespace racman
             this.buttonRespawn.UseVisualStyleBackColor = true;
             this.buttonRespawn.Click += new System.EventHandler(this.buttonRespawn_Click);
             // 
+            // levelFlagViewerToolStripMenuItem
+            // 
+            this.levelFlagViewerToolStripMenuItem.Name = "levelFlagViewerToolStripMenuItem";
+            this.levelFlagViewerToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.levelFlagViewerToolStripMenuItem.Text = "Level flag viewer";
+            this.levelFlagViewerToolStripMenuItem.Click += new System.EventHandler(this.levelFlagViewerToolStripMenuItem_Click);
+            // 
+            // buttonUnlockAllPlat
+            // 
+            this.buttonUnlockAllPlat.Location = new System.Drawing.Point(282, 116);
+            this.buttonUnlockAllPlat.Name = "buttonUnlockAllPlat";
+            this.buttonUnlockAllPlat.Size = new System.Drawing.Size(180, 30);
+            this.buttonUnlockAllPlat.TabIndex = 129;
+            this.buttonUnlockAllPlat.Text = "Unlock Platinum Bolts";
+            this.toolTip1.SetToolTip(this.buttonUnlockAllPlat, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
+        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
+        "elak bosses.");
+            this.buttonUnlockAllPlat.UseVisualStyleBackColor = true;
+            this.buttonUnlockAllPlat.Click += new System.EventHandler(this.buttonUnlockAllPlat_Click);
+            // 
+            // buttonResetPlatBolts
+            // 
+            this.buttonResetPlatBolts.Location = new System.Drawing.Point(246, 116);
+            this.buttonResetPlatBolts.Name = "buttonResetPlatBolts";
+            this.buttonResetPlatBolts.Size = new System.Drawing.Size(30, 30);
+            this.buttonResetPlatBolts.TabIndex = 130;
+            this.buttonResetPlatBolts.Text = "⟳";
+            this.toolTip1.SetToolTip(this.buttonResetPlatBolts, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
+        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
+        "elak bosses.");
+            this.buttonResetPlatBolts.UseVisualStyleBackColor = true;
+            this.buttonResetPlatBolts.Click += new System.EventHandler(this.buttonResetPlatBolts_Click);
+            // 
+            // checkBoxResetFlags
+            // 
+            this.checkBoxResetFlags.AutoSize = true;
+            this.checkBoxResetFlags.Location = new System.Drawing.Point(92, 212);
+            this.checkBoxResetFlags.Name = "checkBoxResetFlags";
+            this.checkBoxResetFlags.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxResetFlags.TabIndex = 131;
+            this.checkBoxResetFlags.Text = "Reset flags";
+            this.toolTip1.SetToolTip(this.checkBoxResetFlags, "Reset flags when loading");
+            this.checkBoxResetFlags.UseVisualStyleBackColor = true;
+            this.checkBoxResetFlags.CheckedChanged += new System.EventHandler(this.checkBoxResetFlags_CheckedChanged);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 472);
+            this.Controls.Add(this.checkBoxResetFlags);
+            this.Controls.Add(this.buttonResetPlatBolts);
+            this.Controls.Add(this.buttonUnlockAllPlat);
             this.Controls.Add(this.buttonRespawn);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
@@ -720,5 +773,9 @@ namespace racman
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button buttonRespawn;
+        private System.Windows.Forms.ToolStripMenuItem levelFlagViewerToolStripMenuItem;
+        private System.Windows.Forms.Button buttonUnlockAllPlat;
+        private System.Windows.Forms.Button buttonResetPlatBolts;
+        private System.Windows.Forms.CheckBox checkBoxResetFlags;
     }
 }
