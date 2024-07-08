@@ -99,6 +99,12 @@ namespace racman
         // For "documentation", see: https://www.youtube.com/watch?v=AwIoPo1NstU
         public uint debugFeatures => 0x015b3070;
 
+        // What it says on the tin
+        public uint platinumBoltArray => 0x1562540;
+
+        // Level specific info (spawnpoint, completed missions etc)
+        public uint levelFlags => 0x15625B0;
+
     }
 
     public class rac2 : IGame, IAutosplitterAvailable

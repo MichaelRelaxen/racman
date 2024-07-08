@@ -81,6 +81,9 @@ namespace racman
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.buttonRespawn = new System.Windows.Forms.Button();
+            this.levelFlagViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonUnlockAllPlat = new System.Windows.Forms.Button();
+            this.buttonResetPlatBolts = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -280,6 +283,7 @@ namespace racman
             this.configureButtonCombosToolStripMenuItem,
             this.switchGameToolStripMenuItem,
             this.toolStripSeparator1,
+            this.levelFlagViewerToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem});
             this.menusToolStripMenuItem.Name = "menusToolStripMenuItem";
@@ -608,11 +612,46 @@ namespace racman
             this.buttonRespawn.UseVisualStyleBackColor = true;
             this.buttonRespawn.Click += new System.EventHandler(this.buttonRespawn_Click);
             // 
+            // levelFlagViewerToolStripMenuItem
+            // 
+            this.levelFlagViewerToolStripMenuItem.Name = "levelFlagViewerToolStripMenuItem";
+            this.levelFlagViewerToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.levelFlagViewerToolStripMenuItem.Text = "Level flag viewer";
+            this.levelFlagViewerToolStripMenuItem.Click += new System.EventHandler(this.levelFlagViewerToolStripMenuItem_Click);
+            // 
+            // buttonUnlockAllPlat
+            // 
+            this.buttonUnlockAllPlat.Location = new System.Drawing.Point(282, 116);
+            this.buttonUnlockAllPlat.Name = "buttonUnlockAllPlat";
+            this.buttonUnlockAllPlat.Size = new System.Drawing.Size(180, 30);
+            this.buttonUnlockAllPlat.TabIndex = 129;
+            this.buttonUnlockAllPlat.Text = "Unlock Platinum Bolts";
+            this.toolTip1.SetToolTip(this.buttonUnlockAllPlat, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
+        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
+        "elak bosses.");
+            this.buttonUnlockAllPlat.UseVisualStyleBackColor = true;
+            this.buttonUnlockAllPlat.Click += new System.EventHandler(this.buttonUnlockAllPlat_Click);
+            // 
+            // buttonResetPlatBolts
+            // 
+            this.buttonResetPlatBolts.Location = new System.Drawing.Point(246, 116);
+            this.buttonResetPlatBolts.Name = "buttonResetPlatBolts";
+            this.buttonResetPlatBolts.Size = new System.Drawing.Size(30, 30);
+            this.buttonResetPlatBolts.TabIndex = 130;
+            this.buttonResetPlatBolts.Text = "⟳";
+            this.toolTip1.SetToolTip(this.buttonResetPlatBolts, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
+        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
+        "elak bosses.");
+            this.buttonResetPlatBolts.UseVisualStyleBackColor = true;
+            this.buttonResetPlatBolts.Click += new System.EventHandler(this.buttonResetPlatBolts_Click);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 472);
+            this.Controls.Add(this.buttonResetPlatBolts);
+            this.Controls.Add(this.buttonUnlockAllPlat);
             this.Controls.Add(this.buttonRespawn);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
@@ -720,5 +759,8 @@ namespace racman
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button buttonRespawn;
+        private System.Windows.Forms.ToolStripMenuItem levelFlagViewerToolStripMenuItem;
+        private System.Windows.Forms.Button buttonUnlockAllPlat;
+        private System.Windows.Forms.Button buttonResetPlatBolts;
     }
 }

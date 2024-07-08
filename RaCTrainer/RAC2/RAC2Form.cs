@@ -520,5 +520,28 @@ namespace racman
             var currPos = api.ReadMemory(pid, rac2.addr.playerCoords, 24);
             api.WriteMemory(pid, rac2.addr.respawnCoords, currPos);
         }
+
+        private void levelFlagViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewer = new FlagViewer(game, rac2.addr.levelFlags + (game.planetToLoad * 0x10), 0x10);
+            viewer.Text = $"{planets_comboBox.SelectedItem} level flags";
+            viewer.Show();
+        }
+
+        private void buttonUnlockAllPlat_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] unlocked = Enumerable.Repeat((byte)0xFF, 0x70).ToArray();
+            api.WriteMemory(pid, rac2.addr.platinumBoltArray, unlocked);
+        }
+
+        private void buttonResetPlatBolts_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x00, 0x70).ToArray();
+            api.WriteMemory(pid, rac2.addr.platinumBoltArray, locked);
+        }
     }
 }
