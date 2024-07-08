@@ -145,6 +145,7 @@ namespace racman
             };
         }
         private int ghostRatchetSubID = -1;
+        public bool resetFlagsRequested = true;
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
@@ -163,7 +164,9 @@ namespace racman
         /// </summary>
         public override void ResetLevelFlags()
         {
-
+            var flagsForPlanet = rac2.addr.levelFlags + (planetToLoad * 0x10);
+            var reset = Enumerable.Repeat((byte)0x00, 0x10).ToArray();
+            api.WriteMemory(pid, flagsForPlanet, reset);
         }
 
 
@@ -244,7 +247,7 @@ namespace racman
             if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
             {
                 enableDisableFastLoads(true);
-                LoadPlanet();
+                LoadPlanet(resetFlags: resetFlagsRequested);
                 inputCheck = false;
             }
             if (Inputs.RawInputs == ConfigureCombos.runScriptCombo && inputCheck)

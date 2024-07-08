@@ -164,7 +164,7 @@ namespace racman
         private void loadPlanetButton_Click(object sender, EventArgs e)
         {
             game.enableDisableFastLoads(true);
-            game.LoadPlanet();
+            game.LoadPlanet(resetFlags: checkBoxResetFlags.Checked);
         }
 
         private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -542,6 +542,11 @@ namespace racman
             var pid = api.getCurrentPID();
             byte[] locked = Enumerable.Repeat((byte)0x00, 0x70).ToArray();
             api.WriteMemory(pid, rac2.addr.platinumBoltArray, locked);
+        }
+
+        private void checkBoxResetFlags_CheckedChanged(object sender, EventArgs e)
+        {
+            game.resetFlagsRequested = checkBoxResetFlags.Checked;
         }
     }
 }
