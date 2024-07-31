@@ -90,8 +90,12 @@ namespace racman
                 if (!checkBoxAutoReset.Checked) return;
                 var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
                 if (planet[3] != 0) return;
+                // Everything below here is A1-exclusive code
                 resetMenuStorage();
-
+                this.Invoke(new Action(() => {
+                    freezeAmmoCheckbox.Checked = false;
+                    freezeAmmoCheckbox_CheckedChanged(sender, EventArgs.Empty);
+                }));
             });
 
             this.Invoke(new Action(() => {
@@ -248,9 +252,18 @@ namespace racman
         // Doesn't actually freeze anything, just gives you 2 billion of every ammo (clickbait)
         private void freezeAmmoCheckbox_CheckedChanged(object sender, EventArgs e)
         {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            uint ammoResetAddr = 0x0B30C7C;
+
             if (freezeAmmoCheckbox.Checked)
             {
-                game.api.WriteMemory(game.api.getCurrentPID(), 0x148185C, 136, "7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF");
+                api.WriteMemory(pid, 0x148185C, 136, "7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF");
+                api.WriteMemory(pid, ammoResetAddr, 0x60000000); // nop
+            }
+            else
+            {
+                api.WriteMemory(pid, ammoResetAddr, 0x7C64292E); // default instr
             }
         }
 
