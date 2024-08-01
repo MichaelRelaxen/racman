@@ -434,7 +434,8 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 20 });
             // We should setup pad manip, since this happens whenever Snivelak is visited.
             api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
-            api.WriteMemory(pid, 0x1A9DF90, new byte[] { 66 }); // Yeedil act tuning thingy
+            api.WriteMemory(pid, rac2.addr.yeedilBoss, new byte[] { 66 });
+            api.WriteMemory(pid, rac2.addr.sibBoss, new byte[] { 20 });
             api.WriteMemory(pid, rac2.addr.gornManip, 1);
             api.WriteMemory(pid, rac2.addr.gornOpening, 1);
             api.WriteMemory(pid, rac2.addr.imInShortcuts, 1);
@@ -456,6 +457,15 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
             api.WriteMemory(pid, rac2.addr.shortcutsIndex, 1); // Barlow
+            SetupGeneralNGPlusMenus();
+        }
+
+        private void buttonSetupAllMissions_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7); // Museum
+            api.WriteMemory(pid, 0x1A5815B, 1); // Endako cutscene
             SetupGeneralNGPlusMenus();
         }
 
