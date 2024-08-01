@@ -48,6 +48,11 @@ namespace racman
         // Values that increment when you die to the Snivelak boss. Used for act tuning.
         // public uint snivBoss1 => 0x01569BF7; // not used according to elkon
         public uint snivBoss => 0x1A6FB73;
+        // Angela on Siberius
+        public uint sibBoss => 0x1A5A99F;
+        // Protopet on Yeedil
+        public uint yeedilBoss => 0x1A9DF90;
+
 
         // Float value controlling jump-pad speed. Changes on visiting Snivelak.
         public uint padManip => 0x13185B8;

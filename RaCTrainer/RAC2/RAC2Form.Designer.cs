@@ -50,6 +50,7 @@ namespace racman
             this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.levelFlagViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -70,6 +71,9 @@ namespace racman
             this.SetFastLoadCheckbox = new System.Windows.Forms.CheckBox();
             this.buttonNGPlusMenu = new System.Windows.Forms.Button();
             this.buttonNoIMGMenu = new System.Windows.Forms.Button();
+            this.buttonUnlockAllPlat = new System.Windows.Forms.Button();
+            this.buttonResetPlatBolts = new System.Windows.Forms.Button();
+            this.checkBoxResetFlags = new System.Windows.Forms.CheckBox();
             this.labelLap = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.setAsideFileButton = new System.Windows.Forms.Button();
@@ -81,10 +85,7 @@ namespace racman
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.buttonRespawn = new System.Windows.Forms.Button();
-            this.levelFlagViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.buttonUnlockAllPlat = new System.Windows.Forms.Button();
-            this.buttonResetPlatBolts = new System.Windows.Forms.Button();
-            this.checkBoxResetFlags = new System.Windows.Forms.CheckBox();
+            this.buttonSetupAllMissions = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -310,6 +311,13 @@ namespace racman
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
             // 
+            // levelFlagViewerToolStripMenuItem
+            // 
+            this.levelFlagViewerToolStripMenuItem.Name = "levelFlagViewerToolStripMenuItem";
+            this.levelFlagViewerToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.levelFlagViewerToolStripMenuItem.Text = "Level flag viewer";
+            this.levelFlagViewerToolStripMenuItem.Click += new System.EventHandler(this.levelFlagViewerToolStripMenuItem_Click);
+            // 
             // patchLoaderToolStripMenuItem
             // 
             this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
@@ -482,7 +490,7 @@ namespace racman
             // 
             // buttonNGPlusMenu
             // 
-            this.buttonNGPlusMenu.Location = new System.Drawing.Point(246, 309);
+            this.buttonNGPlusMenu.Location = new System.Drawing.Point(356, 309);
             this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
             this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 23);
             this.buttonNGPlusMenu.TabIndex = 118;
@@ -500,11 +508,42 @@ namespace racman
             this.buttonNoIMGMenu.Size = new System.Drawing.Size(104, 23);
             this.buttonNoIMGMenu.TabIndex = 124;
             this.buttonNoIMGMenu.Text = "NG+ No IMG";
-            this.toolTip1.SetToolTip(this.buttonNoIMGMenu, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
-        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
-        "elak bosses.");
+            this.toolTip1.SetToolTip(this.buttonNoIMGMenu, "Setup barlow cursor in shortcuts menu, manipulates the gorn cutscenes and act tun" +
+        "es\r\nthe protopet and the snivelak bosses.");
             this.buttonNoIMGMenu.UseVisualStyleBackColor = true;
             this.buttonNoIMGMenu.Click += new System.EventHandler(this.buttonNoIMGMenu_Click);
+            // 
+            // buttonUnlockAllPlat
+            // 
+            this.buttonUnlockAllPlat.Location = new System.Drawing.Point(282, 116);
+            this.buttonUnlockAllPlat.Name = "buttonUnlockAllPlat";
+            this.buttonUnlockAllPlat.Size = new System.Drawing.Size(180, 30);
+            this.buttonUnlockAllPlat.TabIndex = 129;
+            this.buttonUnlockAllPlat.Text = "Unlock Platinum Bolts";
+            this.buttonUnlockAllPlat.UseVisualStyleBackColor = true;
+            this.buttonUnlockAllPlat.Click += new System.EventHandler(this.buttonUnlockAllPlat_Click);
+            // 
+            // buttonResetPlatBolts
+            // 
+            this.buttonResetPlatBolts.Location = new System.Drawing.Point(246, 116);
+            this.buttonResetPlatBolts.Name = "buttonResetPlatBolts";
+            this.buttonResetPlatBolts.Size = new System.Drawing.Size(30, 30);
+            this.buttonResetPlatBolts.TabIndex = 130;
+            this.buttonResetPlatBolts.Text = "⟳";
+            this.buttonResetPlatBolts.UseVisualStyleBackColor = true;
+            this.buttonResetPlatBolts.Click += new System.EventHandler(this.buttonResetPlatBolts_Click);
+            // 
+            // checkBoxResetFlags
+            // 
+            this.checkBoxResetFlags.AutoSize = true;
+            this.checkBoxResetFlags.Location = new System.Drawing.Point(92, 212);
+            this.checkBoxResetFlags.Name = "checkBoxResetFlags";
+            this.checkBoxResetFlags.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxResetFlags.TabIndex = 131;
+            this.checkBoxResetFlags.Text = "Reset flags";
+            this.toolTip1.SetToolTip(this.checkBoxResetFlags, "Reset flags when loading");
+            this.checkBoxResetFlags.UseVisualStyleBackColor = true;
+            this.checkBoxResetFlags.CheckedChanged += new System.EventHandler(this.checkBoxResetFlags_CheckedChanged);
             // 
             // labelLap
             // 
@@ -613,56 +652,23 @@ namespace racman
             this.buttonRespawn.UseVisualStyleBackColor = true;
             this.buttonRespawn.Click += new System.EventHandler(this.buttonRespawn_Click);
             // 
-            // levelFlagViewerToolStripMenuItem
+            // buttonSetupAllMissions
             // 
-            this.levelFlagViewerToolStripMenuItem.Name = "levelFlagViewerToolStripMenuItem";
-            this.levelFlagViewerToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.levelFlagViewerToolStripMenuItem.Text = "Level flag viewer";
-            this.levelFlagViewerToolStripMenuItem.Click += new System.EventHandler(this.levelFlagViewerToolStripMenuItem_Click);
-            // 
-            // buttonUnlockAllPlat
-            // 
-            this.buttonUnlockAllPlat.Location = new System.Drawing.Point(282, 116);
-            this.buttonUnlockAllPlat.Name = "buttonUnlockAllPlat";
-            this.buttonUnlockAllPlat.Size = new System.Drawing.Size(180, 30);
-            this.buttonUnlockAllPlat.TabIndex = 129;
-            this.buttonUnlockAllPlat.Text = "Unlock Platinum Bolts";
-            this.toolTip1.SetToolTip(this.buttonUnlockAllPlat, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
-        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
-        "elak bosses.");
-            this.buttonUnlockAllPlat.UseVisualStyleBackColor = true;
-            this.buttonUnlockAllPlat.Click += new System.EventHandler(this.buttonUnlockAllPlat_Click);
-            // 
-            // buttonResetPlatBolts
-            // 
-            this.buttonResetPlatBolts.Location = new System.Drawing.Point(246, 116);
-            this.buttonResetPlatBolts.Name = "buttonResetPlatBolts";
-            this.buttonResetPlatBolts.Size = new System.Drawing.Size(30, 30);
-            this.buttonResetPlatBolts.TabIndex = 130;
-            this.buttonResetPlatBolts.Text = "⟳";
-            this.toolTip1.SetToolTip(this.buttonResetPlatBolts, "Unlocks the insomniac museum shortcut and puts the cursor over it\r\nin the shortcu" +
-        "ts menu, manipulates the gorn cutscenes and act tunes\r\nthe protopet and the sniv" +
-        "elak bosses.");
-            this.buttonResetPlatBolts.UseVisualStyleBackColor = true;
-            this.buttonResetPlatBolts.Click += new System.EventHandler(this.buttonResetPlatBolts_Click);
-            // 
-            // checkBoxResetFlags
-            // 
-            this.checkBoxResetFlags.AutoSize = true;
-            this.checkBoxResetFlags.Location = new System.Drawing.Point(92, 212);
-            this.checkBoxResetFlags.Name = "checkBoxResetFlags";
-            this.checkBoxResetFlags.Size = new System.Drawing.Size(79, 17);
-            this.checkBoxResetFlags.TabIndex = 131;
-            this.checkBoxResetFlags.Text = "Reset flags";
-            this.toolTip1.SetToolTip(this.checkBoxResetFlags, "Reset flags when loading");
-            this.checkBoxResetFlags.UseVisualStyleBackColor = true;
-            this.checkBoxResetFlags.CheckedChanged += new System.EventHandler(this.checkBoxResetFlags_CheckedChanged);
+            this.buttonSetupAllMissions.Location = new System.Drawing.Point(246, 309);
+            this.buttonSetupAllMissions.Name = "buttonSetupAllMissions";
+            this.buttonSetupAllMissions.Size = new System.Drawing.Size(104, 23);
+            this.buttonSetupAllMissions.TabIndex = 132;
+            this.buttonSetupAllMissions.Text = "NG+ All Missions";
+            this.toolTip1.SetToolTip(this.buttonSetupAllMissions, "you get the idea");
+            this.buttonSetupAllMissions.UseVisualStyleBackColor = true;
+            this.buttonSetupAllMissions.Click += new System.EventHandler(this.buttonSetupAllMissions_Click);
             // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 472);
+            this.Controls.Add(this.buttonSetupAllMissions);
             this.Controls.Add(this.checkBoxResetFlags);
             this.Controls.Add(this.buttonResetPlatBolts);
             this.Controls.Add(this.buttonUnlockAllPlat);
@@ -777,5 +783,6 @@ namespace racman
         private System.Windows.Forms.Button buttonUnlockAllPlat;
         private System.Windows.Forms.Button buttonResetPlatBolts;
         private System.Windows.Forms.CheckBox checkBoxResetFlags;
+        private System.Windows.Forms.Button buttonSetupAllMissions;
     }
 }
