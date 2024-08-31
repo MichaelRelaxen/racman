@@ -93,8 +93,13 @@ namespace racman
         // And Gorn
         public uint gornMissionComplete => 0x1A99A5B;
 
-        // Loading screen type (0/1/3/4 for main loads, 2 for final planet screen)
-        public uint loadingScreenType => 0x147A25B;
+        // 0 Right-to-left (3.6, 218 frames)
+        // 1 Curved (3.7, 226 frames)
+        // 2 Left-to-right (3.6, 217 frames)
+        // 3 Top-to-bottom (4.0, 238 frames)
+        // 4 Planet loading screen
+        public uint loadingScreenType => 0x147A257;
+        public uint loadingScreenCount => 0x147A25B;
 
         // "Current active save slot" used for tracking savefiles (PS2 leftover).
         // This gets set to -1 when you do QE (and is subsequently overwritten).
@@ -160,7 +165,8 @@ namespace racman
             (0x1329A3C, 4), // current planet
             (0x156B054, 4), // destination planet
             (rac2.addr.currentChunk, 1),
-            (0x1562699, 1) // clank level flag on a2
+            (0x1562699, 1), // clank level flag on a2
+            (rac2.addr.loadingScreenType, 1)
         };
 
 
