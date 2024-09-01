@@ -6,21 +6,26 @@ A practice tool for various Ratchet & Clank games for PS3 and RPCS3, tailored fo
 
 For more information about game patches, Lua automations, and other details, please refer to the [Wiki](https://github.com/MichaelRelaxen/racman/wiki).
 
-## How to Set Up
+## Supported games
+- Ratchet & Clank (PAL) - NPEA00385, BCES01503
+- Ratchet & Clank 2 (PAL) - NPEA00386, BCES01503
+- Ratchet & Clank 2 (JP) - NPJA40002
+- Ratchet & Clank 3 (PAL) - NPEA00387, BCES01503
+- Ratchet & Clank Future: A Crack in Time - NPUA80966, NPEA00453, BCES00511, BCES00726
 
+## Setup
 To use racman, follow these steps:
+### PS3 setup
+First, make sure you have `webMAN MOD` installed on a jailbroken PS3 using either a console with custom firmware or a HEN-enabled console.
+It's important that you have the full version of webMAN MOD, which can be done by holding L1 while running the installer.
 
-- **CFW or HEN required**: Make sure you have custom firmware (CFW) or HEN (Homebrew Enabler) installed on your PS3.
-- **Install WebMan**: Ensure WebMan is installed on your system.
-- **Download the Latest Release**: Get the latest release by clicking the download button above or visiting the release section.
-- **Launch the Application**: Start the executable file and either input your PS3's IP address or click the RPCS3 button if you are using an emulator.
+Make sure your PC and PS3 are connected to the same network.
+Then, to connect racman to your PS3, you need to IP address from your PS3. This can be done by going into Settings > System Settings > System Information on your console.
 
-## Tips for Future Contributors
+Input the IP address and insert it into the racman.exe application on your PC.
+Then all you need to do is run a game, and click Attach!
 
-If you're interested in contributing to this project, here are some helpful tips:
+### RPCS3 setup
+Just run `racman.exe`, then while your game is open in RPCS3, click the `RPCS3` button. 
 
-- **RacTrainer Folder**: Inside the RacTrainer folder, you'll find subfolders for each game. Each of these subfolders contains essential form files that create the user interface (UI).
-
-- **Offset Folder**: In the offset folder, there is also a subfolder for each game. However, in this case, the goal of these files is to modify the game's behavior. Each of these subfolders contains a main class that handles interactions with the game and includes a list of memory addresses that can be read and modified.
-
-Feel free to contribute and help improve this tool for the Ratchet & Clank speedrunning community!
+Some features such as patch loading, or other features that may edit the game's code (such as fast loads, autosplitter patches etc.) are unfortunately not supported on RPCS3.
