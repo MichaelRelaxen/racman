@@ -36,6 +36,7 @@ init
     current.destinationPlanet = vars.reader.ReadUInt32();
     current.chunk = vars.reader.ReadByte();
     current.clank = vars.reader.ReadByte();
+    current.loadScreen = vars.reader.ReadByte();
 }
 
 update
@@ -49,6 +50,32 @@ update
     current.destinationPlanet = vars.reader.ReadUInt32();
     current.chunk = vars.reader.ReadByte();
     current.clank = vars.reader.ReadByte();
+    current.loadScreen = vars.reader.ReadByte();
+
+    if (current.loadScreen != old.loadScreen) 
+    {
+        double norm = 0.0;
+        // right to left (+1)
+        if (current.loadScreen == 0) 
+        {
+            norm = 1.0 / 60;
+        }
+        // curved (+9)
+        else if (current.loadScreen == 1) 
+        {
+            norm = 9.0 / 60;
+        }
+        // top to bottom (+21)
+        else if (current.loadScreen == 3) 
+        {
+            norm = 21.0 / 60; 
+        }
+
+        if (norm != 0.0) 
+        {
+            timer.SetGameTime(timer.CurrentTime.GameTime.Value.Subtract(TimeSpan.FromSeconds(norm)));
+        }
+    }
 }
 
 start
@@ -100,4 +127,8 @@ split
         print("Protopet is dead!!!!!");
         return true;
     }
+}
+
+isLoading {
+    return false;
 }

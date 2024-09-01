@@ -74,7 +74,7 @@ namespace racman
                 }
             });
 
-            loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenType, 1, IPS3API.MemoryCondition.Changed, value =>
+            loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenCount, 1, IPS3API.MemoryCondition.Changed, value =>
             {
                 // Work around a bug in Ratchetron
                 var loadScreen = value[0];
