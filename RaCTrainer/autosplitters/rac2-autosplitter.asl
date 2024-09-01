@@ -128,3 +128,7 @@ split
         return true;
     }
 }
+
+isLoading {
+    return false;
+}
