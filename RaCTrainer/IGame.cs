@@ -76,6 +76,19 @@ namespace racman
         {
             api.WriteMemory(pid, Addr().playerCoords + 8, 0xC2480000);
         }
+        public virtual void NathFunction()
+        {
+            // Position + 10
+            float posZ = BitConverter.ToSingle(api.ReadMemory(pid, Addr().playerCoords+8, 4).Reverse().ToArray(), 0);
+            Console.WriteLine(posZ);
+            byte[] newPos2 = BitConverter.GetBytes(posZ + 10);
+            Array.Reverse(newPos2);
+            api.WriteMemory(pid, Addr().playerCoords + 8, newPos2);
+
+            // 0x96bd64;
+            // string playerstate = api.ReadMemoryStr(pid, 0x96bd64, 30);
+            // Console.WriteLine(playerstate);
+        }
 
         public virtual void LoadPlanet(bool resetFlags = false, bool resetGoldBolts = false)
         {

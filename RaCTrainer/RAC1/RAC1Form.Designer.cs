@@ -34,6 +34,7 @@ namespace racman
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button5 = new System.Windows.Forms.Button();
             this.killyourself = new System.Windows.Forms.Button();
+            this.nathbtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.loadpos = new System.Windows.Forms.Button();
             this.loadPlanetButton = new System.Windows.Forms.Button();
@@ -614,6 +615,16 @@ namespace racman
             this.resetAllMissionsStuffButton.UseVisualStyleBackColor = true;
             this.resetAllMissionsStuffButton.Click += new System.EventHandler(this.resetAllMissionsStuffButton_Click);
             // 
+            // new button : nathbtn
+            // 
+            this.nathbtn.Location = new System.Drawing.Point(15, 340);
+            this.nathbtn.Name = "nathbtn";
+            this.nathbtn.Size = new System.Drawing.Size(115, 23);
+            this.nathbtn.TabIndex = 99;
+            this.nathbtn.Text = "PosZ + 10";
+            this.nathbtn.UseVisualStyleBackColor = true;
+            this.nathbtn.Click += new System.EventHandler(this.nathbtn_Click);
+            // 
             // toolTip1
             // 
             this.toolTip1.IsBalloon = true;
@@ -648,6 +659,7 @@ namespace racman
             this.Controls.Add(this.label3);
             this.Controls.Add(this.bolts_textBox);
             this.Controls.Add(this.killyourself);
+            this.Controls.Add(this.nathbtn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.loadpos);
             this.Controls.Add(this.loadPlanetButton);
@@ -681,6 +693,7 @@ namespace racman
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button killyourself;
+        private System.Windows.Forms.Button nathbtn;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button loadpos;
         private System.Windows.Forms.Button loadPlanetButton;
