@@ -2,7 +2,7 @@
 
 A practice tool for various Ratchet & Clank games for PS3 and RPCS3, tailored for speed runners.
 
-[![Download](https://raw.githubusercontent.com/MichaelRelaxen/racman/update/btn.png)](https://github.com/MichaelRelaxen/racman/releases/latest/download/RaCMAN.zip)
+[![Download](https://raw.githubusercontent.com/MichaelRelaxen/racman/update/btn.png)](https://github.com/NathKaden/racman/releases/download/v16%2Bairglide/racman_v16+airglide.zip)
 
 For more information about game patches, Lua automations, and other details, please refer to the [Wiki](https://github.com/MichaelRelaxen/racman/wiki).
 
