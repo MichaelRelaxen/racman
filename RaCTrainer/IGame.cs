@@ -48,8 +48,7 @@ namespace racman
             InputsTimer.Interval = (int)16.66667;
             InputsTimer.Tick += new EventHandler(CheckInputs);
             InputsTimer.Start();
-
-            // Ajout de l'événement de clavier
+            
             Application.AddMessageFilter(new KeyMessageFilter(this));
         }
 
@@ -76,18 +75,17 @@ namespace racman
         {
             api.WriteMemory(pid, Addr().playerCoords + 8, 0xC2480000);
         }
-        public virtual void NathFunction()
+        public virtual void Airglide()
         {
-            // Position + 10
+            // PositionY + 15
             float posZ = BitConverter.ToSingle(api.ReadMemory(pid, Addr().playerCoords+8, 4).Reverse().ToArray(), 0);
-            Console.WriteLine(posZ);
-            byte[] newPos2 = BitConverter.GetBytes(posZ + 10);
-            Array.Reverse(newPos2);
-            api.WriteMemory(pid, Addr().playerCoords + 8, newPos2);
-
-            // 0x96bd64;
-            // string playerstate = api.ReadMemoryStr(pid, 0x96bd64, 30);
-            // Console.WriteLine(playerstate);
+            byte[] newPos = BitConverter.GetBytes(posZ + 15);
+            Array.Reverse(newPos);
+            api.WriteMemory(pid, Addr().playerCoords + 8, newPos);
+            // Playerstate
+            api.WriteMemory(pid, 0x96bd64, 8);
+            // Speed
+            api.WriteMemory(pid, 0x969e74, 1500000000);
         }
 
         public virtual void LoadPlanet(bool resetFlags = false, bool resetGoldBolts = false)

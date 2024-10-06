@@ -621,9 +621,9 @@ namespace racman
             this.nathbtn.Name = "nathbtn";
             this.nathbtn.Size = new System.Drawing.Size(115, 23);
             this.nathbtn.TabIndex = 99;
-            this.nathbtn.Text = "PosZ + 10";
+            this.nathbtn.Text = "Airglide";
             this.nathbtn.UseVisualStyleBackColor = true;
-            this.nathbtn.Click += new System.EventHandler(this.nathbtn_Click);
+            this.nathbtn.Click += new System.EventHandler(this.airglide_Click);
             // 
             // toolTip1
             // 

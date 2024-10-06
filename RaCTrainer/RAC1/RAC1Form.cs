@@ -84,9 +84,9 @@ namespace racman
         {
             KillYourself();
         }
-        private void nathbtn_Click(object sender, EventArgs e)
+        private void airglide_Click(object sender, EventArgs e)
         {
-            NathFunction();
+            Airglide();
         }
         private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
@@ -104,9 +104,9 @@ namespace racman
         {
             game.KillYourself();
         }
-        private void NathFunction()
+        private void Airglide()
         {
-            game.NathFunction();
+            game.Airglide();
         }
         private void LoadPlanet()
         {
