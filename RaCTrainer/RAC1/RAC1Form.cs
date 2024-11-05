@@ -19,6 +19,7 @@ namespace racman
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         private static Timer ForceLoadTimer = new Timer();
+        private int savefileHelperSubID;
 
         private Mod gbspiMod = null;
 
@@ -55,6 +56,22 @@ namespace racman
             {
                 gbspiSplitToolStripMenuItem.Enabled = false;
             }
+
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0xB00070, 1, value =>
+            {
+                // this lione
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        // Savefile helper mod is enabled.
+                        loadFileButton.Enabled = true;
+                        setAsideFileButton.Enabled = true;
+                        forceAutosave.Enabled = true;
+                        game.api.ReleaseSubID(savefileHelperSubID);
+                    }));
+                }
+            });
         }
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -498,6 +515,21 @@ namespace racman
             game.api.WriteMemory(game.pid, 0xE5EFD8, 4, zero);
 
             game.api.Notify("Blarg bridge and rilgar race reset for any% all missions. Good luck!");
+        }
+
+        private void setAsideFileButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0xB00072, new byte[] { 1 });
+        }
+
+        private void loadFileButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0xB00071, new byte[] { 1 });
+        }
+
+        private void forceAutosave_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0xB00073, new byte[] { 3 });
         }
     }
 }

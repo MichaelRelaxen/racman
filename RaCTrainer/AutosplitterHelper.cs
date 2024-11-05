@@ -73,8 +73,11 @@ namespace racman
             }
 
             // stop the update timer
-            UpdatingTimer.Dispose();
-            UpdatingTimer = null;
+            if (UpdatingTimer != null)
+            {
+                UpdatingTimer.Dispose();
+                UpdatingTimer = null;
+            }
         }
 
         private static Mutex writeLock = new Mutex();

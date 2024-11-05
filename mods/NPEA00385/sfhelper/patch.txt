@@ -1,0 +1,12 @@
+#- name: Savefile helper
+
+0x4F63C0: tramp.bin
+
+0x4F6500: lv2.bin
+0x710FC0: 0x004F6500
+
+# post input poll
+0x11E3A0: 0x484F6803
+0x4F6800: inputp.bin
+0x4F8000: input.bin
+0x710FC8: 0x004F8000
