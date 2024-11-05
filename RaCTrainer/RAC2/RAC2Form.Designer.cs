@@ -71,9 +71,10 @@ namespace racman
             this.SetFastLoadCheckbox = new System.Windows.Forms.CheckBox();
             this.buttonNGPlusMenu = new System.Windows.Forms.Button();
             this.buttonNoIMGMenu = new System.Windows.Forms.Button();
+            this.checkBoxResetFlags = new System.Windows.Forms.CheckBox();
+            this.buttonSetupAllMissions = new System.Windows.Forms.Button();
             this.buttonUnlockAllPlat = new System.Windows.Forms.Button();
             this.buttonResetPlatBolts = new System.Windows.Forms.Button();
-            this.checkBoxResetFlags = new System.Windows.Forms.CheckBox();
             this.labelLap = new System.Windows.Forms.Label();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.setAsideFileButton = new System.Windows.Forms.Button();
@@ -85,7 +86,7 @@ namespace racman
             this.label5 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.buttonRespawn = new System.Windows.Forms.Button();
-            this.buttonSetupAllMissions = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -469,9 +470,9 @@ namespace racman
             // 
             this.buttonRaceStorage.Location = new System.Drawing.Point(246, 385);
             this.buttonRaceStorage.Name = "buttonRaceStorage";
-            this.buttonRaceStorage.Size = new System.Drawing.Size(115, 23);
+            this.buttonRaceStorage.Size = new System.Drawing.Size(104, 23);
             this.buttonRaceStorage.TabIndex = 115;
-            this.buttonRaceStorage.Text = "Reset menu storage";
+            this.buttonRaceStorage.Text = "Reset menus";
             this.toolTip1.SetToolTip(this.buttonRaceStorage, "Resets the position of the cursor on the race selector.");
             this.buttonRaceStorage.UseVisualStyleBackColor = true;
             this.buttonRaceStorage.Click += new System.EventHandler(this.buttonRaceStorage_Click);
@@ -513,6 +514,29 @@ namespace racman
             this.buttonNoIMGMenu.UseVisualStyleBackColor = true;
             this.buttonNoIMGMenu.Click += new System.EventHandler(this.buttonNoIMGMenu_Click);
             // 
+            // checkBoxResetFlags
+            // 
+            this.checkBoxResetFlags.AutoSize = true;
+            this.checkBoxResetFlags.Location = new System.Drawing.Point(92, 212);
+            this.checkBoxResetFlags.Name = "checkBoxResetFlags";
+            this.checkBoxResetFlags.Size = new System.Drawing.Size(79, 17);
+            this.checkBoxResetFlags.TabIndex = 131;
+            this.checkBoxResetFlags.Text = "Reset flags";
+            this.toolTip1.SetToolTip(this.checkBoxResetFlags, "Reset flags when loading");
+            this.checkBoxResetFlags.UseVisualStyleBackColor = true;
+            this.checkBoxResetFlags.CheckedChanged += new System.EventHandler(this.checkBoxResetFlags_CheckedChanged);
+            // 
+            // buttonSetupAllMissions
+            // 
+            this.buttonSetupAllMissions.Location = new System.Drawing.Point(246, 309);
+            this.buttonSetupAllMissions.Name = "buttonSetupAllMissions";
+            this.buttonSetupAllMissions.Size = new System.Drawing.Size(104, 23);
+            this.buttonSetupAllMissions.TabIndex = 132;
+            this.buttonSetupAllMissions.Text = "NG+ All Missions";
+            this.toolTip1.SetToolTip(this.buttonSetupAllMissions, "you get the idea");
+            this.buttonSetupAllMissions.UseVisualStyleBackColor = true;
+            this.buttonSetupAllMissions.Click += new System.EventHandler(this.buttonSetupAllMissions_Click);
+            // 
             // buttonUnlockAllPlat
             // 
             this.buttonUnlockAllPlat.Location = new System.Drawing.Point(282, 116);
@@ -532,18 +556,6 @@ namespace racman
             this.buttonResetPlatBolts.Text = "⟳";
             this.buttonResetPlatBolts.UseVisualStyleBackColor = true;
             this.buttonResetPlatBolts.Click += new System.EventHandler(this.buttonResetPlatBolts_Click);
-            // 
-            // checkBoxResetFlags
-            // 
-            this.checkBoxResetFlags.AutoSize = true;
-            this.checkBoxResetFlags.Location = new System.Drawing.Point(92, 212);
-            this.checkBoxResetFlags.Name = "checkBoxResetFlags";
-            this.checkBoxResetFlags.Size = new System.Drawing.Size(79, 17);
-            this.checkBoxResetFlags.TabIndex = 131;
-            this.checkBoxResetFlags.Text = "Reset flags";
-            this.toolTip1.SetToolTip(this.checkBoxResetFlags, "Reset flags when loading");
-            this.checkBoxResetFlags.UseVisualStyleBackColor = true;
-            this.checkBoxResetFlags.CheckedChanged += new System.EventHandler(this.checkBoxResetFlags_CheckedChanged);
             // 
             // labelLap
             // 
@@ -652,22 +664,22 @@ namespace racman
             this.buttonRespawn.UseVisualStyleBackColor = true;
             this.buttonRespawn.Click += new System.EventHandler(this.buttonRespawn_Click);
             // 
-            // buttonSetupAllMissions
+            // button3
             // 
-            this.buttonSetupAllMissions.Location = new System.Drawing.Point(246, 309);
-            this.buttonSetupAllMissions.Name = "buttonSetupAllMissions";
-            this.buttonSetupAllMissions.Size = new System.Drawing.Size(104, 23);
-            this.buttonSetupAllMissions.TabIndex = 132;
-            this.buttonSetupAllMissions.Text = "NG+ All Missions";
-            this.toolTip1.SetToolTip(this.buttonSetupAllMissions, "you get the idea");
-            this.buttonSetupAllMissions.UseVisualStyleBackColor = true;
-            this.buttonSetupAllMissions.Click += new System.EventHandler(this.buttonSetupAllMissions_Click);
+            this.button3.Location = new System.Drawing.Point(356, 385);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(107, 23);
+            this.button3.TabIndex = 133;
+            this.button3.Text = "Maktar slots";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 472);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.buttonSetupAllMissions);
             this.Controls.Add(this.checkBoxResetFlags);
             this.Controls.Add(this.buttonResetPlatBolts);
@@ -784,5 +796,6 @@ namespace racman
         private System.Windows.Forms.Button buttonResetPlatBolts;
         private System.Windows.Forms.CheckBox checkBoxResetFlags;
         private System.Windows.Forms.Button buttonSetupAllMissions;
+        private System.Windows.Forms.Button button3;
     }
 }

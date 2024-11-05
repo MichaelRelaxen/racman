@@ -53,6 +53,10 @@ namespace racman
         // Protopet on Yeedil
         public uint yeedilBoss => 0x1A9DF90;
 
+        public uint slotsHit => 0x14817AF;
+        public uint pBolts => 0x1390C27;
+        public uint pJackpot => 0x1390C37;
+
 
         // Float value controlling jump-pad speed. Changes on visiting Snivelak.
         public uint padManip => 0x13185B8;
