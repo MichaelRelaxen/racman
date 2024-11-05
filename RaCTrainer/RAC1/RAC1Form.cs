@@ -56,22 +56,6 @@ namespace racman
             {
                 gbspiSplitToolStripMenuItem.Enabled = false;
             }
-
-            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0xB00070, 1, value =>
-            {
-                // this lione
-                if (value[0] == 1)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        // Savefile helper mod is enabled.
-                        loadFileButton.Enabled = true;
-                        setAsideFileButton.Enabled = true;
-                        forceAutosave.Enabled = true;
-                        game.api.ReleaseSubID(savefileHelperSubID);
-                    }));
-                }
-            });
         }
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -133,6 +117,22 @@ namespace racman
             this.Invoke(new Action(() => {
                 planets_comboBox.SelectedIndex = (int)game.planetIndex;
             }));
+
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0xB00070, 1, value =>
+            {
+                // this lione
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        // Savefile helper mod is enabled.
+                        loadFileButton.Enabled = true;
+                        setAsideFileButton.Enabled = true;
+                        forceAutosave.Enabled = true;
+                        game.api.ReleaseSubID(savefileHelperSubID);
+                    }));
+                }
+            });
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
