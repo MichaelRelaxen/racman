@@ -571,5 +571,16 @@ namespace racman
         {
             game.resetFlagsRequested = checkBoxResetFlags.Checked;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac2.addr.slotsHit, new byte[] { 40 }); 
+            api.WriteMemory(pid, rac2.addr.pBolts, new byte[] { 74 });
+            api.WriteMemory(pid, rac2.addr.pJackpot, new byte[] { 45 });
+            api.Notify("Maktar slots done!");
+        }
     }
 }
