@@ -1,0 +1,27 @@
+﻿aranos
+ozla
+maktar,entry
+endako,clank
+barlow,shortcut,return,backtrack
+feltzin
+notak
+siberius
+tabora,caves
+dobbo,entry
+hrugis
+joba
+todano,tando
+boldan
+aranos,a2,clank
+gorn
+sniv
+smolg
+damosel,entry
+grelbin
+yeedil,gg
+museum,shortcut,img
+orbit,dorbit,dobbo orbit
+orbit,damosel orbit,mothership
+shack
+wupash
+jam
