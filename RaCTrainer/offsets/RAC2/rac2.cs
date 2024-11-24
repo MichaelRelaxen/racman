@@ -170,7 +170,8 @@ namespace racman
             (0x156B054, 4), // destination planet
             (rac2.addr.currentChunk, 1),
             (0x1562699, 1), // clank level flag on a2
-            (rac2.addr.loadingScreenType, 1)
+            (rac2.addr.loadingScreenType, 1),
+            (0x1478991, 1) // yeedil scene ID
         };
 
 
