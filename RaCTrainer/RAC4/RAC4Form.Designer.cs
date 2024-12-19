@@ -44,6 +44,7 @@ namespace racman
             this.bolts_textBox = new System.Windows.Forms.TextBox();
             this.killyourself = new System.Windows.Forms.Button();
             this.botsUnlocksWindowButton = new System.Windows.Forms.Button();
+            this.wrsFromSrcSiteCheck = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,7 +83,7 @@ namespace racman
             // ghostcheck
             // 
             this.ghostcheck.AutoSize = true;
-            this.ghostcheck.Location = new System.Drawing.Point(522, 105);
+            this.ghostcheck.Location = new System.Drawing.Point(12, 210);
             this.ghostcheck.Name = "ghostcheck";
             this.ghostcheck.Size = new System.Drawing.Size(95, 17);
             this.ghostcheck.TabIndex = 3;
@@ -92,9 +93,9 @@ namespace racman
             // 
             // inputdisplaybutton
             // 
-            this.inputdisplaybutton.Location = new System.Drawing.Point(542, 61);
+            this.inputdisplaybutton.Location = new System.Drawing.Point(235, 213);
             this.inputdisplaybutton.Name = "inputdisplaybutton";
-            this.inputdisplaybutton.Size = new System.Drawing.Size(75, 23);
+            this.inputdisplaybutton.Size = new System.Drawing.Size(106, 23);
             this.inputdisplaybutton.TabIndex = 4;
             this.inputdisplaybutton.Text = "Input display";
             this.inputdisplaybutton.UseVisualStyleBackColor = true;
@@ -108,7 +109,7 @@ namespace racman
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(629, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(355, 24);
             this.menuStrip1.TabIndex = 77;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -139,7 +140,7 @@ namespace racman
             // AutosplitterCheckbox
             // 
             this.AutosplitterCheckbox.AutoSize = true;
-            this.AutosplitterCheckbox.Location = new System.Drawing.Point(542, 35);
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(12, 233);
             this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
             this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
             this.AutosplitterCheckbox.TabIndex = 104;
@@ -150,7 +151,7 @@ namespace racman
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(519, 136);
+            this.label8.Location = new System.Drawing.Point(9, 167);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 107;
@@ -158,16 +159,16 @@ namespace racman
             // 
             // bolts_textBox
             // 
-            this.bolts_textBox.Location = new System.Drawing.Point(522, 153);
+            this.bolts_textBox.Location = new System.Drawing.Point(12, 184);
             this.bolts_textBox.Name = "bolts_textBox";
             this.bolts_textBox.Size = new System.Drawing.Size(105, 20);
             this.bolts_textBox.TabIndex = 106;
             // 
             // killyourself
             // 
-            this.killyourself.Location = new System.Drawing.Point(502, 190);
+            this.killyourself.Location = new System.Drawing.Point(123, 183);
             this.killyourself.Name = "killyourself";
-            this.killyourself.Size = new System.Drawing.Size(115, 23);
+            this.killyourself.Size = new System.Drawing.Size(106, 23);
             this.killyourself.TabIndex = 108;
             this.killyourself.Text = "Die";
             this.killyourself.UseVisualStyleBackColor = true;
@@ -175,7 +176,7 @@ namespace racman
             // 
             // botsUnlocksWindowButton
             // 
-            this.botsUnlocksWindowButton.Location = new System.Drawing.Point(12, 190);
+            this.botsUnlocksWindowButton.Location = new System.Drawing.Point(235, 183);
             this.botsUnlocksWindowButton.Name = "botsUnlocksWindowButton";
             this.botsUnlocksWindowButton.Size = new System.Drawing.Size(106, 23);
             this.botsUnlocksWindowButton.TabIndex = 109;
@@ -183,11 +184,23 @@ namespace racman
             this.botsUnlocksWindowButton.UseVisualStyleBackColor = true;
             this.botsUnlocksWindowButton.Click += new System.EventHandler(this.botsUnlocksWindowButton_Click);
             // 
+            // wrsFromSrcSiteCheck
+            // 
+            this.wrsFromSrcSiteCheck.AutoSize = true;
+            this.wrsFromSrcSiteCheck.Location = new System.Drawing.Point(12, 137);
+            this.wrsFromSrcSiteCheck.Name = "wrsFromSrcSiteCheck";
+            this.wrsFromSrcSiteCheck.Size = new System.Drawing.Size(173, 17);
+            this.wrsFromSrcSiteCheck.TabIndex = 110;
+            this.wrsFromSrcSiteCheck.Text = "Show WRs from speedrun.com";
+            this.wrsFromSrcSiteCheck.UseVisualStyleBackColor = true;
+            this.wrsFromSrcSiteCheck.CheckedChanged += new System.EventHandler(this.wrsFromSrcSiteCheck_CheckedChanged);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(629, 225);
+            this.ClientSize = new System.Drawing.Size(355, 277);
+            this.Controls.Add(this.wrsFromSrcSiteCheck);
             this.Controls.Add(this.botsUnlocksWindowButton);
             this.Controls.Add(this.killyourself);
             this.Controls.Add(this.label8);
@@ -230,5 +243,6 @@ namespace racman
         private System.Windows.Forms.TextBox bolts_textBox;
         private System.Windows.Forms.Button killyourself;
         private System.Windows.Forms.Button botsUnlocksWindowButton;
+        private System.Windows.Forms.CheckBox wrsFromSrcSiteCheck;
     }
 }

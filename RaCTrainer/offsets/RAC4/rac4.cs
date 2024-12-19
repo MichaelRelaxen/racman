@@ -51,7 +51,13 @@ namespace racman
         public uint cameraMode => 0x9C287C;
 
         public uint playerHealth => 0x10D7250;
-        public uint playerState => 0x10D69FC; 
+        public uint playerState => 0x10D69FC;
+
+        public uint currentChallenge => 0x9D195C;
+
+        public uint frameCounter => 0xB3C59C;
+
+        public uint saveInfo => 0x11B1BD8;
     }
     public class rac4 : IGame, IAutosplitterAvailable
     {
@@ -76,6 +82,7 @@ namespace racman
             (addr.inGame, 4),           // in game boolean
             (addr.tutorialFlags, 4),    // tutorial flags
             (addr.isLoading, 4),        // loading boolean
+            (addr.currentChallenge, 4), // current challenge ur on
         };
 
         public void UpdateUnlocks()
@@ -92,6 +99,19 @@ namespace racman
         {
             api.WriteMemory(pid, addr.botsUnlock + unlock.index, BitConverter.GetBytes(state));
             api.WriteMemory(pid, addr.botsUnlockSave + unlock.index, BitConverter.GetBytes(state));
+        }
+
+        public void SetGhostRatchet(bool enabled)
+        {
+            if (enabled)
+            {
+                // ghostRatchetSubID = api.FreezeMemory(pid, 0x10D47D0, 0x00100000);
+                ghostRatchetSubID = api.FreezeMemory(pid, 0x10D47ce, 10);
+            }
+            else
+            {
+                api.ReleaseSubID(ghostRatchetSubID);
+            }
         }
 
         public List<BotsUnlocks> GetBotsUnlocks()
