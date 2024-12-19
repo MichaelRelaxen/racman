@@ -1,5 +1,12 @@
 state("racman") { }
 
+startup
+{
+    settings.Add("SPLIT_ON_NEW_CHALLENGE", false, "Split everytime a new challenge starts.");
+	settings.Add("SPLIT_PLANET", true, "Split everytime planet changes.");
+}
+
+
 init
 {
     System.IO.MemoryMappedFiles.MemoryMappedFile mmf = System.IO.MemoryMappedFiles.MemoryMappedFile.OpenExisting("racman-autosplitter");
@@ -18,6 +25,7 @@ init
         current.inGame = vars.reader.ReadUInt32();
         current.tutorialFlag = vars.reader.ReadUInt32();
         current.isLoading = vars.reader.ReadUInt32();
+		current.currentChallenge = vars.reader.ReadUInt32();
     });
     vars.UpdateValues();
 
@@ -50,14 +58,15 @@ split
     {
         vars.splitOnCurrentPlanet = false;
     }
-
+	
     // planet split
-    if (old.loadPlanet != current.loadPlanet && current.loadPlanet != 15 && old.loadPlanet != 0 && current.loadPlanet != current.planet && !vars.splitOnCurrentPlanet && current.planet != 0)
+    if (settings["SPLIT_PLANET"] && old.loadPlanet != current.loadPlanet && current.loadPlanet != 15 && old.loadPlanet != 0 && current.loadPlanet != current.planet && !vars.splitOnCurrentPlanet && current.planet != 0)
     {
         print("Split on planet " + current.loadPlanet + "->" + old.loadPlanet);
         vars.splitOnCurrentPlanet = true;
         return true;
     }
+	
 
     // Vox split
     if (current.planet == 15 && current.voxHP <= 0.0f && old.cutscene == 0 && current.cutscene == 1)    
@@ -65,6 +74,15 @@ split
         print("Split on Vox");
         return true;
     }
+	
+	if(settings["SPLIT_ON_NEW_CHALLENGE"]) {
+		if(current.currentChallenge != -1 && old.currentChallenge != -1) { 
+			if(current.planet == 1 && (current.currentChallenge == 1 || old.currentChallenge == 1))
+				return false;
+				
+			else return current.currentChallenge != old.currentChallenge;
+		}
+	}
 }
 
 reset
