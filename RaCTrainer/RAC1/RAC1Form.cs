@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Threading.Tasks;
 
 namespace racman
@@ -29,8 +30,47 @@ namespace racman
         public RAC1Form(rac1 game)
         {
             this.game = game;
-
             InitializeComponent();
+            this.BackColor = Color.FromArgb(39, 39, 39);
+            this.ForeColor = Color.White; // Texte clair
+            
+            foreach (Control control in this.Controls)
+            {
+                if (control is Button)
+                {
+                    Button button = control as Button;
+                    button.BackColor = Color.FromArgb(255,60,60,60);
+                    button.FlatStyle = FlatStyle.Flat;
+                    button.FlatAppearance.BorderSize = 1;
+                    button.FlatAppearance.BorderColor = Color.Gray;
+                    
+                    button.Enter += (sender, e) =>
+                    {
+                        Button btn = sender as Button;
+                        if (btn != null)
+                        {
+                            btn.FlatAppearance.BorderColor = Color.LightGray;
+                        }
+                    };
+                    button.Leave += (sender, e) =>
+                    {
+                        Button btn = sender as Button;
+                        if (btn != null)
+                        {
+                            btn.FlatAppearance.BorderColor = Color.Gray;
+                        }
+                    };
+                    button.Click += (sender, e) =>
+                    {
+                        Button btn = sender as Button;
+                        if (btn != null)
+                        {
+                            btn.FlatAppearance.BorderColor = Color.White;
+                        }
+                    };
+                }
+            }
+            
             positions_comboBox.Text = "1";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
 
@@ -88,6 +128,10 @@ namespace racman
         {
             Airglide();
         }
+        private void fov_Click(object sender, EventArgs e)
+        {
+            ChangeFov();
+        }
         private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
             LoadPlanet();
@@ -107,6 +151,10 @@ namespace racman
         private void Airglide()
         {
             game.Airglide();
+        }
+        private void ChangeFov()
+        {
+            game.fov();
         }
         private void LoadPlanet()
         {

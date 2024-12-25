@@ -40,7 +40,8 @@
             this.codeBox.Name = "codeBox";
             this.codeBox.Size = new System.Drawing.Size(674, 397);
             this.codeBox.TabIndex = 0;
-            this.codeBox.Text = "-- Add your code here!\nratchet.x = 100.0\nratchet.y = 100.0\nratchet.z = 100.0";
+            this.codeBox.Text = "game.fov = 2.5";
+            // this.codeBox.Text = "-- Add your code here!\nratchet.x = 100.0\nratchet.y = 100.0\nratchet.z = 100.0";
             // 
             // buttonRun
             // 

@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace racman
 {
@@ -14,7 +16,7 @@ namespace racman
         uint boltCount { get; }
         uint playerCoords { get; }
         uint inputOffset { get; }
-        uint analogOffset { get; }
+        uint analogOffset { get; } 
         uint loadPlanet { get; }
         uint currentPlanet { get; }
     }
@@ -86,6 +88,13 @@ namespace racman
             api.WriteMemory(pid, 0x96bd64, 8);
             // Speed
             api.WriteMemory(pid, 0x969e74, 1500000000);
+        }
+
+        public virtual void fov()
+        {
+            api.WriteMemory(pid, 0x969e74, 1500000000);
+            // var res = new LuaAutomation(codeBox.Text);
+            // return !res.failed;
         }
 
         public virtual void LoadPlanet(bool resetFlags = false, bool resetGoldBolts = false)
@@ -190,7 +199,7 @@ namespace racman
 
         public bool PreFilterMessage(ref Message m)
         {
-            if (m.Msg == 0x0100) // jsp quel utilité
+            if (m.Msg == 0x0100) // jsp quelle utilité
             {
                 Keys keyCode = (Keys)m.WParam & Keys.KeyCode;
                 switch (keyCode) // ptit switch case pour les touches
@@ -203,6 +212,9 @@ namespace racman
                         return true;
                     case Keys.F3:
                         game.KillYourself();
+                        return true;
+                    case Keys.F4:
+                        game.Airglide();
                         return true;
                 }  // Pour ajouter une touche, il suffit de faire comme les précédentes :3
             }

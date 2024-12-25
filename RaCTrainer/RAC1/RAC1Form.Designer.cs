@@ -1,4 +1,6 @@
-﻿
+﻿using System.Drawing;
+using System.Windows.Forms;
+
 namespace racman
 {
     partial class RAC1Form
@@ -34,7 +36,8 @@ namespace racman
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.button5 = new System.Windows.Forms.Button();
             this.killyourself = new System.Windows.Forms.Button();
-            this.nathbtn = new System.Windows.Forms.Button();
+            this.airglide = new System.Windows.Forms.Button();
+            this.fov = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.loadpos = new System.Windows.Forms.Button();
             this.loadPlanetButton = new System.Windows.Forms.Button();
@@ -116,6 +119,26 @@ namespace racman
             this.killyourself.UseVisualStyleBackColor = true;
             this.killyourself.Click += new System.EventHandler(this.killyourself_Click);
             // 
+            // airglide
+            // 
+            this.airglide.Location = new System.Drawing.Point(363, 74);
+            this.airglide.Name = "airglide";
+            this.airglide.Size = new System.Drawing.Size(115, 23);
+            this.airglide.TabIndex = 98;
+            this.airglide.Text = "Airglide";
+            this.airglide.UseVisualStyleBackColor = false;
+            this.airglide.Click += new System.EventHandler(this.airglide_Click);
+            // 
+            // fov
+            // 
+            this.fov.Location = new System.Drawing.Point(421, 103);
+            this.fov.Name = "fov";
+            this.fov.Size = new System.Drawing.Size(57, 23);
+            this.fov.TabIndex = 99;
+            this.fov.Text = "fov";
+            this.fov.UseVisualStyleBackColor = true;
+            this.fov.Click += new System.EventHandler(this.fov_Click);
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -131,7 +154,7 @@ namespace racman
             this.loadpos.Size = new System.Drawing.Size(115, 23);
             this.loadpos.TabIndex = 1;
             this.loadpos.Text = "Load Position";
-            this.loadpos.UseVisualStyleBackColor = true;
+            this.loadpos.UseVisualStyleBackColor = false;
             this.loadpos.Click += new System.EventHandler(this.loadPosButton_Click);
             // 
             // loadPlanetButton
@@ -151,7 +174,7 @@ namespace racman
             this.savepos.Size = new System.Drawing.Size(115, 23);
             this.savepos.TabIndex = 0;
             this.savepos.Text = "Save Position";
-            this.savepos.UseVisualStyleBackColor = true;
+            this.savepos.UseVisualStyleBackColor = false;
             this.savepos.Click += new System.EventHandler(this.savePosButton_Click);
             // 
             // label7
@@ -164,7 +187,9 @@ namespace racman
             // 
             // positions_comboBox
             // 
-            this.positions_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.positions_comboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.positions_comboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.positions_comboBox.ForeColor = System.Drawing.Color.White;
             this.positions_comboBox.FormattingEnabled = true;
             this.positions_comboBox.Items.AddRange(new object[] {
             "1",
@@ -179,12 +204,15 @@ namespace racman
             "10"});
             this.positions_comboBox.Location = new System.Drawing.Point(135, 47);
             this.positions_comboBox.Name = "positions_comboBox";
-            this.positions_comboBox.Size = new System.Drawing.Size(75, 21);
+            this.positions_comboBox.Size = new System.Drawing.Size(55, 21);
             this.positions_comboBox.TabIndex = 27;
             this.positions_comboBox.SelectedIndexChanged += new System.EventHandler(this.positions_comboBox_SelectedIndexChanged);
             // 
             // planets_comboBox
             // 
+            this.planets_comboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.planets_comboBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.planets_comboBox.ForeColor = System.Drawing.Color.White;
             this.planets_comboBox.FormattingEnabled = true;
             this.planets_comboBox.Items.AddRange(new object[] {
             "Veldin",
@@ -230,7 +258,11 @@ namespace racman
             // 
             // bolts_textBox
             // 
+            this.bolts_textBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.bolts_textBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bolts_textBox.ForeColor = System.Drawing.Color.White;
             this.bolts_textBox.Location = new System.Drawing.Point(232, 47);
+            this.bolts_textBox.Margin = new System.Windows.Forms.Padding(1);
             this.bolts_textBox.Name = "bolts_textBox";
             this.bolts_textBox.Size = new System.Drawing.Size(105, 20);
             this.bolts_textBox.TabIndex = 62;
@@ -305,7 +337,7 @@ namespace racman
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
@@ -313,14 +345,14 @@ namespace racman
             this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(351, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(504, 24);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // menuToolStripMenuItem
             // 
-            this.menuToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.menuToolStripMenuItem.BackColor = System.Drawing.Color.DimGray;
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.switchGameToolStripMenuItem,
             this.configureButtonCombosToolStripMenuItem,
@@ -328,6 +360,7 @@ namespace racman
             this.toolStripSeparator1,
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem});
+            this.menuToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -378,6 +411,7 @@ namespace racman
             this.autosplitterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.autosplitterEnabledToolStripMenuItem,
             this.gbspiSplitToolStripMenuItem});
+            this.autosplitterToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.autosplitterToolStripMenuItem.Name = "autosplitterToolStripMenuItem";
             this.autosplitterToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
             this.autosplitterToolStripMenuItem.Text = "Autosplitter";
@@ -408,6 +442,7 @@ namespace racman
             this.normalCameraToolStripMenuItem,
             this.freecamToolStripMenuItem,
             this.freecamCharacterToolStripMenuItem});
+            this.debugToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "Debug";
@@ -615,16 +650,6 @@ namespace racman
             this.resetAllMissionsStuffButton.UseVisualStyleBackColor = true;
             this.resetAllMissionsStuffButton.Click += new System.EventHandler(this.resetAllMissionsStuffButton_Click);
             // 
-            // new button : nathbtn
-            // 
-            this.nathbtn.Location = new System.Drawing.Point(15, 340);
-            this.nathbtn.Name = "nathbtn";
-            this.nathbtn.Size = new System.Drawing.Size(115, 23);
-            this.nathbtn.TabIndex = 99;
-            this.nathbtn.Text = "Airglide";
-            this.nathbtn.UseVisualStyleBackColor = true;
-            this.nathbtn.Click += new System.EventHandler(this.airglide_Click);
-            // 
             // toolTip1
             // 
             this.toolTip1.IsBalloon = true;
@@ -634,7 +659,7 @@ namespace racman
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(351, 380);
+            this.ClientSize = new System.Drawing.Size(504, 380);
             this.Controls.Add(this.resetAllMissionsStuffButton);
             this.Controls.Add(this.buttonUnlockGB);
             this.Controls.Add(this.platinumLabel);
@@ -659,7 +684,8 @@ namespace racman
             this.Controls.Add(this.label3);
             this.Controls.Add(this.bolts_textBox);
             this.Controls.Add(this.killyourself);
-            this.Controls.Add(this.nathbtn);
+            this.Controls.Add(this.airglide);
+            this.Controls.Add(this.fov);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.loadpos);
             this.Controls.Add(this.loadPlanetButton);
@@ -670,7 +696,6 @@ namespace racman
             this.Controls.Add(this.positions_comboBox);
             this.Controls.Add(this.planets_comboBox);
             this.Controls.Add(this.menuStrip1);
-            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -693,7 +718,8 @@ namespace racman
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button killyourself;
-        private System.Windows.Forms.Button nathbtn;
+        private System.Windows.Forms.Button airglide;
+        private System.Windows.Forms.Button fov;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button loadpos;
         private System.Windows.Forms.Button loadPlanetButton;
@@ -746,6 +772,7 @@ namespace racman
         private System.Windows.Forms.Button buttonUnlockGB;
         private System.Windows.Forms.Button resetAllMissionsStuffButton;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label5;
     }
 }
 
