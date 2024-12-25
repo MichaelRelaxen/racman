@@ -90,6 +90,7 @@ namespace racman
             this.buttonUnlockGB = new System.Windows.Forms.Button();
             this.resetAllMissionsStuffButton = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -282,7 +283,7 @@ namespace racman
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 67;
-            this.label6.Text = "Load Planet:";
+            this.label6.Text = "Load Planet :";
             // 
             // label8
             // 
@@ -291,7 +292,7 @@ namespace racman
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 68;
-            this.label8.Text = "Bolt Count:";
+            this.label8.Text = "Bolt Count :";
             // 
             // unlocksWindowButton
             // 
@@ -337,7 +338,7 @@ namespace racman
             // 
             // menuStrip1
             // 
-            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem,
@@ -352,7 +353,7 @@ namespace racman
             // 
             // menuToolStripMenuItem
             // 
-            this.menuToolStripMenuItem.BackColor = System.Drawing.Color.DimGray;
+            this.menuToolStripMenuItem.BackColor = System.Drawing.Color.Transparent;
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.switchGameToolStripMenuItem,
             this.configureButtonCombosToolStripMenuItem,
@@ -544,7 +545,7 @@ namespace racman
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(42, 13);
             this.label1.TabIndex = 86;
-            this.label1.Text = "Menus:";
+            this.label1.Text = "Menus :";
             // 
             // label4
             // 
@@ -553,7 +554,7 @@ namespace racman
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 87;
-            this.label4.Text = "Toggles:";
+            this.label4.Text = "Toggles :";
             // 
             // CComboCheckBox
             // 
@@ -654,12 +655,22 @@ namespace racman
             // 
             this.toolTip1.IsBalloon = true;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(360, 55);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(48, 13);
+            this.label11.TabIndex = 100;
+            this.label11.Text = "More :";
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(504, 380);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.resetAllMissionsStuffButton);
             this.Controls.Add(this.buttonUnlockGB);
             this.Controls.Add(this.platinumLabel);
@@ -773,6 +784,7 @@ namespace racman
         private System.Windows.Forms.Button resetAllMissionsStuffButton;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label5;
+        private Label label11;
     }
 }
 
