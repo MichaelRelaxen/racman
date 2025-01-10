@@ -9,6 +9,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using DiscordRPC;
+using DiscordRPC.Logging;
+using Button = System.Windows.Forms.Button;
 
 namespace racman
 {
@@ -21,25 +24,27 @@ namespace racman
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         private static Timer ForceLoadTimer = new Timer();
-
         private Mod gbspiMod = null;
-
         private AutosplitterHelper autosplitterHelper;
-
         public rac1 game;
+        public DiscordRpcClient client;
 
         [DllImport("DwmApi")]
         private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, int[] attrValue, int attrSize);
-
         protected override void OnHandleCreated(EventArgs e)
         {
             if (DwmSetWindowAttribute(Handle, 19, new[] { 1 }, 4) != 0)
                 DwmSetWindowAttribute(Handle, 20, new[] { 1 }, 4);
         }
+        
         public RAC1Form(rac1 game)
         {
             this.game = game;
             InitializeComponent();
+            InitializeDiscordRPC();
+            InitializeDiscordRPC();
+            this.game.InitializeDiscordRPC("1326847296025006110");
+            
             this.BackColor = Color.FromArgb(39, 39, 39);
             this.ForeColor = Color.White; // Texte clair
             
@@ -104,6 +109,41 @@ namespace racman
             {
                 gbspiSplitToolStripMenuItem.Enabled = false;
             }
+        }
+        
+        private void InitializeDiscordRPC()
+        {
+            // Créez un client Discord avec votre ID d'application
+            client = new DiscordRpcClient("1326847296025006110");
+
+            // Ajouter un logger pour suivre les événements (facultatif)
+            client.Logger = new ConsoleLogger() { Level = LogLevel.Warning };
+
+            // S'abonner aux événements Ready et Presence Update
+            client.OnReady += (sender, e) =>
+            {
+                Console.WriteLine("Connecté en tant que {0}", e.User.Username);
+            };
+
+            client.OnPresenceUpdate += (sender, e) =>
+            {
+                Console.WriteLine("Màj DiscordRPC");
+            };
+
+            // Connectez le client Discord
+            client.Initialize();
+
+            // Définir un Rich Presence initial
+            client.SetPresence(new RichPresence()
+            {
+                Details = "Main Menu",
+                Timestamps = Timestamps.Now,
+                Assets = new Assets()
+                {
+                    LargeImageKey = "rac1",
+                    LargeImageText = "Ratchet & Clank"
+                }
+            });
         }
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)

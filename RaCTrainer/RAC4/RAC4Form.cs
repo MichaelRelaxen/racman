@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
+using System.Text;
 
 namespace racman
 {
@@ -43,14 +44,44 @@ namespace racman
             src = string.Join(",", x);
         }
 
+        // private string GetWorldRecord(string challenge)
+        // {
+        //     string a = src.Substring(src.IndexOf($"{Challenge.Replace(' ', '_')}#Solo"));
+        //     string b = a.Substring(a.IndexOf("realtime_t") + 12,3).Trim(new char[] { ',', '"' }); // ye
+        //     TimeSpan t = TimeSpan.FromSeconds(int.Parse(b));
+        //
+        //     return string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds);
+        // }
+
+        
+
         private string GetWorldRecord(string challenge)
         {
-            string a = src.Substring(src.IndexOf($"{Challenge.Replace(' ', '_')}#Solo"));
-            string b = a.Substring(a.IndexOf("realtime_t") + 12,3).Trim(new char[] { ',', '"' }); // ye
+            byte[] bytes = Encoding.Default.GetBytes(src);
+            string utf8Src = Encoding.UTF8.GetString(bytes);
+            // Console.WriteLine(utf8Src);
+
+            challenge = challenge.Replace("??", "_"); // Remplacer les espaces par des underscores
+
+            int startIndex = utf8Src.IndexOf($"{challenge}#Solo");
+            if (startIndex == -1)
+            {
+                throw new ArgumentException($"Défi '{challenge}' introuvable dans la chaîne source.");
+            }
+
+            string a = utf8Src.Substring(startIndex);
+            int timeIndex = a.IndexOf("realtime_t") + 12;
+            if (timeIndex == -1 || timeIndex + 3 > a.Length)
+            {
+                throw new ArgumentException("La valeur 'realtime_t' est mal formatée ou manquante.");
+            }
+
+            string b = a.Substring(timeIndex, 3).Trim(new char[] { ',', '"' });
             TimeSpan t = TimeSpan.FromSeconds(int.Parse(b));
 
             return string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds);
         }
+
 
         private Timer timer = new Timer();
 
@@ -148,7 +179,7 @@ namespace racman
             }
             else
             {
-                // Enable auotpslitter
+                // Enable autopslitter
                 Console.WriteLine("Autosplitter starting!");
                 autosplitterHelper = new AutosplitterHelper();
                 autosplitterHelper.StartAutosplitterForGame(this.game);

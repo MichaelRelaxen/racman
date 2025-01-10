@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using DiscordRPC;
 
 namespace racman
 {
@@ -36,11 +38,15 @@ namespace racman
 
         public int selectedPositionIndex { get; set; }
         public uint planetToLoad { get; set; }
+        
+        public DiscordRpcClient DiscordClient { get; private set; }
+        
 
-        protected IGame(IPS3API api)
+        protected IGame(IPS3API api,DiscordRpcClient client = null)
         {
             this.api = api;
             this.pid = api.getCurrentPID();
+            
 
             if (api is Ratchetron)
             {
@@ -58,6 +64,15 @@ namespace racman
         {
              return (IAddresses)this.GetType().GetField("addr").GetValue(typeof(IAddresses));
         }
+        
+        // public void InitializeDiscordRPC(string applicationId)
+        // {
+        //     DiscordClient = new DiscordRpcClient(applicationId);
+        //     DiscordClient.Initialize();
+        // }
+        
+        
+        
 
         public virtual void SavePosition()
         {
@@ -92,9 +107,11 @@ namespace racman
 
         public virtual void fov()
         {
-            api.WriteMemory(pid, 0x969e74, 1500000000);
+            // api.WriteMemory(pid, 0x969e74, 1500000000);
             // var res = new LuaAutomation(codeBox.Text);
             // return !res.failed;
+            
+            
         }
 
         public virtual void LoadPlanet(bool resetFlags = false, bool resetGoldBolts = false)

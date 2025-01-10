@@ -119,7 +119,7 @@ namespace racman
 
         public override void CheckInputs(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
     }
 }
