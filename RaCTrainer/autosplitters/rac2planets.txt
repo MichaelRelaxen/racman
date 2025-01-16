@@ -1,8 +1,8 @@
 ﻿aranos
 ozla
-maktar,entry
+maktar,entry,jamming
 endako,clank
-barlow,shortcut,return,backtrack
+barlow,shortcut,return,backtrack,entry
 feltzin
 notak
 siberius

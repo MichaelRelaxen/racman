@@ -1,6 +1,14 @@
 #- name: Black Label movement re-patch
 #- author: isaak & robo
-#- version: 1.3
+#- version: 1.4
+
+# fix shield
+0x10cd428: 0x3d2001a0
+0x10cd42c: 0x39400000
+0x10cd430: 0x61297d80
+0x10cd434: 0x91490000
+0x10cd438: 0x4e800020
+0xbea894: 0x490cd42b 
 
 # patch in ship shack
 0xBFE310: 0x38A00005
