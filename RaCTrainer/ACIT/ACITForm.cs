@@ -11,21 +11,24 @@ namespace racman
 
         public ACITForm(acit game)
         {
+            InitializeComponent();
+
+
             this.game = game;
 
-            InitializeComponent();
+            Text = $"A Crack in Time ({game.api.getGameTitleID()})";
+
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
 
             if (this.game.IsAutosplitterSupported)
             {
-                autosplitterHelper = new AutosplitterHelper();
-                this.game.IsAutosplitterEnabled = true;
-                autosplitterHelper.StartAutosplitterForGame(this.game);
+                // This raises an event that creates the autosplitterHelper object.
+                // creating it manually is not necessary and also can cause a crash
                 AutosplitterCheckbox.Checked = true;
             }
             else
             {
-                AutosplitterCheckbox.Hide();
+                AutosplitterCheckbox.Enabled = false;
             }
 
             if (this.game.HasInputDisplay)
@@ -34,18 +37,16 @@ namespace racman
             }
             else
             {
-                inputdisplay.Enabled = false;
-                inputdisplay.Hide();
+                inputDisplayButton.Enabled = false;
             }
             
             if (this.game.IsSelfKillSupported)
             {
-                killyourself.Enabled = true;
+                killYourselfButton.Enabled = true;
             }
             else
             {
-                killyourself.Enabled = false;
-                killyourself.Hide();
+                killYourselfButton.Enabled = false;
             }
 
             if (this.game.canRemoveCutscenes)
@@ -55,7 +56,6 @@ namespace racman
             else
             {
                 disableCutscenesCheckBox.Enabled = false;
-                disableCutscenesCheckBox.Hide();
             }
         }
 
@@ -106,7 +106,8 @@ namespace racman
 
         private void ACITForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            if (autosplitterHelper != null && autosplitterHelper.IsRunning) autosplitterHelper.Stop();
+            game.api.Disconnect();
             Application.Exit();
         }
 
