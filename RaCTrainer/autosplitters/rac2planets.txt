@@ -19,7 +19,7 @@ smolg
 damosel,entry
 grelbin
 yeedil,gg
-museum,shortcut,img
+museum,shortcut,img,burbank
 orbit,dorbit,dobbo orbit
 orbit,damosel orbit,mothership
 shack
