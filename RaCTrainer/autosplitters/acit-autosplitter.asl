@@ -1,4 +1,10 @@
-﻿state("racman") { }
+state("racman") { }
+
+startup
+{
+    settings.Add("Round", true, "Round final time to nearest second");
+    settings.SetToolTip("Round", "This makes it match the time you see on the file.");
+}
 
 init
 {
@@ -243,6 +249,14 @@ split
     // Azimuth split
     if (current.planet == 20 && current.azimuthHP <= 0.0f && current.cutsceneState1 == 1 && old.cutsceneState1 == 0)
     {
+        if (settings["Round"]) 
+        {
+            var t = timer.CurrentTime.GameTime.Value;
+            if (t.Milliseconds > 0) {
+
+                timer.SetGameTime(TimeSpan.FromSeconds(Math.Ceiling(t.TotalSeconds)));
+            }
+        }
         return true;
     }
 }
