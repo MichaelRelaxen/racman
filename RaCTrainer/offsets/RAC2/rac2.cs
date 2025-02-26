@@ -120,6 +120,11 @@ namespace racman
         public uint levelFlags => 0x15625B0;
 
         public uint currentChunk => 0x157CE03;
+
+        public uint chargebootsPrimaryFrontColor => 0x1318590;
+        public uint chargebootsPrimaryBackColor => 0x1318594;
+        public uint chargebootsTintFrontColor => 0x13185a0;
+        public uint chargebootsTintBackColor => 0x13185a0;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable

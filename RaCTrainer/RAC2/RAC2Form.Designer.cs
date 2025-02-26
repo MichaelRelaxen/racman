@@ -87,6 +87,7 @@ namespace racman
             this.label7 = new System.Windows.Forms.Label();
             this.buttonRespawn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.buttonCosmetics = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -604,7 +605,7 @@ namespace racman
             // checkBoxAutoReset
             // 
             this.checkBoxAutoReset.AutoSize = true;
-            this.checkBoxAutoReset.Location = new System.Drawing.Point(247, 414);
+            this.checkBoxAutoReset.Location = new System.Drawing.Point(247, 418);
             this.checkBoxAutoReset.Name = "checkBoxAutoReset";
             this.checkBoxAutoReset.Size = new System.Drawing.Size(108, 17);
             this.checkBoxAutoReset.TabIndex = 121;
@@ -674,11 +675,22 @@ namespace racman
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // buttonCosmetics
+            // 
+            this.buttonCosmetics.Location = new System.Drawing.Point(357, 414);
+            this.buttonCosmetics.Name = "buttonCosmetics";
+            this.buttonCosmetics.Size = new System.Drawing.Size(106, 23);
+            this.buttonCosmetics.TabIndex = 134;
+            this.buttonCosmetics.Text = "Cosmetics";
+            this.buttonCosmetics.UseVisualStyleBackColor = true;
+            this.buttonCosmetics.Click += new System.EventHandler(this.buttonCosmetics_Click);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(482, 472);
+            this.Controls.Add(this.buttonCosmetics);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.buttonSetupAllMissions);
             this.Controls.Add(this.checkBoxResetFlags);
@@ -797,5 +809,6 @@ namespace racman
         private System.Windows.Forms.CheckBox checkBoxResetFlags;
         private System.Windows.Forms.Button buttonSetupAllMissions;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonCosmetics;
     }
 }

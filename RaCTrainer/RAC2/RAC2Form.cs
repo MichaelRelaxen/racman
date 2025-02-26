@@ -1,4 +1,5 @@
-﻿using System;
+﻿using racman.RAC2;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,9 @@ namespace racman
 {
     public partial class RAC2Form : Form
     {
+        static ModLoaderForm modLoaderForm;
+        static RAC2Cosmetics cosmeticsForm;
+
         AutosplitterHelper autosplitter;
         public rac2 game;
         public Form InputDisplay;
@@ -274,7 +278,7 @@ namespace racman
             memoryForm.Show();
         }
 
-        static ModLoaderForm modLoaderForm;
+
         private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if ((Application.OpenForms["ModLoaderForm"] as ModLoaderForm) != null)
@@ -582,6 +586,12 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.pBolts, new byte[] { 74 });
             api.WriteMemory(pid, rac2.addr.pJackpot, new byte[] { 45 });
             api.Notify("Maktar slots done!");
+        }
+
+        private void buttonCosmetics_Click(object sender, EventArgs e)
+        {
+            cosmeticsForm = new RAC2Cosmetics(this);
+            cosmeticsForm.Show();
         }
     }
 }
