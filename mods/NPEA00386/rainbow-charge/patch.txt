@@ -1,0 +1,7 @@
+#- name: Rainbow chargeboots
+#- author: bordplate & isak!!
+#- href: https://github.com/MichaelRelaxen/racman
+#- version: 1.0
+#- description: Makes your chargeboots rainbow <3
+
+automation: main.lua
