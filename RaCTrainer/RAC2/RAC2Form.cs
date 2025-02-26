@@ -1,5 +1,4 @@
-﻿using racman.RAC2;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,7 +16,7 @@ namespace racman
     public partial class RAC2Form : Form
     {
         static ModLoaderForm modLoaderForm;
-        static RAC2Cosmetics cosmeticsForm;
+        static ChargebootColorPicker cosmeticsForm;
 
         AutosplitterHelper autosplitter;
         public rac2 game;
@@ -590,7 +589,13 @@ namespace racman
 
         private void buttonCosmetics_Click(object sender, EventArgs e)
         {
-            cosmeticsForm = new RAC2Cosmetics(this);
+            cosmeticsForm = new ChargebootColorPicker(
+                game.api, 
+                rac2.addr.chargebootsPrimaryFrontColor, 
+                rac2.addr.chargebootsPrimaryBackColor,
+                rac2.addr.chargebootsTintFrontColor,
+                rac2.addr.chargebootsTintBackColor
+            );
             cosmeticsForm.Show();
         }
     }

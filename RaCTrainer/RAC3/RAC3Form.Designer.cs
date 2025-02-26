@@ -56,6 +56,7 @@ namespace racman
             this.switchGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.flagViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,7 +93,7 @@ namespace racman
             this.buttonSetup = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.flagViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buttonCosmetics = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -349,6 +350,13 @@ namespace racman
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
             // 
+            // flagViewerToolStripMenuItem
+            // 
+            this.flagViewerToolStripMenuItem.Name = "flagViewerToolStripMenuItem";
+            this.flagViewerToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.flagViewerToolStripMenuItem.Text = "Level flag viewer";
+            this.flagViewerToolStripMenuItem.Click += new System.EventHandler(this.flagViewerToolStripMenuItem_Click);
+            // 
             // patchLoaderToolStripMenuItem
             // 
             this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
@@ -374,7 +382,7 @@ namespace racman
             // editRouteToolStripMenuItem
             // 
             this.editRouteToolStripMenuItem.Name = "editRouteToolStripMenuItem";
-            this.editRouteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editRouteToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.editRouteToolStripMenuItem.Text = "Edit route...";
             this.editRouteToolStripMenuItem.Click += new System.EventHandler(this.editRouteToolStripMenuItem_Click);
             // 
@@ -619,7 +627,7 @@ namespace racman
             // coordsLabel
             // 
             this.coordsLabel.AutoSize = true;
-            this.coordsLabel.Location = new System.Drawing.Point(13, 424);
+            this.coordsLabel.Location = new System.Drawing.Point(13, 450);
             this.coordsLabel.Name = "coordsLabel";
             this.coordsLabel.Size = new System.Drawing.Size(123, 13);
             this.coordsLabel.TabIndex = 101;
@@ -675,7 +683,7 @@ namespace racman
             "Ozzy Kamikaze"});
             this.shipColourComboBox.Location = new System.Drawing.Point(237, 390);
             this.shipColourComboBox.Name = "shipColourComboBox";
-            this.shipColourComboBox.Size = new System.Drawing.Size(121, 21);
+            this.shipColourComboBox.Size = new System.Drawing.Size(132, 21);
             this.shipColourComboBox.TabIndex = 103;
             this.shipColourComboBox.SelectedIndexChanged += new System.EventHandler(this.shipColourComboBox_SelectedIndexChanged);
             // 
@@ -744,12 +752,15 @@ namespace racman
             this.label15.TabIndex = 110;
             this.label15.Text = "leave. there\'s nothing for you here. unless...";
             // 
-            // flagViewerToolStripMenuItem
+            // buttonCosmetics
             // 
-            this.flagViewerToolStripMenuItem.Name = "flagViewerToolStripMenuItem";
-            this.flagViewerToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.flagViewerToolStripMenuItem.Text = "Level flag viewer";
-            this.flagViewerToolStripMenuItem.Click += new System.EventHandler(this.flagViewerToolStripMenuItem_Click);
+            this.buttonCosmetics.Location = new System.Drawing.Point(236, 417);
+            this.buttonCosmetics.Name = "buttonCosmetics";
+            this.buttonCosmetics.Size = new System.Drawing.Size(133, 23);
+            this.buttonCosmetics.TabIndex = 111;
+            this.buttonCosmetics.Text = "Cosmetics";
+            this.buttonCosmetics.UseVisualStyleBackColor = true;
+            this.buttonCosmetics.Click += new System.EventHandler(this.buttonCosmetics_Click);
             // 
             // RAC3Form
             // 
@@ -757,7 +768,8 @@ namespace racman
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(385, 424);
+            this.ClientSize = new System.Drawing.Size(385, 472);
+            this.Controls.Add(this.buttonCosmetics);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.buttonSetup);
@@ -887,6 +899,7 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem autosplitterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editRouteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flagViewerToolStripMenuItem;
+        private System.Windows.Forms.Button buttonCosmetics;
     }
 }
 

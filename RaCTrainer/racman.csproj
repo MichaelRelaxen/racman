@@ -141,11 +141,11 @@
     <Compile Include="offsets\ACIT\ACITTimer.cs" />
     <Compile Include="offsets\RAC4\BotsUnlocks.cs" />
     <Compile Include="offsets\RAC4\BotsUnlocksFactory.cs" />
-    <Compile Include="RAC2\RAC2Cosmetics.cs">
+    <Compile Include="ChargebootColorPicker.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RAC2\RAC2Cosmetics.Designer.cs">
-      <DependentUpon>RAC2Cosmetics.cs</DependentUpon>
+    <Compile Include="ChargebootColorPicker.Designer.cs">
+      <DependentUpon>ChargebootColorPicker.cs</DependentUpon>
     </Compile>
     <Compile Include="RAC2\RC2Unlocks.cs">
       <SubType>Form</SubType>
@@ -289,8 +289,8 @@
     <EmbeddedResource Include="MemoryForm.resx">
       <DependentUpon>MemoryForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RAC2\RAC2Cosmetics.resx">
-      <DependentUpon>RAC2Cosmetics.cs</DependentUpon>
+    <EmbeddedResource Include="ChargebootColorPicker.resx">
+      <DependentUpon>ChargebootColorPicker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2\RAC2JPForm.resx">
       <DependentUpon>RAC2JPForm.cs</DependentUpon>

@@ -56,6 +56,7 @@ namespace racman
         int ohkoMemSubID = -1;
 
         public rac3 game;
+        public ChargebootColorPicker cosmeticsForm;
         private AutosplitterHelper autosplitterHelper;
         private AutosplitterConfigForm autosplitterConfigForm;
 
@@ -493,6 +494,18 @@ namespace racman
             var viewer = new FlagViewer(game, rac3.addr.levelFlags + (game.planetToLoad * 0x10), 0x10);
             viewer.Text = $"{planets_comboBox.SelectedItem} level flags";
             viewer.Show();
+        }
+
+        private void buttonCosmetics_Click(object sender, EventArgs e)
+        {
+            cosmeticsForm = new ChargebootColorPicker(
+                game.api,
+                rac3.addr.chargebootsPrimaryFrontColor,
+                rac3.addr.chargebootsPrimaryBackColor,
+                rac3.addr.chargebootsTintFrontColor,
+                rac3.addr.chargebootsTintBackColor
+            );
+            cosmeticsForm.Show();
         }
     }
 }

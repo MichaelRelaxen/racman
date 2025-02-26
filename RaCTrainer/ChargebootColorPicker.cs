@@ -7,16 +7,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Media;
 
-namespace racman.RAC2
+namespace racman
 {
-    public partial class RAC2Cosmetics : Form
+    public partial class ChargebootColorPicker : Form
     {
-        RAC2Form rac2form;
-        public RAC2Cosmetics(RAC2Form parent)
+        IPS3API api;
+        uint primaryFront;
+        uint primaryBack;
+        uint tintFront;
+        uint tintBack;
+
+        public ChargebootColorPicker(IPS3API ps3api, uint pf, uint pb, uint tf, uint tb)
         {
-            rac2form = parent;
+            api = ps3api;
+            primaryFront = pf;
+            primaryBack = pb;
+            tintFront = tf;
+            tintBack = tb;
+
             InitializeComponent();
         }
 
@@ -40,12 +49,11 @@ namespace racman.RAC2
         {
             DefaultColors();
 
-            var api = rac2form.game.api;
             var pid = api.getCurrentPID();
-            api.WriteMemory(pid, rac2.addr.chargebootsPrimaryFrontColor, 4, "40FF8020");
-            api.WriteMemory(pid, rac2.addr.chargebootsPrimaryBackColor, 4, "00CF6000");
-            api.WriteMemory(pid, rac2.addr.chargebootsTintFrontColor, 4, "20FFFF00");
-            api.WriteMemory(pid, rac2.addr.chargebootsTintBackColor, 4, "00008000");
+            api.WriteMemory(pid, primaryFront, 4, "40FF8020");
+            api.WriteMemory(pid, primaryBack, 4, "00CF6000");
+            api.WriteMemory(pid, tintFront, 4, "20FFFF00");
+            api.WriteMemory(pid, tintBack, 4, "00008000");
         }
 
         private void buttonColor_Click(object sender, EventArgs e)
@@ -92,29 +100,28 @@ namespace racman.RAC2
 
         private void ApplyChanges()
         {
-            var api = rac2form.game.api;
             var pid = api.getCurrentPID();
 
             // FRONT: primary front, tint front
-            api.WriteMemory(pid, rac2.addr.chargebootsPrimaryFrontColor, new byte[]
+            api.WriteMemory(pid, primaryFront, new byte[]
             {
                 0x40, colorDialog1.Color.B, colorDialog1.Color.G, colorDialog1.Color.R
             });
-            api.WriteMemory(pid, rac2.addr.chargebootsTintFrontColor, new byte[]
+            api.WriteMemory(pid, tintFront, new byte[]
             {
                 0x40, colorDialog1.Color.B, colorDialog1.Color.G, colorDialog1.Color.R
             });
 
             // MID: tint back
-            api.WriteMemory(pid, rac2.addr.chargebootsTintBackColor, new byte[]
+            api.WriteMemory(pid, tintBack, new byte[]
             {
                 0x40, colorDialog2.Color.B, colorDialog2.Color.G, colorDialog2.Color.R
             });
 
             // BACK: primary back
-            api.WriteMemory(pid, rac2.addr.chargebootsPrimaryBackColor, new byte[]
+            api.WriteMemory(pid, primaryBack, new byte[]
             {
-                0x30, colorDialog3.Color.B, colorDialog3.Color.G, colorDialog3.Color.R
+                0x25, colorDialog3.Color.B, colorDialog3.Color.G, colorDialog3.Color.R
             });
         }
 
@@ -138,6 +145,8 @@ namespace racman.RAC2
             pictureBox1.BackColor = colorDialog1.Color;
             pictureBox2.BackColor = colorDialog2.Color;
             pictureBox3.BackColor = colorDialog3.Color;
+
+            ApplyChanges();
         }
     }
 }

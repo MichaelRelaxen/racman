@@ -80,6 +80,11 @@ namespace racman
         public uint miscLevelFlags => throw new System.NotImplementedException();
         public uint infobotFlags => throw new System.NotImplementedException();
         public uint moviesFlags => throw new System.NotImplementedException();
+
+        public uint chargebootsTintFrontColor => 0xc33ac0;
+        public uint chargebootsTintBackColor => 0xc33ac4;
+        public uint chargebootsPrimaryFrontColor => 0xc33ab0;
+        public uint chargebootsPrimaryBackColor => 0xc33ab4;
     }
     public class rac3 : IGame, IAutosplitterAvailable
     {
