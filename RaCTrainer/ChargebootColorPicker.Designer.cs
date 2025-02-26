@@ -1,6 +1,6 @@
-﻿namespace racman.RAC2
+﻿namespace racman
 {
-    partial class RAC2Cosmetics
+    partial class ChargebootColorPicker
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.buttonColor1 = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -52,15 +51,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Chargeboots ";
-            // 
             // buttonColor1
             // 
             this.buttonColor1.Location = new System.Drawing.Point(12, 51);
@@ -75,11 +65,11 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(88, 9);
+            this.label2.Location = new System.Drawing.Point(12, 9);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(257, 13);
+            this.label2.Size = new System.Drawing.Size(276, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "* custom colors only permitted on blmod leaderboards";
+            this.label2.Text = "*  currently permitted on RAC2 BLMOD leaderboards only";
             // 
             // pictureBox1
             // 
@@ -153,6 +143,7 @@
             this.pictureBox3.Size = new System.Drawing.Size(41, 41);
             this.pictureBox3.TabIndex = 11;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // buttonColor3
             // 
@@ -213,11 +204,11 @@
             this.label6.TabIndex = 94;
             this.label6.Text = "Save Slot";
             // 
-            // RAC2Cosmetics
+            // ChargebootColorPicker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(364, 245);
+            this.ClientSize = new System.Drawing.Size(358, 245);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.comboBoxSlots);
             this.Controls.Add(this.buttonLoad);
@@ -233,8 +224,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonColor1);
-            this.Controls.Add(this.label1);
-            this.Name = "RAC2Cosmetics";
+            this.Name = "ChargebootColorPicker";
             this.Text = "Cosmetics";
             this.Load += new System.EventHandler(this.RAC2Cosmetics_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -246,8 +236,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button buttonColor1;
         private System.Windows.Forms.Label label2;
