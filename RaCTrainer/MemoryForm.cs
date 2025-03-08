@@ -40,11 +40,13 @@ namespace racman
             mobyInspectorListView.DoubleBuffering(true);
         }
 
-        void SetItemValueText(ListViewItem item, string value)
+        void SetItemValueText(ListViewItem item, string value, string frozen = "")
         {
+            var watched = (WatchedAddress)item.Tag;
+            if (watched.isFrozen) frozen = "❄: ";
             this.Invoke(new Action(() =>
             {
-                item.SubItems[2].Text = value;
+                item.SubItems[2].Text = frozen+value;
             }));
         }
 
