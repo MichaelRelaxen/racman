@@ -426,7 +426,7 @@ namespace racman
                 {
                     var watched = (WatchedAddress)item.Tag;
                     string name = item.Text; 
-                    return $"{name},{watched.address},{watched.type}";  
+                    return $"{name},0x{watched.address.ToString("X")},{watched.type}";  
                 })
                 .ToList();
 
@@ -462,7 +462,7 @@ namespace racman
                     if (parts.Length == 3) 
                     {
                         string name = parts[0];
-                        uint address = Convert.ToUInt32(parts[1]);
+                        uint address = Convert.ToUInt32(parts[1], 16);
                         string type = parts[2];
                         AddMemoryWatch(address, type, name);
                     }
