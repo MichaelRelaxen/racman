@@ -265,7 +265,7 @@ namespace racman
             // 
             // unlocksWindowButton
             // 
-            this.unlocksWindowButton.Location = new System.Drawing.Point(18, 308);
+            this.unlocksWindowButton.Location = new System.Drawing.Point(18, 339);
             this.unlocksWindowButton.Name = "unlocksWindowButton";
             this.unlocksWindowButton.Size = new System.Drawing.Size(106, 23);
             this.unlocksWindowButton.TabIndex = 72;
@@ -287,7 +287,7 @@ namespace racman
             // goodiesCheck
             // 
             this.goodiesCheck.AutoSize = true;
-            this.goodiesCheck.Location = new System.Drawing.Point(250, 300);
+            this.goodiesCheck.Location = new System.Drawing.Point(250, 319);
             this.goodiesCheck.Name = "goodiesCheck";
             this.goodiesCheck.Size = new System.Drawing.Size(95, 17);
             this.goodiesCheck.TabIndex = 74;
@@ -464,7 +464,7 @@ namespace racman
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(18, 336);
+            this.button2.Location = new System.Drawing.Point(18, 367);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(106, 22);
@@ -476,7 +476,7 @@ namespace racman
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(250, 277);
+            this.ghostCheckbox.Location = new System.Drawing.Point(250, 296);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 83;
@@ -507,7 +507,7 @@ namespace racman
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 292);
+            this.label1.Location = new System.Drawing.Point(15, 323);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(42, 13);
             this.label1.TabIndex = 86;
@@ -536,7 +536,7 @@ namespace racman
             // FastLoadToggle
             // 
             this.FastLoadToggle.AutoSize = true;
-            this.FastLoadToggle.Location = new System.Drawing.Point(250, 323);
+            this.FastLoadToggle.Location = new System.Drawing.Point(18, 278);
             this.FastLoadToggle.Name = "FastLoadToggle";
             this.FastLoadToggle.Size = new System.Drawing.Size(114, 17);
             this.FastLoadToggle.TabIndex = 89;
@@ -547,7 +547,7 @@ namespace racman
             // FreezeAmmoCheckbox
             // 
             this.FreezeAmmoCheckbox.AutoSize = true;
-            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(250, 347);
+            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(250, 275);
             this.FreezeAmmoCheckbox.Name = "FreezeAmmoCheckbox";
             this.FreezeAmmoCheckbox.Size = new System.Drawing.Size(90, 17);
             this.FreezeAmmoCheckbox.TabIndex = 90;
@@ -659,7 +659,7 @@ namespace racman
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(375, 386);
+            this.ClientSize = new System.Drawing.Size(375, 406);
             this.Controls.Add(this.forceAutosave);
             this.Controls.Add(this.setAsideFileButton);
             this.Controls.Add(this.loadFileButton);
