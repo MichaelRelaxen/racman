@@ -107,7 +107,7 @@ reset
 
 split
 {
-    if (current.destinationPlanet != 0 && current.planet == current.destinationPlanet && current.planet != -1 && current.planet != 0 && current.planet != old.planet)
+    if (current.planet != old.planet)
     {
         if (!settings["SPLIT_ROUTE"]) 
         {
