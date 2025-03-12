@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
-using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using DiscordRPC;
 
 namespace racman
 {
@@ -18,7 +14,7 @@ namespace racman
         uint boltCount { get; }
         uint playerCoords { get; }
         uint inputOffset { get; }
-        uint analogOffset { get; } 
+        uint analogOffset { get; }
         uint loadPlanet { get; }
         uint currentPlanet { get; }
     }
@@ -38,15 +34,11 @@ namespace racman
 
         public int selectedPositionIndex { get; set; }
         public uint planetToLoad { get; set; }
-        
-        public DiscordRpcClient DiscordClient { get; private set; }
-        
 
-        protected IGame(IPS3API api,DiscordRpcClient client = null)
+        protected IGame(IPS3API api)
         {
             this.api = api;
             this.pid = api.getCurrentPID();
-            
 
             if (api is Ratchetron)
             {
@@ -55,24 +47,17 @@ namespace racman
 
             InputsTimer.Interval = (int)16.66667;
             InputsTimer.Tick += new EventHandler(CheckInputs);
-            InputsTimer.Start();
-            
-            Application.AddMessageFilter(new KeyMessageFilter(this));
         }
 
+        /// <summary>
+        /// Function to get addresses in IGame because static values and stuff, not needed outside of IGame or in any IGame-inherited classes because they just use <ClassName>.addr.<whatever>
+        /// </summary>
+        /// <returns></returns>
         private IAddresses Addr()
         {
              return (IAddresses)this.GetType().GetField("addr").GetValue(typeof(IAddresses));
         }
-        
-        // public void InitializeDiscordRPC(string applicationId)
-        // {
-        //     DiscordClient = new DiscordRpcClient(applicationId);
-        //     DiscordClient.Initialize();
-        // }
-        
-        
-        
+
 
         public virtual void SavePosition()
         {
@@ -91,27 +76,6 @@ namespace racman
         public virtual void KillYourself()
         {
             api.WriteMemory(pid, Addr().playerCoords + 8, 0xC2480000);
-        }
-        public virtual void Airglide()
-        {
-            // PositionY + 15
-            float posZ = BitConverter.ToSingle(api.ReadMemory(pid, Addr().playerCoords+8, 4).Reverse().ToArray(), 0);
-            byte[] newPos = BitConverter.GetBytes(posZ + 15);
-            Array.Reverse(newPos);
-            api.WriteMemory(pid, Addr().playerCoords + 8, newPos);
-            // Playerstate
-            api.WriteMemory(pid, 0x96bd64, 8);
-            // Speed
-            api.WriteMemory(pid, 0x969e74, 1500000000);
-        }
-
-        public virtual void fov()
-        {
-            // api.WriteMemory(pid, 0x969e74, 1500000000);
-            // var res = new LuaAutomation(codeBox.Text);
-            // return !res.failed;
-            
-            
         }
 
         public virtual void LoadPlanet(bool resetFlags = false, bool resetGoldBolts = false)
@@ -147,6 +111,7 @@ namespace racman
         public virtual void SetupInputDisplayMemorySubs()
         {
             SetupInputDisplayMemorySubsButtons();
+
             SetupInputDisplayMemorySubsAnalogs();
 
             // Why the FUCK is this here?
@@ -201,41 +166,8 @@ namespace racman
             });
         }
 
+        // 
         public abstract void CheckInputs(object sender, EventArgs e);
-    }
 
-    // Filtre de message pour le clavier
-    public class KeyMessageFilter : IMessageFilter
-    {
-        private readonly IGame game;
-
-        public KeyMessageFilter(IGame game)
-        {
-            this.game = game;
-        }
-
-        public bool PreFilterMessage(ref Message m)
-        {
-            if (m.Msg == 0x0100) // jsp quelle utilité
-            {
-                Keys keyCode = (Keys)m.WParam & Keys.KeyCode;
-                switch (keyCode) // ptit switch case pour les touches
-                {
-                    case Keys.F1:
-                        game.SavePosition();
-                        return true;
-                    case Keys.F2:
-                        game.LoadPosition();
-                        return true;
-                    case Keys.F3:
-                        game.KillYourself();
-                        return true;
-                    case Keys.F4:
-                        game.Airglide();
-                        return true;
-                }  // Pour ajouter une touche, il suffit de faire comme les précédentes :3
-            }
-            return false;
-        }
     }
 }

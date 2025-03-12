@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using DiscordRPC;
 
 namespace racman
 {
@@ -96,17 +95,6 @@ namespace racman
         }
 
         public static RaC1Addresses addr = new RaC1Addresses();
-        
-        public DiscordRpcClient DiscordClient { get; private set; }
-        
-        private Timestamps initialTimestamp;
-        
-        public void InitializeDiscordRPC(string applicationId)
-        {
-            DiscordClient = new DiscordRpcClient(applicationId);
-            DiscordClient.Initialize();
-            initialTimestamp = Timestamps.Now;
-        }
 
         public rac1(IPS3API api) : base(api)
         {
@@ -172,8 +160,6 @@ namespace racman
         };
 
         private int ghostRatchetSubID = -1;
-        
-        private uint lastPlanetIndex = 0;
 
         /// <summary>
         /// Enables instant loads by overwriting code that starts loads somehow.
@@ -244,7 +230,7 @@ namespace racman
                 ownedUnlocks[i] = item != 0;
                 i++;
             }
-            
+
             lastUnlocksUpdate = DateTime.Now.Ticks;
         }
 
@@ -484,36 +470,6 @@ namespace racman
         {
             throw new NotImplementedException();
         }
-        
-        public void UpdateRichPresence(string planetname)
-        {
-            if (DiscordClient == null)
-            {
-                Console.WriteLine("Discord client non initialisé.");
-            }
-            
-            
-            string imageKey = planetname.ToLower();
-            if (DiscordClient != null)
-            {
-                DiscordClient.SetPresence(new RichPresence()
-                {
-                    Details = planetname,
-                    Timestamps = initialTimestamp,
-                    Assets = new Assets()
-                    {
-                        LargeImageKey = "rac1",
-                        LargeImageText = "Ratchet & Clank",
-                        SmallImageKey = imageKey,
-                        SmallImageText = planetname,
-                    }
-                });
-            }
-            else
-            {
-                Console.WriteLine("Discord client non initialisé.");
-            }
-        }
 
         public override void CheckInputs(object sender, EventArgs e)
         {
@@ -546,26 +502,6 @@ namespace racman
             {
                 inputCheck = true;
             }
-            
-            
-            // update discord rich presence
-            uint planetindex = BitConverter.ToUInt32(api.ReadMemory(pid, rac1.addr.currentPlanet, 4).Reverse().ToArray(), 0);
-            if (planetindex != lastPlanetIndex)
-            {
-                lastPlanetIndex = planetindex;
-                
-                if (planetindex < planetsList.Length)
-                {
-                    string planetName = planetsList[planetindex];
-                    Console.WriteLine($"index {planetindex} : {planetName}");
-                    UpdateRichPresence(planetName);
-                }
-                else
-                {
-                    Console.WriteLine($"Index {planetindex} invalide.");
-                }
-            }
-            
         }
 
         public List<DebugOption> DebugOptions()

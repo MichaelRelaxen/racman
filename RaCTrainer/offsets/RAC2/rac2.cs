@@ -14,6 +14,12 @@ namespace racman
         // Ratchet's coordinates
         public uint playerCoords => 0x147F260;
 
+        // The coordinates ratchet wil respawn at
+        public uint respawnCoords => 0x15D26E0;
+
+        // Ratchet's movement state
+        public uint playerState => 0x1481474;
+
         // Controller inputs mask address
         public uint inputOffset => 0x147A430;
 
@@ -32,37 +38,72 @@ namespace racman
         // Current raritanium.
         public uint currentRaritanium => 0x1329A94;
 
+        // Challenge mode
+        public uint challengeMode => 0x1329AA2;
+
         // Values corresponding to the location of the internal table for game objects.
-        public uint mobyInstances => 0x015927b0;
-        public uint mobyInstancesEnd => 0x015927b8;
+        public uint mobyInstances => 0x15927b0;
+        public uint mobyInstancesEnd => 0x15927b8;
 
         // Values that increment when you die to the Snivelak boss. Used for act tuning.
         // public uint snivBoss1 => 0x01569BF7; // not used according to elkon
-        public uint snivBoss => 0x01A6FB73;
+        public uint snivBoss => 0x1A6FB73;
+        // Angela on Siberius
+        public uint sibBoss => 0x1A5A99F;
+        // Protopet on Yeedil
+        public uint yeedilBoss => 0x1A9DF90;
+
+        public uint slotsHit => 0x14817AF;
+        public uint pBolts => 0x1390C27;
+        public uint pJackpot => 0x1390C37;
+
 
         // Float value controlling jump-pad speed. Changes on visiting Snivelak.
-        public uint padManip => 0x013185B8;
+        public uint padManip => 0x13185B8;
 
         // Item ID of ratchet's previously held weapon. Used for gadget storage.
-        public uint prevHeldWeapon => 0x01329A9F;
+        public uint prevHeldWeapon => 0x1329A9F;
+
+        // Start of ammo array (136 length)
+        public uint ammoArray => 0x148185C;
 
         // Boosts exp values earned when killing enemies.
-        public uint expEconomy => 0x01329AA8;
+        public uint expEconomy => 0x1329AA8;
 
-        // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
-        public uint gornManip => 0x01A99A4C;
-
-        // As above, for opening cutscene.
-        public uint gornOpening => 0x01A99A34;
+        // Determines ratchet's current health
+        public uint healthExp => 0x1329AA4;
 
         // Set to 1 if insomniac museum shortcut is avaliable.
-        public uint imInShortcuts => 0x0135268C;
+        public uint imInShortcuts => 0x135268C;
 
         // Index of selected item in shortcuts menu.
-        public uint shortcutsIndex => 0x01352684;
+        public uint shortcutsIndex => 0x1352684;
 
-        // Selected race on Barlow (maybe on Joba too idk).
-        public uint selectedRaceIndex => 0x013965F7;
+        // Stored race on Barlow (maybe on Joba too idk).
+        public uint savedRaceIndex => 0x1A4D7E0;
+
+        // When set to 1, the cutscene on planet Gorn is skipped. 4 bytes. Credit to Elkkon for finding this.
+        public uint gornManip => 0x1A99A4C;
+
+        // First cutscene on Feltzin that only plays once per session.
+        public uint feltzinOpening => 0x1A8495B;
+        // Same thing but on Gorn
+        public uint gornOpening => 0x1A99A34;
+
+        // Should be set to 0 but isn't reset properly - causes menu bug
+        public uint feltzinMissionComplete => 0x1A84973;
+        // Same thing but on Hrugis
+        public uint hrugisMissionComplete => 0x143DB0F;
+        // And Gorn
+        public uint gornMissionComplete => 0x1A99A5B;
+
+        // 0 Right-to-left (3.6, 218 frames)
+        // 1 Curved (3.7, 226 frames)
+        // 2 Left-to-right (3.6, 217 frames)
+        // 3 Top-to-bottom (4.0, 238 frames)
+        // 4 Planet loading screen
+        public uint loadingScreenType => 0x147A257;
+        public uint loadingScreenCount => 0x147A25B;
 
         // "Current active save slot" used for tracking savefiles (PS2 leftover).
         // This gets set to -1 when you do QE (and is subsequently overwritten).
@@ -72,6 +113,18 @@ namespace racman
         // For "documentation", see: https://www.youtube.com/watch?v=AwIoPo1NstU
         public uint debugFeatures => 0x015b3070;
 
+        // What it says on the tin
+        public uint platinumBoltArray => 0x1562540;
+
+        // Level specific info (spawnpoint, completed missions etc)
+        public uint levelFlags => 0x15625B0;
+
+        public uint currentChunk => 0x157CE03;
+
+        public uint chargebootsPrimaryFrontColor => 0x1318590;
+        public uint chargebootsPrimaryBackColor => 0x1318594;
+        public uint chargebootsTintFrontColor => 0x13185a0;
+        public uint chargebootsTintBackColor => 0x13185a0;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable
@@ -111,6 +164,7 @@ namespace racman
             };
         }
         private int ghostRatchetSubID = -1;
+        public bool resetFlagsRequested = true;
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
@@ -118,7 +172,11 @@ namespace racman
             (0x01481474, 4), // Ratchet state
             (0x0133EE7C, 4), // Protopet's health bar (Float, ranges 0-1)
             (0x1329A3C, 4), // current planet
-            (0x156B054, 4) // destination planet
+            (0x156B054, 4), // destination planet
+            (rac2.addr.currentChunk, 1),
+            (0x1562699, 1), // clank level flag on a2
+            (rac2.addr.loadingScreenType, 1),
+            (0x1478991, 1) // yeedil scene ID
         };
 
 
@@ -127,7 +185,9 @@ namespace racman
         /// </summary>
         public override void ResetLevelFlags()
         {
-
+            var flagsForPlanet = rac2.addr.levelFlags + (planetToLoad * 0x10);
+            var reset = Enumerable.Repeat((byte)0x00, 0x10).ToArray();
+            api.WriteMemory(pid, flagsForPlanet, reset);
         }
 
 
@@ -164,6 +224,30 @@ namespace racman
             throw new NotImplementedException();
         }
 
+        public void enableDisableFastLoads(bool enable)
+        {
+            var pid = api.getCurrentPID();
+            uint fastLoadInstr = 0xBEA8A0;
+
+            if (enable)
+            {
+                // NOP
+                api.WriteMemory(pid, fastLoadInstr, 0x60000000);
+            }
+            else
+            {
+                // Default instr
+                api.WriteMemory(pid, fastLoadInstr, 0x4BFFEA69);
+
+            }
+        }
+
+        public void loadSetAsideFile()
+        {
+            enableDisableFastLoads(true);
+            api.WriteMemory(pid, 0x10cd71e, new byte[] { 1 });
+        }
+
         public override void CheckInputs(object sender, EventArgs e)
         {
             if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
@@ -183,7 +267,8 @@ namespace racman
             }
             if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
             {
-                LoadPlanet();
+                enableDisableFastLoads(true);
+                LoadPlanet(resetFlags: resetFlagsRequested);
                 inputCheck = false;
             }
             if (Inputs.RawInputs == ConfigureCombos.runScriptCombo && inputCheck)
@@ -193,7 +278,7 @@ namespace racman
             }
             if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)
             {
-                api.WriteMemory(pid, 0x10cd71e, new byte[] { 1 });
+                loadSetAsideFile();
                 inputCheck = false;
             }
             if (Inputs.RawInputs == 0x00 && !inputCheck)

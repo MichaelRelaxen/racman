@@ -1,28 +1,41 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace racman
 {
     public partial class RAC2Form : Form
     {
+        static ModLoaderForm modLoaderForm;
+        static ChargebootColorPicker cosmeticsForm;
+
         AutosplitterHelper autosplitter;
         public rac2 game;
         public Form InputDisplay;
         private bool debugEnabled;
         private int savefileHelperSubID;
+        private int fastLoadSubID = -1;
         private int expEconomySubId = -1;
+        // Used to reset fast loads after load is finished
+        private int loadScreenTypeSubId = -1;
+        private byte prevLoadScreen = 255;
 
         public RAC2Form(rac2 game)
         {
             this.game = game;
+
+            CoordsTimer.Interval = (int)16.66667;
+            CoordsTimer.Tick += new EventHandler(UpdateCoordsLabel);
+            game.GetPlayerCoordinates();
 
             InitializeComponent();
 
@@ -31,20 +44,9 @@ namespace racman
             game.SetupInputDisplayMemorySubs();
 
             AutosplitterCheckbox.Checked = true;
-
-            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
-            {
-                if (value[0] == 1)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        // Savefile helper mod is enabled.
-                        loadFileButton.Enabled = true;
-                        setAsideFileButton.Enabled = true;
-                    }));
-                }
-            });
         }
+
+        public Timer CoordsTimer = new Timer();
 
         public void UpdateLapFlag(int flagValue)
         {
@@ -58,6 +60,48 @@ namespace racman
 
         private void RAC2Form_Load(object sender, EventArgs e)
         {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
+            {
+                // this lione
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        // Savefile helper mod is enabled.
+                        loadFileButton.Enabled = true;
+                        setAsideFileButton.Enabled = true;
+                        game.api.ReleaseSubID(savefileHelperSubID);
+                    }));
+                }
+            });
+
+            loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenCount, 1, IPS3API.MemoryCondition.Changed, value =>
+            {
+                // Work around a bug in Ratchetron
+                var loadScreen = value[0];
+                if (loadScreen == prevLoadScreen) return;
+                prevLoadScreen = loadScreen;
+
+                // Only run once, on final load screen
+                if (loadScreen != 2) return;
+
+                // Disable force-override from reload file by setting to previous setting
+                game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
+
+                if (!checkBoxAutoReset.Checked) return;
+                var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
+                if (planet[3] != 0) return;
+                // Everything below here is A1-exclusive code
+                resetMenuStorage();
+                this.Invoke(new Action(() => {
+                    freezeAmmoCheckbox.Checked = false;
+                    freezeAmmoCheckbox_CheckedChanged(sender, EventArgs.Empty);
+                }));
+            });
+
             this.Invoke(new Action(() => {
                 planets_comboBox.SelectedIndex = (int)game.planetIndex;
             }));
@@ -65,9 +109,20 @@ namespace racman
 
         private void RAC2Form_FormClosing(object sender, FormClosingEventArgs e)
         {
-            game.api.ReleaseSubID(savefileHelperSubID);
-            game.api.Disconnect();
-            Application.Exit();
+            // Fix crash on exit (lol)
+            try
+            {
+                if (fastLoadSubID != -1) game.api.ReleaseSubID(fastLoadSubID);
+                if (expEconomySubId != -1) game.api.ReleaseSubID(expEconomySubId);
+                if (loadScreenTypeSubId != -1) game.api.ReleaseSubID(loadScreenTypeSubId);
+                game.api.ReleaseSubID(savefileHelperSubID);
+                game.api.Disconnect();
+                Application.Exit();
+            }
+            catch
+            {
+
+            }
         }
         private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -116,7 +171,8 @@ namespace racman
 
         private void loadPlanetButton_Click(object sender, EventArgs e)
         {
-            game.LoadPlanet();
+            game.enableDisableFastLoads(true);
+            game.LoadPlanet(resetFlags: checkBoxResetFlags.Checked);
         }
 
         private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -200,9 +256,18 @@ namespace racman
         // Doesn't actually freeze anything, just gives you 2 billion of every ammo (clickbait)
         private void freezeAmmoCheckbox_CheckedChanged(object sender, EventArgs e)
         {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            uint ammoResetAddr = 0x0B30C7C;
+
             if (freezeAmmoCheckbox.Checked)
             {
-                game.api.WriteMemory(game.api.getCurrentPID(), 0x148185C, 136, "7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF");
+                api.WriteMemory(pid, 0x148185C, 136, "7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF7FFFFFFF");
+                api.WriteMemory(pid, ammoResetAddr, 0x60000000); // nop
+            }
+            else
+            {
+                api.WriteMemory(pid, ammoResetAddr, 0x7C64292E); // default instr
             }
         }
 
@@ -212,7 +277,7 @@ namespace racman
             memoryForm.Show();
         }
 
-        static ModLoaderForm modLoaderForm;
+
         private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if ((Application.OpenForms["ModLoaderForm"] as ModLoaderForm) != null)
@@ -232,7 +297,7 @@ namespace racman
             {
                 try
                 {
-                    game.api.WriteMemory(game.api.getCurrentPID(), 0x1329A94, uint.Parse(raritaniumTextBox.Text));
+                    game.api.WriteMemory(game.api.getCurrentPID(), rac2.addr.currentRaritanium, uint.Parse(raritaniumTextBox.Text));
                 }
                 catch
                 {
@@ -240,13 +305,29 @@ namespace racman
                 }
             }
         }
+
+        private void textBoxHealthXP_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.api.WriteMemory(game.api.getCurrentPID(), rac2.addr.healthExp, unchecked((uint)int.Parse(textBoxHealthXP.Text)));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
                 try
                 {
-                    game.api.WriteMemory(game.api.getCurrentPID(), 0x1329AA2, new byte[] { byte.Parse(challengeTextBox.Text) });
+                    game.api.WriteMemory(game.api.getCurrentPID(), rac2.addr.challengeMode, new byte[] { byte.Parse(challengeTextBox.Text) });
                 }
                 catch
                 {
@@ -268,22 +349,13 @@ namespace racman
             api.Notify("Game Pyramid, Bolts manip, Race Storage and Endako Boss Cutscene are now reset and ready for runs");
         }
 
-        
-        private int fastLoadSubID = -1;
+
+  
+
+
         private void SetFastLoadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-
-            if (SetFastLoadCheckbox.Checked)
-            {
-            // Address related to some kind of ship animations timing, it messes up the entering, exiting ship animations and crash if its active in cutscenes
-                fastLoadSubID = game.api.FreezeMemory(game.api.getCurrentPID(), 0x01471890, 0);
-            }
-            else
-            {
-                game.api.ReleaseSubID(fastLoadSubID);
-            }
-            // Ship load screen addresses that I dont know what to do with it 0x147A257 (1-4 amount of load screens and display wich one is currently) 
-            // and 0x0147A258 (0-2 sequence of the load screens, 0 is the first and 2 is the last)
+            game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
         }
 
         private void labelLap_Click(object sender, EventArgs e)
@@ -293,7 +365,7 @@ namespace racman
 
         private void loadFileButton_Click(object sender, EventArgs e)
         {
-            game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71e, new byte[] { 1 });
+            game.loadSetAsideFile();
         }
 
         private void setAsideFileButton_Click(object sender, EventArgs e)
@@ -317,7 +389,7 @@ namespace racman
             if (checkBoxExp.Checked)
             {
                 expEconomySubId = api.FreezeMemory(pid, rac2.addr.expEconomy, 1, Ratchetron.MemoryCondition.Changed, new byte[] { 100 });
-            } 
+            }
             else
             {
                 if (expEconomySubId != -1) api.ReleaseSubID(expEconomySubId);
@@ -330,12 +402,26 @@ namespace racman
 
         }
 
-        private void buttonRaceStorage_Click(object sender, EventArgs e)
+        private void resetMenuStorage()
         {
             var api = game.api;
             var pid = api.getCurrentPID();
-            api.WriteMemory(pid, 0x1A4D7E0, 0); // Race storages
-            api.Notify("Reset Barlow race storage.");
+            // Disable race storage
+            api.WriteMemory(pid, rac2.addr.savedRaceIndex, 0);
+            // Disable ship opening cutscenes
+            api.WriteMemory(pid, rac2.addr.feltzinOpening, 1);
+            api.WriteMemory(pid, rac2.addr.gornOpening, 1);
+            // Fix ship mission menus
+            api.WriteMemory(pid, rac2.addr.feltzinMissionComplete, 0);
+            api.WriteMemory(pid, rac2.addr.hrugisMissionComplete, 0);
+            api.WriteMemory(pid, rac2.addr.gornMissionComplete, 0);
+
+        }
+
+        private void buttonRaceStorage_Click(object sender, EventArgs e)
+        {
+            resetMenuStorage();
+            game.api.Notify("Reset menu storage!");
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -344,7 +430,7 @@ namespace racman
             unlocks.Show();
         }
 
-        private void buttonNGPlusMenu_Click(object sender, EventArgs e)
+        private void SetupGeneralNGPlusMenus()
         {
             var api = game.api;
             var pid = api.getCurrentPID();
@@ -352,12 +438,39 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 20 });
             // We should setup pad manip, since this happens whenever Snivelak is visited.
             api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
-            api.WriteMemory(pid, 0x1A9DF90, new byte[] { 66 }); // Just need to set this address to 20 in float value but Idk how to do it, with 66 in byte value works likewise. 
+            api.WriteMemory(pid, rac2.addr.yeedilBoss, new byte[] { 66 });
+            api.WriteMemory(pid, rac2.addr.sibBoss, new byte[] { 20 });
             api.WriteMemory(pid, rac2.addr.gornManip, 1);
             api.WriteMemory(pid, rac2.addr.gornOpening, 1);
             api.WriteMemory(pid, rac2.addr.imInShortcuts, 1);
-            api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7);
-            api.Notify("NG+ insomniac museum menus, gorn manips, protopet and sniv boss tuning are set up!");
+
+            api.Notify("Manips done!");
+        }
+
+        private void buttonNGPlusMenu_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7); // Museum
+            SetupGeneralNGPlusMenus();
+          
+        }
+
+        private void buttonNoIMGMenu_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac2.addr.shortcutsIndex, 1); // Barlow
+            SetupGeneralNGPlusMenus();
+        }
+
+        private void buttonSetupAllMissions_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7); // Museum
+            api.WriteMemory(pid, 0x1A5815B, 1); // Endako cutscene
+            SetupGeneralNGPlusMenus();
         }
 
         private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
@@ -378,6 +491,24 @@ namespace racman
         private void debugFeaturesToolStripMenuItem_MouseHover(object sender, EventArgs e)
         {
             toolTip1.Show("Enables built-in debugging features. Press shoulder buttons to skip electrolyzer puzzles and arena missions.", menuStrip1, 1500);
+        }
+
+        private void coordsComboBox_CheckedChanged(object sender, EventArgs e)
+        {
+            var check = ((CheckBox)sender).Checked;
+            CoordsTimer.Enabled = check;
+            coordsLabel.Visible = true;
+            if (check) this.Height += 50;
+        }
+
+        private void coordsLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        public void UpdateCoordsLabel(object sender, EventArgs e)
+        {
+            coordsLabel.Text = $"X: {game.coords[0]}\nY: {game.coords[1]}\nZ: {game.coords[2]}";
         }
 
         private void activateQEToolStripMenuItem_Click(object sender, EventArgs e)
@@ -408,5 +539,64 @@ namespace racman
 
         }
 
+        private void buttonRespawn_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            var currPos = api.ReadMemory(pid, rac2.addr.playerCoords, 24);
+            api.WriteMemory(pid, rac2.addr.respawnCoords, currPos);
+        }
+
+        private void levelFlagViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var viewer = new FlagViewer(game, rac2.addr.levelFlags + (game.planetToLoad * 0x10), 0x10);
+            viewer.Text = $"{planets_comboBox.SelectedItem} level flags";
+            viewer.Show();
+        }
+
+        private void buttonUnlockAllPlat_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] unlocked = Enumerable.Repeat((byte)0xFF, 0x70).ToArray();
+            api.WriteMemory(pid, rac2.addr.platinumBoltArray, unlocked);
+        }
+
+        private void buttonResetPlatBolts_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x00, 0x70).ToArray();
+            api.WriteMemory(pid, rac2.addr.platinumBoltArray, locked);
+        }
+
+        private void checkBoxResetFlags_CheckedChanged(object sender, EventArgs e)
+        {
+            game.resetFlagsRequested = checkBoxResetFlags.Checked;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac2.addr.slotsHit, new byte[] { 40 }); 
+            api.WriteMemory(pid, rac2.addr.pBolts, new byte[] { 74 });
+            api.WriteMemory(pid, rac2.addr.pJackpot, new byte[] { 45 });
+            api.Notify("Maktar slots done!");
+        }
+
+        private void buttonCosmetics_Click(object sender, EventArgs e)
+        {
+            cosmeticsForm = new ChargebootColorPicker(
+                game.api, 
+                rac2.addr.chargebootsPrimaryFrontColor, 
+                rac2.addr.chargebootsPrimaryBackColor,
+                rac2.addr.chargebootsTintFrontColor,
+                rac2.addr.chargebootsTintBackColor
+            );
+            cosmeticsForm.Show();
+        }
     }
 }

@@ -6,12 +6,7 @@ using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using DiscordRPC;
-using DiscordRPC.Logging;
-using Button = System.Windows.Forms.Button;
 
 namespace racman
 {
@@ -24,67 +19,19 @@ namespace racman
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         private static Timer ForceLoadTimer = new Timer();
-        private Mod gbspiMod = null;
-        private AutosplitterHelper autosplitterHelper;
-        public rac1 game;
-        public DiscordRpcClient client;
+        private int savefileHelperSubID;
 
-        [DllImport("DwmApi")]
-        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, int[] attrValue, int attrSize);
-        protected override void OnHandleCreated(EventArgs e)
-        {
-            if (DwmSetWindowAttribute(Handle, 19, new[] { 1 }, 4) != 0)
-                DwmSetWindowAttribute(Handle, 20, new[] { 1 }, 4);
-        }
-        
+        private Mod gbspiMod = null;
+
+        private AutosplitterHelper autosplitterHelper;
+
+        public rac1 game;
+
         public RAC1Form(rac1 game)
         {
             this.game = game;
+
             InitializeComponent();
-            InitializeDiscordRPC();
-            InitializeDiscordRPC();
-            this.game.InitializeDiscordRPC("1326847296025006110");
-            
-            this.BackColor = Color.FromArgb(39, 39, 39);
-            this.ForeColor = Color.White; // Texte clair
-            
-            foreach (Control control in this.Controls)
-            {
-                if (control is Button)
-                {
-                    Button button = control as Button;
-                    button.BackColor = Color.FromArgb(255,60,60,60);
-                    button.FlatStyle = FlatStyle.Flat;
-                    button.FlatAppearance.BorderSize = 1;
-                    button.FlatAppearance.BorderColor = Color.Gray;
-                    
-                    button.Enter += (sender, e) =>
-                    {
-                        Button btn = sender as Button;
-                        if (btn != null)
-                        {
-                            btn.FlatAppearance.BorderColor = Color.LightGray;
-                        }
-                    };
-                    button.Leave += (sender, e) =>
-                    {
-                        Button btn = sender as Button;
-                        if (btn != null)
-                        {
-                            btn.FlatAppearance.BorderColor = Color.Gray;
-                        }
-                    };
-                    button.Click += (sender, e) =>
-                    {
-                        Button btn = sender as Button;
-                        if (btn != null)
-                        {
-                            btn.FlatAppearance.BorderColor = Color.White;
-                        }
-                    };
-                }
-            }
-            
             positions_comboBox.Text = "1";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
 
@@ -109,41 +56,6 @@ namespace racman
             {
                 gbspiSplitToolStripMenuItem.Enabled = false;
             }
-        }
-        
-        private void InitializeDiscordRPC()
-        {
-            // Créez un client Discord avec votre ID d'application
-            client = new DiscordRpcClient("1326847296025006110");
-
-            // Ajouter un logger pour suivre les événements (facultatif)
-            client.Logger = new ConsoleLogger() { Level = LogLevel.Warning };
-
-            // S'abonner aux événements Ready et Presence Update
-            client.OnReady += (sender, e) =>
-            {
-                Console.WriteLine("Connecté en tant que {0}", e.User.Username);
-            };
-
-            client.OnPresenceUpdate += (sender, e) =>
-            {
-                Console.WriteLine("Màj DiscordRPC");
-            };
-
-            // Connectez le client Discord
-            client.Initialize();
-
-            // Définir un Rich Presence initial
-            client.SetPresence(new RichPresence()
-            {
-                Details = "Main Menu",
-                Timestamps = Timestamps.Now,
-                Assets = new Assets()
-                {
-                    LargeImageKey = "rac1",
-                    LargeImageText = "Ratchet & Clank"
-                }
-            });
         }
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
@@ -173,14 +85,6 @@ namespace racman
         {
             KillYourself();
         }
-        private void airglide_Click(object sender, EventArgs e)
-        {
-            Airglide();
-        }
-        private void fov_Click(object sender, EventArgs e)
-        {
-            ChangeFov();
-        }
         private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
             LoadPlanet();
@@ -196,14 +100,6 @@ namespace racman
         private void KillYourself()
         {
             game.KillYourself();
-        }
-        private void Airglide()
-        {
-            game.Airglide();
-        }
-        private void ChangeFov()
-        {
-            game.fov();
         }
         private void LoadPlanet()
         {
@@ -221,6 +117,22 @@ namespace racman
             this.Invoke(new Action(() => {
                 planets_comboBox.SelectedIndex = (int)game.planetIndex;
             }));
+
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0xB00070, 1, value =>
+            {
+                // this lione
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        // Savefile helper mod is enabled.
+                        loadFileButton.Enabled = true;
+                        setAsideFileButton.Enabled = true;
+                        forceAutosave.Enabled = true;
+                        game.api.ReleaseSubID(savefileHelperSubID);
+                    }));
+                }
+            });
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -603,6 +515,21 @@ namespace racman
             game.api.WriteMemory(game.pid, 0xE5EFD8, 4, zero);
 
             game.api.Notify("Blarg bridge and rilgar race reset for any% all missions. Good luck!");
+        }
+
+        private void setAsideFileButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0xB00072, new byte[] { 1 });
+        }
+
+        private void loadFileButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0xB00071, new byte[] { 1 });
+        }
+
+        private void forceAutosave_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(game.api.getCurrentPID(), 0xB00073, new byte[] { 3 });
         }
     }
 }

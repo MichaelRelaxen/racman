@@ -39,6 +39,21 @@ namespace racman
             }
             IPTextBox.Text = ip;
 
+            // Make a confirm alert dialog to make sure the user confirms to the terms of service
+            // If they don't, close the program
+            var tos = func.GetConfigData("config.txt", "tos");
+
+            if (tos == "") {
+                var dialogResult = MessageBox.Show("By using this program, you agree that trans rights are human rights?", "Terms of Service", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.No) {
+                    // Show a dialog that explains why it's important to agree to the terms of service
+                    MessageBox.Show("Get fucked.");
+                    Environment.Exit(0);
+                } else {
+                    func.ChangeFileLines("config.txt", "yes", "tos");
+                }
+            }
+
             ConfigureCombos.GetCombos();
         }
 

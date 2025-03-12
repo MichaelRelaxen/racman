@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
-using System.Text;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace racman
 {
@@ -31,57 +32,53 @@ namespace racman
         public static int pid = AttachPS3Form.pid;
         public static uint SaveInfo = 0x11B1BD8;
         public static uint FrameCounter = 0xB3C59C;
-        public static uint GhostRatchet = 0x10D47D0;
 
         private string Challenge;
         private string src;
 
+
         private void RAC4Form_Load(object sender, EventArgs e)
         {
-            List<string> x = new List<string>();
-            for (int i = 0; i <= 80; i = i + 20)
-                x.Add(func.client.DownloadString("https://www.speedrun.com/api/v1/games/k6qwo06g/records?top=1&offset="+i));
-            src = string.Join(",", x);
+
+        }
+        private async void wrsFromSrcSiteCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (src == null)
+            {
+                List<string> x = new List<string>();
+
+                try
+                {
+                    for (int i = 0; i <= 80; i += 20)
+                    {
+                        string result = await func.client.DownloadStringTaskAsync($"https://www.speedrun.com/api/v1/games/k6qwo06g/records?top=1&offset={i}");
+                        x.Add(result);
+                    }
+                    src = string.Join(",", x);
+                }
+                catch
+                {
+                    // fuck handling error exceptions
+                }
+            }
         }
 
-        // private string GetWorldRecord(string challenge)
-        // {
-        //     string a = src.Substring(src.IndexOf($"{Challenge.Replace(' ', '_')}#Solo"));
-        //     string b = a.Substring(a.IndexOf("realtime_t") + 12,3).Trim(new char[] { ',', '"' }); // ye
-        //     TimeSpan t = TimeSpan.FromSeconds(int.Parse(b));
-        //
-        //     return string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds);
-        // }
-
-        
 
         private string GetWorldRecord(string challenge)
         {
-            byte[] bytes = Encoding.Default.GetBytes(src);
-            string utf8Src = Encoding.UTF8.GetString(bytes);
-            // Console.WriteLine(utf8Src);
-
-            challenge = challenge.Replace("??", "_"); // Remplacer les espaces par des underscores
-
-            int startIndex = utf8Src.IndexOf($"{challenge}#Solo");
-            if (startIndex == -1)
+            try
             {
-                throw new ArgumentException($"Défi '{challenge}' introuvable dans la chaîne source.");
+                string a = src.Substring(src.IndexOf($"{Challenge.Replace(' ', '_')}#Solo"));
+                string b = a.Substring(a.IndexOf("realtime_t") + 12, 3).Trim(new char[] { ',', '"' }); // ye
+                TimeSpan t = TimeSpan.FromSeconds(int.Parse(b));
+                return string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds);
+            }
+            catch { 
+                return "N/A"; 
             }
 
-            string a = utf8Src.Substring(startIndex);
-            int timeIndex = a.IndexOf("realtime_t") + 12;
-            if (timeIndex == -1 || timeIndex + 3 > a.Length)
-            {
-                throw new ArgumentException("La valeur 'realtime_t' est mal formatée ou manquante.");
-            }
 
-            string b = a.Substring(timeIndex, 3).Trim(new char[] { ',', '"' });
-            TimeSpan t = TimeSpan.FromSeconds(int.Parse(b));
-
-            return string.Format("{0:D1}:{1:D2}", t.Minutes, t.Seconds);
         }
-
 
         private Timer timer = new Timer();
 
@@ -114,13 +111,15 @@ namespace racman
 
             writetext.Text = string.Format("{0:D2}:{1:D2}.{2:D3}", t.Minutes, t.Seconds, t.Milliseconds);
 
-            if (frames <= 5)
+            if (frames < 5)
             {
                 levelinfo.Text = Encoding.ASCII.GetString(func.FromHex(func.ReadMemory(ip, pid, SaveInfo, 64))).Split(new string[] { "Time" }, StringSplitOptions.None).First(); // lmfao
                 Challenge = levelinfo.Text.Split(new string[] { "-" }, StringSplitOptions.None).First().TrimEnd();
-                wrtext.Text = $"WR: {GetWorldRecord(Challenge)}";
 
-                if (ghostcheck.Checked) func.WriteMemory(ip, pid, GhostRatchet, "3500");
+                if (wrsFromSrcSiteCheck.Checked)
+                    wrtext.Text = $"WR: {GetWorldRecord(Challenge)}";
+                else wrtext.Text = "WR: N/A";
+
             }
         }
 
@@ -132,7 +131,7 @@ namespace racman
 
         private void ghostcheck_CheckedChanged(object sender, EventArgs e)
         {
-
+            game.SetGhostRatchet(ghostcheck.Checked);
         }
 
         private void inputdisplaybutton_Click(object sender, EventArgs e)
@@ -179,7 +178,7 @@ namespace racman
             }
             else
             {
-                // Enable autopslitter
+                // Enable auotpslitter
                 Console.WriteLine("Autosplitter starting!");
                 autosplitterHelper = new AutosplitterHelper();
                 autosplitterHelper.StartAutosplitterForGame(this.game);
@@ -216,5 +215,7 @@ namespace racman
             RAC4BotsUnlocks unlocks = new RAC4BotsUnlocks(game);
             unlocks.Show();
         }
+
+
     }
 }

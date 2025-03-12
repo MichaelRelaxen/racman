@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -16,7 +18,7 @@ namespace racman
 { 
     public partial class MemoryForm : Form
     {
-        struct WatchedAddress
+        public class WatchedAddress
         {
             public uint address;
             public int subID;
@@ -25,9 +27,9 @@ namespace racman
             public bool hexRepresented;
             public bool isFrozen;
             public int freezeSub;
+            public string type;
+            public string name;
         }
-
-        List<WatchedAddress> watchedAddresses = new List<WatchedAddress>();
 
         public MemoryForm()
         {
@@ -38,79 +40,59 @@ namespace racman
             mobyInspectorListView.DoubleBuffering(true);
         }
 
-        void SetItemValueText(ListViewItem item, string value)
+        void SetItemValueText(ListViewItem item, string value, string frozen = "")
         {
+            var watched = (WatchedAddress)item.Tag;
+            if (watched.isFrozen) frozen = "❄: ";
             this.Invoke(new Action(() =>
             {
-                item.SubItems[2].Text = value;
+                item.SubItems[2].Text = frozen+value;
             }));
         }
 
-        private void addMemoryWatchButton_Click(object sender, EventArgs e)
+        // New method for adding a memory watch entry
+        private void AddMemoryWatch(uint address, string type, string name = "Unknown")
         {
-            uint address = 0;
+            ListViewItem item = new ListViewItem(name);  // default to unknown if no name is supplied ^^^^^
+            item.SubItems.Add(address.ToString("X")); 
+            item.SubItems.Add("Waiting..."); 
 
-            try
+            WatchedAddress watched = new WatchedAddress
             {
-                // If you put "0x" in the middle of your hex address I want you to die
-                var strippedText = registerAddressTextBox.Text.Replace(" ", "").Replace("0x", "").Trim();
-                address = Convert.ToUInt32(strippedText, 16);
-            } catch (Exception ex)
+                address = address,
+                type = type,
+                name = name 
+            };
+
+            switch (watched.type)
             {
-                MessageBox.Show("Address must be hexadecimal");
-                return;
-            }
-
-            ListViewItem item = new ListViewItem("Unknown");
-            item.SubItems.Add(address.ToString("X"));
-            item.SubItems.Add("Waiting...");
-
-            WatchedAddress watched = new WatchedAddress();
-
-            watched.address = address;
-
-            switch (registerAddressTypeCombo.Text) 
-            {
-                case "Int32": 
-                    {
-                        watched.size = 4;
-                        break;        
-                    }
-                case "Int64": 
-                    {
-                        watched.size = 8;
-                        break;
-                    }
-                case "Int16": 
-                    {
-                        watched.size = 2;
-                        break;
-                    }
-                case "Byte": 
-                    {
-                        watched.size = 1;
-                        break;
-                    }
-                case "Float": 
-                    {
-                        watched.size = 4;
-                        watched.isFloat = true;
-                        break;
-                    }
+                case "Int32":
+                    watched.size = 4;
+                    break;
+                case "Int64":
+                    watched.size = 8;
+                    break;
+                case "Int16":
+                    watched.size = 2;
+                    break;
+                case "Byte":
+                    watched.size = 1;
+                    break;
+                case "Float":
+                    watched.size = 4;
+                    watched.isFloat = true;
+                    break;
                 case "Pointer":
-                    {
-                        watched.size = 4;
-                        watched.hexRepresented = true;
-                        break;
-                    }
+                    watched.size = 4;
+                    watched.hexRepresented = true;
+                    break;
                 default:
-                    {
-                        watched.size = 4;
-                        watched.hexRepresented = true;
-                        break;
-                    }
+                    watched.size = 4;
+                    watched.hexRepresented = true;
+                    break;
             }
 
+            // Subscribe to the memory watch and get data updates
             IPS3API api = func.api;
 
             watched.subID = api.SubMemory(api.getCurrentPID(), address, watched.size, (byte[] bytes) =>
@@ -119,7 +101,6 @@ namespace racman
                 {
                     float value = BitConverter.ToSingle(bytes, 0);
                     SetItemValueText(item, value.ToString());
-
                     return;
                 }
 
@@ -128,45 +109,56 @@ namespace racman
                 switch (watched.size)
                 {
                     case 1:
-                        {
-                            val = bytes[0];
-                            break;
-                        }
+                        val = bytes[0];
+                        break;
                     case 2:
-                        {
-                            val = BitConverter.ToInt16(bytes, 0);
-                            break;
-                        }
+                        val = BitConverter.ToInt16(bytes, 0);
+                        break;
                     case 4:
-                        {
-                            val = BitConverter.ToInt32(bytes, 0); 
-                            break;
-                        }
+                        val = BitConverter.ToInt32(bytes, 0);
+                        break;
                     case 8:
-                        {
-                            val = BitConverter.ToInt64(bytes, 0);
-                            break;
-                        }
+                        val = BitConverter.ToInt64(bytes, 0);
+                        break;
                     default:
-                        {
-                            val = bytes[0];
-                            break;
-                        }
+                        val = bytes[0];
+                        break;
                 }
 
                 if (!watched.hexRepresented)
                 {
                     SetItemValueText(item, val.ToString());
-                } else
+                }
+                else
                 {
                     SetItemValueText(item, val.ToString("X"));
                 }
             });
 
             item.Tag = watched;
-
             watchedMemoryAddressesListView.Items.Add(item);
         }
+
+
+        private void addMemoryWatchButton_Click(object sender, EventArgs e)
+        {
+            uint address = 0;
+
+            try
+            {
+                // Parse address
+                var strippedText = registerAddressTextBox.Text.Replace(" ", "").Replace("0x", "").Trim();
+                address = Convert.ToUInt32(strippedText, 16);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Address must be hexadecimal");
+                return;
+            }
+
+            AddMemoryWatch(address, registerAddressTypeCombo.Text);
+        }
+
 
         private void MemoryForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -228,8 +220,9 @@ namespace racman
                             // Get current value to freeze
                             byte[] currVal = api.ReadMemory(api.getCurrentPID(), watched.address, watched.size);
                             watched.freezeSub = api.FreezeMemory(api.getCurrentPID(), watched.address, watched.size, IPS3API.MemoryCondition.Any, currVal);
+
                         }
-                          
+
                     }
                     catch (Exception ex)
                     {
@@ -398,5 +391,139 @@ namespace racman
                 PopulateMobyInspectorRac2(((ComboBox)sender).SelectedIndex);
             }
         }
+
+        private void MemoryForm_Load(object sender, EventArgs e)
+        {
+            UpdateWatchlists();
+        }
+
+        private void UpdateWatchlists()
+        {
+            var watchlistItems = savedWatchlistsComboBox.Items;
+            string gamePrefix = $"{AttachPS3Form.game}-"; 
+
+            if (!Directory.Exists("watchlists"))
+                return;
+
+            watchlistItems.Clear(); // clear existing items
+
+            foreach (string filePath in Directory.GetFiles("watchlists", $"{gamePrefix}*.mw")) // Only get files for the current game
+            {
+                string fileName = Path.GetFileNameWithoutExtension(filePath);
+
+                // remove game ID prefix
+                if (fileName.StartsWith(gamePrefix))
+                    fileName = fileName.Substring(gamePrefix.Length);
+
+                watchlistItems.Add(fileName);
+            }
+        }
+
+        private void SaveWatchListToFile(string filename)
+        {
+            // Prepare the data to write (address, type, and name from the ListViewItem)
+            var watchedAddressesData = watchedMemoryAddressesListView.Items
+                .Cast<ListViewItem>() 
+                .Select(item =>
+                {
+                    var watched = (WatchedAddress)item.Tag;
+                    string name = item.Text; 
+                    return $"{name},0x{watched.address.ToString("X")},{watched.type}";  
+                })
+                .ToList();
+
+            try
+            {
+                File.WriteAllLines(filename, watchedAddressesData);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                MessageBox.Show(
+                    "Unable to create or write to file. This may be caused by an invalid name.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+
+
+        // new method to populate the listview from file
+        private void PopulateWatchlistFromFile(string filename)
+        {
+            try
+            {
+                var lines = File.ReadAllLines(filename);
+
+                foreach (var line in lines)
+                {
+                    var parts = line.Split(',');
+
+                    if (parts.Length == 3) 
+                    {
+                        string name = parts[0];
+                        uint address = Convert.ToUInt32(parts[1], 16);
+                        string type = parts[2];
+                        AddMemoryWatch(address, type, name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error reading watchlist file: " + ex.Message);
+            }
+        }
+
+
+
+        private void saveWatchListButton_Click(object sender, EventArgs e)
+        {
+            Directory.CreateDirectory("watchlists");
+            string filename = $"watchlists/{AttachPS3Form.game}-{savedWatchlistsComboBox.Text}.mw";
+
+            try
+            {
+                SaveWatchListToFile(filename);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.StackTrace);
+                MessageBox.Show(
+                    "Unable to create or write to file. This may be caused by an invalid name.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+
+            UpdateWatchlists();
+        }
+
+        private void savedWatchlistsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // release sub ids before clearing the list view
+            foreach (ListViewItem item in watchedMemoryAddressesListView.Items)
+            {
+                if (item.Tag != null)
+                {
+                    WatchedAddress watched = (WatchedAddress)item.Tag;
+                    if (watched.subID != 0)
+                    {
+                        func.api.ReleaseSubID(watched.subID);
+                    }
+                    if (watched.isFrozen)
+                        func.api.ReleaseSubID(watched.freezeSub);
+                }
+            }
+
+            // clear the list view and populate with the new stuuuufffffff aww ye
+            watchedMemoryAddressesListView.Items.Clear();
+
+            string filename = $"watchlists/{AttachPS3Form.game}-{savedWatchlistsComboBox.Text}.mw";
+            PopulateWatchlistFromFile(filename);
+        }
+
     }
 }

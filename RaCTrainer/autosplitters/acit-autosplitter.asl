@@ -1,4 +1,10 @@
-﻿state("racman") { }
+state("racman") { }
+
+startup
+{
+    settings.Add("Round", true, "Round final time to nearest second");
+    settings.SetToolTip("Round", "This makes it match the time you see on the file.");
+}
 
 init
 {
@@ -9,7 +15,7 @@ init
     // Update values from memory
     vars.UpdateValues = (Action) (() => {
         vars.reader.BaseStream.Position = 0;
-
+        
         // Read values from memory
         current.planet = vars.reader.ReadUInt32();
         current.gameState = vars.reader.ReadUInt32();
@@ -25,15 +31,21 @@ init
         current.timer = vars.reader.ReadSingle();
         current.firstCutscene = vars.reader.ReadUInt32();
         current.loadSaveState = vars.reader.ReadUInt32();
+
+        current.checkpointTimer = vars.reader.ReadSingle();
+        current.IGT = vars.reader.ReadUInt32();
     });
     vars.UpdateValues();
 
     // Initialize run values
     vars.ResetRunValues = (Action) (() => {
         vars.gameTime = 0.0f;
-        vars.tempTimer = 0.0f; // 7 * 60 + 58;// 0.0f;
-        vars.isGamePaused = false;
-        vars.hasPlanetChanged = false;
+        vars.initTimer = 0.0f;
+        vars.possibleSaveDetection = false;
+        vars.loopCounter = 0;
+        vars.waitTillTimerChanges = false;
+
+        vars.gameIsAboutToStart = false;
         vars.runSaveFileID = -1;
         vars.isLibraSpawned = false;
         vars.isPlayerOnRunSaveFile = true;
@@ -49,13 +61,25 @@ onStart
     vars.ResetRunValues();
     vars.runSaveFileID = current.saveFileID;
     vars.runSaves.Add((int)current.saveFileID);
-    vars.tempTimer = -current.timer;
+    vars.initTimer = -current.IGT -current.timer;
+    vars.gameIsAboutToStart = false;
+}
+
+onReset
+{
+    vars.gameIsAboutToStart = false;
 }
 
 update
 {
     vars.UpdateValues();
     vars.isPlayerOnRunSaveFile = vars.runSaveFileID == current.saveFileID;
+    vars.loopCounter++;
+
+    if (!vars.gameIsAboutToStart)
+    {
+        vars.gameIsAboutToStart = (current.planet == 1 || current.planet == 0) && old.firstCutscene == 0 && current.firstCutscene == 1;
+    }
     
     // update libra spawned state
     if (current.planet == 10 && current.LibraHP > 0.6f)
@@ -94,51 +118,42 @@ update
     }
 
     // Timer related
-    // on planet change floor the timer
-    if (old.planet != current.planet)
+
+    // this fixes the timer when the game saves and the IGT is out of sync by a fraction of a second
+    if (!vars.possibleSaveDetection && current.timer < old.timer)
     {
-        vars.hasPlanetChanged = true;
+        vars.possibleSaveDetection = true;
+        vars.loopCounter = 0;
+    }
+    if (vars.possibleSaveDetection && vars.loopCounter > 10)
+    {
+        vars.possibleSaveDetection = false;
+    }
+    if (vars.possibleSaveDetection)
+    {
+        return;
     }
 
-    // if there is a cutscene playing, than the timer is paused
-    if (old.cutsceneState2 == 0 && current.cutsceneState2 == 1)
-    {
-        vars.isGamePaused = true;
-        vars.tempTimer += current.timer;
-    }
-
-    if (old.cutsceneState2 == 1 && current.cutsceneState2 == 0)
-    {
-        vars.isGamePaused = false;
-        vars.tempTimer -= current.timer;
-    }
-
-    // update timer
+    // do not update the timer in case the timer drops. This is (can) due to the fact that the
+    // IGT and the checkpoint timers are updated at different times. Sometimes if the game saves the timer
+    // will drop by the checkpoint timer for a split second.
     if (current.timer < old.timer)
     {
-        if (vars.hasPlanetChanged)
-        {
-            vars.tempTimer = Math.Floor(vars.gameTime);
-            vars.hasPlanetChanged = false;
-        }
-        else
-        {
-            vars.tempTimer = Math.Ceiling(vars.gameTime);
-            if (current.planet > 2)
-            {
-                vars.tempTimer += 1f;
-            }
-        }
+        vars.waitTillTimerChanges = true;
+    }
+    if (current.timer > old.timer)
+    {
+        vars.waitTillTimerChanges = false;
+    }
+    if (vars.waitTillTimerChanges)
+    {
+        return;
     }
 
-    if (!vars.isGamePaused)
-    {
-        vars.gameTime = vars.tempTimer + current.timer;
-    }
+    vars.gameTime = vars.initTimer + current.IGT + current.timer;
     
-    //print(current.timer.ToString());
+    //print(vars.gameTime.ToString());
     //print(current.planet.ToString() + " " + old.planet.ToString());
-    //print(vars.gameTime.ToString() + " " + vars.tempTimer.ToString() + " " + current.timer.ToString());
 }
 
 split
@@ -234,6 +249,14 @@ split
     // Azimuth split
     if (current.planet == 20 && current.azimuthHP <= 0.0f && current.cutsceneState1 == 1 && old.cutsceneState1 == 0)
     {
+        if (settings["Round"]) 
+        {
+            var t = timer.CurrentTime.GameTime.Value;
+            if (t.Milliseconds > 0) {
+
+                timer.SetGameTime(TimeSpan.FromSeconds(Math.Ceiling(t.TotalSeconds)));
+            }
+        }
         return true;
     }
 }
@@ -268,7 +291,7 @@ start
     }
 
     // if the first cutscene starts
-    if ((current.planet == 1 || current.planet == 0) && old.firstCutscene == 0 && current.firstCutscene == 1)
+    if (vars.gameIsAboutToStart && current.timer < 0.1f)
     {
         print("Start on first cutscene");
         return true;

@@ -80,6 +80,11 @@ namespace racman
         public uint miscLevelFlags => throw new System.NotImplementedException();
         public uint infobotFlags => throw new System.NotImplementedException();
         public uint moviesFlags => throw new System.NotImplementedException();
+
+        public uint chargebootsTintFrontColor => 0xc33ac0;
+        public uint chargebootsTintBackColor => 0xc33ac4;
+        public uint chargebootsPrimaryFrontColor => 0xc33ab0;
+        public uint chargebootsPrimaryBackColor => 0xc33ab4;
     }
     public class rac3 : IGame, IAutosplitterAvailable
     {
@@ -198,7 +203,10 @@ namespace racman
             (addr.marcadiaMission + 3, 1), // Not actually used, here for backwards compatibility
             (0xC4DF80, 4),
             (0xDA50FC, 4),
-            (addr.loadedChunk, 4)
+            (addr.loadedChunk, 4),
+            // Tyhrraguise unlock
+            // 0xDA56EC + 0x4C6 - 0x4A8
+            (0xDA570A, 1)
         };
 
         public void KlunkTuneToggle(bool enabled)
