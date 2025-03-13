@@ -399,6 +399,17 @@ namespace racman
             MemoryForm memoryForm = new MemoryForm();
             memoryForm.Show();
         }
+        
+        private void discordRPCEnabledToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (discordRPCEnabledToolStripMenuItem.Checked) {
+                game.DiscordTimer.Enabled = true;
+            }
+            else {
+                game.DiscordTimer.Enabled = false;
+                game.CheckPlanetForDiscordRPC();
+            }
+        }
 
         private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {

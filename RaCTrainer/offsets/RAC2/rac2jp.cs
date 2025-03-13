@@ -86,6 +86,11 @@ namespace racman
             throw new NotImplementedException();
         }
 
+        public override void CheckPlanetForDiscordRPC(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void ResetLevelFlags()
         {
             throw new NotImplementedException();

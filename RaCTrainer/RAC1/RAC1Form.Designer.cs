@@ -63,10 +63,12 @@ namespace racman
             this.autosplitterEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbspiSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.discordRPCEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateHeroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateMobysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateParticlesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.normalCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.freecamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.freecamCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -329,7 +331,10 @@ namespace racman
             this.buyPremiumToolStripMenuItem,
             this.toolStripSeparator1,
             this.patchLoaderToolStripMenuItem,
-            this.memoryUtilitiesToolStripMenuItem});
+            this.memoryUtilitiesToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.discordRPCEnabledToolStripMenuItem
+            });
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -375,6 +380,19 @@ namespace racman
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities...";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator2";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            // 
+            // discordRPCEnabledToolStripMenuItem
+            // 
+            this.discordRPCEnabledToolStripMenuItem.CheckOnClick = true;
+            this.discordRPCEnabledToolStripMenuItem.Name = "discordRPCEnabledToolStripMenuItem";
+            this.discordRPCEnabledToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.discordRPCEnabledToolStripMenuItem.Text = "Discord Rich Presence";
+            this.discordRPCEnabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.discordRPCEnabledToolStripMenuItem_CheckedChanged);
+            // 
             // autosplitterToolStripMenuItem
             // 
             this.autosplitterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -406,7 +424,7 @@ namespace racman
             this.updateHeroToolStripMenuItem,
             this.updateMobysToolStripMenuItem,
             this.updateParticlesToolStripMenuItem,
-            this.toolStripSeparator2,
+            this.toolStripSeparator3,
             this.normalCameraToolStripMenuItem,
             this.freecamToolStripMenuItem,
             this.freecamCharacterToolStripMenuItem});
@@ -436,10 +454,10 @@ namespace racman
             this.updateParticlesToolStripMenuItem.Text = "Update Particles";
             this.updateParticlesToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
             // 
-            // toolStripSeparator2
+            // toolStripSeparator3
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(181, 6);
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(181, 6);
             // 
             // normalCameraToolStripMenuItem
             // 
@@ -762,10 +780,12 @@ namespace racman
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem discordRPCEnabledToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateHeroToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateMobysToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateParticlesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem normalCameraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem freecamToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem freecamCharacterToolStripMenuItem;

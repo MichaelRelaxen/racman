@@ -287,6 +287,11 @@ namespace racman
             }
         }
 
+        public override void CheckPlanetForDiscordRPC(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         public override void SetFastLoads(bool enabled = false)
         {
             throw new NotImplementedException();

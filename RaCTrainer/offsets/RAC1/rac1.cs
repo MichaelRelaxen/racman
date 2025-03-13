@@ -1,7 +1,8 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using DiscordRPC;
 
 namespace racman
 {
@@ -95,6 +96,24 @@ namespace racman
         }
 
         public static RaC1Addresses addr = new RaC1Addresses();
+
+        public DiscordRpcClient DiscordClient;
+        
+        private Timestamps initialTimestamp;
+        
+        private uint lastPlanetIndex = 100;
+        
+        public void InitializeDiscordRPC()
+        {
+            if (DiscordClient != null)
+            {
+                DiscordClient.Dispose();
+                DiscordClient = null;
+            }
+            DiscordClient = new DiscordRpcClient("1326847296025006110");
+            DiscordClient.Initialize();
+            initialTimestamp = Timestamps.Now;
+        }
 
         public rac1(IPS3API api) : base(api)
         {
@@ -501,6 +520,56 @@ namespace racman
             if (Inputs.RawInputs == 0x00 & !inputCheck)
             {
                 inputCheck = true;
+            }
+        }
+
+        public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
+        {
+            if (!DiscordTimer.Enabled) {
+                if (DiscordClient != null)
+                {
+                    DiscordClient.Dispose();
+                    DiscordClient = null;
+                    lastPlanetIndex = 100; // Valeur invalide pour forcer une mise à jour
+                }
+                return;
+            }
+            
+            byte[] planetData = api.ReadMemory(pid, rac1.addr.currentPlanet, 4);
+            if (planetData?.Length != 4) return; 
+            
+            uint planetindex = BitConverter.ToUInt32(planetData.Reverse().ToArray(), 0);
+            
+            if (planetindex != lastPlanetIndex) {
+                if (DiscordClient == null) InitializeDiscordRPC();
+                lastPlanetIndex = planetindex;
+                if (planetindex < planetsList.Length)
+                    UpdateRichPresence(planetsList[planetindex]);
+            }
+        }
+
+        public void UpdateRichPresence(string planetname)
+        {
+            if (DiscordClient == null)
+                return;
+            var imageKey = planetname.ToLower();
+            try {
+                DiscordClient.SetPresence(new RichPresence()
+                {
+                    Details = planetname,
+                    Timestamps = initialTimestamp,
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "rac1",
+                        LargeImageText = "Ratchet & Clank",
+                        SmallImageKey = imageKey,
+                        SmallImageText = planetname,
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Cant update : {ex.Message}");
             }
         }
 

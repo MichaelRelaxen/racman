@@ -339,5 +339,10 @@ namespace racman
                 inputCheck = true;
             }
         }
+
+        public override void CheckPlanetForDiscordRPC(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
