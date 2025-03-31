@@ -45,7 +45,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(451, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(408, 24);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -124,13 +124,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(451, 177);
+            this.ClientSize = new System.Drawing.Size(408, 177);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.planets_comboBox);
             this.Controls.Add(this.menuStrip1);
             this.Name = "TODForm";
-            this.Text = "Ratchet & Clank Future: Tools of Destruction - ??????? (PAL)";
+            this.Text = "Ratchet & Clank: Tools of Destruction - NPEA00452/BCES00052 (PAL)";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
