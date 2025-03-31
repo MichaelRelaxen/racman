@@ -7,12 +7,41 @@ using System.Threading.Tasks;
 
 namespace racman
 {
-    public class tod : IGame
+    public enum TodGameType
     {
-        public static TODAddresses addr;
+        PALDL,
+        PALDisc
+    }
 
-        public tod(IPS3API api) : base(api)
+    public class ToD : IGame
+    {
+        TodGameType gameType;
+
+        public ToD(IPS3API api, TodGameType game) : base(api)
         {
+            gameType = game;
+        }
+
+        public string Version
+        {
+            get
+            {
+                if (gameType == TodGameType.PALDL)
+                    return "NPEA00452";
+                else
+                    return "BCES00052";
+            }
+        }
+
+        public uint SavePlanetId
+        {
+            get
+            {
+                if (gameType == TodGameType.PALDL) 
+                    return 0x1029C55B;
+                else 
+                    return 0x10280208;
+            }
         }
 
         public override void CheckInputs(object sender, EventArgs e)
@@ -39,11 +68,10 @@ namespace racman
         {
             throw new NotImplementedException();
         }
-    }
 
-    public class TODAddresses
-    {
-        public uint health => 0x9227184;
-
+        public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

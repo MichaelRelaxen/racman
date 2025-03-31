@@ -156,6 +156,7 @@
     <Compile Include="ChargebootColorPicker.Designer.cs">
       <DependentUpon>ChargebootColorPicker.cs</DependentUpon>
     </Compile>
+    <Compile Include="offsets\TOD\tod.cs" />
     <Compile Include="RAC2\RC2Unlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,6 +273,12 @@
     <Compile Include="RAC4\RAC4Form.Designer.cs">
       <DependentUpon>RAC4Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="TOD\TODForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TOD\TODForm.Designer.cs">
+      <DependentUpon>TODForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ACIT\ACITForm.resx">
       <DependentUpon>ACITForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -355,6 +362,9 @@
     </Compile>
     <EmbeddedResource Include="RAC3\UYAUnlocks.resx">
       <DependentUpon>UYAUnlocks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TOD\TODForm.resx">
+      <DependentUpon>TODForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

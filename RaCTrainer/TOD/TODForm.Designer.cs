@@ -32,6 +32,9 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label6 = new System.Windows.Forms.Label();
+            this.planets_comboBox = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,7 +45,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(485, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(451, 24);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -69,11 +72,62 @@
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(44, 67);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(67, 13);
+            this.label6.TabIndex = 99;
+            this.label6.Text = "Load Planet:";
+            // 
+            // planets_comboBox
+            // 
+            this.planets_comboBox.FormattingEnabled = true;
+            this.planets_comboBox.Items.AddRange(new object[] {
+            "Kerwan",
+            "Cobalia",
+            "Kortog",
+            "Fastoon",
+            "Voron",
+            "Mukow",
+            "Nundac",
+            "Ardolis",
+            "Rakar",
+            "Rykan V",
+            "Sargasso",
+            "Kreeli",
+            "Viceron",
+            "Verdigris",
+            "Jasindu",
+            "Ublik ",
+            "Reepor",
+            "Igliak",
+            "Fastoon 2"});
+            this.planets_comboBox.Location = new System.Drawing.Point(44, 83);
+            this.planets_comboBox.Name = "planets_comboBox";
+            this.planets_comboBox.Size = new System.Drawing.Size(115, 21);
+            this.planets_comboBox.TabIndex = 98;
+            this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Gray;
+            this.label1.Location = new System.Drawing.Point(41, 107);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(211, 13);
+            this.label1.TabIndex = 100;
+            this.label1.Text = "To change planets, save and load your file.\r\n";
+            // 
             // TODForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(485, 99);
+            this.ClientSize = new System.Drawing.Size(451, 177);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.planets_comboBox);
             this.Controls.Add(this.menuStrip1);
             this.Name = "TODForm";
             this.Text = "Ratchet & Clank Future: Tools of Destruction - ??????? (PAL)";
@@ -90,5 +144,8 @@
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox planets_comboBox;
+        private System.Windows.Forms.Label label1;
     }
 }
