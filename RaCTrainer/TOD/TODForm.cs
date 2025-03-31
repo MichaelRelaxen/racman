@@ -12,14 +12,15 @@ namespace racman.TOD
 {
     public partial class TODForm : Form
     {
-        public TODForm(tod game)
+        public TODForm(ToD game)
         {
             this.game = game;
+            this.Text = $"Ratchet & Clank: Tools of Destruction - {game.Version}";
             InitializeComponent();
         }
 
         static ModLoaderForm modLoaderForm;
-        public tod game;
+        public ToD game;
 
         private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -38,6 +39,14 @@ namespace racman.TOD
         {
             MemoryForm memoryForm = new MemoryForm();
             memoryForm.Show();
+        }
+
+        private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, game.SavePlanetId, new byte[] { (byte)planets_comboBox.SelectedIndex });
         }
     }
 }

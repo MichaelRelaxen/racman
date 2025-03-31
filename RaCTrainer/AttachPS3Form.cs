@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Threading;
 using racman.Memory;
+using racman.TOD;
 
 namespace racman
 {
@@ -205,6 +206,22 @@ namespace racman
                 ACITForm acit = new ACITForm(new acit(func.api));
                 gameName = "ACIT";
                 acit.ShowDialog();
+            }
+            else if (game == "NPEA00452")
+            {
+                Hide();
+                func.api.Notify("RaCMAN connected!");
+                TODForm tod = new TODForm(new ToD(func.api, TodGameType.PALDL));
+                gameName = "ToD (PAL DL)";
+                tod.ShowDialog();
+            }
+            else if (game == "BCES00052")
+            {
+                Hide();
+                func.api.Notify("RaCMAN connected!");
+                TODForm tod = new TODForm(new ToD(func.api, TodGameType.PALDisc));
+                gameName = "ToD (PAL Disc)";
+                tod.ShowDialog();
             }
             else
             {
