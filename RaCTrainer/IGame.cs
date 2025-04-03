@@ -81,6 +81,7 @@ namespace racman
         public virtual void KillYourself()
         {
             api.WriteMemory(pid, Addr().playerCoords + 8, 0xC2480000);
+            api.WriteMemory(pid, 0x96BD64, 128);
         }
 
         public virtual void LoadPlanet(bool resetFlags = false, bool resetGoldBolts = false)
