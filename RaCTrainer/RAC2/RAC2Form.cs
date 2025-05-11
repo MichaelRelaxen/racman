@@ -410,7 +410,7 @@ namespace racman
 
             if (desiredShortcutIndex != null)
             {
-                api.WriteMemory(pid, rac2.addr.shortcutsIndex, desiredShortcutIndex);
+                api.WriteMemory(pid, rac2.addr.shortcutsIndex, desiredShortcutIndex.Value);
             }
 
             // Disable race storage
