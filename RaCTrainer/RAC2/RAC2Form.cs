@@ -28,6 +28,7 @@ namespace racman
         // Used to reset fast loads after load is finished
         private int loadScreenTypeSubId = -1;
         private byte prevLoadScreen = 255;
+        private uint? desiredShortcutIndex = null;
 
         public RAC2Form(rac2 game)
         {
@@ -406,6 +407,12 @@ namespace racman
         {
             var api = game.api;
             var pid = api.getCurrentPID();
+
+            if (desiredShortcutIndex != null)
+            {
+                api.WriteMemory(pid, rac2.addr.shortcutsIndex, desiredShortcutIndex);
+            }
+
             // Disable race storage
             api.WriteMemory(pid, rac2.addr.savedRaceIndex, 0);
             // Disable ship opening cutscenes
@@ -415,7 +422,6 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.feltzinMissionComplete, 0);
             api.WriteMemory(pid, rac2.addr.hrugisMissionComplete, 0);
             api.WriteMemory(pid, rac2.addr.gornMissionComplete, 0);
-
         }
 
         private void buttonRaceStorage_Click(object sender, EventArgs e)
@@ -452,8 +458,8 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
             api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7); // Museum
+            desiredShortcutIndex = 7;
             SetupGeneralNGPlusMenus();
-          
         }
 
         private void buttonNoIMGMenu_Click(object sender, EventArgs e)
@@ -461,6 +467,7 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
             api.WriteMemory(pid, rac2.addr.shortcutsIndex, 1); // Barlow
+            desiredShortcutIndex = 1;
             SetupGeneralNGPlusMenus();
         }
 
@@ -530,7 +537,6 @@ namespace racman
                 if (BitConverter.IsLittleEndian) Array.Reverse(offsetBytes);
                 api.WriteMemory(pid, rac2.addr.selectedSaveSlot, offsetBytes);
                 MessageBox.Show("Done!");
-
             }
             else
             {
@@ -554,7 +560,6 @@ namespace racman
             viewer.Text = $"{planets_comboBox.SelectedItem} level flags";
             viewer.Show();
         }
-
         private void buttonUnlockAllPlat_Click(object sender, EventArgs e)
         {
             var api = game.api;
