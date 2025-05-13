@@ -126,7 +126,15 @@ namespace racman
         private void RAC4Form_FormClosing(object sender, FormClosingEventArgs e)
         {
             writetext.Checked = false;
-            Application.Exit();
+            try 
+            { 
+                game.api.Disconnect();
+                Application.Exit();
+            } 
+            catch
+            {
+                // lol
+            }
         }
 
         private void ghostcheck_CheckedChanged(object sender, EventArgs e)
@@ -216,6 +224,16 @@ namespace racman
             unlocks.Show();
         }
 
+        private void buttonActTune_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
 
+            api.WriteMemory(pid, rac4.addr.shellshockTuning, new byte[] { 20 });
+            api.WriteMemory(pid, rac4.addr.reactorTuning, new byte[] { 20 });
+            api.WriteMemory(pid, rac4.addr.evisceratorTuning, new byte[] { 20 });
+            api.WriteMemory(pid, rac4.addr.aceTuning, new byte[] { 20 });
+            api.Notify("Act tuning done!");
+        }
     }
 }
