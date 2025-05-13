@@ -45,6 +45,7 @@ namespace racman
             this.killyourself = new System.Windows.Forms.Button();
             this.botsUnlocksWindowButton = new System.Windows.Forms.Button();
             this.wrsFromSrcSiteCheck = new System.Windows.Forms.CheckBox();
+            this.buttonActTune = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -195,11 +196,22 @@ namespace racman
             this.wrsFromSrcSiteCheck.UseVisualStyleBackColor = true;
             this.wrsFromSrcSiteCheck.CheckedChanged += new System.EventHandler(this.wrsFromSrcSiteCheck_CheckedChanged);
             // 
+            // buttonActTune
+            // 
+            this.buttonActTune.Location = new System.Drawing.Point(258, 35);
+            this.buttonActTune.Name = "buttonActTune";
+            this.buttonActTune.Size = new System.Drawing.Size(85, 85);
+            this.buttonActTune.TabIndex = 111;
+            this.buttonActTune.Text = "Act Tune Bosses";
+            this.buttonActTune.UseVisualStyleBackColor = true;
+            this.buttonActTune.Click += new System.EventHandler(this.buttonActTune_Click);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(355, 277);
+            this.Controls.Add(this.buttonActTune);
             this.Controls.Add(this.wrsFromSrcSiteCheck);
             this.Controls.Add(this.botsUnlocksWindowButton);
             this.Controls.Add(this.killyourself);
@@ -244,5 +256,6 @@ namespace racman
         private System.Windows.Forms.Button killyourself;
         private System.Windows.Forms.Button botsUnlocksWindowButton;
         private System.Windows.Forms.CheckBox wrsFromSrcSiteCheck;
+        private System.Windows.Forms.Button buttonActTune;
     }
 }
