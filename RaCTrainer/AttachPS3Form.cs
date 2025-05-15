@@ -211,16 +211,8 @@ namespace racman
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
-                TODForm tod = new TODForm(new ToD(func.api, TodGameType.PALDL));
+                TODForm tod = new TODForm(new tod(func.api));
                 gameName = "ToD (PAL DL)";
-                tod.ShowDialog();
-            }
-            else if (game == "BCES00052")
-            {
-                Hide();
-                func.api.Notify("RaCMAN connected!");
-                TODForm tod = new TODForm(new ToD(func.api, TodGameType.PALDisc));
-                gameName = "ToD (PAL Disc)";
                 tod.ShowDialog();
             }
             else

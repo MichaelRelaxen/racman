@@ -12,15 +12,17 @@ namespace racman.TOD
 {
     public partial class TODForm : Form
     {
-        public TODForm(ToD game)
+        public TODForm(tod game)
         {
             this.game = game;
-            this.Text = $"Ratchet & Clank: Tools of Destruction - {game.Version}";
             InitializeComponent();
+
+            AutosplitterCheckbox.Checked = true;
         }
 
+        AutosplitterHelper autosplitter;
         static ModLoaderForm modLoaderForm;
-        public ToD game;
+        public tod game;
 
         private void patchLoaderToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -46,7 +48,40 @@ namespace racman.TOD
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            api.WriteMemory(pid, game.SavePlanetId, new byte[] { (byte)planets_comboBox.SelectedIndex });
+            api.WriteMemory(pid, tod.addr.savePlanetId, new byte[] { (byte)planets_comboBox.SelectedIndex });
+        }
+
+        private void AutosplitterCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!AutosplitterCheckbox.Checked)
+            {
+                // Disable autosplitter.
+                autosplitter.Stop();
+                autosplitter = null;
+            }
+            else
+            {
+                // Enable auotpslitter
+                Console.WriteLine("Autosplitter starting!");
+                autosplitter = new AutosplitterHelper();
+                autosplitter.StartAutosplitterForGame(this.game);
+            }
+        }
+
+        private void TODForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            autosplitter.Stop();
+            autosplitter = null;
+
+            try
+            {
+                game.api.Disconnect();
+                Application.Exit();
+            } 
+            catch
+            {
+
+            }
         }
     }
 }
