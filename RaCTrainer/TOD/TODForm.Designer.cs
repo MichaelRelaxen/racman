@@ -35,6 +35,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.planets_comboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +46,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(408, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(437, 24);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -75,7 +76,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(44, 67);
+            this.label6.Location = new System.Drawing.Point(44, 80);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 99;
@@ -104,7 +105,7 @@
             "Reepor",
             "Igliak",
             "Fastoon 2"});
-            this.planets_comboBox.Location = new System.Drawing.Point(44, 83);
+            this.planets_comboBox.Location = new System.Drawing.Point(44, 96);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(115, 21);
             this.planets_comboBox.TabIndex = 98;
@@ -114,23 +115,36 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(41, 107);
+            this.label1.Location = new System.Drawing.Point(41, 120);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(211, 13);
             this.label1.TabIndex = 100;
             this.label1.Text = "To change planets, save and load your file.\r\n";
             // 
+            // AutosplitterCheckbox
+            // 
+            this.AutosplitterCheckbox.AutoSize = true;
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(44, 47);
+            this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
+            this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
+            this.AutosplitterCheckbox.TabIndex = 103;
+            this.AutosplitterCheckbox.Text = "Autosplitter";
+            this.AutosplitterCheckbox.UseVisualStyleBackColor = true;
+            this.AutosplitterCheckbox.CheckedChanged += new System.EventHandler(this.AutosplitterCheckbox_CheckedChanged);
+            // 
             // TODForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(408, 177);
+            this.ClientSize = new System.Drawing.Size(437, 162);
+            this.Controls.Add(this.AutosplitterCheckbox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.planets_comboBox);
             this.Controls.Add(this.menuStrip1);
             this.Name = "TODForm";
-            this.Text = "Ratchet & Clank: Tools of Destruction - NPEA00452/BCES00052 (PAL)";
+            this.Text = "Ratchet & Clank: Tools of Destruction - NPEA00452 (PAL)";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TODForm_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -147,5 +161,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox planets_comboBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox AutosplitterCheckbox;
     }
 }

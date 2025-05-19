@@ -53,6 +53,22 @@ namespace racman
             }
         }
 
+        public void Reconnect()
+        {
+            // All subscriptions get dropped, remove
+            subscriptionIDs.Clear();
+
+            mmfStream.Close();
+            writer?.Close();
+            writer = null;
+
+            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", mmfSize);
+            mmfStream = mmfFile.CreateViewStream();
+            writer = new BinaryWriter(mmfStream);
+
+            StartAutosplitterForGame(currentGame);
+        }
+
         public void Stop()
         {
             if (!IsRunning)
@@ -117,9 +133,8 @@ namespace racman
             int pos = 0;
 
             // if the game has addresses that need to be written to memory
-            if (game is IAutosplitterAvailable)
+            if (game is IAutosplitterAvailable autosplitter)
             {
-                var autosplitter = game as IAutosplitterAvailable;
                 foreach (var (addr, size) in autosplitter.AutosplitterAddresses)
                 {
                     var _pos = pos; // If you can think of a better way to do this please tell me

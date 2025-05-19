@@ -7,41 +7,32 @@ using System.Threading.Tasks;
 
 namespace racman
 {
-    public enum TodGameType
+    public class tod : IGame, IAutosplitterAvailable
     {
-        PALDL,
-        PALDisc
-    }
-
-    public class ToD : IGame
-    {
-        TodGameType gameType;
-
-        public ToD(IPS3API api, TodGameType game) : base(api)
+        public class ToDAddresses : IAddresses
         {
-            gameType = game;
+            public uint savePlanetId => 0x1029C55B;
+            public uint loadScreenType => 0x102034FB;
+
+            public uint boltCount => 0x1020C28C; // i think so
+            public uint playerCoords => throw new NotImplementedException();
+            public uint inputOffset => throw new NotImplementedException();
+            public uint analogOffset => throw new NotImplementedException();
+            public uint loadPlanet => throw new NotImplementedException();
+            public uint currentPlanet => savePlanetId;
         }
 
-        public string Version
-        {
-            get
-            {
-                if (gameType == TodGameType.PALDL)
-                    return "NPEA00452";
-                else
-                    return "BCES00052";
-            }
-        }
+        public static ToDAddresses addr = new ToDAddresses();
 
-        public uint SavePlanetId
+        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
-            get
-            {
-                if (gameType == TodGameType.PALDL) 
-                    return 0x1029C55B;
-                else 
-                    return 0x10280208;
-            }
+            (addr.savePlanetId, 1),
+            (addr.loadScreenType, 1)
+        };
+
+        public tod(IPS3API api) : base(api)
+        {
+
         }
 
         public override void CheckInputs(object sender, EventArgs e)

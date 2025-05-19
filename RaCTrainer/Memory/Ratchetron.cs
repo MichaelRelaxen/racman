@@ -34,11 +34,17 @@ namespace racman
         private Dictionary<int, uint> memSubTickUpdates = new Dictionary<int, uint>();
         private Dictionary<int, UInt32> frozenAddresses = new Dictionary<int, uint>();
 
+        private Action onDisconnectCallback;
+        private Action onReconnectCallback;
+
 
         public Ratchetron(string ip) : base(ip)
         {
             this.ip = ip;
         }
+
+        public void setDisconnectCallback(Action action) => onDisconnectCallback = action;
+        public void setReconnectCallback(Action action) => onReconnectCallback = action;
 
         public override bool Connect()
         {
@@ -253,6 +259,23 @@ namespace racman
 
                                 break;
                             }
+                        // for opening/closing: 1 extra byte for coming in/out
+                        case 0x08:
+                            {
+                                byte enteringOrLeaving = cmdBuf.Skip(1).Take(1).ToArray()[0];
+                                Console.WriteLine($"Got new IS_INGAME: {enteringOrLeaving}");
+                                if (enteringOrLeaving == 0 && onDisconnectCallback != null) // out of game
+                                {
+                                    onDisconnectCallback();
+                                } 
+                                else if (enteringOrLeaving == 1 && onReconnectCallback != null)
+                                {
+                                    onReconnectCallback(); 
+                                }
+
+                                break;
+                            }
+
                     }
                 } catch (SocketException)
                 {
