@@ -17,6 +17,30 @@ namespace racman.TOD
             this.game = game;
             InitializeComponent();
 
+            if (game.api is Ratchetron r)
+            {
+                // r.setDisconnectCallback(() =>
+                // {
+                //     game.api.Disconnect();
+                // });
+
+                r.setReconnectCallback(() => 
+                {
+                    // autosplitter?.Stop();
+                    // game.api.Disconnect();
+                    // game.api.Connect();
+
+                    // This is obviously hacky, but seems to get things to work
+                    // var subId = r.SubMemory(r.getCurrentPID(), tod.addr.savePlanetId, 1, (_) => { });
+                    //r.ReleaseSubID(subId);
+
+                    System.Threading.Thread.Sleep(8000);
+                    autosplitter.Reconnect();
+
+                });
+            }
+
+
             AutosplitterCheckbox.Checked = true;
         }
 
@@ -70,18 +94,24 @@ namespace racman.TOD
 
         private void TODForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            autosplitter.Stop();
+            autosplitter?.Stop();
             autosplitter = null;
 
-            try
-            {
-                game.api.Disconnect();
-                Application.Exit();
-            } 
-            catch
-            {
 
-            }
+            game.api.Disconnect();
+            Application.Exit();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.SubMemory(pid, tod.addr.boltCount, 1, (a) => 
+            {
+                Action write = delegate { label2.Text = a[0].ToString(); };
+                label2.Invoke(write);
+            });
         }
     }
 }
