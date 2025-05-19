@@ -101,17 +101,5 @@ namespace racman.TOD
             game.api.Disconnect();
             Application.Exit();
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-
-            api.SubMemory(pid, tod.addr.boltCount, 1, (a) => 
-            {
-                Action write = delegate { label2.Text = a[0].ToString(); };
-                label2.Invoke(write);
-            });
-        }
     }
 }
