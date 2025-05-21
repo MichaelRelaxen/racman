@@ -35,7 +35,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.planets_comboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
+            this.buttonStartAutosplitter = new System.Windows.Forms.Button();
+            this.labelAutosplitterStatus = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,7 +77,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(44, 80);
+            this.label6.Location = new System.Drawing.Point(28, 48);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 99;
@@ -105,7 +106,7 @@
             "Reepor",
             "Igliak",
             "Fastoon 2"});
-            this.planets_comboBox.Location = new System.Drawing.Point(44, 96);
+            this.planets_comboBox.Location = new System.Drawing.Point(28, 64);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(115, 21);
             this.planets_comboBox.TabIndex = 98;
@@ -115,29 +116,39 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(41, 120);
+            this.label1.Location = new System.Drawing.Point(25, 88);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(211, 13);
             this.label1.TabIndex = 100;
             this.label1.Text = "To change planets, save and load your file.\r\n";
             // 
-            // AutosplitterCheckbox
+            // buttonStartAutosplitter
             // 
-            this.AutosplitterCheckbox.AutoSize = true;
-            this.AutosplitterCheckbox.Location = new System.Drawing.Point(44, 47);
-            this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
-            this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
-            this.AutosplitterCheckbox.TabIndex = 103;
-            this.AutosplitterCheckbox.Text = "Autosplitter";
-            this.AutosplitterCheckbox.UseVisualStyleBackColor = true;
-            this.AutosplitterCheckbox.CheckedChanged += new System.EventHandler(this.AutosplitterCheckbox_CheckedChanged);
+            this.buttonStartAutosplitter.Location = new System.Drawing.Point(28, 120);
+            this.buttonStartAutosplitter.Name = "buttonStartAutosplitter";
+            this.buttonStartAutosplitter.Size = new System.Drawing.Size(115, 23);
+            this.buttonStartAutosplitter.TabIndex = 104;
+            this.buttonStartAutosplitter.Text = "Start Autosplitter";
+            this.buttonStartAutosplitter.UseVisualStyleBackColor = true;
+            this.buttonStartAutosplitter.Click += new System.EventHandler(this.buttonStartAutosplitter_Click);
+            // 
+            // labelAutosplitterStatus
+            // 
+            this.labelAutosplitterStatus.AutoSize = true;
+            this.labelAutosplitterStatus.ForeColor = System.Drawing.Color.Red;
+            this.labelAutosplitterStatus.Location = new System.Drawing.Point(149, 125);
+            this.labelAutosplitterStatus.Name = "labelAutosplitterStatus";
+            this.labelAutosplitterStatus.Size = new System.Drawing.Size(101, 13);
+            this.labelAutosplitterStatus.TabIndex = 105;
+            this.labelAutosplitterStatus.Text = "Autosplitter disabled";
             // 
             // TODForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(437, 162);
-            this.Controls.Add(this.AutosplitterCheckbox);
+            this.ClientSize = new System.Drawing.Size(437, 170);
+            this.Controls.Add(this.labelAutosplitterStatus);
+            this.Controls.Add(this.buttonStartAutosplitter);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.planets_comboBox);
@@ -161,6 +172,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox planets_comboBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox AutosplitterCheckbox;
+        private System.Windows.Forms.Button buttonStartAutosplitter;
+        private System.Windows.Forms.Label labelAutosplitterStatus;
     }
 }
