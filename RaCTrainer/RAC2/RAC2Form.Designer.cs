@@ -88,6 +88,8 @@ namespace racman
             this.buttonRespawn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.buttonCosmetics = new System.Windows.Forms.Button();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.discordRPCEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -289,10 +291,26 @@ namespace racman
             this.toolStripSeparator1,
             this.levelFlagViewerToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
-            this.memoryUtilitiesToolStripMenuItem});
+            this.memoryUtilitiesToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.discordRPCEnabledToolStripMenuItem
+            });
             this.menusToolStripMenuItem.Name = "menusToolStripMenuItem";
             this.menusToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menusToolStripMenuItem.Text = "Menu";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(209, 6);
+            // 
+            // discordRPCEnabledToolStripMenuItem
+            // 
+            this.discordRPCEnabledToolStripMenuItem.CheckOnClick = true;
+            this.discordRPCEnabledToolStripMenuItem.Name = "discordRPCEnabledToolStripMenuItem";
+            this.discordRPCEnabledToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.discordRPCEnabledToolStripMenuItem.Text = "Discord Rich Presence";
+            this.discordRPCEnabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.discordRPCEnabledToolStripMenuItem_CheckedChanged);
             // 
             // configureButtonCombosToolStripMenuItem
             // 
@@ -776,6 +794,8 @@ namespace racman
         private System.Windows.Forms.CheckBox freezeHealthCheckbox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem discordRPCEnabledToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.TextBox raritaniumTextBox;
         private System.Windows.Forms.Label label1;
