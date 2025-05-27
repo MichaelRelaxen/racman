@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DiscordRPC;
@@ -142,17 +143,19 @@ namespace racman
 
         protected virtual void SetupInputDisplayMemorySubsAnalogs()
         {
-            int analogRSubID = api.SubMemory(pid, Addr().analogOffset, 8, (value) =>
+            int analogLSubID = api.SubMemory(pid, Addr().analogOffset + 8, 8, (value) =>
+            {
+                Inputs.ly = BitConverter.ToSingle(value, 0);
+                Inputs.lx = BitConverter.ToSingle(value, 4);
+            });
+
+            int analogRSubID = api.SubMemory(pid, Addr().analogOffset + 0, 8, (value) =>
             {
                 Inputs.ry = BitConverter.ToSingle(value, 0);
                 Inputs.rx = BitConverter.ToSingle(value, 4);
             });
 
-            int analogYSubID = api.SubMemory(pid, Addr().analogOffset + 8, 8, (value) =>
-            {
-                Inputs.ly = BitConverter.ToSingle(value, 0);
-                Inputs.lx = BitConverter.ToSingle(value, 4);
-            });
+            Console.WriteLine($"evil sub id is: {analogLSubID}");
         }
 
         public virtual void GetPlayerCoordinates()
