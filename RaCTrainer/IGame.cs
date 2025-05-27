@@ -142,16 +142,22 @@ namespace racman
 
         protected virtual void SetupInputDisplayMemorySubsAnalogs()
         {
-            int analogRSubID = api.SubMemory(pid, Addr().analogOffset, 8, (value) =>
+            int analogRYSubID = api.SubMemory(pid, Addr().analogOffset, 4, (value) =>
+            {
+                Inputs.rx = BitConverter.ToSingle(value, 0);
+            });
+            int analogRXSubID = api.SubMemory(pid, Addr().analogOffset+4, 4, (value) =>
             {
                 Inputs.ry = BitConverter.ToSingle(value, 0);
-                Inputs.rx = BitConverter.ToSingle(value, 4);
             });
 
-            int analogYSubID = api.SubMemory(pid, Addr().analogOffset + 8, 8, (value) =>
+            int analogLYSubID = api.SubMemory(pid, Addr().analogOffset + 8, 4, (value) =>
+            {
+                Inputs.lx = BitConverter.ToSingle(value, 0);
+            });
+            int analogLXSubID = api.SubMemory(pid, Addr().analogOffset + 12, 4, (value) =>
             {
                 Inputs.ly = BitConverter.ToSingle(value, 0);
-                Inputs.lx = BitConverter.ToSingle(value, 4);
             });
         }
 
