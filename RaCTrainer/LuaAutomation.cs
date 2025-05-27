@@ -94,6 +94,8 @@ namespace racman
             luaAutomationTimer.TickFunction = state["OnTick"] as LuaFunction;
             luaAutomationTimer.OnUnloadFunction = state["OnUnload"] as LuaFunction;
 
+            functions.timer = luaAutomationTimer;
+
             luaAutomationTimer.Start();
 
             Console.WriteLine($"Loaded Lua automation for file {filename}!");
@@ -403,13 +405,13 @@ namespace racman
             return result.ToArray();
         }
 
-        public int SubscribeMemory(int address, int size, LuaFunction callback)
+        public int SubscribeMemory(int address, int size, int condition, LuaFunction callback)
         {
             int pid = AttachPS3Form.pid;
             Ratchetron api = (Ratchetron)func.api;
 
             var subID = -1;
-            subID = api.SubMemory(pid, (uint)address, (uint)size, (value) =>
+            subID = api.SubMemory(pid, (uint)address, (uint)size, (IPS3API.MemoryCondition)condition, (value) =>
             {
                 if (timer == null)
                 {
