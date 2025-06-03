@@ -175,11 +175,32 @@ namespace racman
             }
             else if (game == "BORD00001")
             {
-                Hide();
                 func.api.Notify("RaCMAN connected!");
-                RAC1Form rac1 = new RAC1Form(new rac1(func.api));
+                RaC1MpVersionForm formVersion = new RaC1MpVersionForm();
+                formVersion.ShowDialog();
+                Hide();
+                switch (formVersion.multiplayerType)
+                {
+                    default:
+                        {
+                            RAC1Form rac1 = new RAC1Form(new rac1(func.api));
+                            rac1.ShowDialog();
+                            break;
+                        }
+                    case "Default":
+                        {
+                            RAC1Form rac1 = new RAC1Form(new rac1(func.api));
+                            rac1.ShowDialog();
+                            break;
+                        }
+                    case "Randomizer":
+                        {
+                            RAC1MpForm rac1mp = new RAC1MpForm(new rac1(func.api));
+                            rac1mp.ShowDialog();
+                            break;
+                        }
+                }
                 gameName = "RAC 1 Multiplayer";
-                rac1.ShowDialog();
             }
             else if (game == "NPEA00386")
             {

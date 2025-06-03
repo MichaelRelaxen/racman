@@ -157,6 +157,27 @@
       <DependentUpon>ChargebootColorPicker.cs</DependentUpon>
     </Compile>
     <Compile Include="offsets\TOD\tod.cs" />
+    <Compile Include="RAC1Mp\RAC1MpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1Mp\RAC1MpForm.Designer.cs">
+      <DependentUpon>RAC1MpForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC1Mp\RAC1MpHovenHealthForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1Mp\RAC1MpHovenHealthForm.Designer.cs">
+      <DependentUpon>RAC1MpHovenHealthForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC1Mp\RAC1MpUnlocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1Mp\RAC1MpUnlocks.Designer.cs">
+      <DependentUpon>RAC1MpUnlocks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC1Mp\RaC1MpVersionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RAC2\RC2Unlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -314,6 +335,18 @@
     <EmbeddedResource Include="ChargebootColorPicker.resx">
       <DependentUpon>ChargebootColorPicker.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RAC1Mp\RAC1MpForm.resx">
+      <DependentUpon>RAC1MpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC1Mp\RAC1MpHovenHealthForm.resx">
+      <DependentUpon>RAC1MpHovenHealthForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC1Mp\RAC1MpUnlocks.resx">
+      <DependentUpon>RAC1MpUnlocks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC1Mp\RaC1MpVersionForm.resx">
+      <DependentUpon>RaC1MpVersionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RAC2\RAC2JPForm.resx">
       <DependentUpon>RAC2JPForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -389,6 +422,7 @@
     <None Include="autosplitters\rac3 no qe.asl" />
     <None Include="autosplitters\rac3-autosplitter.asl" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\RaC1MpVersionForm.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
