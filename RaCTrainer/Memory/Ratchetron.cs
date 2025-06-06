@@ -437,6 +437,76 @@ namespace racman
             return -1;
         }
 
+
+        public int OpenFile(string remotePath) {
+            var cmdBuf = new List<byte> {
+                0x10,  // Open file command
+                0, 0, 0, 0     // Flags (unused)
+            };
+
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)remotePath.Length + 1).Reverse());
+            cmdBuf.AddRange(Encoding.ASCII.GetBytes(remotePath));
+            cmdBuf.Add(0x0);
+
+            WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+
+            byte[] fileHandleBuf = new byte[4];
+            int n_bytes = 0;
+
+            while (n_bytes < 4) {
+                n_bytes += stream.Read(fileHandleBuf, 0, 4);
+            }
+
+            int fileHandle = BitConverter.ToInt32(fileHandleBuf, 0);
+
+            return fileHandle;
+        }
+
+        public void WriteFile(string remotePath, byte[] buffer) {
+            // Open file
+            int fileHandle = OpenFile(remotePath);
+
+            var cmdBuf = new List<byte> {
+                    0x11,  // Write file command
+                };
+
+            cmdBuf.AddRange(BitConverter.GetBytes(fileHandle));
+            cmdBuf.AddRange(BitConverter.GetBytes(buffer.Length).Reverse());
+            WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+
+            // Split up into 1024 byte chunks
+            for (int i = 0; i < buffer.Length; i += 2048) {
+                int chunkSize = Math.Min(2048, buffer.Length - i);
+
+                WriteStream(buffer, i, chunkSize);
+            }
+
+            // Close file by sending a write command with 0 file size
+            var closeCmdBuf = new List<byte> {
+                0x11,  // Write file command
+            };
+
+            closeCmdBuf.AddRange(BitConverter.GetBytes(fileHandle));
+            closeCmdBuf.AddRange(BitConverter.GetBytes(0)); // 0 size to indicate end of file
+
+            WriteStream(closeCmdBuf.ToArray(), 0, closeCmdBuf.Count);
+        }
+
+        public void WriteFile(string remotePath, string filePath) {
+            if (!File.Exists(filePath)) {
+                throw new FileNotFoundException("The specified file does not exist.", filePath);
+            }
+
+            var file = File.OpenRead(filePath);
+
+            var buffer = new byte[file.Length];
+            file.Read(buffer, 0, (int)file.Length);
+            file.Close();
+
+            WriteFile(remotePath, buffer);
+        }
+
+
         // Doesn't work, sorry.
         public uint AllocatePage(int pid, uint size, uint flags, bool is_executable)
         {
