@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using DiscordRPC;
 
 namespace racman
 {
@@ -125,11 +126,31 @@ namespace racman
         public uint chargebootsPrimaryBackColor => 0x1318594;
         public uint chargebootsTintFrontColor => 0x13185a0;
         public uint chargebootsTintBackColor => 0x13185a0;
+        
+        
     }
 
     public class rac2 : IGame, IAutosplitterAvailable
     {
         public static RaC2Addresses addr = new RaC2Addresses();
+        
+        public DiscordRpcClient DiscordClient;
+        
+        private Timestamps initialTimestamp;
+        
+        private uint lastPlanetIndex = 100;
+        
+        public void InitializeDiscordRPC()
+        {
+            if (DiscordClient != null)
+            {
+                DiscordClient.Dispose();
+                DiscordClient = null;
+            }
+            DiscordClient = new DiscordRpcClient("1357302807769907341");
+            DiscordClient.Initialize();
+            initialTimestamp = Timestamps.Now;
+        }
 
         public rac2(IPS3API api) : base(api)
         {
@@ -286,10 +307,55 @@ namespace racman
                 inputCheck = true;
             }
         }
+        
+        public void UpdateRichPresence(string planetname)
+        {
+            if (DiscordClient == null)
+                return;
+            var imageKey = planetname.ToLower();
+            try {
+                DiscordClient.SetPresence(new RichPresence()
+                {
+                    Details = planetname,
+                    Timestamps = initialTimestamp,
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "rac2",
+                        LargeImageText = "Ratchet & Clank 2",
+                        SmallImageKey = imageKey,
+                        SmallImageText = planetname,
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Cant update : {ex.Message}");
+            }
+        }
 
         public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
         {
-            throw new NotImplementedException();
+            if (!DiscordTimer.Enabled) {
+                if (DiscordClient != null)
+                {
+                    DiscordClient.Dispose();
+                    DiscordClient = null;
+                    lastPlanetIndex = 100;
+                }
+                return;
+            }
+            
+            byte[] planetData = api.ReadMemory(pid, addr.currentPlanet, 4);
+            if (planetData?.Length != 4) return; 
+            
+            uint planetindex = BitConverter.ToUInt32(planetData.Reverse().ToArray(), 0);
+            
+            if (planetindex != lastPlanetIndex) {
+                if (DiscordClient == null) InitializeDiscordRPC();
+                lastPlanetIndex = planetindex;
+                if (planetindex < planetsList.Length)
+                    UpdateRichPresence(planetsList[planetindex]);
+            }
         }
 
         public override void SetFastLoads(bool enabled = false)
