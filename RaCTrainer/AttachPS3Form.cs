@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading;
 using racman.Memory;
 using racman.TOD;
+using System.Diagnostics;
 
 namespace racman
 {
@@ -44,13 +45,17 @@ namespace racman
             // If they don't, close the program
             var tos = func.GetConfigData("config.txt", "tos");
 
-            if (tos == "") {
+            if (tos == "")
+            {
                 var dialogResult = MessageBox.Show("By using this program, you agree that trans rights are human rights?", "Terms of Service", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.No) {
+                if (dialogResult == DialogResult.No)
+                {
                     // Show a dialog that explains why it's important to agree to the terms of service
                     MessageBox.Show("Get fucked.");
                     Environment.Exit(0);
-                } else {
+                }
+                else
+                {
                     func.ChangeFileLines("config.txt", "yes", "tos");
                 }
             }
@@ -123,7 +128,7 @@ namespace racman
 
             if (pid == 0)
             {
-                MessageBox.Show(startGameText[pleaseStartTheGame-1], "Game is not running");
+                MessageBox.Show(startGameText[pleaseStartTheGame - 1], "Game is not running");
 
                 if (pleaseStartTheGame < startGameText.Length)
                 {
@@ -151,9 +156,10 @@ namespace racman
                         case 2:
                             game = "NPEA00387"; // RAC 3
                             gameName = "RAC 3";
-                            break;  
+                            break;
                     }
-                } else
+                }
+                else
                 {
                     return;
                 }
@@ -166,6 +172,35 @@ namespace racman
                 RAC1Form rac1 = new RAC1Form(new rac1(func.api));
                 gameName = "RAC 1";
                 rac1.ShowDialog();
+            }
+            else if (game == "BORD00001")
+            {
+                func.api.Notify("RaCMAN connected!");
+                RaC1MpVersionForm formVersion = new RaC1MpVersionForm();
+                formVersion.ShowDialog();
+                Hide();
+                switch (formVersion.multiplayerType)
+                {
+                    default:
+                        {
+                            RAC1Form rac1 = new RAC1Form(new rac1(func.api));
+                            rac1.ShowDialog();
+                            break;
+                        }
+                    case "Default":
+                        {
+                            RAC1Form rac1 = new RAC1Form(new rac1(func.api));
+                            rac1.ShowDialog();
+                            break;
+                        }
+                    case "Randomizer":
+                        {
+                            RAC1MpForm rac1mp = new RAC1MpForm(new rac1(func.api));
+                            rac1mp.ShowDialog();
+                            break;
+                        }
+                }
+                gameName = "RAC 1 Multiplayer";
             }
             else if (game == "NPEA00386")
             {
