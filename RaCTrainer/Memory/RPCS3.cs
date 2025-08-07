@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Markup;
 
 
@@ -51,6 +53,8 @@ namespace racman.Memory
         Mutex SubMutex = new Mutex(false);
 
         bool MemoryWorkerStarted = false;
+
+        private string _rpcs3Root;
 
         public RPCS3(string ip) : base(ip)
         {
@@ -121,8 +125,10 @@ namespace racman.Memory
 
         public override void Notify(string message)
         {
-            MessageBox.Show(message);
+            System.Windows.Forms.MessageBox.Show(message);
         }
+
+
 
         public override byte[] ReadMemory(int pid, uint address, uint size)
         {
@@ -254,6 +260,57 @@ namespace racman.Memory
 
             return SubItems.Count - 1;
         }
+
+
+        public override void WriteFile(string remotePath, byte[] buffer)
+        {
+            if (string.IsNullOrEmpty(_rpcs3Root))
+                PromptSetRpcs3Root();
+
+            // Convert remotePath (like "/dev_hdd0/game/…") to full local path
+            string fullPath = Path.Combine(_rpcs3Root, remotePath.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+
+            string dir = Path.GetDirectoryName(fullPath);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            File.WriteAllBytes(fullPath, buffer);
+        }
+
+        public override void WriteFile(string remotePath, string filePath)
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException("Local file not found", filePath);
+
+            if (string.IsNullOrEmpty(_rpcs3Root))
+                PromptSetRpcs3Root();
+
+            string fullPath = Path.Combine(_rpcs3Root, remotePath.TrimStart('/').Replace('/', Path.DirectorySeparatorChar));
+
+            string dir = Path.GetDirectoryName(fullPath);
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
+            File.Copy(filePath, fullPath, overwrite: true);
+        }
+
+        private void PromptSetRpcs3Root()
+        {
+            using (var folderBrowserDialog = new FolderBrowserDialog())
+            {
+                folderBrowserDialog.Description = "Select the RPCS3 root folder";
+
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    _rpcs3Root = folderBrowserDialog.SelectedPath;
+                }
+                else
+                {
+                    throw new InvalidOperationException("RPCS3 root folder not selected.");
+                }
+            }
+        }
+
 
     }
 }

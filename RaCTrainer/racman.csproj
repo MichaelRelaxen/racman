@@ -170,6 +170,14 @@
       <DependentUpon>RAC2JPForm.cs</DependentUpon>
     </Compile>
     <Compile Include="offsets\RAC2\rac2jp.cs" />
+    <Compile Include="RAC2\TAS\Rackets2GUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC2\TAS\Rackets2GUI.Designer.cs">
+      <DependentUpon>Rackets2GUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC2\TAS\Racket2API.cs" />
+    <Compile Include="RAC2\TAS\ScriptSerializer.cs" />
     <Compile Include="RAC3\UYAUnlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -316,6 +324,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2\RAC2JPForm.resx">
       <DependentUpon>RAC2JPForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC2\TAS\Rackets2GUI.resx">
+      <DependentUpon>Rackets2GUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAC4\RAC4BotsUnlocks.resx">
       <DependentUpon>RAC4BotsUnlocks.cs</DependentUpon>

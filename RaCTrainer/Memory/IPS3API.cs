@@ -58,6 +58,9 @@ namespace racman
 
         public abstract void Notify(string message);
 
+        public abstract void WriteFile(string remotePath, byte[] buffer);
+
+        public abstract void WriteFile(string remotePath, string filePath);
         public virtual string GetIP()
         {
             return this.ip;

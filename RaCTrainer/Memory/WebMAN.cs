@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -142,6 +143,16 @@ namespace racman
         }
 
         public override int MemSubIDForAddress(uint address)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void WriteFile(string remotePath, byte[] buffer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void WriteFile(string remotePath, string filePath)
         {
             throw new NotImplementedException();
         }

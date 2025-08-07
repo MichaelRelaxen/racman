@@ -17,6 +17,7 @@ namespace racman
     {
         static ModLoaderForm modLoaderForm;
         static ChargebootColorPicker cosmeticsForm;
+        static RacketsGUI racketsForm;
 
         AutosplitterHelper autosplitter;
         public rac2 game;
@@ -606,6 +607,12 @@ namespace racman
                 rac2.addr.chargebootsTintBackColor
             );
             cosmeticsForm.Show();
+        }
+
+        private void tasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            racketsForm = new RacketsGUI(game);
+            racketsForm.Show();
         }
     }
 }

@@ -462,7 +462,7 @@ namespace racman
             return fileHandle;
         }
 
-        public void WriteFile(string remotePath, byte[] buffer) {
+        public override void WriteFile(string remotePath, byte[] buffer) {
             // Open file
             int fileHandle = OpenFile(remotePath);
 
@@ -492,7 +492,7 @@ namespace racman
             WriteStream(closeCmdBuf.ToArray(), 0, closeCmdBuf.Count);
         }
 
-        public void WriteFile(string remotePath, string filePath) {
+        public override void WriteFile(string remotePath, string filePath) {
             if (!File.Exists(filePath)) {
                 throw new FileNotFoundException("The specified file does not exist.", filePath);
             }

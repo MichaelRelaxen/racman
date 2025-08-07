@@ -88,6 +88,7 @@ namespace racman
             this.buttonRespawn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.buttonCosmetics = new System.Windows.Forms.Button();
+            this.tasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -289,7 +290,8 @@ namespace racman
             this.toolStripSeparator1,
             this.levelFlagViewerToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
-            this.memoryUtilitiesToolStripMenuItem});
+            this.memoryUtilitiesToolStripMenuItem,
+            this.tasToolStripMenuItem});
             this.menusToolStripMenuItem.Name = "menusToolStripMenuItem";
             this.menusToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menusToolStripMenuItem.Text = "Menu";
@@ -685,6 +687,13 @@ namespace racman
             this.buttonCosmetics.UseVisualStyleBackColor = true;
             this.buttonCosmetics.Click += new System.EventHandler(this.buttonCosmetics_Click);
             // 
+            // tasToolStripMenuItem
+            // 
+            this.tasToolStripMenuItem.Name = "tasToolStripMenuItem";
+            this.tasToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.tasToolStripMenuItem.Text = "TAS";
+            this.tasToolStripMenuItem.Click += new System.EventHandler(this.tasToolStripMenuItem_Click);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -810,5 +819,6 @@ namespace racman
         private System.Windows.Forms.Button buttonSetupAllMissions;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button buttonCosmetics;
+        private System.Windows.Forms.ToolStripMenuItem tasToolStripMenuItem;
     }
 }
