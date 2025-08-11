@@ -611,7 +611,8 @@ namespace racman
 
         private void tasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            racketsForm = new RacketsGUI(game);
+            Rackets2API.Initialize(0x1be0000, rac2.addr.playerCoords, rac2.addr.currentPlanet);
+            racketsForm = new RacketsGUI();
             racketsForm.Show();
         }
     }

@@ -18,7 +18,29 @@ namespace racman
         private int pid;
         private string pathToScript;
 
-        public RacketsGUI(rac2 game)
+        /*
+        public static uint defaultOffset;
+
+        public static uint tasState = defaultOffset + 0x270;
+        public static uint tasStop = defaultOffset + 0x274;
+        public static uint frameStepMode = defaultOffset + 0x28;
+        public static uint frameAdvance = defaultOffset + 0x2C;
+        public static uint tasRenderMode = defaultOffset + 0x38;
+        public static uint tasGCMFlip = defaultOffset + 0x3C;
+
+        public static uint savefileLoadAside = defaultOffset + 0x40;
+        public static uint savefileSetAside = defaultOffset + 0x44;
+
+        public static uint tasHideHud = defaultOffset + 0x48;
+
+        public static uint saveMode = defaultOffset + 0x4C;
+        public static uint positionToLoad = defaultOffset + 0x400;
+
+        public static uint playerPosition = 0x147F260;
+        public static uint currentPlanet = 0x1329A3C;
+*/
+
+        public RacketsGUI()
         {
             InitializeComponent();
 

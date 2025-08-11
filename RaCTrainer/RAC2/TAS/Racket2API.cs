@@ -14,22 +14,40 @@ namespace racman
 {
     static class Rackets2API
     {
-        private static uint tasState = 0x1BE0270;
-        private static uint tasStop = 0x1BE0274;
-        private static uint frameStepMode = 0x1BE0028;
-        private static uint frameAdvance = 0x1BE002C;
-        private static uint tasRenderMode = 0x1BE0038;
-        private static uint tasGCMFlip = 0x1BE003C;
+        public static uint defaultOffset;
+        public static uint playerPosition;
+        public static uint currentPlanet;
 
-        private static uint savefileLoadAside = 0x1BE0040;
-        private static uint savefileSetAside = 0x1BE0044;
+        public static uint tasState;
+        public static uint tasStop;
+        public static uint frameStepMode;
+        public static uint frameAdvance;
+        public static uint tasRenderMode;
+        public static uint tasGCMFlip;
+        public static uint savefileLoadAside;
+        public static uint savefileSetAside;
+        public static uint tasHideHud;
+        public static uint saveMode;
+        public static uint positionToLoad;
 
-        private static uint tasHideHud = 0x1BE0048;
+        public static void Initialize(uint defaultAddr, uint playerPositionAddr, uint currentPlanetAddr)
+        {
+            defaultOffset = defaultAddr;
+            playerPosition = playerPositionAddr;
+            currentPlanet = currentPlanetAddr;
 
-        private static uint saveMode = 0x1BE004C;
-        private static uint positionToLoad = 0x1BE0400;
-        private static uint playerPosition = 0x147F260;
-        private static uint currentPlanet = 0x1329A3C;
+            tasState = defaultOffset + 0x270;
+            tasStop = defaultOffset + 0x274;
+            frameStepMode = defaultOffset + 0x28;
+            frameAdvance = defaultOffset + 0x2C;
+            tasRenderMode = defaultOffset + 0x38;
+            tasGCMFlip = defaultOffset + 0x3C;
+            savefileLoadAside = defaultOffset + 0x40;
+            savefileSetAside = defaultOffset + 0x44;
+            tasHideHud = defaultOffset + 0x48;
+            saveMode = defaultOffset + 0x4C;
+            positionToLoad = defaultOffset + 0x400;
+        }
 
         private static string savedPosition;
 
@@ -195,17 +213,17 @@ namespace racman
                     new_data[i] = data[i];
                 }
                 new_data[data.Length] = keyword + " = " + contents;
-                File.WriteAllLines("tas-config.txt", new_data);
+                File.WriteAllLines("config.txt", new_data);
             }
             else
             {
-                File.WriteAllLines("tas-config.txt", data);
+                File.WriteAllLines("config.txt", data);
             }
         }
 
         public static string GetConfigData(string keyword)
         {
-            string[] data = File.ReadAllLines("tas-config.txt");
+            string[] data = File.ReadAllLines("config.txt");
 
             for (int i = 0; i < data.Length; i++)
             {
