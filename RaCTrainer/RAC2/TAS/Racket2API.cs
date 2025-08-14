@@ -84,7 +84,7 @@ namespace racman
             Console.Write("Uploading... ");
             try
             {
-                api.WriteFile("/dev_hdd0/game/NPEA00386/USRDIR/recording.rtas", compiledFilePath);
+                api.WriteFile($"/dev_hdd0/game/{api.getGameTitleID()}/USRDIR/recording.rtas", compiledFilePath);
                 Console.WriteLine("done.");
 
                 ReloadSetState(4);
