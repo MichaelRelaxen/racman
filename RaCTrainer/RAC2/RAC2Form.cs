@@ -611,7 +611,8 @@ namespace racman
 
         private void tasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Rackets2API.Initialize(0x1be0000, rac2.addr.playerCoords, rac2.addr.currentPlanet);
+            // 0x145C180 is chargeBuffer
+            Rackets2API.Initialize(0x1be0000, rac2.addr.playerCoords, rac2.addr.currentPlanet, 0x145C180);
             racketsForm = new RacketsGUI();
             racketsForm.Show();
         }

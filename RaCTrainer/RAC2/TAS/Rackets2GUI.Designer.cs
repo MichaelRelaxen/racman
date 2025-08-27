@@ -61,6 +61,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.buttonSetPlanet = new System.Windows.Forms.Button();
             this.comboLevelSelect = new System.Windows.Forms.ComboBox();
+            this.bufferChargeCheckbox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -71,7 +72,7 @@
             // 
             // buttonUploadRun
             // 
-            this.buttonUploadRun.Location = new System.Drawing.Point(6, 79);
+            this.buttonUploadRun.Location = new System.Drawing.Point(6, 78);
             this.buttonUploadRun.Name = "buttonUploadRun";
             this.buttonUploadRun.Size = new System.Drawing.Size(129, 27);
             this.buttonUploadRun.TabIndex = 0;
@@ -81,7 +82,7 @@
             // 
             // buttonAdvance
             // 
-            this.buttonAdvance.Location = new System.Drawing.Point(9, 209);
+            this.buttonAdvance.Location = new System.Drawing.Point(6, 209);
             this.buttonAdvance.Name = "buttonAdvance";
             this.buttonAdvance.Size = new System.Drawing.Size(129, 27);
             this.buttonAdvance.TabIndex = 2;
@@ -91,7 +92,7 @@
             // 
             // buttonPause
             // 
-            this.buttonPause.Location = new System.Drawing.Point(9, 176);
+            this.buttonPause.Location = new System.Drawing.Point(6, 176);
             this.buttonPause.Name = "buttonPause";
             this.buttonPause.Size = new System.Drawing.Size(129, 27);
             this.buttonPause.TabIndex = 5;
@@ -110,13 +111,14 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.bufferChargeCheckbox);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.buttonOpenScript);
             this.groupBox1.Controls.Add(this.labelCurrentScript);
             this.groupBox1.Controls.Add(this.buttonUploadRun);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(183, 119);
+            this.groupBox1.Size = new System.Drawing.Size(183, 136);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Scripting Options";
@@ -126,7 +128,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.label3.Location = new System.Drawing.Point(141, 87);
+            this.label3.Location = new System.Drawing.Point(141, 86);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(25, 13);
             this.label3.TabIndex = 11;
@@ -155,7 +157,7 @@
             this.groupBox2.Controls.Add(this.buttonCancel);
             this.groupBox2.Controls.Add(this.buttonPause);
             this.groupBox2.Controls.Add(this.buttonAdvance);
-            this.groupBox2.Location = new System.Drawing.Point(12, 137);
+            this.groupBox2.Location = new System.Drawing.Point(12, 156);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(183, 259);
             this.groupBox2.TabIndex = 8;
@@ -201,7 +203,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.label4.Location = new System.Drawing.Point(144, 151);
+            this.label4.Location = new System.Drawing.Point(141, 151);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(25, 13);
             this.label4.TabIndex = 13;
@@ -222,7 +224,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.label1.Location = new System.Drawing.Point(144, 217);
+            this.label1.Location = new System.Drawing.Point(141, 217);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(25, 13);
             this.label1.TabIndex = 12;
@@ -233,7 +235,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonShadow;
-            this.label2.Location = new System.Drawing.Point(144, 184);
+            this.label2.Location = new System.Drawing.Point(141, 184);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(25, 13);
             this.label2.TabIndex = 10;
@@ -241,7 +243,7 @@
             // 
             // buttonResume
             // 
-            this.buttonResume.Location = new System.Drawing.Point(9, 143);
+            this.buttonResume.Location = new System.Drawing.Point(6, 143);
             this.buttonResume.Name = "buttonResume";
             this.buttonResume.Size = new System.Drawing.Size(129, 27);
             this.buttonResume.TabIndex = 6;
@@ -278,7 +280,7 @@
             this.groupBox3.Controls.Add(this.checkBoxHotkeys);
             this.groupBox3.Location = new System.Drawing.Point(201, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(144, 119);
+            this.groupBox3.Size = new System.Drawing.Size(144, 136);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Global Options";
@@ -321,7 +323,7 @@
             this.groupBox4.Controls.Add(this.forceAutosaveButton);
             this.groupBox4.Controls.Add(this.buttonLoadSetAside);
             this.groupBox4.Controls.Add(this.buttonSetAside);
-            this.groupBox4.Location = new System.Drawing.Point(201, 137);
+            this.groupBox4.Location = new System.Drawing.Point(201, 156);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(144, 128);
             this.groupBox4.TabIndex = 11;
@@ -373,7 +375,7 @@
             this.groupBox5.Controls.Add(this.pastePositionButton);
             this.groupBox5.Controls.Add(this.buttonCopyPos);
             this.groupBox5.Controls.Add(this.buttonSetPosition);
-            this.groupBox5.Location = new System.Drawing.Point(201, 271);
+            this.groupBox5.Location = new System.Drawing.Point(201, 290);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(144, 125);
             this.groupBox5.TabIndex = 21;
@@ -404,9 +406,9 @@
             // 
             this.groupBox6.Controls.Add(this.buttonSetPlanet);
             this.groupBox6.Controls.Add(this.comboLevelSelect);
-            this.groupBox6.Location = new System.Drawing.Point(12, 402);
+            this.groupBox6.Location = new System.Drawing.Point(12, 421);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(339, 86);
+            this.groupBox6.Size = new System.Drawing.Size(333, 86);
             this.groupBox6.TabIndex = 22;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Level Options";
@@ -415,7 +417,7 @@
             // 
             this.buttonSetPlanet.Location = new System.Drawing.Point(8, 47);
             this.buttonSetPlanet.Name = "buttonSetPlanet";
-            this.buttonSetPlanet.Size = new System.Drawing.Size(322, 27);
+            this.buttonSetPlanet.Size = new System.Drawing.Size(316, 27);
             this.buttonSetPlanet.TabIndex = 22;
             this.buttonSetPlanet.Text = "Set Current Planet";
             this.buttonSetPlanet.UseVisualStyleBackColor = true;
@@ -454,14 +456,24 @@
             "Jamming Array"});
             this.comboLevelSelect.Location = new System.Drawing.Point(8, 20);
             this.comboLevelSelect.Name = "comboLevelSelect";
-            this.comboLevelSelect.Size = new System.Drawing.Size(322, 21);
+            this.comboLevelSelect.Size = new System.Drawing.Size(316, 21);
             this.comboLevelSelect.TabIndex = 0;
             // 
-            // FormMain
+            // bufferChargeCheckbox
+            // 
+            this.bufferChargeCheckbox.AutoSize = true;
+            this.bufferChargeCheckbox.Location = new System.Drawing.Point(8, 111);
+            this.bufferChargeCheckbox.Name = "bufferChargeCheckbox";
+            this.bufferChargeCheckbox.Size = new System.Drawing.Size(91, 17);
+            this.bufferChargeCheckbox.TabIndex = 13;
+            this.bufferChargeCheckbox.Text = "Buffer Charge";
+            this.bufferChargeCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // RacketsGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 497);
+            this.ClientSize = new System.Drawing.Size(361, 568);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -469,7 +481,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
-            this.Name = "FormMain";
+            this.Name = "RacketsGUI";
             this.ShowIcon = false;
             this.Text = "Rackets2 GUI";
             this.Load += new System.EventHandler(this.FormMain_Load);
@@ -522,5 +534,6 @@
         private System.Windows.Forms.ComboBox comboLevelSelect;
         private System.Windows.Forms.Button pastePositionButton;
         private System.Windows.Forms.Button buttonRecording;
+        private System.Windows.Forms.CheckBox bufferChargeCheckbox;
     }
 }

@@ -29,12 +29,14 @@ namespace racman
         public static uint tasHideHud;
         public static uint saveMode;
         public static uint positionToLoad;
+        public static uint chargeBuffer;
 
-        public static void Initialize(uint defaultAddr, uint playerPositionAddr, uint currentPlanetAddr)
+        public static void Initialize(uint defaultAddr, uint playerPositionAddr, uint currentPlanetAddr, uint chargeBufferAddr)
         {
             defaultOffset = defaultAddr;
             playerPosition = playerPositionAddr;
             currentPlanet = currentPlanetAddr;
+            chargeBuffer = chargeBufferAddr;
 
             tasState = defaultOffset + 0x270;
             tasStop = defaultOffset + 0x274;
@@ -148,6 +150,12 @@ namespace racman
         public static void LoadSetAsideMethod()
         {
             api.WriteMemory(api.getCurrentPID(), savefileLoadAside, new byte[1] { 1 });
+        }
+
+        public static void SetChargeBuffer(bool toggle)
+        {
+            uint value = (uint)(toggle == true ? 30 : 0);
+            WriteUint(chargeBuffer, value);
         }
 
         private static void ReloadSetState(uint state)
