@@ -85,7 +85,7 @@ namespace racman
             (addr.currentPlanet, 4),    // current planet
             (addr.loadPlanet, 4),       // load planet
             (addr.voxHP, 4),            // Vox HP
-            (addr.cutscenePtr, 4),      // cutscene
+            (addr.cutscenePtr, 4),      // final (Vox) cutscene
             (addr.inGame, 4),           // in game boolean
             (addr.tutorialFlags, 4),    // tutorial flags
             (addr.isLoading, 4),        // loading boolean
