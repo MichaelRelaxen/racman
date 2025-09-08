@@ -59,7 +59,7 @@ namespace racman
         public ChargebootColorPicker cosmeticsForm;
         private AutosplitterHelper autosplitterHelper;
         private AutosplitterConfigForm autosplitterConfigForm;
-        private RacketsGUI racketsForm;
+        //private RacketsGUI racketsForm;
 
         public static string[] saves;
         public Timer CoordsTimer = new Timer();
@@ -509,12 +509,12 @@ namespace racman
             cosmeticsForm.Show();
         }
 
-        private void tASToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // last arg is chargeBuffer but im too lazy to find the actual address lol so its just aplaceholder pretend it does nothing in uya for now
-            Rackets2API.Initialize(0xD9F000, rac3.addr.playerCoords, rac3.addr.currentPlanet, 0xd9E000);
-            racketsForm = new RacketsGUI();
-            racketsForm.Show();
-        }
+        //private void tASToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    // last arg is chargeBuffer but im too lazy to find the actual address lol so its just aplaceholder pretend it does nothing in uya for now
+        //    Rackets2API.Initialize(0xD9F000, rac3.addr.playerCoords, rac3.addr.currentPlanet, 0xd9E000);
+        //    racketsForm = new RacketsGUI();
+        //    racketsForm.Show();
+        //}
     }
 }

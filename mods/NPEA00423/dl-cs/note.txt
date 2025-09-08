@@ -1,0 +1,50 @@
+nop these in order to prevent igt being divided by 60
+0x29e098
+0x29e0a0
+0x29e0a8
+0x29e0b4
+
+multiplier load (targeting address 0x3d85dc):
+lis r9, 0x3e        -> 3D20003E
+lfs f1, -0x7a24(r9) -> C02985DC
+format load (getting pointer to 0x3d85e0):
+lis r4, 0x3e        -> 3C80003E
+addi r4, r4, -0x7a20-> 388485E0
+sprintf call:
+bl sprintf          -> 4841547D
+
+replace function at 0x37b9b0
+use 0x3d84c8 as codecave
+
+override.s can be assembled with
+`powerpc64-linux-gnu-gcc -c -o override.bin override.s`
+then put the bytes from 0x40 until the end of the format string into address_gen.py
+new function code, asm is in override.s:
+```c
+/* Type your code here, or load an example. */
+#include <stdio.h>
+
+struct x {
+    int frames;
+    int x;
+    char buf[0x14];
+};
+
+int new_function(struct x* arg) {
+    int hours = arg->frames / (3600 * 60);
+    int minutes = arg->frames % (3600 * 60) / (60 * 60);
+    int seconds = arg->frames % (60 * 60) / 60;
+    int cs = (arg->frames % 60) * (100.f / 60.f);
+
+    sprintf(arg->buf, "%d:%.2d:%.2d.%.2d", hours, minutes, seconds, cs);
+}
+
+int main() {
+    char buf[32];
+    struct x x;
+    x.frames = 3630;
+    x.buf = buf;
+    new_function(&x);
+    return 0;
+}
+```
