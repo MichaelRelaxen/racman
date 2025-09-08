@@ -91,6 +91,11 @@ split
     // planet split
     if (settings["SPLIT_PLANET"] && old.loadPlanet != current.loadPlanet && current.loadPlanet != 15 && old.loadPlanet != 0 && current.loadPlanet != current.planet && !vars.splitOnCurrentPlanet && current.planet != 0)
     {
+        // don't split when resetting
+        if (current.tutorialFlag == 0) 
+        {
+            return false;
+        }
         print("Split on planet " + current.loadPlanet + "->" + old.loadPlanet);
         vars.splitOnCurrentPlanet = true;
         return true;
@@ -141,11 +146,6 @@ split
 
 reset
 {
-    if (!settings.ResetEnabled)
-    {
-        return false;
-    }
-
     if (current.planet == 0 && old.inGame == 1 && current.inGame == 0)
     {
         return true;

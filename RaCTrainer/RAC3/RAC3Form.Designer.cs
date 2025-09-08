@@ -94,7 +94,6 @@ namespace racman
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.buttonCosmetics = new System.Windows.Forms.Button();
-            this.tASToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -327,8 +326,7 @@ namespace racman
             this.toolStripSeparator1,
             this.flagViewerToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
-            this.memoryUtilitiesToolStripMenuItem,
-            this.tASToolStripMenuItem});
+            this.memoryUtilitiesToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -764,13 +762,6 @@ namespace racman
             this.buttonCosmetics.UseVisualStyleBackColor = true;
             this.buttonCosmetics.Click += new System.EventHandler(this.buttonCosmetics_Click);
             // 
-            // tASToolStripMenuItem
-            // 
-            this.tASToolStripMenuItem.Name = "tASToolStripMenuItem";
-            this.tASToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.tASToolStripMenuItem.Text = "TAS";
-            this.tASToolStripMenuItem.Click += new System.EventHandler(this.tASToolStripMenuItem_Click);
-            // 
             // RAC3Form
             // 
             this.AllowDrop = true;
@@ -909,7 +900,6 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem editRouteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flagViewerToolStripMenuItem;
         private System.Windows.Forms.Button buttonCosmetics;
-        private System.Windows.Forms.ToolStripMenuItem tASToolStripMenuItem;
     }
 }
 

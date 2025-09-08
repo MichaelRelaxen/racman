@@ -1,0 +1,93 @@
+PPU-b33359b495e4308733ebb70fe0272e4bb3870bb5:
+  "Add centiseconds to IGT":
+    Games:
+      "Ratchet: Deadlocked":
+        NPEA00423: [ 01.00 ]
+    Author: "dtu"
+    Patch Version: 0.0
+    Group: ""
+    Notes: ""
+    Patch:
+      - [be32, 0x29e098, 0x60000000] # don't divide frame timer by 60
+      - [be32, 0x29e0a0, 0x60000000] # these 4 are all nops now
+      - [be32, 0x29e0a8, 0x60000000]
+      - [be32, 0x29e0b4, 0x60000000]
+
+      - [be32, 0x37b9b0, 0x4805cb18] # b 0x3d84c8, a trampoline
+
+      # replacement function
+      - [be32, 0x003d84c8, 0x7c0802a6]
+      - [be32, 0x003d84cc, 0xf821ff81]
+      - [be32, 0x003d84d0, 0xf8010090]
+      - [be32, 0x003d84d4, 0x80830000]
+      - [be32, 0x003d84d8, 0x3ce08888]
+      - [be32, 0x003d84dc, 0x3ca09b58]
+      - [be32, 0x003d84e0, 0x60e78889]
+      - [be32, 0x003d84e4, 0x60a53739]
+      - [be32, 0x003d84e8, 0x7ce43896]
+      - [be32, 0x003d84ec, 0x7ca42896]
+      - [be32, 0x003d84f0, 0x7ce72214]
+      - [be32, 0x003d84f4, 0x3cc091a2]
+      - [be32, 0x003d84f8, 0x54ea0ffe]
+      - [be32, 0x003d84fc, 0x7ce72e70]
+      - [be32, 0x003d8500, 0x7ce75214]
+      - [be32, 0x003d8504, 0x60c6b3c5]
+      - [be32, 0x003d8508, 0x1ce7003c]
+      - [be32, 0x003d850c, 0x7ca52214]
+      - [be32, 0x003d8510, 0x7ce72050]
+      - [be32, 0x003d8514, 0x7d043096]
+      - [be32, 0x003d8518, 0x54a90ffe]
+      - [be32, 0x003d851c, 0x7ca58e70]
+      - [be32, 0x003d8520, 0x7ce707b4]
+      - [be32, 0x003d8524, 0x7ca54a14]
+      - [be32, 0x003d8528, 0xf8e10070]
+      - [be32, 0x003d852c, 0x7d082214]
+      - [be32, 0x003d8530, 0x1d250d2f]
+      - [be32, 0x003d8534, 0x550a0ffe]
+      - [be32, 0x003d8538, 0xc8010070]
+      - [be32, 0x003d853c, 0x7d085e70]
+      - [be32, 0x003d8540, 0x7d085214]
+      - [be32, 0x003d8544, 0xfc00069c]
+      - [be32, 0x003d8548, 0x55273032] 
+      - [be32, 0x003d854c, 0x3d20003e] # multiplier load hi (lis r9, 0x3e)
+      - [be32, 0x003d8550, 0xfc000018]
+      - [be32, 0x003d8554, 0x1d080e10] 
+      - [be32, 0x003d8558, 0xc02985dc] # multiplier load lo (lfs f1, -0x7a24(r9))
+      - [be32, 0x003d855c, 0x7d082050]
+      - [be32, 0x003d8560, 0x7c872050]
+      - [be32, 0x003d8564, 0x7cc43096]
+      - [be32, 0x003d8568, 0xec000072]
+      - [be32, 0x003d856c, 0x1ce88889]
+      - [be32, 0x003d8570, 0xfc00001e]
+      - [be32, 0x003d8574, 0x7c862214]
+      - [be32, 0x003d8578, 0x54e6843e]
+      - [be32, 0x003d857c, 0x38e1007c]
+      - [be32, 0x003d8580, 0x7cc64214]
+      - [be32, 0x003d8584, 0x7c003fae]
+      - [be32, 0x003d8588, 0x54870ffe]
+      - [be32, 0x003d858c, 0x7c845e70]
+      - [be32, 0x003d8590, 0x54c98ffe]
+      - [be32, 0x003d8594, 0x7cc60734]
+      - [be32, 0x003d8598, 0xe901007e]
+      - [be32, 0x003d859c, 0x7c843a14]
+      - [be32, 0x003d85a0, 0x7cc62e70]
+      - [be32, 0x003d85a4, 0x7ce64a14]
+      - [be32, 0x003d85a8, 0x7c8607b4]
+      - [be32, 0x003d85ac, 0x3c80003e] # format addr hi (lis r4, 0x3e)
+      - [be32, 0x003d85b0, 0x388485e0] # format addr lo (addi r4, r4, -0x7a20)
+      - [be32, 0x003d85b4, 0x38630008]
+      - [be32, 0x003d85b8, 0x7ce707b4]
+      - [be32, 0x003d85bc, 0x7ca507b4]
+      - [be32, 0x003d85c0, 0x4841547d] # branch to sprintf
+      - [be32, 0x003d85c4, 0x60000000]
+      - [be32, 0x003d85c8, 0x38600000]
+      - [be32, 0x003d85cc, 0x38210080]
+      - [be32, 0x003d85d0, 0xe8010010]
+      - [be32, 0x003d85d4, 0x7c0803a6]
+      - [be32, 0x003d85d8, 0x4e800020]
+      - [be32, 0x003d85dc, 0x3fd55555] # 1.667 float
+      - [be32, 0x003d85e0, 0x25643a25] # format string
+      - [be32, 0x003d85e4, 0x2e32643a]
+      - [be32, 0x003d85e8, 0x252e3264]
+      - [be32, 0x003d85ec, 0x2e252e32]
+      - [be16, 0x003d85f0, 0x6400]
