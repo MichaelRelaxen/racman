@@ -24,8 +24,6 @@ namespace racman
         public Form InputDisplay;
         private bool debugEnabled;
         private int savefileHelperSubID;
-        // Horrible hack around a ratchetron bug where the first sub activates all others
-        private int dummySubID = -1; 
         private int fastLoadSubID = -1;
         private int expEconomySubId = -1;
         // Used to reset fast loads after load is finished
@@ -42,11 +40,11 @@ namespace racman
             game.GetPlayerCoordinates();
 
             InitializeComponent();
-            // dummySubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10000, 1, (_) => { });
 
             positions_comboBox.Text = "1";
             bolts_textBox.KeyDown += bolts_textBox_KeyDown;
             game.SetupInputDisplayMemorySubs();
+
             AutosplitterCheckbox.Checked = true;
         }
 
@@ -84,7 +82,6 @@ namespace racman
 
             loadScreenTypeSubId = game.api.SubMemory(game.api.getCurrentPID(), rac2.addr.loadingScreenCount, 1, IPS3API.MemoryCondition.Changed, value =>
             {
-                Console.WriteLine("hi bordplate fix it pls grok");
                 // Work around a bug in Ratchetron
                 var loadScreen = value[0];
                 if (loadScreen == prevLoadScreen) return;
@@ -117,7 +114,6 @@ namespace racman
             // Fix crash on exit (lol)
             try
             {
-                if (dummySubID != -1) game.api.ReleaseSubID(dummySubID);
                 if (fastLoadSubID != -1) game.api.ReleaseSubID(fastLoadSubID);
                 if (expEconomySubId != -1) game.api.ReleaseSubID(expEconomySubId);
                 if (loadScreenTypeSubId != -1) game.api.ReleaseSubID(loadScreenTypeSubId);

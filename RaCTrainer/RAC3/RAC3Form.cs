@@ -59,7 +59,7 @@ namespace racman
         public ChargebootColorPicker cosmeticsForm;
         private AutosplitterHelper autosplitterHelper;
         private AutosplitterConfigForm autosplitterConfigForm;
-        private RacketsGUI racketsForm;
+        //private RacketsGUI racketsForm;
 
         public static string[] saves;
         public Timer CoordsTimer = new Timer();
@@ -180,7 +180,8 @@ namespace racman
             {
                 if (value[0] == 1)
                 {
-                    this.Invoke(new Action(() => {
+                    this.Invoke(new Action(() =>
+                    {
                         setAsideButton.Enabled = true;
                         loadFileButton.Enabled = true;
                     }));
@@ -219,7 +220,8 @@ namespace racman
             if (isChecked)
             {
                 ohkoMemSubID = api.FreezeMemory(AttachPS3Form.pid, rac3.addr.playerHealth, Ratchetron.MemoryCondition.Above, 1);
-            } else
+            }
+            else
             {
                 api.ReleaseSubID(ohkoMemSubID);
             }
@@ -250,7 +252,7 @@ namespace racman
             planetText = (String)planets_comboBox.SelectedItem;
             if (planetText != null)
             {
-                if(planetText != "")
+                if (planetText != "")
                 {
                     planetId = (int)Enum.Parse(typeof(Planets), planetText) + 1;
                 }
@@ -265,7 +267,7 @@ namespace racman
                 planetId = 3;
             }
 
-            
+
             game.planetToLoad = (uint)planetId;
         }
 
@@ -303,7 +305,7 @@ namespace racman
         {
             game.SetChallengeMode((byte)challengeModeInput.Value);
         }
-        
+
         private void vidComicCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             // This stops the vid comic item from staying selected
@@ -348,7 +350,7 @@ namespace racman
                 ConfigureCombos = new ConfigureCombos();
                 ConfigureCombos.FormClosed += ConfigureCombos_FormClosed;
                 ConfigureCombos.Show();
-                    game.InputsTimer.Enabled = false;
+                game.InputsTimer.Enabled = false;
             }
         }
         private void ConfigureCombos_FormClosed(object sender, FormClosedEventArgs e)
@@ -368,11 +370,11 @@ namespace racman
         static bool qsbool = false;
         private void toggleQS_Click(object sender, EventArgs e)
         {
-               qsbool = !qsbool;
+            qsbool = !qsbool;
             if (qsbool)
                 game.api.WriteMemory(pid, rac3.addr.quickSelectPause, new byte[] { 1 });
             if (!qsbool)
-                game.api.WriteMemory(pid, rac3.addr.quickSelectPause, new byte[] { 0 }); 
+                game.api.WriteMemory(pid, rac3.addr.quickSelectPause, new byte[] { 0 });
         }
 
         private void coordsComboBox_CheckedChanged(object sender, EventArgs e)
@@ -418,8 +420,8 @@ namespace racman
                 {
                     MessageBox.Show("Unable to parse number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
-            } 
+
+            }
         }
 
         private void memoryUtilitiesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -467,7 +469,7 @@ namespace racman
                     game.planetToLoad = (uint)((int)Enum.Parse(typeof(Planets), "LaunchSite") + 1);
                     game.LoadPlanet();
                 }
-            } 
+            }
             else
             {
                 game.SetChallengeMode(13);
@@ -508,14 +510,6 @@ namespace racman
                 rac3.addr.chargebootsTintBackColor
             );
             cosmeticsForm.Show();
-        }
-
-        private void tASToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // last arg is chargeBuffer but im too lazy to find the actual address lol so its just aplaceholder pretend it does nothing in uya for now
-            Rackets2API.Initialize(0xD9F000, rac3.addr.playerCoords, rac3.addr.currentPlanet, 0xd9E000);
-            racketsForm = new RacketsGUI();
-            racketsForm.Show();
         }
     }
 }

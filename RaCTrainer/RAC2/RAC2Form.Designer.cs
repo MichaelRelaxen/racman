@@ -53,6 +53,7 @@ namespace racman
             this.levelFlagViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugFeaturesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.activateQEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,7 +89,6 @@ namespace racman
             this.buttonRespawn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.buttonCosmetics = new System.Windows.Forms.Button();
-            this.tasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -335,6 +335,13 @@ namespace racman
             this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            // 
+            // tasToolStripMenuItem
+            // 
+            this.tasToolStripMenuItem.Name = "tasToolStripMenuItem";
+            this.tasToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.tasToolStripMenuItem.Text = "TAS tools";
+            this.tasToolStripMenuItem.Click += new System.EventHandler(this.tasToolStripMenuItem_Click);
             // 
             // debugToolStripMenuItem
             // 
@@ -686,13 +693,6 @@ namespace racman
             this.buttonCosmetics.Text = "Cosmetics";
             this.buttonCosmetics.UseVisualStyleBackColor = true;
             this.buttonCosmetics.Click += new System.EventHandler(this.buttonCosmetics_Click);
-            // 
-            // tasToolStripMenuItem
-            // 
-            this.tasToolStripMenuItem.Name = "tasToolStripMenuItem";
-            this.tasToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.tasToolStripMenuItem.Text = "TAS";
-            this.tasToolStripMenuItem.Click += new System.EventHandler(this.tasToolStripMenuItem_Click);
             // 
             // RAC2Form
             // 
