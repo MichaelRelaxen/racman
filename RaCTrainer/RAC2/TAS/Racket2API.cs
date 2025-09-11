@@ -56,7 +56,7 @@ namespace racman
         private static IPS3API api = func.api;
 
 
-        public static string UploadInputsFile(string scriptFilePath)
+        public static string UploadInputsFile(string scriptFilePath, bool reload)
         {
             if (!File.Exists(scriptFilePath))
             {
@@ -89,7 +89,8 @@ namespace racman
                 api.WriteFile($"/dev_hdd0/game/{api.getGameTitleID()}/USRDIR/recording.rtas", compiledFilePath);
                 Console.WriteLine("done.");
 
-                ReloadSetState(4);
+                if (reload) ReloadSetState(4);
+                if (!reload) SetState(4);
                 // Thread.Sleep(200);
             }
             catch (Exception e)
@@ -161,6 +162,11 @@ namespace racman
         private static void ReloadSetState(uint state)
         {
             LoadSetAsideMethod();
+            WriteUint(tasState, state);
+        }
+
+        private static void SetState(uint state)
+        {
             WriteUint(tasState, state);
         }
 

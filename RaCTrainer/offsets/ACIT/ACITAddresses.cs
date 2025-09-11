@@ -161,6 +161,8 @@ namespace racman.offsets.ACIT
         public uint timerBase2Ptr => gameVersion[GameID].timerBase2Ptr;
         public uint timerBase3Ptr => gameVersion[GameID].timerBase3Ptr;
 
+        public uint mobyInstances => throw new NotImplementedException();
+
         private void InitializeAddresses()
         {
             // All addresses are from the US version of the game.

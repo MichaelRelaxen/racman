@@ -33,6 +33,8 @@ namespace racman
         public uint loadPlanet => 0x01570A10;
 
         public uint currentPlanet => 0x01329E2C;
+
+        public uint mobyInstances => throw new NotImplementedException();
     }
 
     public class rac2jp : IGame, IAutosplitterAvailable

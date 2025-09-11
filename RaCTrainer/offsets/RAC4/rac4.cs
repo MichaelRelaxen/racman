@@ -65,6 +65,8 @@ namespace racman
         public uint frameCounter => 0xB3C59C;
 
         public uint saveInfo => 0x11B1BD8;
+
+        public uint mobyInstances => throw new NotImplementedException();
     }
     public class rac4 : IGame, IAutosplitterAvailable
     {

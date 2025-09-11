@@ -80,6 +80,8 @@ namespace racman
         public uint debugUpdateOptions => 0x95c5c8;
 
         public uint debugModeControl => 0x95c5d4;
+
+        public uint mobyInstances => 0x0A390A0;
     }
 
     public class rac1 : IGame, IAutosplitterAvailable

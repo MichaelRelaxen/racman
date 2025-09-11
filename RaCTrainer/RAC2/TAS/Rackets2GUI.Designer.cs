@@ -33,6 +33,7 @@
             this.buttonPause = new System.Windows.Forms.Button();
             this.labelCurrentScript = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.bufferChargeCheckbox = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.buttonOpenScript = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -61,7 +62,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.buttonSetPlanet = new System.Windows.Forms.Button();
             this.comboLevelSelect = new System.Windows.Forms.ComboBox();
-            this.bufferChargeCheckbox = new System.Windows.Forms.CheckBox();
+            this.reloadUploadCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -122,6 +123,16 @@
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Scripting Options";
+            // 
+            // bufferChargeCheckbox
+            // 
+            this.bufferChargeCheckbox.AutoSize = true;
+            this.bufferChargeCheckbox.Location = new System.Drawing.Point(8, 111);
+            this.bufferChargeCheckbox.Name = "bufferChargeCheckbox";
+            this.bufferChargeCheckbox.Size = new System.Drawing.Size(91, 17);
+            this.bufferChargeCheckbox.TabIndex = 13;
+            this.bufferChargeCheckbox.Text = "Buffer Charge";
+            this.bufferChargeCheckbox.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -274,6 +285,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.reloadUploadCheckBox);
             this.groupBox3.Controls.Add(this.checkBoxHideHud);
             this.groupBox3.Controls.Add(this.checkBoxRendering);
             this.groupBox3.Controls.Add(this.checkBoxFrameskip);
@@ -408,7 +420,7 @@
             this.groupBox6.Controls.Add(this.comboLevelSelect);
             this.groupBox6.Location = new System.Drawing.Point(12, 421);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(333, 86);
+            this.groupBox6.Size = new System.Drawing.Size(144, 86);
             this.groupBox6.TabIndex = 22;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Level Options";
@@ -417,7 +429,7 @@
             // 
             this.buttonSetPlanet.Location = new System.Drawing.Point(8, 47);
             this.buttonSetPlanet.Name = "buttonSetPlanet";
-            this.buttonSetPlanet.Size = new System.Drawing.Size(316, 27);
+            this.buttonSetPlanet.Size = new System.Drawing.Size(127, 27);
             this.buttonSetPlanet.TabIndex = 22;
             this.buttonSetPlanet.Text = "Set Current Planet";
             this.buttonSetPlanet.UseVisualStyleBackColor = true;
@@ -456,24 +468,24 @@
             "Jamming Array"});
             this.comboLevelSelect.Location = new System.Drawing.Point(8, 20);
             this.comboLevelSelect.Name = "comboLevelSelect";
-            this.comboLevelSelect.Size = new System.Drawing.Size(316, 21);
+            this.comboLevelSelect.Size = new System.Drawing.Size(127, 21);
             this.comboLevelSelect.TabIndex = 0;
             // 
-            // bufferChargeCheckbox
+            // reloadUploadCheckBox
             // 
-            this.bufferChargeCheckbox.AutoSize = true;
-            this.bufferChargeCheckbox.Location = new System.Drawing.Point(8, 111);
-            this.bufferChargeCheckbox.Name = "bufferChargeCheckbox";
-            this.bufferChargeCheckbox.Size = new System.Drawing.Size(91, 17);
-            this.bufferChargeCheckbox.TabIndex = 13;
-            this.bufferChargeCheckbox.Text = "Buffer Charge";
-            this.bufferChargeCheckbox.UseVisualStyleBackColor = true;
+            this.reloadUploadCheckBox.AutoSize = true;
+            this.reloadUploadCheckBox.Location = new System.Drawing.Point(6, 111);
+            this.reloadUploadCheckBox.Name = "reloadUploadCheckBox";
+            this.reloadUploadCheckBox.Size = new System.Drawing.Size(110, 17);
+            this.reloadUploadCheckBox.TabIndex = 13;
+            this.reloadUploadCheckBox.Text = "Reload on upload";
+            this.reloadUploadCheckBox.UseVisualStyleBackColor = true;
             // 
             // RacketsGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 568);
+            this.ClientSize = new System.Drawing.Size(361, 519);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -535,5 +547,6 @@
         private System.Windows.Forms.Button pastePositionButton;
         private System.Windows.Forms.Button buttonRecording;
         private System.Windows.Forms.CheckBox bufferChargeCheckbox;
+        private System.Windows.Forms.CheckBox reloadUploadCheckBox;
     }
 }

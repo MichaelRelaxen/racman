@@ -18,6 +18,8 @@ namespace racman
         uint analogOffset { get; }
         uint loadPlanet { get; }
         uint currentPlanet { get; }
+
+        uint mobyInstances { get; }
     }
 
     public abstract class IGame
@@ -104,6 +106,11 @@ namespace racman
         public virtual void SetBoltCount(uint bolts)
         {
             api.WriteMemory(pid, Addr().boltCount, bolts);
+        }
+
+        public virtual uint GetMobyTableAddress()
+        {
+            return Addr().mobyInstances;
         }
 
         public virtual int Bolts()

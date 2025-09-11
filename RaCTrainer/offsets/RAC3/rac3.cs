@@ -85,6 +85,10 @@ namespace racman
         public uint chargebootsTintBackColor => 0xc33ac4;
         public uint chargebootsPrimaryFrontColor => 0xc33ab0;
         public uint chargebootsPrimaryBackColor => 0xc33ab4;
+
+
+        // Values corresponding to the location of the internal table for game objects.
+        public uint mobyInstances => 0x0f22260;
     }
     public class rac3 : IGame, IAutosplitterAvailable
     {

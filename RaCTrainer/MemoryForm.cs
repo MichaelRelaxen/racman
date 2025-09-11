@@ -18,6 +18,8 @@ namespace racman
 { 
     public partial class MemoryForm : Form
     {
+        public static uint mobyInstancesAddr;
+
         public class WatchedAddress
         {
             public uint address;
@@ -31,6 +33,11 @@ namespace racman
             public string name;
         }
 
+        public static void SetMobyInstancesAddress(uint address)
+        {
+            mobyInstancesAddr = address;
+        }
+
         public MemoryForm()
         {
             InitializeComponent();
@@ -39,6 +46,8 @@ namespace racman
             watchedMemoryAddressesListView.DoubleBuffering(true);
             mobyInspectorListView.DoubleBuffering(true);
         }
+
+
 
         void SetItemValueText(ListViewItem item, string value, string frozen = "")
         {
@@ -294,8 +303,8 @@ namespace racman
             selectedMobyComboBox.Items.Clear();
 
             var pid = func.api.getCurrentPID();
-            uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, rac2.addr.mobyInstances, 4).Reverse().ToArray(), 0);
-            uint end = BitConverter.ToUInt32(func.api.ReadMemory(pid, rac2.addr.mobyInstancesEnd, 4).Reverse().ToArray(), 0);
+            uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesAddr, 4).Reverse().ToArray(), 0);
+            uint end = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesAddr + 8, 4).Reverse().ToArray(), 0);
 
             while (instance < end) {
                 ushort oClass = BitConverter.ToUInt16(func.api.ReadMemory(pid, instance + 0xaa, 0x2).Reverse().ToArray(), 0);
@@ -310,7 +319,7 @@ namespace racman
         public void PopulateMobyInspectorRac2(int index)
         {   
             var pid = func.api.getCurrentPID();
-            uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, rac2.addr.mobyInstances, 4).Reverse().ToArray(), 0);
+            uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesAddr, 4).Reverse().ToArray(), 0);
 
             byte[] memory = func.api.ReadMemory(pid, instance + (0x100 * (uint)index), 0x100);
             rac2.Moby moby = rac2.Moby.ByteArrayToMoby(memory);
@@ -352,7 +361,7 @@ namespace racman
 
         private void refreshMobysButton_Click(object sender, EventArgs e)
         {
-            if (AttachPS3Form.game == "NPEA00386")
+            if (AttachPS3Form.game == "NPEA00386" || AttachPS3Form.game == "NPEA00385" || AttachPS3Form.game == "NPEA00387" )
             {
                 WebMAN wmm = new WebMAN(func.api.GetIP());
                 wmm.PauseRSX();
@@ -370,13 +379,14 @@ namespace racman
             else
             {
                 MessageBox.Show("Game is not supported.");
+                Console.WriteLine(AttachPS3Form.game);
             }
         }
         System.Timers.Timer timer = new System.Timers.Timer(1000); // Set up the timer for 1 second intervals (1000 milliseconds = 1 second)
 
         private void selectedMobyComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (AttachPS3Form.game == "NPEA00386")
+            if (AttachPS3Form.game == "NPEA00386" || AttachPS3Form.game == "NPEA00387" || AttachPS3Form.game == "NPEA00385")
             {
                 timer.Elapsed += (s, evt) =>
                 {

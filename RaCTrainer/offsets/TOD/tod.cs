@@ -20,6 +20,8 @@ namespace racman
             public uint analogOffset => throw new NotImplementedException();
             public uint loadPlanet => throw new NotImplementedException();
             public uint currentPlanet => savePlanetId;
+
+            public uint mobyInstances => throw new NotImplementedException();
         }
 
         public static ToDAddresses addr = new ToDAddresses();

@@ -90,12 +90,13 @@ namespace racman
         {
             Rackets2API.PauseUnpauseRackets(false);
             Rackets2API.RestartPlayback();
+            Rackets2API.SetChargeBuffer(bufferChargeCheckbox.Checked);
         }
 
         private void buttonUploadRun_Click(object sender, EventArgs e)
         {
-            // api.PauseUnpauseRackets(false);
-            var result = Rackets2API.UploadInputsFile(this.pathToScript);
+            Rackets2API.PauseUnpauseRackets(false);
+            var result = Rackets2API.UploadInputsFile(this.pathToScript, reloadUploadCheckBox.Checked);
             if (result != null) 
             { 
                 MessageBox.Show(result, "Error when uploading!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -242,6 +243,16 @@ namespace racman
             }
 
             return "";
+        }
+
+        private void uploadOnlyButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void setModeButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
