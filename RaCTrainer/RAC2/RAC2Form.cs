@@ -243,6 +243,7 @@ namespace racman
         }
 
         private int healthFreezeSubID = -1;
+
         private void freezeHealthCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             if (freezeHealthCheckbox.Checked)
@@ -613,6 +614,17 @@ namespace racman
             Rackets2API.Initialize(0x1be0000, rac2.addr.playerCoords, rac2.addr.currentPlanet, 0x145C180);
             racketsForm = new RacketsGUI();
             racketsForm.Show();
+        }
+
+        private void discordRPCEnabledToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (discordRPCEnabledToolStripMenuItem.Checked) {
+                game.DiscordTimer.Enabled = true;
+            }
+            else {
+                game.DiscordTimer.Enabled = false;
+                game.CheckPlanetForDiscordRPC();
+            }
         }
     }
 }

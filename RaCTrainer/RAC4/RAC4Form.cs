@@ -235,5 +235,16 @@ namespace racman
             api.WriteMemory(pid, rac4.addr.aceTuning, new byte[] { 20 });
             api.Notify("Act tuning done!");
         }
+
+        private void discordRPCEnabledToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            if (discordRPCEnabledToolStripMenuItem.Checked) {
+                game.DiscordTimer.Enabled = true;
+            }
+            else {
+                game.DiscordTimer.Enabled = false;
+                game.CheckPlanetForDiscordRPC();
+            }
+        }
     }
 }

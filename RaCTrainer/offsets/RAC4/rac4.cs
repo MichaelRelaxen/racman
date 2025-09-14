@@ -2,6 +2,8 @@
 using racman.offsets.RAC4;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using DiscordRPC;
 using Timer = System.Windows.Forms.Timer;
 
 namespace racman
@@ -73,12 +75,49 @@ namespace racman
         public Timer fastloadTimer = new Timer();
 
         public static RaC4Addresses addr = new RaC4Addresses();
+        
+        public DiscordRpcClient DiscordClient;
+        
+        private Timestamps initialTimestamp;
+        
+        private uint lastPlanetIndex = 100;
+        
+        public void InitializeDiscordRPC()
+        {
+            if (DiscordClient != null)
+            {
+                DiscordClient.Dispose();
+                DiscordClient = null;
+            }
+            DiscordClient = new DiscordRpcClient("1373373412264771705");
+            DiscordClient.Initialize();
+            initialTimestamp = Timestamps.Now;
+        }
 
         private List<BotsUnlocks> botsUnlocks;
 
         int ghostRatchetSubID = -1;
         public rac4(IPS3API api) : base(api)
         {
+            this.planetsList = new string[] {
+                "Dreadzone-Station",
+                "Dreadzone-Station",
+                "Catacrom-IV",
+                "Dreadzone-Station",
+                "Sarathos",
+                "Kronos",
+                "Shaar",
+                "Valix-belt",
+                "Orxon",
+                "Dreadzone-Station",
+                "Torval",
+                "Stygia",
+                "Dreadzone-Station",
+                "Maraxus",
+                "Ghost-Station",
+                "Dreadzone-Station"
+            };
+            
             botsUnlocks = BotsUnlocksFactory.GetUpgrades();
         }
 
@@ -156,7 +195,55 @@ namespace racman
 
         public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("UpdateRichPresence");
+            if (!DiscordTimer.Enabled) {
+                if (DiscordClient != null)
+                {
+                    DiscordClient.Dispose();
+                    DiscordClient = null;
+                    lastPlanetIndex = 100; // Valeur invalide pour forcer une mise à jour
+                }
+                return;
+            }
+            
+            byte[] planetData = api.ReadMemory(pid, rac4.addr.currentPlanet, 4);
+            if (planetData?.Length != 4) return; 
+            
+            uint planetindex = BitConverter.ToUInt32(planetData.Reverse().ToArray(), 0);
+            Console.WriteLine(planetindex);
+            
+            if (planetindex != lastPlanetIndex) {
+                if (DiscordClient == null) InitializeDiscordRPC();
+                lastPlanetIndex = planetindex;
+                if (planetindex < planetsList.Length)
+                    UpdateRichPresence(planetsList[planetindex]);
+            }
+        }
+        
+        public void UpdateRichPresence(string planetname)
+        {
+            Console.WriteLine(planetname);
+            if (DiscordClient == null)
+                return;
+            var imageKey = planetname.ToLower();
+            try {
+                DiscordClient.SetPresence(new RichPresence()
+                {
+                    Details = planetname,
+                    Timestamps = initialTimestamp,
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "rac4",
+                        LargeImageText = "Ratchet Gladiator",
+                        SmallImageKey = imageKey,
+                        SmallImageText = planetname,
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Cant update : {ex.Message}");
+            }
         }
     }
 }

@@ -59,6 +59,8 @@ namespace racman
             this.flagViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.discordRPCEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editRouteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -326,7 +328,10 @@ namespace racman
             this.toolStripSeparator1,
             this.flagViewerToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
-            this.memoryUtilitiesToolStripMenuItem});
+            this.memoryUtilitiesToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.discordRPCEnabledToolStripMenuItem
+            });
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -370,6 +375,19 @@ namespace racman
             this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(209, 6);
+            // 
+            // discordRPCEnabledToolStripMenuItem
+            // 
+            this.discordRPCEnabledToolStripMenuItem.CheckOnClick = true;
+            this.discordRPCEnabledToolStripMenuItem.Name = "discordRPCEnabledToolStripMenuItem";
+            this.discordRPCEnabledToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.discordRPCEnabledToolStripMenuItem.Text = "Discord Rich Presence";
+            this.discordRPCEnabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.discordRPCEnabledToolStripMenuItem_CheckedChanged);
             // 
             // autosplitterToolStripMenuItem
             // 
@@ -900,6 +918,8 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem editRouteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flagViewerToolStripMenuItem;
         private System.Windows.Forms.Button buttonCosmetics;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem discordRPCEnabledToolStripMenuItem;
     }
 }
 
