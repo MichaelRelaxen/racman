@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using DiscordRPC;
 using Timer = System.Windows.Forms.Timer;
 
 namespace racman
@@ -95,6 +96,24 @@ namespace racman
         public Timer fastloadTimer = new Timer();
 
         public static RaC3Addresses addr = new RaC3Addresses();
+        
+        public DiscordRpcClient DiscordClient;
+        
+        private Timestamps initialTimestamp;
+        
+        private uint lastPlanetIndex = 100;
+        
+        public void InitializeDiscordRPC()
+        {
+            if (DiscordClient != null)
+            {
+                DiscordClient.Dispose();
+                DiscordClient = null;
+            }
+            DiscordClient = new DiscordRpcClient("1416749388394660022");
+            DiscordClient.Initialize();
+            initialTimestamp = Timestamps.Now;
+        }
 
         int ghostRatchetSubID = -1;
         public rac3(IPS3API api) : base(api)
@@ -346,7 +365,102 @@ namespace racman
 
         public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
         {
-            throw new NotImplementedException();
+            if (!DiscordTimer.Enabled) {
+                if (DiscordClient != null)
+                {
+                    DiscordClient.Dispose();
+                    DiscordClient = null;
+                    lastPlanetIndex = 100; // Valeur invalide pour forcer une mise à jour
+                }
+                return;
+            }
+            
+            byte[] planetData = api.ReadMemory(pid, rac3.addr.currentPlanet, 4);
+            if (planetData?.Length != 4) return; 
+            
+            uint planetindex = (BitConverter.ToUInt32(planetData.Reverse().ToArray(), 0))-1;
+            
+            if (planetindex != lastPlanetIndex) {
+                if (DiscordClient == null) InitializeDiscordRPC();
+                lastPlanetIndex = planetindex;
+                if (planetindex < planetsList.Length) {
+                    string planet = planetsList[planetindex];
+                    planet = NormalizePlanetName(planet); // 🔑 nettoyage ici
+                    UpdateRichPresence(planet);
+                }
+            }
+        }
+        private string NormalizePlanetName(string planet)
+        {
+
+            // Remplacements spécifiques
+            switch (planet)
+            {
+                case "PhoenixRescue":
+                    return "StarshipPhoenix";
+                case "Rac3Metropolis":
+                case "MetropolisRangers":
+                    return "Kerwan";
+                case "Rac3Veldin":
+                    return "Veldin";
+                case "Rac3Aridia":
+                    return "Aridia";
+                case "AquatosClank":
+                case "AquatosSewers":
+                    return "Aquatos";
+                case "CrashSite":
+                    return "Zeldrin";
+                case "ZeldrinStarport":
+                    return "Zeldrin";
+                case "BlackwaterCity":
+                    return "Rilgar";
+                case "QwarksHideout":
+                    return "Thran";
+                case "LaunchSite":
+                    return "Mylon";
+                case "CommandCenter":
+                    return "Mylon";
+                case "TyhrranosisRangers":
+                    return "Tyhrranosis";
+                case "Holostar2":
+                    return "Holostar";
+                case "VidComic6":
+                case "VidComic1":
+                case "VidComic4":
+                case "VidComic2":
+                case "VidComic3":
+                case "VidComic5":
+                case "VidComic1SpecialEdition":
+                    return "VidComic";
+                default:
+                    return planet;
+            }
+        }
+        
+        public void UpdateRichPresence(string planetname)
+        {
+            if (DiscordClient == null)
+                return;
+            var imageKey = planetname.ToLower();
+            Console.WriteLine(imageKey);
+            try {
+                DiscordClient.SetPresence(new RichPresence()
+                {
+                    Details = planetname,
+                    Timestamps = initialTimestamp,
+                    Assets = new Assets()
+                    {
+                        LargeImageKey = "rac3",
+                        LargeImageText = "Ratchet & Clank 3",
+                        SmallImageKey = imageKey,
+                        SmallImageText = planetname,
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Cant update : {ex.Message}");
+            }
         }
     }
 }

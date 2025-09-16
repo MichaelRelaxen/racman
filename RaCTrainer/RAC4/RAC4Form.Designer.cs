@@ -39,6 +39,8 @@ namespace racman
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.discordRPCEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AutosplitterCheckbox = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.bolts_textBox = new System.Windows.Forms.TextBox();
@@ -119,7 +121,10 @@ namespace racman
             this.menuToolStripMenuItem.BackColor = System.Drawing.SystemColors.ControlDark;
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.patchLoaderToolStripMenuItem,
-            this.memoryUtilitiesToolStripMenuItem});
+            this.memoryUtilitiesToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.discordRPCEnabledToolStripMenuItem
+            });
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -137,6 +142,19 @@ namespace racman
             this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(209, 6);
+            // 
+            // discordRPCEnabledToolStripMenuItem
+            // 
+            this.discordRPCEnabledToolStripMenuItem.CheckOnClick = true;
+            this.discordRPCEnabledToolStripMenuItem.Name = "discordRPCEnabledToolStripMenuItem";
+            this.discordRPCEnabledToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.discordRPCEnabledToolStripMenuItem.Text = "Discord Rich Presence";
+            this.discordRPCEnabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.discordRPCEnabledToolStripMenuItem_CheckedChanged);
             // 
             // AutosplitterCheckbox
             // 
@@ -257,5 +275,7 @@ namespace racman
         private System.Windows.Forms.Button botsUnlocksWindowButton;
         private System.Windows.Forms.CheckBox wrsFromSrcSiteCheck;
         private System.Windows.Forms.Button buttonActTune;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem discordRPCEnabledToolStripMenuItem;
     }
 }
