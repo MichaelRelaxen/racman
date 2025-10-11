@@ -482,7 +482,7 @@ namespace racman
             this.buttonRaceStorage.Name = "buttonRaceStorage";
             this.buttonRaceStorage.Size = new System.Drawing.Size(104, 23);
             this.buttonRaceStorage.TabIndex = 115;
-            this.buttonRaceStorage.Text = "Reset menus";
+            this.buttonRaceStorage.Text = "Reset NG+ menus";
             this.toolTip1.SetToolTip(this.buttonRaceStorage, "Resets the position of the cursor on the race selector.");
             this.buttonRaceStorage.UseVisualStyleBackColor = true;
             this.buttonRaceStorage.Click += new System.EventHandler(this.buttonRaceStorage_Click);

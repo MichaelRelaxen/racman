@@ -46,6 +46,7 @@ namespace racman
             this.botsUnlocksWindowButton = new System.Windows.Forms.Button();
             this.wrsFromSrcSiteCheck = new System.Windows.Forms.CheckBox();
             this.buttonActTune = new System.Windows.Forms.Button();
+            this.checkBoxSoftlocks = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -206,11 +207,23 @@ namespace racman
             this.buttonActTune.UseVisualStyleBackColor = true;
             this.buttonActTune.Click += new System.EventHandler(this.buttonActTune_Click);
             // 
+            // checkBoxSoftlocks
+            // 
+            this.checkBoxSoftlocks.AutoSize = true;
+            this.checkBoxSoftlocks.Location = new System.Drawing.Point(12, 269);
+            this.checkBoxSoftlocks.Name = "checkBoxSoftlocks";
+            this.checkBoxSoftlocks.Size = new System.Drawing.Size(110, 17);
+            this.checkBoxSoftlocks.TabIndex = 112;
+            this.checkBoxSoftlocks.Text = "Fix reset softlocks";
+            this.checkBoxSoftlocks.UseVisualStyleBackColor = true;
+            this.checkBoxSoftlocks.CheckedChanged += new System.EventHandler(this.checkBoxSoftlocks_CheckedChanged);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(355, 277);
+            this.ClientSize = new System.Drawing.Size(355, 298);
+            this.Controls.Add(this.checkBoxSoftlocks);
             this.Controls.Add(this.buttonActTune);
             this.Controls.Add(this.wrsFromSrcSiteCheck);
             this.Controls.Add(this.botsUnlocksWindowButton);
@@ -257,5 +270,6 @@ namespace racman
         private System.Windows.Forms.Button botsUnlocksWindowButton;
         private System.Windows.Forms.CheckBox wrsFromSrcSiteCheck;
         private System.Windows.Forms.Button buttonActTune;
+        private System.Windows.Forms.CheckBox checkBoxSoftlocks;
     }
 }

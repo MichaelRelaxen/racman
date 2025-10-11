@@ -15,12 +15,15 @@ namespace racman
         private static ModLoaderForm modLoaderForm;
         private AutosplitterHelper autosplitterHelper;
 
+        public int tutorialSubId = -1;
+        // Tutorial flag - are we loading a fresh file?
+        public byte prevTutorial;
+
         public RAC4Form(rac4 game)
         {
             this.game = game;
 
             game.SetupInputDisplayMemorySubs();
-
 
             InitializeComponent();
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
@@ -39,8 +42,9 @@ namespace racman
 
         private void RAC4Form_Load(object sender, EventArgs e)
         {
-
+            checkBoxSoftlocks.Checked = true;
         }
+
         private async void wrsFromSrcSiteCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (src == null)
@@ -127,7 +131,10 @@ namespace racman
         {
             writetext.Checked = false;
             try 
-            { 
+            {
+                if (tutorialSubId != -1)
+                    game.api.ReleaseSubID(tutorialSubId);
+
                 game.api.Disconnect();
                 Application.Exit();
             } 
@@ -190,6 +197,30 @@ namespace racman
                 Console.WriteLine("Autosplitter starting!");
                 autosplitterHelper = new AutosplitterHelper();
                 autosplitterHelper.StartAutosplitterForGame(this.game);
+            }
+        }
+
+        private void checkBoxSoftlocks_CheckedChanged(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            if (checkBoxSoftlocks.Checked)
+            {
+                api.SubMemory(pid, rac4.addr.tutorialFlags + 3, 1, (value) =>
+                {
+                    var tutorial = value[0];
+                    if (tutorial == prevTutorial) return;
+                    prevTutorial = tutorial;
+
+                    if (tutorial == 0)
+                        api.WriteMemory(pid, rac4.addr.qualifierSoftlock, new byte[] { 0 });
+                });
+            }
+            else if (tutorialSubId != -1)
+            {
+                api.ReleaseSubID(tutorialSubId);
+                tutorialSubId = -1;
             }
         }
 
