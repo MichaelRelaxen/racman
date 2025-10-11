@@ -22,6 +22,8 @@ namespace racman
         // unlocks are not saved, until the save flag is set to 1
         public uint botsUnlockSave => 0x9C3325;
 
+        public uint qualifierSoftlock => 0x11C04C0;
+
         // Act tuning addresses for each boss
         public uint shellshockTuning => 0x0A947D3;
         public uint reactorTuning => 0x0A94944;

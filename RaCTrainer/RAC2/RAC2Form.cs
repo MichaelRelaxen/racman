@@ -419,7 +419,7 @@ namespace racman
             // Disable race storage
             api.WriteMemory(pid, rac2.addr.savedRaceIndex, 0);
             // Disable ship opening cutscenes
-            api.WriteMemory(pid, rac2.addr.feltzinOpening, 1);
+            api.WriteMemory(pid, rac2.addr.feltzinOpening, new byte[] { 1 });
             api.WriteMemory(pid, rac2.addr.gornOpening, 1);
             // Fix ship mission menus
             api.WriteMemory(pid, rac2.addr.feltzinMissionComplete, 0);
@@ -444,6 +444,7 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
 
+            api.WriteMemory(pid, rac2.addr.feltzinOpening, new byte[] { 1 });
             api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 20 });
             // We should setup pad manip, since this happens whenever Snivelak is visited.
             api.WriteMemory(pid, rac2.addr.padManip, 1103626240); // 25 as a float
