@@ -472,7 +472,6 @@ namespace racman
             var pid = api.getCurrentPID();
             desiredShortcutIndex = 1;
             api.WriteMemory(pid, rac2.addr.shortcutsIndex, 1); // Barlow
-            desiredShortcutIndex = 1;
             SetupGeneralNGPlusMenus();
         }
 
@@ -484,7 +483,7 @@ namespace racman
             desiredShortcutIndex = 7;
             api.WriteMemory(pid, rac2.addr.shortcutsIndex, 7); // Museum
             api.WriteMemory(pid, rac2.addr.endakoBossCS, 1);
-            api.WriteMemory(pid, rac2.addr.dorbitOpening, 1); 
+            api.WriteMemory(pid, rac2.addr.dorbitOpening, new byte[] { 1 }); 
             SetupGeneralNGPlusMenus();
         }
 
