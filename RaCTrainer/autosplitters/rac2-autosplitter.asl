@@ -8,11 +8,20 @@ startup
     settings.Add("PROTO_SPLIT", true, "Split on defeating protopet");
     settings.SetToolTip("PROTO_SPLIT", "Splits on defeating the protopet, the final boss.");
 
-    settings.Add("CLANK_SPLIT", true, "A2 clank subsplit");
-    settings.SetToolTip("CLANK_SPLIT", "Splits when transitioning from clank to ratchet on Aranos 2.");
+    settings.Add("A2_CLANK_SPLIT", true, "A2 clank subsplit");
+    settings.SetToolTip("A2_CLANK_SPLIT", "Splits when transitioning from clank to ratchet on Aranos 2.");
 
     settings.Add("ARENA_SPLIT", false, "Maktar arena subsplit");
     settings.SetToolTip("ARENA_SPLIT", "Splits when entering the arena on Maktar.");
+
+    settings.Add("BARLOW_ENTRY_SPLIT", false, "Barlow race entry subsplit");
+    settings.SetToolTip("BARLOW_ENTRY_SPLIT", "Splits when entering the racetrack on barlow.");
+
+    settings.Add("ENDAKO_ENTRY_SPLIT", false, "Endako clank entry subsplit");
+    settings.SetToolTip("ENDAKO_ENTRY_SPLIT", "Splits when transitioning from ratchet to clank on Endako.");
+
+    settings.Add("ENDAKO_EXIT_SPLIT", false, "Endako clank exit subsplit");
+    settings.SetToolTip("ENDAKO_EXIT_SPLIT", "Splits when transitioning from clank to ratchet on Endako.");
 }
 
 init
@@ -32,6 +41,9 @@ init
     current.clank = vars.reader.ReadByte();
     current.loadScreen = vars.reader.ReadByte();
     current.yeedilScene = vars.reader.ReadByte();
+    current.endakoEntryFlag = vars.reader.ReadByte();
+    current.endakoExitFlag = vars.reader.ReadByte();
+    current.barlowEntryFlag = vars.reader.ReadByte();
 
     vars.planetNames = new List<List<string>>();
     
@@ -67,6 +79,10 @@ update
     current.clank = vars.reader.ReadByte();
     current.loadScreen = vars.reader.ReadByte();
     current.yeedilScene = vars.reader.ReadByte();
+    current.endakoEntryFlag = vars.reader.ReadByte();
+    current.endakoExitFlag = vars.reader.ReadByte();
+    current.barlowEntryFlag = vars.reader.ReadByte();
+
 
     if (current.loadScreen != old.loadScreen) 
     {
@@ -107,7 +123,8 @@ reset
 
 split
 {
-    if (current.planet != old.planet)
+    // never split entering IM
+    if (current.planet != old.planet && current.planet != 21) 
     {
         if (!settings["SPLIT_ROUTE"]) 
         {
@@ -143,7 +160,22 @@ split
         return true;
     }
 
-    if (settings["CLANK_SPLIT"] && current.planet == 14 && current.clank == 128 && old.clank == 0) 
+    if (settings["A2_CLANK_SPLIT"] && current.planet == 14 && current.clank == 128 && old.clank == 0) 
+    {
+        return true;
+    }
+
+    if (settings["BARLOW_ENTRY_SPLIT"] && current.planet == 4 && current.barlowEntryFlag == 128 && old.barlowEntryFlag == 0) 
+    {
+        return true;
+    }
+
+    if (settings["ENDAKO_ENTRY_SPLIT"] && current.planet == 3 && current.endakoEntryFlag == 128 && old.endakoEntryFlag == 0)
+    {
+        return true;
+    }
+
+    if (settings["ENDAKO_EXIT_SPLIT"] && current.planet == 3 && current.endakoExitFlag == 128 && old.endakoExitFlag == 0)
     {
         return true;
     }

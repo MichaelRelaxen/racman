@@ -89,6 +89,10 @@ namespace racman
         public uint feltzinOpening => 0x1A8495B;
         // Same thing but on Gorn
         public uint gornOpening => 0x1A99A34;
+        // Same thing but on Dobbo Orbit
+        public uint dorbitOpening => 0x1A59764;
+        // yes
+        public uint endakoBossCS => 0x1A58158;
 
         // Should be set to 0 but isn't reset properly - causes menu bug
         public uint feltzinMissionComplete => 0x1A84973;
@@ -176,7 +180,11 @@ namespace racman
             (rac2.addr.currentChunk, 1),
             (0x1562699, 1), // clank level flag on a2
             (rac2.addr.loadingScreenType, 1),
-            (0x1478991, 1) // yeedil scene ID
+            (0x1478991, 1), // yeedil scene ID
+            (0x15625E3, 1), // endako clank enter 
+            (0x15625E1, 1), // endako clank exit
+            (0x15625F7, 1) // barlow race enter
+
         };
 
 

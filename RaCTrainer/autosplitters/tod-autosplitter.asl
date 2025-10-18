@@ -2,8 +2,15 @@ state("racman") {}
 
 startup
 {	
-    settings.Add("SPLIT_ROUTE", false, "Use split route based on split names");
-    settings.SetToolTip("SPLIT_ROUTE", "Only split when entering the next planet on your LiveSplit.");
+    settings.Add("SPLIT_ROUTE_NAMED", false, "Use split route based on split names");
+    settings.SetToolTip("SPLIT_ROUTE_NAMED", "Only split when entering the next planet on your LiveSplit.");
+
+    settings.Add("SPLIT_ROUTE_CATS", false, "Use category split route:");
+    settings.SetToolTip("SPLIT_ROUTE_CATS", "Use a fixed split route based on the category being ran.");
+    
+    settings.Add("SPLIT_ROUTE_NGP", false, "Use NG+ split route", "SPLIT_ROUTE_CATS");
+    settings.Add("SPLIT_ROUTE_ANY", false, "Use Any% split route", "SPLIT_ROUTE_CATS");
+    settings.Add("SPLIT_ROUTE_AGB", false, "Use AGB split route", "SPLIT_ROUTE_CATS");
 }
 
 init
@@ -17,7 +24,11 @@ init
     current.savePlanetID = vars.reader.ReadByte();
     current.loadScreenType = vars.reader.ReadByte();
 
-     vars.planetNames = new List<List<string>>();
+    vars.splitIndex = 0;
+    vars.planetNames = new List<List<string>>();
+    vars.routeNGP = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5, 11, 12, 13, 14, 15, 16, 17, 18 };
+    vars.routeAny = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5, 11, 11, 12, 13, 14, 15, 16, 17, 18 };
+    vars.routeAGB = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 5, 11, 11, 12, 13, 14, 15, 16, 17, 7, 18 };
     
     // Get file with planet names
     var basePath = Path.GetDirectoryName(game.MainModule.FileName);
@@ -66,7 +77,7 @@ split
 
     if (!shouldSplit) return;
 
-    if (settings["SPLIT_ROUTE"]) 
+    if (settings["SPLIT_ROUTE_NAMED"]) 
     {
         var nextSplitName = "";
         var splitIndex = timer.CurrentSplitIndex + 1;
@@ -93,7 +104,23 @@ split
             }
         }
     } 
-    else 
+    else if (settings["SPLIT_ROUTE_CATS"]) 
+    {
+        var splitRoute = new List<int>();
+        if (settings["SPLIT_ROUTE_NGP"]) 
+            splitRoute = vars.routeNGP;
+        else if (settings["SPLIT_ROUTE_ANY"]) 
+            splitRoute = vars.routeAny;
+        else if (settings["SPLIT_ROUTE_AGB"])
+            splitRoute = vars.routeAGB;
+
+        if (vars.splitIndex + 1 < splitRoute.Count && splitRoute[vars.splitIndex + 1] == (int)current.savePlanetID) 
+        {
+            vars.splitIndex += 1;
+            return true;
+        }
+    } 
+    else
     {
         return true;
     }
