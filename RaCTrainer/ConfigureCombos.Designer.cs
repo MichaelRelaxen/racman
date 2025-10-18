@@ -176,7 +176,7 @@ namespace racman
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureCombos";
-            this.Text = "j";
+            this.Text = "k";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigureCombos_FormClosing);
             this.Load += new System.EventHandler(this.ConfigureCombos_Load);
             this.ResumeLayout(false);

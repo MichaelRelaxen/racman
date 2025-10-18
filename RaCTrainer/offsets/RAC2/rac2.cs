@@ -182,7 +182,9 @@ namespace racman
             (rac2.addr.loadingScreenType, 1),
             (0x1478991, 1), // yeedil scene ID
             (0x15625E3, 1), // endako clank enter 
-            (0x15625E1, 1) // endako clank exit
+            (0x15625E1, 1), // endako clank exit
+            (0x15625F7, 1) // barlow race enter
+
         };
 
 
