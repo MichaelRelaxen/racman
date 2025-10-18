@@ -13,9 +13,9 @@ namespace racman
     {
     private enum Planets
         {
-            DreadZoneStation,
-            INFLOOP,
+            DreadZoneStation,            
             CatacromFour,
+            INFLOOP,
             Sarathos,
             Kronos,
             Shaar,
