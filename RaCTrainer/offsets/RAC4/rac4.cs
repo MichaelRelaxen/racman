@@ -68,7 +68,6 @@ namespace racman
 
         public uint saveInfo => 0x11B1BD8;
 
-        public uint loadingPlanet => 0x09C3240;
         public uint prevPlanet => 0x0B1F465;
         // The challenge that is selected in the menu
         public uint challengeSelected => 0x11A0AE0;
