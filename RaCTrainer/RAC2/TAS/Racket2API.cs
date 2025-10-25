@@ -30,13 +30,15 @@ namespace racman
         public static uint saveMode;
         public static uint positionToLoad;
         public static uint chargeBuffer;
+        public static uint cutsceneStorageVars;
 
-        public static void Initialize(uint defaultAddr, uint playerPositionAddr, uint currentPlanetAddr, uint chargeBufferAddr)
+        public static void Initialize(uint defaultAddr, uint playerPositionAddr, uint currentPlanetAddr, uint chargeBufferAddr, uint cutsceneStorageAddr)
         {
             defaultOffset = defaultAddr;
             playerPosition = playerPositionAddr;
             currentPlanet = currentPlanetAddr;
             chargeBuffer = chargeBufferAddr;
+            cutsceneStorageVars = cutsceneStorageAddr;
 
             tasState = defaultOffset + 0x270;
             tasStop = defaultOffset + 0x274;
@@ -49,6 +51,7 @@ namespace racman
             tasHideHud = defaultOffset + 0x48;
             saveMode = defaultOffset + 0x4C;
             positionToLoad = defaultOffset + 0x400;
+
         }
 
         private static string savedPosition;
@@ -189,6 +192,17 @@ namespace racman
         {
             WriteUint(tasRenderMode, (uint)(skipRender ? 1 : 0));
             WriteUint(tasGCMFlip, (uint)(skipFrames ? 1 : 0));
+        }
+
+        public static void SetCutsceneStorage(bool toggled)
+        {
+            if(toggled) {
+                // all 4 of these have to be set, rac2.
+                WriteUint(cutsceneStorageVars, 2);
+                WriteUint(cutsceneStorageVars + 0x4, 0);
+                WriteUint(cutsceneStorageVars + 0x24, 1);
+                WriteUint(cutsceneStorageVars + 0x28, 2);
+            }
         }
 
         public static void SetHudStatus(bool hide)

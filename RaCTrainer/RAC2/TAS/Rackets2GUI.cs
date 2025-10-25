@@ -102,6 +102,7 @@ namespace racman
                 MessageBox.Show(result, "Error when uploading!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             Rackets2API.SetChargeBuffer(bufferChargeCheckbox.Checked);
+            Rackets2API.SetCutsceneStorage(cutsceneStorageCheckbox.Checked);
             
         }
 
