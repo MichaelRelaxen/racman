@@ -315,10 +315,10 @@ namespace racman
         {
 
             // Not working properly right now?
-            api.WriteMemory(pid, rac1.addr.levelFlags + 0x10 * planetToLoad, 0x10, new byte[0x10]);
-            api.WriteMemory(pid, rac1.addr.miscLevelFlags + 0x100 * planetToLoad, 0x100, new byte[0x100]);
-            api.WriteMemory(pid, rac1.addr.infobotFlags, 20, new byte[20]);
-            api.WriteMemory(pid, rac1.addr.moviesFlags, 0x100, new byte[0x100]);
+            api.WriteMemory(pid, rac1.addr.levelFlags + (planetToLoad * 0x10), 0x10, new byte[0x10]);
+            api.WriteMemory(pid, rac1.addr.miscLevelFlags + (planetToLoad * 0x100), 0x100, new byte[0x100]);
+            api.WriteMemory(pid, rac1.addr.infobotFlags + planetToLoad, 1, new byte[1]);
+            api.WriteMemory(pid, rac1.addr.moviesFlags, 0xc0, new byte[0xC0]);
             
             if (planetToLoad == 3)
             {
