@@ -543,5 +543,10 @@ namespace racman
         {
             game.api.WriteMemory(game.api.getCurrentPID(), 0xB00073, new byte[] { 3 });
         }
+
+        private void drekCutsceneButton_Click(object sender, EventArgs e)
+        {
+            game.SetDrekCutscene(true);
+        }
     }
 }
