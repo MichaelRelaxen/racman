@@ -8,6 +8,10 @@ namespace racman
 {
     public class RaC4Addresses : IAddresses
     {
+        public uint savefile_api_enabled = 0x15CD71D;
+        public uint savefile_api_load = 0x15CD71E;
+        public uint savefile_api_setaside = 0x15CD71F;
+
         // Input stuff
         public uint inputOffset => 0xB11F30;
         public uint analogOffset => 0xB1210C;
@@ -153,7 +157,47 @@ namespace racman
 
         public override void CheckInputs(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            //if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
+            //{
+            //    SavePosition();
+            //    inputCheck = false;
+            //}
+            //if (Inputs.RawInputs == ConfigureCombos.loadCombo && inputCheck)
+            //{
+            //    LoadPosition();
+            //    inputCheck = false;
+            //}
+            if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
+            {
+                KillYourself();
+                inputCheck = false;
+            }
+            //if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
+            //{
+            //    enableDisableFastLoads(true);
+            //    LoadPlanet(resetFlags: resetFlagsRequested);
+            //    inputCheck = false;
+            //}
+            if (Inputs.RawInputs == ConfigureCombos.runScriptCombo && inputCheck)
+            {
+                AttachPS3Form.scripting?.RunCurrentCode();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)
+            {
+                loadSetAsideFile();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x00 && !inputCheck)
+            {
+                inputCheck = true;
+            }
+        }
+
+        public void loadSetAsideFile()
+        {
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, addr.savefile_api_load, new byte[] { 1 });
         }
 
         public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
