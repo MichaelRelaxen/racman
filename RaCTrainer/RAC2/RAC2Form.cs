@@ -67,7 +67,6 @@ namespace racman
 
             savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
             {
-                // this lione
                 if (value[0] == 1)
                 {
                     this.Invoke(new Action(() =>
