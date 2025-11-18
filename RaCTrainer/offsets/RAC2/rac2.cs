@@ -125,6 +125,9 @@ namespace racman
 
         public uint currentChunk => 0x157CE03;
 
+        // 0 if Ratchet, 1 if Clank, etc.
+        public uint heroType => 0x1481494;
+
         public uint chargebootsPrimaryFrontColor => 0x1318590;
         public uint chargebootsPrimaryBackColor => 0x1318594;
         public uint chargebootsTintFrontColor => 0x13185a0;
@@ -183,7 +186,8 @@ namespace racman
             (0x1478991, 1), // yeedil scene ID
             (0x15625E3, 1), // endako clank enter 
             (0x15625E1, 1), // endako clank exit
-            (0x15625F7, 1) // barlow race enter
+            (0x15625F7, 1), // barlow race enter
+            (rac2.addr.heroType, 1) 
 
         };
 
