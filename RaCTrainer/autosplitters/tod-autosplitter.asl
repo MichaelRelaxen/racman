@@ -65,7 +65,7 @@ start
 
 reset
 {
-
+    vars.splitIndex = 0;
 }
 
 split
