@@ -37,6 +37,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonStartAutosplitter = new System.Windows.Forms.Button();
             this.labelAutosplitterStatus = new System.Windows.Forms.Label();
+            this.labelSplitterRoute = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -138,15 +139,27 @@
             this.labelAutosplitterStatus.ForeColor = System.Drawing.Color.Red;
             this.labelAutosplitterStatus.Location = new System.Drawing.Point(149, 125);
             this.labelAutosplitterStatus.Name = "labelAutosplitterStatus";
-            this.labelAutosplitterStatus.Size = new System.Drawing.Size(101, 13);
+            this.labelAutosplitterStatus.Size = new System.Drawing.Size(95, 13);
             this.labelAutosplitterStatus.TabIndex = 105;
-            this.labelAutosplitterStatus.Text = "Autosplitter disabled";
+            this.labelAutosplitterStatus.Text = "Autosplitter disbled";
+            // 
+            // labelSplitterRoute
+            // 
+            this.labelSplitterRoute.AutoSize = true;
+            this.labelSplitterRoute.ForeColor = System.Drawing.Color.Gray;
+            this.labelSplitterRoute.Location = new System.Drawing.Point(258, 125);
+            this.labelSplitterRoute.Name = "labelSplitterRoute";
+            this.labelSplitterRoute.Size = new System.Drawing.Size(101, 13);
+            this.labelSplitterRoute.TabIndex = 106;
+            this.labelSplitterRoute.Text = "Autosplitter disabled";
+            this.labelSplitterRoute.Visible = false;
             // 
             // TODForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(437, 170);
+            this.Controls.Add(this.labelSplitterRoute);
             this.Controls.Add(this.labelAutosplitterStatus);
             this.Controls.Add(this.buttonStartAutosplitter);
             this.Controls.Add(this.label1);
@@ -174,5 +187,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonStartAutosplitter;
         private System.Windows.Forms.Label labelAutosplitterStatus;
+        private System.Windows.Forms.Label labelSplitterRoute;
     }
 }

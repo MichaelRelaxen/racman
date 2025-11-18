@@ -231,6 +231,7 @@ namespace racman
 
         private void drekskip_Click(object sender, EventArgs e)
         {
+            game.api.Notify("Drek skip done for non poki skip NG+ runs :)");
             game.SetDrekSkip(true);
         }
 
@@ -546,6 +547,7 @@ namespace racman
 
         private void drekCutsceneButton_Click(object sender, EventArgs e)
         {
+            game.api.Notify("Drek cutscene done for NG+ poki skip runs :)");
             game.SetDrekCutscene(true);
         }
     }
