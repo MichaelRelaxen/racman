@@ -35,7 +35,7 @@ namespace racman.TOD
                 //     game.api.Disconnect();
                 // });
 
-                r.setReconnectCallback(() => 
+                r.setReconnectCallback(() =>
                 {
                     if (useAutosplitter)
                     {
@@ -92,7 +92,7 @@ namespace racman.TOD
                     else
                         handleDisconnect();
                 }
-                
+
 
                 lastPlanet = currPlanet;
                 lastGoodPlanet = currGoodPlanet;
@@ -143,12 +143,32 @@ namespace racman.TOD
 
         private void TODForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (autosplitter.IsRunning)
+            if (autosplitter != null && autosplitter.IsRunning)
                 autosplitter?.Stop();
             autosplitter = null;
 
             game.api.Disconnect();
             Application.Exit();
+        }
+
+        private void setAutosplitterLabel()
+        {
+            labelSplitterRoute.Visible = true;
+            switch (autosplitterASSroute)
+            {
+                case ASSRoute.None:
+                    labelSplitterRoute.Text = "No ASS/GASS";
+                    break;
+                case ASSRoute.ASS:
+                    labelSplitterRoute.Text = "Old ASS";
+                    break;
+                case ASSRoute.GASS:
+                    labelSplitterRoute.Text = "GASS";
+                    break;
+                case ASSRoute.SmugglingGASS:
+                    labelSplitterRoute.Text = "GASS with smuggling";
+                    break;
+            }
         }
 
         private void buttonStartAutosplitter_Click(object sender, EventArgs e)
@@ -168,6 +188,23 @@ namespace racman.TOD
 
                 labelAutosplitterStatus.Text = "Autosplitter enabled!";
                 labelAutosplitterStatus.ForeColor = Color.Green;
+
+                setAutosplitterLabel();
+                buttonStartAutosplitter.Text = "Configure Autosplitter";
+                buttonStartAutosplitter.Click -= buttonStartAutosplitter_Click;
+                buttonStartAutosplitter.Click += buttonReselectAutosplitter_Click;
+            }
+        }
+
+        private void buttonReselectAutosplitter_Click(object sender, EventArgs e) 
+        {
+            var choiceForm = new CategoryChoiceForm();
+            choiceForm.ShowDialog();
+
+            if (choiceForm.route is ASSRoute route)
+            {
+                autosplitterASSroute = route;
+                setAutosplitterLabel();
             }
         }
     }
