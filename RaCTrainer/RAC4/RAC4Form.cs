@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace racman
 {
@@ -20,6 +20,8 @@ namespace racman
         // Tutorial flag - are we loading a fresh file?
         public byte prevTutorial;
 
+        WebMAN wmm = null;
+
         public RAC4Form(rac4 game)
         {
             this.game = game;
@@ -29,6 +31,9 @@ namespace racman
             InitializeComponent();
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
             AutosplitterCheckbox.Checked = true;
+
+            if (func.api is Ratchetron r)
+                wmm = new WebMAN(r.GetIP());
         }
 
         public Form InputDisplay;
@@ -321,6 +326,16 @@ namespace racman
                 game.InputsTimer.Enabled = true;
             else
                 game.InputsTimer.Enabled = false;
+        }
+
+        private void savepos_Click(object sender, EventArgs e) 
+        {
+            game.SavePosition();
+        }
+
+        private void loadpos_Click(object sender, EventArgs e)
+        {
+            game.LoadPositionRac4();
         }
     }
 }

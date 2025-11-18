@@ -279,28 +279,27 @@ namespace racman
             // 
             // savepos
             // 
-            this.savepos.Enabled = false;
             this.savepos.Location = new System.Drawing.Point(12, 126);
             this.savepos.Name = "savepos";
             this.savepos.Size = new System.Drawing.Size(115, 23);
             this.savepos.TabIndex = 116;
             this.savepos.Text = "Save Position";
             this.savepos.UseVisualStyleBackColor = true;
+            this.savepos.Click += new System.EventHandler(this.savepos_Click);
             // 
             // loadpos
             // 
-            this.loadpos.Enabled = false;
             this.loadpos.Location = new System.Drawing.Point(12, 155);
             this.loadpos.Name = "loadpos";
             this.loadpos.Size = new System.Drawing.Size(115, 23);
             this.loadpos.TabIndex = 117;
             this.loadpos.Text = "Load Position";
             this.loadpos.UseVisualStyleBackColor = true;
+            this.loadpos.Click += new System.EventHandler(this.loadpos_Click);
             // 
             // positions_comboBox
             // 
             this.positions_comboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.positions_comboBox.Enabled = false;
             this.positions_comboBox.FormattingEnabled = true;
             this.positions_comboBox.Items.AddRange(new object[] {
             "1",
