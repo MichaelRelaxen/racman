@@ -129,6 +129,15 @@ namespace racman
         public uint chargebootsPrimaryBackColor => 0x1318594;
         public uint chargebootsTintFrontColor => 0x13185a0;
         public uint chargebootsTintBackColor => 0x13185a0;
+
+        // any% variables that need to be reset.
+        public uint jankpotActive => 0x15718f8;
+        public uint bossHealthBarActive => 0x15784e8;
+        public uint feltzinRariDrop => 0x1a30430;
+        public uint oldSkoolSpPossible => 0x0133e8a0;
+        public uint lastRaritaniumCount => 0x1a849a8;
+        public uint boltEconomy => 0x1329AAC;
+        public uint pyramidBoltDrop => 0x1AAC767;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable

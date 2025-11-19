@@ -225,10 +225,14 @@ namespace racman
         {
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x02);
-            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)message.Length).Reverse());
-            cmdBuf.AddRange(Encoding.ASCII.GetBytes(message));
+            var payload = Encoding.ASCII.GetBytes(message);
+            uint length = (uint)(payload.Length + 1);
+            cmdBuf.AddRange(BitConverter.GetBytes(length).Reverse());
+            cmdBuf.AddRange(payload);
+            cmdBuf.Add(0x00); // null terminating character to avoid strings looking messed up
 
             this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+
         }
 
         private void DataChannelReceive()

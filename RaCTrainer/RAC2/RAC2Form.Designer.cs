@@ -89,6 +89,7 @@ namespace racman
             this.buttonRespawn = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.buttonCosmetics = new System.Windows.Forms.Button();
+            this.checkBox_autoResetAnyPercent = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -278,7 +279,7 @@ namespace racman
             this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(482, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(480, 24);
             this.menuStrip1.TabIndex = 101;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -694,11 +695,22 @@ namespace racman
             this.buttonCosmetics.UseVisualStyleBackColor = true;
             this.buttonCosmetics.Click += new System.EventHandler(this.buttonCosmetics_Click);
             // 
+            // checkBox_autoResetAnyPercent
+            // 
+            this.checkBox_autoResetAnyPercent.AutoSize = true;
+            this.checkBox_autoResetAnyPercent.Location = new System.Drawing.Point(247, 441);
+            this.checkBox_autoResetAnyPercent.Name = "checkBox_autoResetAnyPercent";
+            this.checkBox_autoResetAnyPercent.Size = new System.Drawing.Size(134, 17);
+            this.checkBox_autoResetAnyPercent.TabIndex = 135;
+            this.checkBox_autoResetAnyPercent.Text = "Auto-reset Any% on A1";
+            this.checkBox_autoResetAnyPercent.UseVisualStyleBackColor = true;
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(482, 472);
+            this.ClientSize = new System.Drawing.Size(480, 489);
+            this.Controls.Add(this.checkBox_autoResetAnyPercent);
             this.Controls.Add(this.buttonCosmetics);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.buttonSetupAllMissions);
@@ -820,5 +832,6 @@ namespace racman
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button buttonCosmetics;
         private System.Windows.Forms.ToolStripMenuItem tasToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBox_autoResetAnyPercent;
     }
 }

@@ -93,6 +93,10 @@ namespace racman
                 // Disable force-override from reload file by setting to previous setting
                 game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
 
+                if(checkBox_autoResetAnyPercent.Checked) {
+                    resetAnyPercentVars(game.api);
+                }
+
                 if (!checkBoxAutoReset.Checked) return;
                 var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
                 if (planet[3] != 0) return;
@@ -108,6 +112,8 @@ namespace racman
                 planets_comboBox.SelectedIndex = (int)game.planetIndex;
             }));
         }
+
+
 
         private void RAC2Form_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -340,18 +346,6 @@ namespace racman
             }
         }
 
-        private void resetFileManipButton_Click(object sender, EventArgs e)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-
-            api.WriteMemory(pid, 0x1329AAC, 0); // Bolt economy
-            api.WriteMemory(pid, rac2.addr.endakoBossCS, 0); // Endako cutscene
-            api.WriteMemory(pid, 0x1AAC767, 0); // Game pyramid bolt drop
-            api.WriteMemory(pid, 0x1A4D7E0, 0); // Race storage
-
-            api.Notify("Game Pyramid, Bolts manip, Race Storage and Endako Boss Cutscene are now reset and ready for runs");
-        }
 
 
   
@@ -427,10 +421,57 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.gornMissionComplete, 0);
         }
 
+        private void resetAnyPercentVars(IPS3API api)
+        {
+            var pid = api.getCurrentPID();
+
+            // Disable race storage
+            api.WriteMemory(pid, rac2.addr.savedRaceIndex, 0);
+            // Disable ship opening cutscenes
+            api.WriteMemory(pid, rac2.addr.feltzinOpening, new byte[] { 0 });
+            api.WriteMemory(pid, rac2.addr.gornOpening, 0);
+            api.WriteMemory(pid, rac2.addr.gornManip, 0); // When set to 1, ending? cs on gorn is skipped.
+            // Fix ship mission menus
+            api.WriteMemory(pid, rac2.addr.feltzinMissionComplete, 0);
+            api.WriteMemory(pid, rac2.addr.hrugisMissionComplete, 0);
+            api.WriteMemory(pid, rac2.addr.gornMissionComplete, 0);
+            // Bolts
+            api.WriteMemory(pid, rac2.addr.jankpotActive, 0); // Adds to bolt economy if active, hazardous for any% :( 
+            api.WriteMemory(pid, rac2.addr.boltEconomy, 0); 
+            // Endako
+            api.WriteMemory(pid, rac2.addr.endakoBossCS, 0);
+            api.WriteMemory(pid, rac2.addr.pyramidBoltDrop, 0); 
+            // Blah
+            api.WriteMemory(pid, rac2.addr.oldSkoolSpPossible, 0); 
+            api.WriteMemory(pid, rac2.addr.bossHealthBarActive, 0); // Fixes boss health bars disappearing
+            // Feltzin
+            api.WriteMemory(pid, rac2.addr.feltzinRariDrop, 0); // Gives rari drop on first crystal broken on feltzin.
+            api.WriteMemory(pid, rac2.addr.lastRaritaniumCount, 0); // Prevents raritanium from disappearing.
+
+            // dorbit
+            api.WriteMemory(pid, rac2.addr.dorbitOpening, new byte[] { 0 });
+
+            // Reset any boss act tuning.
+            api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 0 });
+            api.WriteMemory(pid, rac2.addr.yeedilBoss, new byte[] { 0 });
+            api.WriteMemory(pid, rac2.addr.sibBoss, new byte[] { 0 });
+
+            // We should reset pad manip, since it gets set whenever Snivelak is visited.
+            api.WriteMemory(pid, rac2.addr.padManip, 0x41500000); // 13.0 as a float
+        }
+
+
+        private void resetFileManipButton_Click(object sender, EventArgs e)
+        {
+            resetAnyPercentVars(game.api);
+
+            game.api.Notify("any% has been setup.");
+        }
+
         private void buttonRaceStorage_Click(object sender, EventArgs e)
         {
             resetMenuStorage();
-            game.api.Notify("Reset menu storage!");
+            game.api.Notify("Reset menu storage!\x00");
         }
 
         private void button1_Click_1(object sender, EventArgs e)
