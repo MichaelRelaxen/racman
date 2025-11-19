@@ -8,6 +8,10 @@ namespace racman
 {
     public class RaC4Addresses : IAddresses
     {
+        public uint savefile_api_enabled = 0x15CD71D;
+        public uint savefile_api_load = 0x15CD71E;
+        public uint savefile_api_setaside = 0x15CD71F;
+
         // Input stuff
         public uint inputOffset => 0xB11F30;
         public uint analogOffset => 0xB1210C;
@@ -39,7 +43,9 @@ namespace racman
 
         public uint boltCount => 0x9C32E8;
 
-        public uint playerCoords => 0x10D7334;
+        public uint playerCoords => 0x10D44D0;
+        // needed for save/load pos
+        public uint playerCoords2 => 0x10D7334;
 
         // In Game (0 in main menu | 1 in game)
         public uint inGame => 0xB1F460;
@@ -82,9 +88,24 @@ namespace racman
         public rac4(IPS3API api) : base(api)
         {
             botsUnlocks = BotsUnlocksFactory.GetUpgrades();
+            this.planetsList = new string[]
+            {
+                "Multiplayer",
+                "Dreadzone",
+                "Catacrom",
+                "Sarathos", 
+                "Kronos", 
+                "Shaar", 
+                "Valix", 
+                "Orxon", 
+                "Torval", 
+                "Stygia", 
+                "Maraxus",
+                "Interior"
+            };
         }
 
-        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
+    public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
             (addr.currentPlanet, 4),    // current planet
             (addr.loadPlanet, 4),       // load planet
@@ -151,9 +172,59 @@ namespace racman
             throw new NotImplementedException();
         }
 
+        public virtual void LoadPositionRac4()
+        {
+            string position = func.GetConfigData("config.txt", planetsList[planetIndex] + "SavedPos" + selectedPositionIndex);
+            if (position != "")
+            {
+                api.WriteMemory(pid, addr.playerCoords, 30, position);
+                api.WriteMemory(pid, addr.playerCoords2, 30, position);
+            }
+        }
+
         public override void CheckInputs(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
+            {
+                SavePosition();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadCombo && inputCheck)
+            {
+                LoadPositionRac4();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
+            {
+                KillYourself();
+                inputCheck = false;
+            }
+            //if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
+            //{
+            //    enableDisableFastLoads(true);
+            //    LoadPlanet(resetFlags: resetFlagsRequested);
+            //    inputCheck = false;
+            //}
+            if (Inputs.RawInputs == ConfigureCombos.runScriptCombo && inputCheck)
+            {
+                AttachPS3Form.scripting?.RunCurrentCode();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)
+            {
+                loadSetAsideFile();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x00 && !inputCheck)
+            {
+                inputCheck = true;
+            }
+        }
+
+        public void loadSetAsideFile()
+        {
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, addr.savefile_api_load, new byte[] { 1 });
         }
 
         public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)

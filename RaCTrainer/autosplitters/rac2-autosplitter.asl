@@ -22,6 +22,9 @@ startup
 
     settings.Add("ENDAKO_EXIT_SPLIT", false, "Endako clank exit subsplit");
     settings.SetToolTip("ENDAKO_EXIT_SPLIT", "Splits when transitioning from clank to ratchet on Endako.");
+
+    settings.Add("TABORA_CAVES_SPLIT", false, "Tabora caves subsplit");
+    settings.SetToolTip("TABORA_CAVES_SPLIT", "Splits when entering the Tabora desert after the caves.");
 }
 
 init
@@ -44,6 +47,7 @@ init
     current.endakoEntryFlag = vars.reader.ReadByte();
     current.endakoExitFlag = vars.reader.ReadByte();
     current.barlowEntryFlag = vars.reader.ReadByte();
+    current.heroType = vars.reader.ReadByte();
 
     vars.planetNames = new List<List<string>>();
     
@@ -82,7 +86,7 @@ update
     current.endakoEntryFlag = vars.reader.ReadByte();
     current.endakoExitFlag = vars.reader.ReadByte();
     current.barlowEntryFlag = vars.reader.ReadByte();
-
+    current.heroType = vars.reader.ReadByte();
 
     if (current.loadScreen != old.loadScreen) 
     {
@@ -170,12 +174,17 @@ split
         return true;
     }
 
-    if (settings["ENDAKO_ENTRY_SPLIT"] && current.planet == 3 && current.endakoEntryFlag == 128 && old.endakoEntryFlag == 0)
+    if (settings["ENDAKO_ENTRY_SPLIT"] && current.planet == 3 && current.heroType == 1 && old.heroType == 0)
     {
         return true;
     }
 
     if (settings["ENDAKO_EXIT_SPLIT"] && current.planet == 3 && current.endakoExitFlag == 128 && old.endakoExitFlag == 0)
+    {
+        return true;
+    }
+
+    if (settings["TABORA_CAVES_SPLIT"] && current.planet == 8 && current.chunk == 1 && old.chunk == 0) 
     {
         return true;
     }

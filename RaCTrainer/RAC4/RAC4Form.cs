@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace racman
 {
@@ -15,9 +15,12 @@ namespace racman
         private static ModLoaderForm modLoaderForm;
         private AutosplitterHelper autosplitterHelper;
 
-        public int tutorialSubId = -1;
+        private int savefileHelperSubID = -1;
+        private int tutorialSubId = -1;
         // Tutorial flag - are we loading a fresh file?
         public byte prevTutorial;
+
+        WebMAN wmm = null;
 
         public RAC4Form(rac4 game)
         {
@@ -28,6 +31,9 @@ namespace racman
             InitializeComponent();
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
             AutosplitterCheckbox.Checked = true;
+
+            if (func.api is Ratchetron r)
+                wmm = new WebMAN(r.GetIP());
         }
 
         public Form InputDisplay;
@@ -43,6 +49,20 @@ namespace racman
         private void RAC4Form_Load(object sender, EventArgs e)
         {
             checkBoxSoftlocks.Checked = true;
+
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), rac4.addr.savefile_api_enabled, 1, value =>
+            {
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        // Savefile helper mod is enabled.
+                        loadFileButton.Enabled = true;
+                        setAsideFileButton.Enabled = true;
+                        game.api.ReleaseSubID(savefileHelperSubID);
+                    }));
+                }
+            });
         }
 
         private async void wrsFromSrcSiteCheck_CheckedChanged(object sender, EventArgs e)
@@ -134,6 +154,8 @@ namespace racman
             {
                 if (tutorialSubId != -1)
                     game.api.ReleaseSubID(tutorialSubId);
+                if (savefileHelperSubID != -1)
+                    game.api.ReleaseSubID(savefileHelperSubID);
 
                 game.api.Disconnect();
                 Application.Exit();
@@ -265,6 +287,55 @@ namespace racman
             api.WriteMemory(pid, rac4.addr.evisceratorTuning, new byte[] { 20 });
             api.WriteMemory(pid, rac4.addr.aceTuning, new byte[] { 20 });
             api.Notify("Act tuning done!");
+        }
+
+        private void setAsideFileButton_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac4.addr.savefile_api_setaside, new byte[] { 1 });
+        }
+
+        private void loadFileButton_Click(object sender, EventArgs e)
+        {
+            game.loadSetAsideFile();
+        }
+
+        public Form ConfigureCombos;
+        private void configureButtonCombosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ConfigureCombos == null)
+            {
+                ConfigureCombos = new ConfigureCombos();
+                ConfigureCombos.FormClosed += ConfigureCombos_FormClosed;
+                ConfigureCombos.Show();
+                game.InputsTimer.Enabled = false;
+            }
+        }
+
+        private void ConfigureCombos_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ConfigureCombos = null;
+            if (CComboCheckBox.Checked)
+                game.InputsTimer.Enabled = true;
+        }
+
+        private void CComboCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CComboCheckBox.Checked)
+                game.InputsTimer.Enabled = true;
+            else
+                game.InputsTimer.Enabled = false;
+        }
+
+        private void savepos_Click(object sender, EventArgs e) 
+        {
+            game.SavePosition();
+        }
+
+        private void loadpos_Click(object sender, EventArgs e)
+        {
+            game.LoadPositionRac4();
         }
     }
 }
