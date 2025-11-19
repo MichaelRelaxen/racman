@@ -74,6 +74,22 @@ namespace racman
 
         public uint saveInfo => 0x11B1BD8;
 
+        public uint prevPlanet => 0x0B1F465;
+        // The challenge that is selected in the menu
+        public uint challengeSelected => 0x11A0AE0;
+        public uint dreadPoints => 0x09C32F4;
+        // Byte, 21 avaliable
+        public uint skin => 0x09C32FB;
+        // Array of byte (6) (00 XX(Blue) 00 XX(Green) XX(Orange) XX(Grey))
+        public uint badges => 0x09C3308;
+        // Byte
+        public uint CM => 0x09C330E;
+        // Byte, 0= Marauder, 1= Avenger, 2= Crusader, 3= Vindicator, 4= Liberator
+        public uint range => 0x09C331F;
+        // Change to 1 to change planet
+        public uint loadPlanet2 => 0x0B36DCC;
+        public uint targetPlanet => 0x0B36DD0;
+
         public uint mobyInstances => throw new NotImplementedException();
     }
     public class rac4 : IGame, IAutosplitterAvailable
@@ -87,6 +103,46 @@ namespace racman
         int ghostRatchetSubID = -1;
         public rac4(IPS3API api) : base(api)
         {
+            this.planetsList = new string[] {
+                "DreadZoneStation",
+                "CatacromFour",
+                "INFLOOP",
+                "Sarathos",
+                "Kronos",
+                "Shaar",
+                "TheValixBelt",
+                "Orxon",
+                "INFLOOP",
+                "Torval",
+                "Stygia",
+                "INFLOOP",
+                "Maraxus",
+                "GhostStation",
+            };
+            this.skinsList = new string[] {
+                "Marauder",
+                "Avenger",
+                "Crusader",
+                "Vindicator",
+                "Liberator",
+                "AlphaClank",
+                "Squidzor",
+                "LandShark",               
+                "TheMuscle",
+                "W3RM",
+                "Starshield",
+                "KingClaude",
+                "Vernon",                             
+                "KidNova",
+                "Venus",
+                "Jak",            
+                "Ninja",
+                "SaurusRatchet",
+                "GenomeRatchet",
+                "SantaRatchet",
+                "PipoSaruRatchet",
+                "Clankchet",
+            };
             botsUnlocks = BotsUnlocksFactory.GetUpgrades();
             this.planetsList = new string[]
             {

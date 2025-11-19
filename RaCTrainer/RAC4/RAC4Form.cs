@@ -11,6 +11,48 @@ namespace racman
 {
     public partial class RAC4Form : Form
     {
+    private enum Planets
+        {
+            DreadZoneStation,            
+            CatacromFour,
+            INFLOOP,
+            Sarathos,
+            Kronos,
+            Shaar,
+            TheValixBelt,
+            Orxon,
+            INFLOOP2,
+            Torval,
+            Stygia,
+            INFLOOP3,
+            Maraxus,
+            GhostStation,
+        };
+        private enum Skins
+        {
+            Marauder,
+            Avenger,
+            Crusader,
+            Vindicator,           
+            Liberator,
+            AlphaClank,
+            Squidzor,
+            LandShark,          
+            TheMuscle,
+            W3RM,
+            Starshield,
+            KingClaude,
+            Vernon,                 
+            KidNova,
+            Venus,
+            Jak,            
+            Ninja,
+            SaurusRatchet,
+            GenomeRatchet,
+            SantaRatchet,
+            PipoSaruRatchet,
+            Clankchet,
+        };
         public rac4 game;
         private static ModLoaderForm modLoaderForm;
         private AutosplitterHelper autosplitterHelper;
@@ -29,7 +71,11 @@ namespace racman
             game.SetupInputDisplayMemorySubs();
 
             InitializeComponent();
+            planets_comboBox.Text = "DreadZoneStation";
+            skins_comboBox.Text = "Marauder";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
+            dreadPoints_textBox.KeyDown += dreadPoints_TextBox_KeyDown;
+            CM_textBox.KeyDown += CM_TextBox_KeyDown;
             AutosplitterCheckbox.Checked = true;
 
             if (func.api is Ratchetron r)
@@ -171,6 +217,57 @@ namespace racman
             game.SetGhostRatchet(ghostcheck.Checked);
         }
 
+        private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int planetId;
+            String planetText;
+            planetText = (String)planets_comboBox.SelectedItem;
+            if (planetText != null)
+            {
+                if (planetText != "")
+                {
+                    planetId = (int)Enum.Parse(typeof(Planets), planetText) + 1;
+                }
+                else
+                {
+                    planetId = 2;
+                }
+            }
+            else
+            {
+                planetId = 3;
+            }
+
+
+            game.planetToLoad = (uint)planetId;
+        }
+
+        // I just copied the planets one, idk how it works
+        private void skins_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int skinId;
+            String skinText;
+            skinText = (String)skins_comboBox.SelectedItem;
+            if (skinText != null)
+            {
+                if (skinText != "")
+                {
+                    skinId = (int)Enum.Parse(typeof(Skins), skinText);
+                }
+                else
+                {
+                    skinId = 2;
+                }
+            }
+            else
+            {
+                skinId = 3;
+            }
+
+
+            game.skinToLoad = (uint)skinId;
+        }
+
         private void inputdisplaybutton_Click(object sender, EventArgs e)
         {
             if (InputDisplay == null)
@@ -246,6 +343,24 @@ namespace racman
             }
         }
 
+        private void dreadPoints_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    api.WriteMemory(pid, rac4.addr.dreadPoints, uint.Parse(dreadPoints_textBox.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -253,6 +368,25 @@ namespace racman
                 try
                 {
                     game.SetBoltCount(uint.Parse(bolts_textBox.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void CM_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    uint CM = uint.Parse(CM_textBox.Text);
+                    api.WriteMemory(pid, rac4.addr.CM, new byte[] { (byte)CM });
                 }
                 catch
                 {
@@ -271,10 +405,65 @@ namespace racman
             game.KillYourself();
         }
 
+        private void savePosButton_Click(object sender, EventArgs e)
+        {
+            SavePosition();
+        }
+
+        private void SavePosition()
+        {
+            game.SavePosition();
+        }
+
+
+        private void loadPosButton_Click(object sender, EventArgs e)
+        {
+            LoadPosition();
+        }
+
+        private void LoadPosition()
+        {
+            game.LoadPosition();
+        }
+
         private void botsUnlocksWindowButton_Click(object sender, EventArgs e)
         {
             RAC4BotsUnlocks unlocks = new RAC4BotsUnlocks(game);
             unlocks.Show();
+        }
+
+        // It reloads to Dread Station to apply the changes 
+        private void unlockPlanetsButton_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac4.addr.badges, new byte[] { 0x00, 0x02, 0x00, 0x04, 0x02, 0x02 });
+            api.WriteMemory(pid, rac4.addr.range, new byte[] { 0x04 });
+            api.WriteMemory(pid, rac4.addr.dreadPoints, 1000000);
+            api.WriteMemory(pid, rac4.addr.targetPlanet, 1);
+            api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
+        }
+
+        private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormClosing -= RAC4Form_FormClosing;
+            Program.AttachPS3Form.Show();
+            Close();
+        }
+
+        private int healthFreezeSubID = -1;
+        private void freezeHealthCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (freezeHealthCheckbox.Checked)
+            {
+                // It puts Ratchet to 0 and makes it invencible, idk why 200 tbh
+                healthFreezeSubID = game.api.FreezeMemory(game.api.getCurrentPID(), rac4.addr.playerHealth, 200);
+            }
+            else
+            {
+                game.api.ReleaseSubID(healthFreezeSubID);
+            }
         }
 
         private void buttonActTune_Click(object sender, EventArgs e)
@@ -288,7 +477,6 @@ namespace racman
             api.WriteMemory(pid, rac4.addr.aceTuning, new byte[] { 20 });
             api.Notify("Act tuning done!");
         }
-
         private void setAsideFileButton_Click(object sender, EventArgs e)
         {
             var api = game.api;
@@ -336,6 +524,25 @@ namespace racman
         private void loadpos_Click(object sender, EventArgs e)
         {
             game.LoadPositionRac4();
+        }
+        private void loadPlanetButton_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac4.addr.targetPlanet, game.planetToLoad);
+            api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
+        }
+
+        // Only works on Dread Station, on the other planets you have to go to the Skins menu and exit to apply the skin, need to figure out but kinda works
+        private void skinsButton_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac4.addr.skin, new byte[] { (byte)game.skinToLoad });
+            api.WriteMemory(pid, 0x0110D975, 1);
+            KillYourself();
         }
     }
 }
