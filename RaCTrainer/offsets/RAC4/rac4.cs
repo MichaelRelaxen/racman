@@ -238,6 +238,11 @@ namespace racman
             }
         }
 
+        public void DieRac4()
+        {
+            api.WriteMemory(pid, addr.playerCoords2 + 8, 0);
+        }
+
         public override void CheckInputs(object sender, EventArgs e)
         {
             if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)

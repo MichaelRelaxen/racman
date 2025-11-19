@@ -375,12 +375,14 @@ namespace racman
             // freezeHealthCheckbox
             // 
             this.freezeHealthCheckbox.AutoSize = true;
+            this.freezeHealthCheckbox.Enabled = false;
             this.freezeHealthCheckbox.Location = new System.Drawing.Point(254, 238);
             this.freezeHealthCheckbox.Name = "freezeHealthCheckbox";
             this.freezeHealthCheckbox.Size = new System.Drawing.Size(90, 17);
             this.freezeHealthCheckbox.TabIndex = 124;
             this.freezeHealthCheckbox.Text = "Freeze health";
             this.freezeHealthCheckbox.UseVisualStyleBackColor = true;
+            this.freezeHealthCheckbox.CheckedChanged += new System.EventHandler(this.freezeHealthCheckbox_CheckedChanged);
             // 
             // planets_comboBox
             // 
@@ -401,6 +403,7 @@ namespace racman
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(121, 21);
             this.planets_comboBox.TabIndex = 125;
+            this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -413,23 +416,23 @@ namespace racman
             // 
             // loadPlanetButton
             // 
-            this.loadPlanetButton.Enabled = false;
             this.loadPlanetButton.Location = new System.Drawing.Point(139, 164);
             this.loadPlanetButton.Name = "loadPlanetButton";
             this.loadPlanetButton.Size = new System.Drawing.Size(70, 23);
             this.loadPlanetButton.TabIndex = 127;
             this.loadPlanetButton.Text = "Load";
             this.loadPlanetButton.UseVisualStyleBackColor = true;
+            this.loadPlanetButton.Click += new System.EventHandler(this.loadPlanetButton_Click_1);
             // 
             // skinsButton
             // 
-            this.skinsButton.Enabled = false;
             this.skinsButton.Location = new System.Drawing.Point(139, 208);
             this.skinsButton.Name = "skinsButton";
             this.skinsButton.Size = new System.Drawing.Size(70, 23);
             this.skinsButton.TabIndex = 130;
             this.skinsButton.Text = "Apply";
             this.skinsButton.UseVisualStyleBackColor = true;
+            this.skinsButton.Click += new System.EventHandler(this.skinsButton_Click_1);
             // 
             // label3
             // 
@@ -470,6 +473,7 @@ namespace racman
             this.skins_comboBox.Name = "skins_comboBox";
             this.skins_comboBox.Size = new System.Drawing.Size(121, 21);
             this.skins_comboBox.TabIndex = 128;
+            this.skins_comboBox.SelectedIndexChanged += new System.EventHandler(this.skins_comboBox_SelectedIndexChanged);
             // 
             // unlockPlanetsButton
             // 
@@ -479,6 +483,7 @@ namespace racman
             this.unlockPlanetsButton.TabIndex = 131;
             this.unlockPlanetsButton.Text = "Unlock All Planets";
             this.unlockPlanetsButton.UseVisualStyleBackColor = true;
+            this.unlockPlanetsButton.Click += new System.EventHandler(this.unlockPlanetsButton_Click_1);
             // 
             // RAC4Form
             // 

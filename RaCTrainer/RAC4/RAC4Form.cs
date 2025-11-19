@@ -402,7 +402,7 @@ namespace racman
 
         private void KillYourself()
         {
-            game.KillYourself();
+            game.DieRac4();
         }
 
         private void savePosButton_Click(object sender, EventArgs e)
@@ -432,19 +432,6 @@ namespace racman
             unlocks.Show();
         }
 
-        // It reloads to Dread Station to apply the changes 
-        private void unlockPlanetsButton_Click(object sender, EventArgs e)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-
-            api.WriteMemory(pid, rac4.addr.badges, new byte[] { 0x00, 0x02, 0x00, 0x04, 0x02, 0x02 });
-            api.WriteMemory(pid, rac4.addr.range, new byte[] { 0x04 });
-            api.WriteMemory(pid, rac4.addr.dreadPoints, 1000000);
-            api.WriteMemory(pid, rac4.addr.targetPlanet, 1);
-            api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
-        }
-
         private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormClosing -= RAC4Form_FormClosing;
@@ -453,6 +440,8 @@ namespace racman
         }
 
         private int healthFreezeSubID = -1;
+
+        // I couldn't get this to work, he just dies - isak
         private void freezeHealthCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             if (freezeHealthCheckbox.Checked)
@@ -525,7 +514,19 @@ namespace racman
         {
             game.LoadPositionRac4();
         }
-        private void loadPlanetButton_Click(object sender, EventArgs e)
+
+        // Only works on Dread Station, on the other planets you have to go to the Skins menu and exit to apply the skin, need to figure out but kinda works
+        private void skinsButton_Click_1(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac4.addr.skin, new byte[] { (byte)game.skinToLoad });
+            api.WriteMemory(pid, 0x0110D975, 1);
+            KillYourself();
+        }
+
+        private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
             var api = game.api;
             var pid = api.getCurrentPID();
@@ -534,15 +535,16 @@ namespace racman
             api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
         }
 
-        // Only works on Dread Station, on the other planets you have to go to the Skins menu and exit to apply the skin, need to figure out but kinda works
-        private void skinsButton_Click(object sender, EventArgs e)
+        private void unlockPlanetsButton_Click_1(object sender, EventArgs e)
         {
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            api.WriteMemory(pid, rac4.addr.skin, new byte[] { (byte)game.skinToLoad });
-            api.WriteMemory(pid, 0x0110D975, 1);
-            KillYourself();
+            api.WriteMemory(pid, rac4.addr.badges, new byte[] { 0x00, 0x02, 0x00, 0x04, 0x02, 0x02 });
+            api.WriteMemory(pid, rac4.addr.range, new byte[] { 0x04 });
+            api.WriteMemory(pid, rac4.addr.dreadPoints, 1000000);
+            api.WriteMemory(pid, rac4.addr.targetPlanet, 1);
+            api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
         }
     }
 }
