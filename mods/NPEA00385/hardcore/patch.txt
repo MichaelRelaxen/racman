@@ -1,0 +1,6 @@
+#- name: Hardcore Mode
+#- description: Nanotech crates don't regenerate health
+#- author: king_dedede
+#- href: https://www.youtube.com/@king_dedede
+
+0x4684b0: 0x60000000
