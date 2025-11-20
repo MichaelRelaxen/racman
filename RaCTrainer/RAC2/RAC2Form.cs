@@ -92,13 +92,15 @@ namespace racman
                 // Disable force-override from reload file by setting to previous setting
                 game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
 
-                if(checkBox_autoResetAnyPercent.Checked) {
+                var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
+                if (planet[3] != 0) return;
+
+                if (checkBox_autoResetAnyPercent.Checked) {
                     resetAnyPercentVars(game.api);
                 }
 
                 if (!checkBoxAutoReset.Checked) return;
-                var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
-                if (planet[3] != 0) return;
+
                 // Everything below here is A1-exclusive code
                 resetMenuStorage();
                 this.Invoke(new Action(() => {
