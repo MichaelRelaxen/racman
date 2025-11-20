@@ -139,8 +139,9 @@ namespace racman
         public uint feltzinRariDrop => 0x1a30430;
         public uint oldSkoolSpPossible => 0x0133e8a0;
         public uint lastRaritaniumCount => 0x1a849a8;
-        public uint boltEconomy => 0x1329AAC;
+        public uint boltDeficit => 0x1329AAC;
         public uint pyramidBoltDrop => 0x1AAC767;
+        public uint csStorageAddr => 0x1578424;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable

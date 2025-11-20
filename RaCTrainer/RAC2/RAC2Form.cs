@@ -438,13 +438,14 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.gornMissionComplete, 0);
             // Bolts
             api.WriteMemory(pid, rac2.addr.jankpotActive, 0); // Adds to bolt economy if active, hazardous for any% :( 
-            api.WriteMemory(pid, rac2.addr.boltEconomy, 0); 
+            api.WriteMemory(pid, rac2.addr.boltDeficit, 0); 
             // Endako
             api.WriteMemory(pid, rac2.addr.endakoBossCS, 0);
             api.WriteMemory(pid, rac2.addr.pyramidBoltDrop, 0); 
             // Blah
             api.WriteMemory(pid, rac2.addr.oldSkoolSpPossible, 0); 
             api.WriteMemory(pid, rac2.addr.bossHealthBarActive, 0); // Fixes boss health bars disappearing
+            api.WriteMemory(pid, rac2.addr.csStorageAddr, 0); // Cutscene storage from oozla.
             // Feltzin
             api.WriteMemory(pid, rac2.addr.feltzinRariDrop, 0); // Gives rari drop on first crystal broken on feltzin.
             api.WriteMemory(pid, rac2.addr.lastRaritaniumCount, 0); // Prevents raritanium from disappearing.
@@ -656,7 +657,7 @@ namespace racman
         private void tasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // 0x145C180 is chargeBuffer
-            Rackets2API.Initialize(0x1be0000, rac2.addr.playerCoords, rac2.addr.currentPlanet, 0x145C180, 0x1578424);
+            Rackets2API.Initialize(0x1be0000, rac2.addr.playerCoords, rac2.addr.currentPlanet, 0x145C180, rac2.addr.csStorageAddr);
             racketsForm = new RacketsGUI();
             racketsForm.Show();
         }
