@@ -104,13 +104,13 @@ namespace racman
         public rac4(IPS3API api) : base(api)
         {
             this.planetsList = new string[] {
-                "DreadZoneStation",
-                "CatacromFour",
+                "DreadZone",
+                "Catacrom",
                 "INFLOOP",
                 "Sarathos",
                 "Kronos",
                 "Shaar",
-                "TheValixBelt",
+                "Valix",
                 "Orxon",
                 "INFLOOP",
                 "Torval",
@@ -118,6 +118,7 @@ namespace racman
                 "INFLOOP",
                 "Maraxus",
                 "GhostStation",
+                "Interior"
             };
             this.skinsList = new string[] {
                 "Marauder",
@@ -144,21 +145,6 @@ namespace racman
                 "Clankchet",
             };
             botsUnlocks = BotsUnlocksFactory.GetUpgrades();
-            this.planetsList = new string[]
-            {
-                "Multiplayer",
-                "Dreadzone",
-                "Catacrom",
-                "Sarathos", 
-                "Kronos", 
-                "Shaar", 
-                "Valix", 
-                "Orxon", 
-                "Torval", 
-                "Stygia", 
-                "Maraxus",
-                "Interior"
-            };
         }
 
     public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]

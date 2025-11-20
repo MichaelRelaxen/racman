@@ -13,13 +13,13 @@ namespace racman
     {
     private enum Planets
         {
-            DreadZoneStation,            
-            CatacromFour,
+            DreadZone,            
+            Catacrom,
             INFLOOP,
             Sarathos,
             Kronos,
             Shaar,
-            TheValixBelt,
+            Valix,
             Orxon,
             INFLOOP2,
             Torval,
@@ -27,6 +27,7 @@ namespace racman
             INFLOOP3,
             Maraxus,
             GhostStation,
+            Interior
         };
         private enum Skins
         {
@@ -71,7 +72,7 @@ namespace racman
             game.SetupInputDisplayMemorySubs();
 
             InitializeComponent();
-            planets_comboBox.Text = "DreadZoneStation";
+            planets_comboBox.Text = "DreadZone";
             skins_comboBox.Text = "Marauder";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
             dreadPoints_textBox.KeyDown += dreadPoints_TextBox_KeyDown;

@@ -108,7 +108,7 @@ namespace racman
             // ghostcheck
             // 
             this.ghostcheck.AutoSize = true;
-            this.ghostcheck.Location = new System.Drawing.Point(254, 215);
+            this.ghostcheck.Location = new System.Drawing.Point(254, 361);
             this.ghostcheck.Name = "ghostcheck";
             this.ghostcheck.Size = new System.Drawing.Size(90, 17);
             this.ghostcheck.TabIndex = 3;
@@ -118,7 +118,7 @@ namespace racman
             // 
             // inputdisplaybutton
             // 
-            this.inputdisplaybutton.Location = new System.Drawing.Point(121, 291);
+            this.inputdisplaybutton.Location = new System.Drawing.Point(121, 390);
             this.inputdisplaybutton.Name = "inputdisplaybutton";
             this.inputdisplaybutton.Size = new System.Drawing.Size(103, 34);
             this.inputdisplaybutton.TabIndex = 4;
@@ -179,7 +179,7 @@ namespace racman
             // AutosplitterCheckbox
             // 
             this.AutosplitterCheckbox.AutoSize = true;
-            this.AutosplitterCheckbox.Location = new System.Drawing.Point(254, 192);
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(254, 313);
             this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
             this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
             this.AutosplitterCheckbox.TabIndex = 104;
@@ -190,7 +190,7 @@ namespace racman
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(251, 33);
+            this.label8.Location = new System.Drawing.Point(251, 147);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 107;
@@ -198,14 +198,14 @@ namespace racman
             // 
             // bolts_textBox
             // 
-            this.bolts_textBox.Location = new System.Drawing.Point(254, 49);
+            this.bolts_textBox.Location = new System.Drawing.Point(254, 163);
             this.bolts_textBox.Name = "bolts_textBox";
             this.bolts_textBox.Size = new System.Drawing.Size(110, 20);
             this.bolts_textBox.TabIndex = 106;
             // 
             // killyourself
             // 
-            this.killyourself.Location = new System.Drawing.Point(12, 104);
+            this.killyourself.Location = new System.Drawing.Point(12, 203);
             this.killyourself.Name = "killyourself";
             this.killyourself.Size = new System.Drawing.Size(115, 23);
             this.killyourself.TabIndex = 108;
@@ -215,11 +215,11 @@ namespace racman
             // 
             // botsUnlocksWindowButton
             // 
-            this.botsUnlocksWindowButton.Location = new System.Drawing.Point(12, 291);
+            this.botsUnlocksWindowButton.Location = new System.Drawing.Point(12, 390);
             this.botsUnlocksWindowButton.Name = "botsUnlocksWindowButton";
             this.botsUnlocksWindowButton.Size = new System.Drawing.Size(103, 34);
             this.botsUnlocksWindowButton.TabIndex = 109;
-            this.botsUnlocksWindowButton.Text = "Bots Unlocks";
+            this.botsUnlocksWindowButton.Text = "Bot unlocks";
             this.botsUnlocksWindowButton.UseVisualStyleBackColor = true;
             this.botsUnlocksWindowButton.Click += new System.EventHandler(this.botsUnlocksWindowButton_Click);
             // 
@@ -237,18 +237,18 @@ namespace racman
             // 
             // buttonActTune
             // 
-            this.buttonActTune.Location = new System.Drawing.Point(12, 251);
+            this.buttonActTune.Location = new System.Drawing.Point(12, 350);
             this.buttonActTune.Name = "buttonActTune";
             this.buttonActTune.Size = new System.Drawing.Size(103, 34);
             this.buttonActTune.TabIndex = 111;
-            this.buttonActTune.Text = "Act Tune Bosses";
+            this.buttonActTune.Text = "Act tune bosses";
             this.buttonActTune.UseVisualStyleBackColor = true;
             this.buttonActTune.Click += new System.EventHandler(this.buttonActTune_Click);
             // 
             // checkBoxSoftlocks
             // 
             this.checkBoxSoftlocks.AutoSize = true;
-            this.checkBoxSoftlocks.Location = new System.Drawing.Point(254, 261);
+            this.checkBoxSoftlocks.Location = new System.Drawing.Point(254, 407);
             this.checkBoxSoftlocks.Name = "checkBoxSoftlocks";
             this.checkBoxSoftlocks.Size = new System.Drawing.Size(110, 17);
             this.checkBoxSoftlocks.TabIndex = 112;
@@ -259,7 +259,7 @@ namespace racman
             // setAsideFileButton
             // 
             this.setAsideFileButton.Enabled = false;
-            this.setAsideFileButton.Location = new System.Drawing.Point(133, 75);
+            this.setAsideFileButton.Location = new System.Drawing.Point(133, 174);
             this.setAsideFileButton.Name = "setAsideFileButton";
             this.setAsideFileButton.Size = new System.Drawing.Size(96, 23);
             this.setAsideFileButton.TabIndex = 113;
@@ -270,7 +270,7 @@ namespace racman
             // loadFileButton
             // 
             this.loadFileButton.Enabled = false;
-            this.loadFileButton.Location = new System.Drawing.Point(133, 104);
+            this.loadFileButton.Location = new System.Drawing.Point(133, 203);
             this.loadFileButton.Name = "loadFileButton";
             this.loadFileButton.Size = new System.Drawing.Size(96, 23);
             this.loadFileButton.TabIndex = 114;
@@ -282,7 +282,7 @@ namespace racman
             // 
             this.groupBox1.Controls.Add(this.writetext);
             this.groupBox1.Controls.Add(this.levelinfo);
-            this.groupBox1.Location = new System.Drawing.Point(12, 331);
+            this.groupBox1.Location = new System.Drawing.Point(12, 36);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(352, 98);
             this.groupBox1.TabIndex = 115;
@@ -291,7 +291,7 @@ namespace racman
             // 
             // savepos
             // 
-            this.savepos.Location = new System.Drawing.Point(12, 46);
+            this.savepos.Location = new System.Drawing.Point(12, 145);
             this.savepos.Name = "savepos";
             this.savepos.Size = new System.Drawing.Size(115, 23);
             this.savepos.TabIndex = 116;
@@ -301,7 +301,7 @@ namespace racman
             // 
             // loadpos
             // 
-            this.loadpos.Location = new System.Drawing.Point(12, 75);
+            this.loadpos.Location = new System.Drawing.Point(12, 174);
             this.loadpos.Name = "loadpos";
             this.loadpos.Size = new System.Drawing.Size(115, 23);
             this.loadpos.TabIndex = 117;
@@ -324,7 +324,7 @@ namespace racman
             "8",
             "9",
             "10"});
-            this.positions_comboBox.Location = new System.Drawing.Point(133, 48);
+            this.positions_comboBox.Location = new System.Drawing.Point(133, 147);
             this.positions_comboBox.Name = "positions_comboBox";
             this.positions_comboBox.Size = new System.Drawing.Size(96, 21);
             this.positions_comboBox.TabIndex = 118;
@@ -332,7 +332,7 @@ namespace racman
             // CComboCheckBox
             // 
             this.CComboCheckBox.AutoSize = true;
-            this.CComboCheckBox.Location = new System.Drawing.Point(254, 169);
+            this.CComboCheckBox.Location = new System.Drawing.Point(254, 290);
             this.CComboCheckBox.Name = "CComboCheckBox";
             this.CComboCheckBox.Size = new System.Drawing.Size(99, 17);
             this.CComboCheckBox.TabIndex = 119;
@@ -342,7 +342,7 @@ namespace racman
             // 
             // CM_textBox
             // 
-            this.CM_textBox.Location = new System.Drawing.Point(254, 92);
+            this.CM_textBox.Location = new System.Drawing.Point(254, 206);
             this.CM_textBox.Name = "CM_textBox";
             this.CM_textBox.Size = new System.Drawing.Size(110, 20);
             this.CM_textBox.TabIndex = 120;
@@ -350,7 +350,7 @@ namespace racman
             // cmLabel
             // 
             this.cmLabel.AutoSize = true;
-            this.cmLabel.Location = new System.Drawing.Point(251, 73);
+            this.cmLabel.Location = new System.Drawing.Point(251, 190);
             this.cmLabel.Name = "cmLabel";
             this.cmLabel.Size = new System.Drawing.Size(87, 13);
             this.cmLabel.TabIndex = 121;
@@ -359,7 +359,7 @@ namespace racman
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(251, 116);
+            this.label1.Location = new System.Drawing.Point(251, 233);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 13);
             this.label1.TabIndex = 123;
@@ -367,7 +367,7 @@ namespace racman
             // 
             // dreadPoints_textBox
             // 
-            this.dreadPoints_textBox.Location = new System.Drawing.Point(254, 135);
+            this.dreadPoints_textBox.Location = new System.Drawing.Point(254, 249);
             this.dreadPoints_textBox.Name = "dreadPoints_textBox";
             this.dreadPoints_textBox.Size = new System.Drawing.Size(110, 20);
             this.dreadPoints_textBox.TabIndex = 122;
@@ -376,7 +376,7 @@ namespace racman
             // 
             this.freezeHealthCheckbox.AutoSize = true;
             this.freezeHealthCheckbox.Enabled = false;
-            this.freezeHealthCheckbox.Location = new System.Drawing.Point(254, 238);
+            this.freezeHealthCheckbox.Location = new System.Drawing.Point(254, 384);
             this.freezeHealthCheckbox.Name = "freezeHealthCheckbox";
             this.freezeHealthCheckbox.Size = new System.Drawing.Size(90, 17);
             this.freezeHealthCheckbox.TabIndex = 124;
@@ -388,18 +388,19 @@ namespace racman
             // 
             this.planets_comboBox.FormattingEnabled = true;
             this.planets_comboBox.Items.AddRange(new object[] {
-            "DreadZoneStation",
-            "CatacromFour",
+            "DreadZone",
+            "Catacrom",
             "Sarathos",
             "Kronos",
             "Shaar",
             "Orxon",
-            "TheValixBelt",
+            "Valix",
             "Torval",
             "Stygia",
             "Maraxus",
-            "GhostStation"});
-            this.planets_comboBox.Location = new System.Drawing.Point(12, 165);
+            "GhostStation",
+            "Interior"});
+            this.planets_comboBox.Location = new System.Drawing.Point(12, 264);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(121, 21);
             this.planets_comboBox.TabIndex = 125;
@@ -408,7 +409,7 @@ namespace racman
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(9, 149);
+            this.label2.Location = new System.Drawing.Point(9, 248);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(67, 13);
             this.label2.TabIndex = 126;
@@ -416,9 +417,9 @@ namespace racman
             // 
             // loadPlanetButton
             // 
-            this.loadPlanetButton.Location = new System.Drawing.Point(139, 164);
+            this.loadPlanetButton.Location = new System.Drawing.Point(139, 263);
             this.loadPlanetButton.Name = "loadPlanetButton";
-            this.loadPlanetButton.Size = new System.Drawing.Size(70, 23);
+            this.loadPlanetButton.Size = new System.Drawing.Size(85, 23);
             this.loadPlanetButton.TabIndex = 127;
             this.loadPlanetButton.Text = "Load";
             this.loadPlanetButton.UseVisualStyleBackColor = true;
@@ -426,9 +427,9 @@ namespace racman
             // 
             // skinsButton
             // 
-            this.skinsButton.Location = new System.Drawing.Point(139, 208);
+            this.skinsButton.Location = new System.Drawing.Point(139, 307);
             this.skinsButton.Name = "skinsButton";
-            this.skinsButton.Size = new System.Drawing.Size(70, 23);
+            this.skinsButton.Size = new System.Drawing.Size(85, 23);
             this.skinsButton.TabIndex = 130;
             this.skinsButton.Text = "Apply";
             this.skinsButton.UseVisualStyleBackColor = true;
@@ -437,7 +438,7 @@ namespace racman
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 193);
+            this.label3.Location = new System.Drawing.Point(9, 292);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 129;
@@ -469,7 +470,7 @@ namespace racman
             "SantaRatchet",
             "PipoSaruRatchet",
             "Clankchet"});
-            this.skins_comboBox.Location = new System.Drawing.Point(12, 209);
+            this.skins_comboBox.Location = new System.Drawing.Point(12, 308);
             this.skins_comboBox.Name = "skins_comboBox";
             this.skins_comboBox.Size = new System.Drawing.Size(121, 21);
             this.skins_comboBox.TabIndex = 128;
@@ -477,11 +478,11 @@ namespace racman
             // 
             // unlockPlanetsButton
             // 
-            this.unlockPlanetsButton.Location = new System.Drawing.Point(121, 251);
+            this.unlockPlanetsButton.Location = new System.Drawing.Point(121, 350);
             this.unlockPlanetsButton.Name = "unlockPlanetsButton";
             this.unlockPlanetsButton.Size = new System.Drawing.Size(103, 34);
             this.unlockPlanetsButton.TabIndex = 131;
-            this.unlockPlanetsButton.Text = "Unlock All Planets";
+            this.unlockPlanetsButton.Text = "Unlock all planets";
             this.unlockPlanetsButton.UseVisualStyleBackColor = true;
             this.unlockPlanetsButton.Click += new System.EventHandler(this.unlockPlanetsButton_Click_1);
             // 
@@ -489,7 +490,7 @@ namespace racman
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 441);
+            this.ClientSize = new System.Drawing.Size(382, 446);
             this.Controls.Add(this.unlockPlanetsButton);
             this.Controls.Add(this.skinsButton);
             this.Controls.Add(this.label3);
