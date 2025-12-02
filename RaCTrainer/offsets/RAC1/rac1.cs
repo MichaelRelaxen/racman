@@ -327,12 +327,12 @@ namespace racman
             if (toggle)
             {
                 api.WriteMemory(pid, 0x0DF254, 0x60000000);
-                api.WriteMemory(pid, 0x165450, 0x2C03FFFF);
+                api.WriteMemory(pid, 0x165490, 0x60000000);
             }
             else
             {
                 api.WriteMemory(pid, 0x0DF254, 0x40820188);
-                api.WriteMemory(pid, 0x165450, 0x2c030000);
+                api.WriteMemory(pid, 0x165490, 0x4bffe519);
             }
         }
 

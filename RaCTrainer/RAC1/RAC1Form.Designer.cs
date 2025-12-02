@@ -92,6 +92,7 @@ namespace racman
             this.loadFileButton = new System.Windows.Forms.Button();
             this.forceAutosave = new System.Windows.Forms.Button();
             this.drekButtonCutscene = new System.Windows.Forms.Button();
+            this.tASToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -334,7 +335,8 @@ namespace racman
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem,
             this.toolStripSeparator2,
-            this.discordRPCEnabledToolStripMenuItem});
+            this.discordRPCEnabledToolStripMenuItem,
+            this.tASToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -682,6 +684,13 @@ namespace racman
             this.drekButtonCutscene.UseVisualStyleBackColor = true;
             this.drekButtonCutscene.Click += new System.EventHandler(this.drekCutsceneButton_Click);
             // 
+            // tASToolStripMenuItem
+            // 
+            this.tASToolStripMenuItem.Name = "tASToolStripMenuItem";
+            this.tASToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.tASToolStripMenuItem.Text = "TAS";
+            this.tASToolStripMenuItem.Click += new System.EventHandler(this.tASToolStripMenuItem_Click);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -807,5 +816,6 @@ namespace racman
         private System.Windows.Forms.Button loadFileButton;
         private System.Windows.Forms.Button forceAutosave;
         private System.Windows.Forms.Button drekButtonCutscene;
+        private System.Windows.Forms.ToolStripMenuItem tASToolStripMenuItem;
     }
 }
