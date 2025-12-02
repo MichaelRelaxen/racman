@@ -107,7 +107,7 @@ namespace racman
             // coordsLabel
             // 
             this.coordsLabel.AutoSize = true;
-            this.coordsLabel.Location = new System.Drawing.Point(13, 470);
+            this.coordsLabel.Location = new System.Drawing.Point(13, 457);
             this.coordsLabel.Name = "coordsLabel";
             this.coordsLabel.Size = new System.Drawing.Size(123, 13);
             this.coordsLabel.TabIndex = 119;
@@ -238,7 +238,7 @@ namespace racman
             this.button2.Location = new System.Drawing.Point(12, 385);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(115, 23);
+            this.button2.Size = new System.Drawing.Size(124, 23);
             this.button2.TabIndex = 97;
             this.button2.Text = "Input Display";
             this.button2.UseVisualStyleBackColor = true;
@@ -438,11 +438,11 @@ namespace racman
             // 
             // resetFileManipButton
             // 
-            this.resetFileManipButton.Location = new System.Drawing.Point(356, 280);
+            this.resetFileManipButton.Location = new System.Drawing.Point(355, 385);
             this.resetFileManipButton.Name = "resetFileManipButton";
-            this.resetFileManipButton.Size = new System.Drawing.Size(104, 23);
+            this.resetFileManipButton.Size = new System.Drawing.Size(107, 37);
             this.resetFileManipButton.TabIndex = 109;
-            this.resetFileManipButton.Text = "Any%";
+            this.resetFileManipButton.Text = "Reset Any% manips";
             this.toolTip1.SetToolTip(this.resetFileManipButton, "Clears bolt manip, resets hoverbike menu, makes game\r\npyramid drop 1,024 bolts, a" +
         "nd resets Endako boss cutscene.\r\nDoes not affect slot machine RNG or act tuning." +
         "");
@@ -479,9 +479,9 @@ namespace racman
             // 
             // buttonRaceStorage
             // 
-            this.buttonRaceStorage.Location = new System.Drawing.Point(246, 385);
+            this.buttonRaceStorage.Location = new System.Drawing.Point(247, 385);
             this.buttonRaceStorage.Name = "buttonRaceStorage";
-            this.buttonRaceStorage.Size = new System.Drawing.Size(104, 23);
+            this.buttonRaceStorage.Size = new System.Drawing.Size(103, 37);
             this.buttonRaceStorage.TabIndex = 115;
             this.buttonRaceStorage.Text = "Reset NG+ menus";
             this.toolTip1.SetToolTip(this.buttonRaceStorage, "Resets the position of the cursor on the race selector.");
@@ -502,7 +502,7 @@ namespace racman
             // 
             // buttonNGPlusMenu
             // 
-            this.buttonNGPlusMenu.Location = new System.Drawing.Point(356, 309);
+            this.buttonNGPlusMenu.Location = new System.Drawing.Point(356, 280);
             this.buttonNGPlusMenu.Name = "buttonNGPlusMenu";
             this.buttonNGPlusMenu.Size = new System.Drawing.Size(104, 23);
             this.buttonNGPlusMenu.TabIndex = 118;
@@ -572,7 +572,7 @@ namespace racman
             // 
             this.labelLap.AutoSize = true;
             this.labelLap.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLap.Location = new System.Drawing.Point(12, 450);
+            this.labelLap.Location = new System.Drawing.Point(12, 437);
             this.labelLap.Name = "labelLap";
             this.labelLap.Size = new System.Drawing.Size(136, 20);
             this.labelLap.TabIndex = 110;
@@ -615,11 +615,11 @@ namespace racman
             // checkBoxAutoReset
             // 
             this.checkBoxAutoReset.AutoSize = true;
-            this.checkBoxAutoReset.Location = new System.Drawing.Point(247, 418);
+            this.checkBoxAutoReset.Location = new System.Drawing.Point(247, 428);
             this.checkBoxAutoReset.Name = "checkBoxAutoReset";
-            this.checkBoxAutoReset.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxAutoReset.Size = new System.Drawing.Size(105, 17);
             this.checkBoxAutoReset.TabIndex = 121;
-            this.checkBoxAutoReset.Text = "Auto-reset menus";
+            this.checkBoxAutoReset.Text = "Auto-reset (NG+)";
             this.checkBoxAutoReset.UseVisualStyleBackColor = true;
             // 
             // label3
@@ -677,7 +677,7 @@ namespace racman
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(356, 385);
+            this.button3.Location = new System.Drawing.Point(356, 309);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(107, 23);
             this.button3.TabIndex = 133;
@@ -687,9 +687,9 @@ namespace racman
             // 
             // buttonCosmetics
             // 
-            this.buttonCosmetics.Location = new System.Drawing.Point(357, 414);
+            this.buttonCosmetics.Location = new System.Drawing.Point(140, 385);
             this.buttonCosmetics.Name = "buttonCosmetics";
-            this.buttonCosmetics.Size = new System.Drawing.Size(106, 23);
+            this.buttonCosmetics.Size = new System.Drawing.Size(68, 23);
             this.buttonCosmetics.TabIndex = 134;
             this.buttonCosmetics.Text = "Cosmetics";
             this.buttonCosmetics.UseVisualStyleBackColor = true;
@@ -698,18 +698,18 @@ namespace racman
             // checkBox_autoResetAnyPercent
             // 
             this.checkBox_autoResetAnyPercent.AutoSize = true;
-            this.checkBox_autoResetAnyPercent.Location = new System.Drawing.Point(247, 441);
+            this.checkBox_autoResetAnyPercent.Location = new System.Drawing.Point(355, 428);
             this.checkBox_autoResetAnyPercent.Name = "checkBox_autoResetAnyPercent";
-            this.checkBox_autoResetAnyPercent.Size = new System.Drawing.Size(134, 17);
+            this.checkBox_autoResetAnyPercent.Size = new System.Drawing.Size(109, 17);
             this.checkBox_autoResetAnyPercent.TabIndex = 135;
-            this.checkBox_autoResetAnyPercent.Text = "Auto-reset Any% on A1";
+            this.checkBox_autoResetAnyPercent.Text = "Auto-reset (Any%)";
             this.checkBox_autoResetAnyPercent.UseVisualStyleBackColor = true;
             // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 489);
+            this.ClientSize = new System.Drawing.Size(480, 485);
             this.Controls.Add(this.checkBox_autoResetAnyPercent);
             this.Controls.Add(this.buttonCosmetics);
             this.Controls.Add(this.button3);

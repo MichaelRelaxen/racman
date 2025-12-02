@@ -92,21 +92,24 @@ namespace racman
                 // Disable force-override from reload file by setting to previous setting
                 game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
 
+                // Everything below here is A1-exclusive code
                 var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
                 if (planet[3] != 0) return;
+
+                // Reset freeze ammo when loading a new file
+                this.Invoke(new Action(() => {
+                    freezeAmmoCheckbox.Checked = false;
+                    freezeAmmoCheckbox_CheckedChanged(sender, EventArgs.Empty);
+                }));
 
                 if (checkBox_autoResetAnyPercent.Checked) {
                     resetAnyPercentVars(game.api);
                 }
 
-                if (!checkBoxAutoReset.Checked) return;
-
-                // Everything below here is A1-exclusive code
-                resetMenuStorage();
-                this.Invoke(new Action(() => {
-                    freezeAmmoCheckbox.Checked = false;
-                    freezeAmmoCheckbox_CheckedChanged(sender, EventArgs.Empty);
-                }));
+                if (checkBoxAutoReset.Checked)
+                {
+                    resetMenuStorage();
+                }
             });
 
             this.Invoke(new Action(() => {
@@ -466,8 +469,7 @@ namespace racman
         private void resetFileManipButton_Click(object sender, EventArgs e)
         {
             resetAnyPercentVars(game.api);
-
-            game.api.Notify("any% has been setup.");
+            game.api.Notify("Manips cleared, any% ready!");
         }
 
         private void buttonRaceStorage_Click(object sender, EventArgs e)

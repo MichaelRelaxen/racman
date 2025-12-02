@@ -184,7 +184,7 @@ split
         return true;
     }
 
-    if (settings["TABORA_CAVES_SPLIT"] && current.planet == 8 && current.chunk == 1 && old.chunk == 0) 
+    if (settings["TABORA_CAVES_SPLIT"] && current.planet == 8 && current.chunk == 0 && old.chunk == 1) 
     {
         return true;
     }
