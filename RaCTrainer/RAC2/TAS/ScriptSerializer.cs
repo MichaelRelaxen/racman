@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using racman;
+using System.Globalization;
 
 namespace racman
 {
@@ -60,15 +61,15 @@ namespace racman
 
             public override void Run(BinaryWriter writer)
             {
-                writer.Write(BitConverter.GetBytes(ButtonMask).Reverse().ToArray()); 
+                writer.Write(BitConverter.GetBytes(ButtonMask).Reverse().ToArray());
 
                 // Write stick values
                 writer.Write(new byte[] { RX, RY, LX, LY });
 
-                writer.Write(Load_Pos_Flag);  
-                writer.Write(Breakpoint);     
-                writer.Write(Render);    
-                writer.Write(Length);   
+                writer.Write(Load_Pos_Flag);
+                writer.Write(Breakpoint);
+                writer.Write(Render);
+                writer.Write(Length);
                 writer.Write(BitConverter.GetBytes(Randomness).Reverse().ToArray());
 
 
@@ -239,25 +240,68 @@ namespace racman
         {
             var actions = new List<Action>();
             int i = 0;
+            int currentFrameCount = 1; 
+
             while (i < lines.Count)
             {
                 var raw = lines[i];
                 var line = raw.Contains("//") ? raw.Substring(0, raw.IndexOf("//")).Trim() : raw.Trim();
 
                 if (string.IsNullOrWhiteSpace(line)) { i++; continue; }
-
                 if (line.StartsWith("linehide")) { i++; continue; }
-                
 
                 if (line.StartsWith("macro "))
                 {
                     i = ParseMacro(lines, i);
                 }
-                else
+                else if (line.StartsWith("lock ")) 
+                {
+                    // Syntax: lock <frame> <command...>
+                    Match lockMatch = Regex.Match(line, @"lock\s+(\d+)\s+(.+)");
+                    if (lockMatch.Success)
+                    {
+                        if (!int.TryParse(lockMatch.Groups[1].Value, out int targetFrame))
+                            throw new Exception($"Invalid lock frame number at line {i + 1}: {line}");
+
+                        string command = lockMatch.Groups[2].Value.Trim();
+
+                        if (targetFrame > currentFrameCount)
+                        {
+                            int waitFrames = targetFrame - currentFrameCount;
+                            actions.Add(new Wait(waitFrames));
+                            currentFrameCount += waitFrames;
+                        }
+
+                        try
+                        {
+                            Action commandAction = ParseLine(command);
+                            if (commandAction != null)
+                            {
+                                actions.Add(commandAction);
+                                currentFrameCount += GetActionFrameCount(commandAction);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception($"Failed to parse lock command at line {i + 1}: {line}\nReason: {ex.Message}");
+                        }
+                    }
+                    else
+                    {
+                        throw new Exception($"Invalid lock syntax at line {i + 1}. Expected: lock <frame> <command>");
+                    }
+                    i++;
+                }
+                else 
                 {
                     try
                     {
-                        actions.Add(ParseLine(line));
+                        Action actionsObj = ParseLine(line);
+                        if (actionsObj != null)
+                        {
+                            actions.Add(actionsObj);
+                            currentFrameCount += GetActionFrameCount(actionsObj);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -269,11 +313,66 @@ namespace racman
 
             return new Sequence { Actions = actions };
         }
+        private static int GetActionFrameCount(Action action)
+        {
+            if (action is Wait wait) return wait.Frames;
+            if (action is ButtonPress) return 1;
+
+            if (action is Sequence seq)
+            {
+                return seq.Actions.Sum(a => GetActionFrameCount(a));
+            }
+
+            if (action is Repeat repeat)
+            {
+                if (repeat.MacroName != null && macros.ContainsKey(repeat.MacroName))
+                {
+                    var (_, body) = macros[repeat.MacroName];
+                    int macroFrames = 0;
+
+                    foreach (var line in body)
+                    {
+                        string cleaned = line.Trim();
+                        if (string.IsNullOrWhiteSpace(cleaned) || cleaned.StartsWith("//")) continue;
+
+                        try
+                        {
+                            Action subAction = ParseLine(cleaned);
+                            if (subAction != null)
+                            {
+                                macroFrames += GetActionFrameCount(subAction);
+                            }
+                        }
+                        catch
+                        {
+                            macroFrames += 1;
+                        }
+                    }
+                    return repeat.Count * macroFrames;
+                }
+
+                if (repeat.SubAction != null)
+                {
+                    return repeat.Count * GetActionFrameCount(repeat.SubAction);
+                }
+                return repeat.Count;
+            }
+
+            return 1; 
+        }
 
         private static int ParseMacro(List<string> lines, int start)
         {
-            var header = lines[start].Trim().Trim(':');
+            var raw = lines[start];
+            var line = raw.Contains("//") ? raw.Substring(0, raw.IndexOf("//")).Trim() : raw.Trim();
+            var header = line.Trim().Trim(':');
             var parts = header.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length < 2 || parts[0] != "macro")
+            {
+                throw new Exception($"Invalid macro definition syntax at line {start + 1}: {lines[start]}");
+            }
+
             var name = parts[1];
             var args = parts.Skip(2).ToList();
             var body = new List<string>();
@@ -295,7 +394,6 @@ namespace racman
 
             if (args.Count == 0)
             {
-                // No arguments macro — return body as is
                 return new List<string>(body);
             }
 
@@ -404,7 +502,7 @@ namespace racman
                 {
                     render |= 0b0100;
                     i++;
-                } 
+                }
                 else if (token == "hide")
                 {
                     render |= 0b1100;
@@ -414,7 +512,7 @@ namespace racman
                 {
                     render |= 0b0011;
                     i++;
-                }  
+                }
                 else if (token == "noskip")
                 {
                     render |= 0b0001;
@@ -441,11 +539,13 @@ namespace racman
                         throw new Exception($"Expected angle after {token}");
 
                     string degStr = tokens[i++];
-                    if (!degStr.EndsWith("deg") || !double.TryParse(degStr.Replace("deg", ""), out double degrees))
-                        throw new Exception("Invalid stick angle syntax (must end in 'deg')");
+                    string numberPart = degStr.Replace("deg", "");
+
+                    if (!degStr.EndsWith("deg") || !double.TryParse(numberPart, NumberStyles.Any, CultureInfo.InvariantCulture, out double degrees))
+                        throw new Exception("Invalid stick angle syntax (must end in 'deg') or invalid number format.");
 
                     double magnitude = 1.0;
-                    if (i < tokens.Length && double.TryParse(tokens[i], out double parsedMagnitude))
+                    if (i < tokens.Length && double.TryParse(tokens[i], NumberStyles.Any, CultureInfo.InvariantCulture, out double parsedMagnitude))
                     {
                         magnitude = Math.Max(0.0, Math.Min(1.0, parsedMagnitude));
                         i++;

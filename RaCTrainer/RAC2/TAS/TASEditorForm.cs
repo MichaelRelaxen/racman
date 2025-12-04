@@ -1,6 +1,4 @@
-﻿// written using claude and gemini llms
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -34,6 +32,7 @@ namespace racman
         private const int StyleLinehide = 6;
         private const int StyleBreakpoint = 7;
         private const int StyleVisibility = 8;
+        private const int StyleFrameLock = 9;
 
         // Margins
         private const int MarginFrameCounts = 0;
@@ -42,8 +41,9 @@ namespace racman
         // Margin Text Style
         private const int StyleMarginText = 33;
 
-        // Indicator for live frame highlight
+        // Indicators
         private const int IndicatorFrameHighlight = 8;
+        private const int IndicatorWordMatch = 9;
 
         // Colors
         private readonly Color colorComment = Color.FromArgb(87, 166, 74);
@@ -54,12 +54,14 @@ namespace racman
         private readonly Color colorLinehide = Color.FromArgb(255, 165, 0); // Orange
         private readonly Color colorBreakpoint = Color.FromArgb(255, 80, 80); // Red
         private readonly Color colorVisibility = Color.FromArgb(255, 255, 0); // Yellow
+        private readonly Color colorFrameLock = Color.FromArgb(200, 100, 255); // Purple
         private readonly Color colorBackground = Color.FromArgb(30, 30, 30);
         private readonly Color colorForeground = Color.FromArgb(212, 212, 212);
         private readonly Color colorLineHighlight = Color.FromArgb(60, 60, 60);
         private readonly Color colorMarginBack = Color.FromArgb(37, 37, 38);
         private readonly Color colorMarginFore = Color.FromArgb(133, 133, 133);
-        private readonly Color colorFrameHighlight = Color.FromArgb(100, 150, 100); // green tint for live frame
+        private readonly Color colorFrameHighlight = Color.FromArgb(100, 150, 100);
+        private readonly Color colorWordMatch = Color.FromArgb(80, 80, 255);
 
         // Store frame counts per line and frame info
         private Dictionary<int, int> lineFrameCounts = new Dictionary<int, int>();
@@ -69,20 +71,35 @@ namespace racman
         private string currentProgressText = "";
         private Label statusLabel;
 
+        // Autocomplete
+        private ListBox autocompleteList;
+        private string[] keywords = new string[]
+        {
+            "wait", "rep", "teleport", "rng", "breakpoint", "lock",
+            "left_stick", "right_stick", "macro", "linehide", "end",
+            "hide", "show", "skip", "noskip",
+            "l1", "l2", "l3", "r1", "r2", "r3",
+            "triangle", "circle", "cross", "square",
+            "select", "start", "up", "down", "left", "right",
+            "tri", "cir", "x", "sq", "sel", "st", "U", "D", "L", "R"
+        };
+
         private class LineFrameInfo
         {
             public int StartFrame;
             public int Duration;
-            public string CommandType; // "wait", "rep", or "single"
-            public int RepCount; // For rep commands and macro calls
-            public int MacroFramesPerRep; // For rep commands that call macros
-            public string MacroName; // Name of the macro being executed
+            public string CommandType; // "wait", "rep", "lock", or single
+            public int RepCount;
+            public int MacroFramesPerRep;
+            public string MacroName;
+            public int? LockedFrame;
         }
 
         public TASEditorForm()
         {
             InitializeComponents();
             SetupScintilla();
+            SetupAutocomplete();
             LoadSampleContent();
             SubscribeToFrameTimer();
         }
@@ -92,7 +109,7 @@ namespace racman
             this.Text = "Rackets2 TAS Editor";
             this.Size = new Size(1200, 800);
             this.BackColor = colorBackground;
-            this.ShowIcon = false; 
+            this.ShowIcon = false;
             this.FormClosing += TASEditorForm_FormClosing;
 
             MenuStrip menuStrip = new MenuStrip();
@@ -127,7 +144,7 @@ namespace racman
             int statusLabelMagic = 360;
 
             statusLabel = new Label();
-            statusLabel.AutoSize = true; // itll resize if it needs more height
+            statusLabel.AutoSize = true;
             statusLabel.MinimumSize = new Size(statusLabelMagic, 150);
             statusLabel.Location = new Point(this.ClientSize.Width - (statusLabelMagic + 20), 30);
             statusLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -140,6 +157,22 @@ namespace racman
             statusLabel.Text = "No live data";
             this.Controls.Add(statusLabel);
             statusLabel.BringToFront();
+        }
+
+        private void SetupAutocomplete()
+        {
+            autocompleteList = new ListBox();
+            autocompleteList.Font = new Font("Consolas", 10);
+            autocompleteList.BackColor = Color.FromArgb(45, 45, 48);
+            autocompleteList.ForeColor = Color.White;
+            autocompleteList.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            autocompleteList.Visible = false;
+            autocompleteList.Width = 200;
+            autocompleteList.Height = 150;
+            autocompleteList.KeyDown += AutocompleteList_KeyDown;
+            autocompleteList.DoubleClick += AutocompleteList_DoubleClick;
+            this.Controls.Add(autocompleteList);
+            autocompleteList.BringToFront();
         }
 
         private void SetupScintilla()
@@ -183,6 +216,8 @@ namespace racman
             scintilla.Styles[StyleBreakpoint].Bold = true;
             scintilla.Styles[StyleVisibility].ForeColor = colorVisibility;
             scintilla.Styles[StyleVisibility].Bold = true;
+            scintilla.Styles[StyleFrameLock].ForeColor = colorFrameLock;
+            scintilla.Styles[StyleFrameLock].Bold = true;
 
             // Margin text style
             scintilla.Styles[StyleMarginText].BackColor = colorMarginBack;
@@ -197,6 +232,12 @@ namespace racman
             scintilla.Indicators[IndicatorFrameHighlight].ForeColor = colorFrameHighlight;
             scintilla.Indicators[IndicatorFrameHighlight].Alpha = 80;
             scintilla.Indicators[IndicatorFrameHighlight].OutlineAlpha = 120;
+
+            // Setup indicator for word matching
+            scintilla.Indicators[IndicatorWordMatch].Style = IndicatorStyle.RoundBox;
+            scintilla.Indicators[IndicatorWordMatch].ForeColor = colorWordMatch;
+            scintilla.Indicators[IndicatorWordMatch].Alpha = 100;
+            scintilla.Indicators[IndicatorWordMatch].OutlineAlpha = 150;
 
             // Margins
             scintilla.Margins[MarginFrameCounts].Width = 80;
@@ -233,9 +274,40 @@ namespace racman
             scintilla.TextChanged += Scintilla_TextChanged;
             scintilla.KeyDown += Scintilla_KeyDown;
             scintilla.MarginClick += Scintilla_MarginClick;
+            scintilla.UpdateUI += Scintilla_UpdateUI;
 
             this.Controls.Add(scintilla);
             this.MainMenuStrip.SendToBack();
+        }
+
+        private void Scintilla_UpdateUI(object sender, UpdateUIEventArgs e)
+        {
+            if ((e.Change & UpdateChange.Selection) != 0)
+            {
+                HighlightSelectedWord();
+            }
+        }
+
+        private void HighlightSelectedWord()
+        {
+            scintilla.IndicatorCurrent = IndicatorWordMatch;
+            scintilla.IndicatorClearRange(0, scintilla.TextLength);
+
+            string selectedText = scintilla.SelectedText;
+            if (string.IsNullOrWhiteSpace(selectedText) ||
+                selectedText.Length < 2 ||
+                selectedText.Contains(" ") ||
+                selectedText.Contains("\t") ||
+                selectedText.Contains("\n"))
+            {
+                return;
+            }
+
+            string pattern = @"\b" + Regex.Escape(selectedText) + @"\b";
+            foreach (Match match in Regex.Matches(scintilla.Text, pattern))
+            {
+                scintilla.IndicatorFillRange(match.Index, match.Length);
+            }
         }
 
         private void Scintilla_StyleNeeded(object sender, StyleNeededEventArgs e)
@@ -259,10 +331,11 @@ namespace racman
                 string codeText = commentIdx >= 0 ? text.Substring(0, commentIdx) : text;
 
                 StyleWithPattern(codeText, lineStart, @"\b(linehide|end)\b", StyleLinehide);
-                StyleWithPattern(codeText, lineStart, @"\bbreakpoint\b", StyleBreakpoint);
+                StyleWithPattern(codeText, lineStart, @"\b(breakpoint|rng|teleport)\b", StyleBreakpoint);
                 StyleWithPattern(codeText, lineStart, @"\b(hide|show|skip|noskip)\b", StyleVisibility);
                 StyleWithPattern(codeText, lineStart, @"\bmacro\s+\w+", StyleMacro);
-                StyleWithPattern(codeText, lineStart, @"\b(wait|rep|teleport|rng|left_stick|right_stick)\b", StyleCommand);
+                StyleWithPattern(codeText, lineStart, @"\block\s+\d+\b", StyleFrameLock);
+                StyleWithPattern(codeText, lineStart, @"\b(wait|rep|left_stick|right_stick)\b", StyleCommand);
                 StyleWithPattern(codeText, lineStart, @"\b(l1|l2|l3|r1|r2|r3|triangle|circle|cross|square|select|up|down|left|right|tri|cir|x|sq|sel|st|start|U|D|L|R)\b", StyleButton);
                 StyleWithPattern(codeText, lineStart, @"\b\d+\.?\d*\b", StyleNumber);
 
@@ -287,19 +360,159 @@ namespace racman
         private void Scintilla_TextChanged(object sender, EventArgs e)
         {
             CalculateFramesAndFolds();
+            ShowAutocomplete();
+        }
+
+        private void ShowAutocomplete()
+        {
+            int pos = scintilla.CurrentPosition;
+            int lineNum = scintilla.LineFromPosition(pos);
+            var line = scintilla.Lines[lineNum];
+            int lineStart = line.Position;
+            int relativePos = pos - lineStart;
+
+            string lineText = line.Text.Substring(0, Math.Min(relativePos, line.Text.Length));
+            var match = Regex.Match(lineText, @"(\w+)$");
+
+            if (!match.Success || match.Groups[1].Value.Length == 0)
+            {
+                autocompleteList.Visible = false;
+                return;
+            }
+
+            string currentWord = match.Groups[1].Value;
+            var keywordsList = keywords.ToList();
+            var macroKeys = macros.Keys.ToList();
+
+            var matches = keywordsList.Where(k => k.StartsWith(currentWord, StringComparison.Ordinal)).ToList();
+            matches.AddRange(macroKeys.Where(k => k.StartsWith(currentWord, StringComparison.Ordinal)));
+
+            if (matches.Count == 0 && currentWord.Length > 0)
+            {
+                matches.AddRange(keywordsList.Where(k => k.StartsWith(currentWord, StringComparison.OrdinalIgnoreCase)));
+                matches.AddRange(macroKeys.Where(k => k.StartsWith(currentWord, StringComparison.OrdinalIgnoreCase)));
+            }
+
+            var distinctMatches = matches.Distinct().ToList();
+
+            if (distinctMatches.Count == 0 || (distinctMatches.Count == 1 && distinctMatches[0].Equals(currentWord, StringComparison.OrdinalIgnoreCase)))
+            {
+                autocompleteList.Visible = false;
+                return;
+            }
+
+            var sortedMatches = distinctMatches
+                .OrderBy(k => !k.Equals(currentWord, StringComparison.Ordinal))
+                .ThenBy(k => k.Length)
+                .ThenBy(k => k)
+                .ToList();
+
+            autocompleteList.Items.Clear();
+            foreach (var item in sortedMatches)
+            {
+                autocompleteList.Items.Add(item);
+            }
+
+            if (autocompleteList.Items.Count > 0)
+            {
+                // overrides sorting for exact matches
+                // ensures if you type l2, its selected, even if the sort put l1 first when you typed l
+                int perfectMatchIndex = autocompleteList.Items.Cast<string>()
+                    .ToList()
+                    .FindIndex(k => k.Equals(currentWord, StringComparison.Ordinal));
+
+                if (perfectMatchIndex >= 0)
+                    autocompleteList.SelectedIndex = perfectMatchIndex;
+                else
+                    autocompleteList.SelectedIndex = 0;
+
+                // Position the menu
+                Point cursorPos = scintilla.PointToScreen(new Point(
+                    scintilla.PointXFromPosition(pos),
+                    scintilla.PointYFromPosition(pos) + scintilla.Lines[lineNum].Height
+                ));
+                Point clientPos = this.PointToClient(cursorPos);
+                autocompleteList.Location = clientPos;
+                autocompleteList.Visible = true;
+                autocompleteList.BringToFront();
+            }
+        }
+
+        private void AutocompleteList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Tab)
+            {
+                CompleteWord();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+            else if (e.KeyCode == Keys.Escape)
+            {
+                autocompleteList.Visible = false;
+                scintilla.Focus();
+                e.Handled = true;
+            }
+
+        }
+
+        private void AutocompleteList_DoubleClick(object sender, EventArgs e)
+        {
+            CompleteWord();
+        }
+
+        private void CompleteWord()
+        {
+            int pos = scintilla.CurrentPosition;
+            int lineNum = scintilla.LineFromPosition(pos);
+            var line = scintilla.Lines[lineNum];
+            int lineStart = line.Position;
+            int relativePos = pos - lineStart;
+            string lineText = line.Text.Substring(0, Math.Min(relativePos, line.Text.Length));
+            var match = Regex.Match(lineText, @"(\w+)$");
+
+            // Fix: If no item is currently selected, force the selection to the exact match.
+            if (autocompleteList.SelectedItem == null || !((string)autocompleteList.SelectedItem).Equals(match.Groups[1].Value, StringComparison.Ordinal))
+            {
+                if (match.Success)
+                {
+                    string currentWord = match.Groups[1].Value;
+                    int perfectMatchIndex = autocompleteList.Items.Cast<string>()
+                        .ToList()
+                        .FindIndex(k => k.Equals(currentWord, StringComparison.Ordinal));
+
+                    if (perfectMatchIndex >= 0)
+                    {
+                        // Force the selection to the exact match before proceeding.
+                        autocompleteList.SelectedIndex = perfectMatchIndex;
+                    }
+                }
+            }
+
+            if (autocompleteList.SelectedItem == null) return;
+
+            string completion = autocompleteList.SelectedItem.ToString();
+
+            if (match.Success)
+            {
+                int wordStart = lineStart + match.Groups[1].Index;
+                int wordLength = match.Groups[1].Length;
+
+                scintilla.DeleteRange(wordStart, wordLength);
+                scintilla.InsertText(wordStart, completion);
+                scintilla.GotoPosition(wordStart + completion.Length);
+            }
+
+            autocompleteList.Visible = false;
+            scintilla.Focus();
         }
 
         private bool IsFrameActionLine(string text)
         {
             text = text.Trim();
-
-
-            // filter out non action lines
             if (string.IsNullOrWhiteSpace(text)) return false;
             if (text.StartsWith("//")) return false;
             if (text.StartsWith("macro ")) return false;
             if (text.StartsWith("linehide")) return false;
-
             return true;
         }
 
@@ -316,7 +529,6 @@ namespace racman
                 {
                     int commentIdx = text.IndexOf("//");
                     string definitionLine = commentIdx >= 0 ? text.Substring(0, commentIdx).Trim() : text.Trim();
-
                     definitionLine = definitionLine.TrimEnd(':');
 
                     var parts = definitionLine.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
@@ -360,16 +572,16 @@ namespace racman
 
             string cmd = tokens[0];
 
+            if (cmd == "lock") return 0; // lock doesn't add frames, it moves position
+
             if (macros.ContainsKey(cmd))
             {
                 var (args, body) = macros[cmd];
                 int macroFrames = 0;
-
                 foreach (var macroLine in body)
                 {
                     macroFrames += CalculateLineFrameCount(macroLine);
                 }
-
                 return macroFrames;
             }
             if (cmd == "wait" && tokens.Length >= 2)
@@ -446,6 +658,23 @@ namespace racman
 
                 if (!inMacro)
                 {
+                    int? lockedFrame = null;
+                    // Check for lock command
+                    if (text.StartsWith("lock "))
+                    {
+                        Match lockMatch = Regex.Match(text, @"lock\s+(\d+)");
+                        if (lockMatch.Success)
+                        {
+                            int lockTarget = int.Parse(lockMatch.Groups[1].Value);
+                            // If we need to jump forward
+                            if (lockTarget > currentFrameCount)
+                            {
+                                currentFrameCount = lockTarget;
+                            }
+                            lockedFrame = lockTarget;
+                        }
+                    }
+
                     lineFrameCounts[i] = currentFrameCount;
                     line.MarginText = $"  {currentFrameCount.ToString().PadLeft(5)}";
 
@@ -453,14 +682,28 @@ namespace racman
                     {
                         int duration = CalculateLineFrameCount(line.Text);
 
-                        if (duration > 0)
+                        if (text.StartsWith("lock "))
+                        {
+                            var lockTokens = text.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                            if (lockTokens.Length > 2)
+                            {
+                                string restOfLine = string.Join(" ", lockTokens.Skip(2));
+                                duration = CalculateLineFrameCount(restOfLine);
+                            }
+                        }
+
+                        if (duration > 0 || lockedFrame.HasValue)
                         {
                             string commandType = "single";
                             int repCount = 0;
                             int macroFramesPerRep = 0;
                             string macroName = "";
 
-                            if (text.StartsWith("wait "))
+                            if (text.StartsWith("lock "))
+                            {
+                                commandType = "lock";
+                            }
+                            else if (text.StartsWith("wait "))
                             {
                                 commandType = "wait";
                             }
@@ -471,8 +714,6 @@ namespace racman
                                 if (m.Success)
                                 {
                                     repCount = int.Parse(m.Groups[1].Value);
-
-                                    // Check if it's repeating a macro
                                     var tokens = text.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                                     if (tokens.Length >= 3)
                                     {
@@ -485,14 +726,13 @@ namespace racman
                                         }
                                         else
                                         {
-                                            macroFramesPerRep = 1; // Single frame action
+                                            macroFramesPerRep = 1;
                                         }
                                     }
                                 }
                             }
                             else
                             {
-                                // Check if it's a macro call
                                 var tokens = text.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                                 if (tokens.Length > 0 && macros.ContainsKey(tokens[0]))
                                 {
@@ -510,7 +750,8 @@ namespace racman
                                 CommandType = commandType,
                                 RepCount = repCount,
                                 MacroFramesPerRep = macroFramesPerRep,
-                                MacroName = macroName
+                                MacroName = macroName,
+                                LockedFrame = lockedFrame
                             };
 
                             currentFrameCount += duration;
@@ -586,13 +827,15 @@ namespace racman
             uint newFrame = BitConverter.ToUInt32(value.Take(4).ToArray(), 0);
 
             // memory says 2 when screen shows frame: 1
-            int displayFrame = (int)newFrame - 1;
+            // int displayFrame = (int)newFrame - 1;
+            int displayFrame = (int)newFrame;
 
             if (scintilla.InvokeRequired)
                 scintilla.BeginInvoke(new Action(() => HighlightCurrentFrame(displayFrame)));
             else
                 HighlightCurrentFrame(displayFrame);
         }
+
         private (int frameInMacro, int lineIndexInBody, string actionText) GetMacroProgress(string macroName, int frameInRep, int macroFramesPerRep, List<string> callArgs)
         {
             if (!macros.ContainsKey(macroName) || macroFramesPerRep == 0)
@@ -640,12 +883,12 @@ namespace racman
 
             return (-1, -1, "");
         }
+
         private void HighlightCurrentFrame(int frame)
         {
             currentFrame = frame;
             currentProgressText = "";
 
-            // only check lines that are actual frame actions
             int foundLine = -1;
             string statusText = "No live data";
 
@@ -664,7 +907,6 @@ namespace racman
                     {
                         int progress = frame - info.StartFrame + 1;
 
-                        // for rep commands and macros, show which repetition were on
                         if ((info.CommandType == "rep" || info.CommandType == "macro") && info.RepCount > 0 && info.MacroFramesPerRep > 0)
                         {
                             int currentRep = (progress - 1) / info.MacroFramesPerRep + 1;
@@ -680,17 +922,6 @@ namespace racman
                                 var (frameInMacro, lineIndexInBody, actionText) = GetMacroProgress(info.MacroName, frameInRep, info.MacroFramesPerRep, callArgs);
 
                                 statusText = $"Frame: {frame} / {lastProcessedFrameCount}\n";
-
-                                string macroCallDisplay = lineText.Trim();
-                                if (info.CommandType == "rep")
-                                {
-                                    if (tokens.Length >= 3)
-                                    {
-                                        macroCallDisplay = string.Join(" ", tokens.Skip(2));
-                                    }
-                                }
-                                // statusText += $"Call: {macroCallDisplay}\n";
-
                                 statusText += $"Macro: {info.MacroName}\n";
                                 statusText += $"Rep: {currentRep} / {info.RepCount}\n";
                                 statusText += $"Macro Frame: {frameInRep} / {info.MacroFramesPerRep}\n";
@@ -699,7 +930,6 @@ namespace racman
                                 if (macros.ContainsKey(info.MacroName))
                                 {
                                     var (args, body) = macros[info.MacroName];
-
                                     Dictionary<string, string> substitutionMap = new Dictionary<string, string>();
                                     for (int i = 0; i < args.Count && i < callArgs.Count; i++)
                                     {
@@ -710,7 +940,6 @@ namespace racman
                                     {
                                         string linePrefix = (i == lineIndexInBody) ? "-> " : "   ";
                                         string lineDisplay = body[i].Trim();
-
                                         string substitutedDisplay = lineDisplay;
                                         foreach (var sub in substitutionMap)
                                         {
@@ -721,7 +950,6 @@ namespace racman
                                         {
                                             substitutedDisplay = actionText;
                                         }
-
                                         statusText += $"{linePrefix}{substitutedDisplay}\n";
                                     }
                                 }
@@ -747,7 +975,7 @@ namespace racman
                                 }
                             }
                         }
-                        else 
+                        else
                         {
                             currentProgressText = $" ({progress}/{info.Duration})";
 
@@ -765,7 +993,6 @@ namespace racman
                             statusText += $"\nMacro: {info.MacroName}";
                         }
                     }
-
                     break;
                 }
             }
@@ -785,6 +1012,40 @@ namespace racman
 
         private void Scintilla_KeyDown(object sender, KeyEventArgs e)
         {
+            // Handle Autocomplete navigation while the menu is visible
+            if (autocompleteList.Visible)
+            {
+                if (e.KeyCode == Keys.Up)
+                {
+                    if (autocompleteList.SelectedIndex > 0)
+                        autocompleteList.SelectedIndex--;
+                    e.Handled = true;
+                    return;
+                }
+                else if (e.KeyCode == Keys.Down)
+                {
+                    if (autocompleteList.SelectedIndex < autocompleteList.Items.Count - 1)
+                        autocompleteList.SelectedIndex++;
+                    e.Handled = true;
+                    return;
+                }
+                else if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Tab)
+                {
+                    CompleteWord();
+
+                    e.SuppressKeyPress = true;
+                    e.Handled = true;
+                    return;
+                }
+                else if (e.KeyCode == Keys.Escape)
+                {
+                    autocompleteList.Visible = false;
+                    e.Handled = true;
+                    return;
+                }
+            }
+
+
             if (e.Control && e.KeyCode == Keys.S)
             {
                 OnSaveFile(sender, e);
@@ -793,6 +1054,13 @@ namespace racman
             else if (e.Control && e.KeyCode == Keys.OemQuestion)
             {
                 ToggleComment();
+                e.SuppressKeyPress = true;
+            }
+            // redo shortcut, dont show auto complete list when redoing
+            else if (e.Control && e.Shift && e.KeyCode == Keys.Z)
+            {
+                autocompleteList.Visible = false; 
+                scintilla.Redo(); 
                 e.SuppressKeyPress = true;
             }
         }
@@ -855,11 +1123,9 @@ linehide Hello!
 rep 10 up
 rep 5 left
 
-
 rep 10 sample_macro left right up square
 rep 5 sample_macro right down left up
 breakpoint // pauses the game on this frame.
-
 
 hide skip // hide turns off rendering, skip turns off framelimiter (on PS3, dont use this on RPCS3).
 show noskip // disables the previous hide/skip commands.
@@ -895,8 +1161,14 @@ right_stick 90deg // if no magnitude has been set, it'll default to 1.0. (max)
 left_stick 360deg 0.5
 right_stick 90deg 0.8
 
+// make sure that this input starts exactly on frame 5000.
+r1
+r2
+lock 5000 r1 right_stick 270deg l2
+r1
+lock 5328 rep 30 sample_macro r1 r1 r1 r1
+r2
 
-rep 50 r1 right_stick 270deg l2
 
 charge 
 ";
