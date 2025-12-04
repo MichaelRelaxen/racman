@@ -246,6 +246,9 @@ namespace racman
 
                 if (string.IsNullOrWhiteSpace(line)) { i++; continue; }
 
+                if (line.StartsWith("linehide")) { i++; continue; }
+                
+
                 if (line.StartsWith("macro "))
                 {
                     i = ParseMacro(lines, i);

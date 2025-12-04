@@ -80,6 +80,9 @@
       <HintPath>..\packages\NLua.1.6.0\lib\net46\NLua.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
+    <Reference Include="Scintilla.NET, Version=6.1.0.0, Culture=neutral, PublicKeyToken=0221e70ba618311e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Scintilla5.NET.6.1.0\lib\net462\Scintilla.NET.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -205,6 +208,9 @@
       <DependentUpon>Rackets2GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="RAC2\TAS\ScriptSerializer.cs" />
+    <Compile Include="RAC2\TAS\TASEditorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RAC3\UYAUnlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -370,6 +376,9 @@
     <EmbeddedResource Include="RAC2\TAS\Rackets2GUI.resx">
       <DependentUpon>Rackets2GUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RAC2\TAS\TASEditorForm.resx">
+      <DependentUpon>TASEditorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RAC4\RAC4BotsUnlocks.resx">
       <DependentUpon>RAC4BotsUnlocks.cs</DependentUpon>
     </EmbeddedResource>
@@ -492,5 +501,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\KeraLua.1.3.1\build\net46\KeraLua.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\KeraLua.1.3.1\build\net46\KeraLua.targets'))" />
+    <Error Condition="!Exists('..\packages\Scintilla5.NET.6.1.0\build\scintilla5.net.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Scintilla5.NET.6.1.0\build\scintilla5.net.targets'))" />
   </Target>
+  <Import Project="..\packages\Scintilla5.NET.6.1.0\build\scintilla5.net.targets" Condition="Exists('..\packages\Scintilla5.NET.6.1.0\build\scintilla5.net.targets')" />
 </Project>

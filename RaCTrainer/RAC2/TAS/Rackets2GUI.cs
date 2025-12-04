@@ -255,5 +255,11 @@ namespace racman
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            TASEditorForm editor = new TASEditorForm();
+            editor.Show();
+        }
     }
 }
