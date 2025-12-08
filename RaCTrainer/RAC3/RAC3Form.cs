@@ -59,7 +59,7 @@ namespace racman
         public ChargebootColorPicker cosmeticsForm;
         private AutosplitterHelper autosplitterHelper;
         private AutosplitterConfigForm autosplitterConfigForm;
-        //private RacketsGUI racketsForm;
+        private RacketsGUI racketsForm;
 
         public static string[] saves;
         public Timer CoordsTimer = new Timer();
@@ -510,6 +510,14 @@ namespace racman
                 rac3.addr.chargebootsTintBackColor
             );
             cosmeticsForm.Show();
+        }
+
+        private void tASToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // last 2 are placeholders or not necessary idk whatever.
+            Rackets2API.Initialize(0xD9F000, rac3.addr.playerCoords, rac3.addr.currentPlanet, 0xD9EFFC, 0xD9EFFC);
+            racketsForm = new RacketsGUI();
+            racketsForm.Show();
         }
     }
 }
