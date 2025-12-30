@@ -326,13 +326,16 @@ namespace racman
         {
             if (toggle)
             {
-                api.WriteMemory(pid, 0x0DF254, 0x60000000);
-                api.WriteMemory(pid, 0x165490, 0x60000000);
+                api.WriteMemory(pid, 0x165490, 0x60000000); // skip loading screen [nop]
+                api.WriteMemory(pid, 0x160060, 0x38600006); // mute sound on loading screen, play non-existent sound [li r3, 6]
+                api.WriteMemory(pid, 0x1641f8, 0x38600006);
             }
             else
             {
-                api.WriteMemory(pid, 0x0DF254, 0x40820188);
+                // reverts back to original instructions
                 api.WriteMemory(pid, 0x165490, 0x4bffe519);
+                api.WriteMemory(pid, 0x160060, 0x546307be);
+                api.WriteMemory(pid, 0x1641f8, 0x546307be);
             }
         }
 
