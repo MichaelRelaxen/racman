@@ -18,6 +18,8 @@ namespace racman
         public static RacmanScripting scripting;
 
         static ModLoaderForm modLoaderForm;
+        static MemoryForm memoryForm;
+        public static bool notSupported = false;
 
         public AttachPS3Form()
         {
@@ -262,8 +264,17 @@ namespace racman
                     }
                     else
                     {
+                        // memory viewer does not do anything if you dont initialize one of the forms... for whatever reason
+                        // horrible hack i am so fucking lazy to figure out this shit
+                        // fuck this codebase
+                        RAC3Form rac3 = new RAC3Form(new rac3(func.api)); 
+
                         modLoaderForm = new ModLoaderForm();
                         modLoaderForm.Show();
+
+                        memoryForm = new MemoryForm();
+                        memoryForm.Show();
+                        notSupported = true;
                     }
                 }
                 else

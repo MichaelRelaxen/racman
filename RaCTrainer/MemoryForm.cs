@@ -180,6 +180,11 @@ namespace racman
                         func.api.ReleaseSubID(watched.freezeSub);
                 }
             }
+
+            if(AttachPS3Form.notSupported)
+            {
+                Application.Exit();
+            }
         }
 
         private void watchedMemoryAddressesListView_MouseClick(object sender, MouseEventArgs e)
