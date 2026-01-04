@@ -161,8 +161,7 @@ namespace racman
 
         private void loadPlanetButton_Click(object sender, EventArgs e)
         {
-            game.LoadPlanet();
-            game.SetFastLoads(true);
+            game.LoadPlanetSafe();
         }
 
         private void Form1_Load(object sender, EventArgs e)
