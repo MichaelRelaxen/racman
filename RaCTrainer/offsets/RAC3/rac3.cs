@@ -293,6 +293,20 @@ namespace racman
             api.WriteMemory(pid, rac3.addr.shipColour, BitConverter.GetBytes((byte)number).Reverse().ToArray());
         }
 
+        public void LoadPlanetSafe()
+        {
+            // aquatos
+            if (planetToLoad == 8)
+            {
+                LoadPlanet();
+            } 
+            else
+            {
+                LoadPlanet();
+                SetFastLoads();
+            }
+        }
+
         /// <summary>
         /// Inifnite health is set by overwriting game code that deals health with nops.
         /// </summary>
@@ -324,8 +338,7 @@ namespace racman
             }
             if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
             {
-                LoadPlanet();
-                SetFastLoads();
+                LoadPlanetSafe();
                 inputCheck = false;
             }
             if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)
