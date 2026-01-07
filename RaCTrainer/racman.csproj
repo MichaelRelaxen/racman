@@ -217,6 +217,12 @@
     <Compile Include="MemoryForm.Designer.cs">
       <DependentUpon>MemoryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RAC4\FormAutosplitter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC4\FormAutosplitter.Designer.cs">
+      <DependentUpon>FormAutosplitter.cs</DependentUpon>
+    </Compile>
     <Compile Include="RAC4\RAC4BotsUnlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -370,6 +376,9 @@
     <EmbeddedResource Include="RAC2\TAS\Rackets2GUI.resx">
       <DependentUpon>Rackets2GUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RAC4\FormAutosplitter.resx">
+      <DependentUpon>FormAutosplitter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RAC4\RAC4BotsUnlocks.resx">
       <DependentUpon>RAC4BotsUnlocks.cs</DependentUpon>
     </EmbeddedResource>
@@ -455,6 +464,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="autosplitters\rac2planets.txt" />
+    <None Include="autosplitters\rac4-LC-autosplitter.asl" />
+    <Content Include="autosplitters\dlplanets.txt" />
     <Content Include="autosplitters\todplanets.txt" />
     <Content Include="defaultSkin.txt" />
     <Content Include="ds3drip.ico" />

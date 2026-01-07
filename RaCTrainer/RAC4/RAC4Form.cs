@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Net.Http;
 using System.Threading;
+using racman.RAC4;
 
 namespace racman
 {
@@ -60,8 +61,10 @@ namespace racman
 
         private int savefileHelperSubID = -1;
         private int tutorialSubId = -1;
+        private int quittingGameSubId = -1;
         // Tutorial flag - are we loading a fresh file?
         public byte prevTutorial;
+        private bool isStartingAutosplitter;
 
         WebMAN wmm = null;
 
@@ -80,7 +83,25 @@ namespace racman
             AutosplitterCheckbox.Checked = true;
 
             if (func.api is Ratchetron r)
+            {
                 wmm = new WebMAN(r.GetIP());
+
+                r.setReconnectCallback(() =>
+                {
+                    Thread.Sleep(8000);
+
+                    AttachPS3Form.pid = game.api.getCurrentPID();
+                    pid = AttachPS3Form.pid;
+
+                    if (!AutosplitterCheckbox.Checked) return;
+
+                    autosplitterHelper.Reconnect();
+                    setupDisconnectSubs();
+                    // game.SetupInputDisplayMemorySubs();
+
+                    game.api.Notify("Autosplitter reconnected!");
+                });
+            }
         }
 
         public Form InputDisplay;
@@ -107,6 +128,7 @@ namespace racman
                         loadFileButton.Enabled = true;
                         setAsideFileButton.Enabled = true;
                         game.api.ReleaseSubID(savefileHelperSubID);
+                        savefileHelperSubID = -1;
                     }));
                 }
             });
@@ -203,9 +225,12 @@ namespace racman
                     game.api.ReleaseSubID(tutorialSubId);
                 if (savefileHelperSubID != -1)
                     game.api.ReleaseSubID(savefileHelperSubID);
+                if (game.api is Ratchetron r)
+                    r.ReleaseAllSubs();
 
                 game.api.Disconnect();
-                Application.Exit();
+                if (!isStartingAutosplitter)
+                    Application.Exit();
             } 
             catch
             {
@@ -313,10 +338,42 @@ namespace racman
             }
             else
             {
-                // Enable auotpslitter
+                // Enable autosplitter
                 Console.WriteLine("Autosplitter starting!");
                 autosplitterHelper = new AutosplitterHelper();
                 autosplitterHelper.StartAutosplitterForGame(this.game);
+                setupDisconnectSubs();
+            }
+        }
+
+        private void setupDisconnectSubs()
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            // Patch game to write 0xFF to set address when quitting
+            api.WriteMemory(pid, 0x00013780, new byte[] { 0x38, 0x60, 0x00, 0xFF }); // li  r3, 0xFF
+            api.WriteMemory(pid, 0x00013784, new byte[] { 0x3C, 0x80, 0x01, 0x70 }); // lis r4, 0x170
+            api.WriteMemory(pid, 0x00013788, new byte[] { 0x98, 0x64, 0x00, 0x00 }); // stb r3, 0x0(r4)
+
+            quittingGameSubId = api.SubMemory(pid, 0x01700000, 1, (val) =>
+            {
+                if (val[0] == 0xFF)
+                {
+                    Console.WriteLine("Quit!");
+                    HandleDisconnect();
+                }
+            });
+        }
+
+        private void HandleDisconnect()
+        {
+            autosplitterHelper?.Stop();
+            if (game.api is Ratchetron r)
+            {
+                r.ReleaseAllSubs();
+                savefileHelperSubID = -1;
+                quittingGameSubId = -1;
+                tutorialSubId = -1;
             }
         }
 
@@ -546,6 +603,26 @@ namespace racman
             api.WriteMemory(pid, rac4.addr.dreadPoints, 1000000);
             api.WriteMemory(pid, rac4.addr.targetPlanet, 1);
             api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
+        }
+
+        private void buttonStartLCSplitter_Click(object sender, EventArgs e)
+        {
+            if (game.api is Ratchetron r)
+            {
+                // Disconnect everthing else, start autosplitter SPRX, and open that form
+                this.isStartingAutosplitter = true;
+                this.Close();
+
+                func.PrepareSPRX(ip, "rac4-autosplitter.sprx", 5);
+
+                FormAutosplitter autosplitterForm = new FormAutosplitter(ip);
+                autosplitterForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Autosplitter not supported on RPCS3", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+           
         }
     }
 }

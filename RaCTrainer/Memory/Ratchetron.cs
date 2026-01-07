@@ -30,6 +30,7 @@ namespace racman
 
         private IPEndPoint remoteEndpoint;
 
+        private List<int> memorySubs = new List<int>();
         private Dictionary<int, Action<byte[]>> memSubCallbacks = new Dictionary<int, Action<byte[]>>();
         private Dictionary<int, uint> memSubTickUpdates = new Dictionary<int, uint>();
         private Dictionary<int, UInt32> frozenAddresses = new Dictionary<int, uint>();
@@ -92,6 +93,7 @@ namespace racman
 
         public override bool Disconnect()
         {
+            this.ReleaseAllSubs();
             this.connected = false;
             this.udpClient.Close();
             this.client.Close();
@@ -367,6 +369,7 @@ namespace racman
 
             var memSubID = (int)BitConverter.ToInt32(memSubIDBuf.Take(4).Reverse().ToArray(), 0);
 
+            this.memorySubs.Add(memSubID);
             this.memSubCallbacks[memSubID] = callback;
             this.memSubTickUpdates[memSubID] = 0;
 
@@ -404,6 +407,15 @@ namespace racman
             return memSubID;
         }
 
+        public void ReleaseAllSubs()
+        {
+            var allSubsCopy = this.memorySubs.ToArray();
+            foreach (var sub in allSubsCopy)
+            {
+                this.ReleaseSubID(sub);
+            }
+        }
+
         public override void ReleaseSubID(int memSubID)
         {   
             var cmdBuf = new List<byte>();
@@ -415,7 +427,7 @@ namespace racman
             byte[] resultBuf = new byte[1];
 
             int n_bytes = 0;
-            while (n_bytes < 1)
+            while (n_bytes < 1 && stream.CanRead)
             {
                 n_bytes += stream.Read(resultBuf, 0, 1);
             }
@@ -423,8 +435,10 @@ namespace racman
             this.memSubCallbacks.Remove(memSubID);
             this.memSubTickUpdates.Remove(memSubID);
             this.frozenAddresses.Remove(memSubID);
+            this.memorySubs.Remove(memSubID);
 
             Console.WriteLine($"Released memory subscription ID {memSubID}");
+
 
             // we're ignoring the results because yolo
         }

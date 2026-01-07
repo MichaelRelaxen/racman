@@ -1,0 +1,16 @@
+﻿null
+qual,containment,dreadzone,interior,marauder,avenger,crusader,vindicator,liberator,liberal,interior,control
+cata,4,four
+null
+sara
+kronos
+shaar
+valix
+orxon
+null
+torval
+stygia
+null
+mara
+ghost,station
+interior,control
