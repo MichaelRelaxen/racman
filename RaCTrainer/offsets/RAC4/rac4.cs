@@ -50,6 +50,9 @@ namespace racman
         // In Game (0 in main menu | 1 in game)
         public uint inGame => 0xB1F460;
 
+        // the usual shit
+        public uint gamestate => 0x0b3c5a0;
+
         // load planet
         public uint loadPlanet => 0x9C3240;
 

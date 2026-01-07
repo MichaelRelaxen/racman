@@ -68,6 +68,7 @@ namespace racman
             this.label3 = new System.Windows.Forms.Label();
             this.skins_comboBox = new System.Windows.Forms.ComboBox();
             this.unlockPlanetsButton = new System.Windows.Forms.Button();
+            this.buttonStartLCSplitter = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -108,7 +109,7 @@ namespace racman
             // ghostcheck
             // 
             this.ghostcheck.AutoSize = true;
-            this.ghostcheck.Location = new System.Drawing.Point(254, 361);
+            this.ghostcheck.Location = new System.Drawing.Point(254, 391);
             this.ghostcheck.Name = "ghostcheck";
             this.ghostcheck.Size = new System.Drawing.Size(90, 17);
             this.ghostcheck.TabIndex = 3;
@@ -118,7 +119,7 @@ namespace racman
             // 
             // inputdisplaybutton
             // 
-            this.inputdisplaybutton.Location = new System.Drawing.Point(121, 390);
+            this.inputdisplaybutton.Location = new System.Drawing.Point(121, 420);
             this.inputdisplaybutton.Name = "inputdisplaybutton";
             this.inputdisplaybutton.Size = new System.Drawing.Size(103, 34);
             this.inputdisplaybutton.TabIndex = 4;
@@ -215,7 +216,7 @@ namespace racman
             // 
             // botsUnlocksWindowButton
             // 
-            this.botsUnlocksWindowButton.Location = new System.Drawing.Point(12, 390);
+            this.botsUnlocksWindowButton.Location = new System.Drawing.Point(12, 420);
             this.botsUnlocksWindowButton.Name = "botsUnlocksWindowButton";
             this.botsUnlocksWindowButton.Size = new System.Drawing.Size(103, 34);
             this.botsUnlocksWindowButton.TabIndex = 109;
@@ -237,7 +238,7 @@ namespace racman
             // 
             // buttonActTune
             // 
-            this.buttonActTune.Location = new System.Drawing.Point(12, 350);
+            this.buttonActTune.Location = new System.Drawing.Point(12, 380);
             this.buttonActTune.Name = "buttonActTune";
             this.buttonActTune.Size = new System.Drawing.Size(103, 34);
             this.buttonActTune.TabIndex = 111;
@@ -248,7 +249,7 @@ namespace racman
             // checkBoxSoftlocks
             // 
             this.checkBoxSoftlocks.AutoSize = true;
-            this.checkBoxSoftlocks.Location = new System.Drawing.Point(254, 407);
+            this.checkBoxSoftlocks.Location = new System.Drawing.Point(254, 437);
             this.checkBoxSoftlocks.Name = "checkBoxSoftlocks";
             this.checkBoxSoftlocks.Size = new System.Drawing.Size(110, 17);
             this.checkBoxSoftlocks.TabIndex = 112;
@@ -376,7 +377,7 @@ namespace racman
             // 
             this.freezeHealthCheckbox.AutoSize = true;
             this.freezeHealthCheckbox.Enabled = false;
-            this.freezeHealthCheckbox.Location = new System.Drawing.Point(254, 384);
+            this.freezeHealthCheckbox.Location = new System.Drawing.Point(254, 414);
             this.freezeHealthCheckbox.Name = "freezeHealthCheckbox";
             this.freezeHealthCheckbox.Size = new System.Drawing.Size(90, 17);
             this.freezeHealthCheckbox.TabIndex = 124;
@@ -478,7 +479,7 @@ namespace racman
             // 
             // unlockPlanetsButton
             // 
-            this.unlockPlanetsButton.Location = new System.Drawing.Point(121, 350);
+            this.unlockPlanetsButton.Location = new System.Drawing.Point(121, 380);
             this.unlockPlanetsButton.Name = "unlockPlanetsButton";
             this.unlockPlanetsButton.Size = new System.Drawing.Size(103, 34);
             this.unlockPlanetsButton.TabIndex = 131;
@@ -486,11 +487,22 @@ namespace racman
             this.unlockPlanetsButton.UseVisualStyleBackColor = true;
             this.unlockPlanetsButton.Click += new System.EventHandler(this.unlockPlanetsButton_Click_1);
             // 
+            // buttonStartLCSplitter
+            // 
+            this.buttonStartLCSplitter.Location = new System.Drawing.Point(250, 336);
+            this.buttonStartLCSplitter.Name = "buttonStartLCSplitter";
+            this.buttonStartLCSplitter.Size = new System.Drawing.Size(120, 26);
+            this.buttonStartLCSplitter.TabIndex = 132;
+            this.buttonStartLCSplitter.Text = "Start any% autosplitter";
+            this.buttonStartLCSplitter.UseVisualStyleBackColor = true;
+            this.buttonStartLCSplitter.Click += new System.EventHandler(this.buttonStartLCSplitter_Click);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(382, 446);
+            this.ClientSize = new System.Drawing.Size(382, 469);
+            this.Controls.Add(this.buttonStartLCSplitter);
             this.Controls.Add(this.unlockPlanetsButton);
             this.Controls.Add(this.skinsButton);
             this.Controls.Add(this.label3);
@@ -579,5 +591,6 @@ namespace racman
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox skins_comboBox;
         private System.Windows.Forms.Button unlockPlanetsButton;
+        private System.Windows.Forms.Button buttonStartLCSplitter;
     }
 }

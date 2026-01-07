@@ -37,11 +37,14 @@ namespace racman.TOD
 
                 r.setReconnectCallback(() =>
                 {
+                    
+
                     if (useAutosplitter)
                     {
                         System.Threading.Thread.Sleep(8000);
                         autosplitter.Reconnect();
                         setupDisconnectSubs();
+                        
                         game.api.Notify("Autosplitter reconnected!");
                     }
                 });
