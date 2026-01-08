@@ -56,7 +56,7 @@ namespace racman
         public uint unlockArray => 0xDA56EC;
         // Unlock array is 0xDA56EC, spreadsheet says offset is 4A8.
         // Offset of exp array is 5F0, so this is DA56EC - 4A8 + 5F0
-        public uint expArray => 0xDA5834;
+        public uint expArray => 0xDA5824;
         public uint ammoArray => 0xDA5240;
         public uint vidComics => 0xda650b;
 
