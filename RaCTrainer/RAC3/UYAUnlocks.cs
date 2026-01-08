@@ -17,8 +17,6 @@ namespace racman
         public rac3 game;
 
         // sorry
-        private List<Label> levelLabels = new List<Label>();
-        private List<ComboBox> levelCombos = new List<ComboBox>();
         private List<UYAItem> weapons = new List<UYAItem>();
 
         public static List<string> gcItems = new List<string>
@@ -45,43 +43,47 @@ namespace racman
             // new UYAItem("Grindboots", 0x1C, 0x4C4, 0x660),
             // new UYAItem("Grindboots", 0x0E, 0x4B6, 0x628),
             // new UYAItem("#", 0x1B, 0x4C3, 0x65C),
-            // new UYAItem("Bomb Glove", 0x0A, 0x4B2, 0x618),
-            new UYAItem("Agents of Doom", 0x57, 0x4FF, 0x74C, 8),
-            new UYAItem("Annihilator", 0x3F, 0x4E7, 0x6EC, 8),
-            new UYAItem("Bolt Grabber v2", 0x07, 0x4AF, 0x60C),
-            new UYAItem("Bouncer", 0x13, 0x4BB, 0x63C, 8), // GC item
-            new UYAItem("Charge Boots", 0x1D, 0x4C5, 0x664),
-            new UYAItem("Disc Blade Gun", 0x4F, 0x4F7, 0x72C, 8),
-            new UYAItem("Flux Rifle", 0x6F, 0x517, 0x7AC, 8),
-            new UYAItem("Gravity Boots", 0x0D, 0x4B5, 0x624),
+            new UYAItem("Bomb Glove", 0x0A, 0x4B2, 0x618, 0),
+
+            //Gadgets/Items
             new UYAItem("Heli Pack", 0x02, 0x4AA, 0x5F8),
-            new UYAItem("Holoshield", 0x67, 0x50F, 0x78C, 8),
+            new UYAItem("Thruster Pack", 0x03, 0x4AB, 0x5FC),
+            new UYAItem("Charge Boots", 0x1D, 0x4C5, 0x664),
+            new UYAItem("Gravity Boots", 0x0D, 0x4B5, 0x624),
+            new UYAItem("Tyhrra Guise", 0x1E, 0x4C6, 0x668),
+            new UYAItem("Refractor", 0x12, 0x4BA, 0x638),
             new UYAItem("Hypershot", 0x0B, 0x4B3, 0x61C),
-            new UYAItem("Infector", 0x37, 0x4DF, 0x6CC, 8),
-            new UYAItem("Lava Gun", 0x11, 0x4B9, 0x634, 8), // GC item
+            new UYAItem("Nano Pak", 0x20, 0x4C8, 0x670),
+            new UYAItem("PDA", 0x23, 0x4CB, 0x67C),
+            new UYAItem("Bolt Grabber v2", 0x07, 0x4AF, 0x60C),
             new UYAItem("Map-o-matic", 0x05, 0x4AD, 0x604),
             new UYAItem("Master Plan", 0x22, 0x4CA, 0x678),
+            new UYAItem("Star Map", 0x21, 0x4C9, 0x674),
+            new UYAItem("The Hacker", 0x14, 0x4BC, 0x640),
+            // new UYAItem("The Hacker", 0x1A, 0x4C2, 0x658),
+            new UYAItem("Warp Pad", 0x1F, 0x4C7, 0x66C),
+
+            //Weapons
+            new UYAItem("Agents of Doom", 0x57, 0x4FF, 0x74C, 8),
+            new UYAItem("Annihilator", 0x3F, 0x4E7, 0x6EC, 8),
+            new UYAItem("Bouncer", 0x13, 0x4BB, 0x63C, 8), // GC item
+            new UYAItem("Disc Blade Gun", 0x4F, 0x4F7, 0x72C, 8),
+            new UYAItem("Flux Rifle", 0x6F, 0x517, 0x7AC, 8),
+            new UYAItem("Holoshield", 0x67, 0x50F, 0x78C, 8),
+            new UYAItem("Infector", 0x37, 0x4DF, 0x6CC, 8),
+            new UYAItem("Lava Gun", 0x11, 0x4B9, 0x634, 8), // GC item
             new UYAItem("Miniturret", 0x15, 0x4BD, 0x644, 8), // GC item
-            new UYAItem("Nano Pak", 0x20, 0x4C8, 0x670),
             new UYAItem("Nitro Launcher", 0x77, 0x51F, 0x7CC, 8),
             new UYAItem("N60 Storm", 0x2F, 0x4D7, 0x6AC, 8),
-            new UYAItem("PDA", 0x23, 0x4CB, 0x67C),
             new UYAItem("Plasma Coil", 0x10, 0x4B8, 0x630, 8), // GC item
             new UYAItem("Plasma Whip", 0x7F, 0x527, 0x7EC, 8),
             new UYAItem("Quack-O-Ray", 0x8F, 0x537, 0x82C, 8),
-            new UYAItem("Refractor", 0x12, 0x4BA, 0x638),
             new UYAItem("Rift Inducer", 0x5F, 0x507, 0x76C, 8),
             new UYAItem("R3YNO", 0x97, 0x53F, 0x84C, 5),
             new UYAItem("Shield Charger", 0x16, 0x4BE, 0x648, 8), // GC item
             new UYAItem("Shock Blaster", 0x27, 0x4CF, 0x68C, 8),
             new UYAItem("Spitting Hydra", 0x47, 0x4EF, 0x70C, 8),
-            new UYAItem("Star Map", 0x21, 0x4C9, 0x674),
             new UYAItem("Suck Cannon", 0x87, 0x52F, 0x80C, 8),
-            new UYAItem("The Hacker", 0x14, 0x4BC, 0x640),
-            new UYAItem("The Hacker", 0x1A, 0x4C2, 0x658),
-            new UYAItem("Thruster Pack", 0x03, 0x4AB, 0x5FC),
-            new UYAItem("Tyhrra Guise", 0x1E, 0x4C6, 0x668),
-            new UYAItem("Warp Pad", 0x1F, 0x4C7, 0x66C),
 
         };
 
@@ -106,21 +108,6 @@ namespace racman
         {
             this.game = game;
             InitializeComponent();
-
-            levelLabels = new List<Label>
-            {
-                label3, label4, label5, label6, label7, 
-                label8, label9, label10, label11, label12, 
-                label13, label14, label15, label16, label17, 
-                label18, label19, label20, label21, label22
-            };
-            levelCombos = new List<ComboBox>
-            {
-                comboBox1, comboBox2, comboBox3, comboBox4, comboBox5,
-                comboBox6, comboBox7, comboBox8, comboBox9, comboBox10,
-                comboBox11, comboBox12, comboBox13, comboBox14, comboBox15,
-                comboBox16, comboBox17, comboBox18, comboBox19, comboBox20
-            };
         }
 
         private void UYAUnlocks_Load(object sender, EventArgs e)
@@ -128,30 +115,34 @@ namespace racman
             int index = 0;
             foreach (var it in items)
             {
-                checklistItems.Items.Add(it.name, it.IsUnlocked(game));
+
+                if (it.levels == 1)
+                    gadgetsItems.Items.Add(it.name, it.IsUnlocked(game));
+                 
                 if (it.levels > 1)
                 {
+                    checklistItems.Items.Add(it.name, it.IsUnlocked(game));
                     weapons.Add(it);
-                    levelLabels[index].Text = it.name;
-                    var selected = it.GetVersionHeuristic(game);
-                    if (selected == 0) selected = 1;
+                    //levelLabels[index].Text = it.name;
+                    //var selected = it.GetVersionHeuristic(game);
+                    //if (selected == 0) selected = 1;
 
-                    for (int i = 1; i <= it.levels; i++)
-                    {
-                        levelCombos[index].Items.Add("v" + i.ToString());
-                    }
-                    levelCombos[index].SelectedIndex = (int)selected - 1;
+                    //for (int i = 1; i <= it.levels; i++)
+                    //{
+                    //   levelCombos[index].Items.Add("v" + i.ToString());
+                    //}
+                    //levelCombos[index].SelectedIndex = (int)selected - 1;
 
-                    // Lexical scoping strikes again
-                    var indexCopy = index;
-                    levelCombos[index].SelectedIndexChanged += (_sender, _e) =>
-                    {
-                        var newVersion = levelCombos[indexCopy].SelectedIndex + 1;
-                        weapons[indexCopy].SetVersion(game, (uint)newVersion);
-                        // Reset only if level 1 because I don't have the xp upgrade values for every weapon
-                        if (newVersion == 1) weapons[indexCopy].SetExp(game, 0);
+                    //// Lexical scoping strikes again
+                    //var indexCopy = index;
+                    //levelCombos[index].SelectedIndexChanged += (_sender, _e) =>
+                    //{
+                    //    var newVersion = levelCombos[indexCopy].SelectedIndex + 1;
+                    //    weapons[indexCopy].SetVersion(game, (uint)newVersion);
+                    //    // Reset only if level 1 because I don't have the xp upgrade values for every weapon
+                    //    if (newVersion == 1) weapons[indexCopy].SetExp(game, 0);
                        
-                    };
+                    //};
 
                     index++;
                 }
@@ -189,11 +180,11 @@ namespace racman
 
         private void buttonUpgrade_Click(object sender, EventArgs e)
         {
-            foreach (var it in items) it.SetVersion(game, it.levels);
-            foreach (var combo in levelCombos)
-            {
-                combo.SelectedIndex = combo.Items.Count - 1;
-            }
+            //foreach (var it in items) it.SetVersion(game, it.levels);
+            //foreach (var combo in levelCombos)
+            //{
+            //    combo.SelectedIndex = combo.Items.Count - 1;
+            //}
         }
 
         private void buttonUpgrade_MouseHover(object sender, EventArgs e)
@@ -210,10 +201,10 @@ namespace racman
                 // Have to do this or it upgrades again instantly
                 it.SetExp(game, 0);
             }
-            foreach (var combo in levelCombos)
-            {
-                combo.SelectedIndex = 0;
-            }
+            //foreach (var combo in levelCombos)
+            //{
+            //    combo.SelectedIndex = 0;
+            //}
         }
 
         public void SetupNGPWeapons()
@@ -274,6 +265,36 @@ namespace racman
         private void buttonBomb_MouseHover(object sender, EventArgs e)
         {
             toolTip2.Show("Equip the (unused) bomb glove", buttonBomb);
+        }
+
+        private void checklistItems_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label24_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label23_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
