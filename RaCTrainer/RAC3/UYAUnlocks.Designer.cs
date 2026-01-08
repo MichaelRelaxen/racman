@@ -36,14 +36,14 @@
             this.buttonDowngrade = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label3 = new System.Windows.Forms.Label();
-            this.levelcomboBox1 = new System.Windows.Forms.ComboBox();
+            this.levelComboBox = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.buttonBomb = new System.Windows.Forms.Button();
             this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             this.gadgetsItems = new System.Windows.Forms.CheckedListBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.infiniteAmmoButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.xBox = new System.Windows.Forms.TextBox();
             this.ammoBox = new System.Windows.Forms.TextBox();
@@ -62,9 +62,9 @@
             // 
             // buttonUnlockAll
             // 
-            this.buttonUnlockAll.Location = new System.Drawing.Point(127, 331);
+            this.buttonUnlockAll.Location = new System.Drawing.Point(251, 130);
             this.buttonUnlockAll.Name = "buttonUnlockAll";
-            this.buttonUnlockAll.Size = new System.Drawing.Size(117, 24);
+            this.buttonUnlockAll.Size = new System.Drawing.Size(100, 24);
             this.buttonUnlockAll.TabIndex = 2;
             this.buttonUnlockAll.Text = "Unlock All";
             this.buttonUnlockAll.UseVisualStyleBackColor = true;
@@ -72,9 +72,9 @@
             // 
             // buttonRemoveAll
             // 
-            this.buttonRemoveAll.Location = new System.Drawing.Point(4, 331);
+            this.buttonRemoveAll.Location = new System.Drawing.Point(251, 160);
             this.buttonRemoveAll.Name = "buttonRemoveAll";
-            this.buttonRemoveAll.Size = new System.Drawing.Size(117, 24);
+            this.buttonRemoveAll.Size = new System.Drawing.Size(100, 24);
             this.buttonRemoveAll.TabIndex = 3;
             this.buttonRemoveAll.Text = "Remove All";
             this.buttonRemoveAll.UseVisualStyleBackColor = true;
@@ -82,49 +82,49 @@
             // 
             // buttonUpgrade
             // 
-            this.buttonUpgrade.Location = new System.Drawing.Point(304, 244);
+            this.buttonUpgrade.Location = new System.Drawing.Point(301, 190);
             this.buttonUpgrade.Name = "buttonUpgrade";
-            this.buttonUpgrade.Size = new System.Drawing.Size(49, 41);
+            this.buttonUpgrade.Size = new System.Drawing.Size(50, 26);
             this.buttonUpgrade.TabIndex = 6;
-            this.buttonUpgrade.Text = "v8 All*";
+            this.buttonUpgrade.Text = "V8 All*";
             this.buttonUpgrade.UseVisualStyleBackColor = true;
             this.buttonUpgrade.Click += new System.EventHandler(this.buttonUpgrade_Click);
             this.buttonUpgrade.MouseHover += new System.EventHandler(this.buttonUpgrade_MouseHover);
             // 
             // buttonDowngrade
             // 
-            this.buttonDowngrade.Location = new System.Drawing.Point(250, 244);
+            this.buttonDowngrade.Location = new System.Drawing.Point(251, 190);
             this.buttonDowngrade.Name = "buttonDowngrade";
-            this.buttonDowngrade.Size = new System.Drawing.Size(49, 41);
+            this.buttonDowngrade.Size = new System.Drawing.Size(50, 26);
             this.buttonDowngrade.TabIndex = 7;
-            this.buttonDowngrade.Text = "v1 All";
+            this.buttonDowngrade.Text = "V1 All";
             this.buttonDowngrade.UseVisualStyleBackColor = true;
             this.buttonDowngrade.Click += new System.EventHandler(this.buttonDowngrade_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(247, 21);
+            this.label3.Location = new System.Drawing.Point(285, 6);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 13);
             this.label3.TabIndex = 8;
             this.label3.Text = "Level";
             this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
-            // levelcomboBox1
+            // levelComboBox
             // 
-            this.levelcomboBox1.FormattingEnabled = true;
-            this.levelcomboBox1.Location = new System.Drawing.Point(250, 38);
-            this.levelcomboBox1.Name = "levelcomboBox1";
-            this.levelcomboBox1.Size = new System.Drawing.Size(47, 21);
-            this.levelcomboBox1.TabIndex = 29;
-            this.levelcomboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.levelComboBox.FormattingEnabled = true;
+            this.levelComboBox.Location = new System.Drawing.Point(251, 21);
+            this.levelComboBox.Name = "levelComboBox";
+            this.levelComboBox.Size = new System.Drawing.Size(100, 21);
+            this.levelComboBox.TabIndex = 29;
+            this.levelComboBox.SelectedIndexChanged += new System.EventHandler(this.levelCombo_selectedIndex_Changed);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(250, 166);
+            this.button1.Location = new System.Drawing.Point(251, 220);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(103, 72);
+            this.button1.Size = new System.Drawing.Size(75, 35);
             this.button1.TabIndex = 49;
             this.button1.Text = "Setup NG+ Weapons";
             this.button1.UseVisualStyleBackColor = true;
@@ -132,9 +132,9 @@
             // 
             // buttonBomb
             // 
-            this.buttonBomb.Location = new System.Drawing.Point(331, 291);
+            this.buttonBomb.Location = new System.Drawing.Point(326, 220);
             this.buttonBomb.Name = "buttonBomb";
-            this.buttonBomb.Size = new System.Drawing.Size(22, 64);
+            this.buttonBomb.Size = new System.Drawing.Size(25, 35);
             this.buttonBomb.TabIndex = 50;
             this.buttonBomb.Text = "💣";
             this.buttonBomb.UseVisualStyleBackColor = true;
@@ -148,6 +148,7 @@
             this.gadgetsItems.Name = "gadgetsItems";
             this.gadgetsItems.Size = new System.Drawing.Size(117, 304);
             this.gadgetsItems.TabIndex = 51;
+            this.gadgetsItems.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             // 
             // label23
             // 
@@ -157,7 +158,6 @@
             this.label23.Size = new System.Drawing.Size(53, 13);
             this.label23.TabIndex = 52;
             this.label23.Text = "Weapons";
-            this.label23.Click += new System.EventHandler(this.label23_Click);
             // 
             // label24
             // 
@@ -167,22 +167,21 @@
             this.label24.Size = new System.Drawing.Size(77, 13);
             this.label24.TabIndex = 53;
             this.label24.Text = "Gadgets/Items";
-            this.label24.Click += new System.EventHandler(this.label24_Click);
             // 
-            // button2
+            // infiniteAmmoButton
             // 
-            this.button2.Location = new System.Drawing.Point(250, 291);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 64);
-            this.button2.TabIndex = 54;
-            this.button2.Text = "Ammo All";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.infiniteAmmoButton.Location = new System.Drawing.Point(251, 261);
+            this.infiniteAmmoButton.Name = "infiniteAmmoButton";
+            this.infiniteAmmoButton.Size = new System.Drawing.Size(99, 64);
+            this.infiniteAmmoButton.TabIndex = 54;
+            this.infiniteAmmoButton.Text = "GIGA AMMO!!!";
+            this.infiniteAmmoButton.UseVisualStyleBackColor = true;
+            this.infiniteAmmoButton.Click += new System.EventHandler(this.infiniteAmmoButton_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(247, 72);
+            this.label1.Location = new System.Drawing.Point(290, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(21, 13);
             this.label1.TabIndex = 55;
@@ -190,22 +189,24 @@
             // 
             // xBox
             // 
-            this.xBox.Location = new System.Drawing.Point(250, 88);
+            this.xBox.Location = new System.Drawing.Point(250, 61);
             this.xBox.Name = "xBox";
-            this.xBox.Size = new System.Drawing.Size(100, 20);
+            this.xBox.Size = new System.Drawing.Size(101, 20);
             this.xBox.TabIndex = 56;
+            this.xBox.TextChanged += new System.EventHandler(this.xBox_TextChanged);
             // 
             // ammoBox
             // 
-            this.ammoBox.Location = new System.Drawing.Point(250, 140);
+            this.ammoBox.Location = new System.Drawing.Point(250, 102);
             this.ammoBox.Name = "ammoBox";
-            this.ammoBox.Size = new System.Drawing.Size(100, 20);
+            this.ammoBox.Size = new System.Drawing.Size(101, 20);
             this.ammoBox.TabIndex = 58;
+            this.ammoBox.TextChanged += new System.EventHandler(this.ammoBox_TextChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(247, 124);
+            this.label2.Location = new System.Drawing.Point(282, 87);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 57;
@@ -215,24 +216,27 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(356, 358);
+            this.ClientSize = new System.Drawing.Size(361, 339);
             this.Controls.Add(this.ammoBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.xBox);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.infiniteAmmoButton);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label23);
             this.Controls.Add(this.gadgetsItems);
             this.Controls.Add(this.buttonBomb);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.levelcomboBox1);
+            this.Controls.Add(this.levelComboBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonDowngrade);
             this.Controls.Add(this.buttonUpgrade);
             this.Controls.Add(this.buttonRemoveAll);
             this.Controls.Add(this.buttonUnlockAll);
             this.Controls.Add(this.checklistItems);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "UYAUnlocks";
             this.Text = "Unlocks";
             this.Load += new System.EventHandler(this.UYAUnlocks_Load);
@@ -250,14 +254,14 @@
         private System.Windows.Forms.Button buttonDowngrade;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox levelcomboBox1;
+        private System.Windows.Forms.ComboBox levelComboBox;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonBomb;
         private System.Windows.Forms.ToolTip toolTip2;
         private System.Windows.Forms.CheckedListBox gadgetsItems;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button infiniteAmmoButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox xBox;
         private System.Windows.Forms.TextBox ammoBox;
