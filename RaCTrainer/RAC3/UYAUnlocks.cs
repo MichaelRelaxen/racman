@@ -190,7 +190,7 @@ namespace racman
 
         private void buttonDowngrade_Click(object sender, EventArgs e)
         {
-            SetAllExp(0, 726, 0);
+            // SetAllExp(0, 726, 0);
             foreach (var it in items)
             {
                 it.SetVersion(game, 1);
