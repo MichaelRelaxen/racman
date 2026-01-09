@@ -92,20 +92,6 @@ namespace racman
         private List<string> itemNames => items.Select(obj => obj.name).ToList();
         private UYAItem itemByName(string itemName) => items.Find(obj => obj.name == itemName);
 
-        // SetExp works wrongly for some weapons and this is a hacky workaround
-        // Basically the exact addresses confuse me so I'm blasting the entire range
-        private void SetAllExp(int start, int range, uint exp)
-        {
-            byte[] expBytes = BitConverter.GetBytes(exp).Take(4).Reverse().ToArray();
-            byte[] newBytes = new byte[726];
-            for (int i = 0; i < newBytes.Length; i++)
-            {
-                newBytes[i] = expBytes[i % 4];
-            }
-
-            game.api.WriteMemory(game.pid, rac3.addr.expArray + (uint)start, newBytes.Skip(start).Take(range).ToArray());
-        }
-
         public UYAUnlocks(rac3 game)
         {
             this.game = game;
@@ -190,7 +176,6 @@ namespace racman
 
         private void buttonDowngrade_Click(object sender, EventArgs e)
         {
-            // SetAllExp(0, 726, 0);
             foreach (var it in items)
             {
                 it.SetVersion(game, 1);
@@ -344,7 +329,6 @@ namespace racman
 
         private void infiniteAmmoButton_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i < checklistItems.Items.Count; i++) checklistItems.SetItemChecked(i, true);
             foreach (var it in items) it.SetAmmo(game, 1337);
         }
 
