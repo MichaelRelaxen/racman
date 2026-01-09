@@ -60,6 +60,9 @@ namespace racman.RAC4
                 var s2 = stream.ReadByte();
                 if (s2 == -1) this.Close();
                 
+                // Confirm reception
+                stream.WriteByte(1);
+                
                 var cmd = (byte)s1;
                 var planet = (byte)s2;
                 

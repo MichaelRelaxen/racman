@@ -4,6 +4,9 @@ startup
 {
     settings.Add("SPLIT_ROUTE", false, "Use split route based on split names");
     settings.SetToolTip("SPLIT_ROUTE", "Only split when entering the next planet on your LiveSplit.");
+
+    settings.Add("AEC", false, "All Exterminator Cards mode");
+    settings.SetToolTip("AEC", "Disable resetting.");
 }
 
 
@@ -53,8 +56,9 @@ update
 split
 {
     if (current.command == 2 && old.command != 2) 
-    {
-        if (!settings["SPLIT_ROUTE"]) return true;
+    {   
+        // Always split on 0, this corresponds to Vox split
+        if (!settings["SPLIT_ROUTE"] || current.planet == 0) return true;
         
         var nextSplitName = "";
         var splitIndex = timer.CurrentSplitIndex + 1;
@@ -84,6 +88,10 @@ split
 
 reset
 {
+    if (settings["AEC"]) 
+    {
+        return false;
+    }
     return (current.command == 1 && old.command != 1);
 }
 
@@ -94,5 +102,9 @@ start
 
 isLoading
 {
+    if (current.paused == 0 && old.paused == 1)
+    {
+        timer.SetGameTime(timer.CurrentTime.GameTime.Value.Add(TimeSpan.FromSeconds(10)));
+    }
     return (current.paused == 1);
 }
