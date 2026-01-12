@@ -187,7 +187,7 @@ namespace racman
             "10"});
             this.positions_ComboBox.Location = new System.Drawing.Point(136, 47);
             this.positions_ComboBox.Name = "positions_ComboBox";
-            this.positions_ComboBox.Size = new System.Drawing.Size(75, 21);
+            this.positions_ComboBox.Size = new System.Drawing.Size(92, 21);
             this.positions_ComboBox.TabIndex = 27;
             this.positions_ComboBox.SelectedIndexChanged += new System.EventHandler(this.positions_ComboBox_SelectedIndexChanged);
             // 
@@ -586,9 +586,9 @@ namespace racman
             this.setAsideButton.Enabled = false;
             this.setAsideButton.Location = new System.Drawing.Point(136, 74);
             this.setAsideButton.Name = "setAsideButton";
-            this.setAsideButton.Size = new System.Drawing.Size(75, 23);
+            this.setAsideButton.Size = new System.Drawing.Size(92, 23);
             this.setAsideButton.TabIndex = 97;
-            this.setAsideButton.Text = "Set aside file";
+            this.setAsideButton.Text = "Save Manager";
             this.setAsideButton.UseVisualStyleBackColor = true;
             this.setAsideButton.Click += new System.EventHandler(this.setAsideButton_Click);
             // 
@@ -597,7 +597,7 @@ namespace racman
             this.loadFileButton.Enabled = false;
             this.loadFileButton.Location = new System.Drawing.Point(136, 103);
             this.loadFileButton.Name = "loadFileButton";
-            this.loadFileButton.Size = new System.Drawing.Size(75, 23);
+            this.loadFileButton.Size = new System.Drawing.Size(92, 23);
             this.loadFileButton.TabIndex = 98;
             this.loadFileButton.Text = "Load file";
             this.loadFileButton.UseVisualStyleBackColor = true;

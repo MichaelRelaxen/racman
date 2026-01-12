@@ -1,14 +1,11 @@
-#- name: Savefile helper
-#- author:
+#- name: GigaHelper
+#- author: isaka2025 and Torrbullen
+#- href: https://github.com/Torrbullen/Gigahelper/tree/master
+#- version: 1.0
+#- description: Tool for having savefiles locally and running them from pc.
+0x980ac0: rack.bin
 
-# Link beneath to source code and how to compile
-#- href: 
-
-# shared
-0x980500: tramp.bin
-0x980600: lv2.bin
-
-# input loop
-0x97C7E8: 0x489804CB
-0x9804C8: inputp.bin
-0x981000: input.bin
+#### ASM Patches ####
+0x97cba4: 0x48003f5d
+0x1113c: 0x480004b8
+0x9027a0: 0x4e800020

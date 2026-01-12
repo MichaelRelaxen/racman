@@ -57,6 +57,7 @@ namespace racman
 
         public rac3 game;
         public ChargebootColorPicker cosmeticsForm;
+        private SavefileLoader savefileLoader;
         private AutosplitterHelper autosplitterHelper;
         private AutosplitterConfigForm autosplitterConfigForm;
         //private RacketsGUI racketsForm;
@@ -364,7 +365,9 @@ namespace racman
         }
         private void setAsideButton_Click(object sender, EventArgs e)
         {
-            game.api.WriteMemory(pid, 0xD9FF02, new byte[] { 0x01 });
+            //game.api.WriteMemory(pid, 0xD9FF02, new byte[] { 0x01 });
+            savefileLoader = new SavefileLoader();
+            savefileLoader.Show();
         }
         static bool qsbool = false;
         private void toggleQS_Click(object sender, EventArgs e)
