@@ -57,6 +57,7 @@ namespace racman
 
         public rac3 game;
         public ChargebootColorPicker cosmeticsForm;
+        private SavefileLoader savefileLoader;
         private AutosplitterHelper autosplitterHelper;
         private AutosplitterConfigForm autosplitterConfigForm;
         //private RacketsGUI racketsForm;
@@ -509,6 +510,12 @@ namespace racman
                 rac3.addr.chargebootsTintBackColor
             );
             cosmeticsForm.Show();
+        }
+
+        private void gigahelperToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            savefileLoader = new SavefileLoader();
+            savefileLoader.Show();
         }
     }
 }

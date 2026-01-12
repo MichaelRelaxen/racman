@@ -207,6 +207,12 @@
       <DependentUpon>Rackets2GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="RAC2\TAS\ScriptSerializer.cs" />
+    <Compile Include="RAC3\SavefileLoader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC3\SavefileLoader.Designer.cs">
+      <DependentUpon>SavefileLoader.cs</DependentUpon>
+    </Compile>
     <Compile Include="RAC3\UYAUnlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -377,6 +383,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2\TAS\Rackets2GUI.resx">
       <DependentUpon>Rackets2GUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC3\SavefileLoader.resx">
+      <DependentUpon>SavefileLoader.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAC4\FormAutosplitter.resx">
       <DependentUpon>FormAutosplitter.cs</DependentUpon>
