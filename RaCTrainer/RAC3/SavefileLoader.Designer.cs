@@ -72,12 +72,13 @@ namespace racman
             this.catdropdown.FormattingEnabled = true;
             this.catdropdown.Items.AddRange(new object[] {
             "NG+",
-            "NO QE",
-            "Any% No FC",
+            "NG+ no QE",
+            "Any% no FC",
             "Any%",
-            "ATB",
-            "AC",
-            "100%"});
+            "All Titanium Bolts",
+            "All Collectables",
+            "100%",
+            "Misc/Other"});
             this.catdropdown.Location = new System.Drawing.Point(12, 63);
             this.catdropdown.Name = "catdropdown";
             this.catdropdown.Size = new System.Drawing.Size(268, 21);
