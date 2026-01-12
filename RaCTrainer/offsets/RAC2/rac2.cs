@@ -119,7 +119,10 @@ namespace racman
 
         // What it says on the tin
         public uint platinumBoltArray => 0x1562540;
-
+        
+        // What it says on the tin
+        public uint skillPointArray => 0x1481809;
+        
         // Level specific info (spawnpoint, completed missions etc)
         public uint levelFlags => 0x15625B0;
 
