@@ -365,7 +365,9 @@ namespace racman
         }
         private void setAsideButton_Click(object sender, EventArgs e)
         {
-            game.api.WriteMemory(pid, 0xD9FF02, new byte[] { 0x01 });
+            //game.api.WriteMemory(pid, 0xD9FF02, new byte[] { 0x01 });
+            savefileLoader = new SavefileLoader();
+            savefileLoader.Show();
         }
         static bool qsbool = false;
         private void toggleQS_Click(object sender, EventArgs e)
@@ -510,12 +512,6 @@ namespace racman
                 rac3.addr.chargebootsTintBackColor
             );
             cosmeticsForm.Show();
-        }
-
-        private void gigahelperToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            savefileLoader = new SavefileLoader();
-            savefileLoader.Show();
         }
     }
 }

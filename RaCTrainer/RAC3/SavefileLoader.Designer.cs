@@ -42,7 +42,7 @@ namespace racman
             this.savebutton.Name = "savebutton";
             this.savebutton.Size = new System.Drawing.Size(131, 45);
             this.savebutton.TabIndex = 0;
-            this.savebutton.Text = "Save";
+            this.savebutton.Text = "Save File";
             this.savebutton.UseVisualStyleBackColor = true;
             this.savebutton.Click += new System.EventHandler(this.savebutton_Click);
             // 
@@ -52,7 +52,7 @@ namespace racman
             this.loadbutton.Name = "loadbutton";
             this.loadbutton.Size = new System.Drawing.Size(131, 45);
             this.loadbutton.TabIndex = 1;
-            this.loadbutton.Text = "Load";
+            this.loadbutton.Text = "Set Aside File";
             this.loadbutton.UseVisualStyleBackColor = true;
             this.loadbutton.Click += new System.EventHandler(this.loadbutton_Click);
             // 
@@ -97,14 +97,17 @@ namespace racman
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(294, 450);
+            this.ClientSize = new System.Drawing.Size(294, 430);
             this.Controls.Add(this.savelist);
             this.Controls.Add(this.catdropdown);
             this.Controls.Add(this.nameinput);
             this.Controls.Add(this.loadbutton);
             this.Controls.Add(this.savebutton);
+            this.MaximizeBox = false;
             this.Name = "SavefileLoader";
-            this.Text = "SavefileLoader";
+            this.ShowIcon = false;
+            this.Text = "Savefile Manager";
+            this.Load += new System.EventHandler(this.SavefileLoader_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

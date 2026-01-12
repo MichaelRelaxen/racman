@@ -15,6 +15,7 @@ namespace racman
     public partial class SavefileLoader : Form
     {
         public rac3 game;
+        private static IPS3API api = func.api;
         public static WebClient Client = new WebClient();
         public SavefileLoader()
         {
@@ -33,14 +34,16 @@ namespace racman
                 savelist.Items.Add(nameinput.Text);
                 savelist.SelectedIndex = savelist.Items.Count - 1;
                 filename = path + $"/{savelist.SelectedItem.ToString()}";
+                api.WriteMemory(AttachPS3Form.pid, 0xD9FF03, new byte[] { 0x01 });
+                System.Threading.Thread.Sleep(2000);
                 try
                 {
-                    Client.DownloadFile(filename, ps3path);
+                    Client.DownloadFile(ps3path, filename);
                 }
                 catch
                 {
                     System.Threading.Thread.Sleep(2020);
-                    Client.DownloadFile(filename, ps3path);
+                    Client.DownloadFile(ps3path, filename);
                 }
             }
         }
@@ -48,7 +51,9 @@ namespace racman
         private void loadbutton_Click(object sender, EventArgs e)
         {
             //should load Highlighted File from savelist
-
+            filename = path + $"/{savelist.SelectedItem.ToString()}";
+            api.WriteFile("/dev_hdd0/game/NPEA00387/USRDIR/tempsave", filename);
+            api.WriteMemory(AttachPS3Form.pid, 0xD9FF04, new byte[] { 0x01 });
         }
 
         private void catdropdown_SelectedIndexChanged(object sender, EventArgs e)
@@ -65,6 +70,11 @@ namespace racman
         private void nameinput_Click(object sender, EventArgs e)
         {
             nameinput.Text = "";
+        }
+
+        private void SavefileLoader_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
