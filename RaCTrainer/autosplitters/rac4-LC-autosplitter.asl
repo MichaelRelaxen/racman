@@ -104,7 +104,7 @@ isLoading
 {
     if (current.paused == 0 && old.paused == 1)
     {
-        timer.SetGameTime(timer.CurrentTime.GameTime.Value.Add(TimeSpan.FromSeconds(10)));
+        timer.SetGameTime(timer.CurrentTime.GameTime.Value.Add(TimeSpan.FromSeconds(14.8)));
     }
     return (current.paused == 1);
 }

@@ -45,13 +45,15 @@
             // checkBoxSoftlocks
             // 
             this.checkBoxSoftlocks.AutoSize = true;
+            this.checkBoxSoftlocks.Checked = true;
+            this.checkBoxSoftlocks.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxSoftlocks.Location = new System.Drawing.Point(23, 26);
             this.checkBoxSoftlocks.Name = "checkBoxSoftlocks";
             this.checkBoxSoftlocks.Size = new System.Drawing.Size(110, 17);
             this.checkBoxSoftlocks.TabIndex = 113;
             this.checkBoxSoftlocks.Text = "Fix reset softlocks";
             this.checkBoxSoftlocks.UseVisualStyleBackColor = true;
-            this.checkBoxSoftlocks.Visible = false;
+            this.checkBoxSoftlocks.CheckedChanged += new System.EventHandler(this.checkBoxSoftlocks_CheckedChanged);
             // 
             // FormAutosplitter
             // 

@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace racman.RAC4
 {
@@ -102,6 +103,11 @@ namespace racman.RAC4
             stream.Close();
             client.Close();
             Application.Exit();
+        }
+
+        private void checkBoxSoftlocks_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBoxSoftlocks.Checked = true;
         }
     }
 }

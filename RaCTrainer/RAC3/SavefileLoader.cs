@@ -51,9 +51,16 @@ namespace racman
         private void loadbutton_Click(object sender, EventArgs e)
         {
             //should load Highlighted File from savelist
-            filename = path + $"/{savelist.SelectedItem.ToString()}";
-            api.WriteFile("/dev_hdd0/game/NPEA00387/USRDIR/tempsave", filename);
-            api.WriteMemory(AttachPS3Form.pid, 0xD9FF04, new byte[] { 0x01 });
+            if (savelist.SelectedItem != null)
+            {
+                filename = path + $"/{savelist.SelectedItem.ToString()}";
+                api.WriteFile("/dev_hdd0/game/NPEA00387/USRDIR/tempsave", filename);
+                api.WriteMemory(AttachPS3Form.pid, 0xD9FF04, new byte[] { 0x01 });
+            }
+            else
+            {
+                MessageBox.Show("No savefile selected!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void catdropdown_SelectedIndexChanged(object sender, EventArgs e)
