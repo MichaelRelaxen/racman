@@ -663,5 +663,26 @@ namespace racman
             racketsForm = new RacketsGUI();
             racketsForm.Show();
         }
+
+        private void ResetSPButton_Click(object sender, EventArgs e)
+        {
+
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x00, 30).ToArray();
+            api.WriteMemory(pid, rac2.addr.skillPointArray, locked);
+
+        }
+
+        private void UnlockSPButton_Click(object sender, EventArgs e)
+        {
+
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x01, 30).ToArray();
+            api.WriteMemory(pid, rac2.addr.skillPointArray, locked);
+
+
+        }
     }
 }
