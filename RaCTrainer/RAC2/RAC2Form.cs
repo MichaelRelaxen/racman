@@ -96,6 +96,9 @@ namespace racman
                 var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
                 if (planet[3] != 0) return;
 
+                // auto buffer charge for resets.
+                api.WriteMemory(pid, 0x145C180, 30);
+
                 // Reset freeze ammo when loading a new file
                 this.Invoke(new Action(() => {
                     freezeAmmoCheckbox.Checked = false;
@@ -163,7 +166,15 @@ namespace racman
 
         private void killyourself_Click(object sender, EventArgs e)
         {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
             game.KillYourself();
+            if (resetBossesComboBox.Checked) {
+                api.WriteMemory(pid, 0x1481792, new byte[] { 0 }); // siberius
+                api.WriteMemory(pid, 0x14817a3, new byte[] { 0 }); // snivelak
+
+            }
         }
 
         private void bolts_textBox_KeyDown(object sender, KeyEventArgs e)
