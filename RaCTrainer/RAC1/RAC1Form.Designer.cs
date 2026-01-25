@@ -72,6 +72,7 @@ namespace racman
             this.normalCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.freecamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.freecamCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hitWatcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -429,7 +430,8 @@ namespace racman
             this.toolStripSeparator3,
             this.normalCameraToolStripMenuItem,
             this.freecamToolStripMenuItem,
-            this.freecamCharacterToolStripMenuItem});
+            this.freecamCharacterToolStripMenuItem,
+            this.hitWatcherToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "Debug";
@@ -481,6 +483,13 @@ namespace racman
             this.freecamCharacterToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.freecamCharacterToolStripMenuItem.Text = "Freecam + Character";
             this.freecamCharacterToolStripMenuItem.Click += new System.EventHandler(this.freecamCharacterToolStripMenuItem_Click);
+            // 
+            // hitWatcherToolStripMenuItem
+            // 
+            this.hitWatcherToolStripMenuItem.Name = "hitWatcherToolStripMenuItem";
+            this.hitWatcherToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.hitWatcherToolStripMenuItem.Text = "Hit Watcher";
+            this.hitWatcherToolStripMenuItem.Click += new System.EventHandler(this.hitWatcherToolStripMenuItem_Click);
             // 
             // button2
             // 
@@ -817,5 +826,6 @@ namespace racman
         private System.Windows.Forms.Button forceAutosave;
         private System.Windows.Forms.Button drekButtonCutscene;
         private System.Windows.Forms.ToolStripMenuItem tASToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hitWatcherToolStripMenuItem;
     }
 }

@@ -307,6 +307,12 @@
     <Compile Include="RAC1\RAC1Form.Designer.cs">
       <DependentUpon>RAC1Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="RAC1\HitWatchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1\HitWatchForm.Designer.cs">
+      <DependentUpon>HitWatchForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="RAC3\RAC3Form.cs">
       <SubType>Form</SubType>
     </Compile>
