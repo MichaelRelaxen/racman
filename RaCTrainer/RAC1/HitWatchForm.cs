@@ -208,6 +208,9 @@ namespace racman
             ushort oClass = 0;
             bool hasOClass = false;
 
+            ushort Parent_oClass = 0;
+            bool Parent_hasOClass = false;
+
             if (victim != 0)
             {
                 byte[] oBytes = game.api.ReadMemory(game.pid, victim + (uint)off_oClass, 2);
@@ -216,6 +219,17 @@ namespace racman
                     Array.Reverse(oBytes); // Big Endian for PS3
                     oClass = BitConverter.ToUInt16(oBytes, 0);
                     hasOClass = true;
+                }
+            }
+
+            if (cur_src != 0)
+            {
+                byte[] _oBytes = game.api.ReadMemory(game.pid, cur_src + (uint)off_oClass, 2);
+                if (_oBytes != null && _oBytes.Length == 2)
+                {
+                    Array.Reverse(_oBytes); // Big Endian for PS3
+                    Parent_oClass = BitConverter.ToUInt16(_oBytes, 0);
+                    Parent_hasOClass = true;
                 }
             }
 
@@ -250,7 +264,14 @@ namespace racman
                 }
                 else
                 {
-                    c = Color.Yellow;
+                    if (oClass == 419)
+                    { 
+                        c = Color.Purple;
+                    }
+                    else
+                    {
+                        c = Color.Black;
+                    }
                 }
             }
 
