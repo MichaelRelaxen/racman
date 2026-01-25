@@ -265,7 +265,11 @@ namespace racman
                 else
                 {
                     if (oClass == 419)
-                    { 
+                    {
+                        c = Color.Blue;
+                    }
+                    if(oClass == 1451)
+                    {
                         c = Color.Purple;
                     }
                     else
