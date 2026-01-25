@@ -559,5 +559,11 @@ namespace racman
             racketsForm = new RacketsGUI();
             racketsForm.Show();
         }
+
+        private void hitWatcherToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HitWatchForm hw = new HitWatchForm(game);
+            hw.Show();
+        }
     }
 }
