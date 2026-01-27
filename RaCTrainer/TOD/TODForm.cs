@@ -157,5 +157,59 @@ namespace racman.TOD
                 labelAutosplitterStatus.ForeColor = Color.Green;
             }
         }
+
+        private void DieButtonClick(object sender, EventArgs e)
+        {
+            game.DeathAbuse();
+        }
+
+        private void ChallegeModeButtonClick(object sender, EventArgs e)
+        {
+            game.SetChallengeMode();
+        }
+
+        private void ResetAllGoldBoltsClick(object sender, EventArgs e)
+        {
+            game.ResetAllGoldBolts();
+        }
+
+        private void GodRatchetClick(object sender, EventArgs e)
+        {
+            game.SetGodRatchet();
+        }
+
+        private void ResetAllRYNOPlans(object sender, EventArgs e)
+        {
+            game.ResetRYNOPlans();
+        }
+
+        private void PlayerValuesFormClick(object sender, EventArgs e)
+        {
+            PlayerValues form = new PlayerValues(game);
+            form.Show();
+        }
+
+        private void ArmorSkinsFormClick(object sender, EventArgs e)
+        {
+            ArmorSkinsForm form = new ArmorSkinsForm();
+            form.Show();
+        }
+
+        private void WeaponsFormClick(object sender, EventArgs e)
+        {
+            WeaponForm form = new WeaponForm(game); 
+            form.Show();
+        }
+
+        private void GadgetsFormClick(object sender, EventArgs e)
+        {
+            GadgetForm form = new GadgetForm(game);
+            form.Show();
+        }
+
+        private void ResetGroovitronStorageClick(object sender, EventArgs e)
+        {
+            game.ResetGoldenGrovitronStorage();
+        }
     }
 }
