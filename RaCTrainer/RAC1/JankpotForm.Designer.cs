@@ -31,9 +31,11 @@ namespace racman
         {
             this.components = new System.ComponentModel.Container();
             this.lblState = new System.Windows.Forms.Label();
-            this.btnResetState = new System.Windows.Forms.Button();
+            this.cbJankpotEnabled = new System.Windows.Forms.CheckBox();
+            this.btnInfJank = new System.Windows.Forms.Button();
             this.lblMultiplier = new System.Windows.Forms.Label();
             this.lblJankBoltsTitle = new System.Windows.Forms.Label();
+            this.lblHelp = new System.Windows.Forms.Label();
             this.lblJankBolts = new System.Windows.Forms.Label();
             this.txtJankBolts = new System.Windows.Forms.TextBox();
             this.lblTimerTitle = new System.Windows.Forms.Label();
@@ -43,7 +45,9 @@ namespace racman
             this.lblPlayerBolts = new System.Windows.Forms.Label();
             this.txtPlayerBolts = new System.Windows.Forms.TextBox();
             this.lblNGPlus = new System.Windows.Forms.Label();
+            this.pbGraph = new System.Windows.Forms.PictureBox();
             this.updateTimer = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.pbGraph)).BeginInit();
             this.SuspendLayout();
             // 
             // lblState
@@ -57,15 +61,27 @@ namespace racman
             this.lblState.TabIndex = 0;
             this.lblState.Text = "OFF";
             // 
-            // btnResetState
+            // cbJankpotEnabled
             // 
-            this.btnResetState.Location = new System.Drawing.Point(400, 30);
-            this.btnResetState.Name = "btnResetState";
-            this.btnResetState.Size = new System.Drawing.Size(75, 23);
-            this.btnResetState.TabIndex = 1;
-            this.btnResetState.Text = "Reset";
-            this.btnResetState.UseVisualStyleBackColor = true;
-            this.btnResetState.Click += new System.EventHandler(this.btnResetState_Click);
+            this.cbJankpotEnabled.AutoSize = true;
+            this.cbJankpotEnabled.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbJankpotEnabled.Location = new System.Drawing.Point(400, 35);
+            this.cbJankpotEnabled.Name = "cbJankpotEnabled";
+            this.cbJankpotEnabled.Size = new System.Drawing.Size(95, 17);
+            this.cbJankpotEnabled.TabIndex = 1;
+            this.cbJankpotEnabled.Text = "Jankpot Active";
+            this.cbJankpotEnabled.UseVisualStyleBackColor = true;
+            this.cbJankpotEnabled.CheckedChanged += new System.EventHandler(this.cbJankpotEnabled_CheckedChanged);
+            // 
+            // btnInfJank
+            // 
+            this.btnInfJank.Location = new System.Drawing.Point(400, 55);
+            this.btnInfJank.Name = "btnInfJank";
+            this.btnInfJank.Size = new System.Drawing.Size(75, 23);
+            this.btnInfJank.TabIndex = 2;
+            this.btnInfJank.Text = "InfJank";
+            this.btnInfJank.UseVisualStyleBackColor = true;
+            this.btnInfJank.Click += new System.EventHandler(this.btnInfJank_Click);
             // 
             // lblMultiplier
             // 
@@ -174,6 +190,28 @@ namespace racman
             this.lblNGPlus.TabIndex = 12;
             this.lblNGPlus.Text = "NG+: -";
             // 
+            // lblHelp
+            // 
+            this.lblHelp.AutoSize = true;
+            this.lblHelp.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblHelp.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHelp.Location = new System.Drawing.Point(470, 9);
+            this.lblHelp.Name = "lblHelp";
+            this.lblHelp.Size = new System.Drawing.Size(18, 21);
+            this.lblHelp.TabIndex = 14;
+            this.lblHelp.Text = "?";
+            this.lblHelp.Click += new System.EventHandler(this.lblHelp_Click);
+            // 
+            // pbGraph
+            // 
+            this.pbGraph.BackColor = System.Drawing.Color.White;
+            this.pbGraph.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbGraph.Location = new System.Drawing.Point(12, 355);
+            this.pbGraph.Name = "pbGraph";
+            this.pbGraph.Size = new System.Drawing.Size(476, 150);
+            this.pbGraph.TabIndex = 13;
+            this.pbGraph.TabStop = false;
+            // 
             // updateTimer
             // 
             this.updateTimer.Enabled = true;
@@ -183,11 +221,13 @@ namespace racman
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(500, 360);
+            this.ClientSize = new System.Drawing.Size(500, 520);
+            this.Controls.Add(this.pbGraph);
             this.Controls.Add(this.lblNGPlus);
             this.Controls.Add(this.txtPlayerBolts);
             this.Controls.Add(this.lblPlayerBolts);
             this.Controls.Add(this.lblPlayerBoltsTitle);
+            this.Controls.Add(this.lblHelp);
             this.Controls.Add(this.txtJankTimer);
             this.Controls.Add(this.lblJankTimer);
             this.Controls.Add(this.lblTimerTitle);
@@ -195,11 +235,13 @@ namespace racman
             this.Controls.Add(this.lblJankBolts);
             this.Controls.Add(this.lblJankBoltsTitle);
             this.Controls.Add(this.lblMultiplier);
-            this.Controls.Add(this.btnResetState);
+            this.Controls.Add(this.btnInfJank);
+            this.Controls.Add(this.cbJankpotEnabled);
             this.Controls.Add(this.lblState);
             this.Name = "JankpotForm";
             this.Text = "Jankpot Monitor";
             this.Load += new System.EventHandler(this.JankpotForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pbGraph)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -208,7 +250,8 @@ namespace racman
         #endregion
 
         private System.Windows.Forms.Label lblState;
-        private System.Windows.Forms.Button btnResetState;
+        private System.Windows.Forms.CheckBox cbJankpotEnabled;
+        private System.Windows.Forms.Button btnInfJank;
         private System.Windows.Forms.Label lblMultiplier;
         private System.Windows.Forms.Label lblJankBoltsTitle;
         private System.Windows.Forms.Label lblJankBolts;
@@ -220,6 +263,8 @@ namespace racman
         private System.Windows.Forms.Label lblPlayerBolts;
         private System.Windows.Forms.TextBox txtPlayerBolts;
         private System.Windows.Forms.Label lblNGPlus;
+        private System.Windows.Forms.PictureBox pbGraph;
         private System.Windows.Forms.Timer updateTimer;
+        private System.Windows.Forms.Label lblHelp;
     }
 }

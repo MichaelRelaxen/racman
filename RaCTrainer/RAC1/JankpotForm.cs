@@ -13,10 +13,15 @@ namespace racman
     public partial class JankpotForm : Form
     {
         private rac1 game;
+        private int currentBpm = 0;
+        private double currentMult = 1.0;
+        private bool updatingFromMemory = false;
+
         public JankpotForm(rac1 game)
         {
             this.game = game;
             InitializeComponent();
+            this.pbGraph.Paint += PbGraph_Paint;
         }
 
         private void JankpotForm_Load(object sender, EventArgs e)
@@ -93,9 +98,13 @@ namespace racman
             double jank_mult = 1.0;
             bool jank_active = fk_state != 0;
 
+            updatingFromMemory = true;
+            cbJankpotEnabled.Checked = jank_active;
+            updatingFromMemory = false;
+
             if (jank_active)
             {
-                if (fk_bolts > 596524)
+                if (fk_bolts >= 596524)
                 {
                     jank_mult = 5.0;
                 }
@@ -121,7 +130,7 @@ namespace racman
                         }
                         else
                         {
-                            jank_mult = (190 - bpm) / 20.0;
+                            jank_mult = (int)((190 - bpm) / 20.0);
                         }
                     }
                     else
@@ -132,15 +141,27 @@ namespace racman
                         }
                         else if (bpm < 352)
                         {
-                            jank_mult = (360 - bpm) / 20.0;
+                            jank_mult = (int)((360 - bpm) / 80.0);
                         }
                         else
                         {
                             jank_mult = 0.1;
                         }
                     }
+
+                    // Update fields for graph
+                    currentBpm = bpm;
+                    currentMult = jank_mult;
                 }
             }
+            else
+            {
+               // Reset graph pos: BPM 0 -> Mult 5.0
+               currentBpm = 0;
+               currentMult = 5.0;
+            }
+            
+            pbGraph.Invalidate();
 
 
             // Colors
@@ -150,7 +171,7 @@ namespace racman
                 if (jank_mult >= 5.0)
                     j_color = Color.FromArgb(0, 170, 0); // #00AA00
                 else if (jank_mult > 1.0)
-                    j_color = Color.FromArgb(221, 221, 0); // #DDDD00
+                    j_color = Color.Purple; // Replaced Yellow with Purple
                 else if (jank_mult < 1.0)
                     j_color = Color.Red;
                 else
@@ -159,15 +180,28 @@ namespace racman
 
             // Update UI State
             string state_txt = "OFF";
+            Color state_col = Color.Gray;
+
             if (jank_active)
             {
-                if (fk_bolts > 596524)
-                    state_txt = "JANKPOT OVERFLOW";
+                if (fk_bolts >= 596524)
+                {
+                    state_txt = "INFINITJANK";
+                    // Cycle Rainbow
+                    state_col = rainbowColors[colorIndex];
+                    colorIndex = (colorIndex + 1) % rainbowColors.Length;
+                }
                 else
+                {
                     state_txt = "JANKPOT ON";
+                    state_col = j_color;
+                }
             }
-            
-            Color state_col = jank_active ? j_color : Color.Gray;
+            else
+            {
+                 state_txt = "OFF";
+                 state_col = Color.Gray;
+            }
 
             lblState.Text = state_txt;
             lblState.ForeColor = state_col;
@@ -193,10 +227,43 @@ namespace racman
             lblNGPlus.Text = string.Format("NG+ Mult: {0:0.0}x", ng_mult);
         }
 
-        private void btnResetState_Click(object sender, EventArgs e)
+        private void cbJankpotEnabled_CheckedChanged(object sender, EventArgs e)
         {
-             game.api.WriteMemory(game.pid, rac1.addr.jankpotState, 4, new byte[] { 0, 0, 0, 0 });
+             if (updatingFromMemory) return;
+
+             // If Checked -> Write 1 (Enabled)
+             // If Unchecked -> Write 0 (Disabled / Reset)
+             byte[] val = cbJankpotEnabled.Checked ? new byte[] { 1, 0, 0, 0 } : new byte[] { 0, 0, 0, 0 };
+             game.api.WriteMemory(game.pid, rac1.addr.jankpotState, 4, val);
         }
+
+        private void btnInfJank_Click(object sender, EventArgs e)
+        {
+            // Write 596524 to Jankpot Bolts
+            // 596524 = 0x00091A2C -> Little Endian: 2C 1A 09 00
+            uint val = 596524;
+            game.api.WriteMemory(game.pid, rac1.addr.jankpotBolts, 4, BitConverter.GetBytes(val).Reverse().ToArray());
+
+            // Turn ON Jankpot
+            game.api.WriteMemory(game.pid, rac1.addr.jankpotState, 4, new byte[] { 1, 0, 0, 0 });
+        }
+
+        private void lblHelp_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Jankpot is an intended mechanic called \"bolt mining\"\n\n" +
+                            "It turns on if you kill an enemy in a segment already completed and reloaded\n" +
+                            "It turns off if you kill an enemy in other conditions\n\n" +
+                            "It will multiply the bolts spawned by crates and enemies\n" +
+                            "depending on the bolts you earned and the time spent in this mode\n\n" +
+                            "Infinite Jankpot overflows the bolt counter and guarantees permanent x5",
+                            "Jankpot Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private int colorIndex = 0;
+        private readonly Color[] rainbowColors = new Color[] 
+        { 
+            Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet 
+        };
 
         private void txtJankBolts_KeyDown(object sender, KeyEventArgs e)
         {
@@ -229,6 +296,107 @@ namespace racman
                 {
                     game.api.WriteMemory(game.pid, rac1.addr.boltCount, 4, BitConverter.GetBytes(val).Reverse().ToArray());
                 }
+            }
+        }
+
+        private void PbGraph_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            int w = pbGraph.Width;
+            int h = pbGraph.Height;
+
+            // Clear
+            g.Clear(Color.White);
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            // X Axis: 0 to 400 BPM
+            // Y Axis: 0.0 to 5.0 Mult
+            float maxBpm = 400f;
+            float maxMult = 5.0f;
+
+            Func<float, float> GetX = (bpm) => (bpm / maxBpm) * w;
+            Func<float, float> GetY = (mult) => h - ((mult / maxMult) * h);
+
+            // 1. Background Zones
+            // Green: < 91
+            float x91 = GetX(91);
+            g.FillRectangle(new SolidBrush(Color.FromArgb(50, 0, 255, 0)), 0, 0, x91, h);
+
+            // Normal: 91 - 150 (implied transparent/white or yellow?)
+            // Logic said:
+            // if (bpm < 150) ...
+            // else { if (bpm < 301) ... else if (bpm < 352) ... }
+            
+            // Red: 150 - 300
+            float x150 = GetX(150);
+            float x301 = GetX(301);
+            g.FillRectangle(new SolidBrush(Color.FromArgb(50, 255, 0, 0)), x150, 0, x301 - x150, h);
+
+            // Violet: 301 - 351 (Logic says 352 check, text says 351, logic says <352 so 351 is included)
+            float x352 = GetX(352); 
+            g.FillRectangle(new SolidBrush(Color.FromArgb(50, 148, 0, 211)), x301, 0, x352 - x301, h);
+
+            // 2. Draw Curve
+            List<PointF> points = new List<PointF>();
+            for (int b = 0; b <= 400; b++)
+            {
+                float m = 0f;
+                if (b < 150)
+                {
+                    if (b < 91) m = 5.0f;
+                    else m = (int)((190 - b) / 20.0f);
+                }
+                else
+                {
+                    if (b < 301) m = 1.0f;
+                    else if (b < 352) m = (int)((360 - b) / 80.0f);
+                    else m = 0.1f;
+                }
+                points.Add(new PointF(GetX(b), GetY(m)));
+            }
+            if (points.Count > 1)
+            {
+                g.DrawLines(new Pen(Color.Black, 2.0f), points.ToArray());
+            }
+
+            // 3. Draw Current Point
+            float px;
+            bool isOverflow = false;
+
+            if (currentBpm > maxBpm)
+            {
+                px = w - 10; // Clamp to right edge
+                isOverflow = true;
+            }
+            else
+            {
+                px = GetX(currentBpm);
+            }
+
+            float py = GetY((float)currentMult);
+            float r = 5;
+
+            // Draw Point
+            g.FillEllipse(Brushes.Blue, px - r, py - r, r * 2, r * 2);
+            g.DrawEllipse(Pens.Black, px - r, py - r, r * 2, r * 2);
+
+            if (isOverflow)
+            {
+                 // Draw > above
+                 using (Font f = new Font("Segoe UI", 10, FontStyle.Bold))
+                 {
+                     g.DrawString(">", f, Brushes.Red, px - 6, py - 25);
+                 }
+            }
+
+            // Draw Current BPM Text (High Middle)
+            using (Font f = new Font("Segoe UI", 12, FontStyle.Bold))
+            {
+                string bpmText = $"BPM: {currentBpm}";
+                SizeF size = g.MeasureString(bpmText, f);
+                float tx = (w - size.Width) / 2;
+                float ty = 10; // Top margin
+                g.DrawString(bpmText, f, Brushes.Black, tx, ty);
             }
         }
     }
