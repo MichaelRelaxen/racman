@@ -565,5 +565,11 @@ namespace racman
             HitWatchForm hw = new HitWatchForm(game);
             hw.Show();
         }
+
+        private void jankpotToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            JankpotForm jf = new JankpotForm(game);
+            jf.Show();
+        }
     }
 }

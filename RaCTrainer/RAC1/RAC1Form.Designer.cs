@@ -73,6 +73,7 @@ namespace racman
             this.freecamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.freecamCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hitWatcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jankpotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -431,7 +432,8 @@ namespace racman
             this.normalCameraToolStripMenuItem,
             this.freecamToolStripMenuItem,
             this.freecamCharacterToolStripMenuItem,
-            this.hitWatcherToolStripMenuItem});
+            this.hitWatcherToolStripMenuItem,
+            this.jankpotToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "Debug";
@@ -501,6 +503,13 @@ namespace racman
             this.button2.Text = "Input Display";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.inputdisplay_click);
+            // 
+            // jankpotToolStripMenuItem
+            // 
+            this.jankpotToolStripMenuItem.Name = "jankpotToolStripMenuItem";
+            this.jankpotToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.jankpotToolStripMenuItem.Text = "Jankpot";
+            this.jankpotToolStripMenuItem.Click += new System.EventHandler(this.jankpotToolStripMenuItem_Click);
             // 
             // ghostCheckbox
             // 
@@ -827,5 +836,6 @@ namespace racman
         private System.Windows.Forms.Button drekButtonCutscene;
         private System.Windows.Forms.ToolStripMenuItem tASToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hitWatcherToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jankpotToolStripMenuItem;
     }
 }

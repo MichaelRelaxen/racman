@@ -319,6 +319,12 @@
     <Compile Include="RAC1\HitWatchForm.Designer.cs">
       <DependentUpon>HitWatchForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RAC1\JankpotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1\JankpotForm.Designer.cs">
+      <DependentUpon>JankpotForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="RAC3\RAC3Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -434,6 +440,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC1\UnlocksWindow.resx">
       <DependentUpon>UnlocksWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC1\JankpotForm.resx">
+       <DependentUpon>JankpotForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAC1\RAC1Form.resx">
       <DependentUpon>RAC1Form.cs</DependentUpon>
