@@ -513,5 +513,12 @@ namespace racman
             );
             cosmeticsForm.Show();
         }
+
+        public RAC3.Freecam freecam;
+        private void freecamHelpaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            freecam = new RAC3.Freecam();
+            freecam.Show();
+        }
     }
 }
