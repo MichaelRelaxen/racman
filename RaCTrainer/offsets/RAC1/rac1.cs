@@ -86,6 +86,19 @@ namespace racman
         public uint mobyInstances => 0x0A390A0;
 
         public uint drekCutscene => 0xFACC74;
+
+        // Jankpot
+        // 1 = active, 0 = inactive
+        public uint jankpotState => 0x00a15f2c;
+        // Current jankpot bolt count used for boilt per minute calculations
+        public uint jankpotBolts => 0x00a0fd18;
+        // Time spent in Jankpot state active
+        public uint jankpotTimer => 0x00a0fd14;
+
+        // Goodies unlocked
+        public uint ngPlusGoodies => 0x00969cd0; 
+        // Challenge mode
+        public uint ngPlusState => 0x0096c9fc; 
     }
 
     public class rac1 : IGame, IAutosplitterAvailable
