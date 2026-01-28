@@ -207,6 +207,12 @@
       <DependentUpon>Rackets2GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="RAC2\TAS\ScriptSerializer.cs" />
+    <Compile Include="RAC3\Freecam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC3\Freecam.Designer.cs">
+      <DependentUpon>Freecam.cs</DependentUpon>
+    </Compile>
     <Compile Include="RAC3\SavefileLoader.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -389,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2\TAS\Rackets2GUI.resx">
       <DependentUpon>Rackets2GUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC3\Freecam.resx">
+      <DependentUpon>Freecam.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAC3\SavefileLoader.resx">
       <DependentUpon>SavefileLoader.cs</DependentUpon>

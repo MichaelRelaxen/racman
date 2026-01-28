@@ -45,6 +45,12 @@ namespace racman
         }
 
         public abstract byte[] ReadMemory(int pid, uint address, uint size);
+
+        public virtual uint ReadMemory(int pid, uint address)
+        {
+            byte[] memory = ReadMemory(pid, address, 4);
+            return BitConverter.ToUInt32(memory.Reverse().ToArray(), 0);
+        }
         public virtual string ReadMemoryStr(int pid, uint address, uint size)
         {
             byte[] memory = ReadMemory(pid, address, size);

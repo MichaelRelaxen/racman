@@ -1,0 +1,15 @@
+#- name: COOLCAM
+#- author: Torrbullen & Isaaaa
+#- href: https://github.com/Torrbullen/COOLCAM
+#- version: 1.04
+#- description: COOL camera for cool people
+0x980ac0: rack.bin
+
+#### ASM Patches ####
+0x97ca18: 0x480046e5
+0x1113c: 0x480004b8
+0x9027a0: 0x4e800020
+0x984bb8: 0x4e800020
+0xf0f78: 0x48980ac2
+0x10ce14: 0x48980ade
+0x1e325c: 0x48980afa
