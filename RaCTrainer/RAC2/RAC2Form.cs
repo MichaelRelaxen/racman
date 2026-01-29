@@ -695,5 +695,68 @@ namespace racman
 
 
         }
+
+        private void raritaniumTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x01, 10).ToArray();
+            api.WriteMemory(pid, rac2.addr.nanotechBoostArray, locked);
+
+        }
+
+        private void ResetNANObutton_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x00, 10).ToArray();
+            api.WriteMemory(pid, rac2.addr.nanotechBoostArray, locked);
+
+        }
+
+        private void resetBossesComboBox_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void loadPlanetgroup_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void categorySetupgroup_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Nanotable_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
