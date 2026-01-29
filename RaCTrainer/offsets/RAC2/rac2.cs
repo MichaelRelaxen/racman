@@ -120,9 +120,12 @@ namespace racman
         // What it says on the tin
         public uint platinumBoltArray => 0x1562540;
         
-        // What it says on the tin
+        // Skillpoints bruv
         public uint skillPointArray => 0x1481809;
         
+        // nanotech boosts
+        public uint nanotechBoostArray => 0x1329AC0;
+
         // Level specific info (spawnpoint, completed missions etc)
         public uint levelFlags => 0x15625B0;
 
