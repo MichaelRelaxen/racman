@@ -361,19 +361,9 @@ namespace racman
             }
         }
 
-
-
-  
-
-
         private void SetFastLoadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
-        }
-
-        private void labelLap_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void loadFileButton_Click(object sender, EventArgs e)
@@ -408,11 +398,6 @@ namespace racman
                 if (expEconomySubId != -1) api.ReleaseSubID(expEconomySubId);
                 api.WriteMemory(pid, rac2.addr.expEconomy, new byte[] { 0 });
             }
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void resetMenuStorage()
@@ -571,11 +556,6 @@ namespace racman
             if (check) this.Height += 50;
         }
 
-        private void coordsLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
         public void UpdateCoordsLabel(object sender, EventArgs e)
         {
             coordsLabel.Text = $"X: {game.coords[0]}\nY: {game.coords[1]}\nZ: {game.coords[2]}";
@@ -696,22 +676,7 @@ namespace racman
 
         }
 
-        private void raritaniumTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button5_Click(object sender, EventArgs e)
+        private void unlockAllNanotechBoostsButton(object sender, EventArgs e)
         {
             var api = game.api;
             var pid = api.getCurrentPID();
@@ -720,42 +685,12 @@ namespace racman
 
         }
 
-        private void ResetNANObutton_Click(object sender, EventArgs e)
+        private void resetAllNanotechBoostsButton(object sender, EventArgs e)
         {
             var api = game.api;
             var pid = api.getCurrentPID();
             byte[] locked = Enumerable.Repeat((byte)0x00, 10).ToArray();
             api.WriteMemory(pid, rac2.addr.nanotechBoostArray, locked);
-
-        }
-
-        private void resetBossesComboBox_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void loadPlanetgroup_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void categorySetupgroup_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Nanotable_Click(object sender, EventArgs e)
-        {
 
         }
     }
