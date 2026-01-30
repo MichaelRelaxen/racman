@@ -58,13 +58,13 @@
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(36, 36);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1027, 45);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
+            this.menuStrip1.Size = new System.Drawing.Size(403, 24);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -74,30 +74,29 @@
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(107, 41);
+            this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 22);
             this.menuToolStripMenuItem.Text = "Menu";
             // 
             // patchLoaderToolStripMenuItem
             // 
             this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
-            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(402, 48);
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.patchLoaderToolStripMenuItem.Text = "Mods and patches...";
             this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
             // memoryUtilitiesToolStripMenuItem
             // 
             this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
-            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(402, 48);
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(35, 426);
-            this.label6.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label6.Location = new System.Drawing.Point(15, 191);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(147, 29);
+            this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 99;
             this.label6.Text = "Load Planet:";
             // 
@@ -124,10 +123,9 @@
             "Reepor",
             "Igliak",
             "Fastoon 2"});
-            this.planets_comboBox.Location = new System.Drawing.Point(42, 462);
-            this.planets_comboBox.Margin = new System.Windows.Forms.Padding(7);
+            this.planets_comboBox.Location = new System.Drawing.Point(18, 207);
             this.planets_comboBox.Name = "planets_comboBox";
-            this.planets_comboBox.Size = new System.Drawing.Size(263, 37);
+            this.planets_comboBox.Size = new System.Drawing.Size(115, 21);
             this.planets_comboBox.TabIndex = 98;
             this.planets_comboBox.SelectedIndexChanged += new System.EventHandler(this.planets_comboBox_SelectedIndexChanged);
             // 
@@ -135,19 +133,17 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(37, 506);
-            this.label1.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.label1.Location = new System.Drawing.Point(15, 231);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(469, 29);
+            this.label1.Size = new System.Drawing.Size(211, 13);
             this.label1.TabIndex = 100;
             this.label1.Text = "To change planets, save and load your file.\r\n";
             // 
             // buttonStartAutosplitter
             // 
-            this.buttonStartAutosplitter.Location = new System.Drawing.Point(33, 100);
-            this.buttonStartAutosplitter.Margin = new System.Windows.Forms.Padding(7);
+            this.buttonStartAutosplitter.Location = new System.Drawing.Point(14, 45);
             this.buttonStartAutosplitter.Name = "buttonStartAutosplitter";
-            this.buttonStartAutosplitter.Size = new System.Drawing.Size(268, 51);
+            this.buttonStartAutosplitter.Size = new System.Drawing.Size(115, 23);
             this.buttonStartAutosplitter.TabIndex = 104;
             this.buttonStartAutosplitter.Text = "Start Autosplitter";
             this.buttonStartAutosplitter.UseVisualStyleBackColor = true;
@@ -157,30 +153,18 @@
             // 
             this.labelAutosplitterStatus.AutoSize = true;
             this.labelAutosplitterStatus.ForeColor = System.Drawing.Color.Red;
-            this.labelAutosplitterStatus.Location = new System.Drawing.Point(315, 111);
-            this.labelAutosplitterStatus.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
+            this.labelAutosplitterStatus.Location = new System.Drawing.Point(135, 50);
             this.labelAutosplitterStatus.Name = "labelAutosplitterStatus";
-            this.labelAutosplitterStatus.Size = new System.Drawing.Size(232, 29);
             this.labelAutosplitterStatus.Size = new System.Drawing.Size(95, 13);
             this.labelAutosplitterStatus.TabIndex = 105;
             this.labelAutosplitterStatus.Text = "Autosplitter disbled";
             // 
-            // labelSplitterRoute
-            // 
-            this.labelSplitterRoute.AutoSize = true;
-            this.labelSplitterRoute.ForeColor = System.Drawing.Color.Gray;
-            this.labelSplitterRoute.Location = new System.Drawing.Point(258, 125);
-            this.labelSplitterRoute.Name = "labelSplitterRoute";
-            this.labelSplitterRoute.Size = new System.Drawing.Size(101, 13);
-            this.labelSplitterRoute.TabIndex = 106;
-            this.labelSplitterRoute.Text = "Autosplitter disabled";
-            this.labelSplitterRoute.Visible = false;
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(626, 100);
+            this.button1.Location = new System.Drawing.Point(268, 45);
+            this.button1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(268, 51);
+            this.button1.Size = new System.Drawing.Size(115, 23);
             this.button1.TabIndex = 106;
             this.button1.Text = "Player Values";
             this.button1.UseVisualStyleBackColor = true;
@@ -188,27 +172,30 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(33, 165);
+            this.button2.Location = new System.Drawing.Point(14, 74);
+            this.button2.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(268, 51);
+            this.button2.Size = new System.Drawing.Size(115, 23);
             this.button2.TabIndex = 107;
             this.button2.Text = "Save Position";
             this.button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(33, 230);
+            this.button3.Location = new System.Drawing.Point(14, 103);
+            this.button3.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(268, 51);
+            this.button3.Size = new System.Drawing.Size(115, 23);
             this.button3.TabIndex = 108;
             this.button3.Text = "Load Position";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(33, 360);
+            this.button4.Location = new System.Drawing.Point(14, 128);
+            this.button4.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(268, 51);
+            this.button4.Size = new System.Drawing.Size(115, 23);
             this.button4.TabIndex = 109;
             this.button4.Text = "Die";
             this.button4.UseVisualStyleBackColor = true;
@@ -216,9 +203,10 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(42, 555);
+            this.button5.Location = new System.Drawing.Point(17, 253);
+            this.button5.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(268, 51);
+            this.button5.Size = new System.Drawing.Size(115, 23);
             this.button5.TabIndex = 110;
             this.button5.Text = "Reset All Gold Bolts";
             this.button5.UseVisualStyleBackColor = true;
@@ -226,9 +214,10 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(42, 620);
+            this.button6.Location = new System.Drawing.Point(17, 282);
+            this.button6.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(268, 51);
+            this.button6.Size = new System.Drawing.Size(115, 23);
             this.button6.TabIndex = 111;
             this.button6.Text = "Weapons";
             this.button6.UseVisualStyleBackColor = true;
@@ -236,9 +225,10 @@
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(626, 295);
+            this.button11.Location = new System.Drawing.Point(268, 132);
+            this.button11.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(268, 51);
+            this.button11.Size = new System.Drawing.Size(115, 23);
             this.button11.TabIndex = 116;
             this.button11.Text = "Change Armor/Skins";
             this.button11.UseVisualStyleBackColor = true;
@@ -246,9 +236,10 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(42, 750);
+            this.button13.Location = new System.Drawing.Point(17, 340);
+            this.button13.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button13.Name = "button13";
-            this.button13.Size = new System.Drawing.Size(268, 51);
+            this.button13.Size = new System.Drawing.Size(115, 23);
             this.button13.TabIndex = 118;
             this.button13.Text = "Challenge Mode";
             this.button13.UseVisualStyleBackColor = true;
@@ -256,9 +247,10 @@
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(42, 685);
+            this.button14.Location = new System.Drawing.Point(17, 311);
+            this.button14.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(268, 51);
+            this.button14.Size = new System.Drawing.Size(115, 23);
             this.button14.TabIndex = 119;
             this.button14.Text = "Gadget Unlocks";
             this.button14.UseVisualStyleBackColor = true;
@@ -266,9 +258,10 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(626, 230);
+            this.button7.Location = new System.Drawing.Point(268, 103);
+            this.button7.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(268, 51);
+            this.button7.Size = new System.Drawing.Size(115, 23);
             this.button7.TabIndex = 120;
             this.button7.Text = "God Ratchet";
             this.button7.UseVisualStyleBackColor = true;
@@ -276,9 +269,10 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(42, 815);
+            this.button8.Location = new System.Drawing.Point(17, 369);
+            this.button8.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(268, 51);
+            this.button8.Size = new System.Drawing.Size(115, 23);
             this.button8.TabIndex = 121;
             this.button8.Text = "Reset RYNO Plans";
             this.button8.UseVisualStyleBackColor = true;
@@ -286,37 +280,52 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(626, 165);
+            this.button9.Location = new System.Drawing.Point(268, 74);
+            this.button9.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(268, 51);
+            this.button9.Size = new System.Drawing.Size(115, 23);
             this.button9.TabIndex = 122;
             this.button9.Text = "Freeze Ammo";
             this.button9.UseVisualStyleBackColor = true;
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(33, 295);
+            this.button10.Location = new System.Drawing.Point(14, 157);
+            this.button10.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(268, 51);
+            this.button10.Size = new System.Drawing.Size(115, 23);
             this.button10.TabIndex = 123;
             this.button10.Text = "Freeze Health";
             this.button10.UseVisualStyleBackColor = true;
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(626, 360);
+            this.button12.Location = new System.Drawing.Point(268, 161);
+            this.button12.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.button12.Name = "button12";
-            this.button12.Size = new System.Drawing.Size(268, 76);
+            this.button12.Size = new System.Drawing.Size(115, 34);
             this.button12.TabIndex = 124;
             this.button12.Text = "Reset Groovitron Storage";
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.ResetGroovitronStorageClick);
             // 
+            // labelSplitterRoute
+            // 
+            this.labelSplitterRoute.AutoSize = true;
+            this.labelSplitterRoute.ForeColor = System.Drawing.Color.Gray;
+            this.labelSplitterRoute.Location = new System.Drawing.Point(135, 74);
+            this.labelSplitterRoute.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.labelSplitterRoute.Name = "labelSplitterRoute";
+            this.labelSplitterRoute.Size = new System.Drawing.Size(101, 13);
+            this.labelSplitterRoute.TabIndex = 106;
+            this.labelSplitterRoute.Text = "Autosplitter disabled";
+            this.labelSplitterRoute.Visible = false;
+            // 
             // TODForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1027, 906);
+            this.ClientSize = new System.Drawing.Size(403, 411);
             this.Controls.Add(this.button12);
             this.Controls.Add(this.button10);
             this.Controls.Add(this.button9);
@@ -331,7 +340,6 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.ClientSize = new System.Drawing.Size(437, 170);
             this.Controls.Add(this.labelSplitterRoute);
             this.Controls.Add(this.labelAutosplitterStatus);
             this.Controls.Add(this.buttonStartAutosplitter);
@@ -339,7 +347,6 @@
             this.Controls.Add(this.label6);
             this.Controls.Add(this.planets_comboBox);
             this.Controls.Add(this.menuStrip1);
-            this.Margin = new System.Windows.Forms.Padding(7);
             this.Name = "TODForm";
             this.Text = "Ratchet & Clank: Tools of Destruction - NPEA00452 (PAL)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TODForm_FormClosing);
