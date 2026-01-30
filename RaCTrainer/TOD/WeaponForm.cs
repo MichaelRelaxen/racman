@@ -28,5 +28,10 @@ namespace racman.TOD
         {
             game.WeaponUpgrades(comboBox1.SelectedItem.ToString());
         }
+
+        private void ApplyWeaponLevelClick(object sender, EventArgs e)
+        {
+            game.WeaponLevel(comboBox1.SelectedItem.ToString(), Convert.ToInt32(comboBox2.SelectedItem));
+        }
     }
 }

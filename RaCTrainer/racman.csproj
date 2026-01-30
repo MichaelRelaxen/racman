@@ -165,7 +165,6 @@
       <DependentUpon>ChargebootColorPicker.cs</DependentUpon>
     </Compile>
     <Compile Include="offsets\TOD\tod.cs" />
-    <Compile Include="offsets\TOD\ToDPAL.cs" />
     <Compile Include="RAC1Mp\RAC1MpForm.cs">
       <SubType>Form</SubType>
     </Compile>
