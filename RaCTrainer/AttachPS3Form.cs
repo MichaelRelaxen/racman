@@ -244,22 +244,14 @@ namespace racman
                 gameName = "ACIT";
                 acit.ShowDialog();
             }
-            else if (game == "NPEA00452")
+            else if (game == "NPEA00452" || game == "BCES00052")
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 TODForm tod = new TODForm(new tod(func.api));
-                gameName = "ToD (PAL DL)";
+                gameName = "ToD PAL";
                 tod.ShowDialog();
             }
-            /*else if (game == "BCES00052")
-            {
-                Hide();
-                func.api.Notify("RaCMAN connected!");
-                TODForm tod = new TODForm(new ToDPAL(func.api));
-                gameName = "ToD (PAL Disc)";
-                tod.ShowDialog();
-            }*/
             else
             {
                 if (game.Length > 0)
