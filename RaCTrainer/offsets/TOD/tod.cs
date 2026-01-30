@@ -13,73 +13,68 @@ namespace racman
     {
         public class ToDAddresses : IAddresses
         {
-            public uint savePlanetId => 0x1029C55B;
-            public uint loadScreenType => 0x102034FB;
+            public uint savePlanetId;
+            public uint loadScreenType;
 
             // Player values
             public uint dumbRat; // allocated in different memory range than rpcs3.
+            public uint boltCount => 0; //lmao
 
-            //public uint health => dumbRatAddress + 0x758; WIP
+            public uint todBoltCount;
 
-            //public uint maxHealth => health + 0x4; WIP
+            public uint raritaniumCount;
 
-            //public uint xCoordinate => dumbRatAddress + 0x234; WIP
-
-            public uint boltCount => 0x1020C28C;
-
-            public uint raritaniumCount => 0x1020C290;
-
-            public uint leaviathanSoulCount => 0x1020C1B4;
+            public uint leaviathanSoulCount;
 
             // Turns challenge mode on/off
 
-            public uint challengeMode => 0x1029C55D;
+            public uint challengeMode;
 
             // Planets
 
             // Weapons
 
-            public uint weaponXP => 0x1020BE88;
+            public uint weaponXP;
 
-            public uint weaponAmmo => 0x1020BE8C;
+            public uint weaponAmmo;
 
-            public uint weaponUpgrades => 0x1020BE92;
+            public uint weaponUpgrades;
 
-            public uint weaponToggle => 0x1020BE94;
+            public uint weaponToggle;
 
-            public uint weaponLevel => 0x1020BE95;
+            public uint weaponLevel;
 
             // Gadgets
 
-            public uint helipods => 0x1020C060;
+            public uint helipods;
 
-            public uint chargeBoots => 0x1020C18B;
+            public uint chargeBoots;
 
             // Inventory and Items
 
             // Armor
 
-            public uint armorSkin => 0x1020C2CB;
+            public uint armorSkin;
 
             // Gold Bolts
-            public uint goldBolts => 0x1020CAEF;
+            public uint goldBolts;
 
             // Skins
 
-            public uint skinsUnlock => 0x1020C2D3;
+            public uint skinsUnlock;
 
             //public uint skinsSwitch => 0x101EFFA3; WIP
 
             // God Ratchet
 
-            public uint godRatchet => 0x1020BD4B;
+            public uint godRatchet;
 
             // Ryno Parts
-            public uint RYNOParts => 0x10214565;
+            public uint RYNOParts;
 
             // Random stuff
 
-            public uint groovitronStorage => 0x10385F8B;
+            public uint groovitronStorage;
 
             public uint playerCoords => throw new NotImplementedException();
             public uint inputOffset => throw new NotImplementedException();
@@ -100,12 +95,59 @@ namespace racman
 
         public tod(IPS3API api) : base(api)
         {
-            // this address lives in different memory range
-            // between emulator and console, so we need to make sure to set it properly.
-            if (!AttachPS3Form.isEmulator)
-                addr.dumbRat = 0x61BF1984;
-            else addr.dumbRat = 0x31BF1984;
+            string gameVersion = AttachPS3Form.game;
+            if(gameVersion == "NPEA00452")
+            {
+                if (!AttachPS3Form.isEmulator)
+                    addr.dumbRat = 0x61BF1984;
+                else addr.dumbRat = 0x31BF1984;
 
+                addr.savePlanetId = 0x1029C55B;
+                addr.loadScreenType = 0x102034FB;
+                addr.todBoltCount = 0x1020C28C;
+                addr.raritaniumCount = 0x1020C290;
+                addr.leaviathanSoulCount = 0x1020C1B4;
+                addr.challengeMode = 0x1029C55D;
+                addr.weaponXP = 0x1020BE88;
+                addr.weaponAmmo = 0x1020BE8C;
+                addr.weaponUpgrades = 0x1020BE92;
+                addr.weaponToggle = 0x1020BE94;
+                addr.weaponLevel = 0x1020BE95;
+                addr.helipods = 0x1020C060;
+                addr.chargeBoots = 0x1020C18B;
+                addr.armorSkin = 0x1020C2CB;
+                addr.goldBolts = 0x1020CAEF;
+                addr.skinsUnlock = 0x1020C2D3;
+                addr.godRatchet = 0x1020BD4B;
+                addr.RYNOParts = 0x10214565;
+                addr.groovitronStorage = 0x10385F8B;
+            }
+            else if(gameVersion == "BCES00052")
+            {
+                if (!AttachPS3Form.isEmulator)
+                    addr.dumbRat = 0x61BD1904;
+                else addr.dumbRat = 0x31BD1904; // 331C207E4
+
+                addr.savePlanetId = 0x1028020B;
+                addr.loadScreenType = 0x101E7293;
+                addr.todBoltCount = 0x101EFF3C;
+                addr.raritaniumCount = 0x101EFF40;
+                addr.leaviathanSoulCount = 0x101EFE64;
+                addr.challengeMode = 0x1028020F;
+                addr.weaponXP = 0x101EFB38;
+                addr.weaponAmmo = 0x101EFB3C;
+                addr.weaponUpgrades = 0x101EFB42;
+                addr.weaponToggle = 0x101EFB44;
+                addr.weaponLevel = 0x101EFB45;
+                addr.helipods = 0x101EFD10;
+                addr.chargeBoots = 0x101EFE3B;
+                addr.armorSkin = 0x101EFF7B;
+                addr.goldBolts = 0x101F079F;
+                addr.skinsUnlock = 0x101EFF83;
+                addr.godRatchet = 0x101EFAF3;
+                addr.RYNOParts = 0x101F8215;
+                addr.groovitronStorage = 0x10369CA3;
+            }
         }
 
         public Dictionary<string, uint> playerValues = new Dictionary<string, uint>
@@ -330,10 +372,14 @@ namespace racman
 
         public void SetGodRatchet()
         {
+            string gameVersion = AttachPS3Form.game;
             uint value = BitConverter.ToUInt32(api.ReadMemory(pid, tod.addr.godRatchet, 4).Reverse().ToArray(), 0);
             if (value == 0)
             {
-                value = 154;
+                if (gameVersion == "NPEA00452")
+                    value = 154;
+                else if (gameVersion == "BCES00052")
+                    value = 62;
             }
             else
             {
