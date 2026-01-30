@@ -309,10 +309,11 @@ namespace racman
                 attachButton_Click(IPTextBox, e);
             }
         }
-
+        public static bool isEmulator;
         private void AttachRPCS3Button_Click(object sender, EventArgs e)
         {
             func.api = new RPCS3("FUCK");
+            isEmulator = true;
 
             Attach(func.api);
         }
