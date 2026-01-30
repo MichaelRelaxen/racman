@@ -35,10 +35,5 @@ namespace racman.TOD
         {
             game.PlayerValues(option, value);
         }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using racman.offsets;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
@@ -85,6 +86,24 @@ namespace racman
             public uint mobyInstances => throw new NotImplementedException();
         }
 
+        float[,] weaponXPValues = new float[15, 10]
+                                  {{0, 1000, 2200, 3640, 5400, 5600, 20000, 37400, 58400, 83400},
+                                  {0, 1000, 2200, 3640, 5500, 5600, 20000, 37400, 58400, 83400},
+                                  {0, 800, 1760, 2920, 4300, 8500, 16000, 25000, 35800, 50000},
+                                  {0, 1000, 2200, 3640, 5400, 6500, 14000, 23000, 33800, 46800},
+                                  {0, 2500, 5500, 9100, 14000, 16600, 39000, 66000, 98400, 138000},
+                                  {0, 1500, 3300, 5480, 8050, 8200, 23000, 41000, 62000, 88200},
+                                  {0, 3500, 7700, 12800, 18800, 22500, 30000, 39000, 49800, 62800},
+                                  {0, 4000, 8800, 14600, 22000, 33000, 48000, 66000, 87600, 114000},
+                                  {0, 600, 1320, 2180, 3200, 6000, 14000, 23000, 33800, 46800},
+                                  {0, 2000, 4400, 7300, 10800, 11200, 33800, 60600, 92900, 131800},
+                                  {0, 6000, 13200, 21860, 32400, 40600, 63000, 90000, 122600, 161400},
+                                  {0, 1500, 3300, 5480, 8050, 11200, 26000, 44000, 65600, 91600},
+                                  {0, 3000, 6600, 11000, 16200, 32500, 40000, 49200, 60000, 72830},
+                                  {0, 5000, 11000, 18200, 27000, 40000, 55000, 73000, 94000, 120600},
+                                  {0, 15000, 33000, 54800, 80600, 81000, 111600, 147000, 190600, 243000}
+        };
+
         public static ToDAddresses addr = new ToDAddresses();
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
@@ -148,14 +167,20 @@ namespace racman
                 addr.RYNOParts = 0x101F8215;
                 addr.groovitronStorage = 0x10369CA3;
             }
+            addPlayerValueAddresses();
         }
 
         public Dictionary<string, uint> playerValues = new Dictionary<string, uint>
             {
-                {"Bolts", tod.addr.boltCount},
-                {"Raritanium", tod.addr.raritaniumCount},
-                {"Leviathan Souls", tod.addr.leaviathanSoulCount}
+
             };
+
+        public void addPlayerValueAddresses()
+        {
+            playerValues.Add("Bolts", addr.todBoltCount);
+            playerValues.Add("Raritanium", addr.raritaniumCount);
+            playerValues.Add("Leviathan Souls", addr.leaviathanSoulCount);
+        } 
 
         public Dictionary<string, uint> planetList = new Dictionary<string, uint>
             {
@@ -271,7 +296,7 @@ namespace racman
 
         public void ResetGoldBolts(string planet)
         {
-            //api.WriteMemory(pid, tod.addr.goldBolts + (planetList[planet] * 0x508), 0);
+            
         }
 
         public void ResetAllGoldBolts()
@@ -297,9 +322,11 @@ namespace racman
             api.WriteMemory(pid, tod.addr.weaponToggle + (weaponList[weapon] * 0x14), 1, new byte[] {Convert.ToByte(!value)});
         }
 
-        public void WeaponLevel(string weapon)
+        public void WeaponLevel(string weapon, int level)
         {
-
+            Convert.ToUInt32(level);
+            api.WriteMemory(pid, tod.addr.weaponLevel + (weaponList[weapon] * 0x14), 1, new byte[] { Convert.ToByte(level - 1) });
+            api.WriteMemory(pid, tod.addr.weaponXP + (weaponList[weapon] * 0x14), 4, BitConverter.GetBytes(weaponXPValues[weaponList[weapon], level - 1]).Reverse().ToArray());
         }
 
         public void WeaponUpgrades(string weapon)
