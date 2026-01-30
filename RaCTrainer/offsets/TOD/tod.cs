@@ -17,7 +17,7 @@ namespace racman
             public uint loadScreenType => 0x102034FB;
 
             // Player values
-            public uint dumbRat => 0x31BF1984;
+            public uint dumbRat; // allocated in different memory range than rpcs3.
 
             //public uint health => dumbRatAddress + 0x758; WIP
 
@@ -100,6 +100,11 @@ namespace racman
 
         public tod(IPS3API api) : base(api)
         {
+            // this address lives in different memory range
+            // between emulator and console, so we need to make sure to set it properly.
+            if (!AttachPS3Form.isEmulator)
+                addr.dumbRat = 0x61BF1984;
+            else addr.dumbRat = 0x31BF1984;
 
         }
 
@@ -199,7 +204,7 @@ namespace racman
 
         public void SavePosition(int index)
         {
-            string position = api.ReadMemoryStr(pid, getRatPointer() + 0x1260, 12);
+            string position = api.ReadMemoryStr(pid, getRatPointer() + 0x1260, 64);
             func.ChangeFileLines("config.txt", position, "ToDSavedPos" + index);
         }
 
@@ -208,7 +213,7 @@ namespace racman
             string position = func.GetConfigData("config.txt", "ToDSavedPos" + index);
             if (position != "")
             {
-                api.WriteMemory(pid, getRatPointer() + 0x1260, 12, position);
+                api.WriteMemory(pid, getRatPointer() + 0x1260, 64, position);
             }
         }
         public void SetChallengeMode()
