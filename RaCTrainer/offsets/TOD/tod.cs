@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using racman.offsets;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace racman
 {
@@ -58,16 +59,14 @@ namespace racman
 
             // Armor
 
-            //public uint armorSkin => 0x101EFF7B; WIP
-
-            //public uint armorDamageReduction => dumbRatAddress + 0x76C; WIP
+            public uint armorSkin => 0x1020C2CB;
 
             // Gold Bolts
             public uint goldBolts => 0x1020CAEF;
 
             // Skins
 
-            //public uint skinsUnlock => 0x101EFF83; WIP
+            public uint skinsUnlock => 0x1020C2D3;
 
             //public uint skinsSwitch => 0x101EFFA3; WIP
 
@@ -113,23 +112,23 @@ namespace racman
 
         public Dictionary<string, uint> planetList = new Dictionary<string, uint>
             {
-                {"Cobalia", 1},
-                {"Kortog", 2},
-                {"Fastoon", 3},
-                {"Voron Asteroid Belt", 4},
-                {"Mukow", 5},
-                {"Nundac Asteroid Ring", 6},
-                {"Ardolis", 7},
-                {"Rakar Star Cluster", 8},
-                {"Rykan V", 9},
-                {"Sargasso", 10},
-                {"Kreeli Comet", 11},
-                {"Viceron", 12},
-                {"Verdegris Black Hole", 13},
-                {"Jasidnu", 14},
-                {"Ublik Passage", 15},
-                {"Reepor", 16},
-                {"Igliak", 17}
+                {"Cobalia", 0},
+                {"Kortog", 1},
+                {"Fastoon", 2},
+                {"Voron Asteroid Belt", 3},
+                {"Mukow", 4},
+                {"Nundac Asteroid Ring", 5},
+                {"Ardolis", 6},
+                {"Rakar Star Cluster", 7},
+                {"Rykan V", 8},
+                {"Sargasso", 9},
+                {"Kreeli Comet", 10},
+                {"Viceron", 11},
+                {"Verdegris Black Hole", 12},
+                {"Jasidnu", 13},
+                {"Ublik Passage", 14},
+                {"Reepor", 15},
+                {"Igliak", 16}
             };
 
         public Dictionary<string, uint> weaponList = new Dictionary<string, uint>
@@ -167,6 +166,27 @@ namespace racman
             {"Armor Magnetizer", 3}
         };
 
+        public Dictionary<string, uint> skinList = new Dictionary<string, uint>
+        {
+            {"Dan Johnson", 0},
+            {"Snowman", 1},
+            {"Cragmite", 2},
+            {"Rusty Pete", 3},
+            {"Cronk", 4},
+            {"Zephyr", 5},
+            {"Convict Ratchet", 6},
+            {"Mustachio Furioso", 7}
+        };
+
+        public Dictionary<string, uint> armorList = new Dictionary<string, uint>
+        {
+            {"No Armor", 0},
+            {"Blackstar Armor", 1},
+            {"Helios Armor", 2},
+            {"Terraflux Armor", 3},
+            {"Trillium Armor", 4}
+        };
+
         public uint getRatPointer()
         {
             return BitConverter.ToUInt32(api.ReadMemory(pid, tod.addr.dumbRat, 4).Reverse().ToArray(), 0);
@@ -179,12 +199,17 @@ namespace racman
 
         public void SavePosition(int index)
         {
-
+            string position = api.ReadMemoryStr(pid, getRatPointer() + 0x1260, 12);
+            func.ChangeFileLines("config.txt", position, "ToDSavedPos" + index);
         }
 
         public void LoadPosition(int index)
         {
-
+            string position = func.GetConfigData("config.txt", "ToDSavedPos" + index);
+            if (position != "")
+            {
+                api.WriteMemory(pid, getRatPointer() + 0x1260, 12, position);
+            }
         }
         public void SetChallengeMode()
         {
@@ -210,7 +235,7 @@ namespace racman
 
         public void SetInfiniteHealth()
         {
-
+            
         }
 
         public void SetInfinteAmmo()
@@ -252,16 +277,45 @@ namespace racman
             api.WriteMemory(pid, tod.addr.RYNOParts, 0);
         }
 
-        public void SetArmor(uint value)
+        public void SetArmor(byte value)
         {
-            //api.WriteMemory(pid, tod.addr.armorSkin, value);
-            //api.WriteMemory(pid, tod.addr.armorDamageReduction, 0); Placeholder number, need to get the proper value for damage reduction
+            float damageReduction = 1;
+            api.WriteMemory(pid, tod.addr.armorSkin, 1, new byte[] { value });
+            switch (value)
+            {
+                case 0:
+                    {
+                        damageReduction = 1.0f;
+                    }
+                    break;
+                case 1:
+                    {
+                        damageReduction = 0.75f;
+                    }
+                    break;
+                case 2:
+                    {
+                        damageReduction = 0.6f;
+                    }
+                    break;
+                case 3:
+                    {
+                        damageReduction = 0.45f;
+                    }
+                    break;
+                case 4:
+                    {
+                        damageReduction = 0.35f;
+                    }
+                    break;
+
+            }
+            api.WriteMemory(pid, getRatPointer() + 0x1798, 4, BitConverter.GetBytes(damageReduction).Reverse().ToArray());
         }
 
-        public void UnlockSkins()
+        public void UnlockSkins(string skin)
         {
-            //for (uint i = 1; i <= 8; i++)
-            //api.WriteMemory(pid, tod.addr.skinsUnlock + (i * 0x4), 1);
+            api.WriteMemory(pid, tod.addr.skinsUnlock + skinList[skin] * 0x4, 1, new byte[] { 1 });
         }
 
         public void ChangeSkins(uint value)
