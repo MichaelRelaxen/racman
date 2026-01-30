@@ -1,0 +1,16 @@
+#- name: SUCKMAN
+#- author: isaka2025 and Torrbullen
+#- href: https://codeberg.org/isaka2025/suckman
+#- version: 1.04
+#- description: Boxxy/Box Yeet practice tool! NOTE: DONT USE WITH SAVEFILE HELPER, DISABLE THAT FIRST BEFORE RUNNING SUCKMAN.
+0x980ac0: rack.bin
+
+#### ASM Patches ####
+0x1d7a80: 0x487a9831
+0x97ca18: 0x480042f9
+0x44a4c: 0x4893c239
+0x13dc30: 0x48980ac3
+0x4ADDB0: 0x60000000
+0x4AE344: 0x60000000
+0x1113c: 0x480004b8
+0x9027a0: 0x4e800020

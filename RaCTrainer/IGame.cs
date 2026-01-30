@@ -30,6 +30,7 @@ namespace racman
         public bool inputCheck = true;
 
         public string[] planetsList;
+        public string[] skinsList;
         public float[] coords = new float[3];
         public int pid;
 
@@ -38,6 +39,7 @@ namespace racman
 
         public int selectedPositionIndex { get; set; }
         public uint planetToLoad { get; set; }
+        public uint skinToLoad { get; set; }
 
         protected IGame(IPS3API api)
         {

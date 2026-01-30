@@ -19,7 +19,7 @@ namespace racman.TOD
         private int disconnectSubId = -1;
         private bool useAutosplitter = false;
         private bool hasSmuggled = false;
-        private bool useSmuggling;
+        private ASSRoute? autosplitterASSroute;
         private byte lastPlanet;
         private byte lastGoodPlanet;
 
@@ -35,17 +35,26 @@ namespace racman.TOD
                 //     game.api.Disconnect();
                 // });
 
-                r.setReconnectCallback(() => 
+                r.setReconnectCallback(() =>
                 {
+                    
+
                     if (useAutosplitter)
                     {
                         System.Threading.Thread.Sleep(8000);
                         autosplitter.Reconnect();
                         setupDisconnectSubs();
+                        
                         game.api.Notify("Autosplitter reconnected!");
                     }
                 });
             }
+        }
+
+        private bool hasEnteredAutoscroller(byte last, byte curr)
+        {
+            if (last == curr) return false;
+            return curr == 4 || curr == 8 || curr == 13;
         }
 
         private bool hasLeftAutoscroller(byte last, byte curr)
@@ -66,20 +75,27 @@ namespace racman.TOD
 
             disconnectSubId = api.SubMemory(pid, tod.addr.currentPlanet, 1, (val) =>
             {
+                if (autosplitterASSroute == ASSRoute.None) return;
+
                 var currPlanet = val[0];
                 var currGoodPlanet = lastGoodPlanet;
 
                 if (lastPlanet == 0 && currPlanet != 0)
                     currGoodPlanet = currPlanet;
 
-                // Disconnect if we just left the autoscroller
-                if (hasLeftAutoscroller(lastGoodPlanet, currGoodPlanet))
+                if (autosplitterASSroute == ASSRoute.ASS && hasEnteredAutoscroller(lastGoodPlanet, currGoodPlanet))
                 {
-                    if (useSmuggling && !hasSmuggled)
+                    handleDisconnect();
+                }
+                // Disconnect if we just left the autoscroller
+                else if (hasLeftAutoscroller(lastGoodPlanet, currGoodPlanet))
+                {
+                    if (autosplitterASSroute == ASSRoute.SmugglingGASS && !hasSmuggled)
                         hasSmuggled = true;
                     else
                         handleDisconnect();
                 }
+
 
                 lastPlanet = currPlanet;
                 lastGoodPlanet = currGoodPlanet;
@@ -130,7 +146,7 @@ namespace racman.TOD
 
         private void TODForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (autosplitter.IsRunning)
+            if (autosplitter != null && autosplitter.IsRunning)
                 autosplitter?.Stop();
             autosplitter = null;
 
@@ -138,15 +154,35 @@ namespace racman.TOD
             Application.Exit();
         }
 
+        private void setAutosplitterLabel()
+        {
+            labelSplitterRoute.Visible = true;
+            switch (autosplitterASSroute)
+            {
+                case ASSRoute.None:
+                    labelSplitterRoute.Text = "No ASS/GASS";
+                    break;
+                case ASSRoute.ASS:
+                    labelSplitterRoute.Text = "Old ASS";
+                    break;
+                case ASSRoute.GASS:
+                    labelSplitterRoute.Text = "GASS";
+                    break;
+                case ASSRoute.SmugglingGASS:
+                    labelSplitterRoute.Text = "GASS with smuggling";
+                    break;
+            }
+        }
+
         private void buttonStartAutosplitter_Click(object sender, EventArgs e)
         {
             var choiceForm = new CategoryChoiceForm();
             choiceForm.ShowDialog();
 
-            if (choiceForm.usingBoltSmugging is bool b)
+            if (choiceForm.route is ASSRoute route)
             {
                 useAutosplitter = true;
-                useSmuggling = b;
+                autosplitterASSroute = route;
                 setupDisconnectSubs();
 
                 Console.WriteLine("Autosplitter starting!");
@@ -155,6 +191,23 @@ namespace racman.TOD
 
                 labelAutosplitterStatus.Text = "Autosplitter enabled!";
                 labelAutosplitterStatus.ForeColor = Color.Green;
+
+                setAutosplitterLabel();
+                buttonStartAutosplitter.Text = "Configure Autosplitter";
+                buttonStartAutosplitter.Click -= buttonStartAutosplitter_Click;
+                buttonStartAutosplitter.Click += buttonReselectAutosplitter_Click;
+            }
+        }
+
+        private void buttonReselectAutosplitter_Click(object sender, EventArgs e) 
+        {
+            var choiceForm = new CategoryChoiceForm();
+            choiceForm.ShowDialog();
+
+            if (choiceForm.route is ASSRoute route)
+            {
+                autosplitterASSroute = route;
+                setAutosplitterLabel();
             }
         }
 

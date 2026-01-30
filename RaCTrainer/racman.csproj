@@ -80,7 +80,9 @@
       <HintPath>..\packages\NLua.1.6.0\lib\net46\NLua.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
@@ -206,6 +208,18 @@
       <DependentUpon>Rackets2GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="RAC2\TAS\ScriptSerializer.cs" />
+    <Compile Include="RAC3\Freecam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC3\Freecam.Designer.cs">
+      <DependentUpon>Freecam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC3\SavefileLoader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC3\SavefileLoader.Designer.cs">
+      <DependentUpon>SavefileLoader.cs</DependentUpon>
+    </Compile>
     <Compile Include="RAC3\UYAUnlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -217,6 +231,12 @@
     </Compile>
     <Compile Include="MemoryForm.Designer.cs">
       <DependentUpon>MemoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC4\FormAutosplitter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC4\FormAutosplitter.Designer.cs">
+      <DependentUpon>FormAutosplitter.cs</DependentUpon>
     </Compile>
     <Compile Include="RAC4\RAC4BotsUnlocks.cs">
       <SubType>Form</SubType>
@@ -293,6 +313,18 @@
     </Compile>
     <Compile Include="RAC1\RAC1Form.Designer.cs">
       <DependentUpon>RAC1Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC1\HitWatchForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1\HitWatchForm.Designer.cs">
+      <DependentUpon>HitWatchForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RAC1\JankpotForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1\JankpotForm.Designer.cs">
+      <DependentUpon>JankpotForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RAC3\RAC3Form.cs">
       <SubType>Form</SubType>
@@ -395,6 +427,15 @@
     <EmbeddedResource Include="RAC2\TAS\Rackets2GUI.resx">
       <DependentUpon>Rackets2GUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RAC3\Freecam.resx">
+      <DependentUpon>Freecam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC3\SavefileLoader.resx">
+      <DependentUpon>SavefileLoader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC4\FormAutosplitter.resx">
+      <DependentUpon>FormAutosplitter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RAC4\RAC4BotsUnlocks.resx">
       <DependentUpon>RAC4BotsUnlocks.cs</DependentUpon>
     </EmbeddedResource>
@@ -424,6 +465,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC1\UnlocksWindow.resx">
       <DependentUpon>UnlocksWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC1\JankpotForm.resx">
+      <DependentUpon>JankpotForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAC1\RAC1Form.resx">
       <DependentUpon>RAC1Form.cs</DependentUpon>
@@ -492,6 +536,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="autosplitters\rac2planets.txt" />
+    <None Include="autosplitters\rac4-LC-autosplitter.asl" />
+    <Content Include="autosplitters\dlplanets.txt" />
     <Content Include="autosplitters\todplanets.txt" />
     <Content Include="defaultSkin.txt" />
     <Content Include="ds3drip.ico" />

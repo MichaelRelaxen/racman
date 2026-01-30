@@ -91,23 +91,28 @@ namespace racman
             return api.ReadMemoryStr(pid, offset, length);
         }
 
-        public static bool PrepareRatchetron(string ip)
+        public static bool PrepareSPRX(string ip, string sprx, int slot)
         {
             // Check if Ratchetron is already loaded
             string slot6sprx = get_data($"http://{ip}/home.ps3mapi");
 
-            bool ratchetronLoaded = slot6sprx.Contains("ratchetron_server.sprx");
+            bool sprxLoaded = slot6sprx.Contains(sprx);
 
-            if (ratchetronLoaded)
+            if (sprxLoaded)
             {
                 return true;
             }
-            
+
             // Always upload because fuck it
-            client.UploadFile($"ftp://{ip}:21/dev_hdd0/tmp/ratchetron_server.sprx", sprxPath + @"\ratchetron_server.sprx");
-            get_data($"http://{ip}/vshplugin.ps3mapi?prx=%2Fdev_hdd0%2Ftmp%2Fratchetron_server.sprx&load_slot=6");
+            client.UploadFile($"ftp://{ip}:21/dev_hdd0/tmp/{sprx}", $@"{sprxPath}\{sprx}");
+            get_data($"http://{ip}/vshplugin.ps3mapi?prx=%2Fdev_hdd0%2Ftmp%2F{sprx}&load_slot={slot}");
 
             return true;
+        }
+
+        public static bool PrepareRatchetron(string ip)
+        {
+            return PrepareSPRX(ip, "ratchetron_server.sprx", 6);
         }
 
         public static void WriteMemory_SingleByte(string ip, int pid, uint offset, string val/*byte[] memory*/)

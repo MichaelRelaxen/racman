@@ -48,6 +48,7 @@
             this.buttonCancel = new System.Windows.Forms.Button();
             this.checkBoxHotkeys = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.reloadUploadCheckBox = new System.Windows.Forms.CheckBox();
             this.checkBoxHideHud = new System.Windows.Forms.CheckBox();
             this.checkBoxRendering = new System.Windows.Forms.CheckBox();
             this.checkBoxFrameskip = new System.Windows.Forms.CheckBox();
@@ -62,7 +63,7 @@
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.buttonSetPlanet = new System.Windows.Forms.Button();
             this.comboLevelSelect = new System.Windows.Forms.ComboBox();
-            this.reloadUploadCheckBox = new System.Windows.Forms.CheckBox();
+            this.cutsceneStorageCheckbox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -285,6 +286,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.cutsceneStorageCheckbox);
             this.groupBox3.Controls.Add(this.reloadUploadCheckBox);
             this.groupBox3.Controls.Add(this.checkBoxHideHud);
             this.groupBox3.Controls.Add(this.checkBoxRendering);
@@ -292,10 +294,20 @@
             this.groupBox3.Controls.Add(this.checkBoxHotkeys);
             this.groupBox3.Location = new System.Drawing.Point(201, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(144, 136);
+            this.groupBox3.Size = new System.Drawing.Size(144, 155);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Global Options";
+            // 
+            // reloadUploadCheckBox
+            // 
+            this.reloadUploadCheckBox.AutoSize = true;
+            this.reloadUploadCheckBox.Location = new System.Drawing.Point(6, 111);
+            this.reloadUploadCheckBox.Name = "reloadUploadCheckBox";
+            this.reloadUploadCheckBox.Size = new System.Drawing.Size(110, 17);
+            this.reloadUploadCheckBox.TabIndex = 13;
+            this.reloadUploadCheckBox.Text = "Reload on upload";
+            this.reloadUploadCheckBox.UseVisualStyleBackColor = true;
             // 
             // checkBoxHideHud
             // 
@@ -335,7 +347,7 @@
             this.groupBox4.Controls.Add(this.forceAutosaveButton);
             this.groupBox4.Controls.Add(this.buttonLoadSetAside);
             this.groupBox4.Controls.Add(this.buttonSetAside);
-            this.groupBox4.Location = new System.Drawing.Point(201, 156);
+            this.groupBox4.Location = new System.Drawing.Point(201, 175);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(144, 128);
             this.groupBox4.TabIndex = 11;
@@ -387,7 +399,7 @@
             this.groupBox5.Controls.Add(this.pastePositionButton);
             this.groupBox5.Controls.Add(this.buttonCopyPos);
             this.groupBox5.Controls.Add(this.buttonSetPosition);
-            this.groupBox5.Location = new System.Drawing.Point(201, 290);
+            this.groupBox5.Location = new System.Drawing.Point(201, 309);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(144, 125);
             this.groupBox5.TabIndex = 21;
@@ -471,15 +483,15 @@
             this.comboLevelSelect.Size = new System.Drawing.Size(127, 21);
             this.comboLevelSelect.TabIndex = 0;
             // 
-            // reloadUploadCheckBox
+            // cutsceneStorageCheckbox
             // 
-            this.reloadUploadCheckBox.AutoSize = true;
-            this.reloadUploadCheckBox.Location = new System.Drawing.Point(6, 111);
-            this.reloadUploadCheckBox.Name = "reloadUploadCheckBox";
-            this.reloadUploadCheckBox.Size = new System.Drawing.Size(110, 17);
-            this.reloadUploadCheckBox.TabIndex = 13;
-            this.reloadUploadCheckBox.Text = "Reload on upload";
-            this.reloadUploadCheckBox.UseVisualStyleBackColor = true;
+            this.cutsceneStorageCheckbox.AutoSize = true;
+            this.cutsceneStorageCheckbox.Location = new System.Drawing.Point(6, 132);
+            this.cutsceneStorageCheckbox.Name = "cutsceneStorageCheckbox";
+            this.cutsceneStorageCheckbox.Size = new System.Drawing.Size(109, 17);
+            this.cutsceneStorageCheckbox.TabIndex = 14;
+            this.cutsceneStorageCheckbox.Text = "Cutscene storage";
+            this.cutsceneStorageCheckbox.UseVisualStyleBackColor = true;
             // 
             // RacketsGUI
             // 
@@ -548,5 +560,6 @@
         private System.Windows.Forms.Button buttonRecording;
         private System.Windows.Forms.CheckBox bufferChargeCheckbox;
         private System.Windows.Forms.CheckBox reloadUploadCheckBox;
+        private System.Windows.Forms.CheckBox cutsceneStorageCheckbox;
     }
 }

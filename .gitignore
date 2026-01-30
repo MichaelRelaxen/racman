@@ -342,3 +342,6 @@ healthchecksdb
 /mods/NPEA00385/tas
 /RaCTrainer/autosplitters/989u89u.lsl
 /RaCTrainer/autosplitters/rac1-ilsplitter.asl
+
+#config
+config.txt

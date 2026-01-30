@@ -94,6 +94,7 @@ namespace racman
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.buttonCosmetics = new System.Windows.Forms.Button();
+            this.freecamHelpaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -187,7 +188,7 @@ namespace racman
             "10"});
             this.positions_ComboBox.Location = new System.Drawing.Point(136, 47);
             this.positions_ComboBox.Name = "positions_ComboBox";
-            this.positions_ComboBox.Size = new System.Drawing.Size(75, 21);
+            this.positions_ComboBox.Size = new System.Drawing.Size(92, 21);
             this.positions_ComboBox.TabIndex = 27;
             this.positions_ComboBox.SelectedIndexChanged += new System.EventHandler(this.positions_ComboBox_SelectedIndexChanged);
             // 
@@ -326,7 +327,8 @@ namespace racman
             this.toolStripSeparator1,
             this.flagViewerToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
-            this.memoryUtilitiesToolStripMenuItem});
+            this.memoryUtilitiesToolStripMenuItem,
+            this.freecamHelpaToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -586,9 +588,9 @@ namespace racman
             this.setAsideButton.Enabled = false;
             this.setAsideButton.Location = new System.Drawing.Point(136, 74);
             this.setAsideButton.Name = "setAsideButton";
-            this.setAsideButton.Size = new System.Drawing.Size(75, 23);
+            this.setAsideButton.Size = new System.Drawing.Size(92, 23);
             this.setAsideButton.TabIndex = 97;
-            this.setAsideButton.Text = "Set aside file";
+            this.setAsideButton.Text = "Save Manager";
             this.setAsideButton.UseVisualStyleBackColor = true;
             this.setAsideButton.Click += new System.EventHandler(this.setAsideButton_Click);
             // 
@@ -597,7 +599,7 @@ namespace racman
             this.loadFileButton.Enabled = false;
             this.loadFileButton.Location = new System.Drawing.Point(136, 103);
             this.loadFileButton.Name = "loadFileButton";
-            this.loadFileButton.Size = new System.Drawing.Size(75, 23);
+            this.loadFileButton.Size = new System.Drawing.Size(92, 23);
             this.loadFileButton.TabIndex = 98;
             this.loadFileButton.Text = "Load file";
             this.loadFileButton.UseVisualStyleBackColor = true;
@@ -762,6 +764,13 @@ namespace racman
             this.buttonCosmetics.UseVisualStyleBackColor = true;
             this.buttonCosmetics.Click += new System.EventHandler(this.buttonCosmetics_Click);
             // 
+            // freecamHelpaToolStripMenuItem
+            // 
+            this.freecamHelpaToolStripMenuItem.Name = "freecamHelpaToolStripMenuItem";
+            this.freecamHelpaToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.freecamHelpaToolStripMenuItem.Text = "Freecam helpa";
+            this.freecamHelpaToolStripMenuItem.Click += new System.EventHandler(this.freecamHelpaToolStripMenuItem_Click);
+            // 
             // RAC3Form
             // 
             this.AllowDrop = true;
@@ -900,6 +909,7 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem editRouteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flagViewerToolStripMenuItem;
         private System.Windows.Forms.Button buttonCosmetics;
+        private System.Windows.Forms.ToolStripMenuItem freecamHelpaToolStripMenuItem;
     }
 }
 

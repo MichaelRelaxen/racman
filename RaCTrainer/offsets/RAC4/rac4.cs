@@ -8,6 +8,10 @@ namespace racman
 {
     public class RaC4Addresses : IAddresses
     {
+        public uint savefile_api_enabled = 0x15CD71D;
+        public uint savefile_api_load = 0x15CD71E;
+        public uint savefile_api_setaside = 0x15CD71F;
+
         // Input stuff
         public uint inputOffset => 0xB11F30;
         public uint analogOffset => 0xB1210C;
@@ -39,10 +43,15 @@ namespace racman
 
         public uint boltCount => 0x9C32E8;
 
-        public uint playerCoords => 0x10D7334;
+        public uint playerCoords => 0x10D44D0;
+        // needed for save/load pos
+        public uint playerCoords2 => 0x10D7334;
 
         // In Game (0 in main menu | 1 in game)
         public uint inGame => 0xB1F460;
+
+        // the usual shit
+        public uint gamestate => 0x0b3c5a0;
 
         // load planet
         public uint loadPlanet => 0x9C3240;
@@ -68,6 +77,22 @@ namespace racman
 
         public uint saveInfo => 0x11B1BD8;
 
+        public uint prevPlanet => 0x0B1F465;
+        // The challenge that is selected in the menu
+        public uint challengeSelected => 0x11A0AE0;
+        public uint dreadPoints => 0x09C32F4;
+        // Byte, 21 avaliable
+        public uint skin => 0x09C32FB;
+        // Array of byte (6) (00 XX(Blue) 00 XX(Green) XX(Orange) XX(Grey))
+        public uint badges => 0x09C3308;
+        // Byte
+        public uint CM => 0x09C330E;
+        // Byte, 0= Marauder, 1= Avenger, 2= Crusader, 3= Vindicator, 4= Liberator
+        public uint range => 0x09C331F;
+        // Change to 1 to change planet
+        public uint loadPlanet2 => 0x0B36DCC;
+        public uint targetPlanet => 0x0B36DD0;
+
         public uint mobyInstances => throw new NotImplementedException();
     }
     public class rac4 : IGame, IAutosplitterAvailable
@@ -81,10 +106,51 @@ namespace racman
         int ghostRatchetSubID = -1;
         public rac4(IPS3API api) : base(api)
         {
+            this.planetsList = new string[] {
+                "DreadZone",
+                "Catacrom",
+                "INFLOOP",
+                "Sarathos",
+                "Kronos",
+                "Shaar",
+                "Valix",
+                "Orxon",
+                "INFLOOP",
+                "Torval",
+                "Stygia",
+                "INFLOOP",
+                "Maraxus",
+                "GhostStation",
+                "Interior"
+            };
+            this.skinsList = new string[] {
+                "Marauder",
+                "Avenger",
+                "Crusader",
+                "Vindicator",
+                "Liberator",
+                "AlphaClank",
+                "Squidzor",
+                "LandShark",               
+                "TheMuscle",
+                "W3RM",
+                "Starshield",
+                "KingClaude",
+                "Vernon",                             
+                "KidNova",
+                "Venus",
+                "Jak",            
+                "Ninja",
+                "SaurusRatchet",
+                "GenomeRatchet",
+                "SantaRatchet",
+                "PipoSaruRatchet",
+                "Clankchet",
+            };
             botsUnlocks = BotsUnlocksFactory.GetUpgrades();
         }
 
-        public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
+    public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
             (addr.currentPlanet, 4),    // current planet
             (addr.loadPlanet, 4),       // load planet
@@ -151,9 +217,64 @@ namespace racman
             throw new NotImplementedException();
         }
 
+        public virtual void LoadPositionRac4()
+        {
+            string position = func.GetConfigData("config.txt", planetsList[planetIndex] + "SavedPos" + selectedPositionIndex);
+            if (position != "")
+            {
+                api.WriteMemory(pid, addr.playerCoords, 30, position);
+                api.WriteMemory(pid, addr.playerCoords2, 30, position);
+            }
+        }
+
+        public void DieRac4()
+        {
+            api.WriteMemory(pid, addr.playerCoords2 + 8, 0);
+        }
+
         public override void CheckInputs(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
+            {
+                SavePosition();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadCombo && inputCheck)
+            {
+                LoadPositionRac4();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
+            {
+                KillYourself();
+                inputCheck = false;
+            }
+            //if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
+            //{
+            //    enableDisableFastLoads(true);
+            //    LoadPlanet(resetFlags: resetFlagsRequested);
+            //    inputCheck = false;
+            //}
+            if (Inputs.RawInputs == ConfigureCombos.runScriptCombo && inputCheck)
+            {
+                AttachPS3Form.scripting?.RunCurrentCode();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)
+            {
+                loadSetAsideFile();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x00 && !inputCheck)
+            {
+                inputCheck = true;
+            }
+        }
+
+        public void loadSetAsideFile()
+        {
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, addr.savefile_api_load, new byte[] { 1 });
         }
 
         public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)

@@ -62,7 +62,7 @@ namespace racman
             writer?.Close();
             writer = null;
 
-            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter", mmfSize);
+            mmfFile = MemoryMappedFile.CreateOrOpen("racman-autosplitter-lc", mmfSize);
             mmfStream = mmfFile.CreateViewStream();
             writer = new BinaryWriter(mmfStream);
 

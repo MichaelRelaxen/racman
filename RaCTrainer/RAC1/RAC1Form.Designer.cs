@@ -59,12 +59,12 @@ namespace racman
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.discordRPCEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbspiSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.discordRPCEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateHeroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateMobysToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateParticlesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +72,8 @@ namespace racman
             this.normalCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.freecamToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.freecamCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hitWatcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jankpotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -91,6 +93,8 @@ namespace racman
             this.setAsideFileButton = new System.Windows.Forms.Button();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.forceAutosave = new System.Windows.Forms.Button();
+            this.drekButtonCutscene = new System.Windows.Forms.Button();
+            this.tASToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -236,13 +240,13 @@ namespace racman
             // 
             this.bolts_textBox.Location = new System.Drawing.Point(250, 47);
             this.bolts_textBox.Name = "bolts_textBox";
-            this.bolts_textBox.Size = new System.Drawing.Size(105, 20);
+            this.bolts_textBox.Size = new System.Drawing.Size(117, 20);
             this.bolts_textBox.TabIndex = 62;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(224, 259);
+            this.label3.Location = new System.Drawing.Point(213, 269);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(0, 13);
             this.label3.TabIndex = 63;
@@ -278,7 +282,7 @@ namespace racman
             // infHealth
             // 
             this.infHealth.AutoSize = true;
-            this.infHealth.Location = new System.Drawing.Point(250, 255);
+            this.infHealth.Location = new System.Drawing.Point(250, 302);
             this.infHealth.Name = "infHealth";
             this.infHealth.Size = new System.Drawing.Size(91, 17);
             this.infHealth.TabIndex = 70;
@@ -289,7 +293,7 @@ namespace racman
             // goodiesCheck
             // 
             this.goodiesCheck.AutoSize = true;
-            this.goodiesCheck.Location = new System.Drawing.Point(250, 319);
+            this.goodiesCheck.Location = new System.Drawing.Point(250, 366);
             this.goodiesCheck.Name = "goodiesCheck";
             this.goodiesCheck.Size = new System.Drawing.Size(95, 17);
             this.goodiesCheck.TabIndex = 74;
@@ -317,7 +321,7 @@ namespace racman
             this.debugToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(375, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(389, 24);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -333,8 +337,8 @@ namespace racman
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem,
             this.toolStripSeparator2,
-            this.discordRPCEnabledToolStripMenuItem
-            });
+            this.discordRPCEnabledToolStripMenuItem,
+            this.tASToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -382,14 +386,14 @@ namespace racman
             // 
             // toolStripSeparator2
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator2";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(209, 6);
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(209, 6);
             // 
             // discordRPCEnabledToolStripMenuItem
             // 
             this.discordRPCEnabledToolStripMenuItem.CheckOnClick = true;
             this.discordRPCEnabledToolStripMenuItem.Name = "discordRPCEnabledToolStripMenuItem";
-            this.discordRPCEnabledToolStripMenuItem.Size = new System.Drawing.Size(258, 22);
+            this.discordRPCEnabledToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.discordRPCEnabledToolStripMenuItem.Text = "Discord Rich Presence";
             this.discordRPCEnabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.discordRPCEnabledToolStripMenuItem_CheckedChanged);
             // 
@@ -427,7 +431,9 @@ namespace racman
             this.toolStripSeparator3,
             this.normalCameraToolStripMenuItem,
             this.freecamToolStripMenuItem,
-            this.freecamCharacterToolStripMenuItem});
+            this.freecamCharacterToolStripMenuItem,
+            this.hitWatcherToolStripMenuItem,
+            this.jankpotToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "Debug";
@@ -480,6 +486,13 @@ namespace racman
             this.freecamCharacterToolStripMenuItem.Text = "Freecam + Character";
             this.freecamCharacterToolStripMenuItem.Click += new System.EventHandler(this.freecamCharacterToolStripMenuItem_Click);
             // 
+            // hitWatcherToolStripMenuItem
+            // 
+            this.hitWatcherToolStripMenuItem.Name = "hitWatcherToolStripMenuItem";
+            this.hitWatcherToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.hitWatcherToolStripMenuItem.Text = "Hit Watcher";
+            this.hitWatcherToolStripMenuItem.Click += new System.EventHandler(this.hitWatcherToolStripMenuItem_Click);
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(18, 367);
@@ -491,10 +504,17 @@ namespace racman
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.inputdisplay_click);
             // 
+            // jankpotToolStripMenuItem
+            // 
+            this.jankpotToolStripMenuItem.Name = "jankpotToolStripMenuItem";
+            this.jankpotToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.jankpotToolStripMenuItem.Text = "Jankpot";
+            this.jankpotToolStripMenuItem.Click += new System.EventHandler(this.jankpotToolStripMenuItem_Click);
+            // 
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(250, 296);
+            this.ghostCheckbox.Location = new System.Drawing.Point(250, 343);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 83;
@@ -504,11 +524,11 @@ namespace racman
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(249, 74);
+            this.button3.Location = new System.Drawing.Point(250, 223);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(106, 23);
+            this.button3.Size = new System.Drawing.Size(117, 23);
             this.button3.TabIndex = 84;
-            this.button3.Text = "Turn on Drek Skip";
+            this.button3.Text = "Setup Drek Skip";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.drekskip_Click);
             // 
@@ -534,7 +554,7 @@ namespace racman
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(196, 255);
+            this.label4.Location = new System.Drawing.Point(246, 282);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(48, 13);
             this.label4.TabIndex = 87;
@@ -565,7 +585,7 @@ namespace racman
             // FreezeAmmoCheckbox
             // 
             this.FreezeAmmoCheckbox.AutoSize = true;
-            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(250, 275);
+            this.FreezeAmmoCheckbox.Location = new System.Drawing.Point(250, 322);
             this.FreezeAmmoCheckbox.Name = "FreezeAmmoCheckbox";
             this.FreezeAmmoCheckbox.Size = new System.Drawing.Size(90, 17);
             this.FreezeAmmoCheckbox.TabIndex = 90;
@@ -575,9 +595,9 @@ namespace racman
             // 
             // resetGBsButton
             // 
-            this.resetGBsButton.Location = new System.Drawing.Point(248, 103);
+            this.resetGBsButton.Location = new System.Drawing.Point(250, 73);
             this.resetGBsButton.Name = "resetGBsButton";
-            this.resetGBsButton.Size = new System.Drawing.Size(109, 23);
+            this.resetGBsButton.Size = new System.Drawing.Size(117, 23);
             this.resetGBsButton.TabIndex = 91;
             this.resetGBsButton.Text = "Reset all Gold Bolts";
             this.resetGBsButton.UseVisualStyleBackColor = true;
@@ -585,9 +605,9 @@ namespace racman
             // 
             // resetSPsButton
             // 
-            this.resetSPsButton.Location = new System.Drawing.Point(248, 161);
+            this.resetSPsButton.Location = new System.Drawing.Point(249, 165);
             this.resetSPsButton.Name = "resetSPsButton";
-            this.resetSPsButton.Size = new System.Drawing.Size(109, 23);
+            this.resetSPsButton.Size = new System.Drawing.Size(118, 23);
             this.resetSPsButton.TabIndex = 92;
             this.resetSPsButton.Text = "Reset Shoot SPs";
             this.resetSPsButton.UseVisualStyleBackColor = true;
@@ -595,11 +615,11 @@ namespace racman
             // 
             // setupSPsButton
             // 
-            this.setupSPsButton.Location = new System.Drawing.Point(248, 190);
+            this.setupSPsButton.Location = new System.Drawing.Point(249, 137);
             this.setupSPsButton.Name = "setupSPsButton";
-            this.setupSPsButton.Size = new System.Drawing.Size(109, 23);
+            this.setupSPsButton.Size = new System.Drawing.Size(118, 23);
             this.setupSPsButton.TabIndex = 93;
-            this.setupSPsButton.Text = "Setup Shoot SPs";
+            this.setupSPsButton.Text = "NG+ GBSP Setup";
             this.setupSPsButton.UseVisualStyleBackColor = true;
             this.setupSPsButton.Click += new System.EventHandler(this.setupSPsButton_Click);
             // 
@@ -615,9 +635,9 @@ namespace racman
             // 
             // buttonUnlockGB
             // 
-            this.buttonUnlockGB.Location = new System.Drawing.Point(248, 132);
+            this.buttonUnlockGB.Location = new System.Drawing.Point(250, 102);
             this.buttonUnlockGB.Name = "buttonUnlockGB";
-            this.buttonUnlockGB.Size = new System.Drawing.Size(109, 23);
+            this.buttonUnlockGB.Size = new System.Drawing.Size(117, 23);
             this.buttonUnlockGB.TabIndex = 95;
             this.buttonUnlockGB.Text = "Unlock all Gold Bolts";
             this.buttonUnlockGB.UseVisualStyleBackColor = true;
@@ -625,9 +645,9 @@ namespace racman
             // 
             // resetAllMissionsStuffButton
             // 
-            this.resetAllMissionsStuffButton.Location = new System.Drawing.Point(248, 219);
+            this.resetAllMissionsStuffButton.Location = new System.Drawing.Point(249, 194);
             this.resetAllMissionsStuffButton.Name = "resetAllMissionsStuffButton";
-            this.resetAllMissionsStuffButton.Size = new System.Drawing.Size(109, 23);
+            this.resetAllMissionsStuffButton.Size = new System.Drawing.Size(118, 23);
             this.resetAllMissionsStuffButton.TabIndex = 96;
             this.resetAllMissionsStuffButton.Text = "Setup All Missions";
             this.toolTip1.SetToolTip(this.resetAllMissionsStuffButton, "Resets Blarg bridge manip and clears Rilgar hoverboard best time.\r\nUsed for reset" +
@@ -672,12 +692,30 @@ namespace racman
             this.forceAutosave.UseVisualStyleBackColor = true;
             this.forceAutosave.Click += new System.EventHandler(this.forceAutosave_Click);
             // 
+            // drekButtonCutscene
+            // 
+            this.drekButtonCutscene.Location = new System.Drawing.Point(250, 251);
+            this.drekButtonCutscene.Name = "drekButtonCutscene";
+            this.drekButtonCutscene.Size = new System.Drawing.Size(117, 23);
+            this.drekButtonCutscene.TabIndex = 116;
+            this.drekButtonCutscene.Text = "Set Drek Cutscene";
+            this.drekButtonCutscene.UseVisualStyleBackColor = true;
+            this.drekButtonCutscene.Click += new System.EventHandler(this.drekCutsceneButton_Click);
+            // 
+            // tASToolStripMenuItem
+            // 
+            this.tASToolStripMenuItem.Name = "tASToolStripMenuItem";
+            this.tASToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.tASToolStripMenuItem.Text = "TAS";
+            this.tASToolStripMenuItem.Click += new System.EventHandler(this.tASToolStripMenuItem_Click);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(375, 406);
+            this.ClientSize = new System.Drawing.Size(389, 402);
+            this.Controls.Add(this.drekButtonCutscene);
             this.Controls.Add(this.forceAutosave);
             this.Controls.Add(this.setAsideFileButton);
             this.Controls.Add(this.loadFileButton);
@@ -795,5 +833,9 @@ namespace racman
         private System.Windows.Forms.Button setAsideFileButton;
         private System.Windows.Forms.Button loadFileButton;
         private System.Windows.Forms.Button forceAutosave;
+        private System.Windows.Forms.Button drekButtonCutscene;
+        private System.Windows.Forms.ToolStripMenuItem tASToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hitWatcherToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jankpotToolStripMenuItem;
     }
 }

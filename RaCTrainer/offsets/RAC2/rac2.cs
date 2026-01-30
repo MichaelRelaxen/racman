@@ -119,16 +119,35 @@ namespace racman
 
         // What it says on the tin
         public uint platinumBoltArray => 0x1562540;
+        
+        // Skillpoints bruv
+        public uint skillPointArray => 0x1481809;
+        
+        // nanotech boosts
+        public uint nanotechBoostArray => 0x1329AC0;
 
         // Level specific info (spawnpoint, completed missions etc)
         public uint levelFlags => 0x15625B0;
 
         public uint currentChunk => 0x157CE03;
 
+        // 0 if Ratchet, 1 if Clank, etc.
+        public uint heroType => 0x1481494;
+
         public uint chargebootsPrimaryFrontColor => 0x1318590;
         public uint chargebootsPrimaryBackColor => 0x1318594;
         public uint chargebootsTintFrontColor => 0x13185a0;
         public uint chargebootsTintBackColor => 0x13185a0;
+
+        // any% variables that need to be reset.
+        public uint jankpotActive => 0x15718f8;
+        public uint bossHealthBarActive => 0x15784e8;
+        public uint feltzinRariDrop => 0x1a30430;
+        public uint oldSkoolSpPossible => 0x0133e8a0;
+        public uint lastRaritaniumCount => 0x1a849a8;
+        public uint boltDeficit => 0x1329AAC;
+        public uint pyramidBoltDrop => 0x1AAC767;
+        public uint csStorageAddr => 0x1578424;
     }
 
     public class rac2 : IGame, IAutosplitterAvailable
@@ -183,7 +202,8 @@ namespace racman
             (0x1478991, 1), // yeedil scene ID
             (0x15625E3, 1), // endako clank enter 
             (0x15625E1, 1), // endako clank exit
-            (0x15625F7, 1) // barlow race enter
+            (0x15625F7, 1), // barlow race enter
+            (rac2.addr.heroType, 1) 
 
         };
 

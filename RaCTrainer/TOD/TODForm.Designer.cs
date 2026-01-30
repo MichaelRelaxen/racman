@@ -51,6 +51,7 @@
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
+            this.labelSplitterRoute = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -160,8 +161,20 @@
             this.labelAutosplitterStatus.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.labelAutosplitterStatus.Name = "labelAutosplitterStatus";
             this.labelAutosplitterStatus.Size = new System.Drawing.Size(232, 29);
+            this.labelAutosplitterStatus.Size = new System.Drawing.Size(95, 13);
             this.labelAutosplitterStatus.TabIndex = 105;
-            this.labelAutosplitterStatus.Text = "Autosplitter disabled";
+            this.labelAutosplitterStatus.Text = "Autosplitter disbled";
+            // 
+            // labelSplitterRoute
+            // 
+            this.labelSplitterRoute.AutoSize = true;
+            this.labelSplitterRoute.ForeColor = System.Drawing.Color.Gray;
+            this.labelSplitterRoute.Location = new System.Drawing.Point(258, 125);
+            this.labelSplitterRoute.Name = "labelSplitterRoute";
+            this.labelSplitterRoute.Size = new System.Drawing.Size(101, 13);
+            this.labelSplitterRoute.TabIndex = 106;
+            this.labelSplitterRoute.Text = "Autosplitter disabled";
+            this.labelSplitterRoute.Visible = false;
             // 
             // button1
             // 
@@ -318,6 +331,8 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(437, 170);
+            this.Controls.Add(this.labelSplitterRoute);
             this.Controls.Add(this.labelAutosplitterStatus);
             this.Controls.Add(this.buttonStartAutosplitter);
             this.Controls.Add(this.label1);
@@ -360,5 +375,6 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Label labelSplitterRoute;
     }
 }

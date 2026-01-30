@@ -71,4 +71,4 @@ new_function:
 .MULTIPLIER:
     .long   0x3fd55555
 .FORMAT:
-    .asciz  "%d:%.2d:%.2d.%.2d"
+    .asciz  "%d%d:%.2d.%.2d"

@@ -47,7 +47,7 @@ namespace racman
             mobyInspectorListView.DoubleBuffering(true);
         }
 
-
+        IPS3API api = func.api;
 
         void SetItemValueText(ListViewItem item, string value, string frozen = "")
         {
@@ -102,7 +102,6 @@ namespace racman
             }
 
             // Subscribe to the memory watch and get data updates
-            IPS3API api = func.api;
 
             watched.subID = api.SubMemory(api.getCurrentPID(), address, watched.size, (byte[] bytes) =>
             {
@@ -180,6 +179,11 @@ namespace racman
                     if (watched.isFrozen)
                         func.api.ReleaseSubID(watched.freezeSub);
                 }
+            }
+
+            if(AttachPS3Form.notSupported)
+            {
+                Application.Exit();
             }
         }
 
@@ -303,59 +307,111 @@ namespace racman
             selectedMobyComboBox.Items.Clear();
 
             var pid = func.api.getCurrentPID();
+
             uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesAddr, 4).Reverse().ToArray(), 0);
             uint end = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesAddr + 8, 4).Reverse().ToArray(), 0);
 
-            while (instance < end) {
-                ushort oClass = BitConverter.ToUInt16(func.api.ReadMemory(pid, instance + 0xaa, 0x2).Reverse().ToArray(), 0);
-                byte state = func.api.ReadMemory(pid, instance + 0x20, 0x1)[0];
+            int offset_oClass, offset_state;
 
-                selectedMobyComboBox.Items.Add($"0x{instance.ToString("X")}: 0x{oClass.ToString("X")} ({oClass}) (state: {state})");
+            if(AttachPS3Form.game == "NPEA00385")
+            {
+                // Dynamically get offsets from the RAC1.Moby struct
+                offset_oClass = (int)Marshal.OffsetOf(typeof(rac1.Moby), nameof(rac1.Moby.oClass));
+                offset_state = (int)Marshal.OffsetOf(typeof(rac1.Moby), nameof(rac1.Moby.state));
+            }
+            else
+            {
+                // Dynamically get offsets from the RAC2.Moby struct
+                offset_oClass = (int)Marshal.OffsetOf(typeof(rac2.Moby), nameof(rac2.Moby.oClass));
+                offset_state = (int)Marshal.OffsetOf(typeof(rac2.Moby), nameof(rac2.Moby.state));
+            }
 
+
+            while (instance < end)
+            {
+                // Read oClass (2 bytes)
+                ushort oClass = BitConverter.ToUInt16(
+                    func.api.ReadMemory(pid, instance + (uint)offset_oClass, 2).Reverse().ToArray(), 0);
+
+                // Read state (1 byte)
+                byte state = func.api.ReadMemory(pid, instance + (uint)offset_state, 1)[0];
+
+                // Add formatted entry to the combo box
+                selectedMobyComboBox.Items.Add($"0x{instance:X}: 0x{oClass:X} ({oClass}) (state: {state})");
+
+                // Next Moby (each entry = 0x100 bytes)
                 instance += 0x100;
             }
         }
-
         public void PopulateMobyInspectorRac2(int index)
-        {   
+        {
             var pid = func.api.getCurrentPID();
             uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesAddr, 4).Reverse().ToArray(), 0);
 
             byte[] memory = func.api.ReadMemory(pid, instance + (0x100 * (uint)index), 0x100);
-            rac2.Moby moby = rac2.Moby.ByteArrayToMoby(memory);
 
-            var type = typeof(rac2.Moby);
-            var fields = type.GetFields();
 
-            // Don't clear, but ensure we have the same count of items
-            while (mobyInspectorListView.Items.Count < fields.Length)
+            object moby;
+            Type type;
+            FieldInfo[] fields;
+
+            // Pick which Moby type to use based on the game
+            if (AttachPS3Form.game == "NPEA00385")
             {
-                mobyInspectorListView.Items.Add(new ListViewItem(new string[3])); // Placeholder
+                moby = rac1.Moby.ByteArrayToMoby(memory);
+                type = typeof(rac1.Moby);
+                fields = type.GetFields();
+            }
+            else
+            {
+                moby = rac2.Moby.ByteArrayToMoby(memory);
+                type = typeof(rac2.Moby);
+                fields = type.GetFields();
             }
 
-            // Go through each item and set the right data
+            while (mobyInspectorListView.Items.Count < fields.Length)
+                mobyInspectorListView.Items.Add(new ListViewItem(new string[3]));
+
             for (int i = 0; i < fields.Length; i++)
             {
                 var field = fields[i];
                 var offset = Marshal.OffsetOf(type, field.Name).ToInt32();
 
                 var item = mobyInspectorListView.Items[i];
-                item.Text = $"0x{(instance + (0x100 * (uint)index) + offset).ToString("X")}";
+                item.Text = $"0x{(instance + (0x100 * (uint)index) + offset):X}";
                 item.SubItems[1].Text = field.Name;
+
+                object value = field.GetValue(moby);
+                string display = "";
 
                 if (field.FieldType == typeof(rac2.Vec4))
                 {
-                    rac2.Vec4 vec = (rac2.Vec4)field.GetValue(moby);
-                    item.SubItems[2].Text = $"x: {vec.x}, y: {vec.y}, z: {vec.z}, w: {vec.w}";
+                    var vec = (rac2.Vec4)value;
+                    display = $"x: {vec.x}, y: {vec.y}, z: {vec.z}, w: {vec.w}";
                 }
-                else if(field.FieldType == typeof(GamePtr))
+                else if (field.FieldType == typeof(GamePtr))
                 {
-                    item.SubItems[2].Text = $"0x{((GamePtr)field.GetValue(moby)).addr.ToString("X")}";
+                    display = $"0x{((GamePtr)value).addr:X}";
                 }
+                else if (field.FieldType == typeof(uint) ||
+                         field.FieldType == typeof(ushort) ||
+                         field.FieldType == typeof(byte))
+                {
+                    display = $"0x{Convert.ToUInt64(value):X}";
+                }
+                else if (field.FieldType == typeof(int) ||
+                         field.FieldType == typeof(short))
+                {
+                    long signedValue = Convert.ToInt64(value);
+                    display = $"0x{(signedValue & 0xFFFFFFFF):X}";
+                }
+
                 else
                 {
-                    item.SubItems[2].Text = field.GetValue(moby).ToString();
+                    display = value?.ToString() ?? "null";
                 }
+
+                item.SubItems[2].Text = display;
             }
         }
 

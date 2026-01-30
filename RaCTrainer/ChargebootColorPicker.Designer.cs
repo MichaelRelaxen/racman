@@ -30,7 +30,6 @@
         {
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.buttonColor1 = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -53,7 +52,7 @@
             // 
             // buttonColor1
             // 
-            this.buttonColor1.Location = new System.Drawing.Point(12, 51);
+            this.buttonColor1.Location = new System.Drawing.Point(12, 28);
             this.buttonColor1.Name = "buttonColor1";
             this.buttonColor1.Size = new System.Drawing.Size(70, 41);
             this.buttonColor1.TabIndex = 1;
@@ -61,19 +60,9 @@
             this.buttonColor1.UseVisualStyleBackColor = true;
             this.buttonColor1.Click += new System.EventHandler(this.buttonColor_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(12, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(276, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "*  currently permitted on RAC2 BLMOD leaderboards only";
-            // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(91, 51);
+            this.pictureBox1.Location = new System.Drawing.Point(91, 28);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(41, 41);
             this.pictureBox1.TabIndex = 3;
@@ -83,7 +72,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 35);
+            this.label3.Location = new System.Drawing.Point(12, 12);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(31, 13);
             this.label3.TabIndex = 4;
@@ -92,7 +81,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 100);
+            this.label4.Location = new System.Drawing.Point(12, 77);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 13);
             this.label4.TabIndex = 7;
@@ -100,7 +89,7 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(91, 116);
+            this.pictureBox2.Location = new System.Drawing.Point(91, 93);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(41, 41);
             this.pictureBox2.TabIndex = 6;
@@ -109,7 +98,7 @@
             // 
             // buttonColor2
             // 
-            this.buttonColor2.Location = new System.Drawing.Point(12, 116);
+            this.buttonColor2.Location = new System.Drawing.Point(12, 93);
             this.buttonColor2.Name = "buttonColor2";
             this.buttonColor2.Size = new System.Drawing.Size(70, 41);
             this.buttonColor2.TabIndex = 5;
@@ -119,7 +108,7 @@
             // 
             // buttonReset
             // 
-            this.buttonReset.Location = new System.Drawing.Point(198, 35);
+            this.buttonReset.Location = new System.Drawing.Point(198, 12);
             this.buttonReset.Name = "buttonReset";
             this.buttonReset.Size = new System.Drawing.Size(71, 192);
             this.buttonReset.TabIndex = 8;
@@ -130,7 +119,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 170);
+            this.label5.Location = new System.Drawing.Point(12, 147);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(32, 13);
             this.label5.TabIndex = 12;
@@ -138,7 +127,7 @@
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Location = new System.Drawing.Point(91, 186);
+            this.pictureBox3.Location = new System.Drawing.Point(91, 163);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(41, 41);
             this.pictureBox3.TabIndex = 11;
@@ -147,7 +136,7 @@
             // 
             // buttonColor3
             // 
-            this.buttonColor3.Location = new System.Drawing.Point(12, 186);
+            this.buttonColor3.Location = new System.Drawing.Point(12, 163);
             this.buttonColor3.Name = "buttonColor3";
             this.buttonColor3.Size = new System.Drawing.Size(70, 41);
             this.buttonColor3.TabIndex = 10;
@@ -157,7 +146,7 @@
             // 
             // buttonSave
             // 
-            this.buttonSave.Location = new System.Drawing.Point(275, 78);
+            this.buttonSave.Location = new System.Drawing.Point(275, 55);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(70, 72);
             this.buttonSave.TabIndex = 13;
@@ -167,7 +156,7 @@
             // 
             // buttonLoad
             // 
-            this.buttonLoad.Location = new System.Drawing.Point(275, 156);
+            this.buttonLoad.Location = new System.Drawing.Point(275, 133);
             this.buttonLoad.Name = "buttonLoad";
             this.buttonLoad.Size = new System.Drawing.Size(70, 71);
             this.buttonLoad.TabIndex = 14;
@@ -190,7 +179,7 @@
             "8",
             "9",
             "10"});
-            this.comboBoxSlots.Location = new System.Drawing.Point(275, 51);
+            this.comboBoxSlots.Location = new System.Drawing.Point(275, 28);
             this.comboBoxSlots.Name = "comboBoxSlots";
             this.comboBoxSlots.Size = new System.Drawing.Size(70, 21);
             this.comboBoxSlots.TabIndex = 93;
@@ -198,7 +187,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(275, 35);
+            this.label6.Location = new System.Drawing.Point(275, 12);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(53, 13);
             this.label6.TabIndex = 94;
@@ -208,7 +197,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(358, 245);
+            this.ClientSize = new System.Drawing.Size(358, 220);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.comboBoxSlots);
             this.Controls.Add(this.buttonLoad);
@@ -222,7 +211,6 @@
             this.Controls.Add(this.buttonColor2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonColor1);
             this.Name = "ChargebootColorPicker";
             this.Text = "Cosmetics";
@@ -238,7 +226,6 @@
         #endregion
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button buttonColor1;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;

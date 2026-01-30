@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using System.Threading;
 using DiscordRPC;
 
@@ -82,10 +84,157 @@ namespace racman
         public uint debugModeControl => 0x95c5d4;
 
         public uint mobyInstances => 0x0A390A0;
+
+        public uint drekCutscene => 0xFACC74;
+
+        // Jankpot
+        // 1 = active, 0 = inactive
+        public uint jankpotState => 0x00a15f2c;
+        // Current jankpot bolt count used for boilt per minute calculations
+        public uint jankpotBolts => 0x00a0fd18;
+        // Time spent in Jankpot state active
+        public uint jankpotTimer => 0x00a0fd14;
+
+        // Goodies unlocked
+        public uint ngPlusGoodies => 0x00969cd0; 
+        // Challenge mode
+        public uint ngPlusState => 0x0096c9fc; 
     }
 
     public class rac1 : IGame, IAutosplitterAvailable
     {
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct Vec4
+        {
+            public float x;
+            public float y;
+            public float z;
+            public float w;
+        };
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct GamePtr
+        {
+            public uint addr;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public unsafe struct Moby
+        {
+            public Vec4 coll_pos;
+            public Vec4 position;
+            public sbyte state;
+            public byte group;
+            public byte m_class;
+            public byte alpha;
+            public GamePtr p_class;
+            public GamePtr p_chain;
+            public float scale;
+            public byte update_distance;
+            public byte enabled;
+            public short draw_distance;
+            public ushort mode_bits;
+            public ushort field19_0x36;
+            public uint color;
+            public byte field21_0x3c;
+            public byte field22_0x3d;
+            public byte field23_0x3e;
+            public byte field24_0x3f;
+            public Vec4 rotation;
+            public byte field26_0x50;
+            public byte animation_frame;
+            public byte update_id;
+            public byte animation_id;
+            public float field30_0x54;
+            public float field34_0x58;
+            public float field35_0x5c;
+            public GamePtr field36_0x60;
+            public GamePtr manipulator1;
+            public GamePtr field41_0x68;
+            public GamePtr field42_0x6c;
+            public byte field43_0x70;
+            public byte field44_0x71;
+            public byte field45_0x72;
+            public byte field46_0x73;
+            public uint p_update;
+            public uint vars;
+            public byte field49_0x7c;
+            public byte field50_0x7d;
+            public byte field51_0x7e;
+            public byte animStateMaybe;
+            public GamePtr manipulator2;
+            public int field54_0x84;
+            public int field55_0x88;
+            public byte field56_0x8c;
+            public byte field57_0x8d;
+            public byte field58_0x8e;
+            public byte field59_0x8f;
+            public uint field60_0x90;
+            public GamePtr collision;
+            public GamePtr collision_mesh;
+            public uint field63_0x9c;
+            public byte field64_0xa0;
+            public byte field65_0xa1;
+            public byte field66_0xa2;
+            public byte field67_0xa3;
+            public sbyte damage;
+            public byte field69_0xa5;
+            public short oClass;
+            public int field71_0xa8;
+            public uint field72_0xac;
+            public byte field73_0xb0;
+            public byte field74_0xb1;
+            public ushort UID;
+            public byte field76_0xb4;
+            public byte field77_0xb5;
+            public byte field78_0xb6;
+            public byte field79_0xb7;
+            public GamePtr field80_0xb8;
+            public byte field81_0xbc;
+            public byte field82_0xbd;
+            public byte field83_0xbe;
+            public byte field84_0xbf;
+            public fixed byte transform[64]; // Vec4[4] = 4 * 16 bytes = 64
+
+            public static unsafe Moby ByteArrayToMoby(byte[] bytes)
+            {
+                if (BitConverter.IsLittleEndian)
+                {
+                    var type = typeof(Moby);
+                    foreach (var field in type.GetFields())
+                    {
+                        if (field.FieldType == typeof(byte))
+                            continue;
+
+                        var offset = Marshal.OffsetOf(type, field.Name).ToInt32();
+
+                        if (field.FieldType == typeof(Vec4))
+                        {
+                            for (int i = 0; i < 4; i++)
+                                Array.Reverse(bytes, offset + (i * 4), 4);
+                        }
+
+                        int numBytesToReverse = 0;
+                        if (field.FieldType == typeof(short) || field.FieldType == typeof(ushort))
+                            numBytesToReverse = 2;
+                        else if (field.FieldType == typeof(int) || field.FieldType == typeof(uint) ||
+                                 field.FieldType == typeof(float) || field.FieldType == typeof(GamePtr))
+                            numBytesToReverse = 4;
+                        else if (field.FieldType == typeof(long) || field.FieldType == typeof(ulong) ||
+                                 field.FieldType == typeof(double))
+                            numBytesToReverse = 8;
+
+                        if (numBytesToReverse > 0)
+                            Array.Reverse(bytes, offset, numBytesToReverse);
+                    }
+                }
+
+                fixed (byte* ptr = &bytes[0])
+                {
+                    return (Moby)Marshal.PtrToStructure((IntPtr)ptr, typeof(Moby));
+                }
+            }
+        }
         public enum DebugOption
         {
             UpdateRatchet, 
@@ -190,13 +339,16 @@ namespace racman
         {
             if (toggle)
             {
-                api.WriteMemory(pid, 0x0DF254, 0x60000000);
-                api.WriteMemory(pid, 0x165450, 0x2C03FFFF);
+                api.WriteMemory(pid, 0x165490, 0x60000000); // skip loading screen [nop]
+                api.WriteMemory(pid, 0x160060, 0x38600006); // mute sound on loading screen, play non-existent sound [li r3, 6]
+                api.WriteMemory(pid, 0x1641f8, 0x38600006);
             }
             else
             {
-                api.WriteMemory(pid, 0x0DF254, 0x40820188);
-                api.WriteMemory(pid, 0x165450, 0x2c030000);
+                // reverts back to original instructions
+                api.WriteMemory(pid, 0x165490, 0x4bffe519);
+                api.WriteMemory(pid, 0x160060, 0x546307be);
+                api.WriteMemory(pid, 0x1641f8, 0x546307be);
             }
         }
 
@@ -315,11 +467,11 @@ namespace racman
         {
 
             // Not working properly right now?
-            api.WriteMemory(pid, rac1.addr.levelFlags + 0x10 * planetToLoad, 0x10, new byte[0x10]);
-            api.WriteMemory(pid, rac1.addr.miscLevelFlags + 0x100 * planetToLoad, 0x100, new byte[0x100]);
-            api.WriteMemory(pid, rac1.addr.infobotFlags, 20, new byte[20]);
-            api.WriteMemory(pid, rac1.addr.moviesFlags, 0x100, new byte[0x100]);
-            
+            api.WriteMemory(pid, rac1.addr.levelFlags + (planetToLoad * 0x10), 0x10, new byte[0x10]);
+            api.WriteMemory(pid, rac1.addr.miscLevelFlags + (planetToLoad * 0x100), 0x100, new byte[0x100]);
+            api.WriteMemory(pid, rac1.addr.infobotFlags + planetToLoad, 1, new byte[1]);
+            api.WriteMemory(pid, rac1.addr.moviesFlags, 0xc0, new byte[0xC0]);
+
             if (planetToLoad == 3)
             {
                 api.WriteMemory(pid, 0x96C378, 0xF0, new byte[0xF0]);
@@ -435,6 +587,15 @@ namespace racman
         public void SetDrekSkip(bool enabled)
         {
             api.WriteMemory(pid, rac1.addr.drekSkip, 1, BitConverter.GetBytes(enabled));
+        }
+
+        /// <summary>
+        /// Shows drek button cutscene.
+        /// </summary>
+        /// <param name="enabled">Destroyer up or not</param>
+        public void SetDrekCutscene(bool enabled)
+        {
+            api.WriteMemory(pid, rac1.addr.drekCutscene, 1, BitConverter.GetBytes(enabled));
         }
 
         /// <summary>

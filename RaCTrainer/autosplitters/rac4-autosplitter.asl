@@ -146,11 +146,6 @@ split
 
 reset
 {
-    if (current.planet == 0 && old.inGame == 1 && current.inGame == 0)
-    {
-        return true;
-    }
-
     if (old.isLoading == 0 && current.isLoading == 1 && current.tutorialFlag == 0 && current.loadPlanet == 1 && old.inGame == 1)
     {
         return true;

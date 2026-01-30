@@ -16,6 +16,7 @@ namespace racman
         public Form UnlocksWindow;
         public Form HovenHealthForm;
         public Form InputDisplay;
+        static RacketsGUI racketsForm;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         private static Timer ForceLoadTimer = new Timer();
@@ -231,6 +232,7 @@ namespace racman
 
         private void drekskip_Click(object sender, EventArgs e)
         {
+            game.api.Notify("Drek skip done for non poki skip NG+ runs :)");
             game.SetDrekSkip(true);
         }
 
@@ -542,6 +544,32 @@ namespace racman
         private void forceAutosave_Click(object sender, EventArgs e)
         {
             game.api.WriteMemory(game.api.getCurrentPID(), 0xB00073, new byte[] { 3 });
+        }
+
+        private void drekCutsceneButton_Click(object sender, EventArgs e)
+        {
+            game.api.Notify("Drek cutscene done for NG+ poki skip runs :)");
+            game.SetDrekCutscene(true);
+        }
+
+        private void tASToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // 0x145C180 is chargeBuffer
+            Rackets2API.Initialize(0xB00000, rac1.addr.playerCoords, rac1.addr.currentPlanet, 0xAFFB00, 0xAFFB00);
+            racketsForm = new RacketsGUI();
+            racketsForm.Show();
+        }
+
+        private void hitWatcherToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HitWatchForm hw = new HitWatchForm(game);
+            hw.Show();
+        }
+
+        private void jankpotToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            JankpotForm jf = new JankpotForm(game);
+            jf.Show();
         }
     }
 }

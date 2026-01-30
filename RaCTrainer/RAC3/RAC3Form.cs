@@ -57,6 +57,7 @@ namespace racman
 
         public rac3 game;
         public ChargebootColorPicker cosmeticsForm;
+        private SavefileLoader savefileLoader;
         private AutosplitterHelper autosplitterHelper;
         private AutosplitterConfigForm autosplitterConfigForm;
         //private RacketsGUI racketsForm;
@@ -161,8 +162,7 @@ namespace racman
 
         private void loadPlanetButton_Click(object sender, EventArgs e)
         {
-            game.LoadPlanet();
-            game.SetFastLoads(true);
+            game.LoadPlanetSafe();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -365,7 +365,9 @@ namespace racman
         }
         private void setAsideButton_Click(object sender, EventArgs e)
         {
-            game.api.WriteMemory(pid, 0xD9FF02, new byte[] { 0x01 });
+            //game.api.WriteMemory(pid, 0xD9FF02, new byte[] { 0x01 });
+            savefileLoader = new SavefileLoader();
+            savefileLoader.Show();
         }
         static bool qsbool = false;
         private void toggleQS_Click(object sender, EventArgs e)
@@ -510,6 +512,13 @@ namespace racman
                 rac3.addr.chargebootsTintBackColor
             );
             cosmeticsForm.Show();
+        }
+
+        public RAC3.Freecam freecam;
+        private void freecamHelpaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            freecam = new RAC3.Freecam();
+            freecam.Show();
         }
     }
 }

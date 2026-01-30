@@ -56,7 +56,7 @@ namespace racman
         public uint unlockArray => 0xDA56EC;
         // Unlock array is 0xDA56EC, spreadsheet says offset is 4A8.
         // Offset of exp array is 5F0, so this is DA56EC - 4A8 + 5F0
-        public uint expArray => 0xDA5834;
+        public uint expArray => 0xDA5824;
         public uint ammoArray => 0xDA5240;
         public uint vidComics => 0xda650b;
 
@@ -293,6 +293,20 @@ namespace racman
             api.WriteMemory(pid, rac3.addr.shipColour, BitConverter.GetBytes((byte)number).Reverse().ToArray());
         }
 
+        public void LoadPlanetSafe()
+        {
+            // aquatos
+            if (planetToLoad == 8)
+            {
+                LoadPlanet();
+            } 
+            else
+            {
+                LoadPlanet();
+                SetFastLoads();
+            }
+        }
+
         /// <summary>
         /// Inifnite health is set by overwriting game code that deals health with nops.
         /// </summary>
@@ -324,8 +338,7 @@ namespace racman
             }
             if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
             {
-                LoadPlanet();
-                SetFastLoads();
+                LoadPlanetSafe();
                 inputCheck = false;
             }
             if (Inputs.RawInputs == ConfigureCombos.loadSetAsideCombo && inputCheck)

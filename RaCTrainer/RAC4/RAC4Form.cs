@@ -5,19 +5,68 @@ using System.Text;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
 using System.Net.Http;
-using System.Threading.Tasks;
+using System.Threading;
+using racman.RAC4;
 
 namespace racman
 {
     public partial class RAC4Form : Form
     {
+    private enum Planets
+        {
+            DreadZone,            
+            Catacrom,
+            INFLOOP,
+            Sarathos,
+            Kronos,
+            Shaar,
+            Valix,
+            Orxon,
+            INFLOOP2,
+            Torval,
+            Stygia,
+            INFLOOP3,
+            Maraxus,
+            GhostStation,
+            Interior
+        };
+        private enum Skins
+        {
+            Marauder,
+            Avenger,
+            Crusader,
+            Vindicator,           
+            Liberator,
+            AlphaClank,
+            Squidzor,
+            LandShark,          
+            TheMuscle,
+            W3RM,
+            Starshield,
+            KingClaude,
+            Vernon,                 
+            KidNova,
+            Venus,
+            Jak,            
+            Ninja,
+            SaurusRatchet,
+            GenomeRatchet,
+            SantaRatchet,
+            PipoSaruRatchet,
+            Clankchet,
+        };
         public rac4 game;
         private static ModLoaderForm modLoaderForm;
         private AutosplitterHelper autosplitterHelper;
 
-        public int tutorialSubId = -1;
+        private int savefileHelperSubID = -1;
+        private int tutorialSubId = -1;
+        private int quittingGameSubId = -1;
         // Tutorial flag - are we loading a fresh file?
         public byte prevTutorial;
+        private bool isStartingAutosplitter;
+
+        WebMAN wmm = null;
 
         public RAC4Form(rac4 game)
         {
@@ -26,8 +75,33 @@ namespace racman
             game.SetupInputDisplayMemorySubs();
 
             InitializeComponent();
+            planets_comboBox.Text = "DreadZone";
+            skins_comboBox.Text = "Marauder";
             bolts_textBox.KeyDown += bolts_TextBox_KeyDown;
+            dreadPoints_textBox.KeyDown += dreadPoints_TextBox_KeyDown;
+            CM_textBox.KeyDown += CM_TextBox_KeyDown;
             AutosplitterCheckbox.Checked = true;
+
+            if (func.api is Ratchetron r)
+            {
+                wmm = new WebMAN(r.GetIP());
+
+                r.setReconnectCallback(() =>
+                {
+                    Thread.Sleep(8000);
+
+                    AttachPS3Form.pid = game.api.getCurrentPID();
+                    pid = AttachPS3Form.pid;
+
+                    if (!AutosplitterCheckbox.Checked) return;
+
+                    autosplitterHelper.Reconnect();
+                    setupDisconnectSubs();
+                    // game.SetupInputDisplayMemorySubs();
+
+                    game.api.Notify("Autosplitter reconnected!");
+                });
+            }
         }
 
         public Form InputDisplay;
@@ -43,6 +117,21 @@ namespace racman
         private void RAC4Form_Load(object sender, EventArgs e)
         {
             checkBoxSoftlocks.Checked = true;
+
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), rac4.addr.savefile_api_enabled, 1, value =>
+            {
+                if (value[0] == 1)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        // Savefile helper mod is enabled.
+                        loadFileButton.Enabled = true;
+                        setAsideFileButton.Enabled = true;
+                        game.api.ReleaseSubID(savefileHelperSubID);
+                        savefileHelperSubID = -1;
+                    }));
+                }
+            });
         }
 
         private async void wrsFromSrcSiteCheck_CheckedChanged(object sender, EventArgs e)
@@ -134,9 +223,14 @@ namespace racman
             {
                 if (tutorialSubId != -1)
                     game.api.ReleaseSubID(tutorialSubId);
+                if (savefileHelperSubID != -1)
+                    game.api.ReleaseSubID(savefileHelperSubID);
+                if (game.api is Ratchetron r)
+                    r.ReleaseAllSubs();
 
                 game.api.Disconnect();
-                Application.Exit();
+                if (!isStartingAutosplitter)
+                    Application.Exit();
             } 
             catch
             {
@@ -147,6 +241,57 @@ namespace racman
         private void ghostcheck_CheckedChanged(object sender, EventArgs e)
         {
             game.SetGhostRatchet(ghostcheck.Checked);
+        }
+
+        private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int planetId;
+            String planetText;
+            planetText = (String)planets_comboBox.SelectedItem;
+            if (planetText != null)
+            {
+                if (planetText != "")
+                {
+                    planetId = (int)Enum.Parse(typeof(Planets), planetText) + 1;
+                }
+                else
+                {
+                    planetId = 2;
+                }
+            }
+            else
+            {
+                planetId = 3;
+            }
+
+
+            game.planetToLoad = (uint)planetId;
+        }
+
+        // I just copied the planets one, idk how it works
+        private void skins_comboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int skinId;
+            String skinText;
+            skinText = (String)skins_comboBox.SelectedItem;
+            if (skinText != null)
+            {
+                if (skinText != "")
+                {
+                    skinId = (int)Enum.Parse(typeof(Skins), skinText);
+                }
+                else
+                {
+                    skinId = 2;
+                }
+            }
+            else
+            {
+                skinId = 3;
+            }
+
+
+            game.skinToLoad = (uint)skinId;
         }
 
         private void inputdisplaybutton_Click(object sender, EventArgs e)
@@ -193,10 +338,42 @@ namespace racman
             }
             else
             {
-                // Enable auotpslitter
+                // Enable autosplitter
                 Console.WriteLine("Autosplitter starting!");
                 autosplitterHelper = new AutosplitterHelper();
                 autosplitterHelper.StartAutosplitterForGame(this.game);
+                setupDisconnectSubs();
+            }
+        }
+
+        private void setupDisconnectSubs()
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            // Patch game to write 0xFF to set address when quitting
+            api.WriteMemory(pid, 0x00013780, new byte[] { 0x38, 0x60, 0x00, 0xFF }); // li  r3, 0xFF
+            api.WriteMemory(pid, 0x00013784, new byte[] { 0x3C, 0x80, 0x01, 0x70 }); // lis r4, 0x170
+            api.WriteMemory(pid, 0x00013788, new byte[] { 0x98, 0x64, 0x00, 0x00 }); // stb r3, 0x0(r4)
+
+            quittingGameSubId = api.SubMemory(pid, 0x01700000, 1, (val) =>
+            {
+                if (val[0] == 0xFF)
+                {
+                    Console.WriteLine("Quit!");
+                    HandleDisconnect();
+                }
+            });
+        }
+
+        private void HandleDisconnect()
+        {
+            autosplitterHelper?.Stop();
+            if (game.api is Ratchetron r)
+            {
+                r.ReleaseAllSubs();
+                savefileHelperSubID = -1;
+                quittingGameSubId = -1;
+                tutorialSubId = -1;
             }
         }
 
@@ -224,6 +401,24 @@ namespace racman
             }
         }
 
+        private void dreadPoints_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    api.WriteMemory(pid, rac4.addr.dreadPoints, uint.Parse(dreadPoints_textBox.Text));
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -239,6 +434,25 @@ namespace racman
             }
         }
 
+        private void CM_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    uint CM = uint.Parse(CM_textBox.Text);
+                    api.WriteMemory(pid, rac4.addr.CM, new byte[] { (byte)CM });
+                }
+                catch
+                {
+                    MessageBox.Show("Please enter a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
         private void killyourself_Click(object sender, EventArgs e)
         {
             KillYourself();
@@ -246,13 +460,57 @@ namespace racman
 
         private void KillYourself()
         {
-            game.KillYourself();
+            game.DieRac4();
+        }
+
+        private void savePosButton_Click(object sender, EventArgs e)
+        {
+            SavePosition();
+        }
+
+        private void SavePosition()
+        {
+            game.SavePosition();
+        }
+
+
+        private void loadPosButton_Click(object sender, EventArgs e)
+        {
+            LoadPosition();
+        }
+
+        private void LoadPosition()
+        {
+            game.LoadPosition();
         }
 
         private void botsUnlocksWindowButton_Click(object sender, EventArgs e)
         {
             RAC4BotsUnlocks unlocks = new RAC4BotsUnlocks(game);
             unlocks.Show();
+        }
+
+        private void switchGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormClosing -= RAC4Form_FormClosing;
+            Program.AttachPS3Form.Show();
+            Close();
+        }
+
+        private int healthFreezeSubID = -1;
+
+        // I couldn't get this to work, he just dies - isak
+        private void freezeHealthCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (freezeHealthCheckbox.Checked)
+            {
+                // It puts Ratchet to 0 and makes it invencible, idk why 200 tbh
+                healthFreezeSubID = game.api.FreezeMemory(game.api.getCurrentPID(), rac4.addr.playerHealth, 200);
+            }
+            else
+            {
+                game.api.ReleaseSubID(healthFreezeSubID);
+            }
         }
 
         private void buttonActTune_Click(object sender, EventArgs e)
@@ -265,6 +523,106 @@ namespace racman
             api.WriteMemory(pid, rac4.addr.evisceratorTuning, new byte[] { 20 });
             api.WriteMemory(pid, rac4.addr.aceTuning, new byte[] { 20 });
             api.Notify("Act tuning done!");
+        }
+        private void setAsideFileButton_Click(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            api.WriteMemory(pid, rac4.addr.savefile_api_setaside, new byte[] { 1 });
+        }
+
+        private void loadFileButton_Click(object sender, EventArgs e)
+        {
+            game.loadSetAsideFile();
+        }
+
+        public Form ConfigureCombos;
+        private void configureButtonCombosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ConfigureCombos == null)
+            {
+                ConfigureCombos = new ConfigureCombos();
+                ConfigureCombos.FormClosed += ConfigureCombos_FormClosed;
+                ConfigureCombos.Show();
+                game.InputsTimer.Enabled = false;
+            }
+        }
+
+        private void ConfigureCombos_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ConfigureCombos = null;
+            if (CComboCheckBox.Checked)
+                game.InputsTimer.Enabled = true;
+        }
+
+        private void CComboCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CComboCheckBox.Checked)
+                game.InputsTimer.Enabled = true;
+            else
+                game.InputsTimer.Enabled = false;
+        }
+
+        private void savepos_Click(object sender, EventArgs e) 
+        {
+            game.SavePosition();
+        }
+
+        private void loadpos_Click(object sender, EventArgs e)
+        {
+            game.LoadPositionRac4();
+        }
+
+        // Only works on Dread Station, on the other planets you have to go to the Skins menu and exit to apply the skin, need to figure out but kinda works
+        private void skinsButton_Click_1(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac4.addr.skin, new byte[] { (byte)game.skinToLoad });
+            api.WriteMemory(pid, 0x0110D975, 1);
+            KillYourself();
+        }
+
+        private void loadPlanetButton_Click_1(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac4.addr.targetPlanet, game.planetToLoad);
+            api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
+        }
+
+        private void unlockPlanetsButton_Click_1(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            api.WriteMemory(pid, rac4.addr.badges, new byte[] { 0x00, 0x02, 0x00, 0x04, 0x02, 0x02 });
+            api.WriteMemory(pid, rac4.addr.range, new byte[] { 0x04 });
+            api.WriteMemory(pid, rac4.addr.dreadPoints, 1000000);
+            api.WriteMemory(pid, rac4.addr.targetPlanet, 1);
+            api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
+        }
+
+        private void buttonStartLCSplitter_Click(object sender, EventArgs e)
+        {
+            if (game.api is Ratchetron r)
+            {
+                // Disconnect everthing else, start autosplitter SPRX, and open that form
+                this.isStartingAutosplitter = true;
+                this.Close();
+
+                func.PrepareSPRX(ip, "rac4-autosplitter.sprx", 5);
+
+                FormAutosplitter autosplitterForm = new FormAutosplitter(ip);
+                autosplitterForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("Autosplitter not supported on RPCS3", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+           
         }
     }
 }

@@ -67,7 +67,6 @@ namespace racman
 
             savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
             {
-                // this lione
                 if (value[0] == 1)
                 {
                     this.Invoke(new Action(() =>
@@ -93,21 +92,35 @@ namespace racman
                 // Disable force-override from reload file by setting to previous setting
                 game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
 
-                if (!checkBoxAutoReset.Checked) return;
+                // Everything below here is A1-exclusive code
                 var planet = api.ReadMemory(pid, rac2.addr.currentPlanet, 4);
                 if (planet[3] != 0) return;
-                // Everything below here is A1-exclusive code
-                resetMenuStorage();
+
+                // auto buffer charge for resets.
+                api.WriteMemory(pid, 0x145C180, 30);
+
+                // Reset freeze ammo when loading a new file
                 this.Invoke(new Action(() => {
                     freezeAmmoCheckbox.Checked = false;
                     freezeAmmoCheckbox_CheckedChanged(sender, EventArgs.Empty);
                 }));
+
+                if (checkBox_autoResetAnyPercent.Checked) {
+                    resetAnyPercentVars(game.api);
+                }
+
+                if (checkBoxAutoReset.Checked)
+                {
+                    resetMenuStorage();
+                }
             });
 
             this.Invoke(new Action(() => {
                 planets_comboBox.SelectedIndex = (int)game.planetIndex;
             }));
         }
+
+
 
         private void RAC2Form_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -153,7 +166,15 @@ namespace racman
 
         private void killyourself_Click(object sender, EventArgs e)
         {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
             game.KillYourself();
+            if (resetBossesComboBox.Checked) {
+                api.WriteMemory(pid, 0x1481792, new byte[] { 0 }); // siberius
+                api.WriteMemory(pid, 0x14817a3, new byte[] { 0 }); // snivelak
+
+            }
         }
 
         private void bolts_textBox_KeyDown(object sender, KeyEventArgs e)
@@ -340,31 +361,9 @@ namespace racman
             }
         }
 
-        private void resetFileManipButton_Click(object sender, EventArgs e)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-
-            api.WriteMemory(pid, 0x1329AAC, 0); // Bolt economy
-            api.WriteMemory(pid, rac2.addr.endakoBossCS, 0); // Endako cutscene
-            api.WriteMemory(pid, 0x1AAC767, 0); // Game pyramid bolt drop
-            api.WriteMemory(pid, 0x1A4D7E0, 0); // Race storage
-
-            api.Notify("Game Pyramid, Bolts manip, Race Storage and Endako Boss Cutscene are now reset and ready for runs");
-        }
-
-
-  
-
-
         private void SetFastLoadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             game.enableDisableFastLoads(SetFastLoadCheckbox.Checked);
-        }
-
-        private void labelLap_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void loadFileButton_Click(object sender, EventArgs e)
@@ -401,11 +400,6 @@ namespace racman
             }
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void resetMenuStorage()
         {
             var api = game.api;
@@ -427,10 +421,57 @@ namespace racman
             api.WriteMemory(pid, rac2.addr.gornMissionComplete, 0);
         }
 
+        private void resetAnyPercentVars(IPS3API api)
+        {
+            var pid = api.getCurrentPID();
+
+            // Disable race storage
+            api.WriteMemory(pid, rac2.addr.savedRaceIndex, 0);
+            // Disable ship opening cutscenes
+            api.WriteMemory(pid, rac2.addr.feltzinOpening, new byte[] { 0 });
+            api.WriteMemory(pid, rac2.addr.gornOpening, 0);
+            api.WriteMemory(pid, rac2.addr.gornManip, 0); // When set to 1, ending? cs on gorn is skipped.
+            // Fix ship mission menus
+            api.WriteMemory(pid, rac2.addr.feltzinMissionComplete, 0);
+            api.WriteMemory(pid, rac2.addr.hrugisMissionComplete, 0);
+            api.WriteMemory(pid, rac2.addr.gornMissionComplete, 0);
+            // Bolts
+            api.WriteMemory(pid, rac2.addr.jankpotActive, 0); // Adds to bolt economy if active, hazardous for any% :( 
+            api.WriteMemory(pid, rac2.addr.boltDeficit, 0); 
+            // Endako
+            api.WriteMemory(pid, rac2.addr.endakoBossCS, 0);
+            api.WriteMemory(pid, rac2.addr.pyramidBoltDrop, 0); 
+            // Blah
+            api.WriteMemory(pid, rac2.addr.oldSkoolSpPossible, 0); 
+            api.WriteMemory(pid, rac2.addr.bossHealthBarActive, 0); // Fixes boss health bars disappearing
+            api.WriteMemory(pid, rac2.addr.csStorageAddr, 0); // Cutscene storage from oozla.
+            // Feltzin
+            api.WriteMemory(pid, rac2.addr.feltzinRariDrop, 0); // Gives rari drop on first crystal broken on feltzin.
+            api.WriteMemory(pid, rac2.addr.lastRaritaniumCount, 0); // Prevents raritanium from disappearing.
+
+            // dorbit
+            api.WriteMemory(pid, rac2.addr.dorbitOpening, new byte[] { 0 });
+
+            // Reset any boss act tuning.
+            api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 0 });
+            api.WriteMemory(pid, rac2.addr.yeedilBoss, new byte[] { 0 });
+            api.WriteMemory(pid, rac2.addr.sibBoss, new byte[] { 0 });
+
+            // We should reset pad manip, since it gets set whenever Snivelak is visited.
+            api.WriteMemory(pid, rac2.addr.padManip, 0x41500000); // 13.0 as a float
+        }
+
+
+        private void resetFileManipButton_Click(object sender, EventArgs e)
+        {
+            resetAnyPercentVars(game.api);
+            game.api.Notify("Manips cleared, any% ready!");
+        }
+
         private void buttonRaceStorage_Click(object sender, EventArgs e)
         {
             resetMenuStorage();
-            game.api.Notify("Reset menu storage!");
+            game.api.Notify("Reset menu storage!\x00");
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -513,11 +554,6 @@ namespace racman
             CoordsTimer.Enabled = check;
             coordsLabel.Visible = true;
             if (check) this.Height += 50;
-        }
-
-        private void coordsLabel_Click(object sender, EventArgs e)
-        {
-
         }
 
         public void UpdateCoordsLabel(object sender, EventArgs e)
@@ -614,9 +650,48 @@ namespace racman
         private void tasToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // 0x145C180 is chargeBuffer
-            Rackets2API.Initialize(0x1be0000, rac2.addr.playerCoords, rac2.addr.currentPlanet, 0x145C180);
+            Rackets2API.Initialize(0x1be0000, rac2.addr.playerCoords, rac2.addr.currentPlanet, 0x145C180, rac2.addr.csStorageAddr);
             racketsForm = new RacketsGUI();
             racketsForm.Show();
+        }
+
+        private void ResetSPButton_Click(object sender, EventArgs e)
+        {
+
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x00, 30).ToArray();
+            api.WriteMemory(pid, rac2.addr.skillPointArray, locked);
+
+        }
+
+        private void UnlockSPButton_Click(object sender, EventArgs e)
+        {
+
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x01, 30).ToArray();
+            api.WriteMemory(pid, rac2.addr.skillPointArray, locked);
+
+
+        }
+
+        private void unlockAllNanotechBoostsButton(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x01, 10).ToArray();
+            api.WriteMemory(pid, rac2.addr.nanotechBoostArray, locked);
+
+        }
+
+        private void resetAllNanotechBoostsButton(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            byte[] locked = Enumerable.Repeat((byte)0x00, 10).ToArray();
+            api.WriteMemory(pid, rac2.addr.nanotechBoostArray, locked);
+
         }
     }
 }
