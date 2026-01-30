@@ -75,7 +75,7 @@
             // 
             this.button1.Location = new System.Drawing.Point(30, 149);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(268, 68);
+            this.button1.Size = new System.Drawing.Size(270, 80);
             this.button1.TabIndex = 3;
             this.button1.Text = "Unlock/Relock Weapons";
             this.button1.UseVisualStyleBackColor = true;
@@ -83,9 +83,9 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(30, 232);
+            this.button2.Location = new System.Drawing.Point(30, 244);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(268, 68);
+            this.button2.Size = new System.Drawing.Size(270, 80);
             this.button2.TabIndex = 4;
             this.button2.Text = "Unlock/Relock Upgrades";
             this.button2.UseVisualStyleBackColor = true;

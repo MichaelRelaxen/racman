@@ -48,10 +48,11 @@
             this.button14 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.labelSplitterRoute = new System.Windows.Forms.Label();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +65,7 @@
             this.menuToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1027, 45);
+            this.menuStrip1.Size = new System.Drawing.Size(960, 54);
             this.menuStrip1.TabIndex = 76;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -160,21 +161,9 @@
             this.labelAutosplitterStatus.Location = new System.Drawing.Point(315, 111);
             this.labelAutosplitterStatus.Margin = new System.Windows.Forms.Padding(7, 0, 7, 0);
             this.labelAutosplitterStatus.Name = "labelAutosplitterStatus";
-            this.labelAutosplitterStatus.Size = new System.Drawing.Size(232, 29);
-            this.labelAutosplitterStatus.Size = new System.Drawing.Size(95, 13);
+            this.labelAutosplitterStatus.Size = new System.Drawing.Size(219, 29);
             this.labelAutosplitterStatus.TabIndex = 105;
             this.labelAutosplitterStatus.Text = "Autosplitter disbled";
-            // 
-            // labelSplitterRoute
-            // 
-            this.labelSplitterRoute.AutoSize = true;
-            this.labelSplitterRoute.ForeColor = System.Drawing.Color.Gray;
-            this.labelSplitterRoute.Location = new System.Drawing.Point(258, 125);
-            this.labelSplitterRoute.Name = "labelSplitterRoute";
-            this.labelSplitterRoute.Size = new System.Drawing.Size(101, 13);
-            this.labelSplitterRoute.TabIndex = 106;
-            this.labelSplitterRoute.Text = "Autosplitter disabled";
-            this.labelSplitterRoute.Visible = false;
             // 
             // button1
             // 
@@ -194,6 +183,7 @@
             this.button2.TabIndex = 107;
             this.button2.Text = "Save Position";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.SavePositionClick);
             // 
             // button3
             // 
@@ -203,6 +193,7 @@
             this.button3.TabIndex = 108;
             this.button3.Text = "Load Position";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.LoadPositionClick);
             // 
             // button4
             // 
@@ -284,24 +275,6 @@
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.ResetAllRYNOPlans);
             // 
-            // button9
-            // 
-            this.button9.Location = new System.Drawing.Point(626, 165);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(268, 51);
-            this.button9.TabIndex = 122;
-            this.button9.Text = "Freeze Ammo";
-            this.button9.UseVisualStyleBackColor = true;
-            // 
-            // button10
-            // 
-            this.button10.Location = new System.Drawing.Point(33, 295);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(268, 51);
-            this.button10.TabIndex = 123;
-            this.button10.Text = "Freeze Health";
-            this.button10.UseVisualStyleBackColor = true;
-            // 
             // button12
             // 
             this.button12.Location = new System.Drawing.Point(626, 360);
@@ -312,14 +285,59 @@
             this.button12.UseVisualStyleBackColor = true;
             this.button12.Click += new System.EventHandler(this.ResetGroovitronStorageClick);
             // 
+            // labelSplitterRoute
+            // 
+            this.labelSplitterRoute.AutoSize = true;
+            this.labelSplitterRoute.ForeColor = System.Drawing.Color.Gray;
+            this.labelSplitterRoute.Location = new System.Drawing.Point(315, 68);
+            this.labelSplitterRoute.Name = "labelSplitterRoute";
+            this.labelSplitterRoute.Size = new System.Drawing.Size(232, 29);
+            this.labelSplitterRoute.TabIndex = 106;
+            this.labelSplitterRoute.Text = "Autosplitter disabled";
+            this.labelSplitterRoute.Visible = false;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(320, 174);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(57, 33);
+            this.radioButton1.TabIndex = 125;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "1";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(383, 174);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(57, 33);
+            this.radioButton2.TabIndex = 126;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "2";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton3
+            // 
+            this.radioButton3.AutoSize = true;
+            this.radioButton3.Location = new System.Drawing.Point(449, 174);
+            this.radioButton3.Name = "radioButton3";
+            this.radioButton3.Size = new System.Drawing.Size(57, 33);
+            this.radioButton3.TabIndex = 127;
+            this.radioButton3.TabStop = true;
+            this.radioButton3.Text = "3";
+            this.radioButton3.UseVisualStyleBackColor = true;
+            // 
             // TODForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1027, 906);
+            this.ClientSize = new System.Drawing.Size(960, 916);
+            this.Controls.Add(this.radioButton3);
+            this.Controls.Add(this.radioButton2);
+            this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.button12);
-            this.Controls.Add(this.button10);
-            this.Controls.Add(this.button9);
             this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button14);
@@ -331,7 +349,6 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.ClientSize = new System.Drawing.Size(437, 170);
             this.Controls.Add(this.labelSplitterRoute);
             this.Controls.Add(this.labelAutosplitterStatus);
             this.Controls.Add(this.buttonStartAutosplitter);
@@ -372,9 +389,10 @@
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button10;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Label labelSplitterRoute;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton3;
     }
 }

@@ -27,8 +27,6 @@ namespace racman.TOD
             {
                 if (checkedListBox1.CheckedItems.Contains(s))
                     game.SetGadgetAndInventoryItems(s, 1);
-                else
-                    game.SetGadgetAndInventoryItems(s, 0);
             }
         }
     }

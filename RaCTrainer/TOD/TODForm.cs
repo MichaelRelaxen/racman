@@ -244,7 +244,7 @@ namespace racman.TOD
 
         private void ArmorSkinsFormClick(object sender, EventArgs e)
         {
-            ArmorSkinsForm form = new ArmorSkinsForm();
+            ArmorSkinsForm form = new ArmorSkinsForm(game);
             form.Show();
         }
 
@@ -263,6 +263,42 @@ namespace racman.TOD
         private void ResetGroovitronStorageClick(object sender, EventArgs e)
         {
             game.ResetGoldenGrovitronStorage();
+        }
+
+        private void SavePositionClick(object sender, EventArgs e)
+        {
+            int temp = RadioButtonChoice();
+            if (temp == -1)
+                return;
+            game.SavePosition(temp);
+        }
+        private void LoadPositionClick(object sender, EventArgs e)
+        {
+            int temp = RadioButtonChoice();
+            if (temp == -1)
+                return;
+            game.LoadPosition(temp);
+        }
+
+        private int RadioButtonChoice()
+        {
+            if (radioButton1.Checked)
+            {
+                return 0;
+            }
+            else if (radioButton2.Checked)
+            {
+                return 1;
+            }
+            else if (radioButton3.Checked)
+            {
+                return 2;
+            }
+            else
+            {
+                MessageBox.Show("Choose a button you beech");
+                return -1;
+            }
         }
     }
 }
