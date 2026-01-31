@@ -186,6 +186,12 @@
     <Compile Include="RAC1Mp\RaC1MpVersionForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RAC2\FormCollectables.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC2\FormCollectables.Designer.cs">
+      <DependentUpon>FormCollectables.cs</DependentUpon>
+    </Compile>
     <Compile Include="RAC2\RC2Unlocks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -420,6 +426,9 @@
     <EmbeddedResource Include="RAC1Mp\RaC1MpVersionForm.resx">
       <DependentUpon>RaC1MpVersionForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RAC2\FormCollectables.resx">
+      <DependentUpon>FormCollectables.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RAC2\RAC2JPForm.resx">
       <DependentUpon>RAC2JPForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -529,12 +538,15 @@
     <None Include="autosplitters\rac1-autosplitter.asl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\Platinum_bolt.webp" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="autosplitters\rac2planets.txt" />
+    <None Include="Resources\nan_otech_boost.png" />
+    <None Include="Resources\Platinum_bolt.png" />
+    <None Include="Resources\Clank_Needs_a_New_Pair_of_Shoes.png" />
+    <None Include="Resources\PB.bmp" />
     <None Include="autosplitters\rac4-LC-autosplitter.asl" />
     <Content Include="autosplitters\dlplanets.txt" />
     <Content Include="autosplitters\todplanets.txt" />
