@@ -188,6 +188,8 @@ namespace racman
         }
         private int ghostRatchetSubID = -1;
         public bool resetFlagsRequested = true;
+        public bool resetPlatBoltsRequested = true;
+        public bool resetBossesRequested = true;
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
@@ -276,6 +278,27 @@ namespace racman
             api.WriteMemory(pid, 0x10cd71e, new byte[] { 1 });
         }
 
+        public void SelfDeathExtended(bool bosses, bool plats)
+        {
+            base.KillYourself();
+
+            if(bosses)
+            {
+                api.WriteMemory(pid, 0x1481792, new byte[] { 0 }); // siberius
+                api.WriteMemory(pid, 0x14817a3, new byte[] { 0 }); // snivelak
+            }
+            if(plats)
+            {
+                resetPlatBolts();
+            }
+
+        }
+        public void resetPlatBolts()
+        {
+            byte[] locked = Enumerable.Repeat((byte)0x00, 0x70).ToArray();
+            api.WriteMemory(pid, rac2.addr.platinumBoltArray, locked);
+        }
+
         public override void CheckInputs(object sender, EventArgs e)
         {
             if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
@@ -290,7 +313,8 @@ namespace racman
             }
             if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
             {
-                KillYourself();
+                // KillYourself();
+                SelfDeathExtended(bosses: resetBossesRequested, plats: resetPlatBoltsRequested);
                 inputCheck = false;
             }
             if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)

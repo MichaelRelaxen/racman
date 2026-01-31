@@ -169,12 +169,7 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            game.KillYourself();
-            if (resetBossesComboBox.Checked) {
-                api.WriteMemory(pid, 0x1481792, new byte[] { 0 }); // siberius
-                api.WriteMemory(pid, 0x14817a3, new byte[] { 0 }); // snivelak
-
-            }
+            game.SelfDeathExtended(resetBossesComboBox.Checked, platBoltsCheckBox.Checked);
         }
 
         private void bolts_textBox_KeyDown(object sender, KeyEventArgs e)
@@ -451,6 +446,7 @@ namespace racman
 
             // dorbit
             api.WriteMemory(pid, rac2.addr.dorbitOpening, new byte[] { 0 });
+            api.WriteMemory(pid, 0x13a2d90, 0); // reset ptr for moby 3595
 
             // Reset any boss act tuning.
             api.WriteMemory(pid, rac2.addr.snivBoss, new byte[] { 0 });
@@ -554,6 +550,10 @@ namespace racman
             CoordsTimer.Enabled = check;
             coordsLabel.Visible = true;
             if (check) this.Height += 50;
+            else { 
+                this.Height -= 50;
+                coordsLabel.Visible = false;
+            }
         }
 
         public void UpdateCoordsLabel(object sender, EventArgs e)
@@ -593,7 +593,7 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            var currPos = api.ReadMemory(pid, rac2.addr.playerCoords, 24);
+            var currPos = api.ReadMemory(pid, rac2.addr.playerCoords, 32);
             api.WriteMemory(pid, rac2.addr.respawnCoords, currPos);
         }
 
@@ -613,10 +613,7 @@ namespace racman
 
         private void buttonResetPlatBolts_Click(object sender, EventArgs e)
         {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-            byte[] locked = Enumerable.Repeat((byte)0x00, 0x70).ToArray();
-            api.WriteMemory(pid, rac2.addr.platinumBoltArray, locked);
+            game.resetPlatBolts();
         }
 
         private void checkBoxResetFlags_CheckedChanged(object sender, EventArgs e)
@@ -692,6 +689,16 @@ namespace racman
             byte[] locked = Enumerable.Repeat((byte)0x00, 10).ToArray();
             api.WriteMemory(pid, rac2.addr.nanotechBoostArray, locked);
 
+        }
+
+        private void platBoltsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            game.resetPlatBoltsRequested = resetBossesComboBox.Checked;
+        }
+
+        private void resetBossesComboBox_CheckedChanged(object sender, EventArgs e)
+        {
+            game.resetBossesRequested = resetBossesComboBox.Checked;
         }
     }
 }
