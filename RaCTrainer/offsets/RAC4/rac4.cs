@@ -107,6 +107,7 @@ namespace racman
         public rac4(IPS3API api) : base(api)
         {
             this.planetsList = new string[] {
+                "UNUSED",
                 "DreadZone",
                 "Catacrom",
                 "INFLOOP",
@@ -229,6 +230,7 @@ namespace racman
 
         public void DieRac4()
         {
+            api.WriteMemory(pid, addr.playerCoords + 8, 0);
             api.WriteMemory(pid, addr.playerCoords2 + 8, 0);
         }
 
@@ -246,7 +248,7 @@ namespace racman
             }
             if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
             {
-                KillYourself();
+                DieRac4();
                 inputCheck = false;
             }
             //if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)

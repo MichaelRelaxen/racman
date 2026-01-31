@@ -85,22 +85,6 @@ namespace racman
             if (func.api is Ratchetron r)
             {
                 wmm = new WebMAN(r.GetIP());
-
-                r.setReconnectCallback(() =>
-                {
-                    Thread.Sleep(8000);
-
-                    AttachPS3Form.pid = game.api.getCurrentPID();
-                    pid = AttachPS3Form.pid;
-
-                    if (!AutosplitterCheckbox.Checked) return;
-
-                    autosplitterHelper.Reconnect();
-                    setupDisconnectSubs();
-                    // game.SetupInputDisplayMemorySubs();
-
-                    game.api.Notify("Autosplitter reconnected!");
-                });
             }
         }
 
@@ -342,38 +326,6 @@ namespace racman
                 Console.WriteLine("Autosplitter starting!");
                 autosplitterHelper = new AutosplitterHelper();
                 autosplitterHelper.StartAutosplitterForGame(this.game);
-                setupDisconnectSubs();
-            }
-        }
-
-        private void setupDisconnectSubs()
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-            // Patch game to write 0xFF to set address when quitting
-            api.WriteMemory(pid, 0x00013780, new byte[] { 0x38, 0x60, 0x00, 0xFF }); // li  r3, 0xFF
-            api.WriteMemory(pid, 0x00013784, new byte[] { 0x3C, 0x80, 0x01, 0x70 }); // lis r4, 0x170
-            api.WriteMemory(pid, 0x00013788, new byte[] { 0x98, 0x64, 0x00, 0x00 }); // stb r3, 0x0(r4)
-
-            quittingGameSubId = api.SubMemory(pid, 0x01700000, 1, (val) =>
-            {
-                if (val[0] == 0xFF)
-                {
-                    Console.WriteLine("Quit!");
-                    HandleDisconnect();
-                }
-            });
-        }
-
-        private void HandleDisconnect()
-        {
-            autosplitterHelper?.Stop();
-            if (game.api is Ratchetron r)
-            {
-                r.ReleaseAllSubs();
-                savefileHelperSubID = -1;
-                quittingGameSubId = -1;
-                tutorialSubId = -1;
             }
         }
 

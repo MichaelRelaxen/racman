@@ -1,4 +1,5 @@
-﻿using System;
+﻿using racman.RAC2;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,6 +18,7 @@ namespace racman
     {
         static ModLoaderForm modLoaderForm;
         static ChargebootColorPicker cosmeticsForm;
+        static FormCollectables collectablesForm;
         static RacketsGUI racketsForm;
 
         AutosplitterHelper autosplitter;
@@ -603,18 +605,6 @@ namespace racman
             viewer.Text = $"{planets_comboBox.SelectedItem} level flags";
             viewer.Show();
         }
-        private void buttonUnlockAllPlat_Click(object sender, EventArgs e)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-            byte[] unlocked = Enumerable.Repeat((byte)0xFF, 0x70).ToArray();
-            api.WriteMemory(pid, rac2.addr.platinumBoltArray, unlocked);
-        }
-
-        private void buttonResetPlatBolts_Click(object sender, EventArgs e)
-        {
-            game.resetPlatBolts();
-        }
 
         private void checkBoxResetFlags_CheckedChanged(object sender, EventArgs e)
         {
@@ -652,45 +642,6 @@ namespace racman
             racketsForm.Show();
         }
 
-        private void ResetSPButton_Click(object sender, EventArgs e)
-        {
-
-            var api = game.api;
-            var pid = api.getCurrentPID();
-            byte[] locked = Enumerable.Repeat((byte)0x00, 30).ToArray();
-            api.WriteMemory(pid, rac2.addr.skillPointArray, locked);
-
-        }
-
-        private void UnlockSPButton_Click(object sender, EventArgs e)
-        {
-
-            var api = game.api;
-            var pid = api.getCurrentPID();
-            byte[] locked = Enumerable.Repeat((byte)0x01, 30).ToArray();
-            api.WriteMemory(pid, rac2.addr.skillPointArray, locked);
-
-
-        }
-
-        private void unlockAllNanotechBoostsButton(object sender, EventArgs e)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-            byte[] locked = Enumerable.Repeat((byte)0x01, 10).ToArray();
-            api.WriteMemory(pid, rac2.addr.nanotechBoostArray, locked);
-
-        }
-
-        private void resetAllNanotechBoostsButton(object sender, EventArgs e)
-        {
-            var api = game.api;
-            var pid = api.getCurrentPID();
-            byte[] locked = Enumerable.Repeat((byte)0x00, 10).ToArray();
-            api.WriteMemory(pid, rac2.addr.nanotechBoostArray, locked);
-
-        }
-
         private void platBoltsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             game.resetPlatBoltsRequested = resetBossesComboBox.Checked;
@@ -699,6 +650,12 @@ namespace racman
         private void resetBossesComboBox_CheckedChanged(object sender, EventArgs e)
         {
             game.resetBossesRequested = resetBossesComboBox.Checked;
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            collectablesForm = new FormCollectables(game);
+            collectablesForm.Show();
         }
     }
 }
