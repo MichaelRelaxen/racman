@@ -7,6 +7,7 @@ using Timer = System.Windows.Forms.Timer;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using racman.RAC1;
 
 namespace racman
 {
@@ -170,12 +171,15 @@ namespace racman
 
         private void unlocksWindowButton_Click(object sender, EventArgs e)
         {
+            /*
             if (UnlocksWindow == null)
             {
                 UnlocksWindow = new UnlocksWindow(game);
                 UnlocksWindow.FormClosed += UnlocksWindow_FormClosed;
                 UnlocksWindow.Show();
-            }
+            } */
+            NewUnlocks unlocks = new NewUnlocks(game);
+            unlocks.Show();
         }
         private void UnlocksWindow_FormClosed(object sender, FormClosedEventArgs e)
         {

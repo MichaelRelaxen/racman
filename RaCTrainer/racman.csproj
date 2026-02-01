@@ -183,6 +183,12 @@
     <Compile Include="RAC1Mp\RaC1MpVersionForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="RAC1\NewUnlocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1\NewUnlocks.Designer.cs">
+      <DependentUpon>NewUnlocks.cs</DependentUpon>
+    </Compile>
     <Compile Include="RAC2\FormCollectables.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -422,6 +428,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC1Mp\RaC1MpVersionForm.resx">
       <DependentUpon>RaC1MpVersionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC1\NewUnlocks.resx">
+      <DependentUpon>NewUnlocks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2\FormCollectables.resx">
       <DependentUpon>FormCollectables.cs</DependentUpon>
