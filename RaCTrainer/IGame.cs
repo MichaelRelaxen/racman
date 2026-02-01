@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DiscordRPC;
 using Timer = System.Windows.Forms.Timer;
 
 namespace racman
@@ -35,7 +34,6 @@ namespace racman
         public int pid;
 
         public Timer InputsTimer = new Timer();
-        public Timer DiscordTimer = new Timer();
 
         public int selectedPositionIndex { get; set; }
         public uint planetToLoad { get; set; }
@@ -54,8 +52,6 @@ namespace racman
             InputsTimer.Interval = (int)16.66667;
             InputsTimer.Tick += new EventHandler(CheckInputs);
             
-            DiscordTimer.Interval = 1000;
-            DiscordTimer.Tick += new EventHandler(CheckPlanetForDiscordRPC);
         }
 
         /// <summary>
@@ -189,7 +185,5 @@ namespace racman
         // 
         public abstract void CheckInputs(object sender, EventArgs e);
         
-        public abstract void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null);
-
     }
 }

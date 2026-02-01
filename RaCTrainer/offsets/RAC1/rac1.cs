@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Threading;
-using DiscordRPC;
 
 namespace racman
 {
@@ -248,23 +247,8 @@ namespace racman
 
         public static RaC1Addresses addr = new RaC1Addresses();
 
-        public DiscordRpcClient DiscordClient;
-        
-        private Timestamps initialTimestamp;
-        
         private uint lastPlanetIndex = 100;
-        
-        public void InitializeDiscordRPC()
-        {
-            if (DiscordClient != null)
-            {
-                DiscordClient.Dispose();
-                DiscordClient = null;
-            }
-            DiscordClient = new DiscordRpcClient("1326847296025006110");
-            DiscordClient.Initialize();
-            initialTimestamp = Timestamps.Now;
-        }
+       
 
         public rac1(IPS3API api) : base(api)
         {
@@ -290,6 +274,111 @@ namespace racman
                 "Veldin2"
             };
         }
+        public enum Thing
+        {
+            Item = 0,
+            Flag = 1,
+            Cutscene = 2
+        }
+
+        public dynamic MobyFlags = new
+        {
+            /*
+            // Items
+            Zoomerator = ("Zoomerator", 0x96bff0, Thing.Item),
+            Raritanium = ("Raritanium", 0x96bff1, Thing.Item),
+            Codebot = ("Codebot", 0x96bff2, Thing.Item),
+            PremiumNanotech = ("Premium Nanotech", 0x96bff4, Thing.Item),
+            UltraNanotech = ("Ultra Nanotech", 0x96bff5, Thing.Item),
+            */
+
+            // Flags
+            Unk_VeldinClankCsTrigger = ("Clank Cutscene Trigger (Veldin)", 0x96bff8, Thing.Flag),
+            Unk_bffc = ("unk", 0x96bffc, Thing.Flag),
+            Unk_Moby1347 = ("unk (Moby 1347)", 0x96bffd, Thing.Flag),
+            Unk_Moby729 = ("unk (Moby 729)", 0x96bffe, Thing.Flag),
+            Unk_Moby730_731_790 = ("unk (Moby 730/731/790)", 0x96bfff, Thing.Flag),
+            Unk_c000 = ("unk", 0x96c000, Thing.Flag),
+            Unk_Moby1324_AridiaSP = ("unk (Moby 1324 Aridia SP)", 0x96c004, Thing.Flag),
+            Unk_Moby762 = ("unk (Moby 762)", 0x96c005, Thing.Flag),
+            Unk_Moby1342 = ("unk (Moby 1342)", 0x96c008, Thing.Flag),
+            Unk_c009 = ("unk", 0x96c009, Thing.Flag),
+            Unk_Moby1342_2 = ("unk (Moby 1342)", 0x96c00a, Thing.Flag),
+            Unk_Moby1343 = ("unk (Moby 1343)", 0x96c00c, Thing.Flag),
+            Unk_Moby1343_2 = ("unk (Moby 1343)", 0x96c00d, Thing.Flag),
+            Unk_Moby1343_3 = ("unk (Moby 1343)", 0x96c00e, Thing.Flag),
+            Unk_Moby1343_4 = ("unk (Moby 1343)", 0x96c00f, Thing.Flag),
+            Unk_Moby1061 = ("unk (Moby 1061)", 0x96c010, Thing.Flag),
+            Unk_Moby1109 = ("unk (Moby 1109)", 0x96c011, Thing.Flag),
+            Unk_c012 = ("unk", 0x96c012, Thing.Flag),
+            Unk_Moby1051 = ("unk (Moby 1051)", 0x96c013, Thing.Flag),
+            Unk_Moby1109_2 = ("unk (Moby 1109)", 0x96c014, Thing.Flag),
+            Unk_Moby1348 = ("unk (Moby 1348)", 0x96c015, Thing.Flag),
+            Unk_Moby436 = ("unk (Moby 436)", 0x96c018, Thing.Flag),
+            Unk_Moby436_2 = ("unk (Moby 436)", 0x96c019, Thing.Flag),
+            Unk_Moby436_3 = ("unk (Moby 436)", 0x96c01a, Thing.Flag),
+            Unk_Moby435_BataliaCommando = ("unk (Moby 435 Batalia Commando)", 0x96c01c, Thing.Flag),
+            Unk_Moby253_467_472 = ("unk (Moby 253/467/472)", 0x96c01e, Thing.Flag),
+            Unk_Moby1349 = ("unk (Moby 1349)", 0x96c01f, Thing.Flag),
+            Unk_Moby468_469 = ("unk (Moby 468/469)", 0x96c020, Thing.Flag),
+            Unk_c021 = ("unk", 0x96c021, Thing.Flag),
+            Unk_c022 = ("unk", 0x96c022, Thing.Flag),
+            Unk_Moby467_472 = ("unk (Moby 467/472)", 0x96c025, Thing.Flag),
+            Unk_c028 = ("unk", 0x96c028, Thing.Flag),
+            Unk_Moby1172_1181 = ("unk (Moby 1172/1181)", 0x96c029, Thing.Flag),
+            Unk_Moby1285_1286_1287_1288 = ("unk (Moby 1285/1286/1287/1288)", 0x96c033, Thing.Flag),
+            Unk_c034 = ("unk", 0x96c034, Thing.Flag),
+            Unk_c035 = ("unk", 0x96c035, Thing.Flag),
+            Unk_c038 = ("unk", 0x96c038, Thing.Flag),
+            Unk_c039 = ("unk", 0x96c039, Thing.Flag),
+            Unk_c03a = ("unk", 0x96c03a, Thing.Flag),
+            Unk_c03b = ("unk", 0x96c03b, Thing.Flag),
+            Unk_Moby1015_1282 = ("unk (Moby 1015/1282)", 0x96c03c, Thing.Flag),
+            Unk_c03d = ("unk", 0x96c03d, Thing.Flag),
+            Unk_c03e = ("unk", 0x96c03e, Thing.Flag),
+            Unk_c03f = ("unk", 0x96c03f, Thing.Flag),
+            Unk_Moby353 = ("unk (Moby 353)", 0x96c040, Thing.Flag),
+            Unk_c041 = ("unk", 0x96c041, Thing.Flag),
+            Unk_Moby1243_TheGuy = ("unk (Moby 1243 The Guy)", 0x96c044, Thing.Flag),
+            Unk_Moby1268_318 = ("unk (Moby 1268/318)", 0x96c045, Thing.Flag),
+            Unk_Moby1156 = ("unk (Moby 1156)", 0x96c046, Thing.Flag),
+            Unk_Moby1159 = ("unk (Moby 1159)", 0x96c047, Thing.Flag),
+            Unk_c048 = ("unk", 0x96c048, Thing.Flag),
+            Unk_c049 = ("unk", 0x96c049, Thing.Flag),
+            Unk_c04a = ("unk", 0x96c04a, Thing.Flag),
+            Unk_Moby1180 = ("unk (Moby 1180)", 0x96c04b, Thing.Flag),
+            Unk_Moby1404 = ("unk (Moby 1404)", 0x96c04c, Thing.Flag),
+            Unk_Moby282 = ("unk (Moby 282)", 0x96c051, Thing.Flag),
+            Unk_Moby1353 = ("unk (Moby 1353)", 0x96c054, Thing.Flag),
+            Unk_Moby1353_2 = ("unk (Moby 1353)", 0x96c055, Thing.Flag),
+            Unk_Moby1353_3 = ("unk (Moby 1353)", 0x96c056, Thing.Flag),
+            Unk_Moby684 = ("unk (Moby 684)", 0x96c058, Thing.Flag),
+            Unk_Moby1430 = ("unk (Moby 1430)", 0x96c05d, Thing.Flag),
+            Unk_Moby1469 = ("unk (Moby 1469)", 0x96c05e, Thing.Flag),
+            Unk_Moby1469_2 = ("unk (Moby 1469)", 0x96c05f, Thing.Flag),
+            Unk_Moby1377 = ("unk (Moby 1377)", 0x96c060, Thing.Flag),
+            Unk_Moby1377_2 = ("unk (Moby 1377)", 0x96c061, Thing.Flag),
+            Unk_Moby654 = ("unk (Moby 654)", 0x96c062, Thing.Flag),
+            Unk_c063 = ("unk", 0x96c063, Thing.Flag),
+            Unk_c064 = ("unk", 0x96c064, Thing.Flag),
+            Unk_c065 = ("unk", 0x96c065, Thing.Flag),
+            Unk_Moby1428 = ("unk (Moby 1428)", 0x96c068, Thing.Flag),
+            Unk_Moby1402 = ("unk (Moby 1402)", 0x96c06e, Thing.Flag),
+            Unk_Moby586 = ("unk (Moby 586)", 0x96c06f, Thing.Flag),
+            Unk_c074 = ("unk", 0x96c074, Thing.Flag),
+            Unk_c075 = ("unk", 0x96c075, Thing.Flag),
+            Unk_c076 = ("unk", 0x96c076, Thing.Flag),
+            Unk_c077 = ("unk", 0x96c077, Thing.Flag),
+            Unk_c078 = ("unk", 0x96c078, Thing.Flag),
+            Unk_c079 = ("unk", 0x96c079, Thing.Flag),
+            Unk_Moby806 = ("unk (Moby 806)", 0x96c07a, Thing.Flag),
+            Unk_c07b = ("unk", 0x96c07b, Thing.Flag),
+            Unk_c07c = ("unk", 0x96c07c, Thing.Flag),
+            Unk_c07d = ("unk", 0x96c07d, Thing.Flag),
+            Unk_c07e = ("unk", 0x96c07e, Thing.Flag),
+            Unk_c07f = ("unk", 0x96c07f, Thing.Flag),
+            Unk_c080 = ("unk", 0x96c080, Thing.Flag),
+        };
 
         public dynamic Unlocks = new
         {
@@ -466,11 +555,15 @@ namespace racman
         public override void ResetLevelFlags()
         {
 
-            // Not working properly right now?
             api.WriteMemory(pid, rac1.addr.levelFlags + (planetToLoad * 0x10), 0x10, new byte[0x10]);
             api.WriteMemory(pid, rac1.addr.miscLevelFlags + (planetToLoad * 0x100), 0x100, new byte[0x100]);
-            api.WriteMemory(pid, rac1.addr.infobotFlags + planetToLoad, 1, new byte[1]);
-            api.WriteMemory(pid, rac1.addr.moviesFlags, 0xc0, new byte[0xC0]);
+            api.WriteMemory(pid, rac1.addr.infobotFlags + planetToLoad, 18, new byte[18]);
+
+            foreach (var d in MobyFlags.GetType().GetProperties())
+            {
+                (string name, int addr, Thing type) flag = d.GetValue(MobyFlags);
+                api.WriteMemory(pid, (uint)flag.addr, 1, new byte[1]);
+            }
 
             if (planetToLoad == 3)
             {
@@ -685,57 +778,6 @@ namespace racman
                 inputCheck = true;
             }
         }
-
-        public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
-        {
-            if (!DiscordTimer.Enabled) {
-                if (DiscordClient != null)
-                {
-                    DiscordClient.Dispose();
-                    DiscordClient = null;
-                    lastPlanetIndex = 100; // Valeur invalide pour forcer une mise à jour
-                }
-                return;
-            }
-            
-            byte[] planetData = api.ReadMemory(pid, rac1.addr.currentPlanet, 4);
-            if (planetData?.Length != 4) return; 
-            
-            uint planetindex = BitConverter.ToUInt32(planetData.Reverse().ToArray(), 0);
-            
-            if (planetindex != lastPlanetIndex) {
-                if (DiscordClient == null) InitializeDiscordRPC();
-                lastPlanetIndex = planetindex;
-                if (planetindex < planetsList.Length)
-                    UpdateRichPresence(planetsList[planetindex]);
-            }
-        }
-
-        public void UpdateRichPresence(string planetname)
-        {
-            if (DiscordClient == null)
-                return;
-            var imageKey = planetname.ToLower();
-            try {
-                DiscordClient.SetPresence(new RichPresence()
-                {
-                    Details = planetname,
-                    Timestamps = initialTimestamp,
-                    Assets = new Assets()
-                    {
-                        LargeImageKey = "rac1",
-                        LargeImageText = "Ratchet & Clank",
-                        SmallImageKey = imageKey,
-                        SmallImageText = planetname,
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Cant update : {ex.Message}");
-            }
-        }
-
         public List<DebugOption> DebugOptions()
         {
             List<DebugOption> options = new List<DebugOption>();

@@ -64,9 +64,6 @@
     <Reference Include="AutoUpdater.NET, Version=1.7.0.0, Culture=neutral, PublicKeyToken=501435c91b35f4bc, processorArchitecture=MSIL">
       <HintPath>..\packages\Autoupdater.NET.Official.1.7.0\lib\net45\AutoUpdater.NET.dll</HintPath>
     </Reference>
-    <Reference Include="DiscordRPC, Version=1.2.1.24, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\DiscordRichPresence.1.2.1.24\lib\net45\DiscordRPC.dll</HintPath>
-    </Reference>
     <Reference Include="KeraLua, Version=1.4.7.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
       <HintPath>..\packages\KeraLua.1.4.7\lib\net46\KeraLua.dll</HintPath>
     </Reference>
@@ -185,6 +182,12 @@
     </Compile>
     <Compile Include="RAC1Mp\RaC1MpVersionForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1\NewUnlocks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RAC1\NewUnlocks.Designer.cs">
+      <DependentUpon>NewUnlocks.cs</DependentUpon>
     </Compile>
     <Compile Include="RAC2\FormCollectables.cs">
       <SubType>Form</SubType>
@@ -425,6 +428,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RAC1Mp\RaC1MpVersionForm.resx">
       <DependentUpon>RaC1MpVersionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAC1\NewUnlocks.resx">
+      <DependentUpon>NewUnlocks.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAC2\FormCollectables.resx">
       <DependentUpon>FormCollectables.cs</DependentUpon>

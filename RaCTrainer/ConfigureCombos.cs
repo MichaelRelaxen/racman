@@ -20,15 +20,26 @@ namespace racman
         public ConfigureCombos()
         {
             InitializeComponent();
+            comboActions = new Dictionary<TextBox, Action<int>>
+            {
+                { loadPlanetTextBox, val => loadPlanetCombo = val },
+                { dieTextBox, val => dieCombo = val },
+                { loadSetAsideComboTextBox, val => loadSetAsideCombo = val },
+                { loadPositionTextBox, val => loadCombo = val },
+                { savePositionTextBox, val => saveCombo = val },
+                { textBoxRunScript, val => runScriptCombo = val }
+            };
             GetCombos();
             UpdateCombos();
 
             timer.Interval = 100;
             timer.Tick += new EventHandler(UpdateInputs);
         }
+        private Dictionary<TextBox, Action<int>> comboActions;
 
-        int currentInput;
-        bool input = false;
+        int confirmedInput = 0;
+        int confirmationCounter = 0;
+        const int CONFIRMATION_TICKS = 8;
 
         public static int loadCombo, saveCombo, loadSetAsideCombo, dieCombo, loadPlanetCombo, runScriptCombo;
         public static void GetCombos()
@@ -68,95 +79,57 @@ namespace racman
             func.ChangeFileLines("config.txt", dieCombo.ToString(), "dieCombo");
             func.ChangeFileLines("config.txt", loadPlanetCombo.ToString(), "loadPlanetCombo");
             func.ChangeFileLines("config.txt", runScriptCombo.ToString(), "runScriptCombo");
-            input = false;
             timer.Enabled = false;
         }
 
         public Timer timer = new Timer();
 
+
         public void UpdateInputs(object sender, EventArgs e)
         {
-            if(currentInput == Inputs.RawInputs)
+            if (Inputs.RawInputs != confirmedInput)
             {
-                currentInput = Inputs.RawInputs;
+                confirmedInput = Inputs.RawInputs;
+                confirmationCounter = 0;
+                return;
             }
-            if (currentInput != Inputs.RawInputs)
-            {
-                input = true;
-            }
-            if(loadPlanetTextBox.Text == EnterInput && input == true)
-            {
-                loadPlanetCombo = Inputs.RawInputs;
-                UpdateCombos();
-            }
-            if (dieTextBox.Text == EnterInput && input == true)
-            {
-                dieCombo = Inputs.RawInputs;
-                UpdateCombos();
-            }
-            if (loadSetAsideComboTextBox.Text == EnterInput && input == true)
-            {
-                loadSetAsideCombo = Inputs.RawInputs;
-                UpdateCombos();
-            }
-            if (loadPositionTextBox.Text == EnterInput && input == true)
-            {
-                loadCombo = Inputs.RawInputs;
-                UpdateCombos();
-            }
-            if (savePositionTextBox.Text == EnterInput && input == true)
-            {
-                saveCombo = Inputs.RawInputs;
-                UpdateCombos();
-            }
-            if (textBoxRunScript.Text == EnterInput && input)
-            {
-                runScriptCombo = Inputs.RawInputs;
-                UpdateCombos();
-            } 
-        }
 
-        private void loadPlanetTextBox_Click(object sender, EventArgs e)
+            if (Inputs.RawInputs == confirmedInput && confirmedInput != 0)
+            {
+                var activeTextBox = comboActions.Keys.FirstOrDefault(tb => tb.Text == EnterInput);
+                confirmationCounter++;
+
+                if (activeTextBox != null)
+                {
+                    activeTextBox.Text = String.Join(" + ", Inputs.DecodeMask(confirmedInput));
+
+                    if (confirmationCounter >= CONFIRMATION_TICKS)
+                    {
+                        comboActions[activeTextBox](confirmedInput);
+                        UpdateCombos();
+                        confirmationCounter = 0;
+                        confirmedInput = 0;
+                    }
+                }
+            }
+        }
+        private void setInputs(TextBox textBox)
         {
-            loadPlanetTextBox.Text = EnterInput;
+            confirmationCounter = 0;
+            confirmedInput = 0;
+            textBox.Text = EnterInput;
             timer.Enabled = true;
-        }
 
+        }
         private void ConfigureCombos_FormClosing(object sender, FormClosingEventArgs e)
         {
             UpdateCombos();
         }
 
-        private void textBoxRunScript_Click(object sender, EventArgs e)
+        private void textBoxClick(object sender, EventArgs e)
         {
-            textBoxRunScript.Text = EnterInput;
-            timer.Enabled = true;
+            setInputs((TextBox)sender);
         }
-
-        private void dieTextBox_Click(object sender, EventArgs e)
-        {
-            dieTextBox.Text = EnterInput;
-            timer.Enabled = true;
-        }
-
-        private void switchPositionTextBox_Click(object sender, EventArgs e)
-        {
-            loadSetAsideComboTextBox.Text = EnterInput;
-            timer.Enabled = true;
-        }
-
-        private void loadPositionTextBox_Click(object sender, EventArgs e)
-        {
-            loadPositionTextBox.Text = EnterInput;
-            timer.Enabled = true;
-        }
-
-        private void savePositionTextBox_Click(object sender, EventArgs e)
-        {
-            savePositionTextBox.Text = EnterInput;
-            timer.Enabled = true;
-        }
-
         public void ConfigureCombos_Load(object sender, EventArgs e)
         {
             infoText.Text = "To edit a combo, simply click on\nthe box you want to change,\nthen press inputs on your controller";

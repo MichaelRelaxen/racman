@@ -7,6 +7,7 @@ using Timer = System.Windows.Forms.Timer;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using racman.RAC1;
 
 namespace racman
 {
@@ -56,6 +57,13 @@ namespace racman
             } else
             {
                 gbspiSplitToolStripMenuItem.Enabled = false;
+            }
+
+            if(AttachPS3Form.isEmulator)
+            {
+                infHealth.Enabled = false;
+                FreezeAmmoCheckbox.Enabled = false;
+                FastLoadToggle.Enabled = false;
             }
         }
 
@@ -170,12 +178,15 @@ namespace racman
 
         private void unlocksWindowButton_Click(object sender, EventArgs e)
         {
+            /*
             if (UnlocksWindow == null)
             {
                 UnlocksWindow = new UnlocksWindow(game);
                 UnlocksWindow.FormClosed += UnlocksWindow_FormClosed;
                 UnlocksWindow.Show();
-            }
+            } */
+            NewUnlocks unlocks = new NewUnlocks(game);
+            unlocks.Show();
         }
         private void UnlocksWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -402,17 +413,7 @@ namespace racman
             MemoryForm.SetMobyInstancesAddress(game.GetMobyTableAddress());
             memoryForm.Show();
         }
-        
-        private void discordRPCEnabledToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            if (discordRPCEnabledToolStripMenuItem.Checked) {
-                game.DiscordTimer.Enabled = true;
-            }
-            else {
-                game.DiscordTimer.Enabled = false;
-                game.CheckPlanetForDiscordRPC();
-            }
-        }
+     
 
         private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {

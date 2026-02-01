@@ -389,10 +389,20 @@ namespace racman
                     var vec = (rac2.Vec4)value;
                     display = $"x: {vec.x}, y: {vec.y}, z: {vec.z}, w: {vec.w}";
                 }
-                else if (field.FieldType == typeof(GamePtr))
+                else if (field.FieldType == typeof(rac1.Vec4))
                 {
-                    display = $"0x{((GamePtr)value).addr:X}";
+                    var vec = (rac1.Vec4)value;
+                    display = $"x: {vec.x}, y: {vec.y}, z: {vec.z}, w: {vec.w}";
                 }
+                else if (field.FieldType == typeof(rac2.GamePtr))
+                {
+                    display = $"0x{((rac2.GamePtr)value).addr:X}";
+                }
+                else if (field.FieldType == typeof(rac1.GamePtr))
+                {
+                    display = $"0x{((rac1.GamePtr)value).addr:X}";
+                }
+
                 else if (field.FieldType == typeof(uint) ||
                          field.FieldType == typeof(ushort) ||
                          field.FieldType == typeof(byte))
