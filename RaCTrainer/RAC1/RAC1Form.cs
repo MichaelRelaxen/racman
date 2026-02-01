@@ -572,5 +572,16 @@ namespace racman
             JankpotForm jf = new JankpotForm(game);
             jf.Show();
         }
+
+        private void resetStylePoints_Click(object sender, EventArgs e)
+        {
+            //sps reset.
+            func.api.WriteMemory(pid, 0x96c08c, 30, new byte[30]);
+        }
+
+        private void unlockAllStylePoints_Click(object sender, EventArgs e)
+        {
+            func.api.WriteMemory(pid, 0x96c08c, 30, Enumerable.Repeat((byte)1, 30).ToArray());
+        }
     }
 }
