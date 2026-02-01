@@ -278,10 +278,5 @@ namespace racman
             var pid = api.getCurrentPID();
             api.WriteMemory(pid, addr.savefile_api_load, new byte[] { 1 });
         }
-
-        public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

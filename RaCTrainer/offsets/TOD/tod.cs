@@ -443,10 +443,5 @@ namespace racman
         {
             throw new NotImplementedException();
         }
-
-        public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

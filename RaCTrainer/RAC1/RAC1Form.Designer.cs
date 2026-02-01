@@ -60,7 +60,7 @@ namespace racman
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.discordRPCEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tASToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterEnabledToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gbspiSplitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -94,7 +94,6 @@ namespace racman
             this.loadFileButton = new System.Windows.Forms.Button();
             this.forceAutosave = new System.Windows.Forms.Button();
             this.drekButtonCutscene = new System.Windows.Forms.Button();
-            this.tASToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -337,7 +336,6 @@ namespace racman
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem,
             this.toolStripSeparator2,
-            this.discordRPCEnabledToolStripMenuItem,
             this.tASToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
@@ -389,13 +387,12 @@ namespace racman
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(209, 6);
             // 
-            // discordRPCEnabledToolStripMenuItem
+            // tASToolStripMenuItem
             // 
-            this.discordRPCEnabledToolStripMenuItem.CheckOnClick = true;
-            this.discordRPCEnabledToolStripMenuItem.Name = "discordRPCEnabledToolStripMenuItem";
-            this.discordRPCEnabledToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.discordRPCEnabledToolStripMenuItem.Text = "Discord Rich Presence";
-            this.discordRPCEnabledToolStripMenuItem.CheckedChanged += new System.EventHandler(this.discordRPCEnabledToolStripMenuItem_CheckedChanged);
+            this.tASToolStripMenuItem.Name = "tASToolStripMenuItem";
+            this.tASToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.tASToolStripMenuItem.Text = "TAS";
+            this.tASToolStripMenuItem.Click += new System.EventHandler(this.tASToolStripMenuItem_Click);
             // 
             // autosplitterToolStripMenuItem
             // 
@@ -493,6 +490,13 @@ namespace racman
             this.hitWatcherToolStripMenuItem.Text = "Hit Watcher";
             this.hitWatcherToolStripMenuItem.Click += new System.EventHandler(this.hitWatcherToolStripMenuItem_Click);
             // 
+            // jankpotToolStripMenuItem
+            // 
+            this.jankpotToolStripMenuItem.Name = "jankpotToolStripMenuItem";
+            this.jankpotToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.jankpotToolStripMenuItem.Text = "Jankpot";
+            this.jankpotToolStripMenuItem.Click += new System.EventHandler(this.jankpotToolStripMenuItem_Click);
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(18, 367);
@@ -503,13 +507,6 @@ namespace racman
             this.button2.Text = "Input Display";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.inputdisplay_click);
-            // 
-            // jankpotToolStripMenuItem
-            // 
-            this.jankpotToolStripMenuItem.Name = "jankpotToolStripMenuItem";
-            this.jankpotToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
-            this.jankpotToolStripMenuItem.Text = "Jankpot";
-            this.jankpotToolStripMenuItem.Click += new System.EventHandler(this.jankpotToolStripMenuItem_Click);
             // 
             // ghostCheckbox
             // 
@@ -702,13 +699,6 @@ namespace racman
             this.drekButtonCutscene.UseVisualStyleBackColor = true;
             this.drekButtonCutscene.Click += new System.EventHandler(this.drekCutsceneButton_Click);
             // 
-            // tASToolStripMenuItem
-            // 
-            this.tASToolStripMenuItem.Name = "tASToolStripMenuItem";
-            this.tASToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.tASToolStripMenuItem.Text = "TAS";
-            this.tASToolStripMenuItem.Click += new System.EventHandler(this.tASToolStripMenuItem_Click);
-            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -819,7 +809,6 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem discordRPCEnabledToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateHeroToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateMobysToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem updateParticlesToolStripMenuItem;
