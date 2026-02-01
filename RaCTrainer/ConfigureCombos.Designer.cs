@@ -96,7 +96,7 @@ namespace racman
             this.savePositionTextBox.Name = "savePositionTextBox";
             this.savePositionTextBox.Size = new System.Drawing.Size(126, 20);
             this.savePositionTextBox.TabIndex = 5;
-            this.savePositionTextBox.Click += new System.EventHandler(this.savePositionTextBox_Click);
+            this.savePositionTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
             // loadPositionTextBox
             // 
@@ -104,7 +104,7 @@ namespace racman
             this.loadPositionTextBox.Name = "loadPositionTextBox";
             this.loadPositionTextBox.Size = new System.Drawing.Size(126, 20);
             this.loadPositionTextBox.TabIndex = 6;
-            this.loadPositionTextBox.Click += new System.EventHandler(this.loadPositionTextBox_Click);
+            this.loadPositionTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
             // loadSetAsideComboTextBox
             // 
@@ -112,7 +112,7 @@ namespace racman
             this.loadSetAsideComboTextBox.Name = "loadSetAsideComboTextBox";
             this.loadSetAsideComboTextBox.Size = new System.Drawing.Size(126, 20);
             this.loadSetAsideComboTextBox.TabIndex = 7;
-            this.loadSetAsideComboTextBox.Click += new System.EventHandler(this.switchPositionTextBox_Click);
+            this.loadSetAsideComboTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
             // dieTextBox
             // 
@@ -120,7 +120,7 @@ namespace racman
             this.dieTextBox.Name = "dieTextBox";
             this.dieTextBox.Size = new System.Drawing.Size(126, 20);
             this.dieTextBox.TabIndex = 8;
-            this.dieTextBox.Click += new System.EventHandler(this.dieTextBox_Click);
+            this.dieTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
             // loadPlanetTextBox
             // 
@@ -128,7 +128,7 @@ namespace racman
             this.loadPlanetTextBox.Name = "loadPlanetTextBox";
             this.loadPlanetTextBox.Size = new System.Drawing.Size(126, 20);
             this.loadPlanetTextBox.TabIndex = 9;
-            this.loadPlanetTextBox.Click += new System.EventHandler(this.loadPlanetTextBox_Click);
+            this.loadPlanetTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
             // infoText
             // 
@@ -145,7 +145,7 @@ namespace racman
             this.textBoxRunScript.Name = "textBoxRunScript";
             this.textBoxRunScript.Size = new System.Drawing.Size(126, 20);
             this.textBoxRunScript.TabIndex = 12;
-            this.textBoxRunScript.Click += new System.EventHandler(this.textBoxRunScript_Click);
+            this.textBoxRunScript.Click += new System.EventHandler(this.textBoxClick);
             // 
             // label6
             // 
@@ -176,7 +176,7 @@ namespace racman
             this.Controls.Add(this.label1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigureCombos";
-            this.Text = "k";
+            this.Text = "Configure Combos";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ConfigureCombos_FormClosing);
             this.Load += new System.EventHandler(this.ConfigureCombos_Load);
             this.ResumeLayout(false);
