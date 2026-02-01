@@ -58,6 +58,13 @@ namespace racman
             {
                 gbspiSplitToolStripMenuItem.Enabled = false;
             }
+
+            if(AttachPS3Form.isEmulator)
+            {
+                infHealth.Enabled = false;
+                FreezeAmmoCheckbox.Enabled = false;
+                FastLoadToggle.Enabled = false;
+            }
         }
 
         private void bolts_TextBox_KeyDown(object sender, KeyEventArgs e)
