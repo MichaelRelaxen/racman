@@ -41,6 +41,7 @@
             this.allGoldWeaponsButton = new System.Windows.Forms.Button();
             this.itemsListBox = new System.Windows.Forms.CheckedListBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // weaponsListBox
@@ -110,9 +111,9 @@
             // 
             // ammoForAllWeaponsButton
             // 
-            this.ammoForAllWeaponsButton.Location = new System.Drawing.Point(305, 312);
+            this.ammoForAllWeaponsButton.Location = new System.Drawing.Point(164, 342);
             this.ammoForAllWeaponsButton.Name = "ammoForAllWeaponsButton";
-            this.ammoForAllWeaponsButton.Size = new System.Drawing.Size(135, 24);
+            this.ammoForAllWeaponsButton.Size = new System.Drawing.Size(276, 24);
             this.ammoForAllWeaponsButton.TabIndex = 10;
             this.ammoForAllWeaponsButton.Text = "Ammo for all weapons";
             this.ammoForAllWeaponsButton.UseVisualStyleBackColor = true;
@@ -166,11 +167,22 @@
             this.label4.TabIndex = 15;
             this.label4.Text = "Items";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(305, 312);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(135, 24);
+            this.button1.TabIndex = 16;
+            this.button1.Text = "No Gold Weapons";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.GoldAllClick);
+            // 
             // NewUnlocks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(453, 350);
+            this.ClientSize = new System.Drawing.Size(453, 376);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.itemsListBox);
             this.Controls.Add(this.allGoldWeaponsButton);
@@ -207,5 +219,6 @@
         private System.Windows.Forms.Button allGoldWeaponsButton;
         private System.Windows.Forms.CheckedListBox itemsListBox;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button1;
     }
 }

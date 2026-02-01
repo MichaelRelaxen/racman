@@ -555,7 +555,6 @@ namespace racman
         public override void ResetLevelFlags()
         {
 
-            // Not working properly right now?
             api.WriteMemory(pid, rac1.addr.levelFlags + (planetToLoad * 0x10), 0x10, new byte[0x10]);
             api.WriteMemory(pid, rac1.addr.miscLevelFlags + (planetToLoad * 0x100), 0x100, new byte[0x100]);
             api.WriteMemory(pid, rac1.addr.infobotFlags + planetToLoad, 18, new byte[18]);

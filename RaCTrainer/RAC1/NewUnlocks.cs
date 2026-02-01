@@ -131,8 +131,15 @@ namespace racman.RAC1
         }
         private void GoldAllClick(object sender, EventArgs e)
         {
+            bool state = true;
+
+            if (sender.ToString().Contains("No"))
+                state = false;
+            if (sender.ToString().Contains("All"))
+                state = true;
+
             foreach (var it in items)
-                if(it.Type == ItemType.Weapon) it.Gold(true);
+                if(it.Type == ItemType.Weapon) it.Gold(state);
         }
         private void AmmoAllClick(object sender, EventArgs e)
         {
