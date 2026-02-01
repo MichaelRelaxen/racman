@@ -283,12 +283,14 @@ namespace racman
 
         public dynamic MobyFlags = new
         {
+            /*
             // Items
             Zoomerator = ("Zoomerator", 0x96bff0, Thing.Item),
             Raritanium = ("Raritanium", 0x96bff1, Thing.Item),
             Codebot = ("Codebot", 0x96bff2, Thing.Item),
             PremiumNanotech = ("Premium Nanotech", 0x96bff4, Thing.Item),
             UltraNanotech = ("Ultra Nanotech", 0x96bff5, Thing.Item),
+            */
 
             // Flags
             Unk_VeldinClankCsTrigger = ("Clank Cutscene Trigger (Veldin)", 0x96bff8, Thing.Flag),
@@ -556,8 +558,13 @@ namespace racman
             // Not working properly right now?
             api.WriteMemory(pid, rac1.addr.levelFlags + (planetToLoad * 0x10), 0x10, new byte[0x10]);
             api.WriteMemory(pid, rac1.addr.miscLevelFlags + (planetToLoad * 0x100), 0x100, new byte[0x100]);
-            api.WriteMemory(pid, rac1.addr.infobotFlags + planetToLoad, 1, new byte[1]);
-            api.WriteMemory(pid, rac1.addr.moviesFlags, 0xc0, new byte[0xC0]);
+            api.WriteMemory(pid, rac1.addr.infobotFlags + planetToLoad, 18, new byte[18]);
+
+            foreach (var d in MobyFlags.GetType().GetProperties())
+            {
+                (string name, int addr, Thing type) flag = d.GetValue(MobyFlags);
+                api.WriteMemory(pid, (uint)flag.addr, 1, new byte[1]);
+            }
 
             if (planetToLoad == 3)
             {
