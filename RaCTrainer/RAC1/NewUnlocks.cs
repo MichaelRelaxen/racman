@@ -55,7 +55,7 @@ namespace racman.RAC1
             new RaC1Item("Mine Glove", 17, 0x96c151, 0x96c0e8, 0x969cb9, 50, ItemType.Weapon),
             new RaC1Item("Taunter", 14, 0x96c14e, 0x96c0dc, 0x969cb6, 0, ItemType.Weapon),
             new RaC1Item("Suck Cannon", 9, 0x96c149, 0x96c0c8, 0x969cb1, 0, ItemType.Weapon),
-            new RaC1Item("Devastator", 11, 0x96c14b, 0x96c0d0, 0x969cb3, 0, ItemType.Weapon),
+            new RaC1Item("Devastator", 11, 0x96c14b, 0x96c0d0, 0x969cb3, 20, ItemType.Weapon),
             new RaC1Item("Walloper", 18, 0x96c152, 0x96c0ec, 0x969cba, 0, ItemType.Weapon),
             new RaC1Item("Visibomb", 13, 0x96c14d, 0x96c0d8, 0x969cb5, 20, ItemType.Weapon),
             new RaC1Item("Decoy Glove", 25, 0x96c159, 0x96c108, 0x969cc1, 20, ItemType.Weapon),
@@ -162,14 +162,23 @@ namespace racman.RAC1
 
         private void goldStatusCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            var gameItem = itemByName(weaponsListBox.SelectedItem.ToString());
-            gameItem.Gold(goldStatusCheckBox.Checked);
+            try
+            {
+                var gameItem = itemByName(weaponsListBox.SelectedItem.ToString());
+                gameItem.Gold(goldStatusCheckBox.Checked);
+            }
+            catch
+            {
+
+            }
         }
 
         private void ammoTextBox_TextChanged(object sender, EventArgs e)
         {
-            var gameItem = itemByName(weaponsListBox.SelectedItem.ToString());
-            try { gameItem.SetAmmo(Convert.ToUInt32(ammoTextBox.Text)); }
+            try { 
+                var gameItem = itemByName(weaponsListBox.SelectedItem.ToString());
+                gameItem.SetAmmo(Convert.ToUInt32(ammoTextBox.Text)); 
+            }
             catch { }
         }
     }
