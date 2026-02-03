@@ -474,6 +474,7 @@ namespace racman
             api.WriteMemory(pid, rac4.addr.reactorTuning, new byte[] { 20 });
             api.WriteMemory(pid, rac4.addr.evisceratorTuning, new byte[] { 20 });
             api.WriteMemory(pid, rac4.addr.aceTuning, new byte[] { 20 });
+            api.WriteMemory(pid, rac4.addr.voxTuning, new byte[] { 20 });
             api.Notify("Act tuning done!");
         }
         private void setAsideFileButton_Click(object sender, EventArgs e)
