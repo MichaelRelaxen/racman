@@ -26,6 +26,9 @@ namespace racman.RAC1
         }
         public void AddItems()
         {
+            weaponsListBox.ItemCheck -= new ItemCheckEventHandler(listBoxItemCheck);
+            itemsListBox.ItemCheck -= new ItemCheckEventHandler(listBoxItemCheck);
+            gadgetsItemsListBox.ItemCheck -= new ItemCheckEventHandler(listBoxItemCheck);
             foreach (var it in items)
             {
                 if (it.Type == ItemType.Weapon)
@@ -41,6 +44,9 @@ namespace racman.RAC1
                     itemsListBox.Items.Add(it.Name, it.IsUnlocked());
                 }
             }
+            weaponsListBox.ItemCheck += new ItemCheckEventHandler(listBoxItemCheck);
+            itemsListBox.ItemCheck += new ItemCheckEventHandler(listBoxItemCheck);
+            gadgetsItemsListBox.ItemCheck += new ItemCheckEventHandler(listBoxItemCheck);
         }
 
 
@@ -162,15 +168,11 @@ namespace racman.RAC1
 
         private void goldStatusCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            try
-            {
+            try {
                 var gameItem = itemByName(weaponsListBox.SelectedItem.ToString());
                 gameItem.Gold(goldStatusCheckBox.Checked);
             }
-            catch
-            {
-
-            }
+            catch { }
         }
 
         private void ammoTextBox_TextChanged(object sender, EventArgs e)

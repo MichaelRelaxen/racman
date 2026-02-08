@@ -1,0 +1,29 @@
+#- name: Hoven Health Display
+#- author: isaka2025
+#- version: 1.03
+
+0x4f6400: rack.bin
+
+#### Hooks ####
+0x4edfd8: 0x480087f5
+0xe7128: 0x4840f2d8
+
+#### Raw patches ####
+# nop - damage to hoven turret.
+# 0x15d34: 0x60000000
+
+# dont die if turret reaches 0 health.
+0x15da8: 0x42800040
+
+# fast load instr that doesnt block controller input update hook
+0x00165490: 0x60000000
+0x000df254: 0x60000000
+
+# introskip
+0x00013044: 0x48000110
+0x000131c8: 0x4800017c
+0x00013358: 0x4800005c
+0x00013424: 0x48000114
+
+# disable normal autosave
+# 0x000e8c2c: 0x60000000
