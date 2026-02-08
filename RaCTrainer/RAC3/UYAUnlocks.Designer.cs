@@ -48,12 +48,16 @@
             this.xBox = new System.Windows.Forms.TextBox();
             this.ammoBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.unlockSPButton = new System.Windows.Forms.Button();
+            this.resetSPButton = new System.Windows.Forms.Button();
+            this.resetTBButton = new System.Windows.Forms.Button();
+            this.unlockTBButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // checklistItems
             // 
             this.checklistItems.FormattingEnabled = true;
-            this.checklistItems.Location = new System.Drawing.Point(127, 21);
+            this.checklistItems.Location = new System.Drawing.Point(135, 23);
             this.checklistItems.Name = "checklistItems";
             this.checklistItems.Size = new System.Drawing.Size(117, 304);
             this.checklistItems.TabIndex = 0;
@@ -62,7 +66,7 @@
             // 
             // buttonUnlockAll
             // 
-            this.buttonUnlockAll.Location = new System.Drawing.Point(251, 130);
+            this.buttonUnlockAll.Location = new System.Drawing.Point(259, 132);
             this.buttonUnlockAll.Name = "buttonUnlockAll";
             this.buttonUnlockAll.Size = new System.Drawing.Size(100, 24);
             this.buttonUnlockAll.TabIndex = 2;
@@ -72,7 +76,7 @@
             // 
             // buttonRemoveAll
             // 
-            this.buttonRemoveAll.Location = new System.Drawing.Point(251, 160);
+            this.buttonRemoveAll.Location = new System.Drawing.Point(259, 162);
             this.buttonRemoveAll.Name = "buttonRemoveAll";
             this.buttonRemoveAll.Size = new System.Drawing.Size(100, 24);
             this.buttonRemoveAll.TabIndex = 3;
@@ -82,7 +86,7 @@
             // 
             // buttonUpgrade
             // 
-            this.buttonUpgrade.Location = new System.Drawing.Point(301, 190);
+            this.buttonUpgrade.Location = new System.Drawing.Point(309, 192);
             this.buttonUpgrade.Name = "buttonUpgrade";
             this.buttonUpgrade.Size = new System.Drawing.Size(50, 26);
             this.buttonUpgrade.TabIndex = 6;
@@ -93,7 +97,7 @@
             // 
             // buttonDowngrade
             // 
-            this.buttonDowngrade.Location = new System.Drawing.Point(251, 190);
+            this.buttonDowngrade.Location = new System.Drawing.Point(259, 192);
             this.buttonDowngrade.Name = "buttonDowngrade";
             this.buttonDowngrade.Size = new System.Drawing.Size(50, 26);
             this.buttonDowngrade.TabIndex = 7;
@@ -104,7 +108,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(285, 6);
+            this.label3.Location = new System.Drawing.Point(293, 8);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(33, 13);
             this.label3.TabIndex = 8;
@@ -114,7 +118,7 @@
             // levelComboBox
             // 
             this.levelComboBox.FormattingEnabled = true;
-            this.levelComboBox.Location = new System.Drawing.Point(251, 21);
+            this.levelComboBox.Location = new System.Drawing.Point(259, 23);
             this.levelComboBox.Name = "levelComboBox";
             this.levelComboBox.Size = new System.Drawing.Size(100, 21);
             this.levelComboBox.TabIndex = 29;
@@ -122,7 +126,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(251, 220);
+            this.button1.Location = new System.Drawing.Point(259, 222);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 35);
             this.button1.TabIndex = 49;
@@ -132,7 +136,7 @@
             // 
             // buttonBomb
             // 
-            this.buttonBomb.Location = new System.Drawing.Point(326, 220);
+            this.buttonBomb.Location = new System.Drawing.Point(334, 222);
             this.buttonBomb.Name = "buttonBomb";
             this.buttonBomb.Size = new System.Drawing.Size(25, 35);
             this.buttonBomb.TabIndex = 50;
@@ -144,7 +148,7 @@
             // gadgetsItems
             // 
             this.gadgetsItems.FormattingEnabled = true;
-            this.gadgetsItems.Location = new System.Drawing.Point(4, 21);
+            this.gadgetsItems.Location = new System.Drawing.Point(12, 23);
             this.gadgetsItems.Name = "gadgetsItems";
             this.gadgetsItems.Size = new System.Drawing.Size(117, 304);
             this.gadgetsItems.TabIndex = 51;
@@ -153,7 +157,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(157, 5);
+            this.label23.Location = new System.Drawing.Point(165, 7);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(53, 13);
             this.label23.TabIndex = 52;
@@ -162,7 +166,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(25, 4);
+            this.label24.Location = new System.Drawing.Point(33, 6);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(77, 13);
             this.label24.TabIndex = 53;
@@ -170,7 +174,7 @@
             // 
             // infiniteAmmoButton
             // 
-            this.infiniteAmmoButton.Location = new System.Drawing.Point(251, 261);
+            this.infiniteAmmoButton.Location = new System.Drawing.Point(259, 263);
             this.infiniteAmmoButton.Name = "infiniteAmmoButton";
             this.infiniteAmmoButton.Size = new System.Drawing.Size(99, 64);
             this.infiniteAmmoButton.TabIndex = 54;
@@ -181,7 +185,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(290, 47);
+            this.label1.Location = new System.Drawing.Point(298, 49);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(21, 13);
             this.label1.TabIndex = 55;
@@ -189,7 +193,7 @@
             // 
             // xBox
             // 
-            this.xBox.Location = new System.Drawing.Point(250, 61);
+            this.xBox.Location = new System.Drawing.Point(258, 63);
             this.xBox.Name = "xBox";
             this.xBox.Size = new System.Drawing.Size(101, 20);
             this.xBox.TabIndex = 56;
@@ -197,7 +201,7 @@
             // 
             // ammoBox
             // 
-            this.ammoBox.Location = new System.Drawing.Point(250, 102);
+            this.ammoBox.Location = new System.Drawing.Point(258, 104);
             this.ammoBox.Name = "ammoBox";
             this.ammoBox.Size = new System.Drawing.Size(101, 20);
             this.ammoBox.TabIndex = 58;
@@ -206,17 +210,61 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(282, 87);
+            this.label2.Location = new System.Drawing.Point(290, 89);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(36, 13);
             this.label2.TabIndex = 57;
             this.label2.Text = "Ammo";
             // 
+            // unlockSPButton
+            // 
+            this.unlockSPButton.Location = new System.Drawing.Point(12, 333);
+            this.unlockSPButton.Name = "unlockSPButton";
+            this.unlockSPButton.Size = new System.Drawing.Size(171, 23);
+            this.unlockSPButton.TabIndex = 59;
+            this.unlockSPButton.Text = "Unlock All Skill Points";
+            this.unlockSPButton.UseVisualStyleBackColor = true;
+            this.unlockSPButton.Click += new System.EventHandler(this.unlockBoltsSPs);
+            // 
+            // resetSPButton
+            // 
+            this.resetSPButton.Location = new System.Drawing.Point(12, 362);
+            this.resetSPButton.Name = "resetSPButton";
+            this.resetSPButton.Size = new System.Drawing.Size(171, 23);
+            this.resetSPButton.TabIndex = 60;
+            this.resetSPButton.Text = "Reset All Skill Points";
+            this.resetSPButton.UseVisualStyleBackColor = true;
+            this.resetSPButton.Click += new System.EventHandler(this.unlockBoltsSPs);
+            // 
+            // resetTBButton
+            // 
+            this.resetTBButton.Location = new System.Drawing.Point(189, 362);
+            this.resetTBButton.Name = "resetTBButton";
+            this.resetTBButton.Size = new System.Drawing.Size(169, 23);
+            this.resetTBButton.TabIndex = 61;
+            this.resetTBButton.Text = "Reset All Titanium Bolts";
+            this.resetTBButton.UseVisualStyleBackColor = true;
+            this.resetTBButton.Click += new System.EventHandler(this.unlockBoltsSPs);
+            // 
+            // unlockTBButton
+            // 
+            this.unlockTBButton.Location = new System.Drawing.Point(189, 333);
+            this.unlockTBButton.Name = "unlockTBButton";
+            this.unlockTBButton.Size = new System.Drawing.Size(169, 23);
+            this.unlockTBButton.TabIndex = 62;
+            this.unlockTBButton.Text = "Unlock All Titanium Bolts";
+            this.unlockTBButton.UseVisualStyleBackColor = true;
+            this.unlockTBButton.Click += new System.EventHandler(this.unlockBoltsSPs);
+            // 
             // UYAUnlocks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 339);
+            this.ClientSize = new System.Drawing.Size(372, 392);
+            this.Controls.Add(this.unlockTBButton);
+            this.Controls.Add(this.resetTBButton);
+            this.Controls.Add(this.resetSPButton);
+            this.Controls.Add(this.unlockSPButton);
             this.Controls.Add(this.ammoBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.xBox);
@@ -266,5 +314,9 @@
         private System.Windows.Forms.TextBox xBox;
         private System.Windows.Forms.TextBox ammoBox;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button unlockSPButton;
+        private System.Windows.Forms.Button resetSPButton;
+        private System.Windows.Forms.Button resetTBButton;
+        private System.Windows.Forms.Button unlockTBButton;
     }
 }
