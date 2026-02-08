@@ -170,12 +170,6 @@ namespace racman
             // Set current challenge mode
             challengeModeInput.Value = game.GetChallengeMode();
 
-            // Tick currently enabled vic comics
-            for (var i = 0; i < vidComicCheckedListBox.Items.Count; i++)
-            {
-                vidComicCheckedListBox.SetItemChecked(i, game.GetVidComic(i));
-            }
-
             int savefileHelperSubID = game.api.SubMemory(pid, 0xD9FF00, 1, (value) =>
             {
                 if (value[0] == 1)
@@ -281,40 +275,9 @@ namespace racman
             game.ToggleInfiniteAmmo(freezeAmmoCheckBox.Checked);
         }
 
-        private void unlockTitaniumBoltsButton_Click(object sender, EventArgs e)
-        {
-            game.GiveAllTitaniumBolts();
-        }
-
-        private void resetTitaniumBoltsButton_Click(object sender, EventArgs e)
-        {
-            game.ResetAllTitaniumBolts();
-        }
-
-        private void unlockSkillPointsButton_Click(object sender, EventArgs e)
-        {
-            game.GiveAllSkillpoints();
-        }
-
-        private void resetSkillPointsButton_Click(object sender, EventArgs e)
-        {
-            game.ResetAllSkillpoints();
-        }
-
         private void challengeModeInput_ValueChanged(object sender, EventArgs e)
         {
             game.SetChallengeMode((byte)challengeModeInput.Value);
-        }
-
-        private void vidComicCheckedListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // This stops the vid comic item from staying selected
-            vidComicCheckedListBox.ClearSelected();
-        }
-
-        private void vidComicCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
-        {
-            game.SetVidComic(e.Index, e.NewValue == CheckState.Checked);
         }
 
         private void armorComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -519,6 +482,47 @@ namespace racman
         {
             freecam = new RAC3.Freecam();
             freecam.Show();
+        }
+
+        private void resetDropshipHealth_Click(object sender, EventArgs e)
+        {
+            // 100 is the default dropship health on veldin.
+            game.api.WriteMemory(pid, rac3.addr.dropshipHealth, 100);
+        }
+
+        private void untuneBosses_Click(object sender, EventArgs e)
+        {
+            game.UntuneBosses();
+        }
+
+        private void ccEarlyButton_Click(object sender, EventArgs e)
+        {
+            // Setup possible fake items for runs.
+            game.api.WriteMemory(pid, 0xC1E660, 0x41);
+            game.api.WriteMemory(pid, 0xC1E664, 0x41414141);
+
+            game.api.Notify("Annihilator V4 fake item has been setup for CC Early runs!");
+        }
+
+        private void vendorQeEnableButton_Click(object sender, EventArgs e)
+        {
+            game.api.WriteMemory(pid, rac3.addr.qeOfs, new byte[] { 0x00, 0x17 });
+        }
+
+        private void qeTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                try
+                {
+                    game.api.WriteMemory(game.api.getCurrentPID(), rac3.addr.qeOfs, BitConverter.GetBytes(Int16.Parse(qeTextBox.Text)).Reverse().ToArray());
+                }
+                catch
+                {
+                    MessageBox.Show("Unable to parse number.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            }
         }
     }
 }

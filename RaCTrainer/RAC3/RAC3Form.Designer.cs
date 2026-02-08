@@ -59,6 +59,7 @@ namespace racman
             this.flagViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.freecamHelpaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editRouteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -67,34 +68,35 @@ namespace racman
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.controllerCombosCheckbox = new System.Windows.Forms.CheckBox();
             this.freezeAmmoCheckBox = new System.Windows.Forms.CheckBox();
-            this.unlockTitaniumBoltsButton = new System.Windows.Forms.Button();
-            this.resetTitaniumBoltsButton = new System.Windows.Forms.Button();
-            this.unlockSkillPointsButton = new System.Windows.Forms.Button();
-            this.resetSkillPointsButton = new System.Windows.Forms.Button();
             this.challengeModeInput = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
             this.armorComboBox = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.vidComicCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.freezeHealthCheck = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.setAsideButton = new System.Windows.Forms.Button();
             this.loadFileButton = new System.Windows.Forms.Button();
             this.toggleQS = new System.Windows.Forms.Button();
-            this.coordsComboBox = new System.Windows.Forms.CheckBox();
             this.coordsLabel = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.shipColourComboBox = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.buttonUnlocks = new System.Windows.Forms.Button();
-            this.buttonSetup = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.buttonCosmetics = new System.Windows.Forms.Button();
-            this.freecamHelpaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label12 = new System.Windows.Forms.Label();
+            this.vendorQeEnableButton = new System.Windows.Forms.Button();
+            this.ccEarlyButton = new System.Windows.Forms.Button();
+            this.untuneBosses = new System.Windows.Forms.Button();
+            this.resetDropshipHealth = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.coordsComboBox = new System.Windows.Forms.CheckBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.qeTextBox = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -145,9 +147,9 @@ namespace racman
             // 
             // loadPlanetButton
             // 
-            this.loadPlanetButton.Location = new System.Drawing.Point(133, 177);
+            this.loadPlanetButton.Location = new System.Drawing.Point(136, 184);
             this.loadPlanetButton.Name = "loadPlanetButton";
-            this.loadPlanetButton.Size = new System.Drawing.Size(75, 23);
+            this.loadPlanetButton.Size = new System.Drawing.Size(92, 23);
             this.loadPlanetButton.TabIndex = 14;
             this.loadPlanetButton.Text = "Load";
             this.loadPlanetButton.UseVisualStyleBackColor = true;
@@ -233,7 +235,7 @@ namespace racman
             "VidComic1SpecialEdition",
             "Unknown",
             "Unknown2"});
-            this.planets_comboBox.Location = new System.Drawing.Point(15, 179);
+            this.planets_comboBox.Location = new System.Drawing.Point(15, 186);
             this.planets_comboBox.Name = "planets_comboBox";
             this.planets_comboBox.Size = new System.Drawing.Size(112, 21);
             this.planets_comboBox.TabIndex = 28;
@@ -241,11 +243,12 @@ namespace racman
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(237, 279);
+            this.button6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.Location = new System.Drawing.Point(251, 192);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(132, 23);
+            this.button6.Size = new System.Drawing.Size(117, 34);
             this.button6.TabIndex = 29;
-            this.button6.Text = "Setup No QE";
+            this.button6.Text = "Setup NG+ Manips";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             this.button6.MouseHover += new System.EventHandler(this.button6_MouseHover);
@@ -276,15 +279,15 @@ namespace racman
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(236, 48);
+            this.textBox1.Location = new System.Drawing.Point(250, 48);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(135, 20);
+            this.textBox1.Size = new System.Drawing.Size(102, 20);
             this.textBox1.TabIndex = 62;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 163);
+            this.label6.Location = new System.Drawing.Point(12, 170);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(67, 13);
             this.label6.TabIndex = 67;
@@ -293,7 +296,7 @@ namespace racman
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(234, 34);
+            this.label8.Location = new System.Drawing.Point(248, 33);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 68;
@@ -302,7 +305,7 @@ namespace racman
             // currentlyDoing
             // 
             this.currentlyDoing.AutoSize = true;
-            this.currentlyDoing.Location = new System.Drawing.Point(303, 163);
+            this.currentlyDoing.Location = new System.Drawing.Point(450, 26);
             this.currentlyDoing.Name = "currentlyDoing";
             this.currentlyDoing.Size = new System.Drawing.Size(0, 13);
             this.currentlyDoing.TabIndex = 73;
@@ -315,7 +318,7 @@ namespace racman
             this.autosplitterToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(385, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(496, 24);
             this.menuStrip1.TabIndex = 75;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -373,6 +376,13 @@ namespace racman
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
+            // freecamHelpaToolStripMenuItem
+            // 
+            this.freecamHelpaToolStripMenuItem.Name = "freecamHelpaToolStripMenuItem";
+            this.freecamHelpaToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.freecamHelpaToolStripMenuItem.Text = "Freecam helpa";
+            this.freecamHelpaToolStripMenuItem.Click += new System.EventHandler(this.freecamHelpaToolStripMenuItem_Click);
+            // 
             // autosplitterToolStripMenuItem
             // 
             this.autosplitterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -384,15 +394,15 @@ namespace racman
             // editRouteToolStripMenuItem
             // 
             this.editRouteToolStripMenuItem.Name = "editRouteToolStripMenuItem";
-            this.editRouteToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.editRouteToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editRouteToolStripMenuItem.Text = "Edit route...";
             this.editRouteToolStripMenuItem.Click += new System.EventHandler(this.editRouteToolStripMenuItem_Click);
             // 
             // inputdisplay
             // 
-            this.inputdisplay.Location = new System.Drawing.Point(236, 338);
+            this.inputdisplay.Location = new System.Drawing.Point(12, 344);
             this.inputdisplay.Name = "inputdisplay";
-            this.inputdisplay.Size = new System.Drawing.Size(133, 23);
+            this.inputdisplay.Size = new System.Drawing.Size(216, 34);
             this.inputdisplay.TabIndex = 76;
             this.inputdisplay.Text = "Input Display";
             this.inputdisplay.UseVisualStyleBackColor = true;
@@ -401,7 +411,7 @@ namespace racman
             // OHKOCheckBox
             // 
             this.OHKOCheckBox.AutoSize = true;
-            this.OHKOCheckBox.Location = new System.Drawing.Point(16, 239);
+            this.OHKOCheckBox.Location = new System.Drawing.Point(136, 236);
             this.OHKOCheckBox.Name = "OHKOCheckBox";
             this.OHKOCheckBox.Size = new System.Drawing.Size(80, 17);
             this.OHKOCheckBox.TabIndex = 77;
@@ -412,7 +422,7 @@ namespace racman
             // ghostCheckbox
             // 
             this.ghostCheckbox.AutoSize = true;
-            this.ghostCheckbox.Location = new System.Drawing.Point(16, 223);
+            this.ghostCheckbox.Location = new System.Drawing.Point(15, 236);
             this.ghostCheckbox.Name = "ghostCheckbox";
             this.ghostCheckbox.Size = new System.Drawing.Size(95, 17);
             this.ghostCheckbox.TabIndex = 78;
@@ -434,7 +444,7 @@ namespace racman
             // freezeAmmoCheckBox
             // 
             this.freezeAmmoCheckBox.AutoSize = true;
-            this.freezeAmmoCheckBox.Location = new System.Drawing.Point(16, 255);
+            this.freezeAmmoCheckBox.Location = new System.Drawing.Point(136, 259);
             this.freezeAmmoCheckBox.Margin = new System.Windows.Forms.Padding(2);
             this.freezeAmmoCheckBox.Name = "freezeAmmoCheckBox";
             this.freezeAmmoCheckBox.Size = new System.Drawing.Size(89, 17);
@@ -443,63 +453,24 @@ namespace racman
             this.freezeAmmoCheckBox.UseVisualStyleBackColor = true;
             this.freezeAmmoCheckBox.CheckedChanged += new System.EventHandler(this.freezeAmmoCheckBox_CheckedChanged);
             // 
-            // unlockTitaniumBoltsButton
-            // 
-            this.unlockTitaniumBoltsButton.Location = new System.Drawing.Point(236, 158);
-            this.unlockTitaniumBoltsButton.Margin = new System.Windows.Forms.Padding(2);
-            this.unlockTitaniumBoltsButton.Name = "unlockTitaniumBoltsButton";
-            this.unlockTitaniumBoltsButton.Size = new System.Drawing.Size(135, 23);
-            this.unlockTitaniumBoltsButton.TabIndex = 82;
-            this.unlockTitaniumBoltsButton.Text = "Unlock All Titanium Bolts";
-            this.unlockTitaniumBoltsButton.UseVisualStyleBackColor = true;
-            this.unlockTitaniumBoltsButton.Click += new System.EventHandler(this.unlockTitaniumBoltsButton_Click);
-            // 
-            // resetTitaniumBoltsButton
-            // 
-            this.resetTitaniumBoltsButton.Location = new System.Drawing.Point(236, 185);
-            this.resetTitaniumBoltsButton.Margin = new System.Windows.Forms.Padding(2);
-            this.resetTitaniumBoltsButton.Name = "resetTitaniumBoltsButton";
-            this.resetTitaniumBoltsButton.Size = new System.Drawing.Size(135, 23);
-            this.resetTitaniumBoltsButton.TabIndex = 83;
-            this.resetTitaniumBoltsButton.Text = "Reset All Titanium Bolts";
-            this.resetTitaniumBoltsButton.UseVisualStyleBackColor = true;
-            this.resetTitaniumBoltsButton.Click += new System.EventHandler(this.resetTitaniumBoltsButton_Click);
-            // 
-            // unlockSkillPointsButton
-            // 
-            this.unlockSkillPointsButton.Location = new System.Drawing.Point(236, 219);
-            this.unlockSkillPointsButton.Margin = new System.Windows.Forms.Padding(2);
-            this.unlockSkillPointsButton.Name = "unlockSkillPointsButton";
-            this.unlockSkillPointsButton.Size = new System.Drawing.Size(135, 23);
-            this.unlockSkillPointsButton.TabIndex = 84;
-            this.unlockSkillPointsButton.Text = "Unlock All Skill Points";
-            this.unlockSkillPointsButton.UseVisualStyleBackColor = true;
-            this.unlockSkillPointsButton.Click += new System.EventHandler(this.unlockSkillPointsButton_Click);
-            // 
-            // resetSkillPointsButton
-            // 
-            this.resetSkillPointsButton.Location = new System.Drawing.Point(236, 246);
-            this.resetSkillPointsButton.Margin = new System.Windows.Forms.Padding(2);
-            this.resetSkillPointsButton.Name = "resetSkillPointsButton";
-            this.resetSkillPointsButton.Size = new System.Drawing.Size(135, 23);
-            this.resetSkillPointsButton.TabIndex = 85;
-            this.resetSkillPointsButton.Text = "Reset All Skill Points";
-            this.resetSkillPointsButton.UseVisualStyleBackColor = true;
-            this.resetSkillPointsButton.Click += new System.EventHandler(this.resetSkillPointsButton_Click);
-            // 
             // challengeModeInput
             // 
-            this.challengeModeInput.Location = new System.Drawing.Point(236, 86);
+            this.challengeModeInput.Location = new System.Drawing.Point(250, 92);
             this.challengeModeInput.Margin = new System.Windows.Forms.Padding(2);
+            this.challengeModeInput.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
             this.challengeModeInput.Name = "challengeModeInput";
-            this.challengeModeInput.Size = new System.Drawing.Size(133, 20);
+            this.challengeModeInput.Size = new System.Drawing.Size(102, 20);
             this.challengeModeInput.TabIndex = 86;
             this.challengeModeInput.ValueChanged += new System.EventHandler(this.challengeModeInput_ValueChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(234, 71);
+            this.label3.Location = new System.Drawing.Point(248, 76);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(87, 13);
             this.label3.TabIndex = 87;
@@ -517,47 +488,26 @@ namespace racman
             "OG Ratchet Skin",
             "Snowman Skin",
             "Tux Skin"});
-            this.armorComboBox.Location = new System.Drawing.Point(236, 121);
+            this.armorComboBox.Location = new System.Drawing.Point(251, 135);
             this.armorComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.armorComboBox.Name = "armorComboBox";
-            this.armorComboBox.Size = new System.Drawing.Size(135, 21);
+            this.armorComboBox.Size = new System.Drawing.Size(101, 21);
             this.armorComboBox.TabIndex = 88;
             this.armorComboBox.SelectedIndexChanged += new System.EventHandler(this.armorComboBox_SelectedIndexChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(234, 108);
+            this.label4.Location = new System.Drawing.Point(249, 120);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(37, 13);
             this.label4.TabIndex = 89;
             this.label4.Text = "Armor:";
             // 
-            // vidComicCheckedListBox
-            // 
-            this.vidComicCheckedListBox.BackColor = System.Drawing.SystemColors.Menu;
-            this.vidComicCheckedListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.vidComicCheckedListBox.CheckOnClick = true;
-            this.vidComicCheckedListBox.FormattingEnabled = true;
-            this.vidComicCheckedListBox.Items.AddRange(new object[] {
-            "Vid Comic 1",
-            "Vid Comic 2",
-            "Vid Comic 3",
-            "Vid Comic 4",
-            "Vid Comic 5"});
-            this.vidComicCheckedListBox.Location = new System.Drawing.Point(132, 221);
-            this.vidComicCheckedListBox.Margin = new System.Windows.Forms.Padding(5);
-            this.vidComicCheckedListBox.Name = "vidComicCheckedListBox";
-            this.vidComicCheckedListBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.vidComicCheckedListBox.Size = new System.Drawing.Size(85, 75);
-            this.vidComicCheckedListBox.TabIndex = 90;
-            this.vidComicCheckedListBox.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.vidComicCheckedListBox_ItemCheck);
-            this.vidComicCheckedListBox.SelectedIndexChanged += new System.EventHandler(this.vidComicCheckedListBox_SelectedIndexChanged);
-            // 
             // freezeHealthCheck
             // 
             this.freezeHealthCheck.AutoSize = true;
-            this.freezeHealthCheck.Location = new System.Drawing.Point(16, 271);
+            this.freezeHealthCheck.Location = new System.Drawing.Point(15, 259);
             this.freezeHealthCheck.Name = "freezeHealthCheck";
             this.freezeHealthCheck.Size = new System.Drawing.Size(90, 17);
             this.freezeHealthCheck.TabIndex = 91;
@@ -568,20 +518,11 @@ namespace racman
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 203);
+            this.label5.Location = new System.Drawing.Point(12, 216);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(48, 13);
             this.label5.TabIndex = 93;
             this.label5.Text = "Toggles:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(130, 203);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(62, 13);
-            this.label12.TabIndex = 95;
-            this.label12.Text = "Vid Comics:";
             // 
             // setAsideButton
             // 
@@ -607,45 +548,23 @@ namespace racman
             // 
             // toggleQS
             // 
-            this.toggleQS.Location = new System.Drawing.Point(236, 308);
+            this.toggleQS.Location = new System.Drawing.Point(313, 232);
             this.toggleQS.Name = "toggleQS";
-            this.toggleQS.Size = new System.Drawing.Size(133, 23);
+            this.toggleQS.Size = new System.Drawing.Size(55, 44);
             this.toggleQS.TabIndex = 99;
-            this.toggleQS.Text = "Toggle QS Pause";
+            this.toggleQS.Text = "QS Pause";
             this.toggleQS.UseVisualStyleBackColor = true;
             this.toggleQS.Click += new System.EventHandler(this.toggleQS_Click);
-            // 
-            // coordsComboBox
-            // 
-            this.coordsComboBox.AutoSize = true;
-            this.coordsComboBox.Location = new System.Drawing.Point(16, 289);
-            this.coordsComboBox.Name = "coordsComboBox";
-            this.coordsComboBox.Size = new System.Drawing.Size(112, 17);
-            this.coordsComboBox.TabIndex = 100;
-            this.coordsComboBox.Text = "Show Coordinates";
-            this.coordsComboBox.UseVisualStyleBackColor = true;
-            this.coordsComboBox.CheckedChanged += new System.EventHandler(this.coordsComboBox_CheckedChanged);
             // 
             // coordsLabel
             // 
             this.coordsLabel.AutoSize = true;
-            this.coordsLabel.Location = new System.Drawing.Point(13, 450);
+            this.coordsLabel.Location = new System.Drawing.Point(9, 394);
             this.coordsLabel.Name = "coordsLabel";
-            this.coordsLabel.Size = new System.Drawing.Size(123, 13);
+            this.coordsLabel.Size = new System.Drawing.Size(123, 52);
             this.coordsLabel.TabIndex = 101;
-            this.coordsLabel.Text = "Co-ordinates: <disabled>";
+            this.coordsLabel.Text = "Co-ordinates: <disabled>\r\nX: 0.0000\r\nY: 0.0000\r\nZ: 0.0000";
             this.coordsLabel.Click += new System.EventHandler(this.coordsLabel_Click);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(16, 308);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(91, 17);
-            this.checkBox1.TabIndex = 102;
-            this.checkBox1.Text = "Untune Klunk";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // shipColourComboBox
             // 
@@ -683,16 +602,16 @@ namespace racman
             "Sasha Scarlet",
             "Florana Breeze",
             "Ozzy Kamikaze"});
-            this.shipColourComboBox.Location = new System.Drawing.Point(237, 390);
+            this.shipColourComboBox.Location = new System.Drawing.Point(374, 135);
             this.shipColourComboBox.Name = "shipColourComboBox";
-            this.shipColourComboBox.Size = new System.Drawing.Size(132, 21);
+            this.shipColourComboBox.Size = new System.Drawing.Size(103, 21);
             this.shipColourComboBox.TabIndex = 103;
             this.shipColourComboBox.SelectedIndexChanged += new System.EventHandler(this.shipColourComboBox_SelectedIndexChanged);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(234, 374);
+            this.label11.Location = new System.Drawing.Point(371, 118);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(64, 13);
             this.label11.TabIndex = 104;
@@ -702,7 +621,7 @@ namespace racman
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(12, 374);
+            this.label13.Location = new System.Drawing.Point(371, 31);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(52, 13);
             this.label13.TabIndex = 106;
@@ -710,31 +629,21 @@ namespace racman
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(15, 390);
+            this.textBox2.Location = new System.Drawing.Point(374, 48);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(193, 20);
+            this.textBox2.Size = new System.Drawing.Size(103, 20);
             this.textBox2.TabIndex = 105;
             this.textBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox2_KeyDown);
             // 
             // buttonUnlocks
             // 
-            this.buttonUnlocks.Location = new System.Drawing.Point(12, 331);
+            this.buttonUnlocks.Location = new System.Drawing.Point(12, 307);
             this.buttonUnlocks.Name = "buttonUnlocks";
-            this.buttonUnlocks.Size = new System.Drawing.Size(113, 40);
+            this.buttonUnlocks.Size = new System.Drawing.Size(111, 31);
             this.buttonUnlocks.TabIndex = 107;
             this.buttonUnlocks.Text = "Unlocks";
             this.buttonUnlocks.UseVisualStyleBackColor = true;
             this.buttonUnlocks.Click += new System.EventHandler(this.buttonUnlocks_Click);
-            // 
-            // buttonSetup
-            // 
-            this.buttonSetup.Location = new System.Drawing.Point(131, 331);
-            this.buttonSetup.Name = "buttonSetup";
-            this.buttonSetup.Size = new System.Drawing.Size(83, 40);
-            this.buttonSetup.TabIndex = 108;
-            this.buttonSetup.Text = "Setup NG+ or No QE File";
-            this.buttonSetup.UseVisualStyleBackColor = true;
-            this.buttonSetup.Click += new System.EventHandler(this.buttonSetup_Click);
             // 
             // label14
             // 
@@ -756,20 +665,118 @@ namespace racman
             // 
             // buttonCosmetics
             // 
-            this.buttonCosmetics.Location = new System.Drawing.Point(236, 417);
+            this.buttonCosmetics.Location = new System.Drawing.Point(132, 307);
             this.buttonCosmetics.Name = "buttonCosmetics";
-            this.buttonCosmetics.Size = new System.Drawing.Size(133, 23);
+            this.buttonCosmetics.Size = new System.Drawing.Size(96, 31);
             this.buttonCosmetics.TabIndex = 111;
             this.buttonCosmetics.Text = "Cosmetics";
             this.buttonCosmetics.UseVisualStyleBackColor = true;
             this.buttonCosmetics.Click += new System.EventHandler(this.buttonCosmetics_Click);
             // 
-            // freecamHelpaToolStripMenuItem
+            // label12
             // 
-            this.freecamHelpaToolStripMenuItem.Name = "freecamHelpaToolStripMenuItem";
-            this.freecamHelpaToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.freecamHelpaToolStripMenuItem.Text = "Freecam helpa";
-            this.freecamHelpaToolStripMenuItem.Click += new System.EventHandler(this.freecamHelpaToolStripMenuItem_Click);
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(249, 173);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(81, 13);
+            this.label12.TabIndex = 112;
+            this.label12.Text = "General setups:";
+            // 
+            // vendorQeEnableButton
+            // 
+            this.vendorQeEnableButton.Location = new System.Drawing.Point(250, 307);
+            this.vendorQeEnableButton.Name = "vendorQeEnableButton";
+            this.vendorQeEnableButton.Size = new System.Drawing.Size(104, 30);
+            this.vendorQeEnableButton.TabIndex = 113;
+            this.vendorQeEnableButton.Text = "Enable Vendor QE";
+            this.vendorQeEnableButton.UseVisualStyleBackColor = true;
+            this.vendorQeEnableButton.Click += new System.EventHandler(this.vendorQeEnableButton_Click);
+            // 
+            // ccEarlyButton
+            // 
+            this.ccEarlyButton.Location = new System.Drawing.Point(373, 307);
+            this.ccEarlyButton.Name = "ccEarlyButton";
+            this.ccEarlyButton.Size = new System.Drawing.Size(102, 30);
+            this.ccEarlyButton.TabIndex = 114;
+            this.ccEarlyButton.Text = "CC Early Setup";
+            this.ccEarlyButton.UseVisualStyleBackColor = true;
+            this.ccEarlyButton.Click += new System.EventHandler(this.ccEarlyButton_Click);
+            // 
+            // untuneBosses
+            // 
+            this.untuneBosses.Location = new System.Drawing.Point(251, 232);
+            this.untuneBosses.Name = "untuneBosses";
+            this.untuneBosses.Size = new System.Drawing.Size(56, 44);
+            this.untuneBosses.TabIndex = 115;
+            this.untuneBosses.Text = "Untune Bosses";
+            this.untuneBosses.UseVisualStyleBackColor = true;
+            this.untuneBosses.Click += new System.EventHandler(this.untuneBosses_Click);
+            // 
+            // resetDropshipHealth
+            // 
+            this.resetDropshipHealth.Location = new System.Drawing.Point(374, 232);
+            this.resetDropshipHealth.Name = "resetDropshipHealth";
+            this.resetDropshipHealth.Size = new System.Drawing.Size(102, 42);
+            this.resetDropshipHealth.TabIndex = 116;
+            this.resetDropshipHealth.Text = "Reset Dropship health";
+            this.resetDropshipHealth.UseVisualStyleBackColor = true;
+            this.resetDropshipHealth.Click += new System.EventHandler(this.resetDropshipHealth_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(12, 288);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(42, 13);
+            this.label16.TabIndex = 117;
+            this.label16.Text = "Menus:";
+            // 
+            // coordsComboBox
+            // 
+            this.coordsComboBox.AutoSize = true;
+            this.coordsComboBox.Location = new System.Drawing.Point(250, 361);
+            this.coordsComboBox.Name = "coordsComboBox";
+            this.coordsComboBox.Size = new System.Drawing.Size(112, 17);
+            this.coordsComboBox.TabIndex = 100;
+            this.coordsComboBox.Text = "Show Coordinates";
+            this.coordsComboBox.UseVisualStyleBackColor = true;
+            this.coordsComboBox.CheckedChanged += new System.EventHandler(this.coordsComboBox_CheckedChanged);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(247, 288);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(104, 13);
+            this.label17.TabIndex = 118;
+            this.label17.Text = "QE Category setups:";
+            // 
+            // qeTextBox
+            // 
+            this.qeTextBox.Location = new System.Drawing.Point(374, 92);
+            this.qeTextBox.Name = "qeTextBox";
+            this.qeTextBox.Size = new System.Drawing.Size(102, 20);
+            this.qeTextBox.TabIndex = 119;
+            this.qeTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.qeTextBox_KeyDown);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(374, 75);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(25, 13);
+            this.label18.TabIndex = 120;
+            this.label18.Text = "QE:";
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(374, 192);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(101, 34);
+            this.button1.TabIndex = 121;
+            this.button1.Text = "Make NG+ No QE File";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // RAC3Form
             // 
@@ -777,34 +784,36 @@ namespace racman
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(385, 472);
+            this.ClientSize = new System.Drawing.Size(496, 390);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.qeTextBox);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.resetDropshipHealth);
+            this.Controls.Add(this.untuneBosses);
+            this.Controls.Add(this.ccEarlyButton);
+            this.Controls.Add(this.vendorQeEnableButton);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.buttonCosmetics);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label14);
-            this.Controls.Add(this.buttonSetup);
             this.Controls.Add(this.buttonUnlocks);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.shipColourComboBox);
-            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.coordsLabel);
             this.Controls.Add(this.coordsComboBox);
             this.Controls.Add(this.toggleQS);
             this.Controls.Add(this.loadFileButton);
             this.Controls.Add(this.setAsideButton);
-            this.Controls.Add(this.label12);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.freezeHealthCheck);
-            this.Controls.Add(this.vidComicCheckedListBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.armorComboBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.challengeModeInput);
-            this.Controls.Add(this.resetSkillPointsButton);
-            this.Controls.Add(this.unlockSkillPointsButton);
-            this.Controls.Add(this.resetTitaniumBoltsButton);
-            this.Controls.Add(this.unlockTitaniumBoltsButton);
             this.Controls.Add(this.freezeAmmoCheckBox);
             this.Controls.Add(this.controllerCombosCheckbox);
             this.Controls.Add(this.ghostCheckbox);
@@ -837,6 +846,7 @@ namespace racman
             this.Text = "Ratchet & Clank 3 - NPEA00387 (PAL)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Click += new System.EventHandler(this.buttonSetup_Click);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -875,26 +885,18 @@ namespace racman
         private System.Windows.Forms.CheckBox ghostCheckbox;
         private System.Windows.Forms.CheckBox controllerCombosCheckbox;
         private System.Windows.Forms.CheckBox freezeAmmoCheckBox;
-        private System.Windows.Forms.Button unlockTitaniumBoltsButton;
-        private System.Windows.Forms.Button resetTitaniumBoltsButton;
-        private System.Windows.Forms.Button unlockSkillPointsButton;
-        private System.Windows.Forms.Button resetSkillPointsButton;
         private System.Windows.Forms.NumericUpDown challengeModeInput;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox armorComboBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.CheckedListBox vidComicCheckedListBox;
         private System.Windows.Forms.CheckBox freezeHealthCheck;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configureButtonCombosToolStripMenuItem;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button setAsideButton;
         private System.Windows.Forms.Button loadFileButton;
         private System.Windows.Forms.Button toggleQS;
-        private System.Windows.Forms.CheckBox coordsComboBox;
         private System.Windows.Forms.Label coordsLabel;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ComboBox shipColourComboBox;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label13;
@@ -902,7 +904,6 @@ namespace racman
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
         private System.Windows.Forms.Button buttonUnlocks;
-        private System.Windows.Forms.Button buttonSetup;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ToolStripMenuItem autosplitterToolStripMenuItem;
@@ -910,6 +911,17 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem flagViewerToolStripMenuItem;
         private System.Windows.Forms.Button buttonCosmetics;
         private System.Windows.Forms.ToolStripMenuItem freecamHelpaToolStripMenuItem;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button vendorQeEnableButton;
+        private System.Windows.Forms.Button ccEarlyButton;
+        private System.Windows.Forms.Button untuneBosses;
+        private System.Windows.Forms.Button resetDropshipHealth;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.CheckBox coordsComboBox;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox qeTextBox;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button button1;
     }
 }
 
