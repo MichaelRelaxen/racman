@@ -1,0 +1,24 @@
+#- name: quartu arena patch
+#- author: isaka2025
+#- version: 1.00
+#- visible: false
+
+# branch to custom code that adds in null moby checks
+0xe03f4: 0x48224862
+0x168b3c: 0x48224872
+
+# return unused poki function early just in case lol
+0x22485c: 0x4e800020
+
+# seg 1 @ 0xe03f4
+0x224860: 0x2C030000
+0x224864: 0x41820008
+0x224868: 0x480E03FA
+0x22486c: 0x480E0416
+
+# seg 2 @ 0x168b3c
+0x224870: 0x2C030000
+0x224874: 0x4182000C
+0x224878: 0x30A40001
+0x22487c: 0x48168B42
+0x224880: 0x48168C92
