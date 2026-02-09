@@ -70,6 +70,7 @@ namespace racman
                 infHealth.Enabled = false;
                 FreezeAmmoCheckbox.Enabled = false;
                 FastLoadToggle.Enabled = false;
+                quartuGrindCheckbox.Enabled = false;
             }
         }
 
