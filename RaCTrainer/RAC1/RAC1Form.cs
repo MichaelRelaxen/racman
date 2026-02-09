@@ -162,11 +162,12 @@ namespace racman
                 gbspiMod.Unload();
                 gbspiMod = null;
             }
+            /*
             if(quartuMod != null)
             {
                 quartuMod.Unload();
                 quartuMod = null;
-            }
+            }*/
 
             if (autosplitterHelper != null && autosplitterHelper.IsRunning)
             {
