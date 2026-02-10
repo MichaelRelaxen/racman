@@ -1,7 +1,7 @@
 #- name: Quartu Grinder
 #- author: 
 #- version:
-0x4f6400: bin/rack.bin
+0x4f6400: rack.bin
 
 #### ASM Patches ####
 0x4edfd8: 0x480084e1
