@@ -49,6 +49,7 @@
             this.watchlistsLabel = new System.Windows.Forms.Label();
             this.memoryWatchLabel = new System.Windows.Forms.Label();
             this.mobyInspectorLabel = new System.Windows.Forms.Label();
+            this.dumpButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // registerAddressTextBox
@@ -145,7 +146,7 @@
             this.refreshMobysButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.refreshMobysButton.Location = new System.Drawing.Point(749, 25);
             this.refreshMobysButton.Name = "refreshMobysButton";
-            this.refreshMobysButton.Size = new System.Drawing.Size(225, 23);
+            this.refreshMobysButton.Size = new System.Drawing.Size(160, 23);
             this.refreshMobysButton.TabIndex = 5;
             this.refreshMobysButton.Text = "Refresh mobys (pauses game)";
             this.refreshMobysButton.UseVisualStyleBackColor = true;
@@ -249,11 +250,22 @@
             this.mobyInspectorLabel.TabIndex = 13;
             this.mobyInspectorLabel.Text = "Moby Inspector:";
             // 
+            // dumpButton
+            // 
+            this.dumpButton.Location = new System.Drawing.Point(915, 25);
+            this.dumpButton.Name = "dumpButton";
+            this.dumpButton.Size = new System.Drawing.Size(59, 23);
+            this.dumpButton.TabIndex = 14;
+            this.dumpButton.Text = "Dump";
+            this.dumpButton.UseVisualStyleBackColor = true;
+            this.dumpButton.Click += new System.EventHandler(this.dumpButton_Click);
+            // 
             // MemoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(986, 566);
+            this.Controls.Add(this.dumpButton);
             this.Controls.Add(this.mobyInspectorLabel);
             this.Controls.Add(this.memoryWatchLabel);
             this.Controls.Add(this.watchlistsLabel);
@@ -304,5 +316,6 @@
         private System.Windows.Forms.Label watchlistsLabel;
         private System.Windows.Forms.Label memoryWatchLabel;
         private System.Windows.Forms.Label mobyInspectorLabel;
+        private System.Windows.Forms.Button dumpButton;
     }
 }

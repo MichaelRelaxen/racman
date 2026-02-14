@@ -7,6 +7,7 @@ using Timer = System.Windows.Forms.Timer;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using racman.RAC1;
 
 namespace racman
 {
@@ -23,6 +24,7 @@ namespace racman
         private int savefileHelperSubID;
 
         private Mod gbspiMod = null;
+        private Mod quartuMod = null;
 
         private AutosplitterHelper autosplitterHelper;
 
@@ -50,12 +52,25 @@ namespace racman
                 gbspiSplitToolStripMenuItem.Checked = true;
             }
 
+            if (func.GetConfigData("config.txt", "quartu_patch_enabled") == "true")
+            {
+                quartuGrindCheckbox.Checked = true;
+            }
+
             if (func.GetConfigData("config.txt", "autosplitter_enabled") != "false")
             {
                 autosplitterEnabledToolStripMenuItem.Checked = true;
             } else
             {
                 gbspiSplitToolStripMenuItem.Enabled = false;
+            }
+
+            if(AttachPS3Form.isEmulator)
+            {
+                infHealth.Enabled = false;
+                FreezeAmmoCheckbox.Enabled = false;
+                FastLoadToggle.Enabled = false;
+                quartuGrindCheckbox.Enabled = false;
             }
         }
 
@@ -147,6 +162,12 @@ namespace racman
                 gbspiMod.Unload();
                 gbspiMod = null;
             }
+            /*
+            if(quartuMod != null)
+            {
+                quartuMod.Unload();
+                quartuMod = null;
+            }*/
 
             if (autosplitterHelper != null && autosplitterHelper.IsRunning)
             {
@@ -170,12 +191,15 @@ namespace racman
 
         private void unlocksWindowButton_Click(object sender, EventArgs e)
         {
+            /*
             if (UnlocksWindow == null)
             {
                 UnlocksWindow = new UnlocksWindow(game);
                 UnlocksWindow.FormClosed += UnlocksWindow_FormClosed;
                 UnlocksWindow.Show();
-            }
+            } */
+            NewUnlocks unlocks = new NewUnlocks(game);
+            unlocks.Show();
         }
         private void UnlocksWindow_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -402,17 +426,7 @@ namespace racman
             MemoryForm.SetMobyInstancesAddress(game.GetMobyTableAddress());
             memoryForm.Show();
         }
-        
-        private void discordRPCEnabledToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            if (discordRPCEnabledToolStripMenuItem.Checked) {
-                game.DiscordTimer.Enabled = true;
-            }
-            else {
-                game.DiscordTimer.Enabled = false;
-                game.CheckPlanetForDiscordRPC();
-            }
-        }
+     
 
         private void debugToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
@@ -570,6 +584,38 @@ namespace racman
         {
             JankpotForm jf = new JankpotForm(game);
             jf.Show();
+        }
+
+        private void resetStylePoints_Click(object sender, EventArgs e)
+        {
+            //sps reset.
+            func.api.WriteMemory(pid, 0x96c08c, 30, new byte[30]);
+        }
+
+        private void unlockAllStylePoints_Click(object sender, EventArgs e)
+        {
+            func.api.WriteMemory(pid, 0x96c08c, 30, Enumerable.Repeat((byte)1, 30).ToArray());
+        }
+
+        private void quartuGrindCheckedChanged(object sender, EventArgs e)
+        {
+            if (quartuGrindCheckbox.Checked)
+            {
+                quartuMod = new Mod($"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\quartu_patch\\");
+                quartuMod.Load();
+
+                func.ChangeFileLines("config.txt", "true", "quartu_patch_enabled");
+            }
+            else
+            {
+                if (quartuMod != null)
+                {
+                    quartuMod.Unload();
+                    quartuMod = null;
+                }
+
+                func.ChangeFileLines("config.txt", "false", "quartu_patch_enabled");
+            }
         }
     }
 }

@@ -65,6 +65,13 @@ namespace racman
             new UYAItem("The Hacker", 0x14, 0x4BC, 0x640, 0x293),
             new UYAItem("Warp Pad", 0x1F, 0x4C7, 0x66C, 0x2BF),
 
+            // Vid comics now get placed in the gadgets/items part of the unlocks menu :)
+            new UYAItem("Vid Comic 1", 0x0, 0x12C7, 0x0, 0x0),
+            new UYAItem("Vid Comic 2", 0x0, 0x12C9, 0x0, 0x0),
+            new UYAItem("Vid Comic 3", 0x0, 0x12CA, 0x0, 0x0),
+            new UYAItem("Vid Comic 4", 0x0, 0x12C8, 0x0, 0x0),
+            new UYAItem("Vid Comic 5", 0x0, 0x12Cb, 0x0, 0x0),
+
             //Weapons
             new UYAItem("Agents of Doom", 0x57, 0x4FF, 0x74C, 0x39F, 8),
             new UYAItem("Annihilator", 0x3F, 0x4E7, 0x6EC, 0x33F, 8),
@@ -335,6 +342,21 @@ namespace racman
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void unlockBoltsSPs(object sender, EventArgs e)
+        {
+            if (sender.ToString().Contains("Unlock All Skill Points"))
+                game.GiveAllSkillpoints();
+
+            if (sender.ToString().Contains("Reset All Skill Points"))
+                game.ResetAllSkillpoints();
+
+            if (sender.ToString().Contains("Unlock All Titanium Bolts"))
+                game.GiveAllTitaniumBolts();
+
+            if (sender.ToString().Contains("Reset All Titanium Bolts"))
+                game.ResetAllTitaniumBolts();
         }
     }
 

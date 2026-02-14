@@ -33,6 +33,7 @@ namespace racman
         public uint reactorTuning => 0x0A94944;
         public uint evisceratorTuning => 0x0A969E3;
         public uint aceTuning => 0x0A96E43;
+        public uint voxTuning => 0xA07C7F;
 
 
         // Vox HP
@@ -107,6 +108,7 @@ namespace racman
         public rac4(IPS3API api) : base(api)
         {
             this.planetsList = new string[] {
+                "UNUSED",
                 "DreadZone",
                 "Catacrom",
                 "INFLOOP",
@@ -229,6 +231,7 @@ namespace racman
 
         public void DieRac4()
         {
+            api.WriteMemory(pid, addr.playerCoords + 8, 0);
             api.WriteMemory(pid, addr.playerCoords2 + 8, 0);
         }
 
@@ -246,7 +249,7 @@ namespace racman
             }
             if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
             {
-                KillYourself();
+                DieRac4();
                 inputCheck = false;
             }
             //if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo && inputCheck)
@@ -275,11 +278,6 @@ namespace racman
         {
             var pid = api.getCurrentPID();
             api.WriteMemory(pid, addr.savefile_api_load, new byte[] { 1 });
-        }
-
-        public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -66,6 +66,7 @@ namespace racman
         public uint vidComicMenu => 0xC4F918;
 
         // Boss stuff
+        public uint dropshipHealth => 0xc956a0;
         public uint klunkTuning1 => 0xC9165C;
         public uint klunkTuning2 => 0xC36BCC;
         public uint neffyTuning => 0xEF6098;
@@ -85,6 +86,8 @@ namespace racman
         public uint chargebootsTintBackColor => 0xc33ac4;
         public uint chargebootsPrimaryFrontColor => 0xc33ab0;
         public uint chargebootsPrimaryBackColor => 0xc33ab4;
+
+        public uint qeOfs => 0xc1e2c0; // int16
 
 
         // Values corresponding to the location of the internal table for game objects.
@@ -227,6 +230,14 @@ namespace racman
             }
         }
 
+        public void UntuneBosses()
+        {
+            api.WriteMemory(pid, rac3.addr.dropshipHealth, 100); // 
+            api.WriteMemory(pid, rac3.addr.neffyTuning, 0x0);
+            api.WriteMemory(pid, rac3.addr.klunkTuning1, 0x0);
+            api.WriteMemory(pid, rac3.addr.klunkTuning2, 0x0);
+        }
+
         /// <summary>
         /// Ghost ratchet works by having a frame countdown, we hard enable ghost ratchet by freezing the frame countdown to 10.
         /// </summary>
@@ -355,11 +366,6 @@ namespace racman
             {
                 inputCheck = true;
             }
-        }
-
-        public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
-        {
-            throw new NotImplementedException();
         }
     }
 }

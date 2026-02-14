@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using System.Threading;
-using DiscordRPC;
 
 namespace racman
 {
@@ -248,23 +247,8 @@ namespace racman
 
         public static RaC1Addresses addr = new RaC1Addresses();
 
-        public DiscordRpcClient DiscordClient;
-        
-        private Timestamps initialTimestamp;
-        
         private uint lastPlanetIndex = 100;
-        
-        public void InitializeDiscordRPC()
-        {
-            if (DiscordClient != null)
-            {
-                DiscordClient.Dispose();
-                DiscordClient = null;
-            }
-            DiscordClient = new DiscordRpcClient("1326847296025006110");
-            DiscordClient.Initialize();
-            initialTimestamp = Timestamps.Now;
-        }
+       
 
         public rac1(IPS3API api) : base(api)
         {
@@ -466,11 +450,10 @@ namespace racman
         public override void ResetLevelFlags()
         {
 
-            // Not working properly right now?
             api.WriteMemory(pid, rac1.addr.levelFlags + (planetToLoad * 0x10), 0x10, new byte[0x10]);
             api.WriteMemory(pid, rac1.addr.miscLevelFlags + (planetToLoad * 0x100), 0x100, new byte[0x100]);
-            api.WriteMemory(pid, rac1.addr.infobotFlags + planetToLoad, 1, new byte[1]);
-            api.WriteMemory(pid, rac1.addr.moviesFlags, 0xc0, new byte[0xC0]);
+            api.WriteMemory(pid, rac1.addr.infobotFlags + planetToLoad, 18, new byte[18]);
+            api.WriteMemory(pid, 0x96bff8, 0x89, new byte[0x89]);
 
             if (planetToLoad == 3)
             {
@@ -685,57 +668,6 @@ namespace racman
                 inputCheck = true;
             }
         }
-
-        public override void CheckPlanetForDiscordRPC(object sender = null, EventArgs e = null)
-        {
-            if (!DiscordTimer.Enabled) {
-                if (DiscordClient != null)
-                {
-                    DiscordClient.Dispose();
-                    DiscordClient = null;
-                    lastPlanetIndex = 100; // Valeur invalide pour forcer une mise à jour
-                }
-                return;
-            }
-            
-            byte[] planetData = api.ReadMemory(pid, rac1.addr.currentPlanet, 4);
-            if (planetData?.Length != 4) return; 
-            
-            uint planetindex = BitConverter.ToUInt32(planetData.Reverse().ToArray(), 0);
-            
-            if (planetindex != lastPlanetIndex) {
-                if (DiscordClient == null) InitializeDiscordRPC();
-                lastPlanetIndex = planetindex;
-                if (planetindex < planetsList.Length)
-                    UpdateRichPresence(planetsList[planetindex]);
-            }
-        }
-
-        public void UpdateRichPresence(string planetname)
-        {
-            if (DiscordClient == null)
-                return;
-            var imageKey = planetname.ToLower();
-            try {
-                DiscordClient.SetPresence(new RichPresence()
-                {
-                    Details = planetname,
-                    Timestamps = initialTimestamp,
-                    Assets = new Assets()
-                    {
-                        LargeImageKey = "rac1",
-                        LargeImageText = "Ratchet & Clank",
-                        SmallImageKey = imageKey,
-                        SmallImageText = planetname,
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Cant update : {ex.Message}");
-            }
-        }
-
         public List<DebugOption> DebugOptions()
         {
             List<DebugOption> options = new List<DebugOption>();
