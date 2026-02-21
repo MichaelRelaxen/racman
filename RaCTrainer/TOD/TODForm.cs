@@ -14,6 +14,7 @@ namespace racman.TOD
     {
         AutosplitterHelper autosplitter;
         static ModLoaderForm modLoaderForm;
+        public Form InputDisplay;
         public tod game;
 
         private int disconnectSubId = -1;
@@ -48,6 +49,11 @@ namespace racman.TOD
                         game.api.Notify("Autosplitter reconnected!");
                     }
                 });
+            }
+
+            if (this.game.HasInputDisplay)
+            {
+                this.game.SetupInputDisplayMemorySubs();
             }
         }
 
@@ -299,6 +305,26 @@ namespace racman.TOD
                 MessageBox.Show("Choose a button you beech");
                 return -1;
             }
+        }
+
+        private void InputViewerClick(object sender, EventArgs e)
+        {
+            if (InputDisplay == null)
+            {
+                InputDisplay = new InputDisplay();
+                InputDisplay.FormClosed += InputDisplay_FormClosed;
+                InputDisplay.Show();
+            }
+        }
+
+        private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            InputDisplay = null;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

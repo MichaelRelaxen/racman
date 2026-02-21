@@ -73,6 +73,11 @@ namespace racman
             // Ryno Parts
             public uint RYNOParts;
 
+            // Input Viewer
+            public uint todInputOffset;
+
+            public uint todAnalogOffset;
+
             // Random stuff
 
             public uint groovitronStorage;
@@ -140,6 +145,8 @@ namespace racman
                 addr.godRatchet = 0x1020BD4B;
                 addr.RYNOParts = 0x10214565;
                 addr.groovitronStorage = 0x10385F8B;
+                addr.todInputOffset = 0x10691ABC;
+                addr.todAnalogOffset = 0x10691AC1;
             }
             else if(gameVersion == "BCES00052")
             {
@@ -169,6 +176,8 @@ namespace racman
             }
             addPlayerValueAddresses();
         }
+
+        public bool HasInputDisplay => addr.todInputOffset > 0 && addr.todAnalogOffset > 0 && addr.currentPlanet > 0;
 
         public Dictionary<string, uint> playerValues = new Dictionary<string, uint>
             {
@@ -417,6 +426,40 @@ namespace racman
         public void ResetGoldenGrovitronStorage()
         {
             api.WriteMemory(pid, tod.addr.groovitronStorage, 1, new byte[] { 10 });
+        }
+
+        protected override void SetupInputDisplayMemorySubsButtons()
+        {
+            int buttonMaskSubID = api.SubMemory(pid, addr.todInputOffset, 4, (value) =>
+            {
+                Inputs.RawInputs = BitConverter.ToInt32(value, 0);
+                Inputs.Mask = Inputs.DecodeMask(Inputs.RawInputs);
+            });
+        }
+
+        public float ConvertStickFormat(byte value)
+        {
+            return (value - 128) / 127.0f;
+        }
+
+        protected override void SetupInputDisplayMemorySubsAnalogs()
+        {
+            int analogRSubID = api.SubMemory(pid, addr.todAnalogOffset, 4, (value) =>
+            {
+                Inputs.ry = ConvertStickFormat(value[1]);
+                Inputs.rx = ConvertStickFormat(value[3]);
+            });
+
+            int analogYSubID = api.SubMemory(pid, addr.todAnalogOffset + 4, 4, (value) =>
+            {
+                Inputs.ly = ConvertStickFormat(value[1]);
+                Inputs.lx = ConvertStickFormat(value[3]);
+            });
+        }
+
+        public void ControllerCombo()
+        {
+
         }
 
         public override void CheckInputs(object sender, EventArgs e)
