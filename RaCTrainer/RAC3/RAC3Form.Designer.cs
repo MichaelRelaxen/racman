@@ -97,6 +97,7 @@ namespace racman
             this.qeTextBox = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.activeMobyListViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -331,7 +332,8 @@ namespace racman
             this.flagViewerToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem,
-            this.freecamHelpaToolStripMenuItem});
+            this.freecamHelpaToolStripMenuItem,
+            this.activeMobyListViewerToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -779,6 +781,13 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.buttonSetup_Click);
             // 
+            // activeMobyListViewerToolStripMenuItem
+            // 
+            this.activeMobyListViewerToolStripMenuItem.Name = "activeMobyListViewerToolStripMenuItem";
+            this.activeMobyListViewerToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.activeMobyListViewerToolStripMenuItem.Text = "Active moby list viewer";
+            this.activeMobyListViewerToolStripMenuItem.Click += new System.EventHandler(this.activeMobyListViewerToolStripMenuItem_Click);
+            // 
             // RAC3Form
             // 
             this.AllowDrop = true;
@@ -922,6 +931,7 @@ namespace racman
         private System.Windows.Forms.TextBox qeTextBox;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem activeMobyListViewerToolStripMenuItem;
     }
 }
 

@@ -525,5 +525,12 @@ namespace racman
 
             }
         }
+        public RAC3.ActiveMobysForm activeMobysForm;
+
+        private void activeMobyListViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            activeMobysForm = new RAC3.ActiveMobysForm();
+            activeMobysForm.Show();
+        }
     }
 }
