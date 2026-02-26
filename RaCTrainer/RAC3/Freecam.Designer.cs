@@ -44,6 +44,7 @@ namespace racman.RAC3
             this.tflabel = new System.Windows.Forms.Label();
             this.tstracker = new System.Windows.Forms.TrackBar();
             this.tftracker = new System.Windows.Forms.TrackBar();
+            this.lockbutton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mftracker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mstracker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tstracker)).BeginInit();
@@ -169,11 +170,11 @@ namespace racman.RAC3
             // 
             this.enablebutton.BackColor = System.Drawing.Color.Red;
             this.enablebutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.enablebutton.Font = new System.Drawing.Font("Comic Sans MS", 15.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.enablebutton.Font = new System.Drawing.Font("Comic Sans MS", 12.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.enablebutton.ForeColor = System.Drawing.Color.Black;
             this.enablebutton.Location = new System.Drawing.Point(235, 198);
             this.enablebutton.Name = "enablebutton";
-            this.enablebutton.Size = new System.Drawing.Size(200, 98);
+            this.enablebutton.Size = new System.Drawing.Size(97, 98);
             this.enablebutton.TabIndex = 11;
             this.enablebutton.Text = "Disable/Enable";
             this.enablebutton.UseVisualStyleBackColor = false;
@@ -224,12 +225,26 @@ namespace racman.RAC3
             this.tftracker.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.tftracker.ValueChanged += new System.EventHandler(this.tftracker_ValueChanged);
             // 
+            // lockbutton
+            // 
+            this.lockbutton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(52)))), ((int)(((byte)(10)))));
+            this.lockbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lockbutton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(219)))), ((int)(((byte)(166)))), ((int)(((byte)(77)))));
+            this.lockbutton.Location = new System.Drawing.Point(338, 198);
+            this.lockbutton.Name = "lockbutton";
+            this.lockbutton.Size = new System.Drawing.Size(97, 98);
+            this.lockbutton.TabIndex = 16;
+            this.lockbutton.Text = "Lock Cam";
+            this.lockbutton.UseVisualStyleBackColor = false;
+            this.lockbutton.Click += new System.EventHandler(this.lockbutton_Click);
+            // 
             // Freecam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(21)))), ((int)(((byte)(4)))));
             this.ClientSize = new System.Drawing.Size(449, 372);
+            this.Controls.Add(this.lockbutton);
             this.Controls.Add(this.tslabel);
             this.Controls.Add(this.tflabel);
             this.Controls.Add(this.tstracker);
@@ -274,5 +289,6 @@ namespace racman.RAC3
         private System.Windows.Forms.Label tflabel;
         private System.Windows.Forms.TrackBar tstracker;
         private System.Windows.Forms.TrackBar tftracker;
+        private System.Windows.Forms.Button lockbutton;
     }
 }
