@@ -21,16 +21,17 @@ namespace racman.RAC3
         public Timer timer = new Timer();
 
         // Offsets from the mod.
-        uint moveSpeed = 0x00d9f068;
-        uint moveFriction = 0x00d9f09c;
-        uint turnSpeed = 0x00d9f06c;
-        uint turnFriction = 0x00d9f098;
-        uint currentControl = 0x00d9f064;
-        uint currentLookAt = 0x00d9f060;
+        uint moveSpeed = 0x00d9f07c;
+        uint moveFriction = 0x00d9f0b0;
+        uint turnSpeed = 0x00d9f080;
+        uint turnFriction = 0x00d9f0ac;
+        uint currentControl = 0x00d9f078;
+        uint currentLookAt = 0x00d9f074;
         uint savePosOffset = 0x00d9f000;
-        uint loadCameraPosition = 0x00d9f0bc;
-        uint saveCameraPosition = 0x00d9f0c0;
-        uint modEnabled = 0x00d9f0b8;
+        uint loadCameraPosition = 0x00d9f0d0;
+        uint saveCameraPosition = 0x00d9f0d4;
+        uint modEnabled = 0x00d9f0cc;
+        uint lockWithoutStrafe = 0x00d9f070;
 
         public Freecam()
         {
@@ -216,5 +217,11 @@ namespace racman.RAC3
             }
         }
 
+        private void lockbutton_Click(object sender, EventArgs e)
+        {
+            bool enabled = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, lockWithoutStrafe));
+            enabled = !enabled;
+            api.WriteMemory(AttachPS3Form.pid, lockWithoutStrafe, Convert.ToUInt32(enabled));
+        }
     }
 }
