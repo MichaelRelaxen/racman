@@ -543,7 +543,7 @@ namespace racman
         private void button2_Click(object sender, EventArgs e)
         {
             DeleteTrophyFolder();
-            game.api.WriteMemory(pid, 0xD9F020, 1); // Refresh trophy state
+            game.api.WriteMemory(pid, 0xd9e020, 1); // Refresh trophy state
         }
     }
 }
