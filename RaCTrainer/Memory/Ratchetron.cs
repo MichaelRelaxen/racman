@@ -547,5 +547,43 @@ namespace racman
 
             return (uint)BitConverter.ToUInt32(address.Take(4).Reverse().ToArray(), 0); ;
         }
+
+        public override uint GetUserID()
+        {
+            if (!connected)
+            {
+                throw new Exception("I ain't connected");
+            }
+
+            byte[] cmd = { 0x12 };
+            WriteStream(cmd, 0, 1);
+
+            byte[] userIdBuf = new byte[4];
+            int n_bytes = 0;
+            while (n_bytes < 4)
+            {
+                n_bytes += stream.Read(userIdBuf, 0, 4);
+            }
+
+            return BitConverter.ToUInt32(userIdBuf.Reverse().ToArray(), 0);
+        }
+        public override int DeleteDirectory(string remotePath)
+        {
+            var cmdBuf = new List<byte> { 0x13 };
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)remotePath.Length + 1).Reverse());
+            cmdBuf.AddRange(Encoding.ASCII.GetBytes(remotePath));
+            cmdBuf.Add(0x0);
+
+            WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+
+            byte[] resultBuf = new byte[4];
+            int n_bytes = 0;
+            while (n_bytes < 4)
+            {
+                n_bytes += stream.Read(resultBuf, 0, 4);
+            }
+
+            return BitConverter.ToInt32(resultBuf.Reverse().ToArray(), 0);
+        }
     }
 }

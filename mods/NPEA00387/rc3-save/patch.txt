@@ -1,7 +1,7 @@
 #- name: Savefile Manager
 #- author: isaka2025 and Torrbullen
 #- href: https://github.com/Torrbullen/Gigahelper/tree/master
-#- version: 1.0
+#- version: 1.1
 #- description: Tool for having savefiles locally and running them from RaCMAN.
 0x980ac0: rack.bin
 
@@ -9,3 +9,4 @@
 0x97cba4: 0x48003f5d
 0x1113c: 0x480004b8
 0x9027a0: 0x4e800020
+0x985318: 0x60000000
