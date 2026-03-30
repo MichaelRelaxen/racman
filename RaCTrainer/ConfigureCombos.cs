@@ -94,19 +94,18 @@ namespace racman
                 return;
             }
 
-            if (Inputs.RawInputs == confirmedInput && confirmedInput != 0)
+            if (confirmedInput != 0)
             {
                 var activeTextBox = comboActions.Keys.FirstOrDefault(tb => tb.Text == EnterInput);
-                confirmationCounter++;
-
                 if (activeTextBox != null)
                 {
-                    activeTextBox.Text = String.Join(" + ", Inputs.DecodeMask(confirmedInput));
-
+                    confirmationCounter++;
                     if (confirmationCounter >= CONFIRMATION_TICKS)
                     {
                         comboActions[activeTextBox](confirmedInput);
+
                         UpdateCombos();
+
                         confirmationCounter = 0;
                         confirmedInput = 0;
                     }

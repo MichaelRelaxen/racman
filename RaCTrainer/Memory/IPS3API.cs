@@ -67,6 +67,9 @@ namespace racman
         public abstract void WriteFile(string remotePath, byte[] buffer);
 
         public abstract void WriteFile(string remotePath, string filePath);
+
+        public abstract uint GetUserID();
+        public abstract int DeleteDirectory(string remotePath);
         public virtual string GetIP()
         {
             return this.ip;

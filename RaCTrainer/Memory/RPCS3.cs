@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -311,7 +312,16 @@ namespace racman.Memory
             }
         }
 
+        public override uint GetUserID()
+        {
+            // not implementing this
+            return 0;
+        }
 
+        public override int DeleteDirectory(string remotePath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 
