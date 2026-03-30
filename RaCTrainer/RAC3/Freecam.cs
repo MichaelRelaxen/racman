@@ -28,9 +28,9 @@ namespace racman.RAC3
         uint currentControl = 0x00d9f078;
         uint currentLookAt = 0x00d9f074;
         uint savePosOffset = 0x00d9f000;
-        uint loadCameraPosition = 0x00d9f0d0;
-        uint saveCameraPosition = 0x00d9f0d4;
-        uint modEnabled = 0x00d9f0cc;
+        uint loadCameraPosition = 0x00d9f158;
+        uint saveCameraPosition = 0x00d9f15c;
+        uint modEnabled = 0x00d9f154;
         uint lockWithoutStrafe = 0x00d9f070;
 
         public Freecam()
