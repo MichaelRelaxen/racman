@@ -121,7 +121,7 @@ namespace racman.RAC3
             string cuh;
             if (string.Empty != savebox.Text)
             {
-
+                savebox.Text = savebox.Text.Replace(" ", "_");
                 if (!listbox.Items.Contains(savebox.Text))
                 {
                     listbox.Items.Add(savebox.Text);
