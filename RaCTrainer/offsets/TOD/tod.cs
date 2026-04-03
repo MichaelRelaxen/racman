@@ -176,6 +176,8 @@ namespace racman
                 addr.godRatchet = 0x101EFAF3;
                 addr.RYNOParts = 0x101F8215;
                 addr.groovitronStorage = 0x10369CA3;
+                addr.todInputOffset = 0x10675A3C;
+                addr.todAnalogOffset = 0x10675A41;
             }
             addPlayerValueAddresses();
         }
