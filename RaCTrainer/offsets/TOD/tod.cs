@@ -87,7 +87,8 @@ namespace racman
             public uint playerCoords => throw new NotImplementedException();
             public uint inputOffset => throw new NotImplementedException();
             public uint analogOffset => throw new NotImplementedException();
-            public uint loadPlanet => throw new NotImplementedException();
+
+            public uint loadPlanet => LoadPlanet();
             public uint currentPlanet => savePlanetId;
 
             public uint mobyInstances => throw new NotImplementedException();
@@ -490,6 +491,11 @@ namespace racman
             {
                 inputCheck = true;
             }
+        }
+
+        public static uint LoadPlanet()
+        {
+            return 0;
         }
 
         public override void ResetLevelFlags()
