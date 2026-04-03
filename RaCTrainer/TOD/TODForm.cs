@@ -348,5 +348,16 @@ namespace racman.TOD
             else
                 game.InputsTimer.Enabled = false;
         }
+
+        private void configureButtonCombosToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (ConfigureCombos == null)
+            {
+                ConfigureCombos = new ConfigureCombos();
+                ConfigureCombos.FormClosed += ConfigureCombos_FormClosed;
+                ConfigureCombos.Show();
+                game.InputsTimer.Enabled = false;
+            }
+        }
     }
 }

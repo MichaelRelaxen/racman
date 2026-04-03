@@ -30,6 +30,7 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label6 = new System.Windows.Forms.Label();
@@ -55,7 +56,6 @@
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.button9 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,6 +81,13 @@
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 22);
             this.menuToolStripMenuItem.Text = "Menu";
+            // 
+            // configureButtonCombosToolStripMenuItem
+            // 
+            this.configureButtonCombosToolStripMenuItem.Name = "configureButtonCombosToolStripMenuItem";
+            this.configureButtonCombosToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.configureButtonCombosToolStripMenuItem.Text = "Configure Button Combos";
+            this.configureButtonCombosToolStripMenuItem.Click += new System.EventHandler(this.configureButtonCombosToolStripMenuItem_Click_1);
             // 
             // patchLoaderToolStripMenuItem
             // 
@@ -363,12 +370,6 @@
             this.checkBox1.Text = "Enable Controller Combos";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
-            // 
-            // configureButtonCombosToolStripMenuItem
-            // 
-            this.configureButtonCombosToolStripMenuItem.Name = "configureButtonCombosToolStripMenuItem";
-            this.configureButtonCombosToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
-            this.configureButtonCombosToolStripMenuItem.Text = "Configure Button Combos";
             // 
             // TODForm
             // 
