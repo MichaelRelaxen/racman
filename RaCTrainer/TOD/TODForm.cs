@@ -23,6 +23,7 @@ namespace racman.TOD
         private ASSRoute? autosplitterASSroute;
         private byte lastPlanet;
         private byte lastGoodPlanet;
+        public Form ConfigureCombos;
 
         public TODForm(tod game)
         {
@@ -219,7 +220,7 @@ namespace racman.TOD
 
         private void DieButtonClick(object sender, EventArgs e)
         {
-            game.DeathAbuse();
+            game.KillYourself();
         }
 
         private void ChallegeModeButtonClick(object sender, EventArgs e)
@@ -322,9 +323,30 @@ namespace racman.TOD
             InputDisplay = null;
         }
 
+        private void configureButtonCombosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ConfigureCombos == null)
+            {
+                ConfigureCombos = new ConfigureCombos();
+                ConfigureCombos.FormClosed += ConfigureCombos_FormClosed;
+                ConfigureCombos.Show();
+                game.InputsTimer.Enabled = false;
+            }
+        }
+
+        private void ConfigureCombos_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ConfigureCombos = null;
+            if (checkBox1.Checked)
+                game.InputsTimer.Enabled = true;
+        }
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-
+            if (checkBox1.Checked)
+                game.InputsTimer.Enabled = true;
+            else
+                game.InputsTimer.Enabled = false;
         }
     }
 }

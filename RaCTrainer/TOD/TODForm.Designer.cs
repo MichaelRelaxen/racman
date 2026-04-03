@@ -55,6 +55,7 @@
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.button9 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.configureButtonCombosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -74,6 +75,7 @@
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.configureButtonCombosToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
@@ -83,14 +85,14 @@
             // patchLoaderToolStripMenuItem
             // 
             this.patchLoaderToolStripMenuItem.Name = "patchLoaderToolStripMenuItem";
-            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.patchLoaderToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.patchLoaderToolStripMenuItem.Text = "Mods and patches...";
             this.patchLoaderToolStripMenuItem.Click += new System.EventHandler(this.patchLoaderToolStripMenuItem_Click);
             // 
             // memoryUtilitiesToolStripMenuItem
             // 
             this.memoryUtilitiesToolStripMenuItem.Name = "memoryUtilitiesToolStripMenuItem";
-            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
             // 
@@ -165,7 +167,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(13, 229);
-            this.button1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button1.Margin = new System.Windows.Forms.Padding(1);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(116, 22);
             this.button1.TabIndex = 106;
@@ -176,7 +178,7 @@
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(13, 74);
-            this.button2.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button2.Margin = new System.Windows.Forms.Padding(1);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(116, 22);
             this.button2.TabIndex = 107;
@@ -187,7 +189,7 @@
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(13, 103);
-            this.button3.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button3.Margin = new System.Windows.Forms.Padding(1);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(116, 22);
             this.button3.TabIndex = 108;
@@ -198,7 +200,7 @@
             // button4
             // 
             this.button4.Location = new System.Drawing.Point(13, 132);
-            this.button4.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button4.Margin = new System.Windows.Forms.Padding(1);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(116, 22);
             this.button4.TabIndex = 109;
@@ -209,7 +211,7 @@
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(268, 103);
-            this.button5.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button5.Margin = new System.Windows.Forms.Padding(1);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(116, 22);
             this.button5.TabIndex = 110;
@@ -220,7 +222,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(13, 258);
-            this.button6.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button6.Margin = new System.Windows.Forms.Padding(1);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(116, 22);
             this.button6.TabIndex = 111;
@@ -231,7 +233,7 @@
             // button11
             // 
             this.button11.Location = new System.Drawing.Point(268, 258);
-            this.button11.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button11.Margin = new System.Windows.Forms.Padding(1);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(116, 22);
             this.button11.TabIndex = 116;
@@ -242,7 +244,7 @@
             // button13
             // 
             this.button13.Location = new System.Drawing.Point(268, 45);
-            this.button13.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button13.Margin = new System.Windows.Forms.Padding(1);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(116, 22);
             this.button13.TabIndex = 118;
@@ -253,7 +255,7 @@
             // button14
             // 
             this.button14.Location = new System.Drawing.Point(268, 229);
-            this.button14.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button14.Margin = new System.Windows.Forms.Padding(1);
             this.button14.Name = "button14";
             this.button14.Size = new System.Drawing.Size(116, 22);
             this.button14.TabIndex = 119;
@@ -264,7 +266,7 @@
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(268, 74);
-            this.button7.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button7.Margin = new System.Windows.Forms.Padding(1);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(116, 22);
             this.button7.TabIndex = 120;
@@ -275,7 +277,7 @@
             // button8
             // 
             this.button8.Location = new System.Drawing.Point(268, 132);
-            this.button8.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button8.Margin = new System.Windows.Forms.Padding(1);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(116, 22);
             this.button8.TabIndex = 121;
@@ -286,7 +288,7 @@
             // button12
             // 
             this.button12.Location = new System.Drawing.Point(268, 161);
-            this.button12.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button12.Margin = new System.Windows.Forms.Padding(1);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(116, 34);
             this.button12.TabIndex = 124;
@@ -343,7 +345,7 @@
             // button9
             // 
             this.button9.Location = new System.Drawing.Point(13, 287);
-            this.button9.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.button9.Margin = new System.Windows.Forms.Padding(1);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(116, 22);
             this.button9.TabIndex = 128;
@@ -361,6 +363,12 @@
             this.checkBox1.Text = "Enable Controller Combos";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // configureButtonCombosToolStripMenuItem
+            // 
+            this.configureButtonCombosToolStripMenuItem.Name = "configureButtonCombosToolStripMenuItem";
+            this.configureButtonCombosToolStripMenuItem.Size = new System.Drawing.Size(214, 22);
+            this.configureButtonCombosToolStripMenuItem.Text = "Configure Button Combos";
             // 
             // TODForm
             // 
@@ -430,5 +438,6 @@
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ToolStripMenuItem configureButtonCombosToolStripMenuItem;
     }
 }

@@ -298,7 +298,7 @@ namespace racman
             api.WriteMemory(pid, tod.addr.challengeMode, 1, new byte[] { Convert.ToByte(!value) });
         }
 
-        public void DeathAbuse()
+        public override void KillYourself()
         {
             api.WriteMemory(pid, getRatPointer() + 0x1784, 0);
         }
@@ -457,14 +457,37 @@ namespace racman
             });
         }
 
-        public void ControllerCombo()
-        {
-
-        }
-
         public override void CheckInputs(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            /*if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
+            {
+                SavePosition();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadCombo && inputCheck)
+            {
+                LoadPosition();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
+            {
+                KillYourself();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo & inputCheck)
+            {
+                LoadPlanet();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.runScriptCombo && inputCheck)
+            {
+                AttachPS3Form.scripting?.RunCurrentCode();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x00 & !inputCheck)
+            {
+                inputCheck = true;
+            }*/
         }
 
         public override void ResetLevelFlags()
