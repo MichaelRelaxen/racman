@@ -5,7 +5,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using racman.offsets;
+using racman.TOD;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace racman
@@ -123,8 +125,8 @@ namespace racman
             if(gameVersion == "NPEA00452")
             {
                 if (!AttachPS3Form.isEmulator)
-                    addr.dumbRat = 0x61BF1984;
-                else addr.dumbRat = 0x31BF1984;
+                    addr.dumbRat = 0x61BF1984; 
+                else addr.dumbRat = 0x31BF1984; //Dumb rat alternatives: 310740C00, 334A66EFA, 331C40864, difference to HP: 381E1D2C + 2484 = 758 , 381E28DC - 2484 = 458, 381E0D00 - 2484 =  1784
 
                 addr.savePlanetId = 0x1029C55B;
                 addr.loadScreenType = 0x102034FB;
@@ -459,14 +461,14 @@ namespace racman
 
         public override void CheckInputs(object sender, EventArgs e)
         {
-            /*if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
+            if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
             {
-                SavePosition();
+                SavePosition(0);
                 inputCheck = false;
             }
             if (Inputs.RawInputs == ConfigureCombos.loadCombo && inputCheck)
             {
-                LoadPosition();
+                LoadPosition(0);
                 inputCheck = false;
             }
             if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
@@ -487,7 +489,7 @@ namespace racman
             if (Inputs.RawInputs == 0x00 & !inputCheck)
             {
                 inputCheck = true;
-            }*/
+            }
         }
 
         public override void ResetLevelFlags()
