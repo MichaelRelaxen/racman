@@ -111,8 +111,8 @@ namespace racman
             {
                 savefileHelperComboBox.Items.Add(i.Substring(i.IndexOf(AttachPS3Form.game) + 10));
             }*/
+        } 
 
-        }
 
         private void TextBox1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -178,6 +178,7 @@ namespace racman
                     {
                         setAsideButton.Enabled = true;
                         loadFileButton.Enabled = true;
+                        deleteTrophiesButton.Enabled = true;
                     }));
                 }
             });
@@ -524,6 +525,25 @@ namespace racman
                 }
 
             }
+        }
+        public RAC3.ActiveMobysForm activeMobysForm;
+
+        private void activeMobyListViewerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            activeMobysForm = new RAC3.ActiveMobysForm();
+            activeMobysForm.Show();
+        }
+        private void DeleteTrophyFolder()
+        {
+            uint userID = game.api.GetUserID();
+            Console.WriteLine($"USERID:  {userID}\n");
+            game.api.DeleteDirectory($"/dev_hdd0/home/{userID:D8}/trophy/NPWR02347_00");
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            DeleteTrophyFolder();
+            game.api.WriteMemory(pid, 0xd9e020, 1); // Refresh trophy state
         }
     }
 }

@@ -60,6 +60,7 @@ namespace racman
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.freecamHelpaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.activeMobyListViewerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autosplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editRouteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -97,6 +98,7 @@ namespace racman
             this.qeTextBox = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
+            this.deleteTrophiesButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -331,7 +333,8 @@ namespace racman
             this.flagViewerToolStripMenuItem,
             this.patchLoaderToolStripMenuItem,
             this.memoryUtilitiesToolStripMenuItem,
-            this.freecamHelpaToolStripMenuItem});
+            this.freecamHelpaToolStripMenuItem,
+            this.activeMobyListViewerToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -382,6 +385,13 @@ namespace racman
             this.freecamHelpaToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
             this.freecamHelpaToolStripMenuItem.Text = "Freecam helpa";
             this.freecamHelpaToolStripMenuItem.Click += new System.EventHandler(this.freecamHelpaToolStripMenuItem_Click);
+            // 
+            // activeMobyListViewerToolStripMenuItem
+            // 
+            this.activeMobyListViewerToolStripMenuItem.Name = "activeMobyListViewerToolStripMenuItem";
+            this.activeMobyListViewerToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.activeMobyListViewerToolStripMenuItem.Text = "Active moby list viewer";
+            this.activeMobyListViewerToolStripMenuItem.Click += new System.EventHandler(this.activeMobyListViewerToolStripMenuItem_Click);
             // 
             // autosplitterToolStripMenuItem
             // 
@@ -779,6 +789,17 @@ namespace racman
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.buttonSetup_Click);
             // 
+            // deleteTrophiesButton
+            // 
+            this.deleteTrophiesButton.Enabled = false;
+            this.deleteTrophiesButton.Location = new System.Drawing.Point(136, 130);
+            this.deleteTrophiesButton.Name = "deleteTrophiesButton";
+            this.deleteTrophiesButton.Size = new System.Drawing.Size(92, 23);
+            this.deleteTrophiesButton.TabIndex = 122;
+            this.deleteTrophiesButton.Text = "Reset Trophies";
+            this.deleteTrophiesButton.UseVisualStyleBackColor = true;
+            this.deleteTrophiesButton.Click += new System.EventHandler(this.button2_Click);
+            // 
             // RAC3Form
             // 
             this.AllowDrop = true;
@@ -786,6 +807,7 @@ namespace racman
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(496, 390);
+            this.Controls.Add(this.deleteTrophiesButton);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.qeTextBox);
@@ -922,6 +944,8 @@ namespace racman
         private System.Windows.Forms.TextBox qeTextBox;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem activeMobyListViewerToolStripMenuItem;
+        private System.Windows.Forms.Button deleteTrophiesButton;
     }
 }
 

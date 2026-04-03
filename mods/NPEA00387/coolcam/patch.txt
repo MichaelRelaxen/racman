@@ -1,7 +1,7 @@
 #- name: COOLCAM
 #- author: Torrbullen & Isaaaa
 #- href: https://github.com/Torrbullen/COOLCAM
-#- version: 1.04
+#- version: 1.05
 #- description: COOL camera for cool people
 0x980ac0: rack.bin
 
