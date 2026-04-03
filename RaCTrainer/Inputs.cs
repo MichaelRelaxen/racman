@@ -27,7 +27,7 @@ namespace racman
                 left = 0x8000,
             }
 
-            private enum AciBtns : uint
+            private enum FutureBtns : uint
             {
                 l2 = 0x1,
                 r2 = 0x2,
@@ -67,24 +67,24 @@ namespace racman
                 { OgBtns.left, Buttons.left },
             };
 
-            private static Dictionary<AciBtns, Buttons> aciToButtonsMapping = new Dictionary<AciBtns, Buttons>
+            private static Dictionary<FutureBtns, Buttons> aciToButtonsMapping = new Dictionary<FutureBtns, Buttons>
             {
-                { AciBtns.triangle, Buttons.triangle },
-                { AciBtns.circle, Buttons.circle },
-                { AciBtns.cross, Buttons.cross },
-                { AciBtns.square, Buttons.square },
-                { AciBtns.l2, Buttons.l2 },
-                { AciBtns.r2, Buttons.r2 },
-                { AciBtns.l1, Buttons.l1 },
-                { AciBtns.r1, Buttons.r1 },
-                { AciBtns.select, Buttons.select },
-                { AciBtns.l3, Buttons.l3 },
-                { AciBtns.r3, Buttons.r3 },
-                { AciBtns.start, Buttons.start },
-                { AciBtns.up, Buttons.up },
-                { AciBtns.right, Buttons.right },
-                { AciBtns.down, Buttons.down },
-                { AciBtns.left, Buttons.left },
+                { FutureBtns.triangle, Buttons.triangle },
+                { FutureBtns.circle, Buttons.circle },
+                { FutureBtns.cross, Buttons.cross },
+                { FutureBtns.square, Buttons.square },
+                { FutureBtns.l2, Buttons.l2 },
+                { FutureBtns.r2, Buttons.r2 },
+                { FutureBtns.l1, Buttons.l1 },
+                { FutureBtns.r1, Buttons.r1 },
+                { FutureBtns.select, Buttons.select },
+                { FutureBtns.l3, Buttons.l3 },
+                { FutureBtns.r3, Buttons.r3 },
+                { FutureBtns.start, Buttons.start },
+                { FutureBtns.up, Buttons.up },
+                { FutureBtns.right, Buttons.right },
+                { FutureBtns.down, Buttons.down },
+                { FutureBtns.left, Buttons.left },
             };
 
             private static Buttons ConvertToButtons(OgBtns ogBtn)
@@ -96,9 +96,9 @@ namespace racman
                 throw new ArgumentException("Conversion not found.");
             }
 
-            private static Buttons ConvertToButtons(AciBtns aciBtn)
+            private static Buttons ConvertToButtons(FutureBtns futureBtn)
             {
-                if (aciToButtonsMapping.TryGetValue(aciBtn, out Buttons convertedBtn))
+                if (aciToButtonsMapping.TryGetValue(futureBtn, out Buttons convertedBtn))
                 {
                     return convertedBtn;
                 }
@@ -110,7 +110,7 @@ namespace racman
             /// </summary>
             public static List<Buttons> GetButtons(uint mask)
             {
-                Type enumType = (gameName == "ACIT") ? typeof(AciBtns) : typeof(OgBtns);
+                Type enumType = (gameName == "ACIT" || gameName == "ToD PAL")  ? typeof(FutureBtns) : typeof(OgBtns);
                 var list = new List<Buttons>();
 
                 foreach (var button in Enum.GetValues(enumType))
@@ -119,7 +119,7 @@ namespace racman
 
                     if (buttonValue != 0 && (mask & buttonValue) != 0)
                     {
-                        list.Add(enumType == typeof(OgBtns) ? ConvertToButtons((OgBtns)button) : ConvertToButtons((AciBtns)button));
+                        list.Add(enumType == typeof(OgBtns) ? ConvertToButtons((OgBtns)button) : ConvertToButtons((FutureBtns)button));
                     }
                 }
 
