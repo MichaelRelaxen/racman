@@ -361,6 +361,12 @@
     <Compile Include="TOD\CategoryChoiceForm.Designer.cs">
       <DependentUpon>CategoryChoiceForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TOD\FormLevelFlags.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TOD\FormLevelFlags.Designer.cs">
+      <DependentUpon>FormLevelFlags.cs</DependentUpon>
+    </Compile>
     <Compile Include="TOD\GadgetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -510,6 +516,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TOD\CategoryChoiceForm.resx">
       <DependentUpon>CategoryChoiceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TOD\FormLevelFlags.resx">
+      <DependentUpon>FormLevelFlags.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TOD\GadgetForm.resx">
       <DependentUpon>GadgetForm.cs</DependentUpon>

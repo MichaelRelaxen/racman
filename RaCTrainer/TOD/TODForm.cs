@@ -136,6 +136,12 @@ namespace racman.TOD
             memoryForm.Show();
         }
 
+        private void levelFlagsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormLevelFlags form = new FormLevelFlags(game, 0x10211398, tod.LevelFlags, tod.LevelFlagPlanetOrder);
+            form.Show();
+        }
+
         private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var api = game.api;

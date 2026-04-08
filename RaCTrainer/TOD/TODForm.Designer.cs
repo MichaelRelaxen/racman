@@ -32,6 +32,7 @@
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patchLoaderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.memoryUtilitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.levelFlagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label6 = new System.Windows.Forms.Label();
             this.planets_comboBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -73,7 +74,8 @@
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.patchLoaderToolStripMenuItem,
-            this.memoryUtilitiesToolStripMenuItem});
+            this.memoryUtilitiesToolStripMenuItem,
+            this.levelFlagsToolStripMenuItem});
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(50, 22);
             this.menuToolStripMenuItem.Text = "Menu";
@@ -91,6 +93,13 @@
             this.memoryUtilitiesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.memoryUtilitiesToolStripMenuItem.Text = "Memory utilities";
             this.memoryUtilitiesToolStripMenuItem.Click += new System.EventHandler(this.memoryUtilitiesToolStripMenuItem_Click);
+            //
+            // levelFlagsToolStripMenuItem
+            //
+            this.levelFlagsToolStripMenuItem.Name = "levelFlagsToolStripMenuItem";
+            this.levelFlagsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.levelFlagsToolStripMenuItem.Text = "Level Flags";
+            this.levelFlagsToolStripMenuItem.Click += new System.EventHandler(this.levelFlagsToolStripMenuItem_Click);
             // 
             // label6
             // 
@@ -381,6 +390,7 @@
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem patchLoaderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem memoryUtilitiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem levelFlagsToolStripMenuItem;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox planets_comboBox;
         private System.Windows.Forms.Label label1;
