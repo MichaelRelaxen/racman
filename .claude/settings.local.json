@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(dotnet build:*)",
-      "Bash(ls C:Usersatunesourcereposracman-official/*.sln)"
-    ]
-  }
-}
