@@ -24,6 +24,7 @@ namespace racman
         private int savefileHelperSubID;
 
         private Mod gbspiMod = null;
+        private Mod quartuMod = null;
 
         private AutosplitterHelper autosplitterHelper;
 
@@ -51,6 +52,11 @@ namespace racman
                 gbspiSplitToolStripMenuItem.Checked = true;
             }
 
+            if (func.GetConfigData("config.txt", "quartu_patch_enabled") == "true")
+            {
+                quartuGrindCheckbox.Checked = true;
+            }
+
             if (func.GetConfigData("config.txt", "autosplitter_enabled") != "false")
             {
                 autosplitterEnabledToolStripMenuItem.Checked = true;
@@ -64,6 +70,7 @@ namespace racman
                 infHealth.Enabled = false;
                 FreezeAmmoCheckbox.Enabled = false;
                 FastLoadToggle.Enabled = false;
+                quartuGrindCheckbox.Enabled = false;
             }
         }
 
@@ -155,6 +162,12 @@ namespace racman
                 gbspiMod.Unload();
                 gbspiMod = null;
             }
+            /*
+            if(quartuMod != null)
+            {
+                quartuMod.Unload();
+                quartuMod = null;
+            }*/
 
             if (autosplitterHelper != null && autosplitterHelper.IsRunning)
             {
@@ -582,6 +595,27 @@ namespace racman
         private void unlockAllStylePoints_Click(object sender, EventArgs e)
         {
             func.api.WriteMemory(pid, 0x96c08c, 30, Enumerable.Repeat((byte)1, 30).ToArray());
+        }
+
+        private void quartuGrindCheckedChanged(object sender, EventArgs e)
+        {
+            if (quartuGrindCheckbox.Checked)
+            {
+                quartuMod = new Mod($"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\quartu_patch\\");
+                quartuMod.Load();
+
+                func.ChangeFileLines("config.txt", "true", "quartu_patch_enabled");
+            }
+            else
+            {
+                if (quartuMod != null)
+                {
+                    quartuMod.Unload();
+                    quartuMod = null;
+                }
+
+                func.ChangeFileLines("config.txt", "false", "quartu_patch_enabled");
+            }
         }
     }
 }

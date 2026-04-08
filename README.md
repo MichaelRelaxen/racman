@@ -14,7 +14,7 @@ For more information about game patches, Lua automations, and other details, ple
 - Ratchet & Clank 3 (PAL) - NPEA00387, BCES01503
 - Ratchet: Gladiator (PAL) - NPEA00423
 - Ratchet & Clank Future: Tools of Destruction - NPEA00452, BCES00052
-- Ratchet & Clank Future: A Crack in Time - NPUA80966, NPEA00453, BCES00511, BCES00726
+- Ratchet & Clank Future: A Crack in Time - NPUA80966, BCES00511
 
 ## Setup
 To use racman, follow these steps:

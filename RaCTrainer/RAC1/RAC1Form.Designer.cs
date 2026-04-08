@@ -98,6 +98,7 @@ namespace racman
             this.unlockAllStylePoints = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.quartuGrindCheckbox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -741,12 +742,24 @@ namespace racman
             this.label11.TabIndex = 120;
             this.label11.Text = "Any% category setups:";
             // 
+            // quartuGrindCheckbox
+            // 
+            this.quartuGrindCheckbox.AutoSize = true;
+            this.quartuGrindCheckbox.Location = new System.Drawing.Point(247, 256);
+            this.quartuGrindCheckbox.Name = "quartuGrindCheckbox";
+            this.quartuGrindCheckbox.Size = new System.Drawing.Size(147, 17);
+            this.quartuGrindCheckbox.TabIndex = 121;
+            this.quartuGrindCheckbox.Text = "Patch Quartu Grind Crash";
+            this.quartuGrindCheckbox.UseVisualStyleBackColor = true;
+            this.quartuGrindCheckbox.CheckedChanged += new System.EventHandler(this.quartuGrindCheckedChanged);
+            // 
             // RAC1Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(490, 447);
+            this.Controls.Add(this.quartuGrindCheckbox);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.unlockAllStylePoints);
@@ -876,5 +889,6 @@ namespace racman
         private System.Windows.Forms.Button unlockAllStylePoints;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox quartuGrindCheckbox;
     }
 }

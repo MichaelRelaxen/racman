@@ -5,7 +5,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using racman.offsets;
+using racman.TOD;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace racman
@@ -73,6 +75,11 @@ namespace racman
             // Ryno Parts
             public uint RYNOParts;
 
+            // Input Viewer
+            public uint todInputOffset;
+
+            public uint todAnalogOffset;
+
             // Random stuff
 
             public uint groovitronStorage;
@@ -80,7 +87,8 @@ namespace racman
             public uint playerCoords => throw new NotImplementedException();
             public uint inputOffset => throw new NotImplementedException();
             public uint analogOffset => throw new NotImplementedException();
-            public uint loadPlanet => throw new NotImplementedException();
+
+            public uint loadPlanet => LoadPlanet();
             public uint currentPlanet => savePlanetId;
 
             public uint mobyInstances => throw new NotImplementedException();
@@ -118,8 +126,8 @@ namespace racman
             if(gameVersion == "NPEA00452")
             {
                 if (!AttachPS3Form.isEmulator)
-                    addr.dumbRat = 0x61BF1984;
-                else addr.dumbRat = 0x31BF1984;
+                    addr.dumbRat = 0x61BF1984; 
+                else addr.dumbRat = 0x31BF1984; //Dumb rat alternatives: 310740C00, 334A66EFA, 331C40864, difference to HP: 381E1D2C + 2484 = 758 , 381E28DC - 2484 = 458, 381E0D00 - 2484 =  1784
 
                 addr.savePlanetId = 0x1029C55B;
                 addr.loadScreenType = 0x102034FB;
@@ -140,6 +148,8 @@ namespace racman
                 addr.godRatchet = 0x1020BD4B;
                 addr.RYNOParts = 0x10214565;
                 addr.groovitronStorage = 0x10385F8B;
+                addr.todInputOffset = 0x10691ABC;
+                addr.todAnalogOffset = 0x10691AC1;
             }
             else if(gameVersion == "BCES00052")
             {
@@ -166,9 +176,13 @@ namespace racman
                 addr.godRatchet = 0x101EFAF3;
                 addr.RYNOParts = 0x101F8215;
                 addr.groovitronStorage = 0x10369CA3;
+                addr.todInputOffset = 0x10675A3C;
+                addr.todAnalogOffset = 0x10675A41;
             }
             addPlayerValueAddresses();
         }
+
+        public bool HasInputDisplay => addr.todInputOffset > 0 && addr.todAnalogOffset > 0 && addr.currentPlanet > 0;
 
         public Dictionary<string, uint> playerValues = new Dictionary<string, uint>
             {
@@ -603,7 +617,7 @@ namespace racman
             api.WriteMemory(pid, tod.addr.challengeMode, 1, new byte[] { Convert.ToByte(!value) });
         }
 
-        public void DeathAbuse()
+        public override void KillYourself()
         {
             api.WriteMemory(pid, getRatPointer() + 0x1784, 0);
         }
@@ -733,9 +747,71 @@ namespace racman
             api.WriteMemory(pid, tod.addr.groovitronStorage, 1, new byte[] { 10 });
         }
 
+        protected override void SetupInputDisplayMemorySubsButtons()
+        {
+            int buttonMaskSubID = api.SubMemory(pid, addr.todInputOffset, 4, (value) =>
+            {
+                Inputs.RawInputs = BitConverter.ToInt32(value, 0);
+                Inputs.Mask = Inputs.DecodeMask(Inputs.RawInputs);
+            });
+        }
+
+        public float ConvertStickFormat(byte value)
+        {
+            return (value - 128) / 127.0f;
+        }
+
+        protected override void SetupInputDisplayMemorySubsAnalogs()
+        {
+            int analogRSubID = api.SubMemory(pid, addr.todAnalogOffset, 4, (value) =>
+            {
+                Inputs.ry = ConvertStickFormat(value[1]);
+                Inputs.rx = ConvertStickFormat(value[3]);
+            });
+
+            int analogYSubID = api.SubMemory(pid, addr.todAnalogOffset + 4, 4, (value) =>
+            {
+                Inputs.ly = ConvertStickFormat(value[1]);
+                Inputs.lx = ConvertStickFormat(value[3]);
+            });
+        }
+
         public override void CheckInputs(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (Inputs.RawInputs == ConfigureCombos.saveCombo && inputCheck)
+            {
+                SavePosition(0);
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadCombo && inputCheck)
+            {
+                LoadPosition(0);
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.dieCombo && inputCheck)
+            {
+                KillYourself();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.loadPlanetCombo & inputCheck)
+            {
+                LoadPlanet();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == ConfigureCombos.runScriptCombo && inputCheck)
+            {
+                AttachPS3Form.scripting?.RunCurrentCode();
+                inputCheck = false;
+            }
+            if (Inputs.RawInputs == 0x00 & !inputCheck)
+            {
+                inputCheck = true;
+            }
+        }
+
+        public static uint LoadPlanet()
+        {
+            return 0;
         }
 
         public override void ResetLevelFlags()

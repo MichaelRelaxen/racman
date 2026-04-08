@@ -156,5 +156,15 @@ namespace racman
         {
             throw new NotImplementedException();
         }
+        public override uint GetUserID()
+        {
+            // not implementing this
+            return 0;
+        }
+
+        public override int DeleteDirectory(string remotePath)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

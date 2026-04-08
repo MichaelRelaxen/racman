@@ -14,6 +14,7 @@ namespace racman.TOD
     {
         AutosplitterHelper autosplitter;
         static ModLoaderForm modLoaderForm;
+        public Form InputDisplay;
         public tod game;
 
         private int disconnectSubId = -1;
@@ -22,6 +23,7 @@ namespace racman.TOD
         private ASSRoute? autosplitterASSroute;
         private byte lastPlanet;
         private byte lastGoodPlanet;
+        public Form ConfigureCombos;
 
         public TODForm(tod game)
         {
@@ -48,6 +50,11 @@ namespace racman.TOD
                         game.api.Notify("Autosplitter reconnected!");
                     }
                 });
+            }
+
+            if (this.game.HasInputDisplay)
+            {
+                this.game.SetupInputDisplayMemorySubs();
             }
         }
 
@@ -219,7 +226,7 @@ namespace racman.TOD
 
         private void DieButtonClick(object sender, EventArgs e)
         {
-            game.DeathAbuse();
+            game.KillYourself();
         }
 
         private void ChallegeModeButtonClick(object sender, EventArgs e)
@@ -304,6 +311,58 @@ namespace racman.TOD
             {
                 MessageBox.Show("Choose a button you beech");
                 return -1;
+            }
+        }
+
+        private void InputViewerClick(object sender, EventArgs e)
+        {
+            if (InputDisplay == null)
+            {
+                InputDisplay = new InputDisplay();
+                InputDisplay.FormClosed += InputDisplay_FormClosed;
+                InputDisplay.Show();
+            }
+        }
+
+        private void InputDisplay_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            InputDisplay = null;
+        }
+
+        private void configureButtonCombosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ConfigureCombos == null)
+            {
+                ConfigureCombos = new ConfigureCombos();
+                ConfigureCombos.FormClosed += ConfigureCombos_FormClosed;
+                ConfigureCombos.Show();
+                game.InputsTimer.Enabled = false;
+            }
+        }
+
+        private void ConfigureCombos_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ConfigureCombos = null;
+            if (checkBox1.Checked)
+                game.InputsTimer.Enabled = true;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+                game.InputsTimer.Enabled = true;
+            else
+                game.InputsTimer.Enabled = false;
+        }
+
+        private void configureButtonCombosToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            if (ConfigureCombos == null)
+            {
+                ConfigureCombos = new ConfigureCombos();
+                ConfigureCombos.FormClosed += ConfigureCombos_FormClosed;
+                ConfigureCombos.Show();
+                game.InputsTimer.Enabled = false;
             }
         }
     }

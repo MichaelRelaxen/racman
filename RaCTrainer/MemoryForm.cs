@@ -601,5 +601,28 @@ namespace racman
             PopulateWatchlistFromFile(filename);
         }
 
+        private void dumpButton_Click(object sender, EventArgs e)
+        {
+            if (selectedMobyComboBox.Items.Count == 0)
+            {
+                MessageBox.Show("Please refresh the moby list.");
+                return;
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog { FileName = $"moby dump.txt" };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        for (int i = 0; i < selectedMobyComboBox.Items.Count; i++)
+                            writer.WriteLine($"Moby #{i}: {selectedMobyComboBox.Items[i]}");
+                    }
+                }
+                catch{ }
+            }
+        }
     }
 }
