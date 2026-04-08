@@ -345,3 +345,5 @@ healthchecksdb
 
 #config
 config.txt
+
+.claude/*
