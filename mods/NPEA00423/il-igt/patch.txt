@@ -1,0 +1,9 @@
+#- name: IL RTA
+#- author: robo
+#- href: 
+#- version: 1.0
+#- description: Replaces IGT with RTA timing for individual levels
+0x2dadf8: rack.bin
+
+#### ASM Patches ####
+0x1d102c: 0x48109dcd

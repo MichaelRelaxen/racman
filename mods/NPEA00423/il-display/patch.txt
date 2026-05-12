@@ -1,0 +1,11 @@
+#- name: IL HUD Display
+#- author: robo
+#- href: 
+#- version: 1.0
+#- description: Displays individual level timer on the HUD
+0x662000: rack.bin
+
+#### ASM Patches ####
+0x70719c: 0x4bf5b0cd
+0x0bac18: 0x485a7671
+0x37fd90: 0x4e800020

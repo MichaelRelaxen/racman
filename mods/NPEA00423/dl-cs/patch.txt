@@ -1,4 +1,7 @@
-#- name: Decimal Timer
+#- name: IL Decimal Timer
+#- author: doesthisusername
+#- description: Includes decimal time on level end screens
+#- version: 1.0
 
 0x29e098: 0x60000000
 0x29e0a0: 0x60000000

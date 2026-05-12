@@ -1,0 +1,10 @@
+#- name: Bot Info
+#- author: robo
+#- href: 
+#- version: 1.0
+#- description: Displays bot health & other information. 
+0x662000: rack.bin
+
+#### ASM Patches ####
+0x70719c: 0x4bf5afc9
+0x0bac18: 0x485a756d

@@ -57,8 +57,7 @@ namespace racman
                     mods.Add(mod);
                 }
             }
-
-            return mods;
+            return mods.OrderBy(mod => mod.name).ToList();
         }
 
         private void ReloadMods()
