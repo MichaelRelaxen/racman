@@ -83,6 +83,7 @@ namespace racman
         public uint debugModeControl => 0x95c5d4;
 
         public uint mobyInstances => 0x0A390A0;
+        public uint mobyInstancesEnd => 0x0A390A8;
 
         public uint drekCutscene => 0xFACC74;
 

@@ -295,7 +295,7 @@ namespace racman
         {
             MemoryForm memoryForm = new MemoryForm();
 
-            MemoryForm.SetMobyInstancesAddress(game.GetMobyTableAddress());
+            MemoryForm.SetMobyInstancesAddress(rac2.addr.mobyInstances, rac2.addr.mobyInstancesEnd);
             memoryForm.Show();
         }
 

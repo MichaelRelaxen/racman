@@ -92,6 +92,7 @@ namespace racman
 
         // Values corresponding to the location of the internal table for game objects.
         public uint mobyInstances => 0x0f22260;
+        public uint mobyInstancesEnd => 0x0f22268;
     }
     public class rac3 : IGame, IAutosplitterAvailable
     {

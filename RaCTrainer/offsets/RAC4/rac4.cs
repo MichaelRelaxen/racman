@@ -2,6 +2,8 @@
 using racman.offsets.RAC4;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using Timer = System.Windows.Forms.Timer;
 
 namespace racman
@@ -94,7 +96,9 @@ namespace racman
         public uint loadPlanet2 => 0x0B36DCC;
         public uint targetPlanet => 0x0B36DD0;
 
-        public uint mobyInstances => throw new NotImplementedException();
+        public uint mobyInstances => 0x00C845A0;
+        public uint mobyInstancesEnd => 0x00C845A4;
+        public uint mobyInstancesPermEnd => 0x00C845A8;
     }
     public class rac4 : IGame, IAutosplitterAvailable
     {
@@ -279,5 +283,135 @@ namespace racman
             var pid = api.getCurrentPID();
             api.WriteMemory(pid, addr.savefile_api_load, new byte[] { 1 });
         }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct Vec4
+        {
+            public float x;
+            public float y;
+            public float z;
+            public float w;
+        };
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct GamePtr
+        {
+            public uint addr;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public unsafe struct Moby
+        {
+            public Vec4 bSphere;
+            public Vec4 pos;
+            public sbyte state;
+            public byte group;
+            public sbyte mClass;
+            public sbyte alpha;
+            public GamePtr pClass;
+            public GamePtr pChain;
+            public sbyte collDamage;
+            public sbyte deathCnt;
+            public ushort occlIndex;
+            public sbyte updateDist;
+            public sbyte drawn;
+            public short drawDist;
+            public ushort modeBits;
+            public ushort modeBits2;
+            public ulong lights;
+            public GamePtr animSeq;
+            public float animSeqT;
+            public float animSpeed;
+            public short animIScale;
+            public short poseCacheEntryIndex;
+            public GamePtr animLayers;
+            public sbyte animSeqId;
+            public sbyte animFlags;
+            public sbyte lSeq;
+            public sbyte jointCnt;
+            public GamePtr jointCache;
+            public GamePtr pManipulator;
+            public int glow_rgba;
+            public sbyte lod_trans;
+            public sbyte lod_trans2;
+            public sbyte metal;
+            public sbyte subState;
+            public sbyte prevState;
+            public sbyte stateType;
+            public ushort stateTimer;
+            public sbyte soundTrigger;
+            public sbyte soundDesired;
+            public short soundChannel;
+            public float scale;
+            public ushort bangles;
+            public sbyte shadow;
+            public sbyte shadow_index;
+            public float shadow_plane;
+            public float shadow_range;
+            public Vec4 lSphere;
+            public GamePtr netObject;
+            public short updateID;
+            public short spad0;
+            public GamePtr collData;
+            public int collActive;
+            public uint collCnt;
+            public sbyte grid_min_x;
+            public sbyte grid_min_y;
+            public sbyte grid_max_x;
+            public sbyte grid_max_y;
+            public GamePtr pUpdate;
+            public GamePtr pVar;
+            public sbyte mission;
+            public sbyte pad;
+            public short UID;
+            public short bolts;
+            public ushort xp;
+            public GamePtr pParent;
+            public short oClass;
+            public sbyte triggers;
+            public sbyte standarddeathcalled;
+            public fixed byte rMtx[48];
+            public Vec4 rot;
+
+            public static unsafe Moby ByteArrayToMoby(byte[] bytes)
+            {
+                if (BitConverter.IsLittleEndian)
+                {
+                    var type = typeof(Moby);
+                    foreach (var field in type.GetFields())
+                    {
+                        if (field.FieldType == typeof(byte) || field.FieldType == typeof(sbyte))
+                            continue;
+
+                        var offset = Marshal.OffsetOf(type, field.Name).ToInt32();
+
+                        if (field.FieldType == typeof(Vec4))
+                        {
+                            for (int i = 0; i < 4; i++)
+                                Array.Reverse(bytes, offset + (i * 4), 4);
+                            continue;
+                        }
+
+                        int numBytesToReverse = 0;
+                        if (field.FieldType == typeof(short) || field.FieldType == typeof(ushort))
+                            numBytesToReverse = 2;
+                        else if (field.FieldType == typeof(int) || field.FieldType == typeof(uint) ||
+                                 field.FieldType == typeof(float) || field.FieldType == typeof(GamePtr))
+                            numBytesToReverse = 4;
+                        else if (field.FieldType == typeof(long) || field.FieldType == typeof(ulong) ||
+                                 field.FieldType == typeof(double))
+                            numBytesToReverse = 8;
+
+                        if (numBytesToReverse > 0)
+                            Array.Reverse(bytes, offset, numBytesToReverse);
+                    }
+                }
+
+                fixed (byte* ptr = &bytes[0])
+                {
+                    return (Moby)Marshal.PtrToStructure((IntPtr)ptr, typeof(Moby));
+                }
+            }
+        };
     }
 }

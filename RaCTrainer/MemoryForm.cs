@@ -19,6 +19,7 @@ namespace racman
     public partial class MemoryForm : Form
     {
         public static uint mobyInstancesAddr;
+        public static uint mobyInstancesEndAddr;
 
         public class WatchedAddress
         {
@@ -33,9 +34,10 @@ namespace racman
             public string name;
         }
 
-        public static void SetMobyInstancesAddress(uint address)
+        public static void SetMobyInstancesAddress(uint instances, uint instancesEnd)
         {
-            mobyInstancesAddr = address;
+            mobyInstancesAddr = instances;
+            mobyInstancesEndAddr = instancesEnd;
         }
 
         public MemoryForm()
@@ -301,15 +303,24 @@ namespace racman
             }
         }
 
-        public void PopulateMobysComboBoxRac2()
+        // Cached moby entries from the most recent refresh. The combo box may
+        // present these sorted, so we can't rely on combo SelectedIndex to
+        // recompute moby addresses — we look them up from this list instead.
+        private class MobyEntry
         {
-            // Clear combo box
-            selectedMobyComboBox.Items.Clear();
+            public uint address;
+            public ushort oClass;
+            public byte state;
+            public string Display => $"0x{address:X}: 0x{oClass:X} ({oClass}) (state: {state})";
+        }
+        private List<MobyEntry> mobyEntries = new List<MobyEntry>();
 
+        public void PopulateMobyComboBox()
+        {
             var pid = func.api.getCurrentPID();
 
             uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesAddr, 4).Reverse().ToArray(), 0);
-            uint end = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesAddr + 8, 4).Reverse().ToArray(), 0);
+            uint end = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesEndAddr, 4).Reverse().ToArray(), 0);
 
             int offset_oClass, offset_state;
 
@@ -319,6 +330,12 @@ namespace racman
                 offset_oClass = (int)Marshal.OffsetOf(typeof(rac1.Moby), nameof(rac1.Moby.oClass));
                 offset_state = (int)Marshal.OffsetOf(typeof(rac1.Moby), nameof(rac1.Moby.state));
             }
+            else if (AttachPS3Form.game == "NPEA00423")
+            {
+                // Dynamically get offsets from the RAC4.Moby struct
+                offset_oClass = (int)Marshal.OffsetOf(typeof(rac4.Moby), nameof(rac4.Moby.oClass));
+                offset_state = (int)Marshal.OffsetOf(typeof(rac4.Moby), nameof(rac4.Moby.state));
+            }
             else
             {
                 // Dynamically get offsets from the RAC2.Moby struct
@@ -326,6 +343,7 @@ namespace racman
                 offset_state = (int)Marshal.OffsetOf(typeof(rac2.Moby), nameof(rac2.Moby.state));
             }
 
+            mobyEntries.Clear();
 
             while (instance < end)
             {
@@ -336,19 +354,44 @@ namespace racman
                 // Read state (1 byte)
                 byte state = func.api.ReadMemory(pid, instance + (uint)offset_state, 1)[0];
 
-                // Add formatted entry to the combo box
-                selectedMobyComboBox.Items.Add($"0x{instance:X}: 0x{oClass:X} ({oClass}) (state: {state})");
+                mobyEntries.Add(new MobyEntry { address = instance, oClass = oClass, state = state });
 
                 // Next Moby (each entry = 0x100 bytes)
                 instance += 0x100;
             }
+
+            RenderMobyComboBox();
+        }
+
+        // Render mobyEntries into the combo box, applying current sort toggle.
+        // The combo's SelectedIndex corresponds to mobyEntries[i] after this call.
+        private void RenderMobyComboBox()
+        {
+            IEnumerable<MobyEntry> ordered = mobyEntries;
+            if (sortByOClassCheckBox.Checked)
+                ordered = mobyEntries.OrderBy(m => m.oClass).ThenBy(m => m.address);
+
+            // Reassign so indices line up with what we render
+            mobyEntries = ordered.ToList();
+
+            selectedMobyComboBox.Items.Clear();
+            foreach (var entry in mobyEntries)
+                selectedMobyComboBox.Items.Add(entry.Display);
+        }
+
+        private void sortByOClassCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (mobyEntries.Count == 0) return;
+            RenderMobyComboBox();
         }
         public void PopulateMobyInspectorRac2(int index)
         {
-            var pid = func.api.getCurrentPID();
-            uint instance = BitConverter.ToUInt32(func.api.ReadMemory(pid, mobyInstancesAddr, 4).Reverse().ToArray(), 0);
+            if (index < 0 || index >= mobyEntries.Count) return;
 
-            byte[] memory = func.api.ReadMemory(pid, instance + (0x100 * (uint)index), 0x100);
+            var pid = func.api.getCurrentPID();
+            uint mobyAddress = mobyEntries[index].address;
+
+            byte[] memory = func.api.ReadMemory(pid, mobyAddress, 0x100);
 
 
             object moby;
@@ -360,6 +403,12 @@ namespace racman
             {
                 moby = rac1.Moby.ByteArrayToMoby(memory);
                 type = typeof(rac1.Moby);
+                fields = type.GetFields();
+            }
+            else if (AttachPS3Form.game == "NPEA00423")
+            {
+                moby = rac4.Moby.ByteArrayToMoby(memory);
+                type = typeof(rac4.Moby);
                 fields = type.GetFields();
             }
             else
@@ -378,7 +427,7 @@ namespace racman
                 var offset = Marshal.OffsetOf(type, field.Name).ToInt32();
 
                 var item = mobyInspectorListView.Items[i];
-                item.Text = $"0x{(instance + (0x100 * (uint)index) + offset):X}";
+                item.Text = $"0x{(mobyAddress + (uint)offset):X}";
                 item.SubItems[1].Text = field.Name;
 
                 object value = field.GetValue(moby);
@@ -394,6 +443,11 @@ namespace racman
                     var vec = (rac1.Vec4)value;
                     display = $"x: {vec.x}, y: {vec.y}, z: {vec.z}, w: {vec.w}";
                 }
+                else if (field.FieldType == typeof(rac4.Vec4))
+                {
+                    var vec = (rac4.Vec4)value;
+                    display = $"x: {vec.x}, y: {vec.y}, z: {vec.z}, w: {vec.w}";
+                }
                 else if (field.FieldType == typeof(rac2.GamePtr))
                 {
                     display = $"0x{((rac2.GamePtr)value).addr:X}";
@@ -401,6 +455,14 @@ namespace racman
                 else if (field.FieldType == typeof(rac1.GamePtr))
                 {
                     display = $"0x{((rac1.GamePtr)value).addr:X}";
+                }
+                else if (field.FieldType == typeof(rac4.GamePtr))
+                {
+                    display = $"0x{((rac4.GamePtr)value).addr:X}";
+                }
+                else if (field.FieldType == typeof(sbyte))
+                {
+                    display = $"0x{(((sbyte)value) & 0xFF):X}";
                 }
 
                 else if (field.FieldType == typeof(uint) ||
@@ -427,14 +489,14 @@ namespace racman
 
         private void refreshMobysButton_Click(object sender, EventArgs e)
         {
-            if (AttachPS3Form.game == "NPEA00386" || AttachPS3Form.game == "NPEA00385" || AttachPS3Form.game == "NPEA00387" )
+            if (AttachPS3Form.game == "NPEA00386" || AttachPS3Form.game == "NPEA00385" || AttachPS3Form.game == "NPEA00387" || AttachPS3Form.game == "NPEA00423")
             {
                 WebMAN wmm = new WebMAN(func.api.GetIP());
                 wmm.PauseRSX();
                    
                 try
                 {
-                    PopulateMobysComboBoxRac2();
+                    PopulateMobyComboBox();
                 } catch (Exception ex)
                 {
                     wmm.ContinueRSX();
@@ -452,7 +514,7 @@ namespace racman
 
         private void selectedMobyComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (AttachPS3Form.game == "NPEA00386" || AttachPS3Form.game == "NPEA00387" || AttachPS3Form.game == "NPEA00385")
+            if (AttachPS3Form.game == "NPEA00386" || AttachPS3Form.game == "NPEA00387" || AttachPS3Form.game == "NPEA00385" || AttachPS3Form.game == "NPEA00423")
             {
                 timer.Elapsed += (s, evt) =>
                 {

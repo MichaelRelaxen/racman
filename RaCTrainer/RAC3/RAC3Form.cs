@@ -394,7 +394,7 @@ namespace racman
         private void memoryUtilitiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MemoryForm memoryForm = new MemoryForm();
-            MemoryForm.SetMobyInstancesAddress(game.GetMobyTableAddress());
+            MemoryForm.SetMobyInstancesAddress(rac3.addr.mobyInstances, rac3.addr.mobyInstancesEnd);
             memoryForm.Show();
         }
 
