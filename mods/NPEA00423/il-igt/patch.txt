@@ -3,7 +3,13 @@
 #- href: 
 #- version: 1.0
 #- description: Replaces IGT with RTA timing for individual levels
+#- depends: IL Decimal Timer
 0x2dadf8: rack.bin
 
 #### ASM Patches ####
-0x1d102c: 0x48109dcd
+0x1d102c: 0x482dae2f
+0x1c7b98: 0x482dae1f
+0x1d14c0: 0x482dadfb
+0x2b254c: 0x482dadfb
+0x2b4488: 0x482dadfb
+0x378a60: 0x482dae43

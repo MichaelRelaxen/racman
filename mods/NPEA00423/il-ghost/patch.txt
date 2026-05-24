@@ -1,0 +1,12 @@
+#- name: IL Ghost
+#- author: robo
+#- href: 
+#- version: 1.0
+#- description: Tracks your IL PBs and provides a ghost for comparison.
+#- depends: IL Decimal Timer
+0x676b9c: rack.bin
+
+#### ASM Patches ####
+0x037bad4: 0x60000000
+0x037ba88: 0x60000000
+0x070734c: 0x486775a7

@@ -43,6 +43,8 @@ namespace racman
             this.versionLabel = new System.Windows.Forms.Label();
             this.linkLabel = new System.Windows.Forms.LinkLabel();
             this.buttonScripting = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.dependsLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // modsCheckedListBox
@@ -62,7 +64,7 @@ namespace racman
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 309);
+            this.label1.Location = new System.Drawing.Point(11, 297);
             this.label1.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(44, 13);
@@ -73,7 +75,7 @@ namespace racman
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 345);
+            this.label2.Location = new System.Drawing.Point(11, 333);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(33, 13);
@@ -84,7 +86,7 @@ namespace racman
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 327);
+            this.label3.Location = new System.Drawing.Point(11, 315);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(48, 13);
@@ -95,7 +97,7 @@ namespace racman
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 291);
+            this.label4.Location = new System.Drawing.Point(11, 279);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(41, 13);
@@ -141,7 +143,7 @@ namespace racman
             // 
             this.modNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.modNameLabel.AutoSize = true;
-            this.modNameLabel.Location = new System.Drawing.Point(59, 291);
+            this.modNameLabel.Location = new System.Drawing.Point(65, 279);
             this.modNameLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.modNameLabel.Name = "modNameLabel";
             this.modNameLabel.Size = new System.Drawing.Size(27, 13);
@@ -152,7 +154,7 @@ namespace racman
             // 
             this.authorNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.authorNameLabel.AutoSize = true;
-            this.authorNameLabel.Location = new System.Drawing.Point(59, 309);
+            this.authorNameLabel.Location = new System.Drawing.Point(65, 297);
             this.authorNameLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.authorNameLabel.Name = "authorNameLabel";
             this.authorNameLabel.Size = new System.Drawing.Size(27, 13);
@@ -163,7 +165,7 @@ namespace racman
             // 
             this.versionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.versionLabel.AutoSize = true;
-            this.versionLabel.Location = new System.Drawing.Point(59, 327);
+            this.versionLabel.Location = new System.Drawing.Point(65, 315);
             this.versionLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(27, 13);
@@ -174,7 +176,7 @@ namespace racman
             // 
             this.linkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.linkLabel.AutoSize = true;
-            this.linkLabel.Location = new System.Drawing.Point(59, 345);
+            this.linkLabel.Location = new System.Drawing.Point(65, 333);
             this.linkLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
             this.linkLabel.Name = "linkLabel";
             this.linkLabel.Size = new System.Drawing.Size(27, 13);
@@ -192,11 +194,35 @@ namespace racman
             this.buttonScripting.UseVisualStyleBackColor = true;
             this.buttonScripting.Click += new System.EventHandler(this.buttonScripting_Click);
             // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(11, 351);
+            this.label5.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Depends: ";
+            // 
+            // dependsLabel
+            // 
+            this.dependsLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.dependsLabel.AutoSize = true;
+            this.dependsLabel.Location = new System.Drawing.Point(65, 351);
+            this.dependsLabel.Margin = new System.Windows.Forms.Padding(3, 5, 3, 0);
+            this.dependsLabel.Name = "dependsLabel";
+            this.dependsLabel.Size = new System.Drawing.Size(27, 13);
+            this.dependsLabel.TabIndex = 14;
+            this.dependsLabel.Text = "N/A";
+            // 
             // ModLoaderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(627, 376);
+            this.Controls.Add(this.dependsLabel);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.buttonScripting);
             this.Controls.Add(this.linkLabel);
             this.Controls.Add(this.versionLabel);
@@ -236,5 +262,7 @@ namespace racman
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.LinkLabel linkLabel;
         private System.Windows.Forms.Button buttonScripting;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label dependsLabel;
     }
 }

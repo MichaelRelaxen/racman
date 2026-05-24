@@ -35,6 +35,19 @@ namespace racman
             {
                 this.modsCheckedListBox.Items.Add(mod.name, mod.loaded);
             }
+
+            // Wire the link handler exactly once. The URL itself lives in linkLabel.Tag
+            // and is refreshed each time the selection changes, so we don't accumulate
+            // a new lambda (capturing a stale mod) per selection.
+            linkLabel.LinkClicked += LinkLabel_LinkClicked;
+        }
+
+        private void LinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (linkLabel.Tag is string url && !string.IsNullOrEmpty(url))
+            {
+                System.Diagnostics.Process.Start(url);
+            }
         }
 
         public List<Mod> LoadMods()
@@ -306,8 +319,12 @@ namespace racman
             modNameLabel.Text = mod.name;
             authorNameLabel.Text = "N/A";
             versionLabel.Text = "N/A";
-            linkLabel.Text = "";
+            linkLabel.Text = "None";
+            // Render as plain text (not blue/underlined) until we know there's a valid URL.
+            linkLabel.LinkArea = new LinkArea(0, 0);
+            linkLabel.Tag = null;
             descriptionTextBox.Text = "";
+            dependsLabel.Text = mod.dependencies.Count > 0 ? string.Join(", ", mod.dependencies) : "None";
             
             if (mod.variables.ContainsKey("author"))
             {
@@ -322,7 +339,8 @@ namespace racman
             if (mod.variables.ContainsKey("href") && (mod.variables["href"].StartsWith("https://") || mod.variables["href"].StartsWith("http://")))
             {
                 linkLabel.Text = mod.variables["href"];
-                linkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler((s, ev) => System.Diagnostics.Process.Start(mod.variables["href"]));
+                linkLabel.LinkArea = new LinkArea(0, linkLabel.Text.Length);
+                linkLabel.Tag = mod.variables["href"];
             }
 
             if (mod.variables.ContainsKey("description"))
