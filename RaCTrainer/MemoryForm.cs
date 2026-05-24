@@ -200,11 +200,14 @@ namespace racman
                     menuStrip.Items.Add("Edit value...");
                     menuStrip.Items[0].Click += MenuStripEditValue_Click;
 
+                    menuStrip.Items.Add("Rename...");
+                    menuStrip.Items[1].Click += MenuStripRename_Click;
+
                     menuStrip.Items.Add("Freeze/unfreeze value");
-                    menuStrip.Items[1].Click += MenuStripEditValue_Freeze;
+                    menuStrip.Items[2].Click += MenuStripEditValue_Freeze;
 
                     menuStrip.Items.Add("Delete");
-                    menuStrip.Items[2].Click += MenuStripDelete_Click;
+                    menuStrip.Items[3].Click += MenuStripDelete_Click;
 
                     menuStrip.Show(Cursor.Position);
 
@@ -258,20 +261,54 @@ namespace racman
 
                     IPS3API api = func.api;
 
-                    SimpleInputDialogForm inputDialog = new SimpleInputDialogForm("Edit value", focusedItem.SubItems[2].Text);
+                    // Build default text: strip the freeze indicator the list view adds,
+                    // and prepend "0x" for hex-represented values so the format is obvious.
+                    string defaultText = focusedItem.SubItems[2].Text;
+                    const string frozenPrefix = "❄: ";
+                    if (defaultText.StartsWith(frozenPrefix))
+                        defaultText = defaultText.Substring(frozenPrefix.Length);
+                    if (watched.hexRepresented && !defaultText.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                        defaultText = "0x" + defaultText;
+
+                    SimpleInputDialogForm inputDialog = new SimpleInputDialogForm("Edit value", defaultText);
                     if (inputDialog.ShowDialog() == DialogResult.OK)
                     {
                         try
                         {
+                            string text = inputDialog.inputTextBox.Text.Trim();
+                            bool isHex = text.StartsWith("0x", StringComparison.OrdinalIgnoreCase);
+                            string hexBody = isHex ? text.Substring(2) : null;
+
                             if (watched.isFloat)
                             {
-                                float value = Convert.ToSingle(inputDialog.inputTextBox.Text);
+                                float value;
+                                if (isHex)
+                                {
+                                    // Interpret 0x… as a raw IEEE-754 bit pattern, useful for
+                                    // round-tripping the exact bits shown elsewhere.
+                                    uint bits = UInt32.Parse(hexBody, System.Globalization.NumberStyles.HexNumber);
+                                    value = BitConverter.ToSingle(BitConverter.GetBytes(bits), 0);
+                                }
+                                else
+                                {
+                                    value = Convert.ToSingle(text);
+                                }
 
                                 api.WriteMemory(api.getCurrentPID(), watched.address, watched.size, BitConverter.GetBytes(value).Take((int)watched.size).Reverse().ToArray());
                             }
                             else
                             {
-                                long value = Convert.ToInt64(inputDialog.inputTextBox.Text);
+                                long value;
+                                if (isHex)
+                                {
+                                    // Parse as unsigned so the full width is usable (e.g. 0xFFFFFFFF
+                                    // for a 4-byte field), then reinterpret as signed.
+                                    value = (long)UInt64.Parse(hexBody, System.Globalization.NumberStyles.HexNumber);
+                                }
+                                else
+                                {
+                                    value = Convert.ToInt64(text);
+                                }
 
                                 api.WriteMemory(api.getCurrentPID(), watched.address, watched.size, BitConverter.GetBytes(value).Take((int)watched.size).Reverse().ToArray());
                             }
@@ -282,6 +319,24 @@ namespace racman
                         }
                     }
                 }
+            }
+        }
+
+        private void MenuStripRename_Click(object sender, EventArgs e)
+        {
+            var focusedItem = watchedMemoryAddressesListView.FocusedItem;
+            if (focusedItem == null || focusedItem.Tag == null) return;
+
+            WatchedAddress watched = (WatchedAddress)focusedItem.Tag;
+
+            SimpleInputDialogForm inputDialog = new SimpleInputDialogForm("Rename watch", watched.name);
+            if (inputDialog.ShowDialog() == DialogResult.OK)
+            {
+                string newName = inputDialog.inputTextBox.Text;
+                if (string.IsNullOrWhiteSpace(newName)) return;
+
+                watched.name = newName;
+                focusedItem.Text = newName;
             }
         }
 
