@@ -173,7 +173,100 @@ namespace racman
                 mod.version = mod.variables["version"];
             }
 
+            if (mod.variables.ContainsKey("depends"))
+            {
+                mod.dependencies = mod.variables["depends"]
+                    .Split(',')
+                    .Select(s => s.Trim())
+                    .Where(s => !string.IsNullOrEmpty(s))
+                    .ToList();
+            }
+
             return mod;
+        }
+
+        /// <summary>
+        /// Walks <paramref name="mod"/>'s dependency tree (transitive, in declared order)
+        /// and appends each unique dependency to <paramref name="orderedDeps"/> in load order.
+        /// The root mod itself is NOT added — callers load that separately afterwards.
+        /// Returns false on missing dependency or cycle (and shows an error).
+        /// </summary>
+        private bool ResolveDependencies(Mod mod, List<Mod> orderedDeps, HashSet<string> visiting, HashSet<string> visited, bool isRoot)
+        {
+            if (visited.Contains(mod.name)) return true;
+            if (visiting.Contains(mod.name))
+            {
+                MessageBox.Show($"Circular dependency detected involving '{mod.name}'.", "Dependency error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
+            visiting.Add(mod.name);
+
+            foreach (string depName in mod.dependencies)
+            {
+                Mod dep = ModLoaderForm.mods.FirstOrDefault(m => m.name == depName);
+                if (dep == null)
+                {
+                    MessageBox.Show($"Dependency '{depName}' (required by '{mod.name}') not found.", "Dependency error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
+                if (!ResolveDependencies(dep, orderedDeps, visiting, visited, isRoot: false))
+                    return false;
+            }
+
+            visiting.Remove(mod.name);
+            visited.Add(mod.name);
+
+            if (!isRoot)
+                orderedDeps.Add(mod);
+
+            return true;
+        }
+
+        /// <summary>
+        /// Loads every (transitive) dependency of the mod at <paramref name="index"/> in order,
+        /// ticking their checkboxes as we go, then loads the mod itself.
+        /// Returns false if any dependency couldn't be resolved or loaded.
+        /// </summary>
+        private bool LoadModWithDependencies(int index)
+        {
+            Mod target = ModLoaderForm.mods[index];
+
+            List<Mod> orderedDeps = new List<Mod>();
+            HashSet<string> visiting = new HashSet<string>();
+            HashSet<string> visited = new HashSet<string>();
+
+            if (!ResolveDependencies(target, orderedDeps, visiting, visited, isRoot: true))
+                return false;
+
+            // Apply dependency loads while suppressing the ItemCheck handler — we drive
+            // the checkbox state directly, and don't want it recursing back into Load().
+            bool prevReloading = reloading;
+            reloading = true;
+            try
+            {
+                foreach (Mod dep in orderedDeps)
+                {
+                    if (dep.loaded) continue;
+
+                    if (!dep.Load())
+                    {
+                        MessageBox.Show($"Failed to load dependency '{dep.name}' required by '{target.name}'.", "Dependency error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+
+                    int depIndex = Array.IndexOf(ModLoaderForm.mods, dep);
+                    if (depIndex >= 0)
+                        modsCheckedListBox.SetItemChecked(depIndex, true);
+                }
+            }
+            finally
+            {
+                reloading = prevReloading;
+            }
+
+            return target.Load();
         }
 
         private void modsCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -185,7 +278,7 @@ namespace racman
 
             if (e.NewValue == CheckState.Checked)
             {
-                if (!ModLoaderForm.mods[e.Index].Load())
+                if (!LoadModWithDependencies(e.Index))
                 {
                     e.NewValue = CheckState.Unchecked;
                 }
@@ -408,6 +501,7 @@ namespace racman
         public Dictionary<string, string> variables = new Dictionary<string, string>();
         public List<string> patchLines = new List<string>();
         public Dictionary<uint, byte[]> originalData = new Dictionary<uint, byte[]>();
+        public List<string> dependencies = new List<string>();
 
         List<LuaAutomation> luaAutomations = new List<LuaAutomation>();
 
