@@ -40,6 +40,22 @@ namespace racman
             mobyInstancesEndAddr = instancesEnd;
         }
 
+        // Game IDs for which the moby inspector is wired up. Other games get the
+        // inspector force-hidden and the toggle disabled.
+        private static readonly HashSet<string> MobyInspectorSupportedGames = new HashSet<string>
+        {
+            "NPEA00385", // RAC1
+            "NPEA00386", // RAC2
+            "NPEA00387", // RAC3
+            "NPEA00423", // RAC4 (Deadlocked)
+        };
+
+        // Form width when the moby inspector is collapsed — just wide enough for the
+        // watched-addresses pane. Pulled from the designer width of the form when
+        // visible (986 client width).
+        private const int CollapsedClientWidth = 428;
+        private int expandedClientWidth;
+
         public MemoryForm()
         {
             InitializeComponent();
@@ -47,6 +63,78 @@ namespace racman
 
             watchedMemoryAddressesListView.DoubleBuffering(true);
             mobyInspectorListView.DoubleBuffering(true);
+
+            expandedClientWidth = this.ClientSize.Width;
+
+            ApplyMobyInspectorVisibility();
+        }
+
+        // Returns true if the moby inspector should be shown for the current game.
+        // Reads the persisted preference for supported games; always false otherwise.
+        private bool ShouldShowMobyInspector()
+        {
+            if (!MobyInspectorSupportedGames.Contains(AttachPS3Form.game))
+                return false;
+
+            string saved;
+            try { saved = func.GetConfigData("config.txt", "mobyInspectorVisible"); }
+            catch { saved = ""; }
+
+            // Default to shown for supported games when the preference is missing.
+            if (string.IsNullOrEmpty(saved)) return true;
+            return !saved.Equals("false", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private void ApplyMobyInspectorVisibility()
+        {
+            bool supported = MobyInspectorSupportedGames.Contains(AttachPS3Form.game);
+            bool show = supported && ShouldShowMobyInspector();
+
+            mobyInspectorLabel.Visible = show;
+            selectedMobyComboBox.Visible = show;
+            refreshMobysButton.Visible = show;
+            dumpButton.Visible = show;
+            sortByOClassCheckBox.Visible = show;
+            mobyInspectorListView.Visible = show;
+
+            this.ClientSize = new System.Drawing.Size(
+                show ? expandedClientWidth : CollapsedClientWidth,
+                this.ClientSize.Height);
+
+            if (!supported)
+            {
+                toggleMobyInspectorButton.Enabled = false;
+                toggleMobyInspectorButton.Text = "Unsupported for this game";
+            }
+            else
+            {
+                toggleMobyInspectorButton.Enabled = true;
+                toggleMobyInspectorButton.Text = show ? "Hide moby viewer" : "Show moby viewer";
+            }
+        }
+
+        private void toggleMobyInspectorButton_Click(object sender, EventArgs e)
+        {
+            if (!MobyInspectorSupportedGames.Contains(AttachPS3Form.game))
+                return;
+
+            bool currentlyShown = mobyInspectorListView.Visible;
+            bool newShown = !currentlyShown;
+
+            try
+            {
+                // Make sure config.txt exists before ChangeFileLines tries to read it.
+                if (!File.Exists("config.txt"))
+                    File.Create("config.txt").Close();
+
+                func.ChangeFileLines("config.txt", newShown ? "true" : "false", "mobyInspectorVisible");
+            }
+            catch
+            {
+                // Persistence is best-effort; the toggle still works in-session.
+            }
+
+            ApplyMobyInspectorVisibility();
         }
 
         IPS3API api = func.api;

@@ -51,6 +51,7 @@
             this.mobyInspectorLabel = new System.Windows.Forms.Label();
             this.dumpButton = new System.Windows.Forms.Button();
             this.sortByOClassCheckBox = new System.Windows.Forms.CheckBox();
+            this.toggleMobyInspectorButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // registerAddressTextBox
@@ -96,8 +97,6 @@
             // watchedMemoryAddressesListView
             // 
             this.watchedMemoryAddressesListView.AllowColumnReorder = true;
-            this.watchedMemoryAddressesListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.watchedMemoryAddressesListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.nameColumnHeader,
             this.AddressColumnHeader,
@@ -260,23 +259,34 @@
             this.dumpButton.Text = "Dump";
             this.dumpButton.UseVisualStyleBackColor = true;
             this.dumpButton.Click += new System.EventHandler(this.dumpButton_Click);
-            //
+            // 
             // sortByOClassCheckBox
-            //
+            // 
             this.sortByOClassCheckBox.AutoSize = true;
-            this.sortByOClassCheckBox.Location = new System.Drawing.Point(550, 8);
+            this.sortByOClassCheckBox.Location = new System.Drawing.Point(519, 8);
             this.sortByOClassCheckBox.Name = "sortByOClassCheckBox";
-            this.sortByOClassCheckBox.Size = new System.Drawing.Size(96, 17);
+            this.sortByOClassCheckBox.Size = new System.Drawing.Size(93, 17);
             this.sortByOClassCheckBox.TabIndex = 15;
             this.sortByOClassCheckBox.Text = "Sort by oClass";
             this.sortByOClassCheckBox.UseVisualStyleBackColor = true;
             this.sortByOClassCheckBox.CheckedChanged += new System.EventHandler(this.sortByOClassCheckBox_CheckedChanged);
-            //
+            // 
+            // toggleMobyInspectorButton
+            // 
+            this.toggleMobyInspectorButton.Location = new System.Drawing.Point(296, 4);
+            this.toggleMobyInspectorButton.Name = "toggleMobyInspectorButton";
+            this.toggleMobyInspectorButton.Size = new System.Drawing.Size(120, 21);
+            this.toggleMobyInspectorButton.TabIndex = 16;
+            this.toggleMobyInspectorButton.Text = "Hide moby inspector";
+            this.toggleMobyInspectorButton.UseVisualStyleBackColor = true;
+            this.toggleMobyInspectorButton.Click += new System.EventHandler(this.toggleMobyInspectorButton_Click);
+            // 
             // MemoryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(986, 566);
+            this.Controls.Add(this.toggleMobyInspectorButton);
             this.Controls.Add(this.sortByOClassCheckBox);
             this.Controls.Add(this.dumpButton);
             this.Controls.Add(this.mobyInspectorLabel);
@@ -331,5 +341,6 @@
         private System.Windows.Forms.Label mobyInspectorLabel;
         private System.Windows.Forms.Button dumpButton;
         private System.Windows.Forms.CheckBox sortByOClassCheckBox;
+        private System.Windows.Forms.Button toggleMobyInspectorButton;
     }
 }
