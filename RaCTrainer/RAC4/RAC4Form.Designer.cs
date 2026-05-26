@@ -69,6 +69,7 @@ namespace racman
             this.skins_comboBox = new System.Windows.Forms.ComboBox();
             this.unlockPlanetsButton = new System.Windows.Forms.Button();
             this.buttonStartLCSplitter = new System.Windows.Forms.Button();
+            this.checkBoxAmmo = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -109,7 +110,7 @@ namespace racman
             // ghostcheck
             // 
             this.ghostcheck.AutoSize = true;
-            this.ghostcheck.Location = new System.Drawing.Point(254, 391);
+            this.ghostcheck.Location = new System.Drawing.Point(254, 414);
             this.ghostcheck.Name = "ghostcheck";
             this.ghostcheck.Size = new System.Drawing.Size(90, 17);
             this.ghostcheck.TabIndex = 3;
@@ -249,7 +250,7 @@ namespace racman
             // checkBoxSoftlocks
             // 
             this.checkBoxSoftlocks.AutoSize = true;
-            this.checkBoxSoftlocks.Location = new System.Drawing.Point(254, 437);
+            this.checkBoxSoftlocks.Location = new System.Drawing.Point(254, 391);
             this.checkBoxSoftlocks.Name = "checkBoxSoftlocks";
             this.checkBoxSoftlocks.Size = new System.Drawing.Size(110, 17);
             this.checkBoxSoftlocks.TabIndex = 112;
@@ -377,12 +378,13 @@ namespace racman
             // 
             this.freezeHealthCheckbox.AutoSize = true;
             this.freezeHealthCheckbox.Enabled = false;
-            this.freezeHealthCheckbox.Location = new System.Drawing.Point(254, 414);
+            this.freezeHealthCheckbox.Location = new System.Drawing.Point(12, 357);
             this.freezeHealthCheckbox.Name = "freezeHealthCheckbox";
             this.freezeHealthCheckbox.Size = new System.Drawing.Size(90, 17);
             this.freezeHealthCheckbox.TabIndex = 124;
             this.freezeHealthCheckbox.Text = "Freeze health";
             this.freezeHealthCheckbox.UseVisualStyleBackColor = true;
+            this.freezeHealthCheckbox.Visible = false;
             this.freezeHealthCheckbox.CheckedChanged += new System.EventHandler(this.freezeHealthCheckbox_CheckedChanged);
             // 
             // planets_comboBox
@@ -497,11 +499,23 @@ namespace racman
             this.buttonStartLCSplitter.UseVisualStyleBackColor = true;
             this.buttonStartLCSplitter.Click += new System.EventHandler(this.buttonStartLCSplitter_Click);
             // 
+            // checkBoxAmmo
+            // 
+            this.checkBoxAmmo.AutoSize = true;
+            this.checkBoxAmmo.Location = new System.Drawing.Point(254, 437);
+            this.checkBoxAmmo.Name = "checkBoxAmmo";
+            this.checkBoxAmmo.Size = new System.Drawing.Size(80, 17);
+            this.checkBoxAmmo.TabIndex = 133;
+            this.checkBoxAmmo.Text = "Refill ammo";
+            this.checkBoxAmmo.UseVisualStyleBackColor = true;
+            this.checkBoxAmmo.CheckedChanged += new System.EventHandler(this.checkBoxAmmo_CheckedChanged);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 469);
+            this.Controls.Add(this.checkBoxAmmo);
             this.Controls.Add(this.buttonStartLCSplitter);
             this.Controls.Add(this.unlockPlanetsButton);
             this.Controls.Add(this.skinsButton);
@@ -592,5 +606,6 @@ namespace racman
         private System.Windows.Forms.ComboBox skins_comboBox;
         private System.Windows.Forms.Button unlockPlanetsButton;
         private System.Windows.Forms.Button buttonStartLCSplitter;
+        private System.Windows.Forms.CheckBox checkBoxAmmo;
     }
 }

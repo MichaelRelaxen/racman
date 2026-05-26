@@ -578,5 +578,27 @@ namespace racman
             }
            
         }
+
+        private void checkBoxRefillAmmo_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBoxAmmo_CheckedChanged(object sender, EventArgs e)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+
+            if (checkBoxAmmo.Checked)
+            {
+                // ori r0,r0,0x0
+                api.WriteMemory(pid, 0x1d7d18, new byte[] { 0x60, 0x00, 0x00, 0x00 });
+            }
+            else
+            {
+                // beq LAB_001d7d24
+                api.WriteMemory(pid, 0x1d7d18, new byte[] { 0x41, 0x82, 0x00, 0x0c });
+            }
+        }
     }
 }
