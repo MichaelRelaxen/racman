@@ -557,6 +557,29 @@ namespace racman
             api.WriteMemory(pid, rac4.addr.dreadPoints, 1000000);
             api.WriteMemory(pid, rac4.addr.targetPlanet, 1);
             api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
+
+            // Unlock the first 16 missions on every planet by setting
+            // MF_MissionSave.status = 7. The status byte sits at offset 8 within
+            // each 0xC-byte mission, and missions are packed at the start of each
+            // 0x304-byte MF_LevelSave (15 planets total).
+            const uint levelSize = 0x304;
+            const uint missionSize = 0xC;
+            const uint statusOffset = 8;
+            const int planetCount = 15;
+            //const int missionsPerPlanet = 16;
+
+            for (int planet = 0; planet < planetCount; planet++)
+            {
+                int missionsPerPlanet = planet == 0 ? 64 : 16;
+                for (int mission = 0; mission < missionsPerPlanet; mission++)
+                {
+                    uint addr = rac4.addr.levelSaves
+                        + ((uint)planet * levelSize)
+                        + ((uint)mission * missionSize)
+                        + statusOffset;
+                    api.WriteMemory(pid, addr, new byte[] { 2 });
+                }
+            }
         }
 
         private void buttonStartLCSplitter_Click(object sender, EventArgs e)

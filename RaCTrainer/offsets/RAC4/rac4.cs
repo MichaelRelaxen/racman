@@ -96,6 +96,13 @@ namespace racman
         public uint loadPlanet2 => 0x0B36DCC;
         public uint targetPlanet => 0x0B36DD0;
 
+        // Per-planet save data. Array of MF_LevelSave[15], each 0x304 bytes.
+        // Inside a LevelSave: MF_MissionSave mission[64] (each 0xC bytes) followed by
+        // a few level-wide bytes (status, jackpot, padding).
+        // MF_MissionSave layout: int xp (0), int bolts (4), byte status (8),
+        // byte completes (9), byte difficulty (10), byte pad (11).
+        public uint levelSaves => 0x00B27FF0;
+
         public uint mobyInstances => 0x00C845A0;
         public uint mobyInstancesEnd => 0x00C845A4;
         public uint mobyInstancesPermEnd => 0x00C845A8;
