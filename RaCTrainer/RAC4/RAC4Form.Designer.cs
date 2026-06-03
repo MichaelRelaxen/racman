@@ -70,6 +70,7 @@ namespace racman
             this.unlockPlanetsButton = new System.Windows.Forms.Button();
             this.buttonStartLCSplitter = new System.Windows.Forms.Button();
             this.checkBoxAmmo = new System.Windows.Forms.CheckBox();
+            this.checkBoxFastLoads = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -120,7 +121,7 @@ namespace racman
             // 
             // inputdisplaybutton
             // 
-            this.inputdisplaybutton.Location = new System.Drawing.Point(121, 420);
+            this.inputdisplaybutton.Location = new System.Drawing.Point(121, 368);
             this.inputdisplaybutton.Name = "inputdisplaybutton";
             this.inputdisplaybutton.Size = new System.Drawing.Size(103, 34);
             this.inputdisplaybutton.TabIndex = 4;
@@ -181,7 +182,7 @@ namespace racman
             // AutosplitterCheckbox
             // 
             this.AutosplitterCheckbox.AutoSize = true;
-            this.AutosplitterCheckbox.Location = new System.Drawing.Point(254, 313);
+            this.AutosplitterCheckbox.Location = new System.Drawing.Point(254, 314);
             this.AutosplitterCheckbox.Name = "AutosplitterCheckbox";
             this.AutosplitterCheckbox.Size = new System.Drawing.Size(78, 17);
             this.AutosplitterCheckbox.TabIndex = 104;
@@ -217,7 +218,7 @@ namespace racman
             // 
             // botsUnlocksWindowButton
             // 
-            this.botsUnlocksWindowButton.Location = new System.Drawing.Point(12, 420);
+            this.botsUnlocksWindowButton.Location = new System.Drawing.Point(12, 368);
             this.botsUnlocksWindowButton.Name = "botsUnlocksWindowButton";
             this.botsUnlocksWindowButton.Size = new System.Drawing.Size(103, 34);
             this.botsUnlocksWindowButton.TabIndex = 109;
@@ -239,7 +240,7 @@ namespace racman
             // 
             // buttonActTune
             // 
-            this.buttonActTune.Location = new System.Drawing.Point(12, 380);
+            this.buttonActTune.Location = new System.Drawing.Point(12, 328);
             this.buttonActTune.Name = "buttonActTune";
             this.buttonActTune.Size = new System.Drawing.Size(103, 34);
             this.buttonActTune.TabIndex = 111;
@@ -334,7 +335,7 @@ namespace racman
             // CComboCheckBox
             // 
             this.CComboCheckBox.AutoSize = true;
-            this.CComboCheckBox.Location = new System.Drawing.Point(254, 290);
+            this.CComboCheckBox.Location = new System.Drawing.Point(254, 291);
             this.CComboCheckBox.Name = "CComboCheckBox";
             this.CComboCheckBox.Size = new System.Drawing.Size(99, 17);
             this.CComboCheckBox.TabIndex = 119;
@@ -378,7 +379,7 @@ namespace racman
             // 
             this.freezeHealthCheckbox.AutoSize = true;
             this.freezeHealthCheckbox.Enabled = false;
-            this.freezeHealthCheckbox.Location = new System.Drawing.Point(12, 357);
+            this.freezeHealthCheckbox.Location = new System.Drawing.Point(92, 291);
             this.freezeHealthCheckbox.Name = "freezeHealthCheckbox";
             this.freezeHealthCheckbox.Size = new System.Drawing.Size(90, 17);
             this.freezeHealthCheckbox.TabIndex = 124;
@@ -430,7 +431,7 @@ namespace racman
             // 
             // skinsButton
             // 
-            this.skinsButton.Location = new System.Drawing.Point(139, 307);
+            this.skinsButton.Location = new System.Drawing.Point(139, 431);
             this.skinsButton.Name = "skinsButton";
             this.skinsButton.Size = new System.Drawing.Size(85, 23);
             this.skinsButton.TabIndex = 130;
@@ -441,7 +442,7 @@ namespace racman
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(9, 292);
+            this.label3.Location = new System.Drawing.Point(9, 417);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(36, 13);
             this.label3.TabIndex = 129;
@@ -473,7 +474,7 @@ namespace racman
             "SantaRatchet",
             "PipoSaruRatchet",
             "Clankchet"});
-            this.skins_comboBox.Location = new System.Drawing.Point(12, 308);
+            this.skins_comboBox.Location = new System.Drawing.Point(12, 433);
             this.skins_comboBox.Name = "skins_comboBox";
             this.skins_comboBox.Size = new System.Drawing.Size(121, 21);
             this.skins_comboBox.TabIndex = 128;
@@ -481,7 +482,7 @@ namespace racman
             // 
             // unlockPlanetsButton
             // 
-            this.unlockPlanetsButton.Location = new System.Drawing.Point(121, 380);
+            this.unlockPlanetsButton.Location = new System.Drawing.Point(121, 328);
             this.unlockPlanetsButton.Name = "unlockPlanetsButton";
             this.unlockPlanetsButton.Size = new System.Drawing.Size(103, 34);
             this.unlockPlanetsButton.TabIndex = 131;
@@ -491,7 +492,7 @@ namespace racman
             // 
             // buttonStartLCSplitter
             // 
-            this.buttonStartLCSplitter.Location = new System.Drawing.Point(250, 336);
+            this.buttonStartLCSplitter.Location = new System.Drawing.Point(250, 332);
             this.buttonStartLCSplitter.Name = "buttonStartLCSplitter";
             this.buttonStartLCSplitter.Size = new System.Drawing.Size(120, 26);
             this.buttonStartLCSplitter.TabIndex = 132;
@@ -510,11 +511,23 @@ namespace racman
             this.checkBoxAmmo.UseVisualStyleBackColor = true;
             this.checkBoxAmmo.CheckedChanged += new System.EventHandler(this.checkBoxAmmo_CheckedChanged);
             // 
+            // checkBoxFastLoads
+            // 
+            this.checkBoxFastLoads.AutoSize = true;
+            this.checkBoxFastLoads.Location = new System.Drawing.Point(12, 291);
+            this.checkBoxFastLoads.Name = "checkBoxFastLoads";
+            this.checkBoxFastLoads.Size = new System.Drawing.Size(74, 17);
+            this.checkBoxFastLoads.TabIndex = 134;
+            this.checkBoxFastLoads.Text = "Fast loads";
+            this.checkBoxFastLoads.UseVisualStyleBackColor = true;
+            this.checkBoxFastLoads.CheckedChanged += new System.EventHandler(this.checkBoxFastLoads_CheckedChanged);
+            // 
             // RAC4Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 469);
+            this.Controls.Add(this.checkBoxFastLoads);
             this.Controls.Add(this.checkBoxAmmo);
             this.Controls.Add(this.buttonStartLCSplitter);
             this.Controls.Add(this.unlockPlanetsButton);
@@ -607,5 +620,6 @@ namespace racman
         private System.Windows.Forms.Button unlockPlanetsButton;
         private System.Windows.Forms.Button buttonStartLCSplitter;
         private System.Windows.Forms.CheckBox checkBoxAmmo;
+        private System.Windows.Forms.CheckBox checkBoxFastLoads;
     }
 }

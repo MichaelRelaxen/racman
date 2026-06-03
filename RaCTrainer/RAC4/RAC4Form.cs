@@ -543,6 +543,7 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
 
+            // cba to enable/disable fast loads here
             api.WriteMemory(pid, rac4.addr.targetPlanet, game.planetToLoad);
             api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
         }
@@ -622,6 +623,31 @@ namespace racman
                 // beq LAB_001d7d24
                 api.WriteMemory(pid, 0x1d7d18, new byte[] { 0x41, 0x82, 0x00, 0x0c });
             }
+        }
+
+        private void enableDisableFastLoads(bool enabled)
+        {
+            var api = game.api;
+            var pid = api.getCurrentPID();
+            if (enabled)
+            {
+                // Don't call memcard_Save
+                api.WriteMemory(pid, 0x2a8af4, new byte[] { 0x60, 0x00, 0x00, 0x00 });
+                // Don't call g_fnTransitionUpdate
+                api.WriteMemory(pid, 0x2a8c50, new byte[] { 0x60, 0x00, 0x00, 0x00 });
+            } 
+            else
+            {
+                // bl memcard_Save
+                api.WriteMemory(pid, 0x2a8af4, new byte[] { 0x48, 0x12, 0x02, 0x61 });
+                // bctrl
+                api.WriteMemory(pid, 0x2a8c50, new byte[] { 0x4e, 0x9e, 0x04, 0x21 });
+            }
+        } 
+
+        private void checkBoxFastLoads_CheckedChanged(object sender, EventArgs e)
+        {
+            enableDisableFastLoads(checkBoxFastLoads.Checked);
         }
     }
 }
