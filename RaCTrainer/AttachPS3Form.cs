@@ -204,7 +204,7 @@ namespace racman
                 }
                 gameName = "RAC 1 Multiplayer";
             }
-            else if (game == "NPEA00386")
+            else if (game == "NPEA00386" || game == "RC2ILYOOO")
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
