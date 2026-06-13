@@ -21,18 +21,19 @@ namespace racman.RAC3
         public Timer timer = new Timer();
 
         // Offsets from the mod.
-        uint moveSpeed = 0x00d9f07c;
-        uint moveFriction = 0x00d9f0b0;
-        uint turnSpeed = 0x00d9f080;
-        uint turnFriction = 0x00d9f0ac;
-        uint currentControl = 0x00d9f078;
-        uint currentLookAt = 0x00d9f074;
-        uint savePosOffset = 0x00d9f000;
-        uint loadCameraPosition = 0x00d9f158;
-        uint saveCameraPosition = 0x00d9f15c;
-        uint modEnabled = 0x00d9f154;
-        uint lockWithoutStrafe = 0x00d9f070;
+        uint modEnabled = 0x00d9f000;
+        uint saveCameraPosition = 0x00d9f004;
+        uint loadCameraPosition = 0x00d9f008;
+        uint operatingCamera = 0x00d9f00c;
+        uint lookAtMode = 0x00d9f010;
+        uint lockWithoutStrafe = 0x00d9f014;
 
+        uint rotationSpeed = 0x00d9f01c;
+        uint moveSpeed = 0x00d9f020;
+        uint rotationFriction = 0x00d9f024;
+        uint moveFriction = 0x00d9f028;
+
+        uint savePosOffset = 0x00d9f02c;
         public Freecam()
         {
             InitializeComponent();
@@ -44,8 +45,8 @@ namespace racman.RAC3
             {
                 mstracker.Value = SetupTracker(moveSpeed, 100.0f);
                 mftracker.Value = SetupTracker(moveFriction, 20.0f);
-                tstracker.Value = SetupTracker(turnSpeed, 100.0f);
-                tftracker.Value = SetupTracker(turnFriction, 20.0f);
+                tstracker.Value = SetupTracker(rotationSpeed, 100.0f);
+                tftracker.Value = SetupTracker(rotationFriction, 20.0f);
             }
             catch { }
 
@@ -74,7 +75,7 @@ namespace racman.RAC3
         {
             
             var pid = api.getCurrentPID();
-            controlSubID = api.SubMemory(pid, currentControl + 3, 1,IPS3API.MemoryCondition.Any, (value) =>
+            controlSubID = api.SubMemory(pid, operatingCamera + 3, 1,IPS3API.MemoryCondition.Any, (value) =>
             {
                 if (value[0] == 0)
                     controllingString = "Controlling: Ratchet";
@@ -83,7 +84,7 @@ namespace racman.RAC3
             });
 
             controlling.Text = controllingString;
-            lookAtSubID = api.SubMemory(pid, currentLookAt + 3, 1, IPS3API.MemoryCondition.Any, (value) =>
+            lookAtSubID = api.SubMemory(pid, lookAtMode + 3, 1, IPS3API.MemoryCondition.Any, (value) =>
             {
                 if (value[0] == 0)
                     lookAtString = "Looking at: Nothin";
@@ -172,7 +173,7 @@ namespace racman.RAC3
             float ba;
             ba = tftracker.Value / 20.0f;
             tflabel.Text = $"Turn friction: {-ba * 100}%";
-            api.WriteMemory(AttachPS3Form.pid, turnFriction, BitConverter.GetBytes(ba).Reverse().ToArray());
+            api.WriteMemory(AttachPS3Form.pid, rotationFriction, BitConverter.GetBytes(ba).Reverse().ToArray());
         }
 
         private void tstracker_ValueChanged(object sender, EventArgs e)
@@ -180,7 +181,7 @@ namespace racman.RAC3
             float ba;
             ba = tstracker.Value / 100.0f;
             tslabel.Text = $"Turn speed: {ba}";
-            api.WriteMemory(AttachPS3Form.pid, turnSpeed, BitConverter.GetBytes(ba).Reverse().ToArray());
+            api.WriteMemory(AttachPS3Form.pid, rotationSpeed, BitConverter.GetBytes(ba).Reverse().ToArray());
         }
 
         private void savebox_Click(object sender, EventArgs e)
