@@ -62,6 +62,8 @@ namespace racman
         private int savefileHelperSubID = -1;
         private int tutorialSubId = -1;
         private int quittingGameSubId = -1;
+        private int loadPlanetSubID = -1;
+        private uint prevGameMode;
         // Tutorial flag - are we loading a fresh file?
         public byte prevTutorial;
         private bool isStartingAutosplitter;
@@ -114,6 +116,24 @@ namespace racman
                         game.api.ReleaseSubID(savefileHelperSubID);
                         savefileHelperSubID = -1;
                     }));
+                }
+            });
+
+            // Watch gameMode for the duration of the form. The load planet button turns
+            // fast loads on; when gameMode leaves GAME_MODE_SPACE (load finished) we set
+            // fast loads back to whatever the checkbox says.
+            loadPlanetSubID = game.api.SubMemory(game.api.getCurrentPID(), rac4.addr.gamestate + 3, 1, IPS3API.MemoryCondition.Changed, value =>
+            {
+                byte gameMode = value[0];
+                if (gameMode == prevGameMode) return;
+
+                bool loadFinished = prevGameMode == GAME_MODE_SPACE && gameMode != GAME_MODE_SPACE;
+                prevGameMode = gameMode;
+
+                if (loadFinished)
+                {
+                    Console.WriteLine("!!!! yes");
+                    this.Invoke(new Action(() => enableDisableFastLoads(checkBoxFastLoads.Checked)));
                 }
             });
         }
@@ -209,6 +229,8 @@ namespace racman
                     game.api.ReleaseSubID(tutorialSubId);
                 if (savefileHelperSubID != -1)
                     game.api.ReleaseSubID(savefileHelperSubID);
+                if (loadPlanetSubID != -1)
+                    game.api.ReleaseSubID(loadPlanetSubID);
                 if (game.api is Ratchetron r)
                     r.ReleaseAllSubs();
 
@@ -538,12 +560,19 @@ namespace racman
             KillYourself();
         }
 
+        // gameMode value while in the space/loading transition. The load is done once
+        // gameMode leaves this value.
+        private const uint GAME_MODE_SPACE = 6;
+
         private void loadPlanetButton_Click_1(object sender, EventArgs e)
         {
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            // cba to enable/disable fast loads here
+            // Enable fast loads for the load; the persistent gameMode watcher restores
+            // them to the checkbox state once the load finishes.
+            enableDisableFastLoads(true);
+
             api.WriteMemory(pid, rac4.addr.targetPlanet, game.planetToLoad);
             api.WriteMemory(pid, rac4.addr.loadPlanet2, 1);
         }

@@ -50,6 +50,10 @@ namespace racman
         // needed for save/load pos
         public uint playerCoords2 => 0x10D7334;
 
+        // Camera rotation. Two separate floats: left/right yaw and up/down pitch.
+        public uint cameraRotationLeftRight => 0x010D5DF0;
+        public uint cameraRotationUpDown => 0x010D5E00;
+
         // In Game (0 in main menu | 1 in game)
         public uint inGame => 0xB1F460;
 
@@ -230,14 +234,45 @@ namespace racman
             throw new NotImplementedException();
         }
 
+        // At playerCoords, a Vec4 position is immediately followed by a Vec4 rotation,
+        // so 0x20 (32) bytes captures both. playerCoords2 only stores the position
+        // (no rotation after it), so it gets just the 0x10 position half.
+        private const uint PositionByteCount = 0x10;
+        private const uint PositionAndRotationByteCount = 0x20;
+        // Each camera rotation value is a single float.
+        private const uint CameraRotationByteCount = 0x4;
+
+        private string CameraSlotKey(string suffix) =>
+            planetsList[planetIndex] + "SavedCam" + suffix + selectedPositionIndex;
+
+        public override void SavePosition()
+        {
+            string snapshot = api.ReadMemoryStr(pid, addr.playerCoords, PositionAndRotationByteCount);
+            func.ChangeFileLines("config.txt", snapshot, planetsList[planetIndex] + "SavedPos" + selectedPositionIndex);
+
+            string camLR = api.ReadMemoryStr(pid, addr.cameraRotationLeftRight, CameraRotationByteCount);
+            string camUD = api.ReadMemoryStr(pid, addr.cameraRotationUpDown, CameraRotationByteCount);
+            func.ChangeFileLines("config.txt", camLR, CameraSlotKey("LR"));
+            func.ChangeFileLines("config.txt", camUD, CameraSlotKey("UD"));
+        }
+
         public virtual void LoadPositionRac4()
         {
-            string position = func.GetConfigData("config.txt", planetsList[planetIndex] + "SavedPos" + selectedPositionIndex);
-            if (position != "")
+            string snapshot = func.GetConfigData("config.txt", planetsList[planetIndex] + "SavedPos" + selectedPositionIndex);
+            if (snapshot != "")
             {
-                api.WriteMemory(pid, addr.playerCoords, 30, position);
-                api.WriteMemory(pid, addr.playerCoords2, 30, position);
+                // Full position + rotation for the main coords, position only for the second.
+                api.WriteMemory(pid, addr.playerCoords, PositionAndRotationByteCount, snapshot);
+                api.WriteMemory(pid, addr.playerCoords2, PositionByteCount, snapshot.Substring(0, (int)PositionByteCount * 2));
             }
+
+            //string camLR = func.GetConfigData("config.txt", CameraSlotKey("LR"));
+            //if (camLR != "")
+            //    api.WriteMemory(pid, addr.cameraRotationLeftRight, CameraRotationByteCount, camLR);
+
+            //string camUD = func.GetConfigData("config.txt", CameraSlotKey("UD"));
+            //if (camUD != "")
+            //    api.WriteMemory(pid, addr.cameraRotationUpDown, CameraRotationByteCount, camUD);
         }
 
         public void DieRac4()
