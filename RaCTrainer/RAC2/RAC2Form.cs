@@ -20,6 +20,7 @@ namespace racman
         static ChargebootColorPicker cosmeticsForm;
         static FormCollectables collectablesForm;
         static RacketsGUI racketsForm;
+        static SavefileLoader savefileLoader;
 
         AutosplitterHelper autosplitter;
         public rac2 game;
@@ -67,7 +68,7 @@ namespace racman
             var api = game.api;
             var pid = api.getCurrentPID();
 
-            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x10cd71d, 1, value =>
+            savefileHelperSubID = game.api.SubMemory(game.api.getCurrentPID(), 0x1bf0002 /* api_mod */, 1, value =>
             {
                 if (value[0] == 1)
                 {
@@ -76,6 +77,7 @@ namespace racman
                         // Savefile helper mod is enabled.
                         loadFileButton.Enabled = true;
                         setAsideFileButton.Enabled = true;
+                        saveManagerBtn.Enabled = true;
                         game.api.ReleaseSubID(savefileHelperSubID);
                     }));
                 }
@@ -189,10 +191,14 @@ namespace racman
             }
         }
 
+        public static bool Fuck;
+
         private void loadPlanetButton_Click(object sender, EventArgs e)
         {
             game.enableDisableFastLoads(true);
             game.LoadPlanet(resetFlags: checkBoxResetFlags.Checked);
+
+            Fuck = true;
         }
 
         private void planets_comboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -366,11 +372,13 @@ namespace racman
         private void loadFileButton_Click(object sender, EventArgs e)
         {
             game.loadSetAsideFile();
+
+            Fuck = true;
         }
 
         private void setAsideFileButton_Click(object sender, EventArgs e)
         {
-            game.api.WriteMemory(game.api.getCurrentPID(), 0x10cd71f, new byte[] { 1 });
+            game.api.WriteMemory(game.api.getCurrentPID(), 0x1bf0004 /* api_setaside */, new byte[] { 1 });
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -644,7 +652,7 @@ namespace racman
 
         private void platBoltsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            game.resetPlatBoltsRequested = resetBossesComboBox.Checked;
+            game.resetPlatBoltsRequested = platBoltsCheckBox.Checked;
         }
 
         private void resetBossesComboBox_CheckedChanged(object sender, EventArgs e)
@@ -656,6 +664,14 @@ namespace racman
         {
             collectablesForm = new FormCollectables(game);
             collectablesForm.Show();
+        }
+
+        private void saveManagerBtn_Click(object sender, EventArgs e)
+        {
+            savefileLoader = new SavefileLoader();
+
+            SavefileLoader.Initialize(0x1bf0003, 0x1bf0001, "NPEA00386");
+            savefileLoader.Show();
         }
     }
 }

@@ -188,8 +188,8 @@ namespace racman
         }
         private int ghostRatchetSubID = -1;
         public bool resetFlagsRequested = true;
-        public bool resetPlatBoltsRequested = true;
-        public bool resetBossesRequested = true;
+        public bool resetPlatBoltsRequested = false;
+        public bool resetBossesRequested = false;
 
         public IEnumerable<(uint addr, uint size)> AutosplitterAddresses => new (uint, uint)[]
         {
@@ -275,7 +275,7 @@ namespace racman
         public void loadSetAsideFile()
         {
             enableDisableFastLoads(true);
-            api.WriteMemory(pid, 0x10cd71e, new byte[] { 1 });
+            api.WriteMemory(pid, 0x1bf0000 /* api_load */, new byte[] { 1 });
         }
 
         public void SelfDeathExtended(bool bosses, bool plats)

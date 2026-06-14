@@ -91,6 +91,7 @@ namespace racman
             this.label5 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.saveManagerBtn = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,7 +119,7 @@ namespace racman
             // CComboCheckBox
             // 
             this.CComboCheckBox.AutoSize = true;
-            this.CComboCheckBox.Location = new System.Drawing.Point(133, 126);
+            this.CComboCheckBox.Location = new System.Drawing.Point(133, 152);
             this.CComboCheckBox.Name = "CComboCheckBox";
             this.CComboCheckBox.Size = new System.Drawing.Size(100, 17);
             this.CComboCheckBox.TabIndex = 93;
@@ -663,9 +664,9 @@ namespace racman
             this.resetBossesComboBox.AutoSize = true;
             this.resetBossesComboBox.Location = new System.Drawing.Point(12, 175);
             this.resetBossesComboBox.Name = "resetBossesComboBox";
-            this.resetBossesComboBox.Size = new System.Drawing.Size(149, 17);
+            this.resetBossesComboBox.Size = new System.Drawing.Size(120, 17);
             this.resetBossesComboBox.TabIndex = 140;
-            this.resetBossesComboBox.Text = "Reset bossfights on death";
+            this.resetBossesComboBox.Text = "Reset bosses on kill";
             this.resetBossesComboBox.UseVisualStyleBackColor = true;
             this.resetBossesComboBox.CheckedChanged += new System.EventHandler(this.resetBossesComboBox_CheckedChanged);
             // 
@@ -674,9 +675,9 @@ namespace racman
             this.platBoltsCheckBox.AutoSize = true;
             this.platBoltsCheckBox.Location = new System.Drawing.Point(12, 152);
             this.platBoltsCheckBox.Name = "platBoltsCheckBox";
-            this.platBoltsCheckBox.Size = new System.Drawing.Size(166, 17);
+            this.platBoltsCheckBox.Size = new System.Drawing.Size(121, 17);
             this.platBoltsCheckBox.TabIndex = 147;
-            this.platBoltsCheckBox.Text = "Reset platinum bolts on death";
+            this.platBoltsCheckBox.Text = "Reset PBs on death";
             this.platBoltsCheckBox.UseVisualStyleBackColor = true;
             this.platBoltsCheckBox.CheckedChanged += new System.EventHandler(this.platBoltsCheckBox_CheckedChanged);
             // 
@@ -717,11 +718,23 @@ namespace racman
             this.label6.TabIndex = 151;
             this.label6.Text = "Category Setup";
             // 
+            // saveManagerBtn
+            // 
+            this.saveManagerBtn.Enabled = false;
+            this.saveManagerBtn.Location = new System.Drawing.Point(133, 121);
+            this.saveManagerBtn.Name = "saveManagerBtn";
+            this.saveManagerBtn.Size = new System.Drawing.Size(95, 23);
+            this.saveManagerBtn.TabIndex = 152;
+            this.saveManagerBtn.Text = "Save Manager";
+            this.saveManagerBtn.UseVisualStyleBackColor = true;
+            this.saveManagerBtn.Click += new System.EventHandler(this.saveManagerBtn_Click);
+            // 
             // RAC2Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(478, 492);
+            this.ClientSize = new System.Drawing.Size(478, 499);
+            this.Controls.Add(this.saveManagerBtn);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.label5);
@@ -847,5 +860,6 @@ namespace racman
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button saveManagerBtn;
     }
 }
