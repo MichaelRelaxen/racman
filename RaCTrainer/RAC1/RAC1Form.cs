@@ -18,6 +18,7 @@ namespace racman
         public Form HovenHealthForm;
         public Form InputDisplay;
         static RacketsGUI racketsForm;
+        private EgoExplorerForm egoExplorerForm;
         public static string ip = AttachPS3Form.ip;
         public static int pid = AttachPS3Form.pid;
         private static Timer ForceLoadTimer = new Timer();
@@ -584,6 +585,22 @@ namespace racman
         {
             JankpotForm jf = new JankpotForm(game);
             jf.Show();
+        }
+
+        private void egoExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (egoExplorerForm != null && !egoExplorerForm.IsDisposed)
+            {
+                egoExplorerForm.Activate();
+                return;
+            }
+
+            egoExplorerForm = new EgoExplorerForm(game);
+            egoExplorerForm.FormClosed += delegate
+            {
+                egoExplorerForm = null;
+            };
+            egoExplorerForm.Show();
         }
 
         private void resetStylePoints_Click(object sender, EventArgs e)

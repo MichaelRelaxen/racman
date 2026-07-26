@@ -74,6 +74,7 @@ namespace racman
             this.freecamCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hitWatcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jankpotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.egoExplorerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -435,7 +436,8 @@ namespace racman
             this.freecamToolStripMenuItem,
             this.freecamCharacterToolStripMenuItem,
             this.hitWatcherToolStripMenuItem,
-            this.jankpotToolStripMenuItem});
+            this.jankpotToolStripMenuItem,
+            this.egoExplorerToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "Debug";
@@ -501,6 +503,13 @@ namespace racman
             this.jankpotToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.jankpotToolStripMenuItem.Text = "Jankpot";
             this.jankpotToolStripMenuItem.Click += new System.EventHandler(this.jankpotToolStripMenuItem_Click);
+            //
+            // egoExplorerToolStripMenuItem
+            //
+            this.egoExplorerToolStripMenuItem.Name = "egoExplorerToolStripMenuItem";
+            this.egoExplorerToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.egoExplorerToolStripMenuItem.Text = "EGO Explorer";
+            this.egoExplorerToolStripMenuItem.Click += new System.EventHandler(this.egoExplorerToolStripMenuItem_Click);
             // 
             // button2
             // 
@@ -885,6 +894,7 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem tASToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hitWatcherToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jankpotToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem egoExplorerToolStripMenuItem;
         private System.Windows.Forms.Button resetStylePoints;
         private System.Windows.Forms.Button unlockAllStylePoints;
         private System.Windows.Forms.Label label5;
