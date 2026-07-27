@@ -49,6 +49,10 @@ namespace racman
         private static readonly Color NoItemBorder = Color.FromArgb(82, 155, 178);
         private static readonly Color EquippableFill = Color.FromArgb(49, 42, 8);
         private static readonly Color EquippableBorder = Color.FromArgb(255, 214, 92);
+        private static readonly Color InvalidLockedFill = Color.FromArgb(48, 7, 14);
+        private static readonly Color InvalidLockedBorder = Color.FromArgb(205, 43, 61);
+        private static readonly Color InvalidUnlockedFill = Color.FromArgb(104, 13, 20);
+        private static readonly Color InvalidUnlockedBorder = Color.FromArgb(255, 105, 72);
         private static readonly string[] ItemNames =
         {
             "No item",
@@ -141,10 +145,11 @@ namespace racman
             new Dictionary<ulong, byte[]>();
 
         private bool autoUsesCombined;
+        private bool hasWeaponCursorSnapshot;
+        private WeaponCursorKind lastMovedWeaponCursor;
         private uint lastGadgetDescriptor = HandDescriptorAddress;
         private int liveMainIndex;
         private int liveCombinedIndex;
-        private uint liveActiveDescriptor;
         private int currentIndex;
         private int highlightedDestination = int.MinValue;
         private string highlightedInput = string.Empty;
@@ -160,6 +165,13 @@ namespace racman
             Weapons,
             Gadgets,
             Items
+        }
+
+        private enum WeaponCursorKind
+        {
+            None,
+            Main,
+            Combined
         }
 
         [Flags]
@@ -285,6 +297,7 @@ namespace racman
             private readonly Font itemFont;
             private readonly Font metaFont;
             private readonly Font routeFont;
+            private readonly Font cursorFont;
             private List<CellInfo> cells = new List<CellInfo>();
             private List<RouteInfo> routes = new List<RouteInfo>();
             private int startIndex;
@@ -298,6 +311,10 @@ namespace racman
             private int legitCount = WeaponsColumns * WeaponsRows;
             private bool gadgetRaggedLayout;
             private int firstVisualRow;
+            private bool showWeaponCursors;
+            private int mainWeaponCursor;
+            private int combinedWeaponCursor;
+            private WeaponCursorKind brightWeaponCursor;
 
             public event Action<CellInfo> CellHovered;
             public event Action CellHoverEnded;
@@ -321,6 +338,7 @@ namespace racman
                 itemFont = new Font("Consolas", 11F, FontStyle.Bold);
                 metaFont = new Font("Consolas", 8.5F, FontStyle.Bold);
                 routeFont = new Font("Consolas", 8.5F, FontStyle.Bold);
+                cursorFont = new Font("Consolas", 8.5F, FontStyle.Bold);
             }
 
             public void SetRoutes(List<RouteInfo> nextRoutes, int nextRouteSourceIndex)
@@ -360,6 +378,19 @@ namespace racman
                 Invalidate();
             }
 
+            public void SetWeaponCursors(
+                bool visible,
+                int mainIndex,
+                int combinedIndex,
+                WeaponCursorKind brightCursor)
+            {
+                showWeaponCursors = visible;
+                mainWeaponCursor = mainIndex;
+                combinedWeaponCursor = combinedIndex;
+                brightWeaponCursor = brightCursor;
+                Invalidate();
+            }
+
             protected override void Dispose(bool disposing)
             {
                 if (disposing)
@@ -368,6 +399,7 @@ namespace racman
                     itemFont.Dispose();
                     metaFont.Dispose();
                     routeFont.Dispose();
+                    cursorFont.Dispose();
                 }
                 base.Dispose(disposing);
             }
@@ -470,11 +502,14 @@ namespace racman
                 Color fill = SafetyFill(cell.Safety);
                 Color border = SafetyBorder(cell.Safety);
                 bool isLegitWeaponSlot = cell.Index >= 0 && cell.Index < legitCount;
-                bool isCurrent = cell.Index == currentIndex;
+                bool isCurrent = !showWeaponCursors && cell.Index == currentIndex;
                 bool isDestination = cell.Index == highlightedDestination;
                 bool isRouteSource = cell.Index == routeSourceIndex;
                 bool isNoItem = IsNoItemCell(cell);
                 bool isEquippableItem = IsEquippableItemCell(cell);
+                bool isInvalidCrash =
+                    IsInvalidItemId(cell) &&
+                    cell.Safety == LandingSafety.Crash;
                 if (isNoItem)
                 {
                     fill = NoItemFill;
@@ -489,6 +524,15 @@ namespace racman
                 {
                     fill = LegitFill;
                     border = LegitBorder;
+                }
+                if (isInvalidCrash)
+                {
+                    fill = cell.GateByte != 0
+                        ? InvalidUnlockedFill
+                        : InvalidLockedFill;
+                    border = cell.GateByte != 0
+                        ? InvalidUnlockedBorder
+                        : InvalidLockedBorder;
                 }
                 if (isCurrent)
                 {
@@ -525,7 +569,7 @@ namespace racman
                             25);
                     }
                 }
-                else if (isRouteSource)
+                else if (isRouteSource && !showWeaponCursors)
                 {
                     using (Pen sourcePen = new Pen(Color.White, 3F))
                     using (GraphicsPath sourcePath = RoundedRectangle(
@@ -575,6 +619,140 @@ namespace racman
                         metaFont,
                         meta,
                         line3);
+                }
+
+                if (showWeaponCursors)
+                    DrawWeaponCursorMarkers(graphics, cell.Index, bounds);
+            }
+
+            private void DrawWeaponCursorMarkers(
+                Graphics graphics,
+                int cellIndex,
+                Rectangle bounds)
+            {
+                bool hasMain = cellIndex == mainWeaponCursor;
+                bool hasCombined = cellIndex == combinedWeaponCursor;
+                if (!hasMain && !hasCombined)
+                    return;
+
+                bool mainIsBright =
+                    hasMain && brightWeaponCursor == WeaponCursorKind.Main;
+                bool combinedIsBright =
+                    hasCombined && brightWeaponCursor == WeaponCursorKind.Combined;
+                int mainOffset = hasMain && hasCombined ? 50 : 0;
+
+                if (hasMain && !mainIsBright)
+                {
+                    DrawWeaponCursorMarker(
+                        graphics,
+                        bounds,
+                        "MAIN",
+                        Color.FromArgb(255, 72, 190),
+                        false,
+                        mainOffset);
+                }
+                if (hasCombined && !combinedIsBright)
+                {
+                    DrawWeaponCursorMarker(
+                        graphics,
+                        bounds,
+                        "QS",
+                        Color.FromArgb(50, 235, 255),
+                        false,
+                        0);
+                }
+                if (mainIsBright)
+                {
+                    DrawWeaponCursorMarker(
+                        graphics,
+                        bounds,
+                        "MAIN",
+                        Color.FromArgb(255, 72, 190),
+                        true,
+                        mainOffset);
+                }
+                if (combinedIsBright)
+                {
+                    DrawWeaponCursorMarker(
+                        graphics,
+                        bounds,
+                        "QS",
+                        Color.FromArgb(50, 235, 255),
+                        true,
+                        0);
+                }
+            }
+
+            private void DrawWeaponCursorMarker(
+                Graphics graphics,
+                Rectangle bounds,
+                string label,
+                Color color,
+                bool bright,
+                int rightOffset)
+            {
+                Rectangle markerBounds = new Rectangle(
+                    bounds.Right - 55 - rightOffset,
+                    bounds.Y + 6,
+                    48,
+                    20);
+
+                if (bright)
+                {
+                    using (Pen glowPen = new Pen(Color.FromArgb(125, color), 8F))
+                    using (GraphicsPath glowPath = RoundedRectangle(
+                        Rectangle.Inflate(bounds, -5, -5),
+                        4))
+                    {
+                        graphics.DrawPath(glowPen, glowPath);
+                    }
+                    using (Pen brightPen = new Pen(Color.White, 3.5F))
+                    using (GraphicsPath brightPath = RoundedRectangle(
+                        Rectangle.Inflate(bounds, -7, -7),
+                        4))
+                    {
+                        graphics.DrawPath(brightPen, brightPath);
+                    }
+                }
+                else
+                {
+                    using (Pen dimPen = new Pen(Color.FromArgb(115, color), 1.8F))
+                    using (GraphicsPath dimPath = RoundedRectangle(
+                        Rectangle.Inflate(bounds, -4, -4),
+                        3))
+                    {
+                        graphics.DrawPath(dimPen, dimPath);
+                    }
+                }
+
+                using (SolidBrush background = new SolidBrush(
+                    bright
+                        ? Color.FromArgb(245, color)
+                        : Color.FromArgb(85, color)))
+                using (Pen markerPen = new Pen(
+                    bright
+                        ? Color.White
+                        : Color.FromArgb(145, color),
+                    bright ? 2F : 1F))
+                using (SolidBrush foreground = new SolidBrush(
+                    bright
+                        ? Color.Black
+                        : Color.FromArgb(185, 220, 225, 230)))
+                using (GraphicsPath markerPath = RoundedRectangle(markerBounds, 3))
+                using (StringFormat centered = new StringFormat
+                {
+                    Alignment = StringAlignment.Center,
+                    LineAlignment = StringAlignment.Center
+                })
+                {
+                    graphics.FillPath(background, markerPath);
+                    graphics.DrawPath(markerPen, markerPath);
+                    graphics.DrawString(
+                        label,
+                        cursorFont,
+                        foreground,
+                        markerBounds,
+                        centered);
                 }
             }
 
@@ -1051,6 +1229,8 @@ namespace racman
             AddLegendItem(legend, EquippableBorder, "ITEM / X ON");
             AddLegendItem(legend, SafetyBorder(LandingSafety.Caution), "X ACTIVE");
             AddLegendItem(legend, SafetyBorder(LandingSafety.Crash), "CRASH");
+            AddLegendItem(legend, InvalidLockedBorder, "INVALID / UNLOCK NO");
+            AddLegendItem(legend, InvalidUnlockedBorder, "INVALID / UNLOCK YES");
             AddLegendItem(legend, SafetyBorder(LandingSafety.Unknown), "?");
 
             StatusStrip status = new StatusStrip
@@ -1363,6 +1543,11 @@ namespace racman
                 gridCanvas.SetRoutes(
                     BuildRoutes(cells, activeResolver),
                     routeSourceIndex);
+                gridCanvas.SetWeaponCursors(
+                    selectedMap == ExplorerMap.Weapons,
+                    liveMainIndex,
+                    liveCombinedIndex,
+                    lastMovedWeaponCursor);
                 gridCanvas.SetSnapshot(
                     cells,
                     firstIndex,
@@ -1380,7 +1565,11 @@ namespace racman
 
                 liveLabel.ForeColor = Color.FromArgb(72, 255, 132);
                 liveLabel.Text = "LIVE";
-                statusLabel.Text = "WHEEL: SCROLL // DOUBLE-CLICK: CENTER";
+                statusLabel.Text =
+                    selectedMap == ExplorerMap.Weapons
+                        ? "MAIN = PINK // QS = CYAN // BRIGHT = LAST MOVED // " +
+                          "WHEEL: SCROLL // DOUBLE-CLICK: CENTER"
+                        : "WHEEL: SCROLL // DOUBLE-CLICK: CENTER";
             }
             catch (Exception ex)
             {
@@ -1395,9 +1584,7 @@ namespace racman
             int combinedIndex,
             uint activeDescriptor)
         {
-            liveMainIndex = mainIndex;
-            liveCombinedIndex = combinedIndex;
-            liveActiveDescriptor = activeDescriptor;
+            TrackWeaponCursors(mainIndex, combinedIndex, activeDescriptor);
 
             int mode = descriptorSelector.SelectedIndex;
             if (mode == 1)
@@ -1405,12 +1592,62 @@ namespace racman
             if (mode == 2)
                 return combinedIndex;
 
-            if (activeDescriptor == MainWeaponsDescriptorAddress)
+            WeaponCursorKind activeCursor = CursorForDescriptor(activeDescriptor);
+            if (activeCursor == WeaponCursorKind.Main)
                 autoUsesCombined = false;
-            else if (activeDescriptor == CombinedWeaponsDescriptorAddress)
+            else if (activeCursor == WeaponCursorKind.Combined)
                 autoUsesCombined = true;
 
             return autoUsesCombined ? combinedIndex : mainIndex;
+        }
+
+        private void TrackWeaponCursors(
+            int mainIndex,
+            int combinedIndex,
+            uint activeDescriptor)
+        {
+            WeaponCursorKind activeCursor = CursorForDescriptor(activeDescriptor);
+            if (!hasWeaponCursorSnapshot)
+            {
+                lastMovedWeaponCursor =
+                    activeCursor == WeaponCursorKind.None
+                        ? WeaponCursorKind.Main
+                        : activeCursor;
+                hasWeaponCursorSnapshot = true;
+            }
+            else
+            {
+                bool mainMoved = mainIndex != liveMainIndex;
+                bool combinedMoved = combinedIndex != liveCombinedIndex;
+                if (mainMoved && !combinedMoved)
+                    lastMovedWeaponCursor = WeaponCursorKind.Main;
+                else if (combinedMoved && !mainMoved)
+                    lastMovedWeaponCursor = WeaponCursorKind.Combined;
+                else if (mainMoved && combinedMoved &&
+                         activeCursor != WeaponCursorKind.None)
+                    lastMovedWeaponCursor = activeCursor;
+            }
+
+            liveMainIndex = mainIndex;
+            liveCombinedIndex = combinedIndex;
+        }
+
+        private static WeaponCursorKind CursorForDescriptor(uint descriptor)
+        {
+            switch (descriptor)
+            {
+                case MainWeaponsDescriptorAddress:
+                case HandDescriptorAddress:
+                case BackpackDescriptorAddress:
+                case HeadDescriptorAddress:
+                case BootsDescriptorAddress:
+                    return WeaponCursorKind.Main;
+                case CombinedWeaponsDescriptorAddress:
+                case CombinedHandDescriptorAddress:
+                    return WeaponCursorKind.Combined;
+                default:
+                    return WeaponCursorKind.None;
+            }
         }
 
         private uint ReadActiveDescriptor()
@@ -1419,33 +1656,6 @@ namespace racman
             if (menuRoot == 0)
                 return 0;
             return ReadUInt32(unchecked(menuRoot + 0x40));
-        }
-
-        private static string DescriptorName(uint descriptor)
-        {
-            switch (descriptor)
-            {
-                case HandDescriptorAddress:
-                    return "HAND";
-                case BackpackDescriptorAddress:
-                    return "PACK";
-                case HeadDescriptorAddress:
-                    return "HEAD";
-                case BootsDescriptorAddress:
-                    return "BOOTS";
-                case MainWeaponsDescriptorAddress:
-                    return "WEAPONS MAIN";
-                case CombinedWeaponsDescriptorAddress:
-                    return "WEAPONS COMBINED";
-                case CombinedHandDescriptorAddress:
-                    return "HAND COMBINED";
-                case ItemsDescriptorAddress:
-                    return "ITEMS";
-                case 0:
-                    return "NONE";
-                default:
-                    return "0x" + descriptor.ToString("X8");
-            }
         }
 
         private Dictionary<uint, DescriptorState> ReadGadgetDescriptors()
@@ -1814,6 +2024,7 @@ namespace racman
                 cell.EffectiveModel = analysis.EffectiveModel;
                 cell.GateAddress = analysis.GateAddress;
                 cell.GateByte = analysis.GateByte;
+                cell.Owned = analysis.GateByte != 0;
                 cell.ConfirmTarget = analysis.ConfirmTarget;
                 cell.PreviewUsesWeaponLoader = analysis.PreviewUsesWeaponLoader;
                 cell.WeaponCacheMatch = analysis.WeaponCacheMatch;
@@ -2509,6 +2720,12 @@ namespace racman
             return cell.ItemName.ToUpperInvariant();
         }
 
+        private static bool IsInvalidItemId(CellInfo cell)
+        {
+            return !cell.UsesItemsFlag &&
+                   (cell.ItemId < 0 || cell.ItemId >= ItemNames.Length);
+        }
+
         private static string CellMetaLine(CellInfo cell)
         {
             if (cell.UsesItemsFlag)
@@ -2517,6 +2734,14 @@ namespace racman
             string group = cell.FakeGroup <= 999
                 ? cell.FakeGroup.ToString()
                 : "0x" + cell.FakeGroup.ToString("X8");
+            if (IsInvalidItemId(cell))
+            {
+                return string.Format(
+                    "GROUP {0}   UNLOCK {1}",
+                    group,
+                    cell.GateByte != 0 ? "YES" : "NO");
+            }
+
             return "ITEM ID " + cell.ItemId + "   GROUP " + group;
         }
 
