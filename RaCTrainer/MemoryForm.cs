@@ -149,6 +149,38 @@ namespace racman
             }));
         }
 
+        // Formats raw big-endian bytes from the console into the display string for a watch.
+        private static string FormatWatchedValue(WatchedAddress watched, byte[] bytes)
+        {
+            if (watched.isFloat)
+            {
+                return BitConverter.ToSingle(bytes, 0).ToString();
+            }
+
+            long val;
+
+            switch (watched.size)
+            {
+                case 1:
+                    val = bytes[0];
+                    break;
+                case 2:
+                    val = BitConverter.ToInt16(bytes, 0);
+                    break;
+                case 4:
+                    val = BitConverter.ToInt32(bytes, 0);
+                    break;
+                case 8:
+                    val = BitConverter.ToInt64(bytes, 0);
+                    break;
+                default:
+                    val = bytes[0];
+                    break;
+            }
+
+            return watched.hexRepresented ? val.ToString("X") : val.ToString();
+        }
+
         // New method for adding a memory watch entry
         private void AddMemoryWatch(uint address, string type, string name = "Unknown")
         {
@@ -191,49 +223,29 @@ namespace racman
                     break;
             }
 
-            // Subscribe to the memory watch and get data updates
+            // Assign before subscribing — SetItemValueText reads item.Tag, and the
+            // subscription callback can fire as soon as it's registered.
+            item.Tag = watched;
 
+            // Seed the initial value. The subscription uses MemoryCondition.Changed
+            // against an all-zero baseline, so an address that already holds 0 would
+            // never fire a callback and would sit on "Waiting..." forever.
+            try
+            {
+                byte[] initial = api.ReadMemory(api.getCurrentPID(), address, watched.size);
+                item.SubItems[2].Text = FormatWatchedValue(watched, initial);
+            }
+            catch (Exception)
+            {
+                // Leave "Waiting..." — the subscription may still deliver a value later.
+            }
+
+            // Subscribe to the memory watch and get data updates
             watched.subID = api.SubMemory(api.getCurrentPID(), address, watched.size, (byte[] bytes) =>
             {
-                if (watched.isFloat)
-                {
-                    float value = BitConverter.ToSingle(bytes, 0);
-                    SetItemValueText(item, value.ToString());
-                    return;
-                }
-
-                long val = 0;
-
-                switch (watched.size)
-                {
-                    case 1:
-                        val = bytes[0];
-                        break;
-                    case 2:
-                        val = BitConverter.ToInt16(bytes, 0);
-                        break;
-                    case 4:
-                        val = BitConverter.ToInt32(bytes, 0);
-                        break;
-                    case 8:
-                        val = BitConverter.ToInt64(bytes, 0);
-                        break;
-                    default:
-                        val = bytes[0];
-                        break;
-                }
-
-                if (!watched.hexRepresented)
-                {
-                    SetItemValueText(item, val.ToString());
-                }
-                else
-                {
-                    SetItemValueText(item, val.ToString("X"));
-                }
+                SetItemValueText(item, FormatWatchedValue(watched, bytes));
             });
 
-            item.Tag = watched;
             watchedMemoryAddressesListView.Items.Add(item);
         }
 
