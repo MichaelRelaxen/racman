@@ -149,38 +149,38 @@
       <DependentUpon>FlagViewer.cs</DependentUpon>
     </Compile>
     <Compile Include="Memory\RPCS3.cs" />
-    <Compile Include="offsets\ACIT\ACITAddresses.cs" />
-    <Compile Include="offsets\ACIT\ACITWeapon.cs" />
-    <Compile Include="offsets\ACIT\ACITWeaponFactory.cs" />
-    <Compile Include="offsets\ACIT\ACITTimer.cs" />
-    <Compile Include="offsets\RAC4\BotsUnlocks.cs" />
-    <Compile Include="offsets\RAC4\BotsUnlocksFactory.cs" />
+    <Compile Include="ACIT\ACITAddresses.cs" />
+    <Compile Include="ACIT\ACITWeapon.cs" />
+    <Compile Include="ACIT\ACITWeaponFactory.cs" />
+    <Compile Include="ACIT\ACITTimer.cs" />
+    <Compile Include="RAC4\BotsUnlocks.cs" />
+    <Compile Include="RAC4\BotsUnlocksFactory.cs" />
     <Compile Include="ChargebootColorPicker.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ChargebootColorPicker.Designer.cs">
       <DependentUpon>ChargebootColorPicker.cs</DependentUpon>
     </Compile>
-    <Compile Include="offsets\TOD\tod.cs" />
-    <Compile Include="RAC1Mp\RAC1MpForm.cs">
+    <Compile Include="TOD\tod.cs" />
+    <Compile Include="RAC1\RAC1Mp\RAC1MpForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RAC1Mp\RAC1MpForm.Designer.cs">
+    <Compile Include="RAC1\RAC1Mp\RAC1MpForm.Designer.cs">
       <DependentUpon>RAC1MpForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RAC1Mp\RAC1MpHovenHealthForm.cs">
+    <Compile Include="RAC1\RAC1Mp\RAC1MpHovenHealthForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RAC1Mp\RAC1MpHovenHealthForm.Designer.cs">
+    <Compile Include="RAC1\RAC1Mp\RAC1MpHovenHealthForm.Designer.cs">
       <DependentUpon>RAC1MpHovenHealthForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RAC1Mp\RAC1MpUnlocks.cs">
+    <Compile Include="RAC1\RAC1Mp\RAC1MpUnlocks.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RAC1Mp\RAC1MpUnlocks.Designer.cs">
+    <Compile Include="RAC1\RAC1Mp\RAC1MpUnlocks.Designer.cs">
       <DependentUpon>RAC1MpUnlocks.cs</DependentUpon>
     </Compile>
-    <Compile Include="RAC1Mp\RaC1MpVersionForm.cs">
+    <Compile Include="RAC1\RAC1Mp\RaC1MpVersionForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RAC1\NewUnlocks.cs">
@@ -207,7 +207,7 @@
     <Compile Include="RAC2\RAC2JPForm.Designer.cs">
       <DependentUpon>RAC2JPForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="offsets\RAC2\rac2jp.cs" />
+    <Compile Include="RAC2\rac2jp.cs" />
     <Compile Include="RAC2\TAS\Racket2API.cs" />
     <Compile Include="RAC2\TAS\Rackets2GUI.cs">
       <SubType>Form</SubType>
@@ -281,9 +281,9 @@
     <Compile Include="ModLoaderForm.Designer.cs">
       <DependentUpon>ModLoaderForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="offsets\ACIT\acit.cs" />
-    <Compile Include="offsets\RAC2\rac2.cs" />
-    <Compile Include="offsets\RAC4\rac4.cs" />
+    <Compile Include="ACIT\acit.cs" />
+    <Compile Include="RAC2\rac2.cs" />
+    <Compile Include="RAC4\rac4.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -309,7 +309,7 @@
     <Compile Include="RAC1\HovenHealthForm.Designer.cs">
       <DependentUpon>HovenHealthForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="offsets\RAC1\rac1.cs" />
+    <Compile Include="RAC1\rac1.cs" />
     <Compile Include="Memory\Ratchetron.cs" />
     <Compile Include="RAC1\UnlocksWindow.cs">
       <SubType>Form</SubType>
@@ -341,7 +341,7 @@
     <Compile Include="RAC3\RAC3Form.Designer.cs">
       <DependentUpon>RAC3Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="offsets\RAC3\rac3.cs" />
+    <Compile Include="RAC3\rac3.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RAC4\RAC4Form.cs">
@@ -425,16 +425,16 @@
     <EmbeddedResource Include="ChargebootColorPicker.resx">
       <DependentUpon>ChargebootColorPicker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RAC1Mp\RAC1MpForm.resx">
+    <EmbeddedResource Include="RAC1\RAC1Mp\RAC1MpForm.resx">
       <DependentUpon>RAC1MpForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RAC1Mp\RAC1MpHovenHealthForm.resx">
+    <EmbeddedResource Include="RAC1\RAC1Mp\RAC1MpHovenHealthForm.resx">
       <DependentUpon>RAC1MpHovenHealthForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RAC1Mp\RAC1MpUnlocks.resx">
+    <EmbeddedResource Include="RAC1\RAC1Mp\RAC1MpUnlocks.resx">
       <DependentUpon>RAC1MpUnlocks.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RAC1Mp\RaC1MpVersionForm.resx">
+    <EmbeddedResource Include="RAC1\RAC1Mp\RaC1MpVersionForm.resx">
       <DependentUpon>RaC1MpVersionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAC1\NewUnlocks.resx">
