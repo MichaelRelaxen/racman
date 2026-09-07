@@ -347,3 +347,4 @@ healthchecksdb
 config.txt
 
 .claude/*
+docs/*
