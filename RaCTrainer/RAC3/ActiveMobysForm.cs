@@ -64,6 +64,17 @@ namespace racman.RAC3
 
         }
 
+        private string GetTagName(uint tags)
+        {
+            switch (tags)
+            {
+                case 0: return "None";
+                case 1: return "Ally";
+                case 3: return "Enemy";
+                default: return tags.ToString();
+            }
+        }
+
         private void UpdateList(object sender, EventArgs e)
         {
             int topIndex = table.TopItem?.Index ?? 0;
@@ -86,9 +97,9 @@ namespace racman.RAC3
                 string backupName = Enum.GetName(typeof(oClasses), backup_oClass);
                 string activeName = Enum.GetName(typeof(oClasses), active_oClass);
 
-                ListViewItem item = new ListViewItem($"{active.ToString("X")}, uid: {active_uid}, o: {active_oClass} {activeName}");
-                item.SubItems.Add($"{backup.ToString("X")}, uid: {backup_uid}, o: {backup_oClass} {backupName}");
-                item.SubItems.Add(tags.ToString());
+                ListViewItem item = new ListViewItem($"{active.ToString("X")} {activeName}");
+                item.SubItems.Add($"{backup.ToString("X")} {backupName}");
+                item.SubItems.Add(GetTagName(tags));
                 table.Items.Add(item);
             }
 
