@@ -1,22 +1,58 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace racman
-{
-    public abstract class IPS3API
+namespace racman {
+    public class InGameChangedEventArgs : EventArgs {
+        public bool InGame { get; }
+
+        public InGameChangedEventArgs(bool inGame) {
+            InGame = inGame;
+        }
+    }
+
+    public abstract class IPS3API : IDisposable 
     {
-        string ip
+        string ip 
         {
             get;
             set;
         }
 
-        protected IPS3API(string ip)
+        protected IPS3API(string ip) 
         {
             this.ip = ip;
+        }
+
+        public virtual uint ServerRevision => 0;
+        public virtual bool IsConnected => false;
+
+        public event EventHandler<InGameChangedEventArgs> InGameChanged;
+
+        public event EventHandler ConnectionLost;
+
+        protected void RaiseInGameChanged(bool inGame) {
+            var handler = InGameChanged;
+            if (handler == null) return;
+
+            try {
+                handler(this, new InGameChangedEventArgs(inGame));
+            }
+            catch (Exception ex) {
+                Console.WriteLine($"InGameChanged handler threw: {ex.Message}");
+            }
+        }
+
+        protected void RaiseConnectionLost() {
+            var handler = ConnectionLost;
+            if (handler == null) return;
+
+            try {
+                handler(this, EventArgs.Empty);
+            }
+            catch (Exception ex) {
+                Console.WriteLine($"ConnectionLost handler threw: {ex.Message}");
+            }
         }
 
         public abstract bool Connect();
@@ -25,11 +61,11 @@ namespace racman
         public abstract string getGameTitleID();
         public abstract int getCurrentPID();
         public abstract void WriteMemory(int pid, uint address, uint size, byte[] memory);
-        public virtual void WriteMemory(int pid, uint address, UInt32 intValue)
+        public virtual void WriteMemory(int pid, uint address, UInt32 intValue) 
         {
             this.WriteMemory(pid, address, 4, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
         }
-        public virtual void WriteMemory(int pid, uint address, uint size, string memory)
+        public virtual void WriteMemory(int pid, uint address, uint size, string memory) 
         {
             byte[] mem = Enumerable.Range(0, memory.Length)
                      .Where(x => x % 2 == 0)
@@ -39,22 +75,22 @@ namespace racman
             WriteMemory(pid, address, size, mem);
         }
 
-        public void WriteMemory(int pid, uint address, byte[] memory)
+        public void WriteMemory(int pid, uint address, byte[] memory) 
         {
             this.WriteMemory(pid, address, (uint)memory.Length, memory);
         }
 
         public abstract byte[] ReadMemory(int pid, uint address, uint size);
 
-        public virtual uint ReadMemory(int pid, uint address)
+        public virtual uint ReadMemory(int pid, uint address) 
         {
             byte[] memory = ReadMemory(pid, address, 4);
             return BitConverter.ToUInt32(memory.Reverse().ToArray(), 0);
         }
-        public virtual string ReadMemoryStr(int pid, uint address, uint size)
+        public virtual string ReadMemoryStr(int pid, uint address, uint size) 
         {
             byte[] memory = ReadMemory(pid, address, size);
-            
+
             StringBuilder hex = new StringBuilder(memory.Length * 2);
             foreach (byte b in memory)
                 hex.AppendFormat("{0:x2}", b);
@@ -70,7 +106,7 @@ namespace racman
 
         public abstract uint GetUserID();
         public abstract int DeleteDirectory(string remotePath);
-        public virtual string GetIP()
+        public virtual string GetIP() 
         {
             return this.ip;
         }
@@ -80,7 +116,7 @@ namespace racman
         /// Changed only sends data when the value changes
         /// The other things do other things thanks for reading my Ted talk
         /// </summary>
-        public enum MemoryCondition : byte
+        public enum MemoryCondition : byte 
         {
             Any = 1,
             Changed = 2,
@@ -93,30 +129,39 @@ namespace racman
         public abstract int SubMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory, Action<byte[]> callback);
 
         // Defaults to changed because why blast yourself with data?
-        public int SubMemory(int pid, uint address, uint size, Action<byte[]> callback)
+        public int SubMemory(int pid, uint address, uint size, Action<byte[]> callback) 
         {
             return SubMemory(pid, address, size, MemoryCondition.Changed, new byte[size], callback);
         }
 
-        public int SubMemory(int pid, uint address, uint size, MemoryCondition condition, Action<byte[]> callback)
+        public int SubMemory(int pid, uint address, uint size, MemoryCondition condition, Action<byte[]> callback) 
         {
             return SubMemory(pid, address, size, condition, new byte[size], callback);
         }
 
         public abstract int FreezeMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory);
 
-        public virtual int FreezeMemory(int pid, uint address, MemoryCondition condition, UInt32 intValue)
+        public virtual int FreezeMemory(int pid, uint address, MemoryCondition condition, UInt32 intValue) 
         {
             return this.FreezeMemory(pid, address, 4, condition, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
         }
 
-        public virtual int FreezeMemory(int pid, uint address, UInt32 intValue)
+        public virtual int FreezeMemory(int pid, uint address, UInt32 intValue) 
         {
             return this.FreezeMemory(pid, address, 4, MemoryCondition.Any, BitConverter.GetBytes((UInt32)intValue).Reverse().ToArray());
         }
 
         public abstract void ReleaseSubID(int memSubID);
 
-        public abstract int MemSubIDForAddress(uint address);
+        public abstract void ReleaseAllSubs();
+
+        public virtual void Dispose() {
+            try {
+                Disconnect();
+            }
+            catch (Exception ex) {
+                Console.WriteLine($"Error while disconnecting: {ex.Message}");
+            }
+        }
     }
 }

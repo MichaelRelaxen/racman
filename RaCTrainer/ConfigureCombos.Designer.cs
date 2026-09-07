@@ -94,7 +94,7 @@ namespace racman
             // 
             this.savePositionTextBox.Location = new System.Drawing.Point(12, 29);
             this.savePositionTextBox.Name = "savePositionTextBox";
-            this.savePositionTextBox.Size = new System.Drawing.Size(126, 20);
+            this.savePositionTextBox.Size = new System.Drawing.Size(275, 20);
             this.savePositionTextBox.TabIndex = 5;
             this.savePositionTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
@@ -102,7 +102,7 @@ namespace racman
             // 
             this.loadPositionTextBox.Location = new System.Drawing.Point(12, 73);
             this.loadPositionTextBox.Name = "loadPositionTextBox";
-            this.loadPositionTextBox.Size = new System.Drawing.Size(126, 20);
+            this.loadPositionTextBox.Size = new System.Drawing.Size(275, 20);
             this.loadPositionTextBox.TabIndex = 6;
             this.loadPositionTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
@@ -110,7 +110,7 @@ namespace racman
             // 
             this.loadSetAsideComboTextBox.Location = new System.Drawing.Point(12, 154);
             this.loadSetAsideComboTextBox.Name = "loadSetAsideComboTextBox";
-            this.loadSetAsideComboTextBox.Size = new System.Drawing.Size(126, 20);
+            this.loadSetAsideComboTextBox.Size = new System.Drawing.Size(275, 20);
             this.loadSetAsideComboTextBox.TabIndex = 7;
             this.loadSetAsideComboTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
@@ -118,7 +118,7 @@ namespace racman
             // 
             this.dieTextBox.Location = new System.Drawing.Point(12, 118);
             this.dieTextBox.Name = "dieTextBox";
-            this.dieTextBox.Size = new System.Drawing.Size(126, 20);
+            this.dieTextBox.Size = new System.Drawing.Size(275, 20);
             this.dieTextBox.TabIndex = 8;
             this.dieTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
@@ -126,7 +126,7 @@ namespace racman
             // 
             this.loadPlanetTextBox.Location = new System.Drawing.Point(12, 200);
             this.loadPlanetTextBox.Name = "loadPlanetTextBox";
-            this.loadPlanetTextBox.Size = new System.Drawing.Size(126, 20);
+            this.loadPlanetTextBox.Size = new System.Drawing.Size(275, 20);
             this.loadPlanetTextBox.TabIndex = 9;
             this.loadPlanetTextBox.Click += new System.EventHandler(this.textBoxClick);
             // 
@@ -143,7 +143,7 @@ namespace racman
             // 
             this.textBoxRunScript.Location = new System.Drawing.Point(12, 245);
             this.textBoxRunScript.Name = "textBoxRunScript";
-            this.textBoxRunScript.Size = new System.Drawing.Size(126, 20);
+            this.textBoxRunScript.Size = new System.Drawing.Size(275, 20);
             this.textBoxRunScript.TabIndex = 12;
             this.textBoxRunScript.Click += new System.EventHandler(this.textBoxClick);
             // 
@@ -160,7 +160,7 @@ namespace racman
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(241, 356);
+            this.ClientSize = new System.Drawing.Size(299, 356);
             this.Controls.Add(this.textBoxRunScript);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.infoText);

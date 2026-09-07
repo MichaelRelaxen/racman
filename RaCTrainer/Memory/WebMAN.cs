@@ -142,11 +142,6 @@ namespace racman
             throw new NotImplementedException();
         }
 
-        public override int MemSubIDForAddress(uint address)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void WriteFile(string remotePath, byte[] buffer)
         {
             throw new NotImplementedException();
@@ -164,6 +159,10 @@ namespace racman
 
         public override int DeleteDirectory(string remotePath)
         {
+            throw new NotImplementedException();
+        }
+
+        public override void ReleaseAllSubs() {
             throw new NotImplementedException();
         }
     }

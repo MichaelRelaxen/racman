@@ -1,0 +1,22 @@
+#- name: DL Crash Patches
+#- author: robo
+#- href: 
+#- version: 1.0
+#- description: Patches persistent crashes on certain missions. 
+
+# Bot crash/flying
+0x80883c: 0x14151617
+
+# Dropship crash
+0x51e1e8: 0xecc33028
+0x51e21c: 0xecdb3028
+0x51e240: 0x60000000
+0x51e200: 0x10c7304a
+0x51e228: 0x10dc304a
+0x51e24c: 0x60000000
+
+# Vendor crash 
+0x618008: 0x7cc65810
+0x618024: 0x10c92886
+0x618034: 0x7ce73010
+0x61806c: 0x7d296078

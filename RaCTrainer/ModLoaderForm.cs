@@ -520,6 +520,7 @@ namespace racman
         public List<string> patchLines = new List<string>();
         public Dictionary<uint, byte[]> originalData = new Dictionary<uint, byte[]>();
         public List<string> dependencies = new List<string>();
+        HashSet<uint> codeCaveAddrs = new HashSet<uint>();
 
         List<LuaAutomation> luaAutomations = new List<LuaAutomation>();
 
@@ -562,6 +563,7 @@ namespace racman
                 else
                 {
                     patchBytes = File.ReadAllBytes($"{modFolder}\\{value}");
+                    codeCaveAddrs.Add(address);
                 }
 
                 int bytesRead = 0;
@@ -680,6 +682,8 @@ namespace racman
             wmm.PauseRSX();
             foreach (KeyValuePair<uint, byte[]> entry in this.originalData)
             {
+                if (codeCaveAddrs.Contains(entry.Key)) continue; // skip to next entry if its a bin file
+                
                 int bytesWritten = 0;
                 byte[] bytesToWrite = new byte[] { };
                 while (bytesWritten < entry.Value.Length)
