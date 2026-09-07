@@ -37,6 +37,11 @@ namespace racman {
 
         private int connectionLostRaised;
 
+
+        private volatile int currentPid = 0;
+        public int CurrentPid => currentPid;
+        private volatile bool lastInGameState = false;
+
         public Ratchetron(string ip) : base(ip) {
             this.ip = ip;
         }
@@ -77,6 +82,13 @@ namespace racman {
 #if DEBUG
                     this.EnableDebugMessages();
 #endif
+
+                    try {
+                        this.currentPid = getCurrentPID();
+                    }
+                    catch (Exception ex) {
+                        Console.WriteLine($"Could not fetch initial PID on connect: {ex.Message}");
+                    }
 
                     return true;
                 }
@@ -255,7 +267,11 @@ namespace racman {
                         Array.Reverse(pidBuf);
                     }
 
-                    return BitConverter.ToInt32(pidBuf, 0);
+                    int pid = BitConverter.ToInt32(pidBuf, 0);
+                    if (pid != 0) {
+                        this.currentPid = pid;
+                    }
+                    return pid;
                 }
                 catch (Exception ex) {
                     HandleTransportFailure(ex);
@@ -267,7 +283,7 @@ namespace racman {
         public override void WriteMemory(int pid, uint address, uint size, byte[] memory) {
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x05);
-            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)currentPid).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)address).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
             cmdBuf.AddRange(memory);
@@ -280,7 +296,7 @@ namespace racman {
 
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x04);
-            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)currentPid).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)address).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
 
@@ -359,9 +375,22 @@ namespace racman {
                         // for opening/closing: 1 extra byte for coming in/out
                         case 0x08: {
                                 byte enteringOrLeaving = cmdBuf.Skip(1).Take(1).ToArray()[0];
+                                bool inGame = enteringOrLeaving != 0;
+                                // debounce
+                                if (inGame == lastInGameState) break;
+                                lastInGameState = inGame;
+
                                 Console.WriteLine($"Got new IS_INGAME: {enteringOrLeaving}");
 
-                                RaiseInGameChanged(enteringOrLeaving != 0);
+                                if (inGame) {
+                                    // refresh pid on separate thread.
+                                    new Thread(RefreshCurrentPid) { IsBackground = true }.Start();
+                                }
+                                else {
+                                    this.currentPid = 0;
+                                }
+
+                                RaiseInGameChanged(inGame);
                                 break;
                             }
 
@@ -374,6 +403,29 @@ namespace racman {
                     break;
                 }
             }
+        }
+
+
+        private void RefreshCurrentPid() {
+            Thread.Sleep(3000); // this sucks.
+            for (int attempt = 0; attempt < 20; attempt++) {
+                try {
+                    int pid = getCurrentPID();
+                    Console.WriteLine($"PID refresh attempt {attempt}: got {pid}");
+                    if (pid != 0) {
+                        this.currentPid = pid;
+                        Console.WriteLine($"Refreshed current PID: {pid}");
+                        return;
+                    }
+                }
+                catch (Exception ex) {
+                    Console.WriteLine($"PID refresh attempt {attempt} threw: {ex.GetType().Name}: {ex.Message}");
+                }
+
+                Thread.Sleep(100);
+            }
+
+            Console.WriteLine("I give up.");
         }
 
         public void OpenDataChannel() {
@@ -440,7 +492,7 @@ namespace racman {
 
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0a);
-            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)currentPid).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)address).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
             cmdBuf.AddRange(new byte[] { (byte)condition });
@@ -476,7 +528,7 @@ namespace racman {
 
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0b);
-            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)currentPid).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)address).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
             cmdBuf.AddRange(new byte[] { (byte)condition });
