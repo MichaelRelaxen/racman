@@ -1,22 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using System.Linq.Expressions;
 
-namespace racman
-{
-    public class Ratchetron : IPS3API
-    {
-        string ip
-        {
+namespace racman {
+    public class Ratchetron : IPS3API {
+        public static int ReceiveTimeoutMs = 8000;
+        public static int SendTimeoutMs = 8000;
+
+        string ip {
             get;
             set;
         }
@@ -26,9 +23,11 @@ namespace racman
         private TcpClient client;
         private UdpClient udpClient;
         private NetworkStream stream;
-        private bool connected = false;
+        private volatile bool connected = false;
+        private uint apiRevision = 0;
+        private Thread dataThread;
 
-        private IPEndPoint remoteEndpoint;
+        private readonly object syncRoot = new object();
 
         private List<int> memorySubs = new List<int>();
         private Dictionary<int, Action<byte[]>> memSubCallbacks = new Dictionary<int, Action<byte[]>>();
@@ -36,43 +35,44 @@ namespace racman
         private Dictionary<int, UInt32> frozenAddresses = new Dictionary<int, uint>();
         private readonly object memorySubsLock = new object();
 
-        private Action onDisconnectCallback;
-        private Action onReconnectCallback;
+        private int connectionLostRaised;
 
-
-        public Ratchetron(string ip) : base(ip)
-        {
+        public Ratchetron(string ip) : base(ip) {
             this.ip = ip;
         }
 
-        public void setDisconnectCallback(Action action) => onDisconnectCallback = action;
-        public void setReconnectCallback(Action action) => onReconnectCallback = action;
+        public override uint ServerRevision => apiRevision;
 
-        public override bool Connect()
-        {
-            try
-            {
+        public override bool IsConnected => connected;
+
+        public bool SupportsModernCommands => apiRevision >= 5;
+
+        public override bool Connect() {
+            try {
                 this.client = new TcpClient(this.ip, this.port);
                 this.client.NoDelay = true;
+                this.client.ReceiveTimeout = ReceiveTimeoutMs;
+                this.client.SendTimeout = SendTimeoutMs;
 
                 this.stream = client.GetStream();
+                this.stream.ReadTimeout = ReceiveTimeoutMs;
+                this.stream.WriteTimeout = SendTimeoutMs;
 
                 byte[] connMsg = new byte[6];
-                stream.Read(connMsg, 0, 6);
+                ReadExact(connMsg, 0, 6);
 
                 uint apiRev = BitConverter.ToUInt32(connMsg.Skip(2).Take(4).Reverse().ToArray(), 0);
 
-                if (apiRev < 2)
-                {
+                if (apiRev < 4) {
                     MessageBox.Show("The Ratchetron module loaded on your PS3 is too old, you need to restart your PS3 to load the new version.");
+                    CloseSockets();
                     return false;
                 }
 
-                if (connMsg[0] == 0x01)
-                {
-                    this.remoteEndpoint = new IPEndPoint(IPAddress.Parse(this.ip), 0);
-
+                if (connMsg[0] == 0x01) {
+                    this.apiRevision = apiRev;
                     this.connected = true;
+                    this.connectionLostRaised = 0;
 
 #if DEBUG
                     this.EnableDebugMessages();
@@ -80,107 +80,191 @@ namespace racman
 
                     return true;
                 }
-            } catch (SocketException)
-            {
+            }
+            catch (SocketException) {
+                CloseSockets();
                 return false;
-            } catch (Exception)
-            {
+            }
+            catch (Exception) {
                 // who cares about error handling anyway?
+                CloseSockets();
                 return false;
             }
 
             return false;
         }
 
-        public override bool Disconnect()
-        {
-            this.ReleaseAllSubs();
+        public override bool Disconnect() {
+            if (connected) {
+                this.ReleaseAllSubs();
+            }
+
             this.connected = false;
-            this.udpClient?.Close();
-            this.client?.Close();
+            CloseSockets();
+
+            Thread thread = this.dataThread;
+            if (thread != null && thread != Thread.CurrentThread && thread.IsAlive) {
+                thread.Join(500);
+            }
+            this.dataThread = null;
 
             return true;
         }
 
-        public override string getGameTitleID()
-        {
-            if (!connected)
-            {
+        private void CloseSockets() {
+            this.udpClient?.Close();
+            this.stream?.Close();
+            this.client?.Close();
+
+            this.udpClient = null;
+            this.stream = null;
+            this.client = null;
+        }
+
+        // Reads exactly `count` bytes, looping until the buffer is full instead of trusting a
+        // single Read() call to return everything.
+        private void ReadExact(byte[] buffer, int offset, int count) {
+            NetworkStream s = this.stream;
+            if (s == null) {
+                throw new IOException("Not connected to Ratchetron.");
+            }
+
+            int read = 0;
+            while (read < count) {
+                int n = s.Read(buffer, offset + read, count - read);
+                if (n <= 0) {
+                    throw new IOException("Ratchetron closed the connection.");
+                }
+                read += n;
+            }
+        }
+
+        private byte[] ReadExact(int count) {
+            byte[] buffer = new byte[count];
+            ReadExact(buffer, 0, count);
+            return buffer;
+        }
+
+        private void WriteRaw(byte[] array, int offset, int count) {
+            NetworkStream s = this.stream;
+            if (s == null || !s.CanWrite) {
+                throw new IOException("Not connected to Ratchetron.");
+            }
+
+            s.Write(array, offset, count);
+        }
+
+        private void WriteStream(byte[] array, int offset, int count) {
+            lock (syncRoot) {
+                try {
+                    WriteRaw(array, offset, count);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
+            }
+        }
+
+        private void HandleTransportFailure(Exception ex) {
+            if (ex is IOException || ex is SocketException || ex is ObjectDisposedException) {
+                if (connected && Interlocked.Exchange(ref connectionLostRaised, 1) == 0) {
+                    connected = false;
+                    RaiseConnectionLost();
+                }
+            }
+        }
+
+        private void EnsureConnected() {
+            if (!connected) {
                 throw new Exception("I ain't connected");
             }
+        }
+
+        public override string getGameTitleID() {
+            EnsureConnected();
 
             byte[] cmd = { 0x06 };
 
-            WriteStream(cmd, 0, 1);
-
-            byte[] titleIdBuf = new byte[16];
-            stream.Read(titleIdBuf, 0, 16);
-
-            return System.Text.Encoding.Default.GetString(titleIdBuf).Replace("\0", string.Empty);
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmd, 0, 1);
+                    byte[] titleIdBuf = ReadExact(16);
+                    return System.Text.Encoding.Default.GetString(titleIdBuf).Replace("\0", string.Empty);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
+            }
         }
 
-        public int[] GetPIDList()
-        {
-            if (!connected)
-            {
-                throw new Exception("I ain't connected");
-            }
+        public int[] GetPIDList() {
+            EnsureConnected();
 
             byte[] cmd = { 0x03 };
 
-            WriteStream(cmd, 0, 1);
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmd, 0, 1);
 
-            byte[] pidListBuf = new byte[64];
+                    byte[] pidListBuf = ReadExact(64);
 
-            int n_bytes = 0;
-            while (n_bytes < 64) {
-                n_bytes += stream.Read(pidListBuf, 0, 64);
-            }
+                    int[] pids = new int[16];
 
-            int[] pids = new int[16];
+                    for (int i = 0; i < 64; i += 4) {
+                        byte[] bytes = pidListBuf.Skip(i).Take(4).ToArray();
 
-            for (int i = 0; i < 64; i += 4)
-            {
-                byte[] bytes = pidListBuf.Skip(i).Take(4).ToArray();
+                        if (BitConverter.IsLittleEndian) {
+                            Array.Reverse(bytes);
+                        }
 
-                if (BitConverter.IsLittleEndian)
-                {
-                    Array.Reverse(bytes);
+                        pids[i / 4] = BitConverter.ToInt32(bytes, 0);
+                    }
+
+                    return pids;
                 }
-
-                pids[i / 4] = BitConverter.ToInt32(bytes, 0);
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
             }
-
-            return pids;
         }
 
-        public void EnableDebugMessages()
-        {
+        public void EnableDebugMessages() {
             byte[] cmd = { 0x0d };
 
             WriteStream(cmd, 0, 1);
         }
 
-        public override int getCurrentPID()
-        {
-            return this.GetPIDList()[2];
-        }
-
-        private static Mutex writeLock = new Mutex();
-        private void WriteStream(byte[] array, int offset, int count)
-        {
-            writeLock.WaitOne();
-
-            if (this.stream.CanWrite)
-            {
-                this.stream.Write(array, offset, count);
+        public override int getCurrentPID() {
+            if (!SupportsModernCommands) {
+                return this.GetPIDList()[2];
             }
 
-            writeLock.ReleaseMutex();
+            EnsureConnected();
+
+            byte[] cmd = { 0x14 };
+
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmd, 0, 1);
+                    byte[] pidBuf = ReadExact(4);
+
+                    if (BitConverter.IsLittleEndian) {
+                        Array.Reverse(pidBuf);
+                    }
+
+                    return BitConverter.ToInt32(pidBuf, 0);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
+            }
         }
-        
-        public override void WriteMemory(int pid, uint address, uint size, byte[] memory)
-        {
+
+        public override void WriteMemory(int pid, uint address, uint size, byte[] memory) {
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x05);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
@@ -188,12 +272,12 @@ namespace racman
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)size).Reverse());
             cmdBuf.AddRange(memory);
 
-
             this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
         }
 
-        public override byte[] ReadMemory(int pid, uint address, uint size)
-        {
+        public override byte[] ReadMemory(int pid, uint address, uint size) {
+            EnsureConnected();
+
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x04);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
@@ -206,26 +290,27 @@ namespace racman
             watch.Start();
 #endif
 
-            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
-            byte[] memory = new byte[size];
-
-            int n_bytes = 0;
-            while (n_bytes < size)
-            {
-                n_bytes += stream.Read(memory, 0, (int)size);
-            }
+                    byte[] memory = ReadExact((int)size);
 
 #if DEBUG
-            watch.Stop();
+                    watch.Stop();
 
-            //Console.WriteLine($"Request for {size} bytes memory at {address.ToString("X")} took: {watch.ElapsedMilliseconds} ms");
+                    //Console.WriteLine($"Request for {size} bytes memory at {address.ToString("X")} took: {watch.ElapsedMilliseconds} ms");
 #endif 
-            return memory.Take((int)size).ToArray();
+                    return memory;
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
+            }
         }
 
-        public override void Notify(string message)
-        {
+        public override void Notify(string message) {
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x02);
             var payload = Encoding.ASCII.GetBytes(message);
@@ -238,37 +323,32 @@ namespace racman
 
         }
 
-        private void DataChannelReceive()
-        {
+        private void DataChannelReceive() {
             IPEndPoint end = new IPEndPoint(IPAddress.Any, 0);
 
-            while (this.connected)
-            {
-                try
-                {
-                    byte[] cmdBuf = this.udpClient.Receive(ref end);
+            while (this.connected) {
+                UdpClient udp = this.udpClient;
+                if (udp == null) break;
+
+                try {
+                    byte[] cmdBuf = udp.Receive(ref end);
                     byte command = cmdBuf.Take(1).ToArray()[0];
 
-                    switch (command)
-                    {
-                        case 0x06:
-                            {
+                    switch (command) {
+                        case 0x06: {
                                 UInt32 memSubID = BitConverter.ToUInt32(cmdBuf.Skip(1).Take(4).Reverse().ToArray(), 0);
                                 UInt32 size = BitConverter.ToUInt32(cmdBuf.Skip(5).Take(4).Reverse().ToArray(), 0);
                                 uint tickUpdated = BitConverter.ToUInt32(cmdBuf.Skip(9).Take(4).Reverse().ToArray(), 0);
                                 var value = cmdBuf.Skip(13).Take((int)size).Reverse().ToArray();
                                 Action<byte[]> callback = null;
 
-                                lock (memorySubsLock)
-                                {
+                                lock (memorySubsLock) {
                                     if (this.memSubTickUpdates.TryGetValue((int)memSubID, out uint previousTick) &&
                                         previousTick != tickUpdated &&
-                                        this.memSubCallbacks.TryGetValue((int)memSubID, out callback))
-                                    {
+                                        this.memSubCallbacks.TryGetValue((int)memSubID, out callback)) {
                                         this.memSubTickUpdates[(int)memSubID] = tickUpdated;
                                     }
-                                    else
-                                    {
+                                    else {
                                         callback = null;
                                     }
                                 }
@@ -277,47 +357,37 @@ namespace racman
                                 break;
                             }
                         // for opening/closing: 1 extra byte for coming in/out
-                        case 0x08:
-                            {
+                        case 0x08: {
                                 byte enteringOrLeaving = cmdBuf.Skip(1).Take(1).ToArray()[0];
                                 Console.WriteLine($"Got new IS_INGAME: {enteringOrLeaving}");
-                                if (enteringOrLeaving == 0 && onDisconnectCallback != null) // out of game
-                                {
-                                    onDisconnectCallback();
-                                } 
-                                else if (enteringOrLeaving == 1 && onReconnectCallback != null)
-                                {
-                                    onReconnectCallback(); 
-                                }
 
+                                RaiseInGameChanged(enteringOrLeaving != 0);
                                 break;
                             }
 
                     }
-                } catch (SocketException)
-                {
+                }
+                catch (SocketException) {
                     // Who gives a shit
+                }
+                catch (ObjectDisposedException) {
+                    break;
                 }
             }
         }
 
-        public void OpenDataChannel()
-        {
+        public void OpenDataChannel() {
             byte[] data = new byte[1024];
             int port = 4000;
             bool udpStarted = false;
-            while (!udpStarted)
-            {
-                try
-                {
+            while (!udpStarted) {
+                try {
                     IPEndPoint ipep = new IPEndPoint(IPAddress.Any, port);
                     this.udpClient = new UdpClient(ipep);
                     udpStarted = true;
                 }
-                catch (SocketException)
-                {
-                    if (port++ > 5000)
-                    {
+                catch (SocketException) {
+                    if (port++ > 5000) {
                         MessageBox.Show("Tried to open data connection on all ports between 4000 and 5000, but that failed. Did you deny RaCMAN firewall access?");
                         return;
                     }
@@ -325,41 +395,49 @@ namespace racman
             }
 
             var assignedPort = ((IPEndPoint)this.udpClient.Client.LocalEndPoint).Port;
-            
+
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x09);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)assignedPort).Reverse());
 
-            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
-
-            byte[] returnValue = new byte[1];
-
-            int n_bytes = 0;
-            while (n_bytes < 1)
-            {
-                n_bytes += stream.Read(returnValue, 0, 1);
+            byte[] returnValue;
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmdBuf.ToArray(), 0, cmdBuf.Count);
+                    returnValue = ReadExact(1);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    udpClient?.Close();
+                    udpClient = null;
+                    throw;
+                }
             }
 
-            if (returnValue[0] == 128) { 
+            if (returnValue[0] == 128 || returnValue[0] == 0x01) {
                 Console.WriteLine("Waiting for connection on port " + assignedPort);
 
                 //this.udpClient.Send(new byte[] { 0x01 }, 1, remoteEndpoint);
 
-                Thread dataThread = new Thread(this.DataChannelReceive);
+                dataThread = new Thread(this.DataChannelReceive);
+                dataThread.IsBackground = true;
                 dataThread.Start();
-            } else if (returnValue[0] == 2)
-            {
+            }
+            else if (returnValue[0] == 2) {
                 Console.WriteLine("Tried to open data channel, but server says we already have one open.");
                 udpClient.Close();
-            } else
-            {
+                udpClient = null;
+            }
+            else {
                 Console.WriteLine("Server error trying to open data channel.");
                 udpClient.Close();
+                udpClient = null;
             }
         }
 
-        public override int SubMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory, Action<byte[]> callback)
-        {
+        public override int SubMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory, Action<byte[]> callback) {
+            EnsureConnected();
+
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0a);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
@@ -368,21 +446,22 @@ namespace racman
             cmdBuf.AddRange(new byte[] { (byte)condition });
             cmdBuf.AddRange(memory);
 
-            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            int memSubID;
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
-            byte[] memSubIDBuf = new byte[4];
-
-            int n_bytes = 0;
-            while (n_bytes < 4)
-            {
-                n_bytes += stream.Read(memSubIDBuf, 0, 4);
+                    byte[] memSubIDBuf = ReadExact(4);
+                    memSubID = (int)BitConverter.ToInt32(memSubIDBuf.Take(4).Reverse().ToArray(), 0);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
             }
 
-            var memSubID = (int)BitConverter.ToInt32(memSubIDBuf.Take(4).Reverse().ToArray(), 0);
-
-            lock (memorySubsLock)
-            {
-                this.memorySubs.Add(memSubID);
+            lock (memorySubsLock) {
+                if (!this.memorySubs.Contains(memSubID)) this.memorySubs.Add(memSubID);
                 this.memSubCallbacks[memSubID] = callback;
                 this.memSubTickUpdates[memSubID] = 0;
             }
@@ -392,8 +471,9 @@ namespace racman
             return memSubID;
         }
 
-        public override int FreezeMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory)
-        {
+        public override int FreezeMemory(int pid, uint address, uint size, MemoryCondition condition, byte[] memory) {
+            EnsureConnected();
+
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0b);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
@@ -402,89 +482,117 @@ namespace racman
             cmdBuf.AddRange(new byte[] { (byte)condition });
             cmdBuf.AddRange(memory);
 
-            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            int memSubID;
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
-            byte[] memSubIDBuf = new byte[4];
-
-            int n_bytes = 0;
-            while (n_bytes < 4)
-            {
-                n_bytes += stream.Read(memSubIDBuf, 0, 4);
+                    byte[] memSubIDBuf = ReadExact(4);
+                    memSubID = (int)BitConverter.ToInt32(memSubIDBuf.Take(4).Reverse().ToArray(), 0);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
             }
-
-            var memSubID = (int)BitConverter.ToInt32(memSubIDBuf.Take(4).Reverse().ToArray(), 0);
 
             Console.WriteLine($"Froze address {address.ToString("X")} with subscription ID {memSubID}");
 
-            lock (memorySubsLock)
-            {
+            lock (memorySubsLock) {
+                if (!this.memorySubs.Contains(memSubID)) this.memorySubs.Add(memSubID);
                 frozenAddresses[memSubID] = address;
             }
 
             return memSubID;
         }
 
-        public void ReleaseAllSubs()
-        {
+        public override void ReleaseAllSubs() {
             int[] allSubsCopy;
-            lock (memorySubsLock)
-            {
+            lock (memorySubsLock) {
                 allSubsCopy = this.memorySubs.ToArray();
             }
 
-            foreach (var sub in allSubsCopy)
-            {
-                this.ReleaseSubID(sub);
+            if (allSubsCopy.Length == 0) {
+                return;
+            }
+
+            if (SupportsModernCommands && connected) {
+                try {
+                    byte[] cmd = { 0x15 };
+
+                    lock (syncRoot) {
+                        WriteRaw(cmd, 0, 1);
+                        ReadExact(1);
+                    }
+
+                    lock (memorySubsLock) {
+                        this.memorySubs.Clear();
+                        this.memSubCallbacks.Clear();
+                        this.memSubTickUpdates.Clear();
+                        this.frozenAddresses.Clear();
+                    }
+
+                    Console.WriteLine($"Released all {allSubsCopy.Length} memory subscriptions.");
+                    return;
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                }
+            }
+
+            foreach (var sub in allSubsCopy) {
+                try {
+                    this.ReleaseSubID(sub);
+                }
+                catch (Exception) {
+                    // who cares about error handling anyway?
+                }
+            }
+
+            lock (memorySubsLock) {
+                this.memorySubs.Clear();
+                this.memSubCallbacks.Clear();
+                this.memSubTickUpdates.Clear();
+                this.frozenAddresses.Clear();
             }
         }
 
-        public override void ReleaseSubID(int memSubID)
-        {   
-            var cmdBuf = new List<byte>();
-            cmdBuf.Add(0x0c);
-            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)memSubID).Reverse());
-
-            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
-
-            byte[] resultBuf = new byte[1];
-
-            int n_bytes = 0;
-            while (n_bytes < 1 && stream.CanRead)
-            {
-                n_bytes += stream.Read(resultBuf, 0, 1);
-            }
-
-            lock (memorySubsLock)
-            {
+        public override void ReleaseSubID(int memSubID) {
+            lock (memorySubsLock) {
                 this.memSubCallbacks.Remove(memSubID);
                 this.memSubTickUpdates.Remove(memSubID);
                 this.frozenAddresses.Remove(memSubID);
                 this.memorySubs.Remove(memSubID);
             }
 
-            Console.WriteLine($"Released memory subscription ID {memSubID}");
+            if (!connected) {
+                return;
+            }
 
+            var cmdBuf = new List<byte>();
+            cmdBuf.Add(0x0c);
+            cmdBuf.AddRange(BitConverter.GetBytes((UInt32)memSubID).Reverse());
+
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmdBuf.ToArray(), 0, cmdBuf.Count);
+                    ReadExact(1);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
+            }
+
+            Console.WriteLine($"Released memory subscription ID {memSubID}");
 
             // we're ignoring the results because yolo
         }
 
-        public override int MemSubIDForAddress(uint address)
-        {
-            lock (memorySubsLock)
-            {
-                foreach(KeyValuePair<int, uint> entry in frozenAddresses)
-                {
-                    if (address == entry.Value)
-                    {
-                        return entry.Key;
-                    }
-                }
-            }
-            return -1;
-        }
-
 
         public int OpenFile(string remotePath) {
+            EnsureConnected();
+
             var cmdBuf = new List<byte> {
                 0x10,  // Open file command
                 0, 0, 0, 0     // Flags (unused)
@@ -494,18 +602,18 @@ namespace racman
             cmdBuf.AddRange(Encoding.ASCII.GetBytes(remotePath));
             cmdBuf.Add(0x0);
 
-            WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
-            byte[] fileHandleBuf = new byte[4];
-            int n_bytes = 0;
-
-            while (n_bytes < 4) {
-                n_bytes += stream.Read(fileHandleBuf, 0, 4);
+                    byte[] fileHandleBuf = ReadExact(4);
+                    return BitConverter.ToInt32(fileHandleBuf, 0);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
             }
-
-            int fileHandle = BitConverter.ToInt32(fileHandleBuf, 0);
-
-            return fileHandle;
         }
 
         public override void WriteFile(string remotePath, byte[] buffer) {
@@ -518,14 +626,6 @@ namespace racman
 
             cmdBuf.AddRange(BitConverter.GetBytes(fileHandle));
             cmdBuf.AddRange(BitConverter.GetBytes(buffer.Length).Reverse());
-            WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
-
-            // Split up into 1024 byte chunks
-            for (int i = 0; i < buffer.Length; i += 2048) {
-                int chunkSize = Math.Min(2048, buffer.Length - i);
-
-                WriteStream(buffer, i, chunkSize);
-            }
 
             // Close file by sending a write command with 0 file size
             var closeCmdBuf = new List<byte> {
@@ -535,7 +635,24 @@ namespace racman
             closeCmdBuf.AddRange(BitConverter.GetBytes(fileHandle));
             closeCmdBuf.AddRange(BitConverter.GetBytes(0)); // 0 size to indicate end of file
 
-            WriteStream(closeCmdBuf.ToArray(), 0, closeCmdBuf.Count);
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmdBuf.ToArray(), 0, cmdBuf.Count);
+
+                    // Split up into 2048 byte chunks
+                    for (int i = 0; i < buffer.Length; i += 2048) {
+                        int chunkSize = Math.Min(2048, buffer.Length - i);
+
+                        WriteRaw(buffer, i, chunkSize);
+                    }
+
+                    WriteRaw(closeCmdBuf.ToArray(), 0, closeCmdBuf.Count);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
+            }
         }
 
         public override void WriteFile(string remotePath, string filePath) {
@@ -554,8 +671,9 @@ namespace racman
 
 
         // Doesn't work, sorry.
-        public uint AllocatePage(int pid, uint size, uint flags, bool is_executable)
-        {
+        public uint AllocatePage(int pid, uint size, uint flags, bool is_executable) {
+            EnsureConnected();
+
             var cmdBuf = new List<byte>();
             cmdBuf.Add(0x0e);
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)pid).Reverse());
@@ -563,55 +681,58 @@ namespace racman
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)flags).Reverse());
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)(is_executable ? 1 : 0)).Reverse());
 
-            this.WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
-            byte[] address = new byte[8];
-
-            int n_bytes = 0;
-            while (n_bytes < 8)
-            {
-                n_bytes += stream.Read(address, 0, 8);
+                    byte[] address = ReadExact(8);
+                    return (uint)BitConverter.ToUInt32(address.Take(4).Reverse().ToArray(), 0);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
             }
-
-            return (uint)BitConverter.ToUInt32(address.Take(4).Reverse().ToArray(), 0); ;
         }
 
-        public override uint GetUserID()
-        {
-            if (!connected)
-            {
-                throw new Exception("I ain't connected");
-            }
+        public override uint GetUserID() {
+            EnsureConnected();
 
             byte[] cmd = { 0x12 };
-            WriteStream(cmd, 0, 1);
 
-            byte[] userIdBuf = new byte[4];
-            int n_bytes = 0;
-            while (n_bytes < 4)
-            {
-                n_bytes += stream.Read(userIdBuf, 0, 4);
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmd, 0, 1);
+
+                    byte[] userIdBuf = ReadExact(4);
+                    return BitConverter.ToUInt32(userIdBuf.Reverse().ToArray(), 0);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
             }
-
-            return BitConverter.ToUInt32(userIdBuf.Reverse().ToArray(), 0);
         }
-        public override int DeleteDirectory(string remotePath)
-        {
+        public override int DeleteDirectory(string remotePath) {
+            EnsureConnected();
+
             var cmdBuf = new List<byte> { 0x13 };
             cmdBuf.AddRange(BitConverter.GetBytes((UInt32)remotePath.Length + 1).Reverse());
             cmdBuf.AddRange(Encoding.ASCII.GetBytes(remotePath));
             cmdBuf.Add(0x0);
 
-            WriteStream(cmdBuf.ToArray(), 0, cmdBuf.Count);
+            lock (syncRoot) {
+                try {
+                    WriteRaw(cmdBuf.ToArray(), 0, cmdBuf.Count);
 
-            byte[] resultBuf = new byte[4];
-            int n_bytes = 0;
-            while (n_bytes < 4)
-            {
-                n_bytes += stream.Read(resultBuf, 0, 4);
+                    byte[] resultBuf = ReadExact(4);
+                    return BitConverter.ToInt32(resultBuf.Reverse().ToArray(), 0);
+                }
+                catch (Exception ex) {
+                    HandleTransportFailure(ex);
+                    throw;
+                }
             }
-
-            return BitConverter.ToInt32(resultBuf.Reverse().ToArray(), 0);
         }
     }
 }
