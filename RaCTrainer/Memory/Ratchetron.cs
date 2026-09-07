@@ -17,6 +17,15 @@ namespace racman {
             get;
             set;
         }
+        private class SubInfo {
+            public uint Address;
+            public uint Size;
+            public MemoryCondition Condition;
+            public byte[] Memory;
+            public Action<byte[]> Callback;
+            public bool IsFrozen;
+        }
+        private Dictionary<int, SubInfo> activeSubs = new Dictionary<int, SubInfo>();
 
         private int port = 9671;
 
@@ -415,6 +424,7 @@ namespace racman {
                     if (pid != 0) {
                         this.currentPid = pid;
                         Console.WriteLine($"Refreshed current PID: {pid}");
+                        ResubscribeAll();
                         return;
                     }
                 }
@@ -518,6 +528,15 @@ namespace racman {
                 this.memSubTickUpdates[memSubID] = 0;
             }
 
+            this.activeSubs[memSubID] = new SubInfo {
+                Address = address,
+                Size = size,
+                Condition = condition,
+                Memory = memory,
+                Callback = callback,
+                IsFrozen = false
+            };
+
             Console.WriteLine($"Subscribed to address {address.ToString("X")} with subscription ID {memSubID}");
 
             return memSubID;
@@ -555,7 +574,39 @@ namespace racman {
                 frozenAddresses[memSubID] = address;
             }
 
+            this.activeSubs[memSubID] = new SubInfo {
+                Address = address,
+                Size = size,
+                Condition = condition,
+                Memory = memory,
+                Callback = null,
+                IsFrozen = true
+            };
+
             return memSubID;
+        }
+        private void ResubscribeAll() {
+            KeyValuePair<int, SubInfo>[] snapshot;
+            lock (memorySubsLock) {
+                snapshot = activeSubs.ToArray();
+            }
+
+            foreach (var kvp in snapshot) {
+                int oldSubId = kvp.Key;
+                SubInfo info = kvp.Value;
+
+                try {
+                    if (info.IsFrozen)
+                        FreezeMemory(currentPid, info.Address, info.Size, info.Condition, info.Memory);
+                    else
+                        SubMemory(currentPid, info.Address, info.Size, info.Condition, info.Memory, info.Callback);
+
+                    ReleaseSubID(oldSubId);
+                }
+                catch (Exception ex) {
+                    Console.WriteLine($"Failed to resubscribe {oldSubId} at {info.Address:X}: {ex.Message}");
+                }
+            }
         }
 
         public override void ReleaseAllSubs() {
@@ -615,6 +666,7 @@ namespace racman {
                 this.memSubTickUpdates.Remove(memSubID);
                 this.frozenAddresses.Remove(memSubID);
                 this.memorySubs.Remove(memSubID);
+                this.activeSubs.Remove(memSubID);
             }
 
             if (!connected) {
