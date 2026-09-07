@@ -567,10 +567,7 @@
     <None Include="autosplitters\rac4-LC-autosplitter.asl" />
     <Content Include="autosplitters\dlplanets.txt" />
     <Content Include="autosplitters\todplanets.txt" />
-    <Content Include="defaultSkin.txt" />
     <Content Include="Resources\ds3drip.ico" />
-    <Content Include="Resources\ds3w.png" />
-    <Content Include="Resources\ds3b.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
