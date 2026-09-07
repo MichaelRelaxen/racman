@@ -658,10 +658,19 @@ namespace racman
                             continue;
                         }
 
-                        // Ticking the box runs the normal dependency resolving load path.
-                        // ItemCheck fires even on a form that was never shown, and a mod that
-                        // fails to load unticks itself, so mods[i].loaded is the real outcome.
-                        modLoader.modsCheckedListBox.SetItemChecked(i, true);
+                        try
+                        {
+                            // Ticking the box runs the normal dependency resolving load path.
+                            // ItemCheck fires even on a form that was never shown, and a mod that
+                            // fails to load unticks itself, so mods[i].loaded is the real outcome.
+                            modLoader.modsCheckedListBox.SetItemChecked(i, true);
+                        }
+                        catch (Exception exception)
+                        {
+                            // A mod that throws instead of failing cleanly (missing .bin, bad
+                            // patch line) must not take the remaining flagged mods down with it.
+                            Console.WriteLine($"Auto-apply of '{mods[i].name}' failed: {exception}");
+                        }
 
                         if (mods[i].loaded)
                         {
