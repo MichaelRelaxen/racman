@@ -172,6 +172,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 RAC1Form rac1 = new RAC1Form(new rac1(func.api));
+                ModLoaderForm.AutoApplyOnLoad(rac1);
                 gameName = "RAC 1";
                 rac1.ShowDialog();
             }
@@ -186,18 +187,21 @@ namespace racman
                     default:
                         {
                             RAC1Form rac1 = new RAC1Form(new rac1(func.api));
+                            ModLoaderForm.AutoApplyOnLoad(rac1);
                             rac1.ShowDialog();
                             break;
                         }
                     case "Default":
                         {
                             RAC1Form rac1 = new RAC1Form(new rac1(func.api));
+                            ModLoaderForm.AutoApplyOnLoad(rac1);
                             rac1.ShowDialog();
                             break;
                         }
                     case "Randomizer":
                         {
                             RAC1MpForm rac1mp = new RAC1MpForm(new rac1(func.api));
+                            ModLoaderForm.AutoApplyOnLoad(rac1mp);
                             rac1mp.ShowDialog();
                             break;
                         }
@@ -209,6 +213,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 RAC2Form rac2 = new RAC2Form(new rac2(func.api));
+                ModLoaderForm.AutoApplyOnLoad(rac2);
                 gameName = "RAC 2";
                 rac2.ShowDialog();
             }
@@ -217,6 +222,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 RAC2JPForm rac2jp = new RAC2JPForm(new rac2jp(func.api));
+                ModLoaderForm.AutoApplyOnLoad(rac2jp);
                 gameName = "RAC 2 (JP)";
                 rac2jp.ShowDialog();
             }
@@ -225,6 +231,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 RAC3Form rac3 = new RAC3Form(new rac3(func.api));
+                ModLoaderForm.AutoApplyOnLoad(rac3);
                 gameName = "RAC 3";
                 rac3.ShowDialog();
             }
@@ -233,6 +240,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 RAC4Form rac4 = new RAC4Form(new rac4(func.api));
+                ModLoaderForm.AutoApplyOnLoad(rac4);
                 gameName = "RAC 4";
                 rac4.ShowDialog();
             }
@@ -241,6 +249,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 ACITForm acit = new ACITForm(new acit(func.api));
+                ModLoaderForm.AutoApplyOnLoad(acit);
                 gameName = "ACIT";
                 acit.ShowDialog();
             }
@@ -249,6 +258,7 @@ namespace racman
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 TODForm tod = new TODForm(new tod(func.api));
+                ModLoaderForm.AutoApplyOnLoad(tod);
                 gameName = "ToD PAL";
                 tod.ShowDialog();
             }

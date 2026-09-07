@@ -29,6 +29,7 @@ namespace racman
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModLoaderForm));
             this.modsCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -45,6 +46,9 @@ namespace racman
             this.buttonScripting = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.dependsLabel = new System.Windows.Forms.Label();
+            this.modsContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.autoApplyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modsContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // modsCheckedListBox
@@ -52,6 +56,7 @@ namespace racman
             this.modsCheckedListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.modsCheckedListBox.ContextMenuStrip = this.modsContextMenuStrip;
             this.modsCheckedListBox.FormattingEnabled = true;
             this.modsCheckedListBox.Location = new System.Drawing.Point(12, 12);
             this.modsCheckedListBox.Name = "modsCheckedListBox";
@@ -216,6 +221,22 @@ namespace racman
             this.dependsLabel.TabIndex = 14;
             this.dependsLabel.Text = "N/A";
             // 
+            // modsContextMenuStrip
+            // 
+            this.modsContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.autoApplyToolStripMenuItem});
+            this.modsContextMenuStrip.Name = "modsContextMenuStrip";
+            this.modsContextMenuStrip.Size = new System.Drawing.Size(205, 26);
+            this.modsContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.modsContextMenuStrip_Opening);
+            // 
+            // autoApplyToolStripMenuItem
+            // 
+            this.autoApplyToolStripMenuItem.CheckOnClick = true;
+            this.autoApplyToolStripMenuItem.Name = "autoApplyToolStripMenuItem";
+            this.autoApplyToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+            this.autoApplyToolStripMenuItem.Text = "Auto-apply on game boot";
+            this.autoApplyToolStripMenuItem.Click += new System.EventHandler(this.autoApplyToolStripMenuItem_Click);
+            // 
             // ModLoaderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -242,6 +263,7 @@ namespace racman
             this.Text = "Mod Loader";
             this.Activated += new System.EventHandler(this.ModLoaderForm_Activated);
             this.Load += new System.EventHandler(this.ModLoaderForm_Load);
+            this.modsContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -264,5 +286,7 @@ namespace racman
         private System.Windows.Forms.Button buttonScripting;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label dependsLabel;
+        private System.Windows.Forms.ContextMenuStrip modsContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem autoApplyToolStripMenuItem;
     }
 }

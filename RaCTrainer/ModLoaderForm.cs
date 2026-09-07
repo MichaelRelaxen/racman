@@ -16,9 +16,17 @@ namespace racman
     public partial class ModLoaderForm : Form
     {
         public static Mod[] mods;
+
+        // Game folder the cached mods array was built from, so we can tell a list left over
+        // from a previously attached game from one that belongs to the game we're on now.
+        static string modsFolder;
+
         string gameModFolder;
 
         bool reloading = false;
+
+        // List index the context menu was opened on; -1 when it wasn't opened on a mod.
+        int contextMenuModIndex = -1;
 
         public ModLoaderForm()
         {
@@ -26,15 +34,29 @@ namespace racman
 
             gameModFolder = $"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\";
 
+            // mods is static and outlives this form, so drop a list that was built for a
+            // different game before we show it as if it were this game's.
+            if (mods != null && modsFolder != gameModFolder)
+            {
+                mods = null;
+            }
+
             if (mods == null)
             {
                 mods = this.LoadMods().ToArray();
+                modsFolder = gameModFolder;
             }
 
+            HashSet<string> autoApplyMods = GetAutoApplyMods();
+
+            // Adding an item checked raises ItemCheck, so suppress the handler while filling
+            // the list: mods that are already loaded must not get loaded a second time.
+            reloading = true;
             foreach (var mod in mods)
             {
-                this.modsCheckedListBox.Items.Add(mod.name, mod.loaded);
+                this.modsCheckedListBox.Items.Add(ModListItemText(mod, autoApplyMods), mod.loaded);
             }
+            reloading = false;
 
             // Wire the link handler exactly once. The URL itself lives in linkLabel.Tag
             // and is refreshed each time the selection changes, so we don't accumulate
@@ -129,10 +151,12 @@ namespace racman
 
             mods = allMods.ToArray();
 
+            HashSet<string> autoApplyMods = GetAutoApplyMods();
+
             this.modsCheckedListBox.Items.Clear();
             foreach (var mod in mods)
             {
-                this.modsCheckedListBox.Items.Add(mod.name, mod.loaded);
+                this.modsCheckedListBox.Items.Add(ModListItemText(mod, autoApplyMods), mod.loaded);
             }
 
             reloading = false;
@@ -503,6 +527,169 @@ namespace racman
             {
                 RacmanScripting scripting = new RacmanScripting();
                 scripting.Show();
+            }
+        }
+
+        // One flat config line per game holds the mod folders to apply when it boots:
+        //     autoApplyMods_<TITLEID> = folder-one,folder-two
+        private static string AutoApplyConfigKey => $"autoApplyMods_{AttachPS3Form.game}";
+
+        // Mods are flagged by folder name, not display name: the display name comes out of
+        // patch.txt and can change with a mod update, the folder is what the list is built from.
+        private static string ModFolderName(Mod mod) => new DirectoryInfo(mod.modFolder).Name;
+
+        /// <summary>
+        /// Folder names of the mods flagged to auto-apply for the currently attached game.
+        /// </summary>
+        public static HashSet<string> GetAutoApplyMods()
+        {
+            string flagged = func.GetConfigData("config.txt", AutoApplyConfigKey);
+
+            return new HashSet<string>(
+                flagged.Split(',').Select(folder => folder.Trim()).Where(folder => folder.Length > 0),
+                StringComparer.OrdinalIgnoreCase);
+        }
+
+        /// <summary>
+        /// Adds or removes one mod folder from the attached game's auto-apply list and saves it.
+        /// </summary>
+        public static void SetAutoApplyMod(string modFolderName, bool autoApply)
+        {
+            HashSet<string> autoApplyMods = GetAutoApplyMods();
+
+            if (autoApply)
+            {
+                autoApplyMods.Add(modFolderName);
+            }
+            else
+            {
+                autoApplyMods.Remove(modFolderName);
+            }
+
+            func.ChangeFileLines("config.txt", string.Join(",", autoApplyMods), AutoApplyConfigKey);
+        }
+
+        // Flagged mods are marked in the list only. mod.name itself is left alone because the
+        // details pane and the console's mod filter show it as the mod author wrote it.
+        private static string ModListItemText(Mod mod, HashSet<string> autoApplyMods)
+        {
+            return autoApplyMods.Contains(ModFolderName(mod)) ? $"{mod.name} (auto)" : mod.name;
+        }
+
+        private void modsContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+            // Right clicking doesn't move the selection, so find the row under the cursor.
+            contextMenuModIndex = modsCheckedListBox.IndexFromPoint(modsCheckedListBox.PointToClient(Control.MousePosition));
+
+            if (contextMenuModIndex < 0 || contextMenuModIndex >= mods.Length)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            modsCheckedListBox.SelectedIndex = contextMenuModIndex;
+            autoApplyToolStripMenuItem.Checked = GetAutoApplyMods().Contains(ModFolderName(mods[contextMenuModIndex]));
+        }
+
+        private void autoApplyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (contextMenuModIndex < 0 || contextMenuModIndex >= mods.Length)
+            {
+                return;
+            }
+
+            Mod mod = mods[contextMenuModIndex];
+
+            // CheckOnClick already flipped the menu item, so it holds the state the user picked.
+            SetAutoApplyMod(ModFolderName(mod), autoApplyToolStripMenuItem.Checked);
+
+            // Replacing the item text keeps the row's check state and raises no ItemCheck.
+            modsCheckedListBox.Items[contextMenuModIndex] = ModListItemText(mod, GetAutoApplyMods());
+        }
+
+        /// <summary>
+        /// Applies the flagged mods once <paramref name="gameForm"/> opens. Call right after a
+        /// game window is constructed; Load runs on the UI thread, so no marshalling is needed.
+        /// </summary>
+        public static void AutoApplyOnLoad(Form gameForm)
+        {
+            gameForm.Load += (s, e) => AutoApplyMods();
+        }
+
+        /// <summary>
+        /// Loads every mod flagged for the attached game that isn't loaded already.
+        /// </summary>
+        public static void AutoApplyMods()
+        {
+            try
+            {
+                HashSet<string> autoApplyMods = GetAutoApplyMods();
+
+                if (autoApplyMods.Count == 0)
+                {
+                    return;
+                }
+
+                ModLoaderForm modLoader = Application.OpenForms["ModLoaderForm"] as ModLoaderForm;
+
+                // Don't reuse a loader left open from another game: its list, and the indices
+                // into it, are that game's mods, and folder names repeat across games.
+                if (modLoader != null && modLoader.gameModFolder != $"{Directory.GetCurrentDirectory()}\\mods\\{AttachPS3Form.game}\\")
+                {
+                    modLoader = null;
+                }
+
+                // Nothing usable open: build a loader just for its list, and never show it.
+                bool temporaryModLoader = modLoader == null;
+
+                if (temporaryModLoader)
+                {
+                    modLoader = new ModLoaderForm();
+                }
+
+                try
+                {
+                    int applied = 0;
+
+                    for (int i = 0; i < mods.Length; i++)
+                    {
+                        if (mods[i].loaded || !autoApplyMods.Contains(ModFolderName(mods[i])))
+                        {
+                            continue;
+                        }
+
+                        // Ticking the box runs the normal dependency resolving load path.
+                        // ItemCheck fires even on a form that was never shown, and a mod that
+                        // fails to load unticks itself, so mods[i].loaded is the real outcome.
+                        modLoader.modsCheckedListBox.SetItemChecked(i, true);
+
+                        if (mods[i].loaded)
+                        {
+                            applied++;
+                        }
+                    }
+
+                    Console.WriteLine($"Auto-applied {applied} of {autoApplyMods.Count} flagged mod(s) for {AttachPS3Form.game}");
+
+                    if (applied > 0)
+                    {
+                        func.api.Notify($"Auto-applied {applied} mod(s)");
+                    }
+                }
+                finally
+                {
+                    // The Mod objects and their loaded state live in the static array, so the
+                    // real loader still shows them ticked when the user opens it later.
+                    if (temporaryModLoader)
+                    {
+                        modLoader.Dispose();
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                // A broken mod must never stop the game window from opening.
+                Console.WriteLine($"Failed to auto-apply mods: {exception}");
             }
         }
     }
