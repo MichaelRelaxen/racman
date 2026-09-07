@@ -49,7 +49,7 @@ namespace racman {
 
         private volatile int currentPid = 0;
         public int CurrentPid => currentPid;
-        private volatile bool lastInGameState = false;
+        private volatile bool lastInGameState = true;
 
         public Ratchetron(string ip) : base(ip) {
             this.ip = ip;
