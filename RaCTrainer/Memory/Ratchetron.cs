@@ -476,7 +476,7 @@ namespace racman {
                 }
             }
 
-            if (returnValue[0] == 128 || returnValue[0] == 0x01) {
+            if (returnValue[0] == 128) {
                 Console.WriteLine("Waiting for connection on port " + assignedPort);
 
                 //this.udpClient.Send(new byte[] { 0x01 }, 1, remoteEndpoint);
