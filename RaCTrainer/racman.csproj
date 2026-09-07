@@ -31,7 +31,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ds3drip.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\ds3drip.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -252,6 +252,11 @@
     </Compile>
     <Compile Include="Games\RAC4\RAC4BotsUnlocks.Designer.cs">
       <DependentUpon>RAC4BotsUnlocks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RacmanScripting.cs">
       <SubType>Form</SubType>
@@ -505,11 +510,6 @@
     <EmbeddedResource Include="Games\RAC4\RAC4Form.resx">
       <DependentUpon>RAC4Form.cs</DependentUpon>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Games\RAC3\UYAUnlocks.resx">
       <DependentUpon>UYAUnlocks.cs</DependentUpon>
     </EmbeddedResource>
@@ -556,7 +556,6 @@
     <None Include="autosplitters\rac1-autosplitter.asl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Platinum_bolt.webp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -569,9 +568,9 @@
     <Content Include="autosplitters\dlplanets.txt" />
     <Content Include="autosplitters\todplanets.txt" />
     <Content Include="defaultSkin.txt" />
-    <Content Include="ds3drip.ico" />
-    <Content Include="ds3w.png" />
-    <Content Include="ds3b.png" />
+    <Content Include="Resources\ds3drip.ico" />
+    <Content Include="Resources\ds3w.png" />
+    <Content Include="Resources\ds3b.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
