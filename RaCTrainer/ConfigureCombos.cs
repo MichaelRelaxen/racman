@@ -29,6 +29,15 @@ namespace racman
                 { savePositionTextBox, val => saveCombo = val },
                 { textBoxRunScript, val => runScriptCombo = val }
             };
+            comboValues = new Dictionary<TextBox, Func<int>>
+{
+                { loadPlanetTextBox, () => loadPlanetCombo },
+                { dieTextBox, () => dieCombo },
+                { loadSetAsideComboTextBox, () => loadSetAsideCombo },
+                { loadPositionTextBox, () => loadCombo },
+                { savePositionTextBox, () => saveCombo },
+                { textBoxRunScript, () => runScriptCombo }
+            };
             GetCombos();
             UpdateCombos();
 
@@ -36,6 +45,7 @@ namespace racman
             timer.Tick += new EventHandler(UpdateInputs);
         }
         private Dictionary<TextBox, Action<int>> comboActions;
+        private Dictionary<TextBox, Func<int>> comboValues;
 
         int confirmedInput = 0;
         int confirmationCounter = 0;
@@ -82,56 +92,84 @@ namespace racman
             timer.Enabled = false;
         }
 
+        private static string DescribeCombo(int rawInput) {
+            return String.Join(" + ", Inputs.DecodeMask(rawInput));
+        }
+        private void ShowStoredCombo(TextBox textBox) {
+            Func<int> read;
+            if (textBox != null && comboValues.TryGetValue(textBox, out read)) {
+                textBox.Text = DescribeCombo(read());
+            }
+        }
+
         public Timer timer = new Timer();
 
 
-        public void UpdateInputs(object sender, EventArgs e)
-        {
-            if (Inputs.RawInputs != confirmedInput)
-            {
+        private TextBox capturingTextBox;
+        public void UpdateInputs(object sender, EventArgs e) {
+            TextBox activeTextBox = capturingTextBox;
+
+            if (Inputs.RawInputs != confirmedInput) {
                 confirmedInput = Inputs.RawInputs;
                 confirmationCounter = 0;
+                ShowHoldProgress(activeTextBox);
                 return;
             }
 
-            if (confirmedInput != 0)
-            {
-                var activeTextBox = comboActions.Keys.FirstOrDefault(tb => tb.Text == EnterInput);
-                if (activeTextBox != null)
-                {
+            if (confirmedInput != 0) {
+                if (activeTextBox != null) {
                     confirmationCounter++;
-                    if (confirmationCounter >= CONFIRMATION_TICKS)
-                    {
+                    if (confirmationCounter >= CONFIRMATION_TICKS) {
                         comboActions[activeTextBox](confirmedInput);
 
                         UpdateCombos();
 
                         confirmationCounter = 0;
                         confirmedInput = 0;
+                        return;
                     }
+
+                    ShowHoldProgress(activeTextBox);
                 }
             }
         }
-        private void setInputs(TextBox textBox)
-        {
+
+        private void ShowHoldProgress(TextBox textBox) {
+            if (textBox == null) return;
+
+            if (confirmedInput == 0) {
+                textBox.Text = EnterInput;
+                return;
+            }
+
+            int ticksLeft = CONFIRMATION_TICKS - confirmationCounter;
+            if (ticksLeft < 0) ticksLeft = 0;
+
+            double secondsLeft = ticksLeft * timer.Interval / 1000.0;
+            textBox.Text = $"{DescribeCombo(confirmedInput)} · hold {secondsLeft:0.0} s";
+        }
+
+        private void setInputs(TextBox textBox) {
+            if (capturingTextBox != null && capturingTextBox != textBox) {
+                ShowStoredCombo(capturingTextBox);
+            }
+
             confirmationCounter = 0;
             confirmedInput = 0;
+            capturingTextBox = textBox;
             textBox.Text = EnterInput;
             timer.Enabled = true;
 
         }
-        private void ConfigureCombos_FormClosing(object sender, FormClosingEventArgs e)
-        {
+        private void ConfigureCombos_FormClosing(object sender, FormClosingEventArgs e) {
             UpdateCombos();
         }
 
-        private void textBoxClick(object sender, EventArgs e)
-        {
+        private void textBoxClick(object sender, EventArgs e) {
             setInputs((TextBox)sender);
         }
-        public void ConfigureCombos_Load(object sender, EventArgs e)
-        {
-            infoText.Text = "To edit a combo, simply click on\nthe box you want to change,\nthen press inputs on your controller";
+        public void ConfigureCombos_Load(object sender, EventArgs e) {
+            infoText.Text = "To edit a combo, simply click on\nthe box you want to change,\nthen press inputs on your controller\nand hold them until the timer runs out.";
         }
     }
 }
