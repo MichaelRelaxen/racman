@@ -68,7 +68,7 @@
             // 
             // ValueColumnHeader
             // 
-            this.ValueColumnHeader.Text = "Tag";
+            this.ValueColumnHeader.Text = "Team";
             this.ValueColumnHeader.Width = 40;
             // 
             // ActiveMobysForm
