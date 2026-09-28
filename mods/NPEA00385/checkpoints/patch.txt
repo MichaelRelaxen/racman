@@ -1,0 +1,9 @@
+#- name: Checkpoint Overlay
+#- author: MistaOmega
+#- href:
+#- version: 1.0
+#- description: Draws every checkpoint trigger in the level as a 3D wireframe with a cross on its respawn spot, your active checkpoint is yellow, others green
+
+0x628104: checkpoints.bin
+
+0x06C2AC: 0x48628107
