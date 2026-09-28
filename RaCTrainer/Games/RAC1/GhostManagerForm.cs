@@ -14,6 +14,8 @@ namespace racman
     // Front end for the ghost mod (mods/NPEA00385/ghost): its files on the PS3 over FTP, and which
     // ghost it plays through the mod's API block. State is read once per refresh, never polled:
     // sustained Ratchetron polling hangs the PS3.
+    
+    // To be so fr the forms are done exclusively by AI, I cannot be fucked with UI any day of the week, so thank Claude
     public partial class GhostManagerForm : Form
     {
         const uint ApiAddr = 0x717290;
