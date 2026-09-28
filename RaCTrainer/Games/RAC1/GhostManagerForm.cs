@@ -404,18 +404,22 @@ namespace racman
         {
             var selected = SelectedFiles();
             if (selected.Count == 0) return;
-            if (selected.Any(InUse))
+            var inUse = selected.Where(InUse).ToList();
+            var deletable = selected.Except(inUse).ToList();
+            string skipped = inUse.Count == 0 ? ""
+                : $"\n\nSkipping {string.Join(", ", inUse.Select(f => f.Name))}: the mod is recording into {(inUse.Count == 1 ? "it" : "them")}.";
+            if (deletable.Count == 0)
             {
-                MessageBox.Show("The mod is still writing some of these (the current attempt, or the run being recorded).", "Delete", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Nothing to delete.{skipped}", "Delete", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
-            if (MessageBox.Show($"Delete {selected.Count} files from the PS3? Download them first if you want to keep them.", "Delete",
+            if (MessageBox.Show($"Delete {deletable.Count} files from the PS3? Download them first if you want to keep them.{skipped}", "Delete",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
                 return;
 
             await Run("Deleting...", () =>
             {
-                foreach (var f in selected)
+                foreach (var f in deletable)
                     DeleteRemote(f.Name);
             });
             await RefreshAll();
