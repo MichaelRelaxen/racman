@@ -74,6 +74,13 @@ namespace racman
             this.freecamCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hitWatcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jankpotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.checkpointOverlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkpointOverlayOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkpointOverlayCheckpointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkpointOverlayAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.checkpointOverlayLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button2 = new System.Windows.Forms.Button();
             this.ghostCheckbox = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -435,7 +442,9 @@ namespace racman
             this.freecamToolStripMenuItem,
             this.freecamCharacterToolStripMenuItem,
             this.hitWatcherToolStripMenuItem,
-            this.jankpotToolStripMenuItem});
+            this.jankpotToolStripMenuItem,
+            this.toolStripSeparator4,
+            this.checkpointOverlayToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
             this.debugToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.debugToolStripMenuItem.Text = "Debug";
@@ -501,6 +510,56 @@ namespace racman
             this.jankpotToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
             this.jankpotToolStripMenuItem.Text = "Jankpot";
             this.jankpotToolStripMenuItem.Click += new System.EventHandler(this.jankpotToolStripMenuItem_Click);
+            //
+            // toolStripSeparator4
+            //
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(181, 6);
+            //
+            // checkpointOverlayToolStripMenuItem
+            //
+            this.checkpointOverlayToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkpointOverlayOffToolStripMenuItem,
+            this.checkpointOverlayCheckpointsToolStripMenuItem,
+            this.checkpointOverlayAllToolStripMenuItem,
+            this.toolStripSeparator5,
+            this.checkpointOverlayLabelsToolStripMenuItem});
+            this.checkpointOverlayToolStripMenuItem.Name = "checkpointOverlayToolStripMenuItem";
+            this.checkpointOverlayToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.checkpointOverlayToolStripMenuItem.Text = "Checkpoint Overlay";
+            //
+            // checkpointOverlayOffToolStripMenuItem
+            //
+            this.checkpointOverlayOffToolStripMenuItem.Name = "checkpointOverlayOffToolStripMenuItem";
+            this.checkpointOverlayOffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkpointOverlayOffToolStripMenuItem.Text = "Off";
+            this.checkpointOverlayOffToolStripMenuItem.Click += new System.EventHandler(this.checkpointOverlayOffToolStripMenuItem_Click);
+            //
+            // checkpointOverlayCheckpointsToolStripMenuItem
+            //
+            this.checkpointOverlayCheckpointsToolStripMenuItem.Name = "checkpointOverlayCheckpointsToolStripMenuItem";
+            this.checkpointOverlayCheckpointsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkpointOverlayCheckpointsToolStripMenuItem.Text = "Checkpoints";
+            this.checkpointOverlayCheckpointsToolStripMenuItem.Click += new System.EventHandler(this.checkpointOverlayCheckpointsToolStripMenuItem_Click);
+            //
+            // checkpointOverlayAllToolStripMenuItem
+            //
+            this.checkpointOverlayAllToolStripMenuItem.Name = "checkpointOverlayAllToolStripMenuItem";
+            this.checkpointOverlayAllToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkpointOverlayAllToolStripMenuItem.Text = "All cuboids";
+            this.checkpointOverlayAllToolStripMenuItem.Click += new System.EventHandler(this.checkpointOverlayAllToolStripMenuItem_Click);
+            //
+            // toolStripSeparator5
+            //
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(177, 6);
+            //
+            // checkpointOverlayLabelsToolStripMenuItem
+            //
+            this.checkpointOverlayLabelsToolStripMenuItem.Name = "checkpointOverlayLabelsToolStripMenuItem";
+            this.checkpointOverlayLabelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.checkpointOverlayLabelsToolStripMenuItem.Text = "Index labels";
+            this.checkpointOverlayLabelsToolStripMenuItem.Click += new System.EventHandler(this.checkpointOverlayLabelsToolStripMenuItem_Click);
             // 
             // button2
             // 
@@ -885,6 +944,13 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem tASToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hitWatcherToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jankpotToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem checkpointOverlayToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkpointOverlayOffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkpointOverlayCheckpointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkpointOverlayAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem checkpointOverlayLabelsToolStripMenuItem;
         private System.Windows.Forms.Button resetStylePoints;
         private System.Windows.Forms.Button unlockAllStylePoints;
         private System.Windows.Forms.Label label5;

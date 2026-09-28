@@ -462,6 +462,53 @@ namespace racman
                         break;
                 }
             }
+
+            RefreshCheckpointOverlayMenu();
+        }
+
+        private const uint CheckpointOverlayMagic = 0x43554231;
+
+        private void RefreshCheckpointOverlayMenu()
+        {
+            byte[] settings = game.api.ReadMemory(game.pid, rac1.addr.checkpointOverlay, 9);
+            bool running = BitConverter.ToUInt32(settings.Take(4).Reverse().ToArray(), 0) == CheckpointOverlayMagic;
+
+            checkpointOverlayToolStripMenuItem.Enabled = running;
+            checkpointOverlayToolStripMenuItem.Text = running ? "Checkpoint Overlay" : "Checkpoint Overlay (mod not running)";
+            checkpointOverlayOffToolStripMenuItem.Checked = running && settings[4] == 0;
+            checkpointOverlayCheckpointsToolStripMenuItem.Checked = running && settings[4] != 0 && settings[8] != 1;
+            checkpointOverlayAllToolStripMenuItem.Checked = running && settings[4] != 0 && settings[8] == 1;
+            checkpointOverlayLabelsToolStripMenuItem.Checked = running && settings[5] != 0;
+        }
+
+        private void SetCheckpointOverlay(bool enabled, byte mode)
+        {
+            game.api.WriteMemory(game.pid, rac1.addr.checkpointOverlay + 8, new byte[] { mode });
+            game.api.WriteMemory(game.pid, rac1.addr.checkpointOverlay + 4, new byte[] { (byte)(enabled ? 1 : 0) });
+        }
+
+        private void checkpointOverlayOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetCheckpointOverlay(false, 0);
+        }
+
+        private void checkpointOverlayCheckpointsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetCheckpointOverlay(true, 0);
+        }
+
+        private void checkpointOverlayAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetCheckpointOverlay(true, 1);
+        }
+
+        private void checkpointOverlayLabelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)sender;
+
+            item.Checked = !item.Checked;
+
+            game.api.WriteMemory(game.pid, rac1.addr.checkpointOverlay + 5, new byte[] { (byte)(item.Checked ? 1 : 0) });
         }
 
         private void updateHeroToolStripMenuItem_Click(object sender, EventArgs e)
