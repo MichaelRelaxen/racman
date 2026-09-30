@@ -334,6 +334,12 @@
     <Compile Include="Games\RAC1\HitWatchForm.Designer.cs">
       <DependentUpon>HitWatchForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Games\RAC1\GhostManagerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Games\RAC1\GhostManagerForm.Designer.cs">
+      <DependentUpon>GhostManagerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Games\RAC1\JankpotForm.cs">
       <SubType>Form</SubType>
     </Compile>

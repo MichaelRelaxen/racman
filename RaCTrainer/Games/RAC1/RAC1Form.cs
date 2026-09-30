@@ -633,6 +633,11 @@ namespace racman
             jf.Show();
         }
 
+        private void ghostsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new GhostManagerForm(game).Show();
+        }
+
         private void resetStylePoints_Click(object sender, EventArgs e)
         {
             //sps reset.

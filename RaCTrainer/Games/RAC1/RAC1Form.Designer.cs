@@ -74,6 +74,7 @@ namespace racman
             this.freecamCharacterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hitWatcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jankpotToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ghostsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.checkpointOverlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkpointOverlayOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -443,6 +444,7 @@ namespace racman
             this.freecamCharacterToolStripMenuItem,
             this.hitWatcherToolStripMenuItem,
             this.jankpotToolStripMenuItem,
+            this.ghostsToolStripMenuItem,
             this.toolStripSeparator4,
             this.checkpointOverlayToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
@@ -560,6 +562,13 @@ namespace racman
             this.checkpointOverlayLabelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.checkpointOverlayLabelsToolStripMenuItem.Text = "Index labels";
             this.checkpointOverlayLabelsToolStripMenuItem.Click += new System.EventHandler(this.checkpointOverlayLabelsToolStripMenuItem_Click);
+            // 
+            // ghostsToolStripMenuItem
+            // 
+            this.ghostsToolStripMenuItem.Name = "ghostsToolStripMenuItem";
+            this.ghostsToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.ghostsToolStripMenuItem.Text = "Ghosts";
+            this.ghostsToolStripMenuItem.Click += new System.EventHandler(this.ghostsToolStripMenuItem_Click);
             // 
             // button2
             // 
@@ -951,6 +960,7 @@ namespace racman
         private System.Windows.Forms.ToolStripMenuItem checkpointOverlayAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem checkpointOverlayLabelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ghostsToolStripMenuItem;
         private System.Windows.Forms.Button resetStylePoints;
         private System.Windows.Forms.Button unlockAllStylePoints;
         private System.Windows.Forms.Label label5;
