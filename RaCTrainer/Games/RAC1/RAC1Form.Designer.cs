@@ -444,8 +444,7 @@ namespace racman
             this.freecamCharacterToolStripMenuItem,
             this.hitWatcherToolStripMenuItem,
             this.jankpotToolStripMenuItem,
-            this.ghostsToolStripMenuItem});
-            this.jankpotToolStripMenuItem,
+            this.ghostsToolStripMenuItem,
             this.toolStripSeparator4,
             this.checkpointOverlayToolStripMenuItem});
             this.debugToolStripMenuItem.Name = "debugToolStripMenuItem";
