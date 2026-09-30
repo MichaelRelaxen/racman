@@ -85,6 +85,9 @@ namespace racman
         public uint mobyInstances => 0x0A390A0;
         public uint mobyInstancesEnd => 0x0A390A8;
 
+        // Checkpoint Overlay mod settings block: magic, enable (+4), labels (+5), mode (+8).
+        public uint checkpointOverlay => 0x7142A0;
+
         public uint drekCutscene => 0xFACC74;
 
         // Jankpot
