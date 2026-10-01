@@ -31,7 +31,7 @@ namespace racman
         const string NoSplitConfig = "ghostNoSplitPlanets";
         const string NoSplitLoadsConfig = "ghostNoSplitLoadPlanets";
 
-        enum Cmd : byte { Save = 1, Restart = 2, RunArm = 4, RunStop = 5, SavePrevious = 6 }
+        enum Cmd : byte { Save = 1, Restart = 2, RunArm = 4, RunStop = 5, SavePrevious = 6, NewAttempt = 7 }
         enum Mode : byte { Practice = 0, Race = 1, Off = 2, File = 3 }
 
         static readonly string[] FilePlanetNames = {
@@ -563,6 +563,11 @@ namespace racman
         private void savePreviousButton_Click(object sender, EventArgs e)
         {
             SendCommand(Cmd.SavePrevious, "Saving the attempt that ended in your last death or reload as that planet's practice ghost.");
+        }
+
+        private void newAttemptButton_Click(object sender, EventArgs e)
+        {
+            SendCommand(Cmd.NewAttempt, "Next death or reload starts a new attempt");
         }
 
         private void combosCheckBox_CheckedChanged(object sender, EventArgs e)

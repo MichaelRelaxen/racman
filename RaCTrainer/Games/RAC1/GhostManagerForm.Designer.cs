@@ -54,6 +54,7 @@ namespace racman
             this.restartButton = new System.Windows.Forms.Button();
             this.savePracticeButton = new System.Windows.Forms.Button();
             this.savePreviousButton = new System.Windows.Forms.Button();
+            this.newAttemptButton = new System.Windows.Forms.Button();
             this.settingsPanel = new System.Windows.Forms.GroupBox();
             this.settingsFlow = new System.Windows.Forms.FlowLayoutPanel();
             this.combosCheckBox = new System.Windows.Forms.CheckBox();
@@ -255,9 +256,9 @@ namespace racman
             //
             this.gamePanel.Controls.Add(this.gameFlow);
             this.gamePanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gamePanel.Location = new System.Drawing.Point(0, 426);
+            this.gamePanel.Location = new System.Drawing.Point(0, 397);
             this.gamePanel.Name = "gamePanel";
-            this.gamePanel.Size = new System.Drawing.Size(544, 56);
+            this.gamePanel.Size = new System.Drawing.Size(544, 85);
             this.gamePanel.TabIndex = 4;
             this.gamePanel.TabStop = false;
             this.gamePanel.Text = "In game";
@@ -269,10 +270,11 @@ namespace racman
             this.gameFlow.Controls.Add(this.restartButton);
             this.gameFlow.Controls.Add(this.savePracticeButton);
             this.gameFlow.Controls.Add(this.savePreviousButton);
+            this.gameFlow.Controls.Add(this.newAttemptButton);
             this.gameFlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gameFlow.Location = new System.Drawing.Point(3, 16);
             this.gameFlow.Name = "gameFlow";
-            this.gameFlow.Size = new System.Drawing.Size(538, 37);
+            this.gameFlow.Size = new System.Drawing.Size(538, 66);
             this.gameFlow.TabIndex = 0;
             //
             // armRunButton
@@ -319,6 +321,15 @@ namespace racman
             this.savePreviousButton.Text = "Save previous attempt";
             this.savePreviousButton.UseVisualStyleBackColor = true;
             this.savePreviousButton.Click += new System.EventHandler(this.savePreviousButton_Click);
+            //
+            // newAttemptButton
+            //
+            this.newAttemptButton.AutoSize = true;
+            this.newAttemptButton.Name = "newAttemptButton";
+            this.newAttemptButton.TabIndex = 5;
+            this.newAttemptButton.Text = "New attempt on next death/reload";
+            this.newAttemptButton.UseVisualStyleBackColor = true;
+            this.newAttemptButton.Click += new System.EventHandler(this.newAttemptButton_Click);
             //
             // settingsPanel
             //
@@ -432,6 +443,7 @@ namespace racman
         private System.Windows.Forms.Button restartButton;
         private System.Windows.Forms.Button savePracticeButton;
         private System.Windows.Forms.Button savePreviousButton;
+        private System.Windows.Forms.Button newAttemptButton;
         private System.Windows.Forms.GroupBox settingsPanel;
         private System.Windows.Forms.FlowLayoutPanel settingsFlow;
         private System.Windows.Forms.CheckBox combosCheckBox;

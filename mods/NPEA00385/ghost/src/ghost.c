@@ -84,12 +84,13 @@ typedef unsigned long long u64;
 
 #define FILE_MAGIC 0x52474831
 #define G_MAGIC    0x4748533A
+#define EXT_MAGIC  0x45585431
 
 enum { PH_IDLE, PH_RUNNING, PH_DONE };
 enum { RESUME_NONE, RESUME_DEATH, RESUME_LOAD };
 enum { MODE_PRACTICE, MODE_RACE, MODE_OFF, MODE_FILE };
 enum { RUN_IDLE, RUN_ARMED, RUN_RECORDING };
-enum { CMD_NONE, CMD_SAVE, CMD_RESTART, CMD_RUN_TOGGLE, CMD_RUN_ARM, CMD_RUN_STOP, CMD_SAVE_PREV };
+enum { CMD_NONE, CMD_SAVE, CMD_RESTART, CMD_RUN_TOGGLE, CMD_RUN_ARM, CMD_RUN_STOP, CMD_SAVE_PREV, CMD_NEW_ATTEMPT };
 
 typedef struct {
     u32 frame;
@@ -177,6 +178,11 @@ typedef struct {
     u32 find_wait;
 } Globals;
 
+typedef struct {
+    u32 magic;
+    u32 new_attempt;
+} Ext;
+
 static inline Globals* globals(void) {
     u32 p = 0x717290;
     __asm__("" : "+r"(p));
@@ -190,6 +196,8 @@ _Static_assert(PLAY_CHUNK > SETTLE_FRAMES && PLAY_CHUNK <= BUF_FRAMES, "prefetch
 #define REC_BUF  (G.scratch + SAVE_SIZE)
 #define PLAY_BUF (REC_BUF + BUF_SIZE)
 #define PREF_BUF (PLAY_BUF + BUF_SIZE)
+#define EXT      ((Ext*)(PREF_BUF + PLAY_CHUNK * sizeof(Frame)))
+_Static_assert(SAVE_SIZE + 2 * BUF_SIZE + PLAY_CHUNK * sizeof(Frame) + sizeof(Ext) <= SCRATCH_SIZE, "ext state overflows scratch");
 
 extern s32 game_call(u32 fn, u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern s32 lv2(u32 num, u32 a0, u32 a1, u32 a2, u32 a3);
@@ -432,8 +440,20 @@ static void drain(void) {
     close_fd(&G.old_play_fd[1]);
 }
 
+static Ext* ext(void) {
+    return G.scratch && EXT->magic == EXT_MAGIC ? EXT : 0;
+}
+
+static u32 take_new_attempt(void) {
+    Ext* x = ext();
+    u32 v = x && x->new_attempt;
+    if (x) x->new_attempt = 0;
+    return v;
+}
+
 static void on_reload(void) {
-    if (G.phase == PH_RUNNING && current_planet == G.planet && (G.load_keep || (G.nosplit >> G.planet & 1))) {
+    u32 fresh = take_new_attempt();
+    if (G.phase == PH_RUNNING && current_planet == G.planet && !fresh && (G.load_keep || (G.nosplit >> G.planet & 1))) {
         G.ghost = 0;
         G.spawns = 0;
         G.find_wait = 0;
@@ -535,6 +555,7 @@ static void open_pref(u32 planet) {
 
 static void leave_segment(u32 next_planet) {
     G.stage = 2;
+    take_new_attempt();
     end_segment();
     drain();
     close_fd(&G.play_fd);
@@ -662,6 +683,13 @@ static void run_stop(void) {
     }
 }
 
+static void new_attempt(void) {
+    Ext* x = ext();
+    if (!x) return;
+    x->new_attempt = 1;
+    message("Next death or reload starts a new attempt", 0);
+}
+
 static void command(u32 cmd) {
     switch (cmd) {
     case CMD_SAVE:       save_practice(0); break;
@@ -670,6 +698,7 @@ static void command(u32 cmd) {
     case CMD_RUN_TOGGLE: if (G.run_state == RUN_IDLE) run_arm(); else run_stop(); break;
     case CMD_RUN_ARM:    run_arm(); break;
     case CMD_RUN_STOP:   run_stop(); break;
+    case CMD_NEW_ATTEMPT: new_attempt(); break;
     }
 }
 
@@ -764,6 +793,10 @@ void ghost_tick(void) {
         lv2(SYS_MEMINFO, (u32)&G.mem_total, 0, 0, 0);
         if (lv2(SYS_MEMALLOC, SCRATCH_SIZE, MEM_PAGE_1M, (u32)&G.scratch, 0)) G.scratch = 0;
     }
+    if (G.scratch && EXT->magic != EXT_MAGIC) {
+        zero(EXT, sizeof(Ext));
+        EXT->magic = EXT_MAGIC;
+    }
 
     u32 t = time_since_reload;
     if (t < G.last_reload_time || current_planet != G.planet) on_reload();
@@ -771,7 +804,8 @@ void ghost_tick(void) {
 
     if (should_load) {
         if (G.phase != PH_RUNNING) return;
-        if (destination_planet == G.planet && (G.nosplit_loads >> G.planet & 1)) keep_through_load();
+        Ext* x = ext();
+        if (destination_planet == G.planet && (G.nosplit_loads >> G.planet & 1) && !(x && x->new_attempt)) keep_through_load();
         else leave_segment(destination_planet);
         return;
     }
