@@ -329,7 +329,7 @@ namespace racman
             this.settingsPanel.Size = new System.Drawing.Size(544, 56);
             this.settingsPanel.TabIndex = 6;
             this.settingsPanel.TabStop = false;
-            this.settingsPanel.Text = "Settings (saved, sent to the mod on every refresh)";
+            this.settingsPanel.Text = "Settings (refresh to send to PS3)";
             //
             // settingsFlow
             //
@@ -357,7 +357,7 @@ namespace racman
             this.noSplitButton.AutoSize = true;
             this.noSplitButton.Name = "noSplitButton";
             this.noSplitButton.TabIndex = 1;
-            this.noSplitButton.Text = "Keep recording through deaths...";
+            this.noSplitButton.Text = "Keep recording through deaths / reloads...";
             this.noSplitButton.UseVisualStyleBackColor = true;
             this.noSplitButton.Click += new System.EventHandler(this.noSplitButton_Click);
             //

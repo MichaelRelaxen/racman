@@ -79,12 +79,14 @@ typedef unsigned long long u64;
 #define FIND_RETRY    30
 #define TB_PER_FRAME  (79800000 / 60)
 #define MAX_GAP       300
+#define MAX_LOAD_GAP  (60 * 60)
 #define DEATH_HOLD    30
 
 #define FILE_MAGIC 0x52474831
-#define G_MAGIC    0x47485339
+#define G_MAGIC    0x4748533A
 
 enum { PH_IDLE, PH_RUNNING, PH_DONE };
+enum { RESUME_NONE, RESUME_DEATH, RESUME_LOAD };
 enum { MODE_PRACTICE, MODE_RACE, MODE_OFF, MODE_FILE };
 enum { RUN_IDLE, RUN_ARMED, RUN_RECORDING };
 enum { CMD_NONE, CMD_SAVE, CMD_RESTART, CMD_RUN_TOGGLE, CMD_RUN_ARM, CMD_RUN_STOP, CMD_SAVE_PREV };
@@ -126,6 +128,7 @@ typedef struct {
     u32 mem_avail;
     char play_name[32];
     u32 nosplit;
+    u32 nosplit_loads;
 
     u32 scratch;
     u32 snap_ok;
@@ -155,6 +158,7 @@ typedef struct {
     u32 seg_frames;
     u32 settled;
     u32 resumed;
+    u32 load_keep;
     u32 io_hold;
     u32 last_tb;
     u32 play_i;
@@ -429,13 +433,16 @@ static void drain(void) {
 }
 
 static void on_reload(void) {
-    if (G.phase == PH_RUNNING && current_planet == G.planet && (G.nosplit >> G.planet & 1)) {
+    if (G.phase == PH_RUNNING && current_planet == G.planet && (G.load_keep || (G.nosplit >> G.planet & 1))) {
         G.ghost = 0;
         G.spawns = 0;
+        G.find_wait = 0;
         G.last_cur_ptr = 0;
-        G.resumed = 1;
+        G.resumed = G.load_keep ? RESUME_LOAD : RESUME_DEATH;
+        G.load_keep = 0;
         return;
     }
+    G.load_keep = 0;
     if (G.phase == PH_RUNNING) {
         end_segment();
         if (G.play_fd) G.old_play_fd[G.old_play_fd[0] ? 1 : 0] = G.play_fd;
@@ -555,7 +562,8 @@ static void start_segment(void) {
     G.seg_no = G.seg_run ? G.run_seg++ : 0;
     G.seg_frames = 0;
     G.settled = 0;
-    G.resumed = 0;
+    G.resumed = RESUME_NONE;
+    G.load_keep = 0;
     G.io_hold = 0;
     G.rec_n = 0;
     G.rec_on = G.scratch != 0;
@@ -591,6 +599,13 @@ static void settle(void) {
     if (!G.play_fd && G.play_i >= G.play_n) open_playback(G.planet);
     if (!G.pref_n) open_pref(G.planet);
     G.stage = 0;
+}
+
+static void keep_through_load(void) {
+    if (G.load_keep) return;
+    G.load_keep = 1;
+    if (G.rec_fd && !G.pend_n) flush_rec();
+    remove_ghost();
 }
 
 static void restart_level(void) {
@@ -755,7 +770,9 @@ void ghost_tick(void) {
     G.last_reload_time = t;
 
     if (should_load) {
-        if (G.phase == PH_RUNNING) leave_segment(destination_planet);
+        if (G.phase != PH_RUNNING) return;
+        if (destination_planet == G.planet && (G.nosplit_loads >> G.planet & 1)) keep_through_load();
+        else leave_segment(destination_planet);
         return;
     }
     u32 r = player_moby;
@@ -774,9 +791,10 @@ void ghost_tick(void) {
     __asm__ volatile(".long 0x7C6C42E6\n\tmr %0, %%r3" : "=r"(tb) : : "r3");
     if (G.resumed) {
         u32 gap = (tb - G.last_tb) / TB_PER_FRAME;
-        if (gap > 1) G.seg_frames += gap > MAX_GAP ? MAX_GAP : gap - 1;
-        G.resumed = 0;
-        G.io_hold = DEATH_HOLD;
+        u32 cap = G.resumed == RESUME_LOAD ? MAX_LOAD_GAP : MAX_GAP;
+        if (gap > 1) G.seg_frames += gap > cap ? cap : gap - 1;
+        G.io_hold = G.resumed == RESUME_LOAD ? SETTLE_FRAMES : DEATH_HOLD;
+        G.resumed = RESUME_NONE;
     }
     G.last_tb = tb;
 

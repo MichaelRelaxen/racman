@@ -19,7 +19,7 @@ namespace racman
     public partial class GhostManagerForm : Form
     {
         const uint ApiAddr = 0x717290;
-        const uint ApiMagic = 0x47485339;
+        const uint ApiMagic = 0x4748533A;
         const uint CurrentPlanetAddr = 0x969C70;
         const uint FileMagic = 0x52474831;
         const int FileHeaderSize = 12;
@@ -29,6 +29,7 @@ namespace racman
         const string PreviousName = "ghost_prev.rgh";
         const string CombosConfig = "ghostCombos";
         const string NoSplitConfig = "ghostNoSplitPlanets";
+        const string NoSplitLoadsConfig = "ghostNoSplitLoadPlanets";
 
         enum Cmd : byte { Save = 1, Restart = 2, RunArm = 4, RunStop = 5, SavePrevious = 6 }
         enum Mode : byte { Practice = 0, Race = 1, Off = 2, File = 3 }
@@ -74,14 +75,15 @@ namespace racman
             combosCheckBox.CheckedChanged += combosCheckBox_CheckedChanged;
         }
 
-        uint NoSplitMask
+        static uint ReadMask(string key)
         {
-            get
-            {
-                uint.TryParse(func.GetConfigData("config.txt", NoSplitConfig), System.Globalization.NumberStyles.HexNumber, null, out uint mask);
-                return mask;
-            }
-            set { func.ChangeFileLines("config.txt", value.ToString("X8"), NoSplitConfig); }
+            uint.TryParse(func.GetConfigData("config.txt", key), System.Globalization.NumberStyles.HexNumber, null, out uint mask);
+            return mask;
+        }
+
+        static void WriteMask(string key, uint mask)
+        {
+            func.ChangeFileLines("config.txt", mask.ToString("X8"), key);
         }
 
         private async void GhostManagerForm_Load(object sender, EventArgs e)
@@ -206,7 +208,8 @@ namespace racman
         void PushSettings()
         {
             WriteApi(0x07, new[] { (byte)(combosCheckBox.Checked ? 0 : 1) });
-            WriteApi(0x40, BE32(NoSplitMask));
+            WriteApi(0x40, BE32(ReadMask(NoSplitConfig)));
+            WriteApi(0x44, BE32(ReadMask(NoSplitLoadsConfig)));
         }
 
         ApiState ReadApi()
@@ -570,27 +573,43 @@ namespace racman
 
         private void noSplitButton_Click(object sender, EventArgs e)
         {
-            using (var dialog = new Form { Text = "Keep recording through deaths", FormBorderStyle = FormBorderStyle.FixedDialog, MinimizeBox = false, MaximizeBox = false, StartPosition = FormStartPosition.CenterParent, ClientSize = new System.Drawing.Size(300, 420) })
+            using (var dialog = new Form { Text = "Keep recording through deaths and reloads", FormBorderStyle = FormBorderStyle.FixedDialog, MinimizeBox = false, MaximizeBox = false, StartPosition = FormStartPosition.CenterParent, ClientSize = new System.Drawing.Size(440, 460) })
             {
-                var info = new Label { Dock = DockStyle.Top, Height = 48, Padding = new Padding(6), Text = "ticked planets: a death doesn't start a new ghost. Unticked planets: split at every death." };
-                var list = new CheckedListBox { Dock = DockStyle.Fill, CheckOnClick = true, IntegralHeight = false };
+                var info = new Label { Dock = DockStyle.Top, Height = 30, Padding = new Padding(6), Text = "Ticked planets keep one ghost instead of splitting." };
+                var deaths = new CheckedListBox { Dock = DockStyle.Fill, CheckOnClick = true, IntegralHeight = false };
+                var loads = new CheckedListBox { Dock = DockStyle.Fill, CheckOnClick = true, IntegralHeight = false };
+                var grid = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 2 };
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                grid.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                grid.Controls.Add(new Label { Text = "Deaths", AutoSize = true, Padding = new Padding(0, 4, 0, 2) }, 0, 0);
+                grid.Controls.Add(new Label { Text = "Same-planet reloads", AutoSize = true, Padding = new Padding(0, 4, 0, 2) }, 1, 0);
+                grid.Controls.Add(deaths, 0, 1);
+                grid.Controls.Add(loads, 1, 1);
                 var buttons = new FlowLayoutPanel { Dock = DockStyle.Bottom, Height = 36, FlowDirection = FlowDirection.RightToLeft };
                 var ok = new Button { Text = "OK", DialogResult = DialogResult.OK };
                 var all = new Button { Text = "All", AutoSize = true };
                 var none = new Button { Text = "None", AutoSize = true };
-                all.Click += (o, a) => { for (int i = 0; i < list.Items.Count; i++) list.SetItemChecked(i, true); };
-                none.Click += (o, a) => { for (int i = 0; i < list.Items.Count; i++) list.SetItemChecked(i, false); };
+                all.Click += (o, a) => { foreach (var list in new[] { deaths, loads }) for (int i = 0; i < list.Items.Count; i++) list.SetItemChecked(i, true); };
+                none.Click += (o, a) => { foreach (var list in new[] { deaths, loads }) for (int i = 0; i < list.Items.Count; i++) list.SetItemChecked(i, false); };
                 buttons.Controls.AddRange(new Control[] { ok, none, all });
-                uint mask = NoSplitMask;
-                for (int i = 0; i < FilePlanetNames.Length; i++) list.Items.Add(PlanetName(i), (mask >> i & 1) != 0);
-                dialog.Controls.Add(list);
+                uint deathMask = ReadMask(NoSplitConfig), loadMask = ReadMask(NoSplitLoadsConfig);
+                for (int i = 0; i < FilePlanetNames.Length; i++)
+                {
+                    deaths.Items.Add(PlanetName(i), (deathMask >> i & 1) != 0);
+                    loads.Items.Add(PlanetName(i), (loadMask >> i & 1) != 0);
+                }
+                dialog.Controls.Add(grid);
                 dialog.Controls.Add(info);
                 dialog.Controls.Add(buttons);
                 dialog.AcceptButton = ok;
                 if (dialog.ShowDialog(this) != DialogResult.OK) return;
-                mask = 0;
-                foreach (int i in list.CheckedIndices) mask |= 1u << i;
-                NoSplitMask = mask;
+                deathMask = loadMask = 0;
+                foreach (int i in deaths.CheckedIndices) deathMask |= 1u << i;
+                foreach (int i in loads.CheckedIndices) loadMask |= 1u << i;
+                WriteMask(NoSplitConfig, deathMask);
+                WriteMask(NoSplitLoadsConfig, loadMask);
             }
             RefreshState();
         }
