@@ -1,7 +1,7 @@
 // RAC1 (NPEA00385) ghost: records Ratchet every gameplay frame to a file on the HDD
 // and plays a saved recording back as a clone of Ratchet
 //
-// Controls (in game, or the same commands from RacMAN via the cmd byte)
+// Controls (in game, or the same commands from RacMAN via the cmd byte
 //   L3+R3     save this attempt as the planet's practice ghost and restart the level
 //   L1+L3+R3  restart without saving
 //   R1+L3+R3  arm a run (starts on the next load) / cancel / stop the run
@@ -27,6 +27,10 @@ typedef unsigned long long u64;
 #define ui_screen          R32(0xA10708)
 #define time_since_reload  R32(0xA10710)
 #define savedata_base      R32(0xA10928)
+#define moby_first         R32(0xA390A0)
+#define moby_last          R32(0xA390A8)
+#define class_index(c)     R8(0xA354C0 + (c))
+#define class_ptr(i)       R32(0xA34C00 + (i) * 4)
 
 #define FN_SPAWN_MOBY         0xEFA28
 #define FN_PERFORM_LOAD       0xE8CA0
@@ -56,7 +60,7 @@ typedef unsigned long long u64;
 #define GHOST_ALPHA   0x40
 #define GHOST_UID     0x7FF0
 #define MAX_FRAMES    (60 * 60 * 30)
-#define MAX_SPAWNS    4
+#define MAX_SPAWNS    8
 #define RACE_LOOKAHEAD 16
 #define MSG_FRAMES    180
 #define MSG_COLOR     0x80F0F0F0
@@ -68,14 +72,22 @@ typedef unsigned long long u64;
 #define PLAY_CHUNK    256
 #define SETTLE_FRAMES 120
 #define MAX_PLANET    32
+#define MAX_PEND      4
+#define PREV_WINDOW   180
+#define INDEX_MASK    0xFFFFF
+#define CLASS_SHIFT   20
+#define FIND_RETRY    30
+#define TB_PER_FRAME  (79800000 / 60)
+#define MAX_GAP       300
+#define DEATH_HOLD    30
 
 #define FILE_MAGIC 0x52474831
-#define G_MAGIC    0x47485335
+#define G_MAGIC    0x47485339
 
 enum { PH_IDLE, PH_RUNNING, PH_DONE };
 enum { MODE_PRACTICE, MODE_RACE, MODE_OFF, MODE_FILE };
 enum { RUN_IDLE, RUN_ARMED, RUN_RECORDING };
-enum { CMD_NONE, CMD_SAVE, CMD_RESTART, CMD_RUN_TOGGLE, CMD_RUN_ARM, CMD_RUN_STOP };
+enum { CMD_NONE, CMD_SAVE, CMD_RESTART, CMD_RUN_TOGGLE, CMD_RUN_ARM, CMD_RUN_STOP, CMD_SAVE_PREV };
 
 typedef struct {
     u32 frame;
@@ -93,11 +105,19 @@ typedef struct {
 } FileHeader;
 
 typedef struct {
+    s32 fd;
+    u32 n;
+    u32 planet;
+    u32 run_id;
+    u32 seg;
+} Pending;
+
+typedef struct {
     u32 magic;
     u8 cmd;
     u8 mode;
     u8 run_state;
-    u8 pad;
+    u8 combos_off;
     u32 race_id;
     u32 run_id;
     u32 run_seg;
@@ -105,6 +125,7 @@ typedef struct {
     u32 mem_total;
     u32 mem_avail;
     char play_name[32];
+    u32 nosplit;
 
     u32 scratch;
     u32 snap_ok;
@@ -115,15 +136,29 @@ typedef struct {
     u32 planet;
     s32 rec_fd;
     s32 play_fd;
-    s32 old_rec_fd;
-    s32 old_play_fd;
+    s32 old_play_fd[2];
+    s32 pref_fd;
+    u32 pref_n;
+    u32 pref_seg;
+    u32 pref_planet;
+    u32 pref_mode;
+    u32 prev_ok;
+    u32 prev_planet;
+    u32 save_prev_req;
     u32 rec_on;
     u32 rec_n;
-    u32 old_n;
+    u32 seg_run;
+    u32 seg_no;
+    u32 npend;
+    u32 pend_n;
+    Pending pend[MAX_PEND];
     u32 seg_frames;
+    u32 settled;
+    u32 resumed;
+    u32 io_hold;
+    u32 last_tb;
     u32 play_i;
     u32 play_n;
-    u32 play_pos;
     u32 ghost;
     u32 spawns;
     u32 last_cur_ptr;
@@ -134,15 +169,23 @@ typedef struct {
     u64 nio;
     char path[64];
     char msg[48];
+    u32 ghost_class;
+    u32 find_wait;
 } Globals;
 
-#define G (*(Globals*)0x717290)
+static inline Globals* globals(void) {
+    u32 p = 0x717290;
+    __asm__("" : "+r"(p));
+    return (Globals*)p;
+}
+#define G (*globals())
 _Static_assert(sizeof(Globals) <= 0x717450 - 0x717290, "Globals overflow the dead OPD block");
-_Static_assert(SAVE_SIZE + 2 * BUF_SIZE <= SCRATCH_SIZE, "scratch overflow");
+_Static_assert(SAVE_SIZE + 2 * BUF_SIZE + PLAY_CHUNK * sizeof(Frame) <= SCRATCH_SIZE, "scratch overflow");
 _Static_assert(PLAY_CHUNK > SETTLE_FRAMES && PLAY_CHUNK <= BUF_FRAMES, "prefetch must outlast the settle delay");
 
 #define REC_BUF  (G.scratch + SAVE_SIZE)
 #define PLAY_BUF (REC_BUF + BUF_SIZE)
+#define PREF_BUF (PLAY_BUF + BUF_SIZE)
 
 extern s32 game_call(u32 fn, u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern s32 lv2(u32 num, u32 a0, u32 a1, u32 a2, u32 a3);
@@ -243,26 +286,28 @@ static void remove_ghost(void) {
     G.ghost = 0;
 }
 
-static u32 spawn_ghost(u32 ratchet) {
-    u32 g = game_call(FN_SPAWN_MOBY, 0, 0, 0, 0, 0);
+static u32 spawn_ghost(u32 src, u32 cls) {
+    u32 g = game_call(FN_SPAWN_MOBY, cls, 0, 0, 0, 0);
     if (!g) return 0;
 
-    u32 t0 = R32(g + 0x38), t1 = R32(g + 0x3C);
-    u32 keep[(0xC0 - 0x70) / 4];
-    copy(keep, (void*)(g + 0x70), sizeof(keep));
-
-    copy((void*)g, (void*)ratchet, 0x100);
-
-    R32(g + 0x38) = t0; R32(g + 0x3C) = t1;
-    copy((void*)(g + 0x70), keep, sizeof(keep));
+    if (src) {
+        u32 t0 = R32(g + 0x38), t1 = R32(g + 0x3C);
+        u32 keep[(0xC0 - 0x70) / 4];
+        copy(keep, (void*)(g + 0x70), sizeof(keep));
+        copy((void*)g, (void*)src, 0x100);
+        R32(g + 0x38) = t0; R32(g + 0x3C) = t1;
+        copy((void*)(g + 0x70), keep, sizeof(keep));
+    }
     R32(g + 0x64) = 0;
     R32(g + 0x74) = 0;
+    R16(g + 0x34) &= ~1;
     R8(g + 0x23) = GHOST_ALPHA;
     R16(g + 0xB2) = GHOST_UID;
     return g;
 }
 
 static u32 frame_ptr(u32 cls, u32 seq, u32 f) {
+    if (seq >= R8(cls + 0x08)) return 0;
     u32 sp = R32(cls + 0x48 + seq * 4);
     if (!sp || sp >= 0x80000000 || f >= R8(sp + 0x10)) return 0;
     return R32(sp + 0x1C + f * 4);
@@ -324,97 +369,181 @@ static void flush_rec(void) {
     G.rec_n = 0;
 }
 
-static void finish_old(void) {
-    write_frames(G.old_rec_fd, REC_BUF, G.old_n);
-    close_fd(&G.old_rec_fd);
-    close_fd(&G.old_play_fd);
-    if (G.old_n) {
-        G.rec_n -= G.old_n;
-        copy((void*)REC_BUF, (void*)(REC_BUF + G.old_n * sizeof(Frame)), G.rec_n * sizeof(Frame));
-        G.old_n = 0;
+static int open_rec(s32* fd, u32 planet, u32 run_id, u32 seg, const char* name) {
+    FileHeader h = { FILE_MAGIC, planet, sizeof(Frame) };
+    char* path = run_id ? run_path(run_id, seg, planet) : file_path(name);
+    G.err = lv2(SYS_OPEN, (u32)path, O_WRITE, (u32)fd, 0);
+    if (G.err) {
+        *fd = 0;
+        return 0;
     }
+    lv2(SYS_WRITE, *fd, (u32)&h, sizeof(h), (u32)&G.nio);
+    return 1;
+}
+
+static void end_segment(void) {
+    u32 keep = G.rec_on && (G.rec_fd || G.rec_n) && G.npend < MAX_PEND;
+    if (keep) {
+        Pending* p = &G.pend[G.npend++];
+        p->fd = G.rec_fd;
+        p->n = G.rec_n;
+        p->planet = G.planet;
+        p->run_id = G.seg_run;
+        p->seg = G.seg_no;
+        G.pend_n += G.rec_n;
+    }
+    G.rec_fd = 0;
+    G.rec_n = 0;
+    G.rec_on = 0;
+    G.rec_practice = 0;
+}
+
+static int rename_to(const char* from_name, u32 to_planet) {
+    u32 from[sizeof(G.path) / 4];
+    copy(from, file_path(from_name), sizeof(from));
+    if (to_planet < MAX_PLANET) practice_path(to_planet);
+    else file_path("ghost_prev.rgh");
+    lv2(SYS_UNLINK, (u32)G.path, 0, 0, 0);
+    return lv2(SYS_RENAME, (u32)from, (u32)G.path, 0, 0);
+}
+
+static void drain(void) {
+    u32 buf = REC_BUF;
+    for (u32 i = 0; i < G.npend; i++) {
+        Pending* p = &G.pend[i];
+        u32 tmp = p->fd && !p->run_id;
+        if (!p->fd) open_rec(&p->fd, p->planet, p->run_id, p->seg, "ghost_prev.rgh");
+        write_frames(p->fd, buf, p->n);
+        if (p->fd && !p->run_id) {
+            G.prev_ok = 1;
+            G.prev_planet = p->planet;
+        }
+        close_fd(&p->fd);
+        if (tmp && rename_to("ghost_tmp.rgh", MAX_PLANET)) G.prev_ok = 0;
+        buf += p->n * sizeof(Frame);
+    }
+    if (G.pend_n) copy((void*)REC_BUF, (void*)buf, G.rec_n * sizeof(Frame));
+    G.npend = G.pend_n = 0;
+    close_fd(&G.old_play_fd[0]);
+    close_fd(&G.old_play_fd[1]);
 }
 
 static void on_reload(void) {
-    if (G.phase == PH_RUNNING && !G.old_rec_fd && !G.old_play_fd) {
-        G.old_rec_fd = G.rec_fd;
-        G.old_play_fd = G.play_fd;
-        G.old_n = G.rec_fd ? G.rec_n : 0;
-        G.rec_n = G.old_n;
-        G.rec_fd = G.play_fd = 0;
+    if (G.phase == PH_RUNNING && current_planet == G.planet && (G.nosplit >> G.planet & 1)) {
+        G.ghost = 0;
+        G.spawns = 0;
+        G.last_cur_ptr = 0;
+        G.resumed = 1;
+        return;
+    }
+    if (G.phase == PH_RUNNING) {
+        end_segment();
+        if (G.play_fd) G.old_play_fd[G.old_play_fd[0] ? 1 : 0] = G.play_fd;
+        G.play_fd = 0;
         G.play_i = G.play_n = 0;
+        if (G.pref_n && G.pref_planet == current_planet && G.pref_mode == G.mode) {
+            copy((void*)PLAY_BUF, (void*)PREF_BUF, G.pref_n * sizeof(Frame));
+            G.play_fd = G.pref_fd;
+            G.play_n = G.pref_n;
+            G.race_seg = G.pref_seg;
+            G.pref_fd = 0;
+            G.pref_n = 0;
+        }
     }
     G.ghost = 0;
     G.spawns = 0;
+    G.find_wait = 0;
     G.last_cur_ptr = 0;
     G.planet = current_planet;
     G.phase = PH_IDLE;
 }
 
-static void fill_play(void) {
-    G.stage = 6;
+static u32 read_chunk(s32* fd, u32 buf) {
     G.nio = 0;
-    lv2(SYS_READ, G.play_fd, PLAY_BUF, PLAY_CHUNK * sizeof(Frame), (u32)&G.nio);
-    G.play_n = (u32)G.nio / sizeof(Frame);
-    G.play_i = 0;
-    if (G.play_n < PLAY_CHUNK) close_fd(&G.play_fd);
+    lv2(SYS_READ, *fd, buf, PLAY_CHUNK * sizeof(Frame), (u32)&G.nio);
+    u32 n = (u32)G.nio / sizeof(Frame);
+    if (n < PLAY_CHUNK) close_fd(fd);
+    return n;
 }
 
-static int open_ghost(const char* path, u32 planet) {
+static void fill_play(void) {
+    G.stage = 6;
+    G.play_n = read_chunk(&G.play_fd, PLAY_BUF);
+    G.play_i = 0;
+}
+
+static int open_ghost(const char* path, u32 planet, s32* fd) {
     FileHeader h;
-    if (lv2(SYS_OPEN, (u32)path, O_RDONLY, (u32)&G.play_fd, 0)) {
-        G.play_fd = 0;
+    if (lv2(SYS_OPEN, (u32)path, O_RDONLY, (u32)fd, 0)) {
+        *fd = 0;
         return 0;
     }
     G.nio = 0;
-    lv2(SYS_READ, G.play_fd, (u32)&h, sizeof(h), (u32)&G.nio);
+    lv2(SYS_READ, *fd, (u32)&h, sizeof(h), (u32)&G.nio);
     if (G.nio != sizeof(h) || h.magic != FILE_MAGIC || h.planet != planet || h.frame_size != sizeof(Frame)) {
-        close_fd(&G.play_fd);
+        close_fd(fd);
         return 0;
     }
     return 1;
 }
 
-static int open_race_segment(u32 planet) {
+static int open_race_segment(u32 planet, s32* fd, u32* seg) {
     u32 id = G.race_id ? G.race_id : G.race_last ? G.race_last : read_last_run_id();
     if (!id) return 0;
     for (u32 k = 0; k < RACE_LOOKAHEAD; k++) {
-        if (open_ghost(run_path(id, G.race_seg + k, planet), planet)) {
-            G.race_seg += k + 1;
+        if (open_ghost(run_path(id, *seg + k, planet), planet, fd)) {
+            *seg += k + 1;
             return 1;
         }
     }
     return 0;
 }
 
+static int open_source(u32 planet, s32* fd, u32* seg) {
+    if (!G.scratch || planet >= MAX_PLANET) return 0;
+    G.play_name[sizeof(G.play_name) - 1] = 0;
+    return G.mode == MODE_PRACTICE ? open_ghost(practice_path(planet), planet, fd)
+         : G.mode == MODE_RACE ? open_race_segment(planet, fd, seg)
+         : G.mode == MODE_FILE ? open_ghost(file_path(G.play_name), planet, fd) : 0;
+}
+
 static void open_playback(u32 planet) {
     G.stage = 3;
-    G.play_i = G.play_n = G.play_pos = 0;
-    if (!G.scratch || planet >= MAX_PLANET) return;
-    G.play_name[sizeof(G.play_name) - 1] = 0;
-    int ok = G.mode == MODE_PRACTICE ? open_ghost(practice_path(planet), planet)
-           : G.mode == MODE_RACE ? open_race_segment(planet)
-           : G.mode == MODE_FILE ? open_ghost(file_path(G.play_name), planet) : 0;
-    if (ok) fill_play();
+    G.play_i = G.play_n = 0;
+    if (open_source(planet, &G.play_fd, &G.race_seg)) fill_play();
+}
+
+static void open_pref(u32 planet) {
+    G.stage = 7;
+    close_fd(&G.pref_fd);
+    G.pref_n = 0;
+    u32 seg = G.race_seg;
+    if (open_source(planet, &G.pref_fd, &seg)) {
+        G.pref_n = read_chunk(&G.pref_fd, PREF_BUF);
+        G.pref_seg = seg;
+        G.pref_planet = planet;
+        G.pref_mode = G.mode;
+    }
 }
 
 static void leave_segment(u32 next_planet) {
     G.stage = 2;
-    finish_old();
-    flush_rec();
-    close_fd(&G.rec_fd);
+    end_segment();
+    drain();
     close_fd(&G.play_fd);
-    G.rec_on = 0;
-    G.rec_practice = 0;
     G.phase = PH_DONE;
     remove_ghost();
     open_playback(next_planet);
+    open_pref(next_planet);
     G.stage = 0;
 }
 
 static void snapshot_planet(void) {
     G.snap_ok = G.scratch && savedata_base;
-    if (G.snap_ok) game_call(FN_MEMCPY, G.scratch, savedata_base + 0x100000, SAVE_SIZE, 0, 0);
+    if (!G.snap_ok) return;
+    game_call(FN_MEMCPY, G.scratch, savedata_base + 0x100000, SAVE_SIZE, 0, 0);
+    if (R32(G.scratch + 0x10) == 0 && R32(G.scratch + 0x14) == 4) R32(G.scratch + 0x18) = current_planet;
+    else G.snap_ok = 0;
 }
 
 static void start_segment(void) {
@@ -422,30 +551,45 @@ static void start_segment(void) {
         G.run_state = RUN_RECORDING;
         message("Recording run ", G.run_id);
     }
+    G.seg_run = G.run_state == RUN_RECORDING ? G.run_id : 0;
+    G.seg_no = G.seg_run ? G.run_seg++ : 0;
     G.seg_frames = 0;
+    G.settled = 0;
+    G.resumed = 0;
+    G.io_hold = 0;
+    G.rec_n = 0;
     G.rec_on = G.scratch != 0;
     G.rec_practice = 0;
     snapshot_planet();
     G.phase = PH_RUNNING;
 }
 
+static void save_prev(void) {
+    G.save_prev_req = 0;
+    if (!G.prev_ok) {
+        message("No previous attempt to save", 0);
+        return;
+    }
+    G.prev_ok = 0;
+    G.err = rename_to("ghost_prev.rgh", G.prev_planet);
+    message(G.err ? "Save failed" : "Previous attempt saved", 0);
+    if (!G.err && G.prev_planet == G.planet) open_pref(G.planet);
+}
+
 static void settle(void) {
     G.stage = 4;
-    finish_old();
+    drain();
+    if (G.save_prev_req) save_prev();
     if (G.rec_on) {
-        FileHeader h = { FILE_MAGIC, G.planet, sizeof(Frame) };
-        char* path = G.run_state == RUN_RECORDING ? run_path(G.run_id, G.run_seg++, G.planet) : file_path("ghost_tmp.rgh");
-        G.err = lv2(SYS_OPEN, (u32)path, O_WRITE, (u32)&G.rec_fd, 0);
-        if (G.err) {
-            G.rec_fd = 0;
+        if (open_rec(&G.rec_fd, G.planet, G.seg_run, G.seg_no, "ghost_tmp.rgh")) {
+            G.rec_practice = !G.seg_run;
+        } else {
             G.rec_on = 0;
             G.rec_n = 0;
-        } else {
-            lv2(SYS_WRITE, G.rec_fd, (u32)&h, sizeof(h), (u32)&G.nio);
         }
-        G.rec_practice = G.rec_fd && G.run_state != RUN_RECORDING;
     }
     if (!G.play_fd && G.play_i >= G.play_n) open_playback(G.planet);
+    if (!G.pref_n) open_pref(G.planet);
     G.stage = 0;
 }
 
@@ -456,18 +600,20 @@ static void restart_level(void) {
     should_load = 1;
 }
 
-static void save_practice(void) {
+static void save_practice(u32 prev) {
     if (G.run_state == RUN_RECORDING) {
         message("Stop the run to save a practice ghost", 0);
         return;
     }
+    if (prev || G.seg_frames < PREV_WINDOW) {
+        if (G.seg_frames >= SETTLE_FRAMES) save_prev();
+        else G.save_prev_req = 1;
+        return;
+    }
     if (!G.rec_practice) return;
     leave_segment(MAX_PLANET);
-
-    u32 from[sizeof(G.path) / 4];
-    copy(from, file_path("ghost_tmp.rgh"), sizeof(from));
-    lv2(SYS_UNLINK, (u32)practice_path(G.planet), 0, 0, 0);
-    G.err = lv2(SYS_RENAME, (u32)from, (u32)G.path, 0, 0);
+    G.err = rename_to("ghost_prev.rgh", G.planet);
+    G.prev_ok = 0;
     message(G.err ? "Save failed" : "Practice ghost saved", 0);
     restart_level();
 }
@@ -493,9 +639,8 @@ static void run_stop(void) {
         G.run_state = RUN_IDLE;
         message("Run cancelled", 0);
     } else if (G.run_state == RUN_RECORDING) {
-        flush_rec();
-        close_fd(&G.rec_fd);
-        G.rec_on = 0;
+        end_segment();
+        if (G.seg_frames >= SETTLE_FRAMES) drain();
         G.race_last = 0;
         G.run_state = RUN_IDLE;
         message("Run saved ", G.run_id);
@@ -504,7 +649,8 @@ static void run_stop(void) {
 
 static void command(u32 cmd) {
     switch (cmd) {
-    case CMD_SAVE:       save_practice(); break;
+    case CMD_SAVE:       save_practice(0); break;
+    case CMD_SAVE_PREV:  save_practice(1); break;
     case CMD_RESTART:    restart_level(); break;
     case CMD_RUN_TOGGLE: if (G.run_state == RUN_IDLE) run_arm(); else run_stop(); break;
     case CMD_RUN_ARM:    run_arm(); break;
@@ -523,9 +669,9 @@ static u32 combo(void) {
 }
 
 static void record(u32 r, u32 io) {
-    if (G.rec_n >= BUF_FRAMES) return;
-    Frame* fr = (Frame*)(REC_BUF + G.rec_n++ * sizeof(Frame));
-    fr->frame = G.seg_frames;
+    if (G.pend_n + G.rec_n >= BUF_FRAMES) return;
+    Frame* fr = (Frame*)(REC_BUF + (G.pend_n + G.rec_n++) * sizeof(Frame));
+    fr->frame = G.seg_frames | (u32)R16(r + 0xA6) << CLASS_SHIFT;
     copy(fr->bsphere, (void*)(r + 0x00), 16);
     copy(fr->pos, (void*)(r + 0x10), 16);
     copy(fr->rot, (void*)(r + 0x40), 16);
@@ -541,32 +687,56 @@ static void record(u32 r, u32 io) {
     }
 }
 
+static u32 find_moby(u32 cls, u32 player) {
+    if (R16(player + 0xA6) == cls) return player;
+    u32 last = moby_last;
+    for (u32 m = moby_first; m && m <= last; m += 0x100)
+        if (R8(m + 0x20) < 0xFE && R16(m + 0xA6) == cls && R32(m + 0x24) && R16(m + 0xB2) != GHOST_UID) return m;
+    return 0;
+}
+
 static void playback(u32 r, u32 io) {
     Frame* fr = 0;
-    while (G.play_pos <= G.seg_frames) {
+    for (;;) {
         if (G.play_i >= G.play_n) {
             if (!G.play_fd) {
                 remove_ghost();
                 return;
             }
-            if (!io) return;
+            if (!io) break;
             fill_play();
             if (!G.play_n) {
                 remove_ghost();
                 return;
             }
         }
-        fr = (Frame*)(PLAY_BUF + G.play_i++ * sizeof(Frame));
-        G.play_pos++;
+        Frame* next = (Frame*)(PLAY_BUF + G.play_i * sizeof(Frame));
+        if ((next->frame & INDEX_MASK) > G.seg_frames) break;
+        fr = next;
+        G.play_i++;
     }
     if (!fr) return;
 
+    u32 cls = fr->frame >> CLASS_SHIFT;
+    if (ghost_alive() && G.ghost_class != cls) remove_ghost();
     if (!ghost_alive()) {
         G.ghost = 0;
-        if (G.spawns >= MAX_SPAWNS) return;
-        G.spawns++;
-        G.ghost = spawn_ghost(r);
+        u32 same = G.ghost_class == cls;
+        if (same && G.spawns >= MAX_SPAWNS) return;
+        if (G.find_wait) {
+            G.find_wait--;
+            return;
+        }
+        u32 src = find_moby(cls, r);
+        if (!src && !class_ptr(class_index(cls))) {
+            G.find_wait = FIND_RETRY;
+            return;
+        }
+        G.last_cur_ptr = 0;
+        G.ghost = spawn_ghost(src, cls);
         if (!G.ghost) return;
+        if (same) G.spawns++;
+        G.ghost_class = cls;
     }
     apply_frame(G.ghost, fr);
 }
@@ -593,15 +763,29 @@ void ghost_tick(void) {
 
     u32 cmd = G.cmd;
     G.cmd = CMD_NONE;
-    if (cmd == CMD_NONE) cmd = combo();
+    if (cmd == CMD_NONE && !G.combos_off) cmd = combo();
     command(cmd);
     if (should_load) return;
 
     if (G.phase == PH_IDLE) start_segment();
     if (G.phase != PH_RUNNING) return;
 
-    u32 io = G.seg_frames >= SETTLE_FRAMES;
-    if (G.seg_frames == SETTLE_FRAMES) settle();
+    u32 tb;
+    __asm__ volatile(".long 0x7C6C42E6\n\tmr %0, %%r3" : "=r"(tb) : : "r3");
+    if (G.resumed) {
+        u32 gap = (tb - G.last_tb) / TB_PER_FRAME;
+        if (gap > 1) G.seg_frames += gap > MAX_GAP ? MAX_GAP : gap - 1;
+        G.resumed = 0;
+        G.io_hold = DEATH_HOLD;
+    }
+    G.last_tb = tb;
+
+    if (G.io_hold) G.io_hold--;
+    u32 io = G.seg_frames >= SETTLE_FRAMES && !G.io_hold;
+    if (io && !G.settled) {
+        G.settled = 1;
+        settle();
+    }
     if (G.rec_on) record(r, io);
     if (G.scratch) playback(r, io);
     G.seg_frames++;

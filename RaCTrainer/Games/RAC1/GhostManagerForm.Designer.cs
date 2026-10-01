@@ -53,12 +53,19 @@ namespace racman
             this.stopRunButton = new System.Windows.Forms.Button();
             this.restartButton = new System.Windows.Forms.Button();
             this.savePracticeButton = new System.Windows.Forms.Button();
+            this.savePreviousButton = new System.Windows.Forms.Button();
+            this.settingsPanel = new System.Windows.Forms.GroupBox();
+            this.settingsFlow = new System.Windows.Forms.FlowLayoutPanel();
+            this.combosCheckBox = new System.Windows.Forms.CheckBox();
+            this.noSplitButton = new System.Windows.Forms.Button();
             this.statusLabel = new System.Windows.Forms.Label();
             this.filesPanel.SuspendLayout();
             this.filesFlow.SuspendLayout();
             this.ghostPanel.SuspendLayout();
             this.ghostFlow.SuspendLayout();
             this.gamePanel.SuspendLayout();
+            this.settingsPanel.SuspendLayout();
+            this.settingsFlow.SuspendLayout();
             this.gameFlow.SuspendLayout();
             this.SuspendLayout();
             //
@@ -261,6 +268,7 @@ namespace racman
             this.gameFlow.Controls.Add(this.stopRunButton);
             this.gameFlow.Controls.Add(this.restartButton);
             this.gameFlow.Controls.Add(this.savePracticeButton);
+            this.gameFlow.Controls.Add(this.savePreviousButton);
             this.gameFlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gameFlow.Location = new System.Drawing.Point(3, 16);
             this.gameFlow.Name = "gameFlow";
@@ -303,11 +311,61 @@ namespace racman
             this.savePracticeButton.UseVisualStyleBackColor = true;
             this.savePracticeButton.Click += new System.EventHandler(this.savePracticeButton_Click);
             //
+            // savePreviousButton
+            //
+            this.savePreviousButton.AutoSize = true;
+            this.savePreviousButton.Name = "savePreviousButton";
+            this.savePreviousButton.TabIndex = 4;
+            this.savePreviousButton.Text = "Save previous attempt";
+            this.savePreviousButton.UseVisualStyleBackColor = true;
+            this.savePreviousButton.Click += new System.EventHandler(this.savePreviousButton_Click);
+            //
+            // settingsPanel
+            //
+            this.settingsPanel.Controls.Add(this.settingsFlow);
+            this.settingsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.settingsPanel.Location = new System.Drawing.Point(0, 482);
+            this.settingsPanel.Name = "settingsPanel";
+            this.settingsPanel.Size = new System.Drawing.Size(544, 56);
+            this.settingsPanel.TabIndex = 6;
+            this.settingsPanel.TabStop = false;
+            this.settingsPanel.Text = "Settings (saved, sent to the mod on every refresh)";
+            //
+            // settingsFlow
+            //
+            this.settingsFlow.Controls.Add(this.combosCheckBox);
+            this.settingsFlow.Controls.Add(this.noSplitButton);
+            this.settingsFlow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.settingsFlow.Location = new System.Drawing.Point(3, 16);
+            this.settingsFlow.Name = "settingsFlow";
+            this.settingsFlow.Size = new System.Drawing.Size(538, 37);
+            this.settingsFlow.TabIndex = 0;
+            //
+            // combosCheckBox
+            //
+            this.combosCheckBox.AutoSize = true;
+            this.combosCheckBox.Checked = true;
+            this.combosCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.combosCheckBox.Margin = new System.Windows.Forms.Padding(6, 7, 3, 3);
+            this.combosCheckBox.Name = "combosCheckBox";
+            this.combosCheckBox.TabIndex = 0;
+            this.combosCheckBox.Text = "Controller combos (L3+R3 ...)";
+            this.combosCheckBox.UseVisualStyleBackColor = true;
+            //
+            // noSplitButton
+            //
+            this.noSplitButton.AutoSize = true;
+            this.noSplitButton.Name = "noSplitButton";
+            this.noSplitButton.TabIndex = 1;
+            this.noSplitButton.Text = "Keep recording through deaths...";
+            this.noSplitButton.UseVisualStyleBackColor = true;
+            this.noSplitButton.Click += new System.EventHandler(this.noSplitButton_Click);
+            //
             // statusLabel
             //
             this.statusLabel.AutoEllipsis = true;
             this.statusLabel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.statusLabel.Location = new System.Drawing.Point(0, 482);
+            this.statusLabel.Location = new System.Drawing.Point(0, 538);
             this.statusLabel.Name = "statusLabel";
             this.statusLabel.Padding = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.statusLabel.Size = new System.Drawing.Size(544, 22);
@@ -318,11 +376,12 @@ namespace racman
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(620, 504);
+            this.ClientSize = new System.Drawing.Size(620, 560);
             this.Controls.Add(this.fileList);
             this.Controls.Add(this.filesPanel);
             this.Controls.Add(this.ghostPanel);
             this.Controls.Add(this.gamePanel);
+            this.Controls.Add(this.settingsPanel);
             this.Controls.Add(this.stateLabel);
             this.Controls.Add(this.statusLabel);
             this.MinimumSize = new System.Drawing.Size(636, 400);
@@ -338,6 +397,9 @@ namespace racman
             this.gamePanel.ResumeLayout(false);
             this.gameFlow.ResumeLayout(false);
             this.gameFlow.PerformLayout();
+            this.settingsPanel.ResumeLayout(false);
+            this.settingsFlow.ResumeLayout(false);
+            this.settingsFlow.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -369,6 +431,11 @@ namespace racman
         private System.Windows.Forms.Button stopRunButton;
         private System.Windows.Forms.Button restartButton;
         private System.Windows.Forms.Button savePracticeButton;
+        private System.Windows.Forms.Button savePreviousButton;
+        private System.Windows.Forms.GroupBox settingsPanel;
+        private System.Windows.Forms.FlowLayoutPanel settingsFlow;
+        private System.Windows.Forms.CheckBox combosCheckBox;
+        private System.Windows.Forms.Button noSplitButton;
         private System.Windows.Forms.Label statusLabel;
     }
 }

@@ -92,11 +92,11 @@ game_call:
     std     %r0, 0xF0(%r1)
     std     %r2, 0xE8(%r1)
     mtctr   %r3
-    mr      %r3, %r4
-    mr      %r4, %r5
-    mr      %r5, %r6
-    mr      %r6, %r7
-    mr      %r7, %r8
+    clrldi  %r3, %r4, 32
+    clrldi  %r4, %r5, 32
+    clrldi  %r5, %r6, 32
+    clrldi  %r6, %r7, 32
+    clrldi  %r7, %r8, 32
     bctrl
     ld      %r2, 0xE8(%r1)
     ld      %r0, 0xF0(%r1)
@@ -109,11 +109,11 @@ lv2:
     stdu    %r1, -0x40(%r1)
     mflr    %r0
     std     %r0, 0x30(%r1)
-    mr      %r11, %r3
-    mr      %r3, %r4
-    mr      %r4, %r5
-    mr      %r5, %r6
-    mr      %r6, %r7
+    clrldi  %r11, %r3, 32
+    clrldi  %r3, %r4, 32
+    clrldi  %r4, %r5, 32
+    clrldi  %r5, %r6, 32
+    clrldi  %r6, %r7, 32
     li      %r7, 0
     li      %r8, 0
     sc
