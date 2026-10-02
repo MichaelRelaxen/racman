@@ -121,3 +121,32 @@ lv2:
     mtlr    %r0
     addi    %r1, %r1, 0x40
     blr
+
+    .global gfx_state
+gfx_state:
+    stdu    %r1, -0x100(%r1)
+    mflr    %r0
+    std     %r0, 0xF0(%r1)
+    std     %r2, 0xE8(%r1)
+    std     %r31, 0xE0(%r1)
+    clrldi  %r31, %r3, 32
+    clrldi  %r5, %r4, 32
+    mr      %r3, %r31
+    li      %r4, 0
+    lis     %r6, 0x10F
+    ld      %r6, -0x1D20(%r6)
+    lis     %r12, 0x4D
+    ori     %r12, %r12, 0x6E60
+    mtctr   %r12
+    bctrl
+    mr      %r3, %r31
+    lis     %r12, 0x4D
+    ori     %r12, %r12, 0x6948
+    mtctr   %r12
+    bctrl
+    ld      %r31, 0xE0(%r1)
+    ld      %r2, 0xE8(%r1)
+    ld      %r0, 0xF0(%r1)
+    mtlr    %r0
+    addi    %r1, %r1, 0x100
+    blr

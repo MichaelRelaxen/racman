@@ -38,7 +38,24 @@ typedef unsigned long long u64;
 #define FN_DRAW_CENTER_MEDIUM 0x70514
 #define FN_HUD_DEBUG_DRAW     0x7C978
 
+#define GCM_CTX      R32(0x8FA43C)
+#define TEX_TABLE    R32(0xA15F68)
+#define FONT_TEX     R32(R32(0xA1A7A0) + 4)
+#define GLYPHS       0x7368B0
+#define RS_BLEND     0x10EE318
+#define RS_FILTER    0x10EE2F0
+#define CAM_POS      0x951500
+#define W2S_MTX      0x951440
+#define M_COLOUR     0x00041948
+#define M_INVAL      0x400C1714
+#define M_BEGIN      0x00041808
+#define M_TEX        0x00041904
+#define M_POS2F      0x00081880
+#define PRIM_QUADS   8
+
 #define UI_NONE  0
+#define FLAG_COMBOS_OFF 1
+#define FLAG_SPEED      2
 #define BTN_L1   0x0004
 #define BTN_R1   0x0008
 #define BTN_L3   0x0200
@@ -81,10 +98,19 @@ typedef unsigned long long u64;
 #define MAX_GAP       300
 #define MAX_LOAD_GAP  (60 * 60)
 #define DEATH_HOLD    30
+#define MAX_STEP      4.0f
+#define SPEED_TIE     0.5f
+#define TEXT_SCALE    0.75f
+#define W_NEAR        0.01f
+#define COL_TEXT      0x80FFFFFF
+#define COL_FASTER    0x8040FF40
+#define COL_SLOWER    0x804040FF
+#define COL_GHOST     0x80FFC080
+#define COL_SHADOW    0x60000000
 
 #define FILE_MAGIC 0x52474831
 #define G_MAGIC    0x4748533A
-#define EXT_MAGIC  0x45585431
+#define EXT_MAGIC  0x45585432
 
 enum { PH_IDLE, PH_RUNNING, PH_DONE };
 enum { RESUME_NONE, RESUME_DEATH, RESUME_LOAD };
@@ -120,7 +146,7 @@ typedef struct {
     u8 cmd;
     u8 mode;
     u8 run_state;
-    u8 combos_off;
+    u8 flags;
     u32 race_id;
     u32 run_id;
     u32 run_seg;
@@ -179,8 +205,17 @@ typedef struct {
 } Globals;
 
 typedef struct {
+    u32 ok;
+    u32 idx;
+    float pos[2];
+    float speed;
+} Track;
+
+typedef struct {
     u32 magic;
     u32 new_attempt;
+    Track player;
+    Track ghost;
 } Ext;
 
 static inline Globals* globals(void) {
@@ -201,6 +236,7 @@ _Static_assert(SAVE_SIZE + 2 * BUF_SIZE + PLAY_CHUNK * sizeof(Frame) + sizeof(Ex
 
 extern s32 game_call(u32 fn, u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern s32 lv2(u32 num, u32 a0, u32 a1, u32 a2, u32 a3);
+extern void gfx_state(u32 ctx, u32 tex);
 
 static const char dir[] = "/dev_hdd0/game/NPEA00385/USRDIR/";
 
@@ -444,6 +480,30 @@ static Ext* ext(void) {
     return G.scratch && EXT->magic == EXT_MAGIC ? EXT : 0;
 }
 
+static float inv_sqrt(float f) {
+    union { float f; u32 u; } c = { f };
+    c.u = 0x5F3759DF - (c.u >> 1);
+    float y = c.f;
+    y = y * (1.5f - 0.5f * f * y * y);
+    return y * (1.5f - 0.5f * f * y * y);
+}
+
+static void track(Track* t, const volatile float* p, u32 idx) {
+    float dx = p[0] - t->pos[0], dy = p[1] - t->pos[1], d2 = dx * dx + dy * dy;
+    u32 n = idx - t->idx;
+    if (t->ok && n && n <= 8 && d2 < MAX_STEP * MAX_STEP * n * n)
+        t->speed = d2 > 0.0f ? d2 * inv_sqrt(d2) * 60.0f / n : 0.0f;
+    t->pos[0] = p[0];
+    t->pos[1] = p[1];
+    t->idx = idx;
+    t->ok = 1;
+}
+
+static void reset_tracks(void) {
+    Ext* x = ext();
+    if (x) x->player.ok = x->ghost.ok = 0;
+}
+
 static u32 take_new_attempt(void) {
     Ext* x = ext();
     u32 v = x && x->new_attempt;
@@ -453,6 +513,7 @@ static u32 take_new_attempt(void) {
 
 static void on_reload(void) {
     u32 fresh = take_new_attempt();
+    reset_tracks();
     if (G.phase == PH_RUNNING && current_planet == G.planet && !fresh && (G.load_keep || (G.nosplit >> G.planet & 1))) {
         G.ghost = 0;
         G.spawns = 0;
@@ -783,6 +844,8 @@ static void playback(u32 r, u32 io) {
         G.ghost_class = cls;
     }
     apply_frame(G.ghost, fr);
+    Ext* x = ext();
+    if (x) track(&x->ghost, (const volatile float*)fr->pos, fr->frame & INDEX_MASK);
 }
 
 void ghost_tick(void) {
@@ -814,7 +877,7 @@ void ghost_tick(void) {
 
     u32 cmd = G.cmd;
     G.cmd = CMD_NONE;
-    if (cmd == CMD_NONE && !G.combos_off) cmd = combo();
+    if (cmd == CMD_NONE && !(G.flags & FLAG_COMBOS_OFF)) cmd = combo();
     command(cmd);
     if (should_load) return;
 
@@ -838,14 +901,123 @@ void ghost_tick(void) {
         G.settled = 1;
         settle();
     }
+    Ext* x = ext();
+    if (x) track(&x->player, (const volatile float*)(r + 0x10), G.seg_frames);
     if (G.rec_on) record(r, io);
     if (G.scratch) playback(r, io);
     G.seg_frames++;
 }
 
+typedef struct { float x, y; } V2;
+
+static u32 fbits(float f) {
+    union { float f; u32 u; } c = { f };
+    return c.u;
+}
+
+static int project(u32 moby, V2* s) {
+    const volatile float* m = (const volatile float*)W2S_MTX;
+    const volatile float* b = (const volatile float*)moby;
+    float p[3] = { b[0] / 1024.0f, b[1] / 1024.0f, (b[2] + b[3]) / 1024.0f + 0.3f };
+    float d[3];
+    for (int i = 0; i < 3; i++) d[i] = p[i] - ((const volatile float*)CAM_POS)[i];
+    float v[4];
+    for (int j = 0; j < 4; j++) v[j] = d[0] * m[j] + d[1] * m[4 + j] + d[2] * m[8 + j] + m[12 + j];
+    if (v[3] < W_NEAR) return 0;
+    s->x = v[0] / v[3] - 2048.0f + 256.0f;
+    s->y = v[1] / v[3] - 2048.0f + 208.0f;
+    return s->x > 0.0f && s->x < 512.0f && s->y > 0.0f && s->y < 416.0f;
+}
+
+static void text(float x, float y, u32 colour, const char* str) {
+    u32 n = 0;
+    float w = 0.0f;
+    for (const char* c = str; *c; c++) {
+        u32 e = GLYPHS + (u8)*c * 4;
+        if (R8(e + 3)) {
+            n++;
+            w += (signed char)R8(e + 3);
+        }
+    }
+    u32 ctx = GCM_CTX;
+    if (!n || R32(ctx + 8) + (10 + n * 20) * 4 + 0x1000 > R32(ctx + 4)) return;
+    R32(RS_BLEND) = 0;
+    R32(RS_BLEND + 4) = 0x44;
+    R32(RS_FILTER) = 0;
+    R32(RS_FILTER + 4) = 0x4B;
+    gfx_state(ctx, TEX_TABLE + FONT_TEX * 0x24);
+    volatile u32* p = (volatile u32*)R32(ctx + 8);
+    *p++ = M_COLOUR;
+    *p++ = colour;
+    *p++ = M_INVAL;
+    *p++ = 0;
+    *p++ = 0;
+    *p++ = 0;
+    *p++ = M_BEGIN;
+    *p++ = PRIM_QUADS;
+    x -= w * TEXT_SCALE * 0.5f;
+    for (const char* c = str; *c; c++) {
+        u32 e = GLYPHS + (u8)*c * 4;
+        if (!R8(e + 3)) continue;
+        u32 u0 = R8(e) * 2, v0 = R8(e + 1) * 2, u1 = u0 + 32, v1 = v0 + 32;
+        float x0 = x, x1 = x + 16.0f * TEXT_SCALE;
+        float y0 = y + (signed char)R8(e + 2) * TEXT_SCALE, y1 = y0 + 16.0f * TEXT_SCALE;
+        u32 tex[4] = { v0 << 16 | u0, v1 << 16 | u0, v1 << 16 | u1, v0 << 16 | u1 };
+        float px[4] = { x0, x0, x1, x1 }, py[4] = { y0, y1, y1, y0 };
+        for (int k = 0; k < 4; k++) {
+            *p++ = M_TEX;
+            *p++ = tex[k];
+            *p++ = M_POS2F;
+            *p++ = fbits(px[k]);
+            *p++ = fbits(py[k]);
+        }
+        x += (signed char)R8(e + 3) * TEXT_SCALE;
+    }
+    *p++ = M_BEGIN;
+    *p++ = 0;
+    R32(ctx + 8) = (u32)p;
+}
+
+static void speed_label(V2 s, float speed, u32 colour) {
+    char buf[12];
+    u32 v = (u32)(speed * 100.0f + 0.5f);
+    char* q = buf;
+    u32 digits = 1;
+    for (u32 t = v / 100; t >= 10; t /= 10) digits++;
+    q = put_dec(q, v / 100, digits);
+    *q++ = '.';
+    q = put_dec(q, v % 100, 2);
+    *q = 0;
+    s.y -= 16.0f * TEXT_SCALE;
+    text(s.x + 0.6f, s.y + 0.6f, COL_SHADOW, buf);
+    text(s.x, s.y, colour, buf);
+}
+
+static void draw_speeds(void) {
+    Ext* x = ext();
+    u32 r = player_moby;
+    if (!x || !r || G.phase != PH_RUNNING || ui_screen != UI_NONE || should_load) return;
+    u32 g = ghost_alive() && x->ghost.ok ? G.ghost : 0;
+    V2 ps, gs;
+    u32 pv = x->player.ok && project(r, &ps), gv = g && project(g, &gs);
+    u32 colour = COL_TEXT;
+    if (g) {
+        float d = x->player.speed - x->ghost.speed;
+        colour = d > SPEED_TIE ? COL_FASTER : d < -SPEED_TIE ? COL_SLOWER : COL_TEXT;
+    }
+    if (pv && gv) {
+        float dx = gs.x - ps.x, dy = gs.y - ps.y;
+        if (dx > -32.0f && dx < 32.0f && dy > -12.0f && dy < 12.0f) gs.y = ps.y - 12.0f;
+    }
+    if (pv) speed_label(ps, x->player.speed, colour);
+    if (gv) speed_label(gs, x->ghost.speed, COL_GHOST);
+}
+
 void ghost_draw_hook(void) {
     game_call(FN_HUD_DEBUG_DRAW, 0, 0, 0, 0, 0);
-    if (G.magic != G_MAGIC || !G.msg_frames) return;
+    if (G.magic != G_MAGIC) return;
+    if (G.flags & FLAG_SPEED) draw_speeds();
+    if (!G.msg_frames) return;
     G.msg_frames--;
     game_call(FN_DRAW_CENTER_MEDIUM, 256, 80, MSG_COLOR, (u32)G.msg, (u32)-1);
 }

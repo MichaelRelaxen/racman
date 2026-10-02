@@ -28,6 +28,7 @@ namespace racman
         const string AttemptName = "ghost_tmp.rgh";
         const string PreviousName = "ghost_prev.rgh";
         const string CombosConfig = "ghostCombos";
+        const string SpeedConfig = "ghostSpeed";
         const string NoSplitConfig = "ghostNoSplitPlanets";
         const string NoSplitLoadsConfig = "ghostNoSplitLoadPlanets";
 
@@ -73,6 +74,8 @@ namespace racman
             InitializeComponent();
             combosCheckBox.Checked = func.GetConfigData("config.txt", CombosConfig) != "off";
             combosCheckBox.CheckedChanged += combosCheckBox_CheckedChanged;
+            speedCheckBox.Checked = func.GetConfigData("config.txt", SpeedConfig) == "on";
+            speedCheckBox.CheckedChanged += speedCheckBox_CheckedChanged;
         }
 
         static uint ReadMask(string key)
@@ -207,7 +210,7 @@ namespace racman
 
         void PushSettings()
         {
-            WriteApi(0x07, new[] { (byte)(combosCheckBox.Checked ? 0 : 1) });
+            WriteApi(0x07, new[] { (byte)((combosCheckBox.Checked ? 0 : 1) | (speedCheckBox.Checked ? 2 : 0)) });
             WriteApi(0x40, BE32(ReadMask(NoSplitConfig)));
             WriteApi(0x44, BE32(ReadMask(NoSplitLoadsConfig)));
         }
@@ -573,6 +576,12 @@ namespace racman
         private void combosCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             func.ChangeFileLines("config.txt", combosCheckBox.Checked ? "on" : "off", CombosConfig);
+            RefreshState();
+        }
+
+        private void speedCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            func.ChangeFileLines("config.txt", speedCheckBox.Checked ? "on" : "off", SpeedConfig);
             RefreshState();
         }
 

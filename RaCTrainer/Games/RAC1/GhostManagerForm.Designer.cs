@@ -58,6 +58,7 @@ namespace racman
             this.settingsPanel = new System.Windows.Forms.GroupBox();
             this.settingsFlow = new System.Windows.Forms.FlowLayoutPanel();
             this.combosCheckBox = new System.Windows.Forms.CheckBox();
+            this.speedCheckBox = new System.Windows.Forms.CheckBox();
             this.noSplitButton = new System.Windows.Forms.Button();
             this.statusLabel = new System.Windows.Forms.Label();
             this.filesPanel.SuspendLayout();
@@ -345,6 +346,7 @@ namespace racman
             // settingsFlow
             //
             this.settingsFlow.Controls.Add(this.combosCheckBox);
+            this.settingsFlow.Controls.Add(this.speedCheckBox);
             this.settingsFlow.Controls.Add(this.noSplitButton);
             this.settingsFlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.settingsFlow.Location = new System.Drawing.Point(3, 16);
@@ -362,6 +364,15 @@ namespace racman
             this.combosCheckBox.TabIndex = 0;
             this.combosCheckBox.Text = "Controller combos (L3+R3 ...)";
             this.combosCheckBox.UseVisualStyleBackColor = true;
+            //
+            // speedCheckBox
+            //
+            this.speedCheckBox.AutoSize = true;
+            this.speedCheckBox.Margin = new System.Windows.Forms.Padding(6, 7, 3, 3);
+            this.speedCheckBox.Name = "speedCheckBox";
+            this.speedCheckBox.TabIndex = 2;
+            this.speedCheckBox.Text = "Speed";
+            this.speedCheckBox.UseVisualStyleBackColor = true;
             //
             // noSplitButton
             //
@@ -447,6 +458,7 @@ namespace racman
         private System.Windows.Forms.GroupBox settingsPanel;
         private System.Windows.Forms.FlowLayoutPanel settingsFlow;
         private System.Windows.Forms.CheckBox combosCheckBox;
+        private System.Windows.Forms.CheckBox speedCheckBox;
         private System.Windows.Forms.Button noSplitButton;
         private System.Windows.Forms.Label statusLabel;
     }
