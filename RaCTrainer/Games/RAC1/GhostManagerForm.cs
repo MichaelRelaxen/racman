@@ -19,15 +19,20 @@ namespace racman
     public partial class GhostManagerForm : Form
     {
         const uint ApiAddr = 0x717290;
-        const uint ApiMagic = 0x47485335;
+        const uint ApiMagic = 0x4748533A;
         const uint CurrentPlanetAddr = 0x969C70;
         const uint FileMagic = 0x52474831;
         const int FileHeaderSize = 12;
         const int FrameSize = 108;
         const int PlayNameSize = 32;
         const string AttemptName = "ghost_tmp.rgh";
+        const string PreviousName = "ghost_prev.rgh";
+        const string CombosConfig = "ghostCombos";
+        const string SpeedConfig = "ghostSpeed";
+        const string NoSplitConfig = "ghostNoSplitPlanets";
+        const string NoSplitLoadsConfig = "ghostNoSplitLoadPlanets";
 
-        enum Cmd : byte { Save = 1, Restart = 2, RunArm = 4, RunStop = 5 }
+        enum Cmd : byte { Save = 1, Restart = 2, RunArm = 4, RunStop = 5, SavePrevious = 6, NewAttempt = 7 }
         enum Mode : byte { Practice = 0, Race = 1, Off = 2, File = 3 }
 
         static readonly string[] FilePlanetNames = {
@@ -67,6 +72,21 @@ namespace racman
         {
             this.game = game;
             InitializeComponent();
+            combosCheckBox.Checked = func.GetConfigData("config.txt", CombosConfig) != "off";
+            combosCheckBox.CheckedChanged += combosCheckBox_CheckedChanged;
+            speedCheckBox.Checked = func.GetConfigData("config.txt", SpeedConfig) == "on";
+            speedCheckBox.CheckedChanged += speedCheckBox_CheckedChanged;
+        }
+
+        static uint ReadMask(string key)
+        {
+            uint.TryParse(func.GetConfigData("config.txt", key), System.Globalization.NumberStyles.HexNumber, null, out uint mask);
+            return mask;
+        }
+
+        static void WriteMask(string key, uint mask)
+        {
+            func.ChangeFileLines("config.txt", mask.ToString("X8"), key);
         }
 
         private async void GhostManagerForm_Load(object sender, EventArgs e)
@@ -188,6 +208,13 @@ namespace racman
             WriteApi(0x05, new[] { (byte)mode });
         }
 
+        void PushSettings()
+        {
+            WriteApi(0x07, new[] { (byte)((combosCheckBox.Checked ? 0 : 1) | (speedCheckBox.Checked ? 2 : 0)) });
+            WriteApi(0x40, BE32(ReadMask(NoSplitConfig)));
+            WriteApi(0x44, BE32(ReadMask(NoSplitLoadsConfig)));
+        }
+
         ApiState ReadApi()
         {
             byte[] b = func.api.ReadMemory(AttachPS3Form.pid, ApiAddr, 0x20 + PlayNameSize);
@@ -201,6 +228,7 @@ namespace racman
             s.RaceSeg = BE32(b, 0x14);
             int end = Array.IndexOf(b, (byte)0, 0x20, PlayNameSize);
             s.PlayName = Encoding.ASCII.GetString(b, 0x20, (end < 0 ? 0x20 + PlayNameSize : end) - 0x20);
+            PushSettings();
             return s;
         }
 
@@ -252,7 +280,7 @@ namespace racman
 
         void SetBusy(bool busy, string text)
         {
-            filesPanel.Enabled = ghostPanel.Enabled = gamePanel.Enabled = !busy;
+            filesPanel.Enabled = ghostPanel.Enabled = gamePanel.Enabled = settingsPanel.Enabled = !busy;
             if (text != null) SetStatus(text);
             UseWaitCursor = busy;
         }
@@ -264,10 +292,10 @@ namespace racman
 
         void ShowState()
         {
-            ghostPanel.Enabled = gamePanel.Enabled = state.Running;
+            ghostPanel.Enabled = gamePanel.Enabled = settingsPanel.Enabled = state.Running;
             if (!state.Running)
             {
-                stateLabel.Text = "Ghost mod v0.4 isn't running. Apply it in the Mod Loader, then Refresh.";
+                stateLabel.Text = "Ghost mod v0.5 isn't running. Apply it in the Mod Loader, then Refresh.";
                 return;
             }
 
@@ -296,8 +324,8 @@ namespace racman
             fileList.Groups.Clear();
 
             var practice = fileList.Groups.Add("practice", "Practice ghosts");
-            foreach (var f in files.Where(f => f.RunId == 0).OrderBy(f => f.Name == AttemptName).ThenBy(f => f.Planet).ThenBy(f => f.Name))
-                AddItem(f, practice, f.Name == AttemptName ? "Current attempt" : PlanetName(f.Planet));
+            foreach (var f in files.Where(f => f.RunId == 0).OrderBy(f => f.Name == AttemptName || f.Name == PreviousName).ThenBy(f => f.Planet).ThenBy(f => f.Name))
+                AddItem(f, practice, f.Name == AttemptName ? "Current attempt" : f.Name == PreviousName ? "Previous attempt" : PlanetName(f.Planet));
 
             foreach (var run in files.Where(f => f.RunId != 0).GroupBy(f => f.RunId).OrderByDescending(g => g.Key))
             {
@@ -332,7 +360,7 @@ namespace racman
 
         bool InUse(GhostFile f)
         {
-            return f.Name == AttemptName || (state.Running && state.RunState == 2 && f.RunId == state.RunId);
+            return f.Name == AttemptName || f.Name == PreviousName || (state.Running && state.RunState == 2 && f.RunId == state.RunId);
         }
 
         private async void refreshButton_Click(object sender, EventArgs e)
@@ -533,6 +561,83 @@ namespace racman
         private void savePracticeButton_Click(object sender, EventArgs e)
         {
             SendCommand(Cmd.Save, "Saving this attempt as the planet's practice ghost and restarting (once unpaused).");
+        }
+
+        private void savePreviousButton_Click(object sender, EventArgs e)
+        {
+            SendCommand(Cmd.SavePrevious, "Saving the attempt that ended in your last death or reload as that planet's practice ghost.");
+        }
+
+        private void newAttemptButton_Click(object sender, EventArgs e)
+        {
+            SendCommand(Cmd.NewAttempt, "Next death or reload starts a new attempt");
+        }
+
+        private void combosCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            func.ChangeFileLines("config.txt", combosCheckBox.Checked ? "on" : "off", CombosConfig);
+            RefreshState();
+        }
+
+        private void speedCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            func.ChangeFileLines("config.txt", speedCheckBox.Checked ? "on" : "off", SpeedConfig);
+            RefreshState();
+        }
+
+        private void helpButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "Every planet plays its practice ghost while the Ghost patch is loaded.\n\n" +
+                "L3 + R3: save attempt as practice ghost, restart\n" +
+                "L3 + R3 within 3s of a death/reload: save the lost attempt\n" +
+                "L1 + L3 + R3: restart without saving\n" +
+                "R1 + L3 + R3: start run (on next load) / stop run\n\n" +
+                "Refresh to see new files. Download/Upload to share ghosts.",
+                "Ghost help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void noSplitButton_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new Form { Text = "Keep recording through deaths and reloads", FormBorderStyle = FormBorderStyle.FixedDialog, MinimizeBox = false, MaximizeBox = false, StartPosition = FormStartPosition.CenterParent, ClientSize = new System.Drawing.Size(440, 460) })
+            {
+                var info = new Label { Dock = DockStyle.Top, Height = 30, Padding = new Padding(6), Text = "Ticked planets keep one ghost instead of splitting." };
+                var deaths = new CheckedListBox { Dock = DockStyle.Fill, CheckOnClick = true, IntegralHeight = false };
+                var loads = new CheckedListBox { Dock = DockStyle.Fill, CheckOnClick = true, IntegralHeight = false };
+                var grid = new TableLayoutPanel { Dock = DockStyle.Fill, ColumnCount = 2, RowCount = 2 };
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                grid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50));
+                grid.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+                grid.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
+                grid.Controls.Add(new Label { Text = "Deaths", AutoSize = true, Padding = new Padding(0, 4, 0, 2) }, 0, 0);
+                grid.Controls.Add(new Label { Text = "Same-planet reloads", AutoSize = true, Padding = new Padding(0, 4, 0, 2) }, 1, 0);
+                grid.Controls.Add(deaths, 0, 1);
+                grid.Controls.Add(loads, 1, 1);
+                var buttons = new FlowLayoutPanel { Dock = DockStyle.Bottom, Height = 36, FlowDirection = FlowDirection.RightToLeft };
+                var ok = new Button { Text = "OK", DialogResult = DialogResult.OK };
+                var all = new Button { Text = "All", AutoSize = true };
+                var none = new Button { Text = "None", AutoSize = true };
+                all.Click += (o, a) => { foreach (var list in new[] { deaths, loads }) for (int i = 0; i < list.Items.Count; i++) list.SetItemChecked(i, true); };
+                none.Click += (o, a) => { foreach (var list in new[] { deaths, loads }) for (int i = 0; i < list.Items.Count; i++) list.SetItemChecked(i, false); };
+                buttons.Controls.AddRange(new Control[] { ok, none, all });
+                uint deathMask = ReadMask(NoSplitConfig), loadMask = ReadMask(NoSplitLoadsConfig);
+                for (int i = 0; i < FilePlanetNames.Length; i++)
+                {
+                    deaths.Items.Add(PlanetName(i), (deathMask >> i & 1) != 0);
+                    loads.Items.Add(PlanetName(i), (loadMask >> i & 1) != 0);
+                }
+                dialog.Controls.Add(grid);
+                dialog.Controls.Add(info);
+                dialog.Controls.Add(buttons);
+                dialog.AcceptButton = ok;
+                if (dialog.ShowDialog(this) != DialogResult.OK) return;
+                deathMask = loadMask = 0;
+                foreach (int i in deaths.CheckedIndices) deathMask |= 1u << i;
+                foreach (int i in loads.CheckedIndices) loadMask |= 1u << i;
+                WriteMask(NoSplitConfig, deathMask);
+                WriteMask(NoSplitLoadsConfig, loadMask);
+            }
+            RefreshState();
         }
     }
 }
