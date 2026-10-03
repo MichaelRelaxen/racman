@@ -1,5 +1,6 @@
 OUTPUT_FORMAT("elf32-powerpc")
 ENTRY(_start)
+INCLUDE game.ld
 
 SECTIONS {
     . = 0x57DD40;
@@ -19,6 +20,9 @@ SECTIONS {
 
     .data : { *(.data .data.* .sdata .sdata.* .bss .bss.* .sbss .sbss.* COMMON) }
     ASSERT(SIZEOF(.data) == 0, "no writable data allowed, use the Globals block")
+
+    .ghost_globals 0x717290 (NOLOAD) : { *(.ghost_globals) }
+    ASSERT(SIZEOF(.ghost_globals) <= 0x717450 - 0x717290, "Globals overflow the dead OPD block (0x717290-0x717450)")
 
     /DISCARD/ : { *(.comment) *(.note*) *(.eh_frame*) }
 }

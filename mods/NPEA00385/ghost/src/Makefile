@@ -18,7 +18,7 @@ obj/%.o: %.c
 obj/%.o: %.s
 	@mkdir -p obj && $(CC) $(ASFLAGS) -c $< -o $@
 
-obj/ghost.elf: obj/entry.o obj/ghost.o link.ld
+obj/ghost.elf: obj/entry.o obj/ghost.o link.ld game.ld
 	$(LD) -T link.ld -o $@ obj/entry.o obj/ghost.o -Map=obj/ghost.map
 
 $(OUT): obj/ghost.elf
