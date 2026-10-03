@@ -29,6 +29,7 @@ namespace racman
         private void InitializeComponent()
         {
             this.stateLabel = new System.Windows.Forms.Label();
+            this.helpButton = new System.Windows.Forms.Button();
             this.fileList = new System.Windows.Forms.ListView();
             this.ghostColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lengthColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -73,13 +74,25 @@ namespace racman
             //
             // stateLabel
             //
+            this.stateLabel.Controls.Add(this.helpButton);
             this.stateLabel.Dock = System.Windows.Forms.DockStyle.Top;
             this.stateLabel.Location = new System.Drawing.Point(0, 0);
             this.stateLabel.Name = "stateLabel";
-            this.stateLabel.Padding = new System.Windows.Forms.Padding(6, 6, 6, 0);
+            this.stateLabel.Padding = new System.Windows.Forms.Padding(6, 6, 36, 0);
             this.stateLabel.Size = new System.Drawing.Size(544, 44);
             this.stateLabel.TabIndex = 0;
             this.stateLabel.Text = "Reading the ghost mod...";
+            //
+            // helpButton
+            //
+            this.helpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.helpButton.Location = new System.Drawing.Point(514, 6);
+            this.helpButton.Name = "helpButton";
+            this.helpButton.Size = new System.Drawing.Size(24, 23);
+            this.helpButton.TabIndex = 6;
+            this.helpButton.Text = "i";
+            this.helpButton.UseVisualStyleBackColor = true;
+            this.helpButton.Click += new System.EventHandler(this.helpButton_Click);
             //
             // fileList
             //
@@ -429,6 +442,7 @@ namespace racman
         #endregion
 
         private System.Windows.Forms.Label stateLabel;
+        private System.Windows.Forms.Button helpButton;
         private System.Windows.Forms.ListView fileList;
         private System.Windows.Forms.ColumnHeader ghostColumn;
         private System.Windows.Forms.ColumnHeader lengthColumn;

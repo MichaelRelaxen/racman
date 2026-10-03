@@ -585,6 +585,18 @@ namespace racman
             RefreshState();
         }
 
+        private void helpButton_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "Every planet plays its practice ghost while the Ghost patch is loaded.\n\n" +
+                "L3 + R3: save attempt as practice ghost, restart\n" +
+                "L3 + R3 within 3s of a death/reload: save the lost attempt\n" +
+                "L1 + L3 + R3: restart without saving\n" +
+                "R1 + L3 + R3: start run (on next load) / stop run\n\n" +
+                "Refresh to see new files. Download/Upload to share ghosts.",
+                "Ghost help", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private void noSplitButton_Click(object sender, EventArgs e)
         {
             using (var dialog = new Form { Text = "Keep recording through deaths and reloads", FormBorderStyle = FormBorderStyle.FixedDialog, MinimizeBox = false, MaximizeBox = false, StartPosition = FormStartPosition.CenterParent, ClientSize = new System.Drawing.Size(440, 460) })
