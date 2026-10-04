@@ -1,10 +1,12 @@
 #- name: Ghost
 #- author: MistaOmega
 #- href:
-#- version: 0.4
-#- description: Records every level as a ghost and plays one back as a translucent Ratchet. In game: L3+R3 saves the attempt as the planet's practice ghost and restarts, L1+L3+R3 restarts without saving, R1+L3+R3 arms/stops a run. Pick practice ghosts, runs or any ghost file to play in RacMAN's Debug > Ghosts window.
+#- version: 0.7
+#- description: Records every level as a ghost and plays one back as a translucent Ratchet. Go to Debug > Ghosts to see a related UI
 
 0x57DD40: ghost.bin
+
+0x4C0FD8: ghost2.bin
 
 0x166F98: 0x4857DD42
 
