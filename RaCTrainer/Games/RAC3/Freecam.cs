@@ -18,6 +18,7 @@ namespace racman.RAC3
         private static IPS3API api = func.api;
         public static int controlSubID;
         public static int lookAtSubID;
+        public static int lerpSubId;
         public Timer timer = new Timer();
 
         // Offsets from the mod.
@@ -34,6 +35,16 @@ namespace racman.RAC3
         uint moveFriction = 0x00d9f028;
 
         uint savePosOffset = 0x00d9f02c;
+
+        // Lerp!!
+        uint lerping = 0xd9f018;
+        uint saveLerpPoint = 0xd9f078;
+        uint tSpeed = 0xd9f07c;
+        uint lerpCount = 0xd9f080;
+
+        uint cycleLookAt = 0xd9f084;
+
+        float lerpConst = 10000.0f;
         public Freecam()
         {
             InitializeComponent();
@@ -47,6 +58,7 @@ namespace racman.RAC3
                 mftracker.Value = SetupTracker(moveFriction, 20.0f);
                 tstracker.Value = SetupTracker(rotationSpeed, 100.0f);
                 tftracker.Value = SetupTracker(rotationFriction, 20.0f);
+                lerpTracker.Value = SetupTracker(tSpeed, lerpConst);
             }
             catch { }
 
@@ -71,6 +83,7 @@ namespace racman.RAC3
 
         string controllingString = "Controlling";
         string lookAtString = "Looking at: ";
+        string lerpCountString = "Saved points: ";
         public void SetupUpdateLabels()
         {
             
@@ -94,11 +107,20 @@ namespace racman.RAC3
                     lookAtString = "Looking at: Ratchet";
             });
             lookingat.Text = lookAtString;
+
+            lerpSubId = api.SubMemory(pid, lerpCount, 4, IPS3API.MemoryCondition.Any, (value) => {
+
+                lerpCountString = $"Saved points: {BitConverter.ToUInt32(value, 0)}"; 
+            });
+            savedPoints.Text = lerpCountString;
+
         }
+        // THIS IS THE METHOD THAT ACTUALLY UPDATES THE LABEL. THE SHIT ABOVE WITH SETTING .TEXT IS A RED HERRING. DONT TRUST.
         public void updatelabel(object sender, EventArgs e)
         {
             controlling.Text = controllingString;
             lookingat.Text = lookAtString;
+            savedPoints.Text = lerpCountString;
         }
 
         private void loadbutton_Click(object sender, EventArgs e)
@@ -183,6 +205,22 @@ namespace racman.RAC3
             tslabel.Text = $"Turn speed: {ba}";
             api.WriteMemory(AttachPS3Form.pid, rotationSpeed, BitConverter.GetBytes(ba).Reverse().ToArray());
         }
+        private void updateLerpTracker() {
+            float ba;
+            ba = lerpTracker.Value / lerpConst; // 0.001f
+            lerpSpeedLabel.Text = $"Lerp speed: {ba}";
+            api.WriteMemory(AttachPS3Form.pid, tSpeed, BitConverter.GetBytes(ba).Reverse().ToArray());
+        }
+        private void lerpTracker_ValueChanged(object sender, EventArgs e) {
+            /*
+            float ba;
+            ba = lerpTracker.Value / lerpConst; // 0.001f
+            lerpSpeedLabel.Text = $"Lerp speed: {ba}";
+            api.WriteMemory(AttachPS3Form.pid, tSpeed, BitConverter.GetBytes(ba).Reverse().ToArray());
+        */
+            updateLerpTracker();
+        }
+
 
         private void savebox_Click(object sender, EventArgs e)
         {
@@ -223,6 +261,43 @@ namespace racman.RAC3
             bool enabled = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, lockWithoutStrafe));
             enabled = !enabled;
             api.WriteMemory(AttachPS3Form.pid, lockWithoutStrafe, Convert.ToUInt32(enabled));
+        }
+
+        private void saveLerpButton_Click(object sender, EventArgs e) {
+            api.WriteMemory(AttachPS3Form.pid, saveLerpPoint, 1);
+        }
+
+        private void lerpButton_Click(object sender, EventArgs e) {
+            bool enabled = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, lerping));
+            enabled = !enabled;
+            api.WriteMemory(AttachPS3Form.pid, lerping, Convert.ToUInt32(enabled));
+        }
+
+        private void resetLerpButton_Click(object sender, EventArgs e) {
+            api.WriteMemory(AttachPS3Form.pid, lerpCount, 0);
+        }
+
+        private void cycleLookAtButton_Click(object sender, EventArgs e) {
+            api.WriteMemory(AttachPS3Form.pid, cycleLookAt, 1);
+        }
+
+        private void downLerpConst_Click(object sender, EventArgs e) {
+            lerpConst = lerpConst * 2;
+            updateLerpTracker();
+        }
+
+        private void defaultLerpConst_Click(object sender, EventArgs e) {
+            lerpConst = 10000.0f;
+            updateLerpTracker();
+        }
+
+        private void upLerpConst_Click(object sender, EventArgs e) {
+            lerpConst = lerpConst / 2;
+            updateLerpTracker();
+        }
+
+        private void Freecam_Load(object sender, EventArgs e) {
+
         }
     }
 }
