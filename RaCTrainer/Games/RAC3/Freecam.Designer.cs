@@ -278,7 +278,7 @@ namespace racman.RAC3
             this.lerpButton.Name = "lerpButton";
             this.lerpButton.Size = new System.Drawing.Size(73, 30);
             this.lerpButton.TabIndex = 20;
-            this.lerpButton.Text = "Toggle";
+            this.lerpButton.Text = "LERP";
             this.lerpButton.UseVisualStyleBackColor = false;
             this.lerpButton.Click += new System.EventHandler(this.lerpButton_Click);
             // 
