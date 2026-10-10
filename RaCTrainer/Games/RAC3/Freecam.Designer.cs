@@ -56,11 +56,15 @@ namespace racman.RAC3
             this.upLerpConst = new System.Windows.Forms.Button();
             this.downLerpConst = new System.Windows.Forms.Button();
             this.defaultLerpConst = new System.Windows.Forms.Button();
+            this.fovSlider = new System.Windows.Forms.TrackBar();
+            this.fovLabel = new System.Windows.Forms.Label();
+            this.toggleUiButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mftracker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mstracker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tstracker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tftracker)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lerpTracker)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fovSlider)).BeginInit();
             this.SuspendLayout();
             // 
             // mftracker
@@ -184,9 +188,9 @@ namespace racman.RAC3
             this.enablebutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.enablebutton.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.enablebutton.ForeColor = System.Drawing.Color.Black;
-            this.enablebutton.Location = new System.Drawing.Point(459, 154);
+            this.enablebutton.Location = new System.Drawing.Point(459, 230);
             this.enablebutton.Name = "enablebutton";
-            this.enablebutton.Size = new System.Drawing.Size(203, 143);
+            this.enablebutton.Size = new System.Drawing.Size(203, 67);
             this.enablebutton.TabIndex = 11;
             this.enablebutton.Text = "TOGGLE";
             this.enablebutton.UseVisualStyleBackColor = false;
@@ -239,9 +243,10 @@ namespace racman.RAC3
             // 
             // lockbutton
             // 
-            this.lockbutton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(52)))), ((int)(((byte)(10)))));
+            this.lockbutton.BackColor = System.Drawing.Color.Maroon;
             this.lockbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lockbutton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(219)))), ((int)(((byte)(166)))), ((int)(((byte)(77)))));
+            this.lockbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lockbutton.ForeColor = System.Drawing.Color.Black;
             this.lockbutton.Location = new System.Drawing.Point(237, 230);
             this.lockbutton.Name = "lockbutton";
             this.lockbutton.Size = new System.Drawing.Size(210, 30);
@@ -265,9 +270,10 @@ namespace racman.RAC3
             // 
             // lerpButton
             // 
-            this.lerpButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(52)))), ((int)(((byte)(10)))));
+            this.lerpButton.BackColor = System.Drawing.Color.Maroon;
             this.lerpButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lerpButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(219)))), ((int)(((byte)(166)))), ((int)(((byte)(77)))));
+            this.lerpButton.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lerpButton.ForeColor = System.Drawing.Color.Black;
             this.lerpButton.Location = new System.Drawing.Point(374, 81);
             this.lerpButton.Name = "lerpButton";
             this.lerpButton.Size = new System.Drawing.Size(73, 30);
@@ -383,12 +389,52 @@ namespace racman.RAC3
             this.defaultLerpConst.UseVisualStyleBackColor = false;
             this.defaultLerpConst.Click += new System.EventHandler(this.defaultLerpConst_Click);
             // 
+            // fovSlider
+            // 
+            this.fovSlider.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.fovSlider.Location = new System.Drawing.Point(448, 179);
+            this.fovSlider.Maximum = 100;
+            this.fovSlider.Minimum = 10;
+            this.fovSlider.Name = "fovSlider";
+            this.fovSlider.Size = new System.Drawing.Size(147, 45);
+            this.fovSlider.TabIndex = 30;
+            this.fovSlider.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.fovSlider.Value = 100;
+            this.fovSlider.ValueChanged += new System.EventHandler(this.fovSlider_ValueChanged);
+            // 
+            // fovLabel
+            // 
+            this.fovLabel.AutoSize = true;
+            this.fovLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(219)))), ((int)(((byte)(166)))), ((int)(((byte)(77)))));
+            this.fovLabel.Location = new System.Drawing.Point(456, 163);
+            this.fovLabel.Name = "fovLabel";
+            this.fovLabel.Size = new System.Drawing.Size(58, 13);
+            this.fovLabel.TabIndex = 31;
+            this.fovLabel.Text = "FOV slider:";
+            // 
+            // toggleUiButton
+            // 
+            this.toggleUiButton.BackColor = System.Drawing.Color.Maroon;
+            this.toggleUiButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.toggleUiButton.Font = new System.Drawing.Font("Segoe Print", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toggleUiButton.ForeColor = System.Drawing.Color.Black;
+            this.toggleUiButton.Location = new System.Drawing.Point(601, 179);
+            this.toggleUiButton.Name = "toggleUiButton";
+            this.toggleUiButton.Size = new System.Drawing.Size(61, 40);
+            this.toggleUiButton.TabIndex = 32;
+            this.toggleUiButton.Text = "Toggle UI";
+            this.toggleUiButton.UseVisualStyleBackColor = false;
+            this.toggleUiButton.Click += new System.EventHandler(this.toggleUiButton_Click);
+            // 
             // Freecam
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(21)))), ((int)(((byte)(4)))));
             this.ClientSize = new System.Drawing.Size(674, 310);
+            this.Controls.Add(this.toggleUiButton);
+            this.Controls.Add(this.fovLabel);
+            this.Controls.Add(this.fovSlider);
             this.Controls.Add(this.defaultLerpConst);
             this.Controls.Add(this.downLerpConst);
             this.Controls.Add(this.upLerpConst);
@@ -425,6 +471,7 @@ namespace racman.RAC3
             ((System.ComponentModel.ISupportInitialize)(this.tstracker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tftracker)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lerpTracker)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.fovSlider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -459,5 +506,8 @@ namespace racman.RAC3
         private System.Windows.Forms.Button upLerpConst;
         private System.Windows.Forms.Button downLerpConst;
         private System.Windows.Forms.Button defaultLerpConst;
+        private System.Windows.Forms.TrackBar fovSlider;
+        private System.Windows.Forms.Label fovLabel;
+        private System.Windows.Forms.Button toggleUiButton;
     }
 }

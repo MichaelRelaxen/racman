@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace racman.RAC3
 {
@@ -43,8 +44,11 @@ namespace racman.RAC3
         uint lerpCount = 0xd9f080;
 
         uint cycleLookAt = 0xd9f084;
+        uint fov = 0xd79bf4;
+        uint uiToggle = 0xd9f088;
 
         float lerpConst = 10000.0f;
+        float fovConst = 100.0f;
         public Freecam()
         {
             InitializeComponent();
@@ -52,6 +56,7 @@ namespace racman.RAC3
             timer.Tick += new EventHandler(updatelabel);
             timer.Enabled = true;
             SetupUpdateLabels();
+            FirstOpenButtons();
             try
             {
                 mstracker.Value = SetupTracker(moveSpeed, 100.0f);
@@ -59,6 +64,7 @@ namespace racman.RAC3
                 tstracker.Value = SetupTracker(rotationSpeed, 100.0f);
                 tftracker.Value = SetupTracker(rotationFriction, 20.0f);
                 lerpTracker.Value = SetupTracker(tSpeed, lerpConst);
+                fovSlider.Value = SetupTracker(fov, fovConst);
             }
             catch { }
 
@@ -211,6 +217,12 @@ namespace racman.RAC3
             lerpSpeedLabel.Text = $"Lerp speed: {ba}";
             api.WriteMemory(AttachPS3Form.pid, tSpeed, BitConverter.GetBytes(ba).Reverse().ToArray());
         }
+        private void updateFovTracker() {
+            float ba;
+            ba = fovSlider.Value / fovConst;
+            fovLabel.Text = $"FOV: {ba}";
+            api.WriteMemory(AttachPS3Form.pid, fov, BitConverter.GetBytes(ba).Reverse().ToArray());
+        }
         private void lerpTracker_ValueChanged(object sender, EventArgs e) {
             /*
             float ba;
@@ -219,6 +231,10 @@ namespace racman.RAC3
             api.WriteMemory(AttachPS3Form.pid, tSpeed, BitConverter.GetBytes(ba).Reverse().ToArray());
         */
             updateLerpTracker();
+
+        }
+        private void fovSlider_ValueChanged(object sender, EventArgs e) {
+            updateFovTracker();
         }
 
 
@@ -261,6 +277,11 @@ namespace racman.RAC3
             bool enabled = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, lockWithoutStrafe));
             enabled = !enabled;
             api.WriteMemory(AttachPS3Form.pid, lockWithoutStrafe, Convert.ToUInt32(enabled));
+
+            if (enabled)
+                lockbutton.BackColor = Color.LightGreen;
+            else
+                lockbutton.BackColor = Color.Red;
         }
 
         private void saveLerpButton_Click(object sender, EventArgs e) {
@@ -271,6 +292,11 @@ namespace racman.RAC3
             bool enabled = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, lerping));
             enabled = !enabled;
             api.WriteMemory(AttachPS3Form.pid, lerping, Convert.ToUInt32(enabled));
+
+            if (enabled)
+                lerpButton.BackColor = Color.LightGreen;
+            else
+                lerpButton.BackColor = Color.Red;
         }
 
         private void resetLerpButton_Click(object sender, EventArgs e) {
@@ -298,6 +324,39 @@ namespace racman.RAC3
 
         private void Freecam_Load(object sender, EventArgs e) {
 
+        }
+
+        private void toggleUiButton_Click(object sender, EventArgs e) {
+            bool enabled = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, uiToggle));
+            enabled = !enabled;
+            api.WriteMemory(AttachPS3Form.pid, uiToggle, Convert.ToUInt32(enabled));
+
+            if (enabled)
+                toggleUiButton.BackColor = Color.LightGreen;
+            else
+                toggleUiButton.BackColor = Color.Red;
+
+            
+        }
+
+        private void FirstOpenButtons() {
+            bool uiFirstState = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, uiToggle));
+            bool lerpFirstState = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, lerping));
+            bool lockFirstState = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, lockWithoutStrafe));
+            bool modFirstState = Convert.ToBoolean(api.ReadMemory(AttachPS3Form.pid, modEnabled));
+
+            Dictionary<Button, bool> buttons = new Dictionary<Button, bool>();
+            buttons.Add(toggleUiButton, uiFirstState);
+            buttons.Add(lerpButton, lerpFirstState);
+            buttons.Add(enablebutton, modFirstState);
+            buttons.Add(lockbutton, lockFirstState);
+
+            foreach(var pair in buttons) {
+                if(pair.Value)
+                    pair.Key.BackColor = Color.LightGreen;
+                else
+                    pair.Key.BackColor = Color.Red;
+            }
         }
     }
 }
