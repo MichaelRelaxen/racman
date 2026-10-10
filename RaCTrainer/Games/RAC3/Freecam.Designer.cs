@@ -186,13 +186,13 @@ namespace racman.RAC3
             // 
             this.enablebutton.BackColor = System.Drawing.Color.Red;
             this.enablebutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.enablebutton.Font = new System.Drawing.Font("Comic Sans MS", 26.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.enablebutton.Font = new System.Drawing.Font("Comic Sans MS", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.enablebutton.ForeColor = System.Drawing.Color.Black;
             this.enablebutton.Location = new System.Drawing.Point(459, 230);
             this.enablebutton.Name = "enablebutton";
             this.enablebutton.Size = new System.Drawing.Size(203, 67);
             this.enablebutton.TabIndex = 11;
-            this.enablebutton.Text = "TOGGLE";
+            this.enablebutton.Text = "TOGGLE FREECAM!!";
             this.enablebutton.UseVisualStyleBackColor = false;
             this.enablebutton.Click += new System.EventHandler(this.enablebutton_Click);
             // 
@@ -418,9 +418,9 @@ namespace racman.RAC3
             this.toggleUiButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.toggleUiButton.Font = new System.Drawing.Font("Segoe Print", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toggleUiButton.ForeColor = System.Drawing.Color.Black;
-            this.toggleUiButton.Location = new System.Drawing.Point(601, 179);
+            this.toggleUiButton.Location = new System.Drawing.Point(601, 163);
             this.toggleUiButton.Name = "toggleUiButton";
-            this.toggleUiButton.Size = new System.Drawing.Size(61, 40);
+            this.toggleUiButton.Size = new System.Drawing.Size(61, 56);
             this.toggleUiButton.TabIndex = 32;
             this.toggleUiButton.Text = "Toggle UI";
             this.toggleUiButton.UseVisualStyleBackColor = false;
