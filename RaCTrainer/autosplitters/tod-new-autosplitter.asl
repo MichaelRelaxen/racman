@@ -155,8 +155,8 @@ isLoading
     if (old.gameStatus == 1 && current.gameStatus == 0)
     {
         // Manual timing: from first frame of please wait to first frame of load dialog
-        // Is slightly longer (0.55 with a bit of leeway) so subtract 20.5s
-        timer.SetGameTime(timer.CurrentTime.GameTime.Value.Add(TimeSpan.FromSeconds(19.95)));
+        // Is slightly longer (2s with a bit of leeway) so subtract 19s
+        timer.SetGameTime(timer.CurrentTime.GameTime.Value.Add(TimeSpan.FromSeconds(16.9)));
     }
 
     return current.paused == 1;
