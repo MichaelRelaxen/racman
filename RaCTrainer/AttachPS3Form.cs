@@ -167,13 +167,14 @@ namespace racman
                 }
             } // if disk version was found, the following code can be executed as if this check never happened
 
-            if (game == "NPEA00385")
+            if (game == "NPEA00385" || game == "RC1ILYOOO")
             {
                 Hide();
                 func.api.Notify("RaCMAN connected!");
                 RAC1Form rac1 = new RAC1Form(new rac1(func.api));
                 ModLoaderForm.AutoApplyOnLoad(rac1);
                 gameName = "RAC 1";
+                game = "NPEA00385";
                 rac1.ShowDialog();
             }
             else if (game == "BORD00001")
@@ -214,6 +215,7 @@ namespace racman
                 func.api.Notify("RaCMAN connected!");
                 RAC2Form rac2 = new RAC2Form(new rac2(func.api));
                 ModLoaderForm.AutoApplyOnLoad(rac2);
+                game = "NPEA00386";
                 gameName = "RAC 2";
                 rac2.ShowDialog();
             }
