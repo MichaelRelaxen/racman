@@ -666,11 +666,12 @@ namespace racman
             collectablesForm.Show();
         }
 
-        private void saveManagerBtn_Click(object sender, EventArgs e)
-        {
-            savefileLoader = new SavefileLoader();
+        private void saveManagerBtn_Click(object sender, EventArgs e) {
+            string[] categories = new[] { "NG+", "No IMG", "Any%", "All Platinum Bolts", "Max%", "100%", "Misc" };
 
-            SavefileLoader.Initialize(0x1bf0003, 0x1bf0001, "NPEA00386");
+            SavefileLoader.Initialize(0x1bf0003, 0x1bf0001, "NPEA00386", categories);
+
+            savefileLoader = new SavefileLoader();
             savefileLoader.Show();
         }
     }

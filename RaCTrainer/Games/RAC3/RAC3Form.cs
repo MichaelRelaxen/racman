@@ -330,9 +330,11 @@ namespace racman
         private void setAsideButton_Click(object sender, EventArgs e)
         {
             //game.api.WriteMemory(pid, 0xD9FF02, new byte[] { 0x01 });
-            savefileLoader = new SavefileLoader();
 
-            SavefileLoader.Initialize(0xD9FF03, 0xD9FF04, "NPEA00387");
+            string[] categories = new[] { "NG+", "No QE", "Any%", "All Titanium Bolts", "100%", "Misc" };
+
+            SavefileLoader.Initialize(0xD9FF03, 0xD9FF04, "NPEA00387", categories);
+            savefileLoader = new SavefileLoader();
             savefileLoader.Show();
         }
         static bool qsbool = false;

@@ -18,9 +18,20 @@ namespace racman
         public rac3 game;
         private static IPS3API api = func.api;
         public static WebClient Client = new WebClient();
-        public SavefileLoader()
-        {
+        public SavefileLoader() {
             InitializeComponent();
+
+            Directory.CreateDirectory(GameRoot);
+
+            var categories = Directory.GetDirectories(GameRoot).OrderByDescending(d => Directory.GetLastWriteTimeUtc(d)).Select(Path.GetFileName).ToList();
+
+            foreach (string name in CATEGORIES ?? new string[0]) {
+                if (!categories.Contains(name, StringComparer.OrdinalIgnoreCase))
+                    categories.Add(name);
+            }
+
+            catdropdown.Items.Clear();
+            catdropdown.Items.AddRange(categories.ToArray());
             catdropdown.SelectedIndex = 0;
         }
         public static string game_id;
@@ -31,12 +42,17 @@ namespace racman
         public static uint api_savefile;
         public static uint api_loadfile;
 
-        public static void Initialize(uint _api_savefile, uint _api_loadfile, string _game_id)
+        public static string[] CATEGORIES;
+
+        public static void Initialize(uint _api_savefile, uint _api_loadfile, string _game_id, string[] _categories)
         {
             api_savefile = _api_savefile;
             api_loadfile = _api_loadfile;
             game_id = _game_id;
+            CATEGORIES = _categories;
         }
+
+        private static string GameRoot => Path.Combine(Environment.CurrentDirectory, "savefiles", AttachPS3Form.game);
 
         private void savebutton_Click(object sender, EventArgs e)
         {
@@ -77,7 +93,10 @@ namespace racman
         private void catdropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             path = Environment.CurrentDirectory + $"/savefiles/{AttachPS3Form.game}/{catdropdown.Text}";
+
             Directory.CreateDirectory(path);
+            try { Directory.SetLastWriteTimeUtc(path, DateTime.UtcNow); } catch { }
+
             savelist.Items.Clear();
             foreach(string file in Directory.GetFiles(path))
             {
