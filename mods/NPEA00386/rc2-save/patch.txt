@@ -1,8 +1,8 @@
 #- name: Savefile Manager
-#- author:
+#- author: isaka
 #- version: 1.0
 
 0x22a368: rack.bin
 
 #### ASM Patches ####
-0xb086b0: 0x4822a5a7
+0xb086b0: 0x4822a577
