@@ -240,9 +240,9 @@ namespace racman
 
             try
             {
-                byte[] initial = api.ReadMemory(api.getCurrentPID(), address, watched.size).Reverse().ToArray();
+                byte[] initial = api.ReadMemory(api.getCurrentPID(), address, watched.size);
                 watched.originalBytes = initial;
-                item.SubItems[2].Text = FormatWatchedValue(watched, initial);
+                item.SubItems[2].Text = FormatWatchedValue(watched, initial.Reverse().ToArray());
             }
             catch (Exception)
             {
