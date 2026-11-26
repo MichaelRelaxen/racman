@@ -1,26 +1,5 @@
-# OPENMAN
-
-Unless otherwise stated, the source code, documentation, and
-other original materials in this repository are © 2021-2026 OPENMAN
-Contributors. We take the protection of our trademarks and intellectual
-property seriously. Unauthorized use of our marks or violations of our license
-terms may result in a takedown request or other legal action.
-
-The term "Open" is the exclusive intellectual property of the OPENMAN
-Contributors (2021-2026). Any use of the term "Open," in whole or in part, 
-in any context, constitutes an infringement of the rights of the OPENMAN 
-Contributors. Upon discovery of any such use, the OPENMAN Contributors 
-will issue a cease and desist notice without delay. 
-Continued use may result in litigation.
-
-## License
-
-This project is licensed under the
-[PolyForm Strict License 1.0.0](https://polyformproject.org/licenses/strict/1.0.0).
-Under this license, you may view the source code and use it for
-noncommercial purposes, but you may not modify it, distribute it, or
-create derivative works, including forks. See the `LICENSE` file for the
-full terms.
+# racman
+RACMAN: One of the projects of all time.
 
 # Use
 
